@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  23 APR 2018 20:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  24 APR 2018 08:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -839,9 +839,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 65--72
 
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
-Missing character: There is no ™ in font cmr10!
-Missing character: There is no â in font cmr10!
-Missing character: There is no € in font cmr10!
 Missing character: There is no ˜ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
@@ -865,7 +862,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 100--108
 
 
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 123--127
+Underfull \hbox (badness 10000) in paragraph at lines 122--126
 
  []
 
@@ -876,7 +873,7 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 128--133
+Underfull \hbox (badness 10000) in paragraph at lines 127--132
 
  []
 
@@ -884,24 +881,24 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 
-LaTeX Warning: Command \textomega invalid in math mode on input line 145.
+LaTeX Warning: Command \textomega invalid in math mode on input line 144.
 
 
-LaTeX Warning: Command \textomega invalid in math mode on input line 145.
+LaTeX Warning: Command \textomega invalid in math mode on input line 144.
 
-./LitReview.tex:153: Too many }'s.
-l.153 ...using an integral over the f(\textlambda}
+./LitReview.tex:152: Too many }'s.
+l.152 ...using an integral over the f(\textlambda}
                                                   ) function
 You've closed more groups than you opened.
 Such booboos are generally harmless, so keep going.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--161
+Underfull \hbox (badness 10000) in paragraph at lines 151--160
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--170
+Underfull \hbox (badness 10000) in paragraph at lines 161--169
 
  []
 
@@ -909,7 +906,7 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--181
+Underfull \hbox (badness 10000) in paragraph at lines 172--180
 
  []
 
@@ -918,22 +915,19 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 
-./LitReview.tex:192: Too many }'s.
-l.192 (as y $\rightarrow\infty$}
+./LitReview.tex:191: Too many }'s.
+l.191 (as y $\rightarrow\infty$}
                                 )
 You've closed more groups than you opened.
 Such booboos are generally harmless, so keep going.
 
 
-LaTeX Warning: Citation `Baileyl' on page 3 undefined on input line 200.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 212--217
+Underfull \hbox (badness 10000) in paragraph at lines 211--216
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 218--223
+Underfull \hbox (badness 10000) in paragraph at lines 217--222
 
  []
 
@@ -941,7 +935,7 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 224--230
+Underfull \hbox (badness 10000) in paragraph at lines 223--229
 
  []
 
@@ -952,33 +946,33 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 248--252
+Underfull \hbox (badness 10000) in paragraph at lines 247--251
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 253--261
+Underfull \hbox (badness 10000) in paragraph at lines 252--260
 
  []
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 262--271
+Underfull \hbox (badness 10000) in paragraph at lines 261--270
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 272--279
+Underfull \hbox (badness 10000) in paragraph at lines 271--278
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 298--299
+Underfull \hbox (badness 10000) in paragraph at lines 297--298
 []\OT1/cmr/m/n/10 Harvey, Camp-bell R. and Liu, Yan, Back-test-ing (July 28, 20
 15). Avail-able at SSRN:
  []
 
-./LitReview.tex:301: Misplaced alignment tab character &.
-l.301 Campbell R. Harvey &
+./LitReview.tex:300: Misplaced alignment tab character &.
+l.300 Campbell R. Harvey &
                            Yan Liu & Heqing Zhu, 2016. "â€¦ and the Cross-Se...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -987,8 +981,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./LitReview.tex:301: Misplaced alignment tab character &.
-l.301 Campbell R. Harvey & Yan Liu &
+./LitReview.tex:300: Misplaced alignment tab character &.
+l.300 Campbell R. Harvey & Yan Liu &
                                      Heqing Zhu, 2016. "â€¦ and the Cross-Se...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1001,32 +995,32 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ¦ in font cmr10!
 
-Underfull \hbox (badness 6675) in paragraph at lines 307--308
+Underfull \hbox (badness 6675) in paragraph at lines 306--307
 []\OT1/cmr/m/n/10 Ioannidis JPA (2005) Why Most Pub-lished Re-search Find-ings 
 Are False. PLoS Med 2(8): e124.
  []
 
 
-Underfull \hbox (badness 1127) in paragraph at lines 313--314
+Underfull \hbox (badness 1127) in paragraph at lines 312--313
 \OT1/cmr/m/n/10 uary 7, 2015). Jour-nal of Fi-nance, Forth-com-ing. Avail-able 
 at SSRN: https://ssrn.com/abstract=2156623 or
  []
 
 
-Underfull \hbox (badness 1436) in paragraph at lines 316--317
+Underfull \hbox (badness 1436) in paragraph at lines 315--316
 []\OT1/cmr/m/n/10 Lopez de Prado, Mar-cos, The Fu-ture of Em-pir-i-cal Fi-nance
  (May 31, 2015). Jour-nal of Port-fo-lio Man-
  []
 
 
-Underfull \hbox (badness 4660) in paragraph at lines 316--317
+Underfull \hbox (badness 4660) in paragraph at lines 315--316
 \OT1/cmr/m/n/10 age-ment, 41(4). Sum-mer 2015. Forth-com-ing.. Avail-able at SS
 RN: https://ssrn.com/abstract=2609734 or
  []
 
 [4]
-./LitReview.tex:322: Misplaced alignment tab character &.
-l.322 Weiss, S. M, &
+./LitReview.tex:321: Misplaced alignment tab character &.
+l.321 Weiss, S. M, &
                      Kulikowski, C. A. (1991). Computer systems that learn :...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1036,45 +1030,40 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 326.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 326.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 325.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 325.
  (./LitReview.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 326.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 326.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 325.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 325.
 Package rerunfilecheck Info: File `LitReview.out' has not changed.
 (rerunfilecheck)             Checksum: 0815BD4B97267D4563E29B8A6C3638CB;308.
-
-
-LaTeX Warning: There were undefined references.
-
  ) 
 Here is how much of TeX's memory you used:
- 18686 strings out of 492995
- 341342 string characters out of 6132704
- 428345 words of memory out of 5000000
- 21899 multiletter control sequences out of 15000+600000
- 9638 words of font info for 33 fonts, out of 8000000 for 9000
+ 18683 strings out of 492995
+ 341312 string characters out of 6132704
+ 429345 words of memory out of 5000000
+ 21897 multiletter control sequences out of 15000+600000
+ 9330 words of font info for 32 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 54i,8n,73p,808b,481s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></u
-sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
-/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
-ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/loca
-l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/t
-exlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texl
-ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/local/texliv
-e/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texli
-ve/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
-e/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/
-2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
-017/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb>
-Output written on ./LitReview.pdf (5 pages, 168004 bytes).
+ 54i,8n,73p,808b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
+></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
+usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
+r/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/loc
+al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
+texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/tex
+live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/local/texli
+ve/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texl
+ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
+ve/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive
+/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/
+2017/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb>
+Output written on ./LitReview.pdf (5 pages, 162131 bytes).
 PDF statistics:
- 158 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
+ 156 PDF objects out of 1000 (max. 8388607)
+ 133 compressed objects within 2 object streams
  32 named destinations out of 1000 (max. 500000)
  53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

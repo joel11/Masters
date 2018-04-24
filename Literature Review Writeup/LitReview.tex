@@ -54,8 +54,8 @@ to construct these strategies has resulted in researchers being able to run so m
 
 The standard way of implementing backtests is to split the data into two portions: an In Sample (IS) portion which
  is used to train the model, and an Out of Sample (OOS) portion which is used to test the model and validate results. 
- The problem lies in that millions of different model configuration might be tested, and if more sophisticated test 
- measures are not in place (i.e. just the standard Neyman-Pearson hypothesis testing framework is implemented), 
+ The problem lies in that millions of different model configurations might be tested, and if more sophisticated test 
+ measures are not in place (i.e. not just the standard Neyman-Pearson hypothesis testing framework is implemented), 
  then it is only a matter of time before a false positive result occurs which shows high performance both IS and OOS (i.e. overfitting). 
  The nature of financial data, where there is a low signal-to-noise ratio in a dynamic and adaptive system, and 
  where there is only one true data sequence, makes it difficult to resolve these issues effectively 
@@ -65,16 +65,16 @@ The standard way of implementing backtests is to split the data into two portion
 Overfitting is not a novel issue, and has of course been tackled in various literature areas, including machine learning. 
 However, in that context, the frameworks are often not suited to the buy/sell with random frequency structure of 
 investment strategies. They also do not account for overfitting outside of the output parameters, or take into 
-consideration the number of trials attempted. Other methods, such as ‘hold-out’, are arguably still faulty due to research 
+consideration the number of trials attempted. Other methods, such as ‘hold-out’, are arguably still faulty due to researcher 
 knowledge while constructing models \cite{Schorfheide}. One of the downfalls of the typical IS-OOS set up in the 
-financial context, is also that the most recent (and relevant) data will not be able to be used for the model training. 
+financial context is also that the most recent (and relevant) data will not be able to be used for the model training. 
 \hfill \break 
 
 There have been some suggestions to resolve the problem that is occuring in the literature as a result of this - some 
 work suggesting new frameworks, which this section will cover, and others which focus on the review process or 
-how data and replication procedures are made available. While the points made with regard to the review process 
-and so on are certainly important, they don’t aid with more effective model training for the researcher up front, and 
-so will not be covered here \cite{Prado}.
+how data and replication procedures are made available \cite{Prado}. While the points made with regard to the review process 
+and so on are certainly important, they don't aid with more effective model training for the researcher up front, and 
+so will not be covered here.
 
 \subsection{Testing Methodologies}
 
@@ -103,7 +103,7 @@ selection which maximizes IS performance systematically underperforms median OOS
 remaining configurations. They use this definition to develop a framework which measures the probability of such 
 an event occuring, where the sample space is the combined pairs of IS and OOS performance of the available 
 configurations. The probability of backtest overfitting (PBO) is then established as the likelihood of a configuration 
-underperforms the median IS while outperforming IS. 
+underperforming the median IS while outperforming IS. 
 \hfill \break 
 
 Formulaically, the definition of backtest overfitting is given by
@@ -112,15 +112,14 @@ Formulaically, the definition of backtest overfitting is given by
 \Omega_{n}^{*}]Prob[r\in\Omega_{n}^{*}]\leq{N/2}
 \end{equation}
 
-Where the search space {\textOmega} consists of the N ranked strategies, and their IS performance \textit{r} and OOS performance
-\textit{\={r}}
-This allows the PBO, using the bayesian formula, to be defined as 
+Where the search space {\textOmega} consists of the N ranked strategies, and their ranked IS performance \textit{r} and OOS performance
+\textit{\={r}}. This allows the PBO, using the bayesian formula, to be defined as 
 
 \begin{equation}\label{eq:PBO2}
   PBO = \sum_{n=1}^{N}Prob[\overline{r} < {N/2}|r\in\Omega_{n}^{*}]Prob[r\in\Omega_{n}^{*}]
   \end{equation}
 
-Notably, the above definitions considers IS as the data made available to the strategy selection, rather than the 
+Notably, the above definitions consider IS as the data made available to the strategy selection, rather than the 
 models calibration (e.g. the full IS dataset, rather than, by was of example, the number of days used in a moving average). 
 This allows the model-free and non-parametric nature of the definition. 
 \hfill \break 
@@ -141,11 +140,11 @@ The methodology can be briefly summarised (skipping some details and nuances) as
 \item [a] Form the training set by joining the 2 combination sets, and testing set as the rest of the combinations (all in order)
 \item [b] Determine the ranked in-order IS and OOS performance for the sets
 \item [c] Determine n* as the best performing IS strategy
-\item [d] Determine the relative rank of the n* strategy’s OOS performance, where we should observe that \={r}* systematically outperforms OOS as well
-Define logit \textlambda = \(\frac{\overline{\textomega}_{c}}{(1 -\overline{\textomega}_{c} )}\), where a high value implies consistency 
+\item [d] Determine the relative rank of the n* strategy’s OOS performance, where we should observe that \={r}* systematically outperforms OOS as 
+well. Define logit \textlambda = \(\frac{\overline{\textomega}_{c}}{(1 -\overline{\textomega}_{c} )}\), where a high value implies consistency 
 between IS and OOS performance, and thus a low level of backtest overfitting
 \end{itemize}
-\item [5] The \textlambda values can then be collected and used to define the relative frequency at which \textlambda 
+\item [5] The {\textlambda} values can then be collected and used to define the relative frequency at which \textlambda 
 occurs across all combination sets in C, signified by f(\textlambda).
 \end{itemize}
 
@@ -181,8 +180,8 @@ not necessarily avoid it.
 
 A typical measure of evaluation used for financial models is the Sharpe Ratio (SR), which is the ratio of between 
 average excess returns and the returns’ standard deviation - a measure of the return on risk. In the context of 
-comparing models, SR is typically expressed annually to allow models with different frequencies to be compared 
-\cite{Lo} shows
+comparing models, SR is typically expressed annually to allow models with different frequencies to be compared. 
+Lo et al. \cite{Lo} show that annulaized SR can be expressed as
 
 \begin{equation}\label{SRAnnual}
 SR=\frac{\mu}{\sigma}\sqrt{q}
@@ -197,7 +196,7 @@ Using sample means and deviations, $\hat{\mu}$ and $\hat{\sigma}$, SR can be sho
 
 Thus, when using SR estimations, which follow a Normal distribution, it is possible that where the true SR mean is 
 zero we may still (with enough configurations attempted) find an SR measurement which optimises IS performance. 
-This is shown by Bailey et al. \cite{Baileyl}, who propose the non-null probability of selecting an IS strategy with null expected 
+This is shown by Bailey et al. \cite{BaileyBTL}, who propose the non-null probability of selecting an IS strategy with null expected 
 performance OOS. Notably, typical methods such as hold-out once again fail, as the number of configurations 
 attempted are not recorded. They add a further derivation, thich is the Minimum Backtest Length (MinBTL), ultimately 
 showing that
@@ -221,8 +220,8 @@ configurations that are available and which may be tested, which in turn will in
 A lack of consideration, or reporting, of the number of trials makes the potential for overfitting impossible to assess. 
 \hfill \break 
 
-Bailey et al. expanded on this view with assessing the impact of presenting overfit models as correct. T
-hey were able to show that in lieu of any compensation effects (i.e. a series following a Gaussian random walk), 
+Bailey et al. expanded on this view with assessing the impact of presenting overfit models as correct. 
+They were able to show that in lieu of any compensation effects (i.e. a series following a Gaussian random walk), 
 there is no reason for overfitting to result in negative performance. However, where compensation effects apply 
 (e.g. economic/investment cycles, bubble bursts, major corrections etc.), then the inclusion of memory in a strategy
  is likely to be detrimental to OOS performance if overfitting isn’t controlled for \cite{BaileyBTL}.
@@ -247,15 +246,15 @@ The t-ratio is defined as
 
 Evidently, the link here is trivial, as per formula \eqref{SRAnnual} . As noted earlier though, the chances of 
 overfitting with the SR ratio, even if true mean returns are zero, are relatively significant. Once of the strategies 
-employed to try and counteract this is to use a ‘haircut’, where the reported SR ratio is discounted by 50%. 
+employed to try and counteract this is to use a ‘haircut’, where the reported SR ratio is discounted by 50\%. 
 \hfill \break 
 
-The 50% however, is merely a rule of thumb, and Harvey et Lui \cite{Harvey} were able to report significant work showing 
+The 50\% however, is merely a rule of thumb, and Harvey et Lui \cite{Harvey} were able to report significant work showing 
 that in a context of multiple testing, the haircut is nonlinear - the highest Sharpe ratios are moderately penalized, 
 whereas the marginal Sharpe ratios were heavily penalized. While initially fairly sensible, Harvey et al raise valid 
-concerns regarding the effect on option strategies, controlling for risk as well, pertinently, what constitutes an 
+concerns regarding the effect on option strategies, controlling for risk as well as, pertinently, what constitutes an 
 appropriate level of significance testing. In light of this, they develop a p-value based statistic for multiple testing, 
-the haircut adjusted sharpe ratio HSR, as well as expand upon work by \cite{HLZ} to provide a distribution that can 
+the haircut adjusted sharpe ratio HSR, as well as expand upon work by Harvey et al. \cite{HLZ} to provide a distribution that can 
 be used in a dependent multiple testing framework with an appropriate p-value adjustment.
 \hfill \break 
 
@@ -272,9 +271,9 @@ PBO is generally more in line with machine learning literature with the cross va
 It should be noted, that the literature detailing usage of the Sharpe ratio for strategy comparison is extensive, with 
 numerous variations and methodologies offered \cite{BaileySharpe}. However, the crux of this paper lies 
 in whether an online neural network is able to make effective enough predictions that a strategy might use the 
-predictions to be profitable. The subtlety here is that we will consider the usage of such forecasting within a strategy,
- rather than as a strategy itself. In line with this, statistics such as the Sharpe ratio will be used, but not form a critical 
- consideration of the research here as the comparison of strategies used will be a secondary consideration.
+predictions to be profitable. The subtlety here is that we will consider the usage of such forecasting \textit{within} a strategy,
+ rather than \textit{as} a strategy itself. In line with this, statistics such as the Sharpe ratio will be used, but not form a critical 
+ consideration of the research here as the comparison of strategies used will be a secondary concern.
 \hfill \break 
 
 \begin{thebibliography}{9}
