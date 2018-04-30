@@ -41,6 +41,178 @@
 \maketitle  
 \hrule
 
+\section{Stacked Autoencoders}
+\hfill
+
+\subsection{High Dimensional Data Reduction}\label{HDDR}
+
+As noted, machine learning techniques have been shown to be extremely effective at modelling non-linear inputs 
+to outputs - neural networks have even been shown to be universal function approximators in this regard \cite{Hornik}. 
+More traditional statistical models will typically process the available feature data to select the most significant 
+features to be used in the model once it’s defined - evident in a processes such as subset selection \cite{Schaefer}. 
+Machine learning techniques are no different in this regard, and feature data will typically be transformed to smaller 
+observations of more significance prior to be used as input to a model, such as the neural networks described above.
+\hfill \break 
+
+Financial data, in line with the complex and dynamic system that it represents, is often of a very high dimensional 
+nature, which offers opportunities through more sophisticated analysis, but also introduces the curses of
+ dimensionality \cite{Donoho}. The increased dimensionality can result in higher processing complexities when needing to 
+ do basic tasks such as estimating a covariance matrix (a commonplace necessity in finance), as well as increase 
+ the risk of incorrect assumptions based on spurious variable collinearity \cite{Fan1}. Noise accumulation in high 
+ dimensional data can create further problems, resulting in problems performing variable selection and ultimately 
+ having a large impact on classification and regression models \cite{Fan2}.
+\hfill \break 
+
+Time series data can introduce its own set of challenges - there is often not enough data available to understand 
+and predict the process \cite{Fama}, the time variable dependence creates complexity in how much past 
+data to consider at any point, and the data is typically non-stationary \cite{Langkvist}. Thus, high dimensional time 
+series data (which many financial problems focus on), require careful consideration on how to handle their inputs 
+and analysis.
+\hfill \break 
+
+Deep learning techniques are a natural choice in this context, and much research has been done to show their 
+(varying) efficacy on time series data. The most successful of these models have been ones which modify deep 
+learning techniques to incorporate the temporal aspect of the data (e.g. Conditional Restricted Boltzmann 
+Machines or Recurrent Neural Networks), rather than static, and those which have performed feature selection
+ processes rather than operating on the raw data (e.g. Auto-encoders)  \cite{Langkvist}. 
+ \hfill \break 
+ 
+ 
+Two of the seminal pieces of research that have lead to the resurgence in machine learning and deep learning 
+were the algorithms for training deep belief networks \cite{Hinton1}, as well as the usage of stacked auto-encoders
+\cite{Ranzato1, Bengio1}. 
+
+ 
+ \subsection{Deep Belief Networks}\label{DBN}
+ 
+ Autoencoders were suggested by Hinton et. al as a method of transforming high dimensional 
+ data to lower dimensional input vectors, in order to alleviate some of the problems detailed above, and increase 
+ performance of deep belief networks \cite{Hinton2}.
+\hfill \break 
+
+One of the more prominent classical techniques for dimension reduction is principal components analysis (PCA), 
+which uses linear algebra to find the directions of greatest variance, and represent the observation samples 
+features along each of these directions, thus maximising the variational representation. Hinton et al. show that 
+autoencoders are a nonlinear generalization of PCA. The structure and training algorithms of the autoencoder 
+show it to be a specialised neural network - there is a multilayer encoder network which is able to transform to a 
+lower dimension, and a symmetrical decoder network to recover the data from the code\textbf{ [refrencefigure].} As with 
+neural networks, the gradient weights can be trained through the feedforward and backpropagation algorithms.  
+\hfill \break 
+
+The primary challenge presented here is the initial weighting of the networks - with large initial weights the 
+autoencoder will often find a poor local minima, and with small initial weights the gradients are too small to 
+effectively train deep layered networks. The critical suggestion by Hinton et al. was to used layered Restricted 
+Boltzmann Machines (RBM) in order to initialise the weights. For each layer of the desired autoencoder, a RBM is 
+formed and trained with the previous layer (or RBM) \cite{Hinton3}. Once all the layers have been 
+trained in this way, they are mirrored to form the decoder network. This then forms the initial weights to be fine 
+tuned further \textbf{[referencefigurehere]}. They showed the deep autoencoder networks were significantly more 
+effective than PCA or shallow autoencoders on multiple dataset types. 
+ \hfill \break 
+ 
+ \subsection {Stacked Denoising Autoencoders}\label{SDAE}
+
+ The second important piece of work was the development of a denoising autoencoder (DAE), by Vincent  et al. \cite{Vincent}. 
+ One of the problems identified in the DBN model (and those similar), as that if the encoder dimensions were too high, 
+ it is likely that the encoder would learn a trivial encoding - essentially creating a “copy the input” model. The one way
+  of tackling this issue is to constrain the representation with bottlenecks and sparse autoencoder layers 
+\textbf{[reffiguredhere]}.
+  \hfill \break 
+
+Vincent et al. explore a very different approach to the problem, which was to develop an implementation of 
+autoencoder which focused on partially corrupting the input, and so force the network to ‘denoise’ it. The theory 
+here is based on two ideas - the first, is that a higher dimensional representation should be robust to partial 
+corruption of the input data; and the second is that the denoising process will force model focus to shift to 
+extracting useful features from the input.
+ \hfill \break 
+
+The algorithms and structures are largely the same as described for DBNs above, with the key difference 
+being that the model is trained to reconstruct the original input, but only using a corrupted version of the input 
+(where noise has been added to it), and so is forced to learn smarter feature mappings and extractions. 
+The DAE suggested then is a stochastic variant of the autoencoder, which has the benefit of being able to 
+implement higher dimensional representations without risking training of a trivial identity mapping. Notably, 
+in the Stacked Denoising Autoencoder (SDAE) formation, only the initial input is corrupted (as opposed to the 
+input from layer to layer). It was shown that the SDAE model outperformed previous AE and DBN networks on 
+numerous benchmark datasets \cite{Vincent} . 
+
+\subsection {Pre-training}
+
+The methods described above follow a similar approach: greedy layer-wise unsupervised pre-training in order to 
+determine initial weights, followed by supervised fine tuning to arrive at the final model. It is shown numerous times, 
+that the pretraining process results in significant performance gains \cite{Vincent}. However it is not immediately apparent, 
+given the nature of backpropagation algorithms and the like, why this is the case. Erhan et al. performed 
+extensive empirical simulations in order to suggest an explanation to the mechanism of pretraining \cite{Erhan}.
+ \hfill \break 
+
+While their results were not entirely conclusive, they did lend themselves to a reasonable hypothesis: 
+the unsupervised pre-training results in a form of regularization on the model - variance is minimized, and the 
+bias introduced directs the model configuration towards a sample space that is effective for the unsupervised 
+learning generalization optimisations.
+
+\subsection {Time Series Applications}
+
+The autoencoder papers reviewed so far in this section derive their results primarily from classification problems, 
+and so do not necessarily account for the problems involved with time series as described in \ref{HDDR}. Due to 
+the inherent difficulties with predictions in the financial system, it can sometimes be unclear if the shortcoming in 
+results is due to this system complexity or if the methodologies used are unsuited for the purpose. In light of this 
+it is worth pointing out that Stacked Autoencoder (SAE) implementations have been shown to be effective in many
+ time series systems.  
+ \hfill \break 
+
+Lv et al.  implemented a deep learning SAE model using the methods described in \ref{SDAE} in order to 
+predict traffic flow at various time intervals (15, 30, 45 and 60 minutes) - a problem not so structurally dissimilar 
+from what will be presented in this paper \cite{Lv}. They were able to show that the deep SAE was able to offer prediction 
+results which were both objectively good and also persistently outperformed the comparison models used 
+(backpropagation neural network, random walk forecast, support vector machine and a radial basis function 
+neural network).
+\hfill \break 
+
+In a review of unsupervised feature learning and deep learning methods on time series, Langkvist et al. noted that 
+the use of autoencoders, either as a technique in themselves, or as an auxiliary technique to models 
+such as convolutional neural networks, were able to offer performance increases in areas such as video analysis, 
+motion capture data and bacteria identification \cite{Langkvist}.
+ 
+\hfill \break 
+
+\subsection{Financial Applications}
+
+There have of course also been successful applications of stacked autoencoders and deep learning models in 
+finance as well. Takeuchi et al. performed some earlier work showing the use of autoencoders when applied to a 
+momentum trading strategy. They implemented an RBM pre-trained DBN as per \ref{DBN}, and assessed the 
+networks classification performance for ordinary shares on NYSE, AMEX and Nasdaq. This showed that using a 
+DBN network resulted in significant performance increases compared to the standard momentum strategy \cite{Takeuchi}.
+\hfill \break 
+
+Zhao et al. used SDAEs and combined them with the bootstrap aggregation ensemble method (‘bagging’) in a 
+study of predicting the crude oil price. They compared the proposed model to a variety of benchmarks, including 
+standard SAE, bagged and standard feedforward networks and SVRs. The results indicated that the SAE models 
+were more accurate, with the bagged SAE model performing the best, though at a significant increase in 
+computational costs in comparison to standard SAE \cite{Zhao}.
+\hfill \break 
+
+While much of the financial literature has focused on the use of RBM based models, Autoencoders and SAEs have 
+recently been gaining popularity in performing feature reduction. Troiano et al. specifically investigate the use of 
+different feature reduction models for trend prediction in finance \cite{Troiano}. In line with being primarily 
+interested in the effect of feature reduction techniques, rather than the classification performance itself, only an 
+SVM model was used to test results. Using various periods from historical S&P 500 data, they were able to show 
+that AE outperformed the RBM model significantly in numerous accuracy measures, and was able to do so at a 
+fraction of the training time.
+\hfill \break 
+
+Bao et al.  note that the research has been lacking with regards to whether SAEs should be used for 
+financial prediction models or not \cite{Bao}. They suggest a novel model which combines Wavelet Transformation, SAEs 
+and a Long Short Term Memory (LSTM) network. Using data from several financial exchanges (considering a 
+range of ‘developed’ and ‘undeveloped’ markets), they assess the model’s applicability to OHLC prediction. 
+Comparing the model to configurations without the SAE layers, and a RNN model as benchmark, they showed 
+that the inclusion of SAEs resulted in less volatility and greater accuracy, which in turn offered higher profitabilities 
+in a buy-and-hold trading strategy.
+\hfill \break 
+
+More novel autoencoder applications have also been attempted, with Hsu suggesting the use of a 
+Recurrent Autoencoder for multidimensional time series prediction \cite{Hsu}. There is a clear pattern through the literature 
+that the use of AEs and SAEs both by themselves and when used as an assisting technique result in more accurate 
+prediction results and less computationally expensive training.
+\hfill \break 
+
 \section{Backtesting and Model Validation} 
 \hfill
 
@@ -59,7 +231,7 @@ The standard way of implementing backtests is to split the data into two portion
  then it is only a matter of time before a false positive result occurs which shows high performance both IS and OOS (i.e. overfitting). 
  The nature of financial data, where there is a low signal-to-noise ratio in a dynamic and adaptive system, and 
  where there is only one true data sequence, makes it difficult to resolve these issues effectively 
-\cite{BailyPBO}\cite{McLean}.
+\cite{BailyPBO, McLean}.
 \hfill \break 
 
 Overfitting is not a novel issue, and has of course been tackled in various literature areas, including machine learning. 
@@ -84,7 +256,7 @@ the dataset is reserved for testing true OOS performance. Numerous problems have
 approach, including that the data is often used regardless, or that awareness of the movements in the data may, 
 consciously or otherwise, influence strategy and test design by the researchers \cite{Schorfheide}. For small samples, 
 a hold-out strategy may be too short to be conclusive \cite{Weiss}, and even for large samples it results in the 
-most recent data (which is arguably the most pertinent) not being used for model selection \cite{Hawkins}\cite{BailyPBO}.
+most recent data (which is arguably the most pertinent) not being used for model selection \cite{Hawkins, BailyPBO}.
 \hfill \break 
 
 There has been work by several authors to try and lay out techniques to try and avert backtest overfitting. 
@@ -290,23 +462,81 @@ Bailey, David H. and Borwein, Jonathan and Lopez de Prado, Marcos and Zhu, Qiji 
 \bibitem{BaileySharpe}
 Bailey, David H. and Lopez de Prado, Marcos, The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting and Non-Normality (July 31, 2014). Journal of Portfolio Management, 40 (5), pp. 94-107. 2014 (40th Anniversary Special Issue).. Available at SSRN: https://ssrn.com/abstract=2460551 or http://dx.doi.org/10.2139/ssrn.2460551
 
+\bibitem{Bao}
+Bao W, Yue J, Rao Y (2017) A deep learning framework for financial time series using stacked autoencoders and long-short term memory. PLoS ONE 12(7): e0180944. https://doi.org/10.1371/journal.pone.0180944
+
+\bibitem{Bengio1}
+Yoshua Bengio, Pascal Lamblin, Dan Popovici, and Hugo Larochelle. Greedy layer-wise training of deep networks. In Bernhard Scholkopf, John Platt, and Thomas Hoffman, editors, ¨ Advances in Neural Information Processing Systems 19 (NIPS’06), pages 153–160. MIT Press, 
+2007. Available at: http://papers.nips.cc/paper/3048-greedy-layer-wise-training-of-deep-networks.pdf
+
+\bibitem{Donoho}
+David L. Donoho, High-Dimensional Data Analysis: The Curses and Blessings of 
+Dimensionality (August 8, 2000). Available at: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.3392&rep=rep1&type=pdf
+
+\bibitem{Erhan}
+Erghan D., Bengio Y., Courville A, Manzagol P., Vincent P. Why Does Unsupervised Pre-training Help Deep 
+Learning?, Journal of Machine Learning Research 11 (2010) 625-660 . Available 
+at: http://www.jmlr.org/papers/volume11/erhan10a/erhan10a.pdf
+
+\bibitem{Fama}
+E.F. Fama, The behavior of stock-market prices, J. Bus., 1 (1965), pp. 34-105. 
+Available at: https://doi.org/10.1086/294743
+
+\bibitem{Fan1}
+Jianqing Fan, Runze Li, 
+Statistical Challenges with High Dimensionality: Feature Selection in Knowledge Discovery 
+(7 Feb, 2006). Available at: https://arxiv.org/abs/math/0602133
+
+\bibitem{Fan2}
+Fan, J., & Fan, Y. (2008). High Dimensional Classification Using Features Annealed Independence Rules. Annals of Statistics, 36(6), 2605–2637. http://doi.org/10.1214/07-AOS504
+
 \bibitem{Hansen}
 Hansen, Peter Reinhard and Lunde, Asger and Nason, James M., The Model Confidence Set (March 18, 2010). Available at SSRN: https://ssrn.com/abstract=522382 or http://dx.doi.org/10.2139/ssrn.522382
 
 \bibitem{Harvey}
 Harvey, Campbell R. and Liu, Yan, Backtesting (July 28, 2015). Available at SSRN: https://ssrn.com/abstract=2345489 or http://dx.doi.org/10.2139/ssrn.2345489
 
+\bibitem{Hawkins}
+Hawkins, Douglas. (2004). The Problem of Overfitting. Journal of chemical information and computer sciences. 44. 1-12. 10.1021/ci0342472. 
+
+\bibitem{Hinton1}
+Geoffrey E. Hinton, Simon Osindero, and Yee Whye Teh. A fast learning algorithm for deep belief nets. Neural Computation, 18:1527–1554, 2006. 
+Available at: https://www.mitpressjournals.org/doi/abs/10.1162/neco.2006.18.7.1527
+
+\bibitem{Hinton2}
+G. E. Hinton, R. R. Salakhutdinov, Reducing the Dimensionality of Data with Neural 
+Networks. Science  28 Jul 2006: Vol. 313, Issue 5786, pp. 504-507 DOI: 
+10.1126/science.1127647. Available at: http://science.sciencemag.org/content/313/5786/504/tab-pdf
+
+\bibitem{Hinton3}
+Geoffrey E. Hinton, Training Products of Experts by Minimizing Contrastive Divergence,Neural Computation
+Volume 14 | Issue 8 | August 2002  p.1771-1800 . Available at: https://www.mitpressjournals.org/doi/pdf/10.1162/089976602760128018
+
 \bibitem{HLZ}
 Campbell R. Harvey & Yan Liu & Heqing Zhu, 2016. "… and the Cross-Section of Expected Returns," Review of Financial Studies, vol 29(1), pages 5-68.
 
-\bibitem{Hawkins}
-Hawkins, Douglas. (2004). The Problem of Overfitting. Journal of chemical information and computer sciences. 44. 1-12. 10.1021/ci0342472. 
+\bibitem {Hornik}
+K. Hornik, Multilayer feed-forward networks are universal approximators, Neural Networks, vol 2, 1989
+
+\bibitem{Hsu}
+Hsu D. Time Series Compression Based on Adaptive Piecewise
+Recurrent Autoencoder (17 August 2017). Available at: https://arxiv.org/pdf/1707.07961.pdf
 
 \bibitem{Ioannidis} 
 Ioannidis JPA (2005) Why Most Published Research Findings Are False. PLoS Med 2(8): e124. https://doi.org/10.1371/journal.pmed.0020124
 
+\bibitem{Langkvist}
+Martin Längkvist, Lars Karlsson,  Amy Loutfi, A review of unsupervised feature learning and deep learning for time-series 
+modeling, Applied Autonomous Sensor Systems, School of Science and Technology, Örebro University, SE-701 82 Örebro, 
+Sweden. Available at: https://www.sciencedirect.com/science/article/pii/S0167865514000221#bi005
+
 \bibitem{Lo}
 Lo, Andrew W., The Statistics of Sharpe Ratios. Financial Analysts Journal, Vol. 58, No. 4, July/August 2002. Available at SSRN: https://ssrn.com/abstract=377260
+
+\bibitem{Lv}
+Yisheng Lv, Yanjie Duan, Wenwen Kang, Zhengxi Li, and Fei-Yue Wang. Traffic Flow Prediction With Big Data:
+A Deep Learning Approach. IEEE TRANSACTIONS ON INTELLIGENT TRANSPORTATION SYSTEMS, VOL. 16, NO. 2, APRIL 
+2015. Available at: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6894591&tag=1
 
 \bibitem{McLean}
 McLean, R. David and Pontiff, Jeffrey, Does Academic Research Destroy Stock Return Predictability? (January 7, 2015). Journal of Finance, Forthcoming. Available at SSRN: https://ssrn.com/abstract=2156623 or http://dx.doi.org/10.2139/ssrn.2156623
@@ -314,12 +544,36 @@ McLean, R. David and Pontiff, Jeffrey, Does Academic Research Destroy Stock Retu
 \bibitem{Prado}
 Lopez de Prado, Marcos, The Future of Empirical Finance (May 31, 2015). Journal of Portfolio Management, 41(4). Summer 2015. Forthcoming.. Available at SSRN: https://ssrn.com/abstract=2609734 or http://dx.doi.org/10.2139/ssrn.2609734
 
+\bibitem{Ranzato1}
+Marc’Aurelio Ranzato, Christopher Poultney, Sumit Chopra, and Yann LeCun. Efficient learning of sparse representations with an energy-based model. In B. Scholkopf, J. Platt, and T. Hoffman, ¨ editors, Advances in Neural Information Processing Systems 19 (NIPS’06), pages 1137–1144. MIT Press, 
+2007. Aavilable at: http://papers.nips.cc/paper/3112-efficient-learning-of-sparse-representations-with-an-energy-based-model.pdf
+
+\bibitem{Schaefer}
+Robert L. Schaefer (2012) Subset Selection in Regression, Technometrics, 34:2, 229, DOI: 10.1080/00401706.1992.10484917
+  
 \bibitem{Schorfheide}
 Schorfheide, Frank, and Kenneth I. Wolpin. 2012. "On the Use of Holdout Samples for Model Selection." American Economic Review, 102 (3): 477-81.
+
+\bibitem{Takeuchi}
+Takeuchi L, Lee Y. Applying Deep Learning to Enhance Momentum Trading Strategies in 
+Stocks. Technical Report, 2013. Available at: http://www.smallake.kr/wp-content/uploads/2017/04/TakeuchiLee-ApplyingDeepLearningToEnhanceMomentumTradingStrategiesInStocks.pdf
+
+\bibitem{Troiano}
+Troiano L., Mejuto E., Kriplani P.On Feature Reduction using Deep Learning
+for Trend Prediction in Finance (11 Apr 2017).  Available at: 
+https://arxiv.org/abs/1704.03205.
+
+\bibitem{Vincent}
+Vincent P., Larochell H., Lajoie I., Bengio Y., Manzagol P., Stacked Denoising Autoencoders: Learning Useful Representations in
+a Deep Network with a Local Denoising Criterion. Journal of Machine Learning Research 11 (2010) 
+3371-3408. Available at: http://www.jmlr.org/papers/volume11/vincent10a/vincent10a.pdf
 
 \bibitem{Weiss}
 Weiss, S. M, & Kulikowski, C. A. (1991). Computer systems that learn : classification and prediction methods from statistics, neural nets, machine learning, and expert systems. San Mateo (Calif.): Kaufmann.
 
+\bibitem{Zhao}
+Zhao Y., Li J., Yu L. A deep learning ensemble approach for crude oil price 
+forecasting.  Available at: https://doi.org/10.1016/j.eneco.2017.05.023
 
 \end{thebibliography}
 \end {document}
