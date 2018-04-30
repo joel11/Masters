@@ -5,8 +5,9 @@
 \BOOKMARK [2][-]{subsection.1.4}{Pre-training}{section.1}% 5
 \BOOKMARK [2][-]{subsection.1.5}{Time Series Applications}{section.1}% 6
 \BOOKMARK [2][-]{subsection.1.6}{Financial Applications}{section.1}% 7
-\BOOKMARK [1][-]{section.2}{Backtesting and Model Validation}{}% 8
-\BOOKMARK [2][-]{subsection.2.1}{Testing Methodologies}{section.2}% 9
-\BOOKMARK [2][-]{subsection.2.2}{Test Data Length}{section.2}% 10
-\BOOKMARK [2][-]{subsection.2.3}{Sharpe Ratio}{section.2}% 11
-\BOOKMARK [1][-]{section.3}{References}{}% 12
+\BOOKMARK [1][-]{section.2}{Data Segmentation}{}% 8
+\BOOKMARK [1][-]{section.3}{Backtesting and Model Validation}{}% 9
+\BOOKMARK [2][-]{subsection.3.1}{Testing Methodologies}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Test Data Length}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Sharpe Ratio}{section.3}% 12
+\BOOKMARK [1][-]{section.4}{References}{}% 13

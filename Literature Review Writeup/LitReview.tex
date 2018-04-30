@@ -42,7 +42,6 @@
 \hrule
 
 \section{Stacked Autoencoders}
-\hfill
 
 \subsection{High Dimensional Data Reduction}\label{HDDR}
 
@@ -95,7 +94,7 @@ which uses linear algebra to find the directions of greatest variance, and repre
 features along each of these directions, thus maximising the variational representation. Hinton et al. show that 
 autoencoders are a nonlinear generalization of PCA. The structure and training algorithms of the autoencoder 
 show it to be a specialised neural network - there is a multilayer encoder network which is able to transform to a 
-lower dimension, and a symmetrical decoder network to recover the data from the code\textbf{ [refrencefigure].} As with 
+lower dimension, and a symmetrical decoder network to recover the data from the code as represented in figure \ref{figure-DBN-RBM}. As with 
 neural networks, the gradient weights can be trained through the feedforward and backpropagation algorithms.  
 \hfill \break 
 
@@ -105,17 +104,22 @@ effectively train deep layered networks. The critical suggestion by Hinton et al
 Boltzmann Machines (RBM) in order to initialise the weights. For each layer of the desired autoencoder, a RBM is 
 formed and trained with the previous layer (or RBM) \cite{Hinton3}. Once all the layers have been 
 trained in this way, they are mirrored to form the decoder network. This then forms the initial weights to be fine 
-tuned further \textbf{[referencefigurehere]}. They showed the deep autoencoder networks were significantly more 
+tuned further, as per the Fine-tuning step in \ref{figure-DBN-RBM}. They showed the deep autoencoder networks were significantly more 
 effective than PCA or shallow autoencoders on multiple dataset types. 
  \hfill \break 
+ 
+\begin{figure}
+\centering \includegraphics[scale=0.5]{images/DBN-RBM-process.png}
+ \caption{The Autoencoder training steps \cite{Hinton2}}
+ \label{figure-DBN-RBM}
+ \end{figure}
  
  \subsection {Stacked Denoising Autoencoders}\label{SDAE}
 
  The second important piece of work was the development of a denoising autoencoder (DAE), by Vincent  et al. \cite{Vincent}. 
  One of the problems identified in the DBN model (and those similar), as that if the encoder dimensions were too high, 
  it is likely that the encoder would learn a trivial encoding - essentially creating a “copy the input” model. The one way
-  of tackling this issue is to constrain the representation with bottlenecks and sparse autoencoder layers 
-\textbf{[reffiguredhere]}.
+  of tackling this issue is to constrain the representation with bottlenecks and sparse autoencoder layers, which can be seen in figure  \ref{figure-DBN-RBM}.
   \hfill \break 
 
 Vincent et al. explore a very different approach to the problem, which was to develop an implementation of 
@@ -211,7 +215,52 @@ More novel autoencoder applications have also been attempted, with Hsu suggestin
 Recurrent Autoencoder for multidimensional time series prediction \cite{Hsu}. There is a clear pattern through the literature 
 that the use of AEs and SAEs both by themselves and when used as an assisting technique result in more accurate 
 prediction results and less computationally expensive training.
+
+\section{Data Segmentation}
+\hfill
+
+One of the aspects of time series not yet discussed is how the data might be segmented for analysis. 
+Financial pattern matching, as discussed in \textbf{[citesection]}, requires methodologies to decide the length of data to 
+consider when determining whether a subset of data matches a pattern or not. 
+\hfill\break
+
+There are numerous classical approaches to this problem, which were widely applied in machine learning prior to 
+the resurgence in deep learning. One of the earliest and more common approaches was the ‘Sliding Window’, 
+where each the model input for each observation is ‘padded’ by a predetermined number of observations that 
+occurred both prior and after the one in question. This has the advantage of being fairly model agnostic, but fails 
+to capture any correlations in the dependent variable values \cite{Chu}. The Recurrent Sliding Window method 
+aims to resolve this by including the same number of prior predictions made as part of the input. In this case, input 
+would be ${<x_{t-d},...x_{t},…,x_{t+d}> and <y_{t-d},...,y_t>}$. This was shown to be significantly more effective than the plain 
+sliding window method \cite{Bakiri}. Notably, the sliding window approach can only be implemented in an offline 
+model.
+\hfill\break
+
+These methods can be adapted to take on online formats, as well as incorporate data reduction benefits 
+through algorithms such as Piecewise Linear Approximation (PLA), which adapts a linear representation to the 
+leading portion of the window. Some novel approaches (Feasible Space Window and it’s stepwise adaption) were 
+suggested by Liu et al. in order to compensate for the computational requirements of reprocessing the entire 
+window at each step for online models \cite{Liu}.
 \hfill \break 
+
+Window based methods represent a fairly static and unsophisticated approach to data segmentation. 
+A suggested solution to this is to segment the data by dynamically identifying significant partition points, 
+known as perceptual important points (PIP) \cite{Chung}. The computational cost of identifying PIPs was initially 
+rather large, making them unsuitable for quickly changing and dynamic environments such as finance. 
+However, Zhou et al. suggested a novel approach which reduced computational costs through intelligent binary 
+tree traversal. They were able to show this approach was effective in identifying traditional financial stock patterns 
+with the use of a layered neural network \cite{Zhou}. In a similar fashion, input data turning points (TP) were shown to 
+potentially offer lower error rates than PIPs by Yin et al. \cite{Yin}.
+\hfill \break 
+
+More recently, Wan et al. conducted a review on the effect of segmentation on financial time series pattern 
+matching, comparing perceptual important points, piecewise aggregate approximations, piecewise linear 
+approximations and turning point based methods \cite{Wan}. They use several pattern matching algorithms 
+(template-based, rule-based, hybrid, decision tree, and symbolic aggregate approximation) for each of the 
+segmentation methods in order to determine their effect on a broader level. The analysis was performed on real 
+stock market data, as well as synthetic data generated to display common patterns such as positive/negative 
+head and shoulders (H&S). Measuring accuracy, precision and recall, they showed that PIP based segmentation 
+generally offered superior results to the others (though it is worth noting that there were various performance 
+differences within the segmentation methods depending on the matching algorithm used).
 
 \section{Backtesting and Model Validation} 
 \hfill
@@ -462,12 +511,24 @@ Bailey, David H. and Borwein, Jonathan and Lopez de Prado, Marcos and Zhu, Qiji 
 \bibitem{BaileySharpe}
 Bailey, David H. and Lopez de Prado, Marcos, The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting and Non-Normality (July 31, 2014). Journal of Portfolio Management, 40 (5), pp. 94-107. 2014 (40th Anniversary Special Issue).. Available at SSRN: https://ssrn.com/abstract=2460551 or http://dx.doi.org/10.2139/ssrn.2460551
 
+\bibitem{Bakiri}
+G. Bakiri and T. G. Dietterich. Achieving high-accuracy text-to-speech with machine learning. In R. I. Damper, editor, Data Mining Techniques in Speech Synthesis. Chapman and Hall, New York, NY, 2002. 22
+
 \bibitem{Bao}
 Bao W, Yue J, Rao Y (2017) A deep learning framework for financial time series using stacked autoencoders and long-short term memory. PLoS ONE 12(7): e0180944. https://doi.org/10.1371/journal.pone.0180944
 
 \bibitem{Bengio1}
 Yoshua Bengio, Pascal Lamblin, Dan Popovici, and Hugo Larochelle. Greedy layer-wise training of deep networks. In Bernhard Scholkopf, John Platt, and Thomas Hoffman, editors, ¨ Advances in Neural Information Processing Systems 19 (NIPS’06), pages 153–160. MIT Press, 
 2007. Available at: http://papers.nips.cc/paper/3048-greedy-layer-wise-training-of-deep-networks.pdf
+
+\bibitem{Chu}
+Chu C., Time series segmentation: A sliding window approach. Information Sciences, Volume 85, Issues 1–3, July 1995, Pages 
+147-173. Available at: https://www.sciencedirect.com/science/article/pii/002002559500021G#!
+
+\bibitem{Chung}
+ F. L. Chung, T. C. Fu, R. Luk, and V. Ng, “Flexible time series pattern matching based on perceptually important points,’’ in Proc. Int. Joint Conf. Artificial Intelligence Workshop  
+ Learning from Temporal and Spatial Data in International Joint Conference on Artificial Intelligence (IJCAI'01), Seattle, Washington, USA, 4-10 August, 2001, p. 
+ 1-7. Available at: http://hdl.handle.net/10397/48578
 
 \bibitem{Donoho}
 David L. Donoho, High-Dimensional Data Analysis: The Curses and Blessings of 
@@ -530,6 +591,10 @@ Martin Längkvist, Lars Karlsson,  Amy Loutfi, A review of unsupervised feature 
 modeling, Applied Autonomous Sensor Systems, School of Science and Technology, Örebro University, SE-701 82 Örebro, 
 Sweden. Available at: https://www.sciencedirect.com/science/article/pii/S0167865514000221#bi005
 
+\bibitem{Liu}
+Liu X., Lin Z., Wang H. Novel Online Methods for Time Series Segmentation.  IEEE TRANSACTIONS ON KNOWLEDGE AND DATA ENGINEERING, VOL. 20, NO. 12, DECEMBER 
+2008. Available at: https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4445667&tag=1
+
 \bibitem{Lo}
 Lo, Andrew W., The Statistics of Sharpe Ratios. Financial Analysts Journal, Vol. 58, No. 4, July/August 2002. Available at SSRN: https://ssrn.com/abstract=377260
 
@@ -568,12 +633,27 @@ Vincent P., Larochell H., Lajoie I., Bengio Y., Manzagol P., Stacked Denoising A
 a Deep Network with a Local Denoising Criterion. Journal of Machine Learning Research 11 (2010) 
 3371-3408. Available at: http://www.jmlr.org/papers/volume11/vincent10a/vincent10a.pdf
 
+\bibitem{Wan}
+Wan Y., Gong X., Si Y. Effect of segmentation on financial time series pattern 
+matching. Applied Soft Computing Volume 38, January 2016, Pages 346-359. 
+Available at: https://www.sciencedirect.com/science/article/pii/S1568494615006341
+
 \bibitem{Weiss}
 Weiss, S. M, & Kulikowski, C. A. (1991). Computer systems that learn : classification and prediction methods from statistics, neural nets, machine learning, and expert systems. San Mateo (Calif.): Kaufmann.
+
+\bibitem{Yin}
+Yin J., Si Y., Gong Z. Financial Time Series Segmentation Based On Turning 
+Points. Proceedings of 2011 International Conference on System Science and Engineering, Macau, China - June 
+2011. Available at: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5961935
 
 \bibitem{Zhao}
 Zhao Y., Li J., Yu L. A deep learning ensemble approach for crude oil price 
 forecasting.  Available at: https://doi.org/10.1016/j.eneco.2017.05.023
+
+\bibitem{Zhou}
+Zhou B., Hu J. A Dynamic Pattern Recognition Approach Based on Neural Network for Stock 
+Time-Series. 2009 World Congress on Nature & Biologically Inspired Computing (NaBIC 
+2009). Available at: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5393674
 
 \end{thebibliography}
 \end {document}
