@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  30 APR 2018 11:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  1 MAY 2018 22:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -808,37 +808,22 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 48--55
+Underfull \hbox (badness 10000) in paragraph at lines 72--79
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--64
+Underfull \hbox (badness 10000) in paragraph at lines 80--88
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 65--71
+Underfull \hbox (badness 10000) in paragraph at lines 89--95
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 72--78
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 87--91
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 92--100
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 101--110
+Underfull \hbox (badness 10000) in paragraph at lines 96--102
 
  []
 
@@ -846,11 +831,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 101--110
 
 
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<images/DBN-RBM-process.png, id=94, 483.8075pt x 389.455pt>
+Underfull \hbox (badness 10000) in paragraph at lines 111--115
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--124
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 125--134
+
+ []
+
+<images/DBN-RBM-process.png, id=116, 483.8075pt x 389.455pt>
 File: images/DBN-RBM-process.png Graphic file (type png)
 
 <use images/DBN-RBM-process.png>
-Package pdftex.def Info: images/DBN-RBM-process.png used on input line 112.
+Package pdftex.def Info: images/DBN-RBM-process.png used on input line 136.
 (pdftex.def)             Requested size: 241.90315pt x 194.72702pt.
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -859,7 +858,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 119--124
+Underfull \hbox (badness 10000) in paragraph at lines 143--148
 
  []
 
@@ -870,32 +869,27 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 125--131
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 143--149
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 157--164
+Underfull \hbox (badness 10000) in paragraph at lines 149--155
 
  []
 
 [2 <./images/DBN-RBM-process.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 165--172
+Underfull \hbox (badness 10000) in paragraph at lines 167--173
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 178--179
+Underfull \hbox (badness 10000) in paragraph at lines 181--188
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 182--188
+Underfull \hbox (badness 10000) in paragraph at lines 189--196
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 204--210
 
  []
 
@@ -906,12 +900,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 189--195
+Underfull \hbox (badness 10000) in paragraph at lines 211--217
 
  []
 
-./LitReview.tex:200: Misplaced alignment tab character &.
-l.200 ... Using various periods from historical S&
+./LitReview.tex:222: Misplaced alignment tab character &.
+l.222 ... Using various periods from historical S&
                                                   P 500 data, they were able...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -921,7 +915,7 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 196--204
+Underfull \hbox (badness 10000) in paragraph at lines 218--226
 
  []
 
@@ -941,12 +935,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 205--213
+Underfull \hbox (badness 10000) in paragraph at lines 227--235
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 222--226
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 244--248
 
  []
 
@@ -966,26 +960,25 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ¶ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 227--237
+Underfull \hbox (badness 10000) in paragraph at lines 249--259
 
  []
 
-[3]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 238--244
+Underfull \hbox (badness 10000) in paragraph at lines 260--266
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 245--254
+Underfull \hbox (badness 10000) in paragraph at lines 267--276
 
  []
 
-./LitReview.tex:261: Misplaced alignment tab character &.
-l.261 head and shoulders (H&
+./LitReview.tex:283: Misplaced alignment tab character &.
+l.283 head and shoulders (H&
                             S). Measuring accuracy, precision and recall, th...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -994,25 +987,16 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 268--275
+Underfull \hbox (badness 10000) in paragraph at lines 297--303
 
  []
 
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 276--285
+Underfull \hbox (badness 10000) in paragraph at lines 304--310
 
  []
 
@@ -1022,11 +1006,6 @@ Missing character: There is no ò in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 286--293
-
- []
-
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ò in font cmr10!
@@ -1034,22 +1013,57 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 302--310
+Underfull \hbox (badness 10000) in paragraph at lines 311--325
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 311--320
+Underfull \hbox (badness 10000) in paragraph at lines 326--330
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 321--329
+Underfull \hbox (badness 10000) in paragraph at lines 331--337
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--347
+Underfull \hbox (badness 10000) in paragraph at lines 338--348
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 349--359
+
+ []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 360--375
+
+ []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ò in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ò in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 393--400
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 401--410
 
  []
 
@@ -1060,67 +1074,33 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 348--353
+Underfull \hbox (badness 10000) in paragraph at lines 411--418
 
  []
 
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-LaTeX Warning: Command \textomega invalid in math mode on input line 365.
-
-
-LaTeX Warning: Command \textomega invalid in math mode on input line 365.
-
-./LitReview.tex:373: Too many }'s.
-l.373 ...using an integral over the f(\textlambda}
-                                                  ) function
-You've closed more groups than you opened.
-Such booboos are generally harmless, so keep going.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 372--381
-
- []
-
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 382--390
-
- []
-
+Missing character: There is no ò in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 393--401
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-./LitReview.tex:412: Too many }'s.
-l.412 (as y $\rightarrow\infty$}
-                                )
-You've closed more groups than you opened.
-Such booboos are generally harmless, so keep going.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 432--437
+Underfull \hbox (badness 10000) in paragraph at lines 427--435
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 438--443
+Underfull \hbox (badness 10000) in paragraph at lines 436--445
 
  []
 
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 444--450
+Underfull \hbox (badness 10000) in paragraph at lines 446--454
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 468--472
 
  []
 
@@ -1132,26 +1112,91 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 468--472
+Underfull \hbox (badness 10000) in paragraph at lines 473--478
+
+ []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+
+LaTeX Warning: Command \textomega invalid in math mode on input line 490.
+
+
+LaTeX Warning: Command \textomega invalid in math mode on input line 490.
+
+./LitReview.tex:498: Too many }'s.
+l.498 ...using an integral over the f(\textlambda}
+                                                  ) function
+You've closed more groups than you opened.
+Such booboos are generally harmless, so keep going.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 497--506
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 473--481
+Underfull \hbox (badness 10000) in paragraph at lines 507--515
 
  []
 
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 482--491
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 492--499
+Underfull \hbox (badness 10000) in paragraph at lines 518--526
 
  []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+./LitReview.tex:537: Too many }'s.
+l.537 (as y $\rightarrow\infty$}
+                                )
+You've closed more groups than you opened.
+Such booboos are generally harmless, so keep going.
 
 [7]
+Underfull \hbox (badness 10000) in paragraph at lines 557--562
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 563--568
+
+ []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 569--575
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 593--597
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 598--606
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 607--616
+
+ []
+
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 617--624
+
+ []
+
+[9]
 Missing character: There is no ¬ in font cmr10!
 Missing character: There is no ® in font cmr10!
 Missing character: There is no ‚ in font cmr10!
@@ -1164,9 +1209,9 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-./LitReview.tex:526: You can't use `macro parameter character #' in horizontal 
+./LitReview.tex:665: You can't use `macro parameter character #' in horizontal 
 mode.
-l.526 ...com/science/article/pii/002002559500021G#
+l.665 ...com/science/article/pii/002002559500021G#
                                                   !
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -1182,8 +1227,18 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
-./LitReview.tex:535: Misplaced alignment tab character &.
-l.535 ...edu/viewdoc/download?doi=10.1.1.329.3392&
+./LitReview.tex:673: Misplaced alignment tab character &.
+l.673 Aditya Devarakonda, Maxim Naumov &
+                                         Michael Garland. ADABATCH: ADAPTIVE...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+./LitReview.tex:678: Misplaced alignment tab character &.
+l.678 ...edu/viewdoc/download?doi=10.1.1.329.3392&
                                                   rep=rep1&type=pdf
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1192,8 +1247,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./LitReview.tex:535: Misplaced alignment tab character &.
-l.535 ...oc/download?doi=10.1.1.329.3392&rep=rep1&
+./LitReview.tex:678: Misplaced alignment tab character &.
+l.678 ...oc/download?doi=10.1.1.329.3392&rep=rep1&
                                                   type=pdf
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1203,25 +1258,37 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 
-Underfull \hbox (badness 3838) in paragraph at lines 538--541
+Underfull \hbox (badness 7667) in paragraph at lines 681--684
+[]\OT1/cmr/m/n/10 John Duchi, Elad Hazan and Yoram Singer. Adap-tive Sub-gra-di
+-ent Meth-ods for On-line Learn-ing
+ []
+
+
+Underfull \hbox (badness 2884) in paragraph at lines 681--684
+\OT1/cmr/m/n/10 and Stochas-tic Op-ti-miza-tion. Jour-nal of Ma-chine Learn-ing
+ Re-search 12 (2011) 2121-2159. Avail-able at:
+ []
+
+
+Underfull \hbox (badness 3838) in paragraph at lines 686--689
 []\OT1/cmr/m/n/10 Erghan D., Ben-gio Y., Courville A, Man-zagol P., Vin-cent P.
  Why Does Un-su-per-vised Pre-training
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--541
+Underfull \hbox (badness 10000) in paragraph at lines 686--689
 \OT1/cmr/m/n/10 Help Deep Learn-ing?, Jour-nal of Ma-chine Learn-ing Re-search 
 11 (2010) 625-660 . Avail-able at:
  []
 
 
-Underfull \hbox (badness 7685) in paragraph at lines 543--545
+Underfull \hbox (badness 7685) in paragraph at lines 691--693
 []\OT1/cmr/m/n/10 E.F. Fama, The be-hav-ior of stock-market prices, J. Bus., 1 
 (1965), pp. 34-105. Avail-able at:
  []
 
-./LitReview.tex:552: Misplaced alignment tab character &.
-l.552 Fan, J., &
+./LitReview.tex:700: Misplaced alignment tab character &.
+l.700 Fan, J., &
                  Fan, Y. (2008). High Dimensional Classification Using Featu...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1233,8 +1300,8 @@ might try typing `S' now just to see what is salvageable.
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 558--559
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 706--707
 []\OT1/cmr/m/n/10 Harvey, Camp-bell R. and Liu, Yan, Back-test-ing (July 28, 20
 15). Avail-able at SSRN:
  []
@@ -1243,31 +1310,31 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 2027) in paragraph at lines 568--571
+Underfull \hbox (badness 2027) in paragraph at lines 716--719
 []\OT1/cmr/m/n/10 G. E. Hin-ton, R. R. Salakhut-di-nov, Re-duc-ing the Di-men-s
 ion-al-ity of Data with Neu-ral Net-works. Sci-
  []
 
 
-Underfull \hbox (badness 6094) in paragraph at lines 568--571
+Underfull \hbox (badness 6094) in paragraph at lines 716--719
 \OT1/cmr/m/n/10 ence 28 Jul 2006: Vol. 313, Is-sue 5786, pp. 504-507 DOI: 10.11
 26/sci-ence.1127647. Avail-able at:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 573--575
+Underfull \hbox (badness 10000) in paragraph at lines 721--723
 []\OT1/cmr/m/n/10 Geoffrey E. Hin-ton, Train-ing Prod-ucts of Ex-perts by Min-i
 -miz-ing Con-trastive Di-ver-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 573--575
+Underfull \hbox (badness 10000) in paragraph at lines 721--723
 \OT1/cmr/m/n/10 gence,Neural Com-pu-ta-tion Vol-ume 14 | Is-sue 8 | Au-gust 200
 2 p.1771-1800 . Avail-able at:
  []
 
-./LitReview.tex:577: Misplaced alignment tab character &.
-l.577 Campbell R. Harvey &
+./LitReview.tex:725: Misplaced alignment tab character &.
+l.725 Campbell R. Harvey &
                            Yan Liu & Heqing Zhu, 2016. "‚Ä¶ and the Cross-Se...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1276,8 +1343,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./LitReview.tex:577: Misplaced alignment tab character &.
-l.577 Campbell R. Harvey & Yan Liu &
+./LitReview.tex:725: Misplaced alignment tab character &.
+l.725 Campbell R. Harvey & Yan Liu &
                                      Heqing Zhu, 2016. "‚Ä¶ and the Cross-Se...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1290,9 +1357,15 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ¶ in font cmr10!
 
-Underfull \hbox (badness 5667) in paragraph at lines 587--588
+Underfull \hbox (badness 5667) in paragraph at lines 735--736
 []\OT1/cmr/m/n/10 Ioannidis JPA (2005) Why Most Pub-lished Re-search Find-ings 
 Are False. PLoS Med 2(8): e124.
+ []
+
+
+Underfull \hbox (badness 1072) in paragraph at lines 738--741
+\OT1/cmr/m/n/10 chine Learn-ing Re-search 10 (2009) 777-801 Sub-mit-ted 6/08; R
+e-vised 11/08; Pub-lished 3/09. Avail-able at:
  []
 
 Missing character: There is no √ in font cmr10!
@@ -1301,17 +1374,23 @@ Missing character: There is no √ in font cmr10!
 Missing character: There is no ñ in font cmr10!
 Missing character: There is no √ in font cmr10!
 Missing character: There is no ñ in font cmr10!
-./LitReview.tex:592: You can't use `macro parameter character #' in horizontal 
+./LitReview.tex:745: You can't use `macro parameter character #' in horizontal 
 mode.
-l.592 ...om/science/article/pii/S0167865514000221#
+l.745 ...om/science/article/pii/S0167865514000221#
                                                   bi005
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
 If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
-./LitReview.tex:596: Misplaced alignment tab character &.
-l.596 ...eee.org/stamp/stamp.jsp?arnumber=4445667&
+
+Underfull \hbox (badness 10000) in paragraph at lines 748--749
+[]\OT1/cmr/m/n/10 LeCun Y., Bot-tou L, Orr G, Muller K. Ef-fi-cient Back-prop. 
+Avail-able at:
+ []
+
+./LitReview.tex:752: Misplaced alignment tab character &.
+l.752 ...eee.org/stamp/stamp.jsp?arnumber=4445667&
                                                   tag=1
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1321,20 +1400,19 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 
-Underfull \hbox (badness 1152) in paragraph at lines 595--597
+Underfull \hbox (badness 1152) in paragraph at lines 751--753
 []\OT1/cmr/m/n/10 Liu X., Lin Z., Wang H. Novel On-line Meth-ods for Time Se-ri
 es Seg-men-ta-tion. IEEE TRANS-AC-TIONS
  []
 
 
-Underfull \hbox (badness 2626) in paragraph at lines 595--597
+Underfull \hbox (badness 2626) in paragraph at lines 751--753
 \OT1/cmr/m/n/10 ON KNOWL-EDGE AND DATA EN-GI-NEER-ING, VOL. 20, NO. 12, DE-CEM-
 BER 2008. Avail-able at:
  []
 
-[8]
-./LitReview.tex:604: Misplaced alignment tab character &.
-l.604 .../ieeexplore.ieee.org/stamp/stamp.jsp?tp=&
+./LitReview.tex:760: Misplaced alignment tab character &.
+l.760 .../ieeexplore.ieee.org/stamp/stamp.jsp?tp=&
                                                   arnumber=6894591&tag=1
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1343,8 +1421,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./LitReview.tex:604: Misplaced alignment tab character &.
-l.604 ...org/stamp/stamp.jsp?tp=&arnumber=6894591&
+./LitReview.tex:760: Misplaced alignment tab character &.
+l.760 ...org/stamp/stamp.jsp?tp=&arnumber=6894591&
                                                   tag=1
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1354,22 +1432,42 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 
-Underfull \hbox (badness 1127) in paragraph at lines 607--608
+Underfull \hbox (badness 1127) in paragraph at lines 767--768
 \OT1/cmr/m/n/10 uary 7, 2015). Jour-nal of Fi-nance, Forth-com-ing. Avail-able 
 at SSRN: https://ssrn.com/abstract=2156623 or
  []
 
 
-Underfull \hbox (badness 1436) in paragraph at lines 610--611
+Underfull \hbox (badness 1436) in paragraph at lines 770--771
 []\OT1/cmr/m/n/10 Lopez de Prado, Mar-cos, The Fu-ture of Em-pir-i-cal Fi-nance
  (May 31, 2015). Jour-nal of Port-fo-lio Man-
  []
 
 
-Underfull \hbox (badness 4660) in paragraph at lines 610--611
+Underfull \hbox (badness 4660) in paragraph at lines 770--771
 \OT1/cmr/m/n/10 age-ment, 41(4). Sum-mer 2015. Forth-com-ing.. Avail-able at SS
 RN: https://ssrn.com/abstract=2609734 or
  []
+
+./LitReview.tex:774: Misplaced alignment tab character &.
+l.774 ...edu/viewdoc/download?doi=10.1.1.745.6995&
+                                                  rep=rep1&type=pdf
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+./LitReview.tex:774: Misplaced alignment tab character &.
+l.774 ...oc/download?doi=10.1.1.745.6995&rep=rep1&
+                                                  type=pdf
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -1382,38 +1480,47 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 617--618
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 781--782
 []\OT1/cmr/m/n/10 Robert L. Schae-fer (2012) Sub-set Se-lec-tion in Re-gres-sio
 n, Tech-no-met-rics, 34:2, 229, DOI:
  []
 
 
-Underfull \hbox (badness 4819) in paragraph at lines 623--625
+Underfull \hbox (badness 4819) in paragraph at lines 790--792
 []\OT1/cmr/m/n/10 Takeuchi L, Lee Y. Ap-ply-ing Deep Learn-ing to En-hance Mo-m
 en-tum Trad-ing Strate-gies in Stocks.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 623--625
+Underfull \hbox (badness 10000) in paragraph at lines 790--792
 \OT1/cmr/m/n/10 Tech-ni-cal Re-port, 2013. Avail-able at: http://www.smallake.k
 r/wp-content/uploads/2017/04/TakeuchiLee-
  []
 
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 637--640
+Underfull \hbox (badness 1931) in paragraph at lines 799--802
+\OT1/cmr/m/n/10 ADAP-TIVE STEP-SIZE RULE. SIAM J. OP-TIM. Vol. 8, No. 2, pp. 50
+6531, May 1998. Avail-able at:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 809--812
 []\OT1/cmr/m/n/10 Wan Y., Gong X., Si Y. Ef-fect of seg-men-ta-tion on fi-nan-c
 ial time se-ries pat-tern match-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 637--640
+Underfull \hbox (badness 10000) in paragraph at lines 809--812
 \OT1/cmr/m/n/10 ing. Ap-plied Soft Com-put-ing Vol-ume 38, Jan-uary 2016, Pages
  346-359. Avail-able at:
  []
 
-./LitReview.tex:642: Misplaced alignment tab character &.
-l.642 Weiss, S. M, &
+./LitReview.tex:819: Misplaced alignment tab character &.
+l.819 Weiss, S. M, &
                      Kulikowski, C. A. (1991). Computer systems that learn :...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1422,8 +1529,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./LitReview.tex:647: Misplaced alignment tab character &.
-l.647 .../ieeexplore.ieee.org/stamp/stamp.jsp?tp=&
+./LitReview.tex:824: Misplaced alignment tab character &.
+l.824 .../ieeexplore.ieee.org/stamp/stamp.jsp?tp=&
                                                   arnumber=5961935
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1433,19 +1540,28 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 
-Underfull \hbox (badness 1701) in paragraph at lines 645--648
+Underfull \hbox (badness 1701) in paragraph at lines 822--825
 []\OT1/cmr/m/n/10 Yin J., Si Y., Gong Z. Fi-nan-cial Time Se-ries Seg-men-ta-ti
 on Based On Turn-ing Points. Pro-ceed-ings of
  []
 
 
-Underfull \hbox (badness 1112) in paragraph at lines 650--652
+Underfull \hbox (badness 6842) in paragraph at lines 830--833
+[]\OT1/cmr/m/n/10 Zinkevich M, Weimer M, Smola A, Li L. Par-al-lelized Stochas-
+tic Gra-di-ent De-scent. Avail-able at:
+ []
+
+
+Underfull \hbox (badness 1112) in paragraph at lines 835--837
 []\OT1/cmr/m/n/10 Zhao Y., Li J., Yu L. A deep learn-ing en-sem-ble ap-proach f
 or crude oil price fore-cast-ing. Avail-able at:
  []
 
-./LitReview.tex:655: Misplaced alignment tab character &.
-l.655 Time-Series. 2009 World Congress on Nature &
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ì in font cmr10!
+./LitReview.tex:843: Misplaced alignment tab character &.
+l.843 Time-Series. 2009 World Congress on Nature &
                                                    Biologically Inspired Com...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1454,8 +1570,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./LitReview.tex:656: Misplaced alignment tab character &.
-l.656 .../ieeexplore.ieee.org/stamp/stamp.jsp?tp=&
+./LitReview.tex:844: Misplaced alignment tab character &.
+l.844 .../ieeexplore.ieee.org/stamp/stamp.jsp?tp=&
                                                   arnumber=5393674
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1465,31 +1581,31 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 
-Underfull \hbox (badness 1616) in paragraph at lines 654--657
+Underfull \hbox (badness 1616) in paragraph at lines 842--845
 []\OT1/cmr/m/n/10 Zhou B., Hu J. A Dy-namic Pat-tern Recog-ni-tion Ap-proach Ba
 sed on Neu-ral Net-work for Stock Time-
  []
 
 
-Underfull \hbox (badness 3049) in paragraph at lines 654--657
+Underfull \hbox (badness 3049) in paragraph at lines 842--845
 \OT1/cmr/m/n/10 Series. 2009 World Congress on Na-ture  Bi-o-log-i-cally In-spi
 red Com-put-ing (NaBIC 2009). Avail-able at:
  []
 
-[9]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 659.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 659.
+[12]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 847.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 847.
  (./LitReview.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 659.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 659.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 847.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 847.
 Package rerunfilecheck Info: File `LitReview.out' has not changed.
-(rerunfilecheck)             Checksum: 26AD65B45C81CBD4DCA2B8A84397C43C;852.
+(rerunfilecheck)             Checksum: 49DC4BFD2019A57DE4E3A627B829144A;1359.
  ) 
 Here is how much of TeX's memory you used:
- 18782 strings out of 492995
- 342391 string characters out of 6132704
- 430351 words of memory out of 5000000
- 21951 multiletter control sequences out of 15000+600000
+ 18832 strings out of 492995
+ 342929 string characters out of 6132704
+ 430864 words of memory out of 5000000
+ 21975 multiletter control sequences out of 15000+600000
  9943 words of font info for 34 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  54i,9n,73p,808b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1509,10 +1625,10 @@ e/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
 /2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2
 017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/20
 17/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb>
-Output written on ./LitReview.pdf (9 pages, 351403 bytes).
+Output written on ./LitReview.pdf (12 pages, 364094 bytes).
 PDF statistics:
- 293 PDF objects out of 1000 (max. 8388607)
- 260 compressed objects within 3 object streams
- 72 named destinations out of 1000 (max. 500000)
- 122 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 375 PDF objects out of 1000 (max. 8388607)
+ 338 compressed objects within 4 object streams
+ 98 named destinations out of 1000 (max. 500000)
+ 178 words of extra memory for PDF output out of 10000 (max. 10000000)
 
