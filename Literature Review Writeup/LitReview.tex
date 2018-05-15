@@ -25,6 +25,8 @@
  \usepackage{colortbl} 
 \usepackage{subcaption}
 \usepackage{caption}
+\usepackage{hyperref}
+
 \usepackage[numbib,nottoc]{tocbibind}
 
 \newcommand{\myol}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
@@ -43,27 +45,228 @@
 
 \section{Technical Analysis}\label{TechnicalAnalysis}
 
-Brief introduction to Technical Analysis and pattern matching.
+Technical analysis is a financial analysis practice that makes use of past price data in order to identify market 
+structures, as well as forecast future price movements. The techniques are typically objective methodologies 
+which rely solely on past market data (price and volume). They stand in contrast to fundamental analysis, where 
+experts will consider a companies operations, management and future prospects in order to arrive at an evaluation. 
+The basis of much technical analysis, originally developed through Dow Theory, is the belief that stock market 
+prices will move directionally (upwards, downwards or sideways), and that past movements can be used to 
+determine these trends  \cite {Murphy}.
+\hfill \break 
+
+One of the primary methods in technical analysis is the use of charts in order to identify price patterns. 
+These charts will be produced using the available market data and a known design, such as the popular candle-bar 
+plot, which can then be compared to historical data to match it to a particular pattern. These patterns are thus 
+indicative that the stock is likely to take on a particular price trend, or is in a particular state \cite {Murphy}.  
+There is a certain amount of controversy around technical analysis, where many argue that it is contradictory 
+to the random walk and weak form efficient market hypotheses, and as such is not valuable or useful \cite {Griffioen}. 
+The argument against this, is that technical analysis does not rely on past action to predict the the future, but is 
+rather a measure of current trading, and how the market has reacted after similar patterns have occurred in the 
+past \cite {Kahn}. Further, even if the analysis is unable to effectively forecast future price trends, it can still be useful 
+to exploit trading opportunities in the market \cite{Schwager}.
+\hfill \break 
+
+With the advent of processing power becoming cheaply available, there has been an increase in research to 
+adapt computing techniques to technical analysis. The breadth and superhuman speed in which systems are 
+able to perform technical analysis far outstrips what was possible before, and as such they have become the 
+focus of competitive performance for many market participants \cite {Johnson}. To this end, there has been much 
+research to apply machine learning algorithms to perform pattern recognition on stock price movements.
+\hfill \break
+
+Financial markets have been shown to be complex and adaptive systems, where the effects of interaction 
+between participants can be highly non-linear \cite {Arthur}. Complex and dynamic systems such as these may 
+often exist at the 'order-disorder border' - they will generate certain non-random patterned and internal organisation, 
+which can be assessed and identified, however they will also exhibit a certain amount of randomness in their behaviours, 
+or 'chaos' \cite {Crutchfield}. As a result, trying to identify these patterns and structures is a simultaneously 
+reasonable and notoriously difficult goal. While it is often clear in hindsight that the patterns exist, the amount of 
+noise and nonlinearity in the system can make prediction challenging.
+Fittingly then, neural networks have become a popular choice for modelling within the financial markets. Due to 
+their structure, they are able to learn non-linear interactions between their inputs and outputs, with even early research 
+showing their ability to achieve statistically significant results, which lends weight to the 
+argument against the efficient market hypothesis \cite {Skabar}. 
+\hfill \break
 
 \section{Neural Networks}
 
-\subsection{Neural Network Algorithms and Structures}
+A Neural Network (NN) is a learning model which was originally inspired by the biological mechanisms of neurons 
+in brains. The structure is essentially that of a network system, with connected nodes and edges, or ‘neurons’ and 
+‘weights‘ in context. The neurons are based on the same idea as synapses as seen in the brain - where a buildup 
+of input results in a ‘firing’ of output. The input here is determined by the model’s input (real numbers typically), 
+and processed through the weights and activation functions of the neuron, which then results in an output value 
+either at an intermediate level, or as the model’s final output. The system ‘learns’ by considering input samples 
+sequentially, and adjusting the weights between edges to result in more accurate outputs, which may either be 
+classification or regression values. 
+\hfill \break 
 
-An overview of the relevant algorithms, and early network structures.
+Structured neural networks that learn to some extent have been around since the second half of the 21st 
+century \cite{Schmidhuber}, though have been through several cycles of popularity. The first versions tended to be very simple 
+with one one layer of hidden neurons \cite{Ivakhnenko}. It was only later, through the application of 
+the backpropagation algorithm, that they started to become more practical and popular \cite{Werbos}.
+\hfill \break 
+
+With the rise in popularity, many different network formations were developed and suggested. One of the initial 
+suggestions was the conceptually simple Feedforward Neural Network (FNN) as described above - an acyclic
+ graph where inputs are processed in a single direction until the output is reached. The other notable earlier model 
+ was the Recurrent Neural Network (RNN), which has a cyclic graph instead - this results in a more powerful 
+ computational system than the standard FNN, which was shown to be effective quite early on 
+\cite{Siegelmann}. The Long Short-Term Memory (LSTM) network was 
+ another that used recurrent dynamics, though at a neuron level, in that the neuron is responsible for remembering 
+ values for an arbitrary time period \cite{Hochreiter}. Convolutional Neural Networks (CNN) have a non-recurrent structure, 
+ but implement separate pooling layers of neurons which consider the adjacent input values for each feature 
+ (e.g. pixels next to each other). These have been shown to be incredibly effective at tasks such as image 
+ recognition, as elaborated on later.
+\hfill \break 
+
+There are three primary learning paradigms used in neural network training - Supervised Learning (SL), 
+where the network is trained on inputs with known outputs; Unsupervised Learning (UL), where the network is 
+trained to identify unknown structures as an output; and Reinforcement Learning (RL), where environmental
+reactions are used as inputs to train a network for certain outputs \cite{Schmidhuber}. While all of these configurations and paradigms 
+have their benefits and uses, this paper will largely focus on FNN and RNNs, trained through SL and UL.
+\hfill \break 
+
+\subsection{Training and Backpropagation}
+
+Historically, the crux of neural networks’ popularity has often been based on the development of novel training 
+methodologies, and how they have increased performance. In line with this, the Backpropagation (BP) algorithm 
+has played a pivotal part: while neural network (or perceptron) models were around long before NN popularity, 
+they were largely deemed ineffective, at least in comparison to other available models of the time 
+\cite{Minksy}. It was only during the 1980’s that the BP algorithm was applied to NNs, and 
+the field started to gain in popularity again \cite{LeCun2, Werbos2}.
+\hfill \break 
+
+The backpropagation algorithm can be summarised as below
+\begin{itemize}
+\item[$\bullet$]  Let N be a neural network of weights \textit{w}, inputs \textit{x} and outputs \textit{y}, where the weights are (naively) initialized to random values
+\item[$\bullet$] The algorithm then iterates through the following:
+\begin{itemize}
+  \item[1] Select a number of training samples, $x_s$
+  \item[2]Forward Pass:
+  \begin{itemize}
+    \item[i] Propagate the samples through the network to generate out output $y_s$
+    \item[ii] Calculate the error terms (aka cost)
+  \end{itemize}
+\item[3]Backward Pass:
+\begin{itemize}
+  \item[i] Propagate activation value back through the network to calculate the delta values (the difference between the network outputs and desired output values at each layer)
+  \item[ii] Each weights output delta and input activation are multiplied to find the weight’s gradient
+  \item[iii]This gradient is reduced by a factor of the ‘learning rate’, and subtracted from the weight
+\end{itemize}
+\item[4] Repeat from step 1, unless a minima or other stopping criterion is reached
+
+\end{itemize}
+\end{itemize}
+
+\hfill \break 
+
+Rumelhart et al. showed that the BP algorithm as applied in NNs resulted in useful feature representations 
+occuring in hidden layers and the empirical success that resulted thereof \cite{Rumelhart}.  
+Shortly after, LeCun et al. applied the BP algorithm to CNNs with adaptive connections. They were able to show 
+impressive performance for the time in classifying handwritten images, with the images as a direct input (rather than a feature vector) \cite{LeCun3}.
+\hfill \break 
+
+While many improvements were made during this time via gradient descent modifications (as expanded on in section \ref{OGD}), the 
+models were typically of a shallow nature due to problems encountered trying to train deeper networks. 
+Early experiments with deep networks resulted in poor performance due to what is now widely known as the problem 
+of either vanishing or exploding gradients \cite{Pascanu}. Essentially, as more layers are added to the network, the backpropagation 
+algorithm (with typical activation function neurons), results in error signals that either shrink or grow out of bounds at an 
+exponential rate. One of first suggested and primary solutions to the problem is to perform pre-training on the 
+network through unsupervised learning  \cite{Schmidhuber}, which is discussed more fully in \ref{DBN}.
+\hfill \break 
+
+There were also initial concern that the BP algorithm as applied to high dimensional neural networks would result 
+in the network weights being trapped in local minima if a simple gradient descent was used (e.g. where no small 
+changes to the configuration would reduce the average error rate) \cite{LeCun4}. 
+However, empirically, this tends not to so problematic, and large networks usually reach solutions of equitable 
+performance. More recent research has shown that the solution spaces largely consist of many saddle points, each 
+with varying gradients of the features, but which also tend to have similar values of the objective function \cite{Dauphin}. 
+Ge et al. have also shown that it is possible to escape saddle points and offer a guaranteed global convergence 
+in certain non-convex problems \cite{Ge}.
+\hfill \break 
+
+\subsection{Activation Functions}
+
+One of the upfront configuration choices necessary is the activation function, which allows the mapping of input 
+to output at the neuron level. There have been many suggestions and experiments with different functions, though 
+there are some common features amongst functions which might make them appropriate: Non-linearity allows for 
+neural networks to operate as universal approximators, as shown in \cite{Hornik}, continuous differentiability allows for the 
+use of gradient descent and whether the function is monotonic has been shown to indicate whether the solution 
+can be guaranteed to have a unique periodic solution \cite{Wu}. Lastly, the range of the function (infinite or finite) can impact both the 
+stability and efficiency of the training.
+\hfill \break 
+
+Some of the most popular functions that have been used are the Sigmoid, TanH, ReLU and Softsign. There have 
+been various studies showing the effectiveness of the different activations under varying initialization (or pre-training) 
+for weights. Glorot and Bengio noted that the typical Sigmoid and TanH functions performed poorly with standard 
+minimization, and result in slower convergence and worse minima, and showed that Softsign with a non-standard 
+initialization resulted in quicker convergence \cite{Glorot}. Further research with Bordes & Bengio found that the 
+rectifier (ReLU) functions were  more effective in deep sparse networks compared to the TanH function \cite{Glorot2}.
 
 \subsection{Deep Learning}
 
-A brief overview of the developments in deep learning as applied to neural 
-networks
+As noted above, most of the earlier work using neural networks relied on shallow models with few layers. 
+However, a resurgence in interest occurred in 2006 after several papers demonstrated the efficacy of 
+unsupervised pre-training of networks prior to supervised training. The effect was substantial enough to allow 
+much deeper layered networks to be trained than before \cite{Bengio1, Hinton1}.
+\hfill \break 
+ 
+ The essential point behind the unsupervised learning was to initialize the weights in the network to sensible 
+ values in light of the problem context. The methods used trained each layer to be able to reconstruct the model 
+ of the features in the layer below (to a varying degree of accuracy). Sequentially pre-training and combining 
+ layers like this, the process generated a deep neural network with appropriate weights. Once done, a final output 
+ layer was added and the entire network could then be fine-tuned through backpropagation, without suffering 
+ such performance degradation through vanishing or exploding gradients \cite{Hinton1, Ranzato1, Hinton2}. This is 
+ expanded up further in \ref{DBN}. Le Roux and Bengio were able to show that within the DBNs produced by 
+ Hinton \cite{Hinton1}, adding hidden nodes resulted in strictly improved modelling capabilities, and they suggested 
+ that increasing the number of layers is likely to result in increased representational ability (subject to efficacy of 
+ previous layers), thus establishing the argument for deep networks in theory as well as practice \cite{LeRoux}.
+\hfill \break 
 
-\subsection{Neural Network Variations}
+FNNs had been shown to be effective in modelling high dimensional data even prior to the breakthroughs in 
+deep networks \cite{Bengio2}, so it fits that the deep networks were shown to be extremely effective in high dimensional 
+data classification. Early implementations shown increased efficacy in handwriting recognition, as well as pedestrian 
+recognition \cite{Sermanet}. When it came to data types such as sound and images, CNNs were implemented on several 
+occasions with record breaking model performances in recognition, notably in ImageNet and WaveNet \cite{ImageNet, WaveNet}.
+\hfill \break 
 
-A brief overview of the variations of neural networks - e.g. perceptrons, RBM, 
-feedforward, LTSM etc.
+As more research into deep networks was conducted, it became apparent that with large enough datasets, the
+ layerwise pretraining of networks was not actually necessary to achieve high performance standards 
+ \cite{ImageNet, Glorot2, Ciresan}. When training for long enough, it was reported that the pre-training offered little to no 
+ benefit, though these models were typically using datasets far larger than were attempted before (as a result of
+  hardware improvements enabling as much). While these results did require certain attention was paid to the 
+  initialization, as well as the use of nonlinear activation units, it did suggest that pre-training largely acted as a prior 
+  which may not be necessary if large enough labelled datasets are available \cite{Bengio3}. Naturally, pre-training was still 
+  implemented to prevent overfitting in smaller datasets.
+\hfill \break 
 
-\subsection{Applicatons of Neural Networks in Finance}
+\subsubsection{Backpropagation Improvements}
 
-A coverage of the relevant applications of neural networks in predicting prices.
+One of the instrumental improvements which aided the above achievements, was to modify the backpropagation 
+algorithm using the ‘dropout’ technique, as suggested by Hinton et al \cite{Hinton4}. When training of large networks is 
+attempted on small datasets, it often results in overfitting and poor results on out of sample data. Dropout helps 
+resolve this by randomly excluding a certain percentage (usually 0.5) of feature detectors on each training iteration. 
+The effect is to stop co-adaptations of feature detectors, and by rather training each neuron in a wide variety of 
+internal configurations, it forces them to take on more usefully generalizable characteristics (it was noted that this
+is not a dissimilar technique to ensemble methods, or bagging). The authors were able to show that the method
+resulting in significant improvements on benchmark data sets (e.g. MNIST, CIFAR-10), and that a simpler model 
+using dropout was able to achieve near comparable performance for the ImageNet dataset.
+\hfill \break 
+
+Goodfellow et al. used the dropout technique as the basis for their ‘maxout’ activation function technique, which 
+leverages and improves on dropout’s fast optimisation and accuracy through averaging characteristics. The 
+maxout model was shown to achieve state of the art performance on benchmark datasets, as well as have a 
+strong theoretical grounding \cite{Goodfellow}. Further work was done by Wang et al., which improved on the dropout 
+(and potentially maxout) techniques through fast sampling, resulting in an order of magnitude speedup in
+training \cite{Wang2}.
+\hfill \break 
+
+
+
+
+
+
+
+
+
 
 \section{Stacked Autoencoders}
 
@@ -168,12 +371,12 @@ The methods described above follow a similar approach: greedy layer-wise unsuper
 determine initial weights, followed by supervised fine tuning to arrive at the final model. It is shown numerous times, 
 that the pretraining process results in significant performance gains \cite{Vincent}. However it is not immediately apparent, 
 given the nature of backpropagation algorithms and the like, why this is the case. Erhan et al. performed 
-extensive empirical simulations in order to suggest an explanation to the mechanism of pretraining \cite{Erhan}.
+extensive empirical simulations in order to suggest an explanation to the mechanism of pre-training \cite{Erhan}.
  \hfill \break 
 
 While their results were not entirely conclusive, they did lend themselves to a reasonable hypothesis: 
 the unsupervised pre-training results in a form of regularization on the model - variance is minimized, and the 
-bias introduced directs the model configuration towards a sample space that is effective for the unsupervised 
+bias introduced acts as a prior to direct the model configuration towards a sample space that is effective for the unsupervised 
 learning generalization optimisations.
 
 \subsection {Time Series Applications}
@@ -284,14 +487,7 @@ head and shoulders (H&S). Measuring accuracy, precision and recall, they showed 
 generally offered superior results to the others (though it is worth noting that there were various performance 
 differences within the segmentation methods depending on the matching algorithm used).
 
-
-
-
-
-
-
-
-\section{Online Learning Algorithms and Gradient Descent}
+\section{Online Learning Algorithms and Gradient Descent} \label{OGD}
 \hfill
 
 Most classic machine learning algorithms operate under the assumption that, for all intents and purposes, the 
@@ -372,20 +568,6 @@ and later increased to allow the benefits of data parallelism. The effect, as sh
 training performance of up to 6x, with less than 1\% of accuracy when compared to the fixed batch baselines \cite{Devarakonda}. 
 Both of these algorithms have been shown to be effective and applicable in the context of online neural network training.
 \hfill\break
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \section{Backtesting and Model Validation} 
 \hfill
@@ -632,6 +814,9 @@ Albers S. Online Algorithms: a survey. Mathematics Subject Classification (1991)
 \bibitem{Aparicio}
 Aparicio, Diego and Lopez de Prado, Marcos, How Hard Is It to Pick the Right Model? (December 2017). Available at SSRN: https://ssrn.com/abstract=3044740 or http://dx.doi.org/10.2139/ssrn.3044740
 
+\bibitem{Arthur}
+B. Arthur (1995) Complexity in Economics and Financial Markets, Complexity 1 (1), 20???25.
+
 \bibitem{BailyPBO}
 Bailey, David H. and Borwein, Jonathan and Lopez de Prado, Marcos and Zhu, Qiji Jim, The Probability of Backtest Overfitting (February 27, 2015). Journal of Computational Finance (Risk Journals), 2015, Forthcoming. Available at SSRN: https://ssrn.com/abstract=2326253 or http://dx.doi.org/10.2139/ssrn.2326253
 
@@ -654,11 +839,23 @@ Bartlett P., Hazan E. Adaptive Online Gradient Descent. Available at: http://pap
 Yoshua Bengio, Pascal Lamblin, Dan Popovici, and Hugo Larochelle. Greedy layer-wise training of deep networks. In Bernhard Scholkopf, John Platt, and Thomas Hoffman, editors, ¨ Advances in Neural Information Processing Systems 19 (NIPS’06), pages 153–160. MIT Press, 
 2007. Available at: http://papers.nips.cc/paper/3048-greedy-layer-wise-training-of-deep-networks.pdf
 
+\bibitem{Bengio2}
+Bengio, Yoshua, and Samy Bengio. "Modeling high-dimensional discrete data with multi-layer neural networks." Advances in Neural Information Processing Systems. 2000.
+Available at: http://papers.nips.cc/paper/1679-modeling-high-dimensional-discrete-data-with-multi-layer-neural-networks.pdf
+
+\bibitem{Bengio3}
+Bengio, Yoshua, Aaron Courville, and Pascal Vincent. "Representation learning: A review and new perspectives." IEEE transactions on pattern analysis and machine intelligence 35.8 (2013): 1798-1828.
+Available at: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6472238&tag=1
+
 \bibitem{Bottou}
 Bottou L., Le Cun Y. Large Scale Online Learning. Available at: http://papers.nips.cc/paper/2365-large-scale-online-learning.pdf
 
 \bibitem{Bottou2}
 Bottou, L. and Murata, N. (2002). Stochastic Approximations and Efficient Learning. In Arbib, M. A., editor, The Handbook of Brain Theory and Neural Networks, Second edition,. The MIT Press, Cambridge, 
+
+\bibitem{Ciresan}
+Cireşan, Dan Claudiu, et al. "Deep, big, simple neural nets for handwritten digit recognition." Neural computation 22.12 (2010): 3207-3220.
+Available at: \url{https://www.mitpressjournals.org/doi/abs/10.1162/NECO_a_00052}
 
 \bibitem{Chu}
 Chu C., Time series segmentation: A sliding window approach. Information Sciences, Volume 85, Issues 1–3, July 1995, Pages 
@@ -668,6 +865,13 @@ Chu C., Time series segmentation: A sliding window approach. Information Science
  F. L. Chung, T. C. Fu, R. Luk, and V. Ng, “Flexible time series pattern matching based on perceptually important points,’’ in Proc. Int. Joint Conf. Artificial Intelligence Workshop  
  Learning from Temporal and Spatial Data in International Joint Conference on Artificial Intelligence (IJCAI'01), Seattle, Washington, USA, 4-10 August, 2001, p. 
  1-7. Available at: http://hdl.handle.net/10397/48578
+
+\bibitem {Crutchfield}
+J. P. Crutchfield, (2011), Between order and chaos, Nature Physics, Vol. 8, January 2012, 17-23
+
+\bibitem{Dauphin}
+Dauphin, Y. et al. Identifying and attacking the saddle point problem in high-dimensional non-convex optimization. In Proc. Advances in Neural Information Processing Systems 27 2933–2941 (2014)
+Available at: http://papers.nips.cc/paper/5486-identifying-and-attacking-the-saddle-point-problem-in-high-dimensional-non-convex-optimization 
 
 \bibitem{Devarakonda}
 Aditya Devarakonda, Maxim Naumov & Michael Garland. ADABATCH: ADAPTIVE BATCH SIZES FOR TRAINING
@@ -699,6 +903,25 @@ Statistical Challenges with High Dimensionality: Feature Selection in Knowledge 
 \bibitem{Fan2}
 Fan, J., & Fan, Y. (2008). High Dimensional Classification Using Features Annealed Independence Rules. Annals of Statistics, 36(6), 2605–2637. http://doi.org/10.1214/07-AOS504
 
+\bibitem {Ge}
+Ge, Rong, et al. "Escaping from saddle points—online stochastic gradient for tensor decomposition." Conference on Learning Theory. 2015.
+Available at: http://proceedings.mlr.press/v40/Ge15.pdf 
+
+\bibitem{Goodfellow}
+Goodfellow, Ian J., et al. "Maxout networks." arXiv preprint arXiv:1302.4389 (2013).
+Available at: http://proceedings.mlr.press/v28/goodfellow13.pdf
+
+\bibitem{Glorot}
+Glorot, Xavier, and Yoshua Bengio. "Understanding the difficulty of training deep feedforward neural networks." Proceedings of the thirteenth international conference on artificial intelligence and statistics. 2010.
+Available at: http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf
+
+\bibitem{Glorot2}
+Glorot, Xavier, Antoine Bordes, and Yoshua Bengio. "Deep sparse rectifier neural networks." Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statistics. 2011.
+Available at: http://proceedings.mlr.press/v15/glorot11a/glorot11a.pdf 
+
+\bibitem{Griffioen} 
+Griffioen, Gerwin A. W., Technical Analysis in Financial Markets (March 3, 2003).
+
 \bibitem{Hansen}
 Hansen, Peter Reinhard and Lunde, Asger and Nason, James M., The Model Confidence Set (March 18, 2010). Available at SSRN: https://ssrn.com/abstract=522382 or http://dx.doi.org/10.2139/ssrn.522382
 
@@ -721,8 +944,16 @@ Networks. Science  28 Jul 2006: Vol. 313, Issue 5786, pp. 504-507 DOI:
 Geoffrey E. Hinton, Training Products of Experts by Minimizing Contrastive Divergence,Neural Computation
 Volume 14 | Issue 8 | August 2002  p.1771-1800 . Available at: https://www.mitpressjournals.org/doi/pdf/10.1162/089976602760128018
 
+\bibitem{Hinton4}
+Hinton, Geoffrey E., et al. "Improving neural networks by preventing co-adaptation of feature detectors." arXiv preprint arXiv:1207.0580 (2012).
+Available at: https://arxiv.org/pdf/1207.0580.pdf
+
 \bibitem{HLZ}
 Campbell R. Harvey & Yan Liu & Heqing Zhu, 2016. "… and the Cross-Section of Expected Returns," Review of Financial Studies, vol 29(1), pages 5-68.
+
+\bibitem{Hochreiter}
+Sepp Hochreiter,  Jürgen Schmidhuber. Long Short-Term Memory. Neural Computation Volume 9 | Issue 8 | November 15, 1997  
+p.1735-1780. Available at https://www.mitpressjournals.org/doi/abs/10.1162/neco.1997.9.8.1735.
 
 \bibitem {Hornik}
 K. Hornik, Multilayer feed-forward networks are universal approximators, Neural Networks, vol 2, 1989
@@ -731,8 +962,27 @@ K. Hornik, Multilayer feed-forward networks are universal approximators, Neural 
 Hsu D. Time Series Compression Based on Adaptive Piecewise
 Recurrent Autoencoder (17 August 2017). Available at: https://arxiv.org/pdf/1707.07961.pdf
 
+\bibitem{Ivakhnenko}
+Ivakhnenko, A. G. (1971). Polynomial theory of complex systems. IEEE Transactionson Systems, Man and Cybernetics, (4), 364–378. Available at: https://ieeexplore.ieee.org/document/4308320/
+
+\bibitem{ImageNet}
+Krizhevsky, Alex, Ilya Sutskever, and Geoffrey E. Hinton. "Imagenet classification with deep convolutional neural networks." Advances in neural information processing systems. 2012.
+Available at: http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks
+
 \bibitem{Ioannidis} 
 Ioannidis JPA (2005) Why Most Published Research Findings Are False. PLoS Med 2(8): e124. https://doi.org/10.1371/journal.pmed.0020124
+
+\bibitem {Johnson}
+N. Johnson, G. Zhao, E. Hunsader, H. Qi, N. Johnson, J. Meng & Brian Tivnan (2013). Abrupt rise of new machine ecology beyond human response time. Sceintific Reports 3(2627). DOI: 10.1038/srep02627
+
+\bibitem{Kahn}
+Kahn, Michael N. . Technical Analysis Plain and Simple: Charting the Markets in Your Language, Financial Times Press, Upper Saddle River, New Jersey, p. 9. ISBN 0-13-134597-4.(2006)
+
+\bibitem{Knerr}
+Stefan Knerr, Handwritten Digit Recognition by Neural Networks with Single-Layer 
+Training. 962 IEEE TRANSACTIONS ON NEURAL NETWORKS, VOL. 3, NO. 6, NOVEMBER 
+1992. Available at: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=165597 
+
 
 \bibitem{Langford}
 John Langford, Lihong Li and Tong Zhang. Sparse Online Learning via Truncated 
@@ -746,6 +996,21 @@ Sweden. Available at: https://www.sciencedirect.com/science/article/pii/S0167865
 
 \bibitem{LeCun}
 LeCun Y., Bottou L, Orr G, Muller K. Efficient Backprop. Available at: http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf
+
+\bibitem{LeCun2}
+LeCun, Y. (1988). A theoretical framework for back-propagation. In D. Touretzky,G. Hinton, & T. Sejnowski (Eds.), Proceedings of the 1988 connectionist models summer school (pp. 21–28).
+\url{Available at: https://www.researchgate.net/profile/Yann_Lecun/publication/2360531_A_Theoretical_Framework_for_Back-Propagation/links/0deec519dfa297eac1000000/A-Theoretical-Framework-for-Back-Propagation.pdf}
+
+\bibitem{LeCun3}
+LeCun, Y., Boser, B., Denker, J. S., Henderson, D., Howard, R. E., Hubbard, W., et al.(1989). Back-propagation applied to handwritten zip code recognition. NeuralComputation, 1(4), 541–551. Available at: http://papers.nips.cc/paper/293-handwritten-digit-recognition-with-a-back-propagation-network.pdf
+
+\bibitem{LeCun4}
+Yann LeCun, Yoshua Bengio & Geoffrey Hinton. Deep learning, Nature volume 521, pages 436–444 (28 May 
+2015). Available at: https://www.nature.com/articles/nature14539
+
+\bibitem{LeRoux}
+Le Roux, Nicolas, and Yoshua Bengio. "Representational power of restricted Boltzmann machines and deep belief networks." Neural computation 20.6 (2008): 1631-1649.
+Available at: http://www.iro.umontreal.ca/~lisa/publications2/index.php/attachments/single/22
 
 \bibitem{Liu}
 Liu X., Lin Z., Wang H. Novel Online Methods for Time Series Segmentation.  IEEE TRANSACTIONS ON KNOWLEDGE AND DATA ENGINEERING, VOL. 20, NO. 12, DECEMBER 
@@ -766,6 +1031,17 @@ Convergence. Available at: https://arxiv.org/pdf/1311.0636.pdf
 \bibitem{McLean}
 McLean, R. David and Pontiff, Jeffrey, Does Academic Research Destroy Stock Return Predictability? (January 7, 2015). Journal of Finance, Forthcoming. Available at SSRN: https://ssrn.com/abstract=2156623 or http://dx.doi.org/10.2139/ssrn.2156623
 
+\bibitem{Minksy}
+M Minsky, SA Papert, L Bottou (1988). Perceptrons: An introduction to computational 
+geometry. Available at: https://books.google.co.za/books?hl=en&lr=&id=PLQ5DwAAQBAJ&oi=fnd&pg=PR5&dq=Minsky+Papert+1969+%E2%80%94+Perceptrons&ots=zyEDwMvmXX&sig=aVXF7DBJKAOxW066S4UCyzhNARw#v=onepage&q=Minsky%20Papert%201969%20%E2%80%94%20Perceptrons&f=false
+
+\bibitem{Murphy}
+Murphy, John J. Technical analysis of the financial markets: A comprehensive guide to trading methods and applications. Penguin, 1999.
+
+\bibitem{Pascanu}
+Pascanu, Razvan, Tomas Mikolov, and Yoshua Bengio. "On the difficulty of training recurrent neural networks." International Conference on Machine Learning. 2013.
+Available at: http://proceedings.mlr.press/v28/pascanu13.pdf
+
 \bibitem{Prado}
 Lopez de Prado, Marcos, The Future of Empirical Finance (May 31, 2015). Journal of Portfolio Management, 41(4). Summer 2015. Forthcoming.. Available at SSRN: https://ssrn.com/abstract=2609734 or http://dx.doi.org/10.2139/ssrn.2609734
 
@@ -777,14 +1053,35 @@ and Parameter Averaging. Available at: http://citeseerx.ist.psu.edu/viewdoc/down
 Marc’Aurelio Ranzato, Christopher Poultney, Sumit Chopra, and Yann LeCun. Efficient learning of sparse representations with an energy-based model. In B. Scholkopf, J. Platt, and T. Hoffman, ¨ editors, Advances in Neural Information Processing Systems 19 (NIPS’06), pages 1137–1144. MIT Press, 
 2007. Aavilable at: http://papers.nips.cc/paper/3112-efficient-learning-of-sparse-representations-with-an-energy-based-model.pdf
 
+\bibitem{Rumelhart}
+Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning internal representations by error propagation. In D. E. Rumelhart, & J. L. McClelland (Eds.), Parallel distributed processing, vol. 1 (pp. 318–362). MIT Press.
+
 \bibitem{Schaefer}
 Robert L. Schaefer (2012) Subset Selection in Regression, Technometrics, 34:2, 229, DOI: 10.1080/00401706.1992.10484917
+  
+ \bibitem{Schmidhuber}
+J Schmidhuber (2015). Deep learning in neural networks: An overview. Neural Networks Volume 61, January 2015, Pages 
+85-117. Available at https://www.sciencedirect.com/science/article/pii/S0893608014002135. 
   
 \bibitem{Schorfheide}
 Schorfheide, Frank, and Kenneth I. Wolpin. 2012. "On the Use of Holdout Samples for Model Selection." American Economic Review, 102 (3): 477-81.
 
+\bibitem {Schwager}
+Jack D. Schwager. Getting Started in Technical Analysis, Page 2 (1999)
+
+
+\bibitem{Sermanet}
+Sermanet, Pierre, et al. "Pedestrian detection with unsupervised multi-stage feature learning." Computer Vision and Pattern Recognition (CVPR), 2013 IEEE Conference on. IEEE, 2013.
+Available at: https://arxiv.org/abs/1212.0142
+
 \bibitem{Shalev}
 Shai Shalev-Shwartz, Yoram Singer, and Nathan Srebro. Pegasos: Primal Estimated sub-GrAdient SOlver for SVM. In Proceedings of the Twenty-Fourth International Conference on Machine Learning (ICML-07), 2007.
+
+\bibitem{Siegelmann}
+Siegelmann, H. (1992). Theoretical foundations of recurrent neural networks (Ph.D. thesis), New Brunswick Rutgers, The State of New Jersey: Rutgers. Available at: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.38.920&rep=rep1&type=pdf
+
+\bibitem {Skabar}
+ Skabar, Cloete, Networks, Financial Trading and the Efficient Markets Hypothesis (http://crpit.com/confpapers/CRPITV4Skabar.pdf)
 
 \bibitem{Takeuchi}
 Takeuchi L, Lee Y. Applying Deep Learning to Enhance Momentum Trading Strategies in 
@@ -815,8 +1112,28 @@ Linnan Wang,  Yi Yang, Renqiang Min, Srimat Chakradhar. Accelerating deep neural
 inconsistent stochastic gradient descent. Neural Networks
 Volume 93, September 2017, Pages 219-229. Available at: https://www.sciencedirect.com/science/article/pii/S0893608017301399
 
+\bibitem{Wang2}
+Wang, Sida, and Christopher Manning. "Fast dropout training." international conference on machine learning. 2013.
+Available at: http://proceedings.mlr.press/v28/wang13a.pdf
+
+\bibitem{WaveNet}
+Van Den Oord, Aaron, et al. "Wavenet: A generative model for raw audio." arXiv preprint arXiv:1609.03499 (2016).
+Available at: https://arxiv.org/abs/1609.03499
+
 \bibitem{Weiss}
 Weiss, S. M, & Kulikowski, C. A. (1991). Computer systems that learn : classification and prediction methods from statistics, neural nets, machine learning, and expert systems. San Mateo (Calif.): Kaufmann.
+
+\bibitem{Werbos}
+Werbos, P. J. (1974). Beyond regression: new tools for prediction and analysis in the behavioral sciences (Ph.D. thesis), Harvard 
+University. Available at: \url{https://www.researchgate.net/publication/244947191_1974_Beyond_regression_New_tools_for_predicting_and_analysis_in_the_behavioral_sciences}
+
+\bibitem{Werbos2}
+Paul J. Werbos. Applications of advances in nonlinear sensitivity analysis. 
+System Modeling and Optimization pp 762-770. Available at: https://link.springer.com/chapter/10.1007/BFb0006203
+
+\bibitem{Wu}
+Wu, Huaiqin. "Global stability analysis of a general class of discontinuous neural networks with linear growth activation functions." Information Sciences 179.19 (2009): 3432-3441.
+Available at: \url{https://ac.els-cdn.com/S0020025509002539/1-s2.0-S0020025509002539-main.pdf?_tid=fc9d5d20-c0fe-4107-947c-6a4d9e472aab&acdnat=1526319168_bc401e01e4ab496b50b8d568dcafb0b3}
 
 \bibitem{Yin}
 Yin J., Si Y., Gong Z. Financial Time Series Segmentation Based On Turning 
