@@ -1,6 +1,6 @@
 module RBM
 
-using NeuralNetworks, TrainingStructures, ActivationFunctions, InitializationFunctions, FFN
+using NeuralNetworks, TrainingStructures, ActivationFunctions, InitializationFunctions, CostFunctions, FFN
 using Distributions
 
 export CreateRBMLayer, TrainRBMNetwork, TrainRBMLayer
@@ -45,13 +45,13 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
     momentum_old = zeros(layer.weights)
     epoch_records = Array{EpochRecord}(0)
 
-    for i in 1:(parameters.number_epochs)
+    for i in 1:(parameters.max_rbm_epochs)
 
         tic()
         epoch_data = data_b[(randperm(size(training_data)[1])),:]
         minibatch_errors = []
         minibatch_crosserrors = []
-        weight_change_rates = []
+        weight_change_rates = Array{Array{Float64,1},1}()
 
         for m in 1:number_batches
             minibatch_data = epoch_data[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
@@ -75,7 +75,7 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
             #weight_change = parameters.learning_rate * ((pos_cd - neg_cd) / size(minibatch_data, 1))
             weight_change = ((pos_cd - neg_cd) / size(minibatch_data, 1))
             if m % 100 == 0
-                push!(weight_change_rates, mean(weight_change[2:end,2:end] ./ layer.weights[2:end,2:end]))
+                push!(weight_change_rates, [mean(weight_change[2:end,2:end] ./ layer.weights[2:end,2:end])])
             end
 
             momentum = parameters.momentum_rate .* momentum_old + (1 - parameters.momentum_rate) .* weight_change
@@ -83,21 +83,28 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
 
             layer.weights += parameters.learning_rate .* momentum
 
-            #TODO Check this push!(minibatch_errors, ReconstructionError(minibatch_data, vis_activation_probabilities))
-            push!(minibatch_errors, ReconstructionError(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
+            push!(minibatch_errors, MeanSquaredError(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
             push!(minibatch_crosserrors, CrossEntropyError(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
         end
 
+        validation_error = MeanSquaredError(validation_data, ReconstructVisible(layer, validation_data))
+
         push!(epoch_records, EpochRecord(i,
                                         mean(minibatch_errors),
+                                        validation_error,
                                         mean(minibatch_crosserrors),
                                         toc(),
                                         CalculateEpochFreeEnergy(layer, training_data, validation_data),
                                         copy(layer.weights),
+                                        Array{Array{Float64,1},1}(),
                                         weight_change_rates
                                         ))
 
         PrintEpoch(epoch_records[end])
+
+        if parameters.stopping_function(epoch_records)
+            break
+        end
     end
 
     return (epoch_records)
@@ -165,11 +172,5 @@ function CrossEntropyError(input, reconstructions)
     #error = sum(input.*(log.(reconstructions))+(1.-input).*(log.(1.-reconstructions)))
     return (error)
 end
-
-function ReconstructionError(input, reconstructions)
-    error = sum((input - reconstructions).^2)
-    return (error)
-end
-
 
 end

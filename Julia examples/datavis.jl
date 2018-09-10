@@ -12,6 +12,10 @@ using GLM
 
 plotlyjs()
 
+
+a = [[0.5 0.9]; [0.1 0.4]]
+heatmap(a,   colorscale= [["0.0", "rgb(165,0,38)"];["0.9", "rgb(215,48,39)"]])
+
 norm1 = randn(1000);
 histogram(norm1, bins=10, label="Std Normal Dist", title = "Hist")
 

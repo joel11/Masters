@@ -1,8 +1,18 @@
 module AutoEncoder
 
-using RBM, NeuralNetworks, ActivationFunctions, InitializationFunctions, AutoEncoder, TrainingStructures
+using RBM, NeuralNetworks, ActivationFunctions, InitializationFunctions, AutoEncoder, TrainingStructures, SGD, CostFunctions
 
 export CreateAutoEncoder
+
+function CreateAutoEncoder(training_data, validation_data, layer_sizes::Array{Int64}, initialization::Function, parameters::TrainingParameters, cost_function)
+    activation_functions = GenerateActivationFunctions(length(layer_sizes))
+    rbm_network, rbm_records = TrainRBMNetwork(training_data, validation_data, layer_sizes, activation_functions, initialization, parameters)
+
+    AddDecoder(rbm_network, initialization)
+    sgd_records = RunSGD(training_data, validation_data, rbm_network, parameters, cost_function)
+    autoencoder = rbm_network#GetAutoencoder(rbm_network)
+    return (autoencoder, rbm_records, sgd_records)
+end
 
 function GenerateActivationFunctions(number_layers)
     activation_functions = Array{Function,1}()
@@ -18,15 +28,6 @@ function ReverseLayer(layer::NetworkLayer, initialization)
     bias_weights = initialization(1, size(unbiased_weights_t)[2])
     new_weights = vcat(bias_weights, unbiased_weights_t)
     return NetworkLayer(new_weights, layer.activation)
-end
-
-function CreateAutoEncoder(training_data, validation_data, layer_sizes::Array{Int64}, initialization::Function, parameters::TrainingParameters)
-    activation_functions = GenerateActivationFunctions(length(layer_sizes))
-    rbm_network, epoch_records = TrainRBMNetwork(training_data, validation_data, layer_sizes, activation_functions, initialization, parameters)
-    AddDecoder(rbm_network, initialization)
-    TrainBackprop(rbm_network)
-    autoencoder = rbm_network#GetAutoencoder(rbm_network)
-    return (autoencoder)
 end
 
 function AddDecoder(network::NeuralNetwork, initialization::Function)

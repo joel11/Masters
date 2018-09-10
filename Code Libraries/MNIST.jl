@@ -64,7 +64,8 @@ network, epoch_records_network =
 =#
 #Test CreateAutoEncoder
 
-encoder = CreateAutoEncoder(scaled_training_data, scaled_validation_data, [784, 30, 20, 5], InitializationFunctions.XavierGlorotUniformInit, parameters)
+encoder = CreateAutoEncoder(scaled_training_data, scaled_validation_data, [784, 30, 20, 5],
+InitializationFunctions.XavierGlorotUniformInit, parameters)
 
 #Create functions to map the epoch_records
 

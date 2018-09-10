@@ -1,7 +1,7 @@
 module NeuralNetworks
 
 using ActivationFunctions, InitializationFunctions
-export NetworkLayer, NeuralNetwork, InputSize,OutputSize, FirstLayer, LastLayer, InputSize, OutputSize, AddLayer, Feedforward, WeightsWithoutBias
+export NetworkLayer, NeuralNetwork, InputSize,OutputSize, FirstLayer, LastLayer, InputSize, OutputSize, AddLayer, WeightsWithoutBias
 
 type NetworkLayer
     weights::Array{Float64, 2}
@@ -11,8 +11,8 @@ type NetworkLayer
         return new(weights, activation)
     end
 
-    function NetworkLayer(input::Int64, output::Int64, activation)
-        return new(InitializationFunctions.HintonUniformInit(input, output), activation)
+    function NetworkLayer(input::Int64, output::Int64, activation::Function, weight_initialization::Function)
+        return new(weight_initialization(input, output), activation)
     end
 end
 
@@ -28,6 +28,10 @@ type NeuralNetwork
     end
 
     function NeuralNetwork(layer_sizes::Array{Int64}, activation::Function)
+        return (NeuralNetwork(layer_sizes, activation, InitializationFunctions.HintonUniformInit))
+    end
+
+    function NeuralNetwork(layer_sizes::Array{Int64}, activation::Function, weight_initialization::Function)
         layers = Array{NetworkLayer}(0)
         for i in 1:(length(layer_sizes)-1)
             push!(layers, NetworkLayer(layer_sizes[i], layer_sizes[i+1], activation))
@@ -78,6 +82,8 @@ function AddLayer(network::NeuralNetwork, layer::NetworkLayer)
         throw(ErrorException("Error adding layer to network: Incorrect Output/Input dimensions."))
     end
 end
+
+
 
 end
 
