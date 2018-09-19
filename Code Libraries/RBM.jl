@@ -1,9 +1,10 @@
 module RBM
 
+using TrainingStructures
 using NeuralNetworks, TrainingStructures, ActivationFunctions, InitializationFunctions, CostFunctions, FFN
 using Distributions
 
-export CreateRBMLayer, TrainRBMNetwork, TrainRBMLayer
+export CreateRBMLayer, TrainRBMNetwork, TrainRBMLayer, ReconstructVisible
 
 function CreateRBMLayer(inputSize::Int64, outputSize::Int64, activation::Function,  initialization::Function)
     weights = [0.0; hcat(fill(0.0, inputSize), initialization(inputSize, outputSize))]
@@ -11,7 +12,7 @@ function CreateRBMLayer(inputSize::Int64, outputSize::Int64, activation::Functio
     return layer
 end
 
-function RemoveBackwardsBias(layer::NetworkLayer)
+function RemoveBackwardsBias(layer::NeuralNetworks.NetworkLayer)
     layer.weights = layer.weights[:,2:end]
 end
 
@@ -52,6 +53,7 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
         minibatch_errors = []
         minibatch_crosserrors = []
         weight_change_rates = Array{Array{Float64,1},1}()
+        hidden_activation_likelihoods = Array{Array{Float64,2},1}()
 
         for m in 1:number_batches
             minibatch_data = epoch_data[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
@@ -74,8 +76,9 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
             #Weight Change
             #weight_change = parameters.learning_rate * ((pos_cd - neg_cd) / size(minibatch_data, 1))
             weight_change = ((pos_cd - neg_cd) / size(minibatch_data, 1))
-            if m % 100 == 0
+            if m % 1000 == 0
                 push!(weight_change_rates, [mean(weight_change[2:end,2:end] ./ layer.weights[2:end,2:end])])
+                push!(hidden_activation_likelihoods, activation_probabilities)
             end
 
             momentum = parameters.momentum_rate .* momentum_old + (1 - parameters.momentum_rate) .* weight_change
@@ -95,9 +98,9 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
                                         mean(minibatch_crosserrors),
                                         toc(),
                                         CalculateEpochFreeEnergy(layer, training_data, validation_data),
-                                        copy(layer.weights),
-                                        Array{Array{Float64,1},1}(),
-                                        weight_change_rates
+                                        NeuralNetwork(CopyLayer(layer)),
+                                        weight_change_rates,
+                                        hidden_activation_likelihoods
                                         ))
 
         PrintEpoch(epoch_records[end])
@@ -114,15 +117,13 @@ end
 
 function ProcessInput(input, weights, net, return_state)
 
-    num_examples = size(input, 1)
-
     data_b =  hcat(fill(1.0, size(input,1)), input)
     activation_probs = net.activation(data_b * weights)
     states = Int64.(activation_probs.>= rand(Uniform(0, 1), size(activation_probs,1), size(activation_probs,2)))
 
     #states[:,1] = 1
     return_vals = return_state ? states : activation_probs
-    return_states = return_vals[:,(2:(size(return_vals, 2)))]
+    return_states = return_vals[:,2:end]
     return (return_states)
 end
 
@@ -138,6 +139,18 @@ function ReconstructVisible(net::NeuralNetworks.NetworkLayer, data)
     hidden_activations = ProcessVisible(net, data, false)
     reconstruction = ProcessHidden(net, hidden_activations, false)
     return (reconstruction)
+end
+
+function ReconstructVisible(net::NeuralNetwork, data)
+    temp_vals = data
+    for l in 1:length(net.layers)
+        temp_vals = ProcessVisible(net.layers[l], temp_vals, false)
+    end
+
+    for l in length(net.layers):-1:1
+        temp_vals = ProcessHidden(net.layers[l], temp_vals, false)
+    end
+    return (temp_vals)
 end
 
 function CalculateFreeEnergy(net::NeuralNetworks.NetworkLayer, data)
@@ -158,19 +171,6 @@ function CalculateEpochFreeEnergy(net::NeuralNetworks.NetworkLayer, training_dat
     validation_free_energy = CalculateFreeEnergy(net, validation_data[1:subset_size, :])
 
     return (mean(validation_free_energy)/mean(training_free_energy))
-end
-
-#Cost Functions################################################################
-
-function CrossEntropyError(input, reconstructions)
-    if minimum(1.-reconstructions) < 0
-        return (NaN)
-    end
-
-    #TODO FIX THIS
-    error = 0
-    #error = sum(input.*(log.(reconstructions))+(1.-input).*(log.(1.-reconstructions)))
-    return (error)
 end
 
 end

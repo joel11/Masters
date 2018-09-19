@@ -39,17 +39,19 @@ function RunSGD(training_data, validation_data, network::NeuralNetwork, paramete
             push!(minibatch_errors, cost_function(minibatch_data, new_activations))
         end
 
-        oos_error = cost_function(validation_data, Feedforward(network, validation_data)[end])
+        validation_estimations = Feedforward(network, validation_data)[end]
+        oos_error = cost_function(validation_data, validation_estimations)
+        ce_error = CrossEntropyError(validation_data, validation_estimations)
 
         push!(epoch_records, EpochRecord(i,
                                         mean(minibatch_errors),
                                         oos_error,
-                                        0.0,
+                                        ce_error,
                                         toc(),
                                         0.0,
-                                        Array{Float64,2}(),
-                                        map(x -> copy(x.weights), network.layers),
-                                        weight_change_rates
+                                        CopyNetwork(network),
+                                        weight_change_rates,
+                                        Array{Array{Float64,2},1}()
                                         ))
 
         PrintEpoch(epoch_records[end])

@@ -1,7 +1,8 @@
 module NeuralNetworks
 
 using ActivationFunctions, InitializationFunctions
-export NetworkLayer, NeuralNetwork, InputSize,OutputSize, FirstLayer, LastLayer, InputSize, OutputSize, AddLayer, WeightsWithoutBias
+export NetworkLayer, NeuralNetwork, InputSize, OutputSize, FirstLayer, LastLayer, InputSize, OutputSize, AddLayer, WeightsWithoutBias
+export CopyLayer, CopyNetwork
 
 type NetworkLayer
     weights::Array{Float64, 2}
@@ -12,8 +13,12 @@ type NetworkLayer
     end
 
     function NetworkLayer(input::Int64, output::Int64, activation::Function, weight_initialization::Function)
-        return new(weight_initialization(input, output), activation)
+        return new(weight_initialization(input + 1, output), activation)
     end
+end
+
+function CopyLayer(network_layer::NetworkLayer)
+    return NetworkLayer(copy(network_layer.weights), network_layer.activation)
 end
 
 type NeuralNetwork
@@ -34,7 +39,7 @@ type NeuralNetwork
     function NeuralNetwork(layer_sizes::Array{Int64}, activation::Function, weight_initialization::Function)
         layers = Array{NetworkLayer}(0)
         for i in 1:(length(layer_sizes)-1)
-            push!(layers, NetworkLayer(layer_sizes[i], layer_sizes[i+1], activation))
+            push!(layers, NetworkLayer(layer_sizes[i], layer_sizes[i+1], activation,weight_initialization))
         end
         return (NeuralNetwork(layers))
     end
@@ -42,6 +47,10 @@ type NeuralNetwork
     function NeuralNetwork(layer::NetworkLayer)
         return new([layer])
     end
+end
+
+function CopyNetwork(neural_network::NeuralNetwork)
+    return NeuralNetwork(map(x -> CopyLayer(x), neural_network.layers))
 end
 
 function InputSize(layer::NetworkLayer)
@@ -74,7 +83,8 @@ end
 
 function AddLayer(network::NeuralNetwork, layer::NetworkLayer)
 
-    if (1+OutputSize(LastLayer(network))) == InputSize(layer)
+    #FFN or RBM reversal
+    if ((1+OutputSize(LastLayer(network))) == InputSize(layer)||(OutputSize(LastLayer(network))) == InputSize(layer))
         push!(network.layers, layer)
     else
         println(size(LastLayer(network).weights))

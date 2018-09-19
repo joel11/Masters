@@ -1,11 +1,11 @@
 
 module OutputLibrary
 
-using TrainingStructures,  FFN
+using TrainingStructures,  FFN, RBM, NeuralNetworks
 using Plots
 plotlyjs()
 
-export WriteOutputGraphs
+export WriteOutputGraphs, PlotRBMInputOutput
 
 function WriteOutputGraphs(network, rbm_records, ffn_records, validation_data, output_dir)
 
@@ -15,17 +15,21 @@ function WriteOutputGraphs(network, rbm_records, ffn_records, validation_data, o
 
     #Add File Names / Folder
     PlotInputOutput(network, validation_data, 10, output_dir)
+    PlotRBMInputOutput(rbm_records, validation_data, 10, output_dir)
+
+    PlotActivationGraphs(rbm_records, output_dir)
     PlotRBMWeights(rbm_records, 2, output_dir)
 
-    PlotFFNWeights(ffn_records, output_dir)
-    PlotRBMWeights(rbm_records, output_dir)
+    #PlotFFNWeights(ffn_records, output_dir)
+    #PlotRBMWeights(rbm_records, output_dir)
 
     mc_plot = PlotEpochLines(rbm_records, ffn_records, MeanCostErrors, "Mean Cost Errors")
+    ce_plot = PlotEpochLines(rbm_records, ffn_records, CrossEntropyErrors, "Cross Entropy Errors")
     rt_plot = PlotEpochLines(rbm_records, ffn_records, RunTimes, "Run Times")
     ve_plot = PlotEpochLines(rbm_records, ffn_records, ValidationErrors, "Validation Errors")
     wr_plot = PlotEpochLines(rbm_records, ffn_records, WeightRateChanges, "Weight Rate Changes")
 
-    savefig(plot(mc_plot, rt_plot, ve_plot, wr_plot, layout = 4, size = (800,800)), string(output_dir , "LineGraphs.html"))
+    savefig(plot(mc_plot, ce_plot, rt_plot, ve_plot, wr_plot, layout = 5, size = (800,800)), string(output_dir , "LineGraphs.html"))
 end
 
 ##Input / Output###############################################################
@@ -35,16 +39,32 @@ function PlotInputOutput(network, validation, number_samples, output_dir)
         return(heatmap(reshape(data, (28,28))))
     end
 
-    #number_samples = 20
-    #validation = scaled_validation_data
     samples = validation[rand(1:size(validation)[1], number_samples), :]
-
     output = Feedforward(network, samples)[end]
 
     pairs = map(i -> (hcat(samples[i,:], output[i,:])), 1:number_samples)
     combos = reduce(hcat, pairs)
     plots = map(x -> get_plot(combos[:,x]), 1:size(combos)[2])
     savefig(plot(plots..., size = (800, 800)),  string(output_dir, "InputOutput.html"))
+end
+
+function PlotRBMInputOutput(rbm_records, validation, number_samples, output_dir)
+    function get_plot(data)
+        return(heatmap(reshape(data, (28,28))))
+    end
+
+    samples = validation[rand(1:size(validation)[1], number_samples), :]
+    max_epoch = length(rbm_records[1])
+
+    for l in 1:length(rbm_records)
+        layer_network = NeuralNetwork(map(l -> rbm_records[l][max_epoch].network.layers[1], 1:l))
+        output = ReconstructVisible(layer_network, validation)
+
+        pairs = map(i -> (hcat(samples[i,:], output[i,:])), 1:number_samples)
+        combos = reduce(hcat, pairs)
+        plots = map(x -> get_plot(combos[:,x]), 1:size(combos)[2])
+        savefig(plot(plots..., size = (800, 800)),  string(output_dir, "RBM_InputOutput_", l, ".html"))
+    end
 end
 
 ##Weights as maps###############################################################
@@ -65,20 +85,29 @@ end
 
 function PlotRBMWeights(layer_num, epoch_num, number_of_weights, rbm_records)
 
-    weights = rbm_records[layer_num][epoch_num].rbm_weights[2:end,:]
+    weights = rbm_records[layer_num][epoch_num].network.layers[1].weights[2:end,:]
     random_weights = weights[:,rand(1:size(weights)[2], number_of_weights)]
-    plot_size = Int64.(sqrt(size(weights)[1]))
+    plot_size = Int64.(floor(sqrt(size(weights)[1])))
 
     plots = []
 
     for i in 1:number_of_weights
-        push!(plots, heatmap(reshape(random_weights[:,i], (plot_size,plot_size)), title = "L$layer_num : E$epoch_num"))
+        push!(plots, heatmap(reshape(random_weights[1:plot_size^2,i], (plot_size,plot_size)), title = "L$layer_num : E$epoch_num"))
     end
 
     return (plots)
 end
 
 ##Weights ######################################################################
+
+
+function PlotActivationGraphs(rbm_records, output_dir)
+
+    recs = map(x -> map(r -> r.hidden_activation_likelihoods , x), rbm_records)
+    heatmapnums = reduce(vcat, map(a -> reduce(vcat, a), recs))
+    plots = map(heatmap, heatmapnums)
+    savefig(plot(plots..., size = (1000, 1000)),  string(output_dir, "HiddenActivations.html"))
+end
 
 function PlotFFNWeights(ffn_records, output_dir)
     number_epochs = length(ffn_records)
@@ -88,7 +117,7 @@ end
 
 function PlotFFNWeightEpoch(ffn_records, epoch_number)
 
-    weights = ffn_records[epoch_number].ffn_weights
+    weights =  map( x -> x.weights, ffn_records[epoch_number].network.layers)
 
     colours = ["red", "blue", "green", "yellow", "purple", "brown", "orange", "teal", "gold", "silver", "violet", "cyan"]
     weight_plot = histogram(weights[1], alpha = 0.1, color=colours[1], title = "FFN Weights Epoch $epoch_number")
@@ -109,7 +138,7 @@ end
 function PlotRBMWeightEpoch(rbm_records, epoch_number)
     colours = ["red", "blue", "green", "yellow", "purple", "brown", "orange"]
 
-    rbm_weights = map(x -> x[epoch_number].rbm_weights, rbm_records)
+    rbm_weights = map(x -> x[epoch_number].network.layers[1].weights, rbm_records)
     weight_plot = histogram(rbm_weights[1], alpha = 0.1, color=colours[1], title = "RBM Weights Epoch $epoch_number")
     for i in 2:length(rbm_weights)
         histogram!(weight_plot, rbm_weights[i], alpha = 0.1, color = colours[i])

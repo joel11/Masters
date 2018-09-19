@@ -53,38 +53,17 @@ end
 
 module CostFunctions
 
-export MeanSquaredError
+export MeanSquaredError, CrossEntropyError
 
 function MeanSquaredError(y, y_hat)
     return(sum((y - y_hat).^2)/size(y, 1))
 end
 
-
-end
-
-
-module StoppingFunctions
-
-using TrainingStructures
-
-export GenValidationChangeReached, NonStopping
-
-function NonStopping(records::Array{EpochRecord})
-    return false
-end
-
-function GenValidationChangeReached(target_change_rate)
-    function ValidationChangeReached(records::Array{EpochRecord})
-        if length(records) <= 1
-            return false
-        end
-
-        second_last_change = records[(end-1)].validation_cost_error
-        last_change = records[(end)].validation_cost_error
-        return((second_last_change - last_change)/second_last_change <= target_change_rate)
-    end
-
-    return ValidationChangeReached
+function CrossEntropyError(y, y_hat)
+    one = y.*log.(e, y_hat)
+    two = (1.-y).*log.(e, 1.-y_hat)
+    n = size(y, 1)
+    return(-sum(one + two)/n)
 end
 
 end

@@ -9,9 +9,6 @@ using AutoEncoder
 
 using MNIST
 
-
-
-
 #Movie Tests####################################################################
 #=
 trainingData = [[1 1 1 0 0 0];[1 0 1 0 0 0];[1 1 1 0 0 0];[0 0 1 1 1 0];[0 0 1 1 0 0];[0 0 1 1 1 0]]
@@ -46,8 +43,8 @@ scaled_validation_data = (validationdata')./255
 parameters = TrainingParameters(0.1, 20, 0.0,  1)
 
 #Test TrainRBMLayer
-#layer = CreateRBMLayer(784, 100, NeuralNetworks.ActivationFunctions.SigmoidActivation, InitializationFunctions.XavierGlorotUniformInit)
-#epoch_records = TrainRBMLayer(scaled_training_data, scaled_validation_data, layer, parameters)
+layer = CreateRBMLayer(784, 100, NeuralNetworks.ActivationFunctions.SigmoidActivation, InitializationFunctions.XavierGlorotUniformInit)
+epoch_records = TrainRBMLayer(scaled_training_data, scaled_validation_data, layer, parameters)
 
 #Test TrainRBMNetwork
 
@@ -88,10 +85,6 @@ InitializationFunctions.XavierGlorotUniformInit, parameters)
 
 #rec = RBM.reconstruct(net, scaleddata[:,i]')
 #plot_image(rec')
-
-
-
-
 
 
 #hid = RBM.run_visible(net, scaleddata[:,i]', false)

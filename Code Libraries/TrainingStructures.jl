@@ -1,5 +1,7 @@
 module TrainingStructures
 
+using NeuralNetworks
+
 export TrainingParameters, EpochRecord, PrintEpoch
 
 type TrainingParameters
@@ -22,13 +24,12 @@ type EpochRecord
     run_time::Float64
     energy_ratio::Float64
 
-    rbm_weights::Array{Float64,2}
-    ffn_weights::Array{Array{Float64,2},1}
+    network::NeuralNetworks.NeuralNetwork
     weight_change_rates::Array{Array{Float64,1},1}
+    hidden_activation_likelihoods::Array{Array{Float64,2},1}
 
-
-    function EpochRecord(epoch_number, mean_cost_error, validation_cost_error,cross_entropy_error,run_time,energy_ratio,rbm_weights, ffn_weights, weight_change_rates)
-        return new(epoch_number, mean_cost_error, validation_cost_error,cross_entropy_error,run_time,energy_ratio,rbm_weights, ffn_weights, weight_change_rates)
+    function EpochRecord(epoch_number, mean_cost_error, validation_cost_error,cross_entropy_error,run_time,energy_ratio, network, weight_change_rates, hidden_activation_likelihoods)
+        return new(epoch_number, mean_cost_error, validation_cost_error,cross_entropy_error,run_time,energy_ratio, network, weight_change_rates, hidden_activation_likelihoods)
     end
 end
 
