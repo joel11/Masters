@@ -2,7 +2,7 @@ push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 using Revise
 using RBM
 using NeuralNetworks
-using ActivationFunctions, InitializationFunctions, AutoEncoder
+using ActivationFunctions, InitializationFunctions, NetworkTrainer
 using TrainingStructures
 using SGD, CostFunctions, StoppingFunctions, FFN
 
@@ -38,10 +38,11 @@ cost_function = MeanSquaredError
 
 
 network, rbm_records, ffn_records =
-CreateAutoEncoder(scaled_training_data, scaled_validation_data, layer_sizes, initialization, parameters, cost_function)
+TrainFFNNetwork(scaled_training_data, scaled_validation_data, layer_sizes, initialization, parameters, cost_function)
+#TrainAutoEncoder(scaled_training_data, scaled_validation_data, layer_sizes, initialization, parameters, cost_function)
 
 ##Full Graphs Output###########################################################
-using OutputLibrary
-reload("OutputLibrary")
-output_dir = "/Users/joeldacosta/Desktop/plots/mnist_2/"
-WriteOutputGraphs(network, rbm_records, ffn_records, validation_data, output_dir)
+#using OutputLibrary
+#reload("OutputLibrary")
+#output_dir = "/Users/joeldacosta/Desktop/plots/mnist_2/"
+#WriteOutputGraphs(network, rbm_records, ffn_records, validation_data, output_dir)
