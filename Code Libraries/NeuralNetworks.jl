@@ -93,8 +93,6 @@ function AddLayer(network::NeuralNetwork, layer::NetworkLayer)
     end
 end
 
-
-
 end
 
 #=Tests

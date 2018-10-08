@@ -13,21 +13,26 @@ function SigmoidPrime(x)
     return (act.*(1-act))
 end
 
-function SoftmaxActivation(x)
-    soft_den = sum(exp.(x))
-    return (exp.(x) ./ soft_den)
-end
-
 function ReluActivation(x)
     return (max.(0, x))
 end
 
-function NoisyReluActivation(x)
-    noisy_values = x + randn(size(x))
-    return(max.(0, noisy_values))
+function ReluPrime(x)
+    return (max.(0,x)./x)
 end
 
-FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime)
+function SoftmaxActivation(vals)
+    function Softmax(x)
+        num_x = (x .- maximum(x))
+        soft_den = sum(exp.(num_x))
+        return (exp.(num_x) ./ soft_den)
+    end
+
+    reduce(hcat, map(m -> Softmax(vals[m,:]), 1:size(vals,1)))'
+end
+
+
+FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime, ReluActivation=>ReluPrime)
 
 end
 
@@ -53,17 +58,74 @@ end
 
 module CostFunctions
 
-export MeanSquaredError, CrossEntropyError
+using ActivationFunctions
 
-function MeanSquaredError(y, y_hat)
-    return(sum((y - y_hat).^2)/size(y, 1))
+export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError
+
+abstract type CostFunction end
+
+type MeanSquaredError <: CostFunction
+
+    CalculateCost::Function
+    Delta::Function
+
+    function MeanSquaredError()
+        function cost_function(y, y_hat)
+            return(sum((y - y_hat).^2))/size(y, 1)
+        end
+
+        function delta_function(a, y, z_vals, activation)
+            derivative_activations = FunctionDerivatives[activation](z_vals)
+            return ((a-y).*derivative_activations)
+        end
+
+        return new(cost_function, delta_function)
+    end
 end
 
-function CrossEntropyError(y, y_hat)
-    one = y.*log.(e, y_hat)
-    two = (1.-y).*log.(e, 1.-y_hat)
-    n = size(y, 1)
-    return(-sum(one + two)/n)
+type CrossEntropyError <: CostFunction
+
+    CalculateCost::Function
+    Delta::Function
+
+    function CrossEntropyError()
+        function cost_function(y, y_hat)
+            one = y.*log.(e, y_hat)
+            two = (1.-y).*log.(e, 1.-y_hat)
+            n = size(y, 1)
+            return(-sum(one + two)/n)
+        end
+
+        function delta_function(a, y, z_vals, activation)
+            return (a-y)
+        end
+
+        return new(cost_function, delta_function)
+    end
+end
+
+type CategoricalCrossEntropyError <: CostFunction
+
+    CalculateCost::Function
+    Delta::Function
+
+    function CategoricalCrossEntropyError()
+        function cost_function(y, y_hat)
+            n = size(y, 1)
+            return(sum(map( i-> (-log.(e, y_hat[i,:])'[Bool.(y[i,:])]), 1:size(y)[1]))[1]/n)
+        end
+
+        function delta_function(a, y, z_vals, activation)
+            return (a-y)
+        end
+
+        return new(cost_function, delta_function)
+    end
 end
 
 end
+
+#y = [[1 0];[0 1]; [0 0]]'
+#y_hat = [[0.4 0.3]; [0.6 0.7]; [0.1 0.1]]'
+#sum(map( i-> (-log.(e, y_hat[i,:])'[Bool.(y[i,:])]), 1:size(y)[1]))[1]
+#-log(e, 0.4) + -log(e, 0.7)

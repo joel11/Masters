@@ -51,7 +51,6 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
         tic()
         epoch_data = data_b[(randperm(size(training_data)[1])),:]
         minibatch_errors = []
-        minibatch_crosserrors = []
         weight_change_rates = Array{Array{Float64,1},1}()
         hidden_activation_likelihoods = Array{Array{Float64,2},1}()
 
@@ -86,16 +85,14 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
 
             layer.weights += parameters.learning_rate .* momentum
 
-            push!(minibatch_errors, MeanSquaredError(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
-            push!(minibatch_crosserrors, CrossEntropyError(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
+            push!(minibatch_errors, MeanSquaredError().CalculateCost(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
         end
 
-        validation_error = MeanSquaredError(validation_data, ReconstructVisible(layer, validation_data))
+        validation_error = MeanSquaredError().CalculateCost(validation_data, ReconstructVisible(layer, validation_data))
 
         push!(epoch_records, EpochRecord(i,
                                         mean(minibatch_errors),
                                         validation_error,
-                                        mean(minibatch_crosserrors),
                                         toc(),
                                         CalculateEpochFreeEnergy(layer, training_data, validation_data),
                                         NeuralNetwork(CopyLayer(layer)),

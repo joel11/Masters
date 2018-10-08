@@ -1,21 +1,12 @@
 module SGD
 
-using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, RBM,  AutoEncoder, CostFunctions, FFN
+using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, RBM,  CostFunctions, FFN
 
-export RunSGD, TrainFFNNetwork
+export RunSGD
 
-function TrainFFNNetwork(training_data, validation_data, layer_sizes::Array{Int64}, initialization::Function, parameters::TrainingParameters, cost_function)
-    activation_functions = GenerateActivationFunctions(length(layer_sizes))
-    rbm_network, rbm_records = TrainRBMNetwork(training_data, validation_data, layer_sizes, activation_functions, initialization, parameters)
-    sgd_records = RunSGD(training_data, validation_data, rbm_network, parameters, cost_function)
+function RunSGD(training_input, training_output, validation_input, validation_output,  network::NeuralNetwork, parameters::TrainingParameters, cost_function)
 
-    return (rbm_network, rbm_records, sgd_records)
-end
-
-
-function RunSGD(training_input, training_output, validation_inout, validation_output,  network::NeuralNetwork, parameters::TrainingParameters, cost_function::Function)
-
-    number_batches = Int64.(floor(size(training_data)[1]/parameters.minibatch_size))
+    number_batches = Int64.(floor(size(training_input)[1]/parameters.minibatch_size))
     epoch_records = Array{EpochRecord}(0)
 
     for i in 1:(parameters.max_ffn_epochs)
@@ -23,7 +14,7 @@ function RunSGD(training_input, training_output, validation_inout, validation_ou
         minibatch_errors = []
         weight_change_rates = Array{Array{Float64,1},1}()
 
-        epoch_order = randperm(size(training_data)[1])
+        epoch_order = randperm(size(training_input)[1])
         epoch_input = training_input[epoch_order,:]
         epoch_output = training_output[epoch_order,:]
 
@@ -32,8 +23,19 @@ function RunSGD(training_input, training_output, validation_inout, validation_ou
             minibatch_ouput = epoch_output[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
 
             activations = Feedforward(network, minibatch_input)
-            lambdas = CalculateLambdaErrors(network, activations, minibatch_ouput)
+            lambdas = CalculateLambdaErrors(network, activations, minibatch_ouput, cost_function)
             weight_changes = CalculateWeightChanges(activations, lambdas)
+
+            #if m > 600 && m < 800
+            #    println(m)
+            #    println("activations")
+            #    println(mean(activations[end]))
+            #    println("lambdas")
+            #    println(mean(lambdas[end]))
+            #    println("weight changes")
+            #    println(mean(weight_changes[end]))
+            #end
+
 
             for l in 1:length(network.layers)
                 network.layers[l].weights -= parameters.learning_rate .* weight_changes[l]   #.* momentum
@@ -43,23 +45,25 @@ function RunSGD(training_input, training_output, validation_inout, validation_ou
 
             #Weight Change Rate
             if m % 100 == 0
-                push!(weight_change_rates, map((x, y) -> mean(x[2:end,2:end] ./ y[2:end,2:end]), weight_changes, map(x -> x.weights, network.layers)))
+                wc = map((x, y) -> mean(x[2:end,2:end] ./ y[2:end,2:end]), weight_changes, map(x -> x.weights, network.layers))
+                #println(wc)
+                push!(weight_change_rates, wc)
             end
 
             #momentum = parameters.momentum_rate .* momentum_old + (1 - parameters.momentum_rate) .* weight_change
             #momentum_old = momentum
 
-            push!(minibatch_errors, cost_function(minibatch_ouput, new_activations))
+            push!(minibatch_errors, cost_function.CalculateCost(minibatch_ouput, new_activations))
         end
 
-        validation_estimations = Feedforward(network, validation_data)[end]
-        oos_error = cost_function(validation_data, validation_estimations)
-        ce_error = CrossEntropyError(validation_data, validation_estimations)
+        validation_estimations = Feedforward(network, validation_input)[end]
+        oos_error = cost_function.CalculateCost(validation_output, validation_estimations)
+
+#        print(weight_change_rates)
 
         push!(epoch_records, EpochRecord(i,
                                         mean(minibatch_errors),
                                         oos_error,
-                                        ce_error,
                                         toc(),
                                         0.0,
                                         CopyNetwork(network),
@@ -97,12 +101,12 @@ function CalculateZVal(weights, previous_activation)
     return (bias_vals * weights)
 end
 
-function CalculateLambdaErrors(network::NeuralNetwork, activations, training_output)
+function CalculateLambdaErrors(network::NeuralNetwork, activations, training_output, cost_function)
     layers = network.layers
     error = activations[end] - training_output
     z_vals = CalculateZVal(layers[end].weights, activations[(end-1)])
-    derivative_activations = FunctionDerivatives[layers[end].activation](z_vals)
-    lambda_L = error .* derivative_activations
+    #derivative_activations = FunctionDerivatives[layers[end].activation](z_vals)
+    lambda_L =  cost_function.Delta(activations[end], training_output, z_vals, layers[end].activation)# derivative_activations)
     lambdas = [lambda_L]
 
     for i in (length(layers)-1):-1:1
