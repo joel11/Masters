@@ -100,7 +100,9 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
                                         hidden_activation_likelihoods
                                         ))
 
-        PrintEpoch(epoch_records[end])
+        if parameters.verbose
+            PrintEpoch(epoch_records[end])
+        end
 
         if parameters.stopping_function(epoch_records)
             break

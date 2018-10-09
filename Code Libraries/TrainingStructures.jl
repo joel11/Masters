@@ -12,7 +12,7 @@ type TrainingParameters
     max_rbm_epochs::Int64
     max_ffn_epochs::Int64
     stopping_function
-
+    verbose
 end
 
 type EpochRecord

@@ -26,17 +26,6 @@ function RunSGD(training_input, training_output, validation_input, validation_ou
             lambdas = CalculateLambdaErrors(network, activations, minibatch_ouput, cost_function)
             weight_changes = CalculateWeightChanges(activations, lambdas)
 
-            #if m > 600 && m < 800
-            #    println(m)
-            #    println("activations")
-            #    println(mean(activations[end]))
-            #    println("lambdas")
-            #    println(mean(lambdas[end]))
-            #    println("weight changes")
-            #    println(mean(weight_changes[end]))
-            #end
-
-
             for l in 1:length(network.layers)
                 network.layers[l].weights -= parameters.learning_rate .* weight_changes[l]   #.* momentum
             end
@@ -71,7 +60,9 @@ function RunSGD(training_input, training_output, validation_input, validation_ou
                                         Array{Array{Float64,2},1}()
                                         ))
 
-        PrintEpoch(epoch_records[end])
+        if parameters.verbose
+            PrintEpoch(epoch_records[end])
+        end
 
         if parameters.stopping_function(epoch_records)
             break
