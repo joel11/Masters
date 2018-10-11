@@ -4,9 +4,9 @@ using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStru
 
 export RunSGD
 
-function RunSGD(training_input, training_output, validation_input, validation_output,  network::NeuralNetwork, parameters::TrainingParameters, cost_function)
+function RunSGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingParameters, cost_function)
 
-    number_batches = Int64.(floor(size(training_input)[1]/parameters.minibatch_size))
+    number_batches = Int64.(floor(size(dataset.training_input)[1]/parameters.minibatch_size))
     epoch_records = Array{EpochRecord}(0)
 
     for i in 1:(parameters.max_ffn_epochs)
@@ -14,9 +14,9 @@ function RunSGD(training_input, training_output, validation_input, validation_ou
         minibatch_errors = []
         weight_change_rates = Array{Array{Float64,1},1}()
 
-        epoch_order = randperm(size(training_input)[1])
-        epoch_input = training_input[epoch_order,:]
-        epoch_output = training_output[epoch_order,:]
+        epoch_order = randperm(size(dataset.training_input)[1])
+        epoch_input = dataset.training_input[epoch_order,:]
+        epoch_output = dataset.training_output[epoch_order,:]
 
         for m in 1:number_batches
             minibatch_input = epoch_input[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
@@ -45,15 +45,15 @@ function RunSGD(training_input, training_output, validation_input, validation_ou
             push!(minibatch_errors, cost_function.CalculateCost(minibatch_ouput, new_activations))
         end
 
-        validation_estimations = Feedforward(network, validation_input)[end]
-        oos_error = cost_function.CalculateCost(validation_output, validation_estimations)
+        validation_estimations = Feedforward(network, dataset.validation_input)[end]
+        oos_error = cost_function.CalculateCost(dataset.validation_output, validation_estimations)
 
 #        print(weight_change_rates)
 
         push!(epoch_records, EpochRecord(i,
                                         mean(minibatch_errors),
                                         oos_error,
-                                        toc(),
+                                        toq(),
                                         0.0,
                                         CopyNetwork(network),
                                         weight_change_rates,

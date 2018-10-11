@@ -4,26 +4,26 @@ using RBM, NeuralNetworks, ActivationFunctions, InitializationFunctions, Trainin
 
 export TrainAutoEncoder, TrainFFNNetwork
 
-function TrainFFNNetwork(training_input, training_output, validation_input, validation_output, layer_sizes::Array{Int64}, layer_functions, initialization::Function, parameters::TrainingParameters, cost_function)
+function TrainFFNNetwork(dataset::DataSet, layer_sizes::Array{Int64}, layer_functions, initialization::Function, parameters::TrainingParameters, cost_function)
     activation_functions = GenerateActivationFunctions(length(layer_sizes))
-    rbm_network, rbm_records = TrainRBMNetwork(training_input, validation_input, layer_sizes, activation_functions, initialization, parameters)
+    rbm_network, rbm_records = TrainRBMNetwork(dataset, layer_sizes, activation_functions, initialization, parameters)
 
     ApplyActivationFunctions(rbm_network, layer_functions)
 
-    sgd_records = RunSGD(training_input, training_output, validation_input, validation_output, rbm_network, parameters, cost_function)
+    sgd_records = RunSGD(dataset, rbm_network, parameters, cost_function)
 
     return (rbm_network, rbm_records, sgd_records)
 end
 
-function TrainAutoEncoder(training_input, validation_input, layer_sizes::Array{Int64}, layer_functions, initialization::Function, parameters::TrainingParameters, cost_function)
+function TrainAutoEncoder(dataset::DataSet, layer_sizes::Array{Int64}, layer_functions, initialization::Function, parameters::TrainingParameters, cost_function)
     activation_functions = GenerateActivationFunctions(length(layer_sizes))
-    rbm_network, rbm_records = TrainRBMNetwork(training_input, validation_input, layer_sizes, activation_functions, initialization, parameters)
+    rbm_network, rbm_records = TrainRBMNetwork(dataset, layer_sizes, activation_functions, initialization, parameters)
 
     AddDecoder(rbm_network, initialization)
     ApplyActivationFunctions(rbm_network, layer_functions)
 
     rbm_network.layers[length(layer_functions)].activation = layer_functions[end]
-    sgd_records = RunSGD(training_input, training_input, validation_input, validation_input, rbm_network, parameters, cost_function)
+    sgd_records = RunSGD(dataset, rbm_network, parameters, cost_function)
     autoencoder = rbm_network#GetAutoencoder(rbm_network)
     return (autoencoder, rbm_records, sgd_records)
 end

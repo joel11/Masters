@@ -2,7 +2,14 @@ module TrainingStructures
 
 using NeuralNetworks
 
-export TrainingParameters, EpochRecord, PrintEpoch
+export TrainingParameters, EpochRecord, PrintEpoch, DataSet
+
+type DataSet
+    training_input::Array{Float64,2}
+    validation_input::Array{Float64,2}
+    training_output::Array{Float64,2}
+    validation_output::Array{Float64,2}
+end
 
 type TrainingParameters
 

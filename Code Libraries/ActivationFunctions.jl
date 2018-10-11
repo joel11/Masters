@@ -13,6 +13,14 @@ function SigmoidPrime(x)
     return (act.*(1-act))
 end
 
+function LinearActivation(x)
+    return (x)
+end
+
+function LinearPrime(x)
+    return 1
+end
+
 function ReluActivation(x)
     return (max.(0, x))
 end
@@ -32,7 +40,7 @@ function SoftmaxActivation(vals)
 end
 
 
-FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime, ReluActivation=>ReluPrime)
+FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime, ReluActivation=>ReluPrime, LinearActivation=>LinearPrime)
 
 end
 
@@ -60,7 +68,7 @@ module CostFunctions
 
 using ActivationFunctions
 
-export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError
+export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError, LoglikelihoodError
 
 abstract type CostFunction end
 
@@ -104,12 +112,12 @@ type CrossEntropyError <: CostFunction
     end
 end
 
-type CategoricalCrossEntropyError <: CostFunction
+type LoglikelihoodError <: CostFunction
 
     CalculateCost::Function
     Delta::Function
 
-    function CategoricalCrossEntropyError()
+    function LoglikelihoodError()
         function cost_function(y, y_hat)
             n = size(y, 1)
             return(sum(map( i-> (-log.(e, y_hat[i,:])'[Bool.(y[i,:])]), 1:size(y)[1]))[1]/n)

@@ -18,16 +18,16 @@ end
 
 #Training Methods #############################################################
 
-function TrainRBMNetwork(training_data::Array{Float64,2}, validation_data::Array{Float64,2}, layer_sizes::Array{Int64}, activation_functions, initialization::Function, parameters::TrainingParameters)
+function TrainRBMNetwork(dataset::DataSet, layer_sizes::Array{Int64}, activation_functions, initialization::Function, parameters::TrainingParameters)
 
     layer = CreateRBMLayer(layer_sizes[1], layer_sizes[2], activation_functions[1], initialization)
-    epoch_records = [TrainRBMLayer(training_data, validation_data, layer, parameters)]
+    epoch_records = [TrainRBMLayer(dataset.training_input, dataset.validation_input, layer, parameters)]
     RemoveBackwardsBias(layer)
     network = NeuralNetwork([layer])
 
     for i in 2:(length(layer_sizes)-1)
-        processed_training_data = Feedforward(network, training_data)[end]
-        processed_validation_data = Feedforward(network, validation_data)[end]
+        processed_training_data = Feedforward(network, dataset.training_input)[end]
+        processed_validation_data = Feedforward(network, dataset.validation_input)[end]
 
         next_layer = CreateRBMLayer(layer_sizes[i], layer_sizes[(i+1)], activation_functions[i], initialization)
         new_epoch_records = TrainRBMLayer(processed_training_data, processed_validation_data, next_layer, parameters)
@@ -39,17 +39,17 @@ function TrainRBMNetwork(training_data::Array{Float64,2}, validation_data::Array
     return (network, epoch_records)
 end
 
-function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.NetworkLayer, parameters::TrainingParameters)
+function TrainRBMLayer(training_input::Array{Float64,2}, validation_input::Array{Float64,2}, layer::NeuralNetworks.NetworkLayer, parameters::TrainingParameters)
 
-    data_b = hcat(fill(1.0, size(training_data,1)), training_data)
-    number_batches = Int64.(floor(size(training_data)[1]/parameters.minibatch_size))
+    data_b = hcat(fill(1.0, size(training_input,1)), training_input)
+    number_batches = Int64.(floor(size(training_input)[1]/parameters.minibatch_size))
     momentum_old = zeros(layer.weights)
     epoch_records = Array{EpochRecord}(0)
 
     for i in 1:(parameters.max_rbm_epochs)
 
         tic()
-        epoch_data = data_b[(randperm(size(training_data)[1])),:]
+        epoch_data = data_b[(randperm(size(training_input)[1])),:]
         minibatch_errors = []
         weight_change_rates = Array{Array{Float64,1},1}()
         hidden_activation_likelihoods = Array{Array{Float64,2},1}()
@@ -88,13 +88,13 @@ function TrainRBMLayer(training_data, validation_data, layer::NeuralNetworks.Net
             push!(minibatch_errors, MeanSquaredError().CalculateCost(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
         end
 
-        validation_error = MeanSquaredError().CalculateCost(validation_data, ReconstructVisible(layer, validation_data))
+        validation_error = CrossEntropyError().CalculateCost(validation_input, ReconstructVisible(layer, validation_input))
 
         push!(epoch_records, EpochRecord(i,
                                         mean(minibatch_errors),
                                         validation_error,
-                                        toc(),
-                                        CalculateEpochFreeEnergy(layer, training_data, validation_data),
+                                        toq(),
+                                        CalculateEpochFreeEnergy(layer, training_input, validation_input),
                                         NeuralNetwork(CopyLayer(layer)),
                                         weight_change_rates,
                                         hidden_activation_likelihoods
