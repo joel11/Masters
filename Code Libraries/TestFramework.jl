@@ -8,9 +8,24 @@ using SGD, CostFunctions, StoppingFunctions, FFN
 using AutomatedTests
 using MNISTData
 
-srand(1234)
+
 dataset = GenerateData()
-#AutomatedTests.RunTests(dataset)
+AutomatedTests.RunTests(dataset)
+
+srand(1234)
+layer_sizes = [784, 100, 10]
+layer_functions = [SigmoidActivation, SigmoidActivation]
+parameters = TrainingParameters(0.5, 10, 0.0,  0, 30, NonStopping, true, true, 0.0, 5.0)
+cost_function = LoglikelihoodError()
+initialization = InitializationFunctions.XavierGlorotUniformInit
+
+network, rbm_records, ffn_records = TrainFFNNetwork(dataset, layer_sizes, layer_functions, initialization, parameters, cost_function)
+prediction_acc = PredictionAccuracy(network, dataset)
+
+#using OutputLibrary
+#reload("OutputLibrary")
+#WriteFFNGraphs(ffn_records, "/Users/joeldacosta/Desktop/")
+
 
 
 ##RBM Testing ################################################################################
@@ -29,16 +44,16 @@ dataset = GenerateData()
 #############################################################################################
 
 ##AutoEncoder Testing########################################################################
-srand(1080)
-layer_sizes = [784, 500, 500, 2000, 10]
-layer_functions = [SigmoidActivation, SigmoidActivation, SigmoidActivation, SoftmaxActivation]
-cost_function = LoglikelihoodError()
+#srand(1080)
+#layer_sizes = [784, 500, 500, 2000, 10]
+#layer_functions = [SigmoidActivation, SigmoidActivation, SigmoidActivation, SoftmaxActivation]
+#cost_function = LoglikelihoodError()
 
-parameters = TrainingParameters(0.1, 30, 0.0, 0, 20, NonStopping, true)
-initialization = InitializationFunctions.XavierGlorotUniformInit
+#parameters = TrainingParameters(0.1, 30, 0.0, 0, 20, NonStopping, true)
+#initialization = InitializationFunctions.XavierGlorotUniformInit
 
-network, rbm_records, ffn_records = TrainFFNNetwork(dataset, layer_sizes, layer_functions, initialization, parameters, cost_function)
-PredictionAccuracy(network, dataset)
+#network, rbm_records, ffn_records = TrainFFNNetwork(dataset, layer_sizes, layer_functions, initialization, parameters, cost_function)
+#PredictionAccuracy(network, dataset)
 
 #RBM 3, epoch 10: 9779
 #RBM 1, epoch 10: 9763

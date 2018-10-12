@@ -5,7 +5,31 @@ using TrainingStructures,  FFN, RBM, NeuralNetworks
 using Plots
 plotlyjs()
 
-export WriteOutputGraphs, PlotRBMInputOutput
+export WriteOutputGraphs, PlotRBMInputOutput, WriteFFNGraphs
+
+function WriteFFNGraphs(ffn_records, output_dir)
+
+    if !isdir(output_dir)
+        mkdir(output_dir)
+    end
+
+    training_cost = TrainingCost(ffn_records)
+    testing_cost = TestingCost(ffn_records)
+    minibatch_cost = MinibatchCost(ffn_records)
+    max_y =  max(maximum(minibatch_cost[:, 2]), maximum(testing_cost[:,2]), maximum(training_cost[:,2])) + 1
+
+    pa_plot = plot(training_cost[:,2], ylims = (0, max_y), labels = "Training Values", ylabel = "Cost Values", xlabel = "Epoch")
+    plot!(pa_plot, testing_cost[:,2],  labels = "Testing Values")
+    plot!(pa_plot, minibatch_cost[:,2],  labels = "Minibatch Values")
+
+    training_acc = TrainingAccuracy(ffn_records)
+    testing_acc = TestingAccuracy(ffn_records)
+
+    acc_plot = plot(training_acc[:,2], ylims = (0, 1), labels = "Training Accuracy", ylabel = "Accuracy Values", xlabel = "Epoch")
+    plot!(acc_plot, testing_acc[:,2],  labels = "Testing Accuracy")
+
+    savefig(plot(pa_plot, acc_plot, layout = 2, size = (800,800)), string(output_dir , "FFNGraphs.html"))
+end
 
 function WriteOutputGraphs(network, rbm_records, ffn_records, validation_data, output_dir)
 
@@ -149,7 +173,6 @@ end
 
 ################################################################################
 
-
 function PlotEpochLines(rbm_records, ffn_records, value_function, ylab)
     rbm_values = CatEpochAttributes(rbm_records, value_function)
     ffn_values = value_function(ffn_records)
@@ -198,6 +221,27 @@ function WeightRateChanges(records::Array{EpochRecord,1})
     end
     return(reduce(vcat,map((x, y) -> [fill(x, size(y)[1]) y], (1:size(records)[1]), map(NumberWeightChanges, records))))
 end
+
+function MinibatchCost(records::Array{EpochRecord,1})
+    return(reduce(vcat,map(x -> [x.epoch_number x.mean_minibatch_cost], records)))
+end
+
+function TrainingCost(records::Array{EpochRecord,1})
+    return(reduce(vcat,map(x -> [x.epoch_number x.training_cost], records)))
+end
+
+function TestingCost(records::Array{EpochRecord,1})
+    return(reduce(vcat,map(x -> [x.epoch_number x.test_cost], records)))
+end
+
+function TrainingAccuracy(records::Array{EpochRecord,1})
+    return(reduce(vcat,map(x -> [x.epoch_number x.training_accuracy], records)))
+end
+
+function TestingAccuracy(records::Array{EpochRecord,1})
+    return(reduce(vcat,map(x -> [x.epoch_number x.test_accuracy], records)))
+end
+
 
 function MeanCostErrors(records::Array{EpochRecord,1})
     return(reduce(vcat,map(x -> [x.epoch_number x.mean_cost_error], records)))

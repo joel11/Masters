@@ -21,16 +21,16 @@ end
 function TrainRBMNetwork(dataset::DataSet, layer_sizes::Array{Int64}, activation_functions, initialization::Function, parameters::TrainingParameters)
 
     layer = CreateRBMLayer(layer_sizes[1], layer_sizes[2], activation_functions[1], initialization)
-    epoch_records = [TrainRBMLayer(dataset.training_input, dataset.validation_input, layer, parameters)]
+    epoch_records = [TrainRBMLayer(dataset.training_input, dataset.testing_input, layer, parameters)]
     RemoveBackwardsBias(layer)
     network = NeuralNetwork([layer])
 
     for i in 2:(length(layer_sizes)-1)
         processed_training_data = Feedforward(network, dataset.training_input)[end]
-        processed_validation_data = Feedforward(network, dataset.validation_input)[end]
+        processed_testing_data = Feedforward(network, dataset.testing_input)[end]
 
         next_layer = CreateRBMLayer(layer_sizes[i], layer_sizes[(i+1)], activation_functions[i], initialization)
-        new_epoch_records = TrainRBMLayer(processed_training_data, processed_validation_data, next_layer, parameters)
+        new_epoch_records = TrainRBMLayer(processed_training_data, processed_testing_data, next_layer, parameters)
         push!(epoch_records, new_epoch_records)
         RemoveBackwardsBias(next_layer)
         AddLayer(network, next_layer)
@@ -39,7 +39,91 @@ function TrainRBMNetwork(dataset::DataSet, layer_sizes::Array{Int64}, activation
     return (network, epoch_records)
 end
 
-function TrainRBMLayer(training_input::Array{Float64,2}, validation_input::Array{Float64,2}, layer::NeuralNetworks.NetworkLayer, parameters::TrainingParameters)
+function Contrastive_Divergence1(network::NeuralNetwork,)
+
+end
+
+function TrainRBMLayer(training_input::Array{Float64,2}, testing_input::Array{Float64,2}, layer::NeuralNetworks.NetworkLayer, parameters::TrainingParameters)
+
+    data_b = hcat(fill(1.0, size(training_input,1)), training_input)
+    number_batches = Int64.(floor(size(training_input)[1]/parameters.minibatch_size))
+    momentum_old = zeros(layer.weights)
+    epoch_records = Array{EpochRecord}(0)
+
+    for i in 1:(parameters.max_rbm_epochs)
+
+        tic()
+        epoch_data = data_b[(randperm(size(training_input)[1])),:]
+        minibatch_errors = []
+        weight_change_rates = Array{Array{Float64,1},1}()
+        hidden_activation_likelihoods = Array{Array{Float64,2},1}()
+
+        for m in 1:number_batches
+
+            minibatch_data = epoch_data[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
+
+            #Calc Pos CD
+            activations = minibatch_data * layer.weights
+            activation_probabilities = layer.activation(activations)
+            activation_probabilities[:,1] = 1 #Fix Bias
+            hidden_states = activation_probabilities .> rand(Uniform(0, 1), size(activation_probabilities,1), size(activation_probabilities,2))
+            pos_cd = minibatch_data'*activation_probabilities
+
+            #Calc Neg CD
+            vis_activations = hidden_states * layer.weights'
+            vis_activation_probabilities = layer.activation(vis_activations)
+            vis_activation_probabilities[:,1] = 1 #Fix Bias
+            neg_hidden_states = vis_activation_probabilities * layer.weights
+            neg_hidden_probs = layer.activation(neg_hidden_states)
+            neg_cd = vis_activation_probabilities'*neg_hidden_probs
+
+            #Weight Change
+            #weight_change = parameters.learning_rate * ((pos_cd - neg_cd) / size(minibatch_data, 1))
+            weight_change = ((pos_cd - neg_cd) / size(minibatch_data, 1))
+            if m % 1000 == 0
+                push!(weight_change_rates, [mean(weight_change[2:end,2:end] ./ layer.weights[2:end,2:end])])
+                push!(hidden_activation_likelihoods, activation_probabilities)
+            end
+
+            momentum = parameters.momentum_rate .* momentum_old + (1 - parameters.momentum_rate) .* weight_change
+            momentum_old = momentum
+
+            layer.weights += parameters.learning_rate .* momentum
+
+            push!(minibatch_errors, MeanSquaredError().CalculateCost(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
+        end
+
+        training_error = MeanSquaredError().CalculateCost(training_input, ReconstructVisible(layer, training_input))
+        testing_error = MeanSquaredError().CalculateCost(testing_input, ReconstructVisible(layer, testing_input))
+
+        #epoch_number, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods
+
+        push!(epoch_records, EpochRecord(i,
+                                        mean(minibatch_errors),
+                                        training_error,
+                                        testing_error,
+                                        0.0,
+                                        0.0,
+                                        CalculateEpochFreeEnergy(layer, training_input, testing_input),
+                                        toq(),
+                                        NeuralNetwork(CopyLayer(layer)),
+                                        weight_change_rates,
+                                        hidden_activation_likelihoods
+                                        ))
+
+        if parameters.verbose
+            PrintEpoch(epoch_records[end])
+        end
+
+        if parameters.stopping_function(epoch_records)
+            break
+        end
+    end
+
+    return (epoch_records)
+end
+
+function TrainRBMLayerOld(training_input::Array{Float64,2}, testing_input::Array{Float64,2}, layer::NeuralNetworks.NetworkLayer, parameters::TrainingParameters)
 
     data_b = hcat(fill(1.0, size(training_input,1)), training_input)
     number_batches = Int64.(floor(size(training_input)[1]/parameters.minibatch_size))
@@ -88,13 +172,19 @@ function TrainRBMLayer(training_input::Array{Float64,2}, validation_input::Array
             push!(minibatch_errors, MeanSquaredError().CalculateCost(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
         end
 
-        validation_error = CrossEntropyError().CalculateCost(validation_input, ReconstructVisible(layer, validation_input))
+        training_error = MeanSquaredError().CalculateCost(training_input, ReconstructVisible(layer, training_input))
+        testing_error = MeanSquaredError().CalculateCost(testing_input, ReconstructVisible(layer, testing_input))
+
+        #epoch_number, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods
 
         push!(epoch_records, EpochRecord(i,
                                         mean(minibatch_errors),
-                                        validation_error,
+                                        training_error,
+                                        testing_error,
+                                        0.0,
+                                        0.0,
+                                        CalculateEpochFreeEnergy(layer, training_input, testing_input),
                                         toq(),
-                                        CalculateEpochFreeEnergy(layer, training_input, validation_input),
                                         NeuralNetwork(CopyLayer(layer)),
                                         weight_change_rates,
                                         hidden_activation_likelihoods
@@ -164,12 +254,12 @@ function CalculateFreeEnergy(net::NeuralNetworks.NetworkLayer, data)
     return (F)
 end
 
-function CalculateEpochFreeEnergy(net::NeuralNetworks.NetworkLayer, training_data, validation_data)
-    subset_size = Int64.(floor(size(validation_data,1)/10))
+function CalculateEpochFreeEnergy(net::NeuralNetworks.NetworkLayer, training_data, testing_data)
+    subset_size = Int64.(floor(size(testing_data,1)/10))
     training_free_energy = CalculateFreeEnergy(net, training_data[1:subset_size, :])
-    validation_free_energy = CalculateFreeEnergy(net, validation_data[1:subset_size, :])
+    testing_free_energy = CalculateFreeEnergy(net, testing_data[1:subset_size, :])
 
-    return (mean(validation_free_energy)/mean(training_free_energy))
+    return (mean(testing_free_energy)/mean(training_free_energy))
 end
 
 end

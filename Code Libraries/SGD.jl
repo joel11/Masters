@@ -25,9 +25,13 @@ function RunSGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingPa
             activations = Feedforward(network, minibatch_input)
             lambdas = CalculateLambdaErrors(network, activations, minibatch_ouput, cost_function)
             weight_changes = CalculateWeightChanges(activations, lambdas)
+            N = size(dataset.training_input)[1]
 
             for l in 1:length(network.layers)
-                network.layers[l].weights -= parameters.learning_rate .* weight_changes[l]   #.* momentum
+                network.layers[l].weights = (network.layers[l].weights .* CalculateL2Penalization(parameters, N)
+                                            - parameters.learning_rate .* weight_changes[l]
+                                            - CalculateL1Penalization(parameters, N, network.layers[l].weights))
+
             end
 
             new_activations = Feedforward(network, minibatch_input)[end]
@@ -35,26 +39,29 @@ function RunSGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingPa
             #Weight Change Rate
             if m % 100 == 0
                 wc = map((x, y) -> mean(x[2:end,2:end] ./ y[2:end,2:end]), weight_changes, map(x -> x.weights, network.layers))
-                #println(wc)
                 push!(weight_change_rates, wc)
             end
-
-            #momentum = parameters.momentum_rate .* momentum_old + (1 - parameters.momentum_rate) .* weight_change
-            #momentum_old = momentum
 
             push!(minibatch_errors, cost_function.CalculateCost(minibatch_ouput, new_activations))
         end
 
-        validation_estimations = Feedforward(network, dataset.validation_input)[end]
-        oos_error = cost_function.CalculateCost(dataset.validation_output, validation_estimations)
 
-#        print(weight_change_rates)
+        IS_error = cost_function.CalculateCost(dataset.training_output, Feedforward(network, dataset.training_input)[end])
+        OOS_error = cost_function.CalculateCost(dataset.testing_output, Feedforward(network, dataset.testing_input)[end])
+
+        IS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
+        OOS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0
+
+        #epoch_number, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods
 
         push!(epoch_records, EpochRecord(i,
                                         mean(minibatch_errors),
-                                        oos_error,
-                                        toq(),
+                                        IS_error,
+                                        OOS_error,
+                                        IS_accuracy,
+                                        OOS_accuracy,
                                         0.0,
+                                        toq(),
                                         CopyNetwork(network),
                                         weight_change_rates,
                                         Array{Array{Float64,2},1}()
@@ -112,8 +119,25 @@ function CalculateLambdaErrors(network::NeuralNetwork, activations, training_out
     return(ReverseVector(lambdas))
 end
 
+function CalculateL2Penalization(parameters, N)
+    l2pen =  (1 - parameters.learning_rate * parameters.l2_lambda /N)
+    return (l2pen)
+end
+
+function CalculateL1Penalization(parameters, N, weights)
+    l1pen = ((parameters.learning_rate * parameters.l1_lambda / N) .* sign(weights))
+    return (l1pen)
+end
+
 function ReverseVector(vector)
     return(vector[(length(vector):-1:1)])
+end
+
+function PredictionAccuracy(network, input, output)
+    validation_pred = Feedforward(network, input)[end]
+    predictions = reduce(hcat, map(i -> Int64.(validation_pred[i, :] .== maximum(validation_pred[i, :])), 1:size(validation_pred)[1]))'
+    correct_predictions = sum(Int64.(map(i -> predictions[i, :] == output[i,:], 1:size(output)[1])))
+    return(correct_predictions/size(output)[1])
 end
 
 end
