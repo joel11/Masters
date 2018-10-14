@@ -161,4 +161,78 @@ function OverfittingExample(dataset, output_dir)
     WriteFFNGraphs(ffn_records, output_dir)
 end
 
+function PretrainingTests(dataset)
+    ##Pretraining Testing########################################################################
+
+    srand(1080)
+    #network_parameters = NetworkParameters([784, 500, 500, 2000, 10], [SigmoidActivation, SigmoidActivation, SigmoidActivation, SoftmaxActivation]
+    network_parameters = NetworkParameters([784, 250, 250, 500, 10], [SigmoidActivation, SigmoidActivation, SigmoidActivation, SoftmaxActivation]
+        , InitializationFunctions.XavierGlorotUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 1, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    prediction_acc = PredictionAccuracy(network, dataset)
+    #9690
+
+    ############################################################
+    srand(1080)
+    network_parameters = NetworkParameters([784, 250, 250, 500, 10], [ReluActivation, ReluActivation, ReluActivation, SoftmaxActivation]
+        , InitializationFunctions.HeUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    prediction_acc = PredictionAccuracy(network, dataset)
+    #9797
+
+    ############################################################
+    srand(1080)
+    network_parameters = NetworkParameters([784, 250, 250, 500, 10], [SigmoidActivation, SigmoidActivation, SigmoidActivation, SoftmaxActivation]
+        , InitializationFunctions.XavierGlorotUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    prediction_acc = PredictionAccuracy(network, dataset)
+    #9529
+
+    ############################################################
+    srand(1080)
+    network_parameters = NetworkParameters([784, 250, 250, 500, 10], [SigmoidActivation, SigmoidActivation, SigmoidActivation, SoftmaxActivation]
+        , InitializationFunctions.HintonUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    prediction_acc = PredictionAccuracy(network, dataset)
+    #5241
+
+    ############################################################
+    srand(1080)
+    network_parameters = NetworkParameters([784, 250, 250, 500, 10], [SigmoidActivation, SigmoidActivation, SigmoidActivation, SoftmaxActivation]
+        , InitializationFunctions.HintonUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 1, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    prediction_acc = PredictionAccuracy(network, dataset)
+    #9708
+
+    ############################################################
+    srand(1080)
+    network_parameters = NetworkParameters([784, 250, 250, 500, 10], [SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation]
+        , InitializationFunctions.HintonUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 1, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    prediction_acc = PredictionAccuracy(network, dataset)
+    #9731
+
+    ############################################################
+    srand(1080)
+    network_parameters = NetworkParameters([784, 250, 250, 500, 10], [SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation]
+        , InitializationFunctions.HintonUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    prediction_acc = PredictionAccuracy(network, dataset)
+    #5954
+end
+
 end

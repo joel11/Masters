@@ -15,7 +15,7 @@ function CalculateL2Penalization(parameters, N)
 end
 
 function CalculateL1Penalization(parameters, N, weights)
-    l1pen = ((parameters.learning_rate * parameters.l1_lambda / N) .* sign(weights))
+    l1pen = ((parameters.learning_rate * parameters.l1_lambda / N) .* sign.(weights))
     return (l1pen)
 end
 
