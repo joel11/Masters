@@ -1,8 +1,8 @@
 module TrainingStructures
 
-using NeuralNetworks
+using NeuralNetworks, CostFunctions
 
-export TrainingParameters, EpochRecord, PrintEpoch, DataSet
+export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters
 
 type DataSet
     training_input::Array{Float64,2}
@@ -19,14 +19,21 @@ type TrainingParameters
     learning_rate::Float64
     minibatch_size::Int64
     momentum_rate::Float64
-    max_rbm_epochs::Int64
-    max_ffn_epochs::Int64
+    max_epochs::Int64
     stopping_function
     verbose::Bool
     is_classification::Bool
 
     l1_lambda::Float64
     l2_lambda::Float64
+    cost_function::CostFunction
+end
+
+type NetworkParameters
+
+    layer_sizes::Array{Int64}
+    layer_activations::Array{Function}
+    initialization::Function
 end
 
 type EpochRecord

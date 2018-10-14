@@ -82,7 +82,7 @@ function PlotRBMInputOutput(rbm_records, validation, number_samples, output_dir)
 
     for l in 1:length(rbm_records)
         layer_network = NeuralNetwork(map(l -> rbm_records[l][max_epoch].network.layers[1], 1:l))
-        output = ReconstructVisible(layer_network, validation)
+        output = ReconstructVisible(layer_network, samples)
 
         pairs = map(i -> (hcat(samples[i,:], output[i,:])), 1:number_samples)
         combos = reduce(hcat, pairs)

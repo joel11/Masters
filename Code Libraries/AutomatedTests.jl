@@ -4,7 +4,7 @@ using RBM
 using NeuralNetworks
 using ActivationFunctions, InitializationFunctions, NetworkTrainer
 using TrainingStructures
-using SGD, CostFunctions, StoppingFunctions, FFN
+using SGD, CostFunctions, StoppingFunctions, FFN, OGD
 
 export PredictionAccuracy
 
@@ -17,35 +17,28 @@ end
 
 function FFNClassification_SigmoidLLTest(dataset)
     srand(1234)
-    layer_sizes = [784, 60, 30, 10]
-    layer_functions = [SigmoidActivation, SigmoidActivation,  SigmoidActivation]
-    parameters = TrainingParameters(0.1, 30, 0.0,  2, 5, NonStopping, false, true, 0.0, 0.0)
-    cost_function = LoglikelihoodError()
-    initialization = InitializationFunctions.XavierGlorotUniformInit
-
-    network, rbm_records, ffn_records =
-    TrainFFNNetwork(dataset, layer_sizes, layer_functions, initialization, parameters, cost_function)
-
+    network_parameters = NetworkParameters([784, 15, 10], [SigmoidActivation, SigmoidActivation], InitializationFunctions.XavierGlorotUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 10, 0.0, 1, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    base_ffn_parm = TrainingParameters(2.1, 10, 0.0, 5, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parm)
     prediction_acc = PredictionAccuracy(network, dataset)
-    expected_value = 9233
+
+    expected_value = 9077
     pass = prediction_acc == expected_value
     println("FFNClassification_SigmoidLLTest $prediction_acc $expected_value $pass")
     return(pass)
 end
 
 function FFNClassification_SigmoidSoftmaxLLTest(dataset)
+
     srand(2345)
-    layer_sizes = [784, 60, 30, 10]
-    layer_functions = [SigmoidActivation, SigmoidActivation,  SoftmaxActivation]
-    parameters = TrainingParameters(0.1, 30, 0.0,  2, 5, NonStopping, false, true, 0.0, 0.0)
-    cost_function = LoglikelihoodError()
-    initialization = InitializationFunctions.XavierGlorotUniformInit
-
-    network, rbm_records, ffn_records =
-    TrainFFNNetwork(dataset, layer_sizes, layer_functions, initialization, parameters, cost_function)
-
+    rbm_parameters = TrainingParameters(0.1, 10, 0.0, 1, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    base_ffn_parm = TrainingParameters(1.1, 10, 0.0, 5, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network_parameters = NetworkParameters([784, 15, 10], [SigmoidActivation, SoftmaxActivation], InitializationFunctions.XavierGlorotUniformInit)
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parm)
     prediction_acc = PredictionAccuracy(network, dataset)
-    expected_value = 9212
+
+    expected_value = 9142
     pass = prediction_acc == expected_value
     println("FFNClassification_SigmoidSoftmaxLLTest $prediction_acc $expected_value $pass")
     return(pass)
@@ -53,18 +46,14 @@ end
 
 function FFNClassification_SigmoidMSETest(dataset)
 
-    srand(1080)
-    cost_function = MeanSquaredError()
-    layer_sizes = [784, 100,  10]
-    layer_functions = [SigmoidActivation, SigmoidActivation]
-    parameters = TrainingParameters(2.15, 30, 0.0,  1, 10, NonStopping, false, true, 0.0, 0.0)
-    initialization = InitializationFunctions.XavierGlorotUniformInit
-
-    network, rbm_records, ffn_records =
-    TrainFFNNetwork(dataset, layer_sizes, layer_functions, initialization, parameters, cost_function)
-
+    srand(3456)
+    rbm_parameters = TrainingParameters(0.1, 10, 0.0, 1, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    base_ffn_parm = TrainingParameters(3.6, 10, 0.0, 5, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    network_parameters = NetworkParameters([784, 15, 10], [SigmoidActivation, SigmoidActivation], InitializationFunctions.XavierGlorotUniformInit)
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parm)
     prediction_acc = PredictionAccuracy(network, dataset)
-    expected_value = 5757
+
+    expected_value = 7115
     pass = prediction_acc == expected_value
     println("FFNClassification_SigmoidMSETest $prediction_acc $expected_value $pass")
     return(pass)
@@ -73,18 +62,13 @@ end
 function FFNClassification_ReluSigmoidLLTest(dataset)
 
     srand(2180)
-
-    cost_function = LoglikelihoodError()
-    layer_sizes = [784, 100,  10]
-    layer_functions = [ReluActivation, SigmoidActivation]
-    parameters = TrainingParameters(0.1, 30, 0.0,  2, 5, NonStopping, false, true, 0.0, 0.0)
-    initialization = InitializationFunctions.XavierGlorotUniformInit
-
-    network, rbm_records, ffn_records =
-    TrainFFNNetwork(dataset, layer_sizes, layer_functions, initialization, parameters, cost_function)
-
+    network_parameters = NetworkParameters([784, 15, 10], [ReluActivation, SigmoidActivation], InitializationFunctions.HeNormalInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 4, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
     prediction_acc = PredictionAccuracy(network, dataset)
-    expected_value = 9366
+
+    expected_value = 9210
     pass = prediction_acc == expected_value
     println("FFNClassification_ReluSigmoidLLTest $prediction_acc $expected_value $pass")
     return(pass)
@@ -92,18 +76,14 @@ end
 
 function FFNClassification_ReluSoftmaxLLTest(dataset)
 
-    srand(3069)
-    cost_function = LoglikelihoodError()
-    layer_sizes = [784, 100,  10]
-    layer_functions = [ReluActivation, SoftmaxActivation]
-    parameters = TrainingParameters(0.1, 30, 0.0,  2, 5, NonStopping, false, true, 0.0, 0.0)
-    initialization = InitializationFunctions.XavierGlorotUniformInit
-
-    network, rbm_records, ffn_records =
-    TrainFFNNetwork(dataset, layer_sizes, layer_functions, initialization, parameters, cost_function)
-
+    srand(2181)
+    network_parameters = NetworkParameters([784, 15, 10], [ReluActivation, SoftmaxActivation], InitializationFunctions.HeNormalInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 3, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
     prediction_acc = PredictionAccuracy(network, dataset)
-    expected_value = 9275
+
+    expected_value = 9309
     pass = prediction_acc == expected_value
     println("FFNClassification_ReluSoftmaxLLTest $prediction_acc $expected_value $pass")
     return(pass)
@@ -112,20 +92,28 @@ end
 function FFNClassification_ReluSigmoidMSETest(dataset)
 
     srand(9876)
-    cost_function = MeanSquaredError()
-    layer_sizes = [784, 100,  10]
-    layer_functions = [ReluActivation, SigmoidActivation]
-    parameters = TrainingParameters(1.6, 30, 0.0,  1, 10, NonStopping, false, true, 0.0, 0.0)
-    initialization = InitializationFunctions.XavierGlorotUniformInit
-
-    network, rbm_records, ffn_records =
-    TrainFFNNetwork(dataset, layer_sizes, layer_functions, initialization, parameters, cost_function)
-
+    network_parameters = NetworkParameters([784, 15, 10], [ReluActivation, SigmoidActivation], InitializationFunctions.HeNormalInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.6, 30, 0.0, 3, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
     prediction_acc = PredictionAccuracy(network, dataset)
 
-    expected_value = 7439
+    expected_value = 9214
     pass = prediction_acc == expected_value
     println("FFNClassification_ReluSigmoidMSETest $prediction_acc $expected_value $pass")
+    return(pass)
+end
+
+function OGDTest(dataset)
+    srand(2181)
+    network = NeuralNetwork([784, 100, 10], [ReluActivation, SoftmaxActivation], InitializationFunctions.HeNormalInit)
+    ffn_parm = TrainingParameters(0.1, 1, 0.0, 1,  NonStopping, true, true, 0.0, 0.0, LoglikelihoodError())
+    record = RunOGD(dataset, network, ffn_parm)
+    prediction_acc = PredictionAccuracy(network, dataset)
+
+    expected_value = 7400
+    pass = prediction_acc == expected_value
+    println("OGDTest $prediction_acc $expected_value $pass")
     return(pass)
 end
 
@@ -141,13 +129,19 @@ function RunTests(dataset)
     push!(results, FFNClassification_ReluSoftmaxLLTest(dataset))
     push!(results, FFNClassification_ReluSigmoidMSETest(dataset))
 
+    push!(results, OGDTest(dataset))
+
     correct = sum(Int64.(results))
     total = length(results)
 
     println("Correct $correct / Total $total")
 end
 
-function OverfittingExampls(dataset, output_dir)
+
+
+
+
+function OverfittingExample(dataset, output_dir)
 
     dataset.training_input = dataset.training_input[1:1000, :]
     dataset.training_output = dataset.training_output[1:1000, :]
@@ -165,8 +159,6 @@ function OverfittingExampls(dataset, output_dir)
     using OutputLibrary
     reload("OutputLibrary")
     WriteFFNGraphs(ffn_records, output_dir)
-
-
 end
 
 end

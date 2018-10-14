@@ -44,6 +44,14 @@ type NeuralNetwork
         return (NeuralNetwork(layers))
     end
 
+    function NeuralNetwork(layer_sizes::Array{Int64}, activation::Array{Function}, weight_initialization::Function)
+        layers = Array{NetworkLayer}(0)
+        for i in 1:(length(layer_sizes)-1)
+            push!(layers, NetworkLayer(layer_sizes[i], layer_sizes[i+1], activation[i],weight_initialization))
+        end
+        return (NeuralNetwork(layers))
+    end
+
     function NeuralNetwork(layer::NetworkLayer)
         return new([layer])
     end

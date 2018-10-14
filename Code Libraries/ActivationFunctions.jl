@@ -50,6 +50,11 @@ using Distributions
 
 export  HintonUniformInit, XavierGlorotUniformInit
 
+function NormalRandomInit(input, output)
+    weights = rand(Normal(0, 1), input, output)
+    return (weights)
+end
+
 function HintonUniformInit(input, output)
     weights = rand(Normal(0, 0.01), input, output)
     return (weights)
@@ -61,14 +66,41 @@ function XavierGlorotUniformInit(input, output)
     return (weights)
 end
 
+function XavierGlorotNormalInit(input, output)
+    weights = rand(Normal(0, sqrt(2.0/(input+output))), input, output)
+    return(weights)
+end
 
+function HeUniformInit(input, output)
+    init_range = sqrt(6.0/input)
+    weights = rand(Uniform(-init_range, init_range), input, output)
+    return (weights)
+end
+
+function HeNormalInit(input, output)
+    weights = rand(Normal(0, sqrt(2.0/input)), input, output)
+    return(weights)
+end
+
+#input = 100
+#output = 40
+#v = HintonUniformInit(5, 4)
+#var(v)
+#xgn = XavierGlorotNormalInit(input, output)
+#println(var(xgn), " ", 2/(input + output))
+#xgn = XavierGlorotUniformInit(input, output)
+#println(var(xgn), " ", 2/(input + output))
+#xgn = HeNormalInit(input, output)
+#println(var(xgn), " ", 2/(input))
+#xgn = HeUniformInit(input, output)
+#println(var(xgn), " ", 2/(input))
 end
 
 module CostFunctions
 
 using ActivationFunctions
 
-export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError, LoglikelihoodError
+export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError, LoglikelihoodError, CostFunction
 
 abstract type CostFunction end
 

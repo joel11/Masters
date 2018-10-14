@@ -4,23 +4,24 @@ using RBM, NeuralNetworks, ActivationFunctions, InitializationFunctions, Trainin
 
 export TrainAutoEncoder, TrainFFNNetwork
 
-function TrainFFNNetwork(dataset::DataSet, layer_sizes::Array{Int64}, layer_functions, initialization::Function, parameters::TrainingParameters, cost_function)
-    activation_functions = GenerateActivationFunctions(length(layer_sizes))
-    rbm_network, rbm_records = TrainRBMNetwork(dataset, layer_sizes, activation_functions, initialization, parameters)
+function TrainFFNNetwork(dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
 
-    ApplyActivationFunctions(rbm_network, layer_functions)
+    #activation_functions = GenerateActivationFunctions(length(network_parameters.layer_sizes))
+    rbm_network, rbm_records = TrainRBMNetwork(dataset, network_parameters, rbm_parameters)
 
-    sgd_records = RunSGD(dataset, rbm_network, parameters, cost_function)
+    #ApplyActivationFunctions(rbm_network, network_parameters)
+
+    sgd_records = RunSGD(dataset, rbm_network, ffn_parameters)
 
     return (rbm_network, rbm_records, sgd_records)
 end
 
-function TrainAutoEncoder(dataset::DataSet, layer_sizes::Array{Int64}, layer_functions, initialization::Function, parameters::TrainingParameters, cost_function)
-    activation_functions = GenerateActivationFunctions(length(layer_sizes))
+function TrainSAE(dataset::DataSet, layer_sizes::Array{Int64}, layer_functions, initialization::Function, parameters::TrainingParameters, cost_function)
+    #activation_functions = GenerateActivationFunctions(length(layer_sizes))
     rbm_network, rbm_records = TrainRBMNetwork(dataset, layer_sizes, activation_functions, initialization, parameters)
 
     AddDecoder(rbm_network, initialization)
-    ApplyActivationFunctions(rbm_network, layer_functions)
+    #ApplyActivationFunctions(rbm_network, layer_functions)
 
     rbm_network.layers[length(layer_functions)].activation = layer_functions[end]
     sgd_records = RunSGD(dataset, rbm_network, parameters, cost_function)
@@ -28,9 +29,9 @@ function TrainAutoEncoder(dataset::DataSet, layer_sizes::Array{Int64}, layer_fun
     return (autoencoder, rbm_records, sgd_records)
 end
 
-function ApplyActivationFunctions(rbm_network, layer_functions)
-    for l in 1:length(layer_functions)
-        rbm_network.layers[l].activation = layer_functions[l]
+#=function ApplyActivationFunctions(rbm_network, network_parameters)
+    for l in 1:length(network_parameters.layer_activations)
+        rbm_network.layers[l].activation = network_parameters.layer_activations[l]
     end
 end
 
@@ -40,7 +41,7 @@ function GenerateActivationFunctions(number_layers)
         push!(activation_functions, SigmoidActivation)
     end
     return (activation_functions)
-end
+end=#
 
 function ReverseLayer(layer::NetworkLayer, initialization)
     unbiased_weights_t = WeightsWithoutBias(layer)'
