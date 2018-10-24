@@ -5,7 +5,7 @@ using TrainingStructures,  FFN, RBM, NeuralNetworks
 using Plots
 plotlyjs()
 
-export WriteOutputGraphs, PlotRBMInputOutput, WriteFFNGraphs
+export WriteOutputGraphs, PlotRBMInputOutput, WriteFFNGraphs, PlotInputOutput
 
 function WriteFFNGraphs(ffn_records, output_dir)
 

@@ -10,11 +10,46 @@ using SGD, CostFunctions, StoppingFunctions, FFN, OGD
 using MNISTData
 using AutomatedTests
 dataset = GenerateData()
+
+
+srand(1080)
+network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 25, 8, 25, 50, 100, 200, 400, 784]
+                                        , [ReluActivation, ReluActivation, ReluActivation, ReluActivation, ReluActivation, ReluActivation
+                                        ,  ReluActivation, ReluActivation, ReluActivation, ReluActivation, ReluActivation, SigmoidActivation]
+                                        , InitializationFunctions.HeUniformInit)
+rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+ffn_parameters = TrainingParameters(0.01, 30, 0.0, 30, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+
+using OutputLibrary
+PlotInputOutput(network, dataset.validation_input, 20, "/Users/joeldacosta/Desktop/")
+
+
+
+#layer = NetworkLayer(784, 100, 10, SigmoidActivation, LinearActivation, XavierGlorotUniformInit)
+#rbm_parameters = TrainingParameters(0.1, 30, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+#rbm_records = TrainRBMLayer(dataset.training_input, dataset.training_input, layer, rbm_parameters)
+
+#network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 25, 6]
+#network_parameters = NetworkParameters( [784, 100,  30]
+                                        #, [SigmoidActivation, LinearActivation]
+                                        #, InitializationFunctions.XavierGlorotUniformInit)
+
+#ffn_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+#network, rbm_records, ffn_records = TrainSAE(dataset, network_parameters, rbm_parameters, ffn_parameters)
+
+
+
+
+
+
+
 #= Boiler plate
 #AutomatedTests.RunTests(dataset)
 
 #using OutputLibrary
 #PlotRBMInputOutput(rbm_records, dataset.validation_input, 20, "/Users/joeldacosta/Desktop/")
+
 #WriteFFNGraphs(ffn_records, "/Users/joeldacosta/Desktop/")
 #output_dir = "/Users/joeldacosta/Desktop/plots/mnist_2/"
 #WriteOutputGraphs(network, rbm_records, ffn_records, validation_data, output_dir)
@@ -24,15 +59,6 @@ dataset = GenerateData()
 #results = HyperparameterRangeSearch(dataset, network_parameters, rbm_parameters, ffn_parameters, ChangeLearningRate, vals)
 #GraphHyperparameterResults(results, "/Users/joeldacosta/Desktop/", "lr_test_RlSgMSE", "lr") =#
 
-
-
-##Check same config for RBM above without the RBM training & without the init. What are the differences ?
-
-
-
-
-
-#TrainAutoEncoder(scaled_training_data, scaled_validation_data, layer_sizes, layer_functions, initialization, parameters, cost_function)
 
 ##RBM Testing ################################################################################
 #parameters = TrainingParameters(0.1, 30, 0.0,  15, 0, NonStopping, true)

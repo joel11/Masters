@@ -235,4 +235,59 @@ function PretrainingTests(dataset)
     #5954
 end
 
+function LongPretrainTest(dataset)
+    srand(1080)
+    network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 100, 200, 400, 784]
+                                            , [SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation
+                                            ,  SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation]
+                                            , InitializationFunctions.XavierGlorotUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+
+
+    srand(1080)
+    network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 100, 200, 400, 784]
+                                            , [SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation
+                                            ,  SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation]
+                                            , InitializationFunctions.XavierGlorotUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+
+
+
+
+end
+
+function RBMSAETests(dataset)
+    srand(1080)
+    network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 25, 6]
+                                            , [SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation]
+                                            , InitializationFunctions.XavierGlorotUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    network, rbm_records, ffn_records = TrainRBMSAE(dataset, network_parameters, rbm_parameters, ffn_parameters)
+
+    using OutputLibrary
+    PlotInputOutput(network, dataset.validation_input, 20, "/Users/joeldacosta/Desktop/")
+
+    ##With Linear Function
+    srand(1080)
+    network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 25, 6]
+                                            , [SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation, LinearActivation]
+                                            , InitializationFunctions.XavierGlorotUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    network, rbm_records, ffn_records = TrainRBMSAE(dataset, network_parameters, rbm_parameters, ffn_parameters)
+
+    using OutputLibrary
+    PlotInputOutput(network, dataset.validation_input, 20, "/Users/joeldacosta/Desktop/")
+
+
+
+end
+
+
+
 end
