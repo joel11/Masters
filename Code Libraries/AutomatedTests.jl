@@ -254,10 +254,6 @@ function LongPretrainTest(dataset)
     rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
     ffn_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
     network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
-
-
-
-
 end
 
 function RBMSAETests(dataset)
@@ -283,11 +279,38 @@ function RBMSAETests(dataset)
 
     using OutputLibrary
     PlotInputOutput(network, dataset.validation_input, 20, "/Users/joeldacosta/Desktop/")
-
-
-
 end
 
+function InitSAETests_WithLinear(dataset)
 
+    srand(1080)
+    network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 25, 8, 25, 50, 100, 200, 400, 784]
+                                            , [ReluActivation, ReluActivation, ReluActivation, ReluActivation, ReluActivation, ReluActivation
+                                            ,  ReluActivation, ReluActivation, ReluActivation, ReluActivation, ReluActivation, SigmoidActivation]
+                                            , InitializationFunctions.HeUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.01, 30, 0.0, 30, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    #MSE ±13
+
+    srand(1080)
+    network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 25, 8, 25, 50, 100, 200, 400, 784]
+                                            , [ReluActivation, ReluActivation, ReluActivation, ReluActivation, ReluActivation, LinearActivation
+                                            ,  ReluActivation, ReluActivation, ReluActivation, ReluActivation, ReluActivation, SigmoidActivation]
+                                            , InitializationFunctions.HeUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.01, 30, 0.0, 30, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    #MSE 13.04;13.75
+
+    srand(1080)
+    network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 25, 8]
+                                            , [ReluActivation, ReluActivation, ReluActivation, ReluActivation, ReluActivation, LinearActivation]
+                                            , InitializationFunctions.HeUniformInit)
+    ffn_parameters = TrainingParameters(0.01, 30, 0.0, 30, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    network, rbm_records =
+    TrainInitSAE(dataset, network_parameters, ffn_parameters, SigmoidActivation)
+    #MSE 12.11; 12.96
+end
 
 end

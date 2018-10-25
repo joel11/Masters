@@ -4,29 +4,23 @@ using RBM, NeuralNetworks, ActivationFunctions, InitializationFunctions, Trainin
 
 export TrainRBMSAE, TrainFFNNetwork, TrainInitSAE
 
-function TrainFFNNetwork(dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
-
-    #activation_functions = GenerateActivationFunctions(length(network_parameters.layer_sizes))
-
-
-    encoder_data = CreateEncoderDataset(dataset)
-
-
-    rbm_network, rbm_records = TrainRBMNetwork(encoder_data, network_parameters, rbm_parameters)
-
-    #ApplyActivationFunctions(rbm_network, network_parameters)
-
-    sgd_records = RunSGD(encoder_data, rbm_network, ffn_parameters)
-
-    return (rbm_network, rbm_records, sgd_records)
-end
-
 function CreateEncoderDataset(dataset::DataSet)
     training_input = dataset.training_input
     testing_input = dataset.testing_input
     validation_input = dataset.validation_input
     return DataSet(training_input, testing_input, validation_input, training_input, testing_input, validation_input)
 end
+
+
+function TrainEncoderRBNMFFNNetwork(dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
+
+    encoder_data = CreateEncoderDataset(dataset)
+    rbm_network, rbm_records = TrainRBMNetwork(encoder_data, network_parameters, rbm_parameters)
+    sgd_records = RunSGD(encoder_data, rbm_network, ffn_parameters)
+
+    return (rbm_network, rbm_records, sgd_records)
+end
+
 
 function TrainInitSAE(dataset::DataSet, network_parameters::NetworkParameters, parameters::TrainingParameters, output_function::Function)
     encoder_data = CreateEncoderDataset(dataset)
@@ -81,7 +75,7 @@ function AddDecoder(network::NeuralNetwork, network_parameters::NetworkParameter
         AddLayer(network, new_layer)
     end
 
-    network.layers[length(network_parameters.layer_activations)].activation = network_parameters.layer_activations[end]
+    #network.layers[length(network_parameters.layer_activations)].activation = network_parameters.layer_activations[end]
 end
 
 function GetAutoencoder(network::NeuralNetwork)
