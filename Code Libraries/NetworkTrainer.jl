@@ -39,7 +39,7 @@ function TrainRBMSAE(dataset::DataSet, network_parameters::NetworkParameters, rb
 
     network_parameters.layer_activations = GenerateActivationFunctions(length(original_functions))
     rbm_network, rbm_records = RBM.TrainRBMNetwork(encoder_data, network_parameters, rbm_parameters)
-    ApplyActivationFunctions(rbm_network, original_functions)
+    #ApplyActivationFunctions(rbm_network, original_functions)
 
     AddDecoder(rbm_network, network_parameters)
 

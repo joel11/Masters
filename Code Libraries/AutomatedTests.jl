@@ -117,6 +117,26 @@ function OGDTest(dataset)
     return(pass)
 end
 
+
+function RBMTest(dataset)
+    ##RBM Testing ################################################################################
+    srand(1180)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 10, NonStopping, true, false, 0.0, 0.0, CrossEntropyError())
+    network_parameters = NetworkParameters([784, 500], [SigmoidActivation], InitializationFunctions.XavierGlorotUniformInit)
+    layer = CreateRBMLayer(1, network_parameters)
+    epoch_records = TrainRBMLayer(dataset.training_input, dataset.validation_input, layer, rbm_parameters)
+
+    expected = 55.62030683485252
+    val_error = epoch_records[end].test_cost
+    pass = expected == val_error
+
+    println("RMBTest $expected $val_error $pass")
+    return(pass)
+
+    #using OutputLibrary
+    #PlotRBMInputOutput([epoch_records], dataset.validation_input, 25,"/Users/joeldacosta/Desktop/")
+end
+
 function RunTests(dataset)
 
     results = []
@@ -130,13 +150,13 @@ function RunTests(dataset)
     push!(results, FFNClassification_ReluSigmoidMSETest(dataset))
 
     push!(results, OGDTest(dataset))
+    push!(results, RBMTest(dataset))
 
     correct = sum(Int64.(results))
     total = length(results)
 
     println("Correct $correct / Total $total")
 end
-
 
 
 
@@ -279,6 +299,18 @@ function RBMSAETests(dataset)
 
     using OutputLibrary
     PlotInputOutput(network, dataset.validation_input, 20, "/Users/joeldacosta/Desktop/")
+
+
+    srand(1080)
+    network_parameters = NetworkParameters( [784, 400, 200, 100, 50, 25, 8]
+                                            , [SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation, SigmoidActivation, LinearActivation]
+                                            , InitializationFunctions.XavierGlorotUniformInit)
+    rbm_parameters = TrainingParameters(0.1, 30, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    ffn_parameters = TrainingParameters(0.01, 30, 0.0, 20, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    network, rbm_records =
+    TrainRBMSAE(dataset, network_parameters,rbm_parameters, ffn_parameters)
+
+
 end
 
 function InitSAETests_WithLinear(dataset)
