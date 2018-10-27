@@ -12,7 +12,6 @@ function GenerateTimeSeries(S0, mu, sigma, steps)
     for m in 1:steps
         z = randn()
         st = prices[end] * exp((mu - 0.5 * ^(sigma,2)) * dt + sigma * sqrt(dt) * z)
-        println(st)
         push!(prices, st)
     end
 
@@ -47,7 +46,13 @@ function GenerateDataset(seed)
     stable_pricegroup = GenerateGroup(stable_prices, stable_vars, 0.2, 3650)
 
     all_prices = vcat(bull_pricegroup, bear_pricegroup, stable_pricegroup)
-    return all_prices
+
+    price_dictionary = Dict()
+    for i in 1:size(all_prices)[1]
+        price_dictionary[(string("stock", i))] = all_prices[i]
+    end
+
+    return price_dictionary
 end
 
 end
