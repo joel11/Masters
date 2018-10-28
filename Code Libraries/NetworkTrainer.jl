@@ -2,7 +2,7 @@ module NetworkTrainer
 
 using RBM, NeuralNetworks, ActivationFunctions, InitializationFunctions, TrainingStructures, SGD, CostFunctions
 
-export TrainRBMSAE, TrainFFNNetwork, TrainInitSAE
+export TrainRBMSAE, TrainEncoderRBNMFFNNetwork, TrainInitSAE
 
 function CreateEncoderDataset(dataset::DataSet)
     training_input = dataset.training_input
@@ -14,7 +14,7 @@ end
 
 function TrainEncoderRBNMFFNNetwork(dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
 
-    encoder_data = CreateEncoderDataset(dataset)
+    encoder_data = dataset#CreateEncoderDataset(dataset)
     rbm_network, rbm_records = TrainRBMNetwork(encoder_data, network_parameters, rbm_parameters)
     sgd_records = RunSGD(encoder_data, rbm_network, ffn_parameters)
 

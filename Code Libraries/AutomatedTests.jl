@@ -20,7 +20,7 @@ function FFNClassification_SigmoidLLTest(dataset)
     network_parameters = NetworkParameters([784, 15, 10], [SigmoidActivation, SigmoidActivation], InitializationFunctions.XavierGlorotUniformInit)
     rbm_parameters = TrainingParameters(0.1, 10, 0.0, 1, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
     base_ffn_parm = TrainingParameters(2.1, 10, 0.0, 5, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
-    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parm)
+    network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parm)
     prediction_acc = PredictionAccuracy(network, dataset)
 
     expected_value = 9077
@@ -35,7 +35,7 @@ function FFNClassification_SigmoidSoftmaxLLTest(dataset)
     rbm_parameters = TrainingParameters(0.1, 10, 0.0, 1, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
     base_ffn_parm = TrainingParameters(1.1, 10, 0.0, 5, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
     network_parameters = NetworkParameters([784, 15, 10], [SigmoidActivation, SoftmaxActivation], InitializationFunctions.XavierGlorotUniformInit)
-    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parm)
+    network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parm)
     prediction_acc = PredictionAccuracy(network, dataset)
 
     expected_value = 9142
@@ -50,7 +50,7 @@ function FFNClassification_SigmoidMSETest(dataset)
     rbm_parameters = TrainingParameters(0.1, 10, 0.0, 1, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
     base_ffn_parm = TrainingParameters(3.6, 10, 0.0, 5, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
     network_parameters = NetworkParameters([784, 15, 10], [SigmoidActivation, SigmoidActivation], InitializationFunctions.XavierGlorotUniformInit)
-    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parm)
+    network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parm)
     prediction_acc = PredictionAccuracy(network, dataset)
 
     expected_value = 7115
@@ -65,7 +65,7 @@ function FFNClassification_ReluSigmoidLLTest(dataset)
     network_parameters = NetworkParameters([784, 15, 10], [ReluActivation, SigmoidActivation], InitializationFunctions.HeNormalInit)
     rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
     ffn_parameters = TrainingParameters(0.1, 30, 0.0, 4, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
-    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
     prediction_acc = PredictionAccuracy(network, dataset)
 
     expected_value = 9210
@@ -80,7 +80,7 @@ function FFNClassification_ReluSoftmaxLLTest(dataset)
     network_parameters = NetworkParameters([784, 15, 10], [ReluActivation, SoftmaxActivation], InitializationFunctions.HeNormalInit)
     rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
     ffn_parameters = TrainingParameters(0.1, 30, 0.0, 3, NonStopping, false, true, 0.0, 0.0, LoglikelihoodError())
-    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
     prediction_acc = PredictionAccuracy(network, dataset)
 
     expected_value = 9309
@@ -95,7 +95,7 @@ function FFNClassification_ReluSigmoidMSETest(dataset)
     network_parameters = NetworkParameters([784, 15, 10], [ReluActivation, SigmoidActivation], InitializationFunctions.HeNormalInit)
     rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
     ffn_parameters = TrainingParameters(0.6, 30, 0.0, 3, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
-    network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+    network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
     prediction_acc = PredictionAccuracy(network, dataset)
 
     expected_value = 9214
