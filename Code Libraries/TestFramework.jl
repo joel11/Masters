@@ -14,16 +14,18 @@ dataset = GenerateData()
 
 
 srand(9879)
-network_parameters = NetworkParameters([784, 100, 10], [ReluActivation, SigmoidActivation], InitializationFunctions.HeNormalInit)
-rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, false, true, 0.0, 0.0, MeanSquaredError())
-ffn_parameters = TrainingParameters(0.5, 10, 0.0, 30, NonStopping, false, true, 0.0, 0.0, CrossEntropyError())
-network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
-prediction_acc = PredictionAccuracy(network, dataset)
+network_parameters = NetworkParameters([784, 30, 10], [SigmoidActivation, SigmoidActivation], InitializationFunctions.HeNormalInit)
+rbm_parameters = TrainingParameters(0.1, 30, 0.0, 0, NonStopping, true, true, 0.0, 0.0, MeanSquaredError())
+ffn_parameters = TrainingParameters(0.1, 10, 0.0, 30, NonStopping, true, true, 0.0, 1.0, CrossEntropyError())
+#network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, ffn_parameters)
+#prediction_acc = PredictionAccuracy(network, dataset)
+#9787
+#5.0 9778
 
-Pkg.update()
-#/Applications/JuliaPro-0.6.2.1.app/Contents/Resources/pkgs-0.6.2.1/v0.6
- - build the package(s) and all dependencies with `Pkg.build("Cairo", "Homebrew", "Gtk")`
- # - build a single package by running its `deps/build.jl` script
+using HyperparameterOptimization
+vals = 0.0:0.1:5.0
+results = HyperparameterRangeSearch(dataset, network_parameters, rbm_parameters, ffn_parameters, ChangeL2Reg, vals)
+GraphHyperparameterResults(results[1:(length(vals))], "/Users/joeldacosta/Desktop/", "lr2reg", "lr")
 
 
 #############################################################################################

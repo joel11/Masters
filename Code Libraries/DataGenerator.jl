@@ -28,7 +28,7 @@ function GenerateGroup(start_prices, variations, trend, steps)
     return (prices)
 end
 
-function GenerateDataset(seed)
+function GenerateDataset(seed, steps)
 
     srand(seed)
 
@@ -41,9 +41,9 @@ function GenerateDataset(seed)
     stable_prices = Float64.(rand(10:60, 3))
     stable_vars  = [0.09, 0.1, 0.15]
 
-    bull_pricegroup = GenerateGroup(bull_prices, bull_vars, 0.9, 3650)
-    bear_pricegroup = GenerateGroup(bear_prices, bear_vars, -0.9, 3650)
-    stable_pricegroup = GenerateGroup(stable_prices, stable_vars, 0.2, 3650)
+    bull_pricegroup = GenerateGroup(bull_prices, bull_vars, 0.9, steps)
+    bear_pricegroup = GenerateGroup(bear_prices, bear_vars, -0.9, steps)
+    stable_pricegroup = GenerateGroup(stable_prices, stable_vars, 0.2, steps)
 
     all_prices = vcat(bull_pricegroup, bear_pricegroup, stable_pricegroup)
 

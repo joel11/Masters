@@ -10,8 +10,8 @@ function GenerateData()
 
     trainingset, trainingsetlabels = traindata()
 
-    trainingdata = trainingset[:, 1:50000]
-    traininglabels = trainingsetlabels[1:50000]
+    trainingdata = trainingset[:, 1:1000]
+    traininglabels = trainingsetlabels[1:1000]
 
     testingdata = trainingset[:, 50001:60000]
     testinglabels = trainingsetlabels[50001:60000]

@@ -28,7 +28,7 @@ function TrainInitSAE(dataset::DataSet, network_parameters::NetworkParameters, p
     AddDecoder(network, network_parameters)
     network.layers[end].activation = output_function
     sgd_records = RunSGD(encoder_data, network, parameters)
-    autoencoder = GetAutoencoder(rbm_network)
+    autoencoder = GetAutoencoder(network)
     return (autoencoder, sgd_records)
 end
 
@@ -81,6 +81,7 @@ end
 function GetAutoencoder(network::NeuralNetwork)
     layers = network.layers[1:(Int64.(length(network.layers)/2))]
     return (NeuralNetwork(layers))
+    #return network
 end
 
 end

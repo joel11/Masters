@@ -1,6 +1,6 @@
 module HyperparameterOptimization
 
-export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate
+export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate, ChangeL1Reg, ChangeL2Reg
 
 using NetworkTrainer
 using Plots
@@ -11,14 +11,23 @@ function ChangeLearningRate(parameters,val)
     parameters.learning_rate = val
 end
 
+function ChangeL2Reg(parameters, val)
+     parameters.l2_lambda = val
+end
+
+function ChangeL1Reg(parameters, val)
+     parameters.l1_lambda = val
+end
+
+
 
 function HyperparameterRangeSearch(dataset, network_parameters, rbm_parameters, base_ffn_parameters, attribute_change_function, values)
     results = []
 
     for i in values
 
-        ChangeLearningRate(base_ffn_parameters, i)
-        network, rbm_records, ffn_records = TrainFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parameters)
+        attribute_change_function(base_ffn_parameters, i)
+        network, rbm_records, ffn_records = TrainEncoderRBNMFFNNetwork(dataset, network_parameters, rbm_parameters, base_ffn_parameters)
 
         run_times = map(x -> x.run_time, ffn_records)
         test_accuracy = map(x -> x.test_accuracy, ffn_records)

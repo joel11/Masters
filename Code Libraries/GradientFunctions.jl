@@ -88,6 +88,7 @@ function ContrastiveDivergence1WeightUpdates(minibatch_data, layer)
 end
 
 function CalculateNewWeights(current_weights, weight_update, parameters::TrainingParameters, N::Int64)
+    #println("L2: ", mean(CalculateL2Penalization(parameters, N)))
     return (current_weights .* CalculateL2Penalization(parameters, N)
                                 #+ momentum_factor
                                 - parameters.learning_rate .* weight_update

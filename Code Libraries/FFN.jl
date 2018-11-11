@@ -4,11 +4,11 @@ using ActivationFunctions, InitializationFunctions, NeuralNetworks
 
 export Feedforward
 
-function Feedforward(network::NeuralNetwork,  input::Array{Float64,2})
+function Feedforward(network::NeuralNetwork,  input)
     return (Feedforward(network.layers, input))
 end
 
-function Feedforward(layers::Array{NetworkLayer},  input::Array{Float64,2})
+function Feedforward(layers::Array{NetworkLayer},  input)
     current_vals = input
     layer_outputs = Array{Array{Float64,2},1}()
     push!(layer_outputs, current_vals)
