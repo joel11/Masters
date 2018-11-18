@@ -37,7 +37,7 @@ function GenerateDataset(seed, steps)
     bull_vars = [0.15, 0.5, 0.25]
 
     bear_prices = Float64.(rand(10:60, 3))
-    bear_vars = [0.2, 0.4, 0.25]
+    bear_vars = [0.15, 0.4, 0.25]
 
     stable_prices = Float64.(rand(10:60, 3))
     stable_vars  = [0.09, 0.1, 0.15]

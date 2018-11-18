@@ -16,15 +16,13 @@ using DataFrames
 
 srand(9879)
 deltas = [1, 7, 30]
-predictions = [1, 7]
+predictions = [7]
 
-data_raw = GenerateDataset(1, 7300)
+data_raw = GenerateDataset(1, 7300)[:,[1,4]]
 data_splits = SplitData(data_raw, [0.6, 0.8])
 processed_data = map(x -> ProcessData(x, deltas, predictions), data_splits)
 
-saesgd_data =   CreateDataset(processed_data[1][1], processed_data[1][2], [0.8, 1.0])
-ogd_data =      CreateDataset(processed_data[2][1], processed_data[2][2], [0.8, 1.0])
-holdout_data =  CreateDataset(processed_data[3][1], processed_data[3][2], [0.8, 1.0])
+saesgd_data, ogd_data, holdout_data = map(x -> CreateDataset(x[1], x[2], [0.8, 1.0]), processed_data)
 
 ################################################################################
 ## SAE Training
@@ -38,14 +36,13 @@ sae_network, sgd_records = TrainInitSAE(saesgd_data, sae_parameters, sgd_paramet
 
 encoded_dataset =  GenerateEncodedSGDDataset(saesgd_data, sae_network)
 
-ffn_network = NeuralNetwork([4, 40, 40, 40, 4]
+ffn_network = NeuralNetwork([4, 40, 40, 40, 2]
                         , [ReluActivation, ReluActivation, ReluActivation, LinearActivation]
                         , InitializationFunctions.HeUniformInit)
 sgd_parameters2 = TrainingParameters(0.0005, 20, 0.0, 1000, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 sgd_records2 = RunSGD(encoded_dataset, ffn_network, sgd_parameters2)
 
-rec_output = Feedforward(ffn_network, encoded_dataset.testing_input)[end]
-
+#rec_output = Feedforward(ffn_network, encoded_dataset.testing_input)[end]
 #allplots = []
 #for i in 1:4
     #data = hcat(encoded_dataset.testing_output[:, i], rec_output[:, i])
@@ -72,8 +69,14 @@ holdout_records, comparisons = RunOGD(encoded_holdout_dataset, ffn_network, hold
 ################################################################################
 ## Trading Strategy & Profit/Losses
 
+function CalculateProfit(predicted, actual)
+    rev = (abs(actual) > abs(predicted)) ? abs(predicted) : sign(predicted) * (actual - predicted)
+    return rev
+end
+
 actual = comparisons[1]
 predicted = comparisons[2]
+returns = map(r -> mapreduce(c -> CalculateProfit(predicted[r, c], actual[r, c]), +, 1:size(actual)[2]), 1:size(actual)[1])
 
 
 
