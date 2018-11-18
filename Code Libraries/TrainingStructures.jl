@@ -5,13 +5,13 @@ using NeuralNetworks, CostFunctions
 export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters
 
 type DataSet
-    training_input
-    testing_input
-    validation_input
+    training_input::Array{Float64,2}
+    testing_input::Array{Float64,2}
+    validation_input::Array{Float64,2}
 
-    training_output
-    testing_output
-    validation_output
+    training_output::Array{Float64,2}
+    testing_output::Array{Float64, 2}
+    validation_output::Array{Float64,2}
 end
 
 type TrainingParameters

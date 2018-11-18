@@ -28,6 +28,8 @@ df3[:D] = rand(15);
 head(df3)
 tail(df3, 2)
 
+names(df3)
+
 showcols(df3)
 eltypes(df3)
 dump(df3)

@@ -1,4 +1,5 @@
 module DataGenerator
+using DataFrames
 
 #Expand this to a OHLC format
 
@@ -47,12 +48,11 @@ function GenerateDataset(seed, steps)
 
     all_prices = vcat(bull_pricegroup, bear_pricegroup, stable_pricegroup)
 
-    price_dictionary = Dict()
-    for i in 1:size(all_prices)[1]
-        price_dictionary[(string("stock", i))] = all_prices[i]
-    end
+    df = DataFrame(all_prices)
+    colnames = map(x -> string("stock", x), 1:size(df)[2])
+    names!(df.colindex, map(parse, colnames))
 
-    return price_dictionary
+    return df
 end
 
 end

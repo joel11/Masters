@@ -2,11 +2,11 @@ push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 using DataGenerator, FFN
 
-function LogDiff(x1, x2)
-    return log(e, x2) - log(e, x1)
-end
-
 function GenerateLogFluctuations(series, delta, start)
+    function LogDiff(x1, x2)
+        return log(e, x2) - log(e, x1)
+    end
+
     fluctuations = []
 
     for i in start:length(series)
@@ -16,64 +16,67 @@ function GenerateLogFluctuations(series, delta, start)
     return fluctuations
 end
 
-function ProcessSeriesDataset(price_series::Dict, deltas)
-    new_series = Dict()
-    start_point = maximum(deltas) + 1
+function GenerateLogDataset(data)
+    ldf = DataFrame()
 
-    for r in price_series
-        for d in deltas
-            new_series[string(r[1], "_", d)] = GenerateLogFluctuations(r[2], d, start_point)
-        end
-        #new_series[string(r[1], "_0")] = r[2][start_point:end]
+    for p in names(data)
+        ldf[parse(string(p, "_log"))]  = GenerateLogFluctuations(data[p], 1, 2)
     end
 
-    return new_series
+    return ldf
 end
 
-function FormatDataset(seed, time_steps, deltas, prediction_steps, partition_one, partition_two)
+function SplitData(data, partition_percentages)
+    partition_points = map(x -> Int64.(round(size(data)[1]*x)), [0.0; partition_percentages; 1.0])
+    partitions = map(i -> data[((partition_points[i]+1):partition_points[(i+1)]), :], 1:(length(partition_points)-1))
+    return partitions
+end
 
-    seed  = 1
-    time_steps = 3650
-    deltas = [1, 7, 30]
-    prediction_steps = [1, 7]
-    partition_one = 0.9
-    partition_two = 0.95
+function CreateDataset(input_data, output_data, partition_percentages)
+    input_splits = SplitData(input_data, partition_percentages)
+    output_splits = SplitData(output_data, partition_percentages)
 
+    sd = DataSet(Array(input_splits[1]), Array(input_splits[2]), Array(input_splits[3]), Array(output_splits[1]), Array(output_splits[2]), Array(output_splits[3]))
+end
 
+function ProcessData(raw_data, deltas, prediction_steps)
 
-    raw_data = GenerateDataset(seed, time_steps)
-    delta_data = ProcessSeriesDataset(raw_data,deltas)
-
-    n_stocks = 2#length(raw_data)
-    #prediction_steps = [1,3]
-
-    record_names = []
-    for s in 1:n_stocks
-        for d in deltas
-            push!(record_names, string("stock", s, "_", d))
-        end
+    function pastsum(window, index, series)
+        return index < window ? NA :  sum(series[(index + 1 - window):index])
     end
 
-    data = reduce(hcat, map(x -> delta_data[x], record_names))'
+    function futuresum(window, index, series)
+        return ((index + window) > length(series)) ? NA : sum(series[(1+index):(index+window)])
+    end
 
-    groups = map(x -> data[(length(deltas)*(x-1)+1):(length(deltas)*(x-1)+length(prediction_steps)), :], 1:n_stocks)
-    output = reduce(vcat, map(data -> reduce(hcat,map(x -> data[x, (1+prediction_steps[x]):end][1:(size(data)[2]-maximum(prediction_steps))] ,1:length(prediction_steps)))', groups))
-    input = data[:, (1:size(output)[2])]
+    function lagset(pairs, log_data, sumfunction)
+        ldf = DataFrame()
 
+        for dp in pairs
+            fluctuations = log_data[:,parse(string(dp[1], "_log"))]
+            windowsums = map(x -> sumfunction(dp[2], x, fluctuations), 1:length(fluctuations))
+            ldf[parse(string(dp[1], "_", dp[2]))] = windowsums
+        end
 
-    sp1 = Int64.(round(size(input)[2]*partition_one))
-    sp2 = Int64.(round(size(input)[2]*partition_two))
-    train_input = (input[:, 1:sp1])
-    test_input = (input[:, (sp1+1):sp2])
-    validation_input = (input[:, (sp2+1):end])
+        return ldf
+    end
 
-    train_output = (output[:, 1:sp1])
-    test_output = (output[:, (sp1+1):sp2])
-    validation_output = (output[:, (sp2+1):end])
+    #raw_data = GenerateDataset(1, 7300)
+    #deltas = [1, 7, 30]
+    #prediction_steps = [1, 7]
 
-    sd = DataSet(train_input', test_input', validation_input', train_output', test_output', validation_output')
+    log_data = GenerateLogDataset(raw_data)
 
-    return sd
+    delta_pairs = mapreduce(x -> map(y -> (x, y), deltas), vcat, names(raw_data))
+    pred_pairs = mapreduce(x -> map(y -> (x, y), prediction_steps), vcat, names(raw_data))
+
+    input_data = lagset(delta_pairs, log_data, pastsum)
+    output_data = lagset(pred_pairs, log_data, futuresum)
+
+    start_point = minimum(findin(complete_cases(input_data), true))
+    end_point = maximum(findin(complete_cases(output_data), true))
+
+    return (input_data[start_point:end_point, :],output_data[start_point:end_point, :])
 end
 
 function GenerateEncodedSGDDataset(dataset, encoder_network)
@@ -83,27 +86,3 @@ function GenerateEncodedSGDDataset(dataset, encoder_network)
 
     nd = DataSet(training_input, testing_input, validation_input, dataset.training_output, dataset.testing_output, dataset.validation_output)
 end
-
-function ValidateGeneration(price_series, deltas, num_stocks)
-    for sn in 1:num_stocks
-        for d in deltas
-
-            s = price_series[string("stock", sn)]
-            sd = new_series[string("stock", sn, "_", d)]
-
-            correct = true
-
-            for i in (1+d):length(sd)
-                correct = correct && LogDiff(s[(i-d)], s[i]) == sd[i]
-            end
-
-            println(sn, " ", d, " ", correct)
-
-        end
-    end
-end
-
-#price_series = GenerateDataset(1)
-#deltas = [1, 30, 180]
-#new_series = ProcessSeriesDataset(price_series, deltas)
-#ValidateGeneration(price_series, deltas, 9)

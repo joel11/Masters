@@ -10,7 +10,14 @@ function RunOGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingPa
     tic()
     weight_change_rates = Array{Array{Float64,1},1}()
 
+    sizes = (0, size(dataset.training_output)[2])
+    data_values = Array{Float64,2}(sizes)
+    predicted_values = Array{Float64,2}(sizes)
+
     for i in 1:size(dataset.training_input)[1]
+
+        data_values = vcat(data_values, dataset.training_output[i, :]')
+        predicted_values = vcat(predicted_values, Feedforward(network, dataset.training_input[i, :]')[end])
 
         weight_updates = GradientDescentWeightUpdate(network, Array{Float64,2}(dataset.training_input[i,:]'), Array{Float64,2}(dataset.training_output[i,:]'), parameters)
 
@@ -30,8 +37,8 @@ function RunOGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingPa
     IS_error = parameters.cost_function.CalculateCost(dataset.training_output, Feedforward(network, dataset.training_input)[end])
     OOS_error = parameters.cost_function.CalculateCost(dataset.testing_output, Feedforward(network, dataset.testing_input)[end])
 
-    IS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
-    OOS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0
+    IS_accuracy = parameters.is_classification && length(dataset.training_input) > 0 ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
+    OOS_accuracy = parameters.is_classification && length(dataset.training_input) > 0 ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0
 
     epoch_records = [EpochRecord(1, 0.0, IS_error, OOS_error, IS_accuracy, OOS_accuracy, 0.0, toq(), CopyNetwork(network), weight_change_rates, Array{Array{Float64,2},1}())]
 
@@ -39,7 +46,7 @@ function RunOGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingPa
         PrintEpoch(epoch_records[end])
     end
 
-    return (epoch_records)
+    return (epoch_records, (data_values, predicted_values))
 end
 
 function PredictionAccuracy(network, input, output)
