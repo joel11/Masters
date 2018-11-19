@@ -62,11 +62,7 @@ type EpochRecord
 end
 
 function PrintEpoch(epoch_record::EpochRecord)
-    println("Epoch $(epoch_record.epoch_number) Training Cost, Test Cost, Test Accuracy, Time,:
-                $(epoch_record.training_cost),
-                $(epoch_record.test_cost),
-                $(epoch_record.test_accuracy),
-                $(epoch_record.run_time)")
+    println("Epoch $(epoch_record.epoch_number) Training Cost, Test Cost, Time:$(epoch_record.training_cost), $(epoch_record.test_cost), $(epoch_record.run_time)")
 end
 
 end
