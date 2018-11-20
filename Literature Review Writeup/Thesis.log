@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  20 NOV 2018 16:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  20 NOV 2018 16:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**LitReview.tex
-(./LitReview.tex
+**Thesis.tex
+(./Thesis.tex
 LaTeX2e <2017-04-15>
 Babel <3.10> and hyphenation patterns for 84 language(s) loaded.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/paper/paper.cls
@@ -688,8 +688,8 @@ Package tocbibind Info: The document has section divisions on input line 50.
 
 Package tocbibind Note: Using section or other style headings.
 
-) (./LitReview.aux)
-\openout1 = `LitReview.aux'.
+) (./Thesis.aux)
+\openout1 = `Thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
 LaTeX Font Info:    ... okay on input line 42.
@@ -793,9 +793,9 @@ LaTeX Info: Redefining \ref on input line 42.
 LaTeX Info: Redefining \pageref on input line 42.
 LaTeX Info: Redefining \nameref on input line 42.
 
-(./LitReview.out) (./LitReview.out)
+(./Thesis.out) (./Thesis.out)
 \@outlinefile=\write6
-\openout6 = `LitReview.out'.
+\openout6 = `Thesis.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
@@ -1341,15 +1341,6 @@ Missing character: There is no Ÿ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
-
-! You can't use `macro parameter character #' in horizontal mode.
-l.862 ...com/science/article/pii/002002559500021G#
-                                                  !
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no œ in font cmr10!
@@ -1476,18 +1467,6 @@ Are False. PLoS Med 2(8): e124.
  []
 
 
-Underfull \hbox (badness 7344) in paragraph at lines 983--986
-[]\OT1/cmr/m/n/10 Stefan Kn-err, Hand-writ-ten Digit Recog-ni-tion by Neu-ral N
-et-works with Single-Layer Train-ing. 962
- []
-
-
-Underfull \hbox (badness 1845) in paragraph at lines 983--986
-\OT1/cmr/m/n/10 IEEE TRANS-AC-TIONS ON NEU-RAL NET-WORKS, VOL. 3, NO. 6, NOVEM-
-BER 1992. Avail-able at:
- []
-
-
 Underfull \hbox (badness 1072) in paragraph at lines 989--992
 \OT1/cmr/m/n/10 chine Learn-ing Re-search 10 (2009) 777-801 Sub-mit-ted 6/08; R
 e-vised 11/08; Pub-lished 3/09. Avail-able at:
@@ -1499,14 +1478,6 @@ Missing character: There is no Ã in font cmr10!
 Missing character: There is no – in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no – in font cmr10!
-! You can't use `macro parameter character #' in horizontal mode.
-l.996 ...om/science/article/pii/S0167865514000221#
-                                                  bi005
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
 
 Underfull \hbox (badness 10000) in paragraph at lines 999--1000
 []\OT1/cmr/m/n/10 LeCun Y., Bot-tou L, Orr G, Muller K. Ef-fi-cient Back-prop. 
@@ -1553,37 +1524,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 1016--1018
  []
 
 
-Underfull \hbox (badness 1152) in paragraph at lines 1020--1022
-[]\OT1/cmr/m/n/10 Liu X., Lin Z., Wang H. Novel On-line Meth-ods for Time Se-ri
-es Seg-men-ta-tion. IEEE TRANS-AC-TIONS
- []
-
-
-Underfull \hbox (badness 2626) in paragraph at lines 1020--1022
-\OT1/cmr/m/n/10 ON KNOWL-EDGE AND DATA EN-GI-NEER-ING, VOL. 20, NO. 12, DE-CEM-
-BER 2008. Avail-able at:
- []
-
-
 Underfull \hbox (badness 1127) in paragraph at lines 1036--1037
 \OT1/cmr/m/n/10 uary 7, 2015). Jour-nal of Fi-nance, Forth-com-ing. Avail-able 
 at SSRN: https://ssrn.com/abstract=2156623 or
  []
 
 
-Overfull \hbox (6.05777pt too wide) in paragraph at lines 1039--1041
-\OT1/cmr/m/n/10 https://books.google.co.za/books?hl=en&lr=&id=PLQ5DwAAQBAJ&oi=f
-nd&pg=PR5&dq=Minsky+Papert+1969+ 
+Underfull \hbox (badness 10000) in paragraph at lines 1039--1040
+[][]$\OT1/cmtt/m/n/10 https : / / books . google . co . za / books ? hl = en & 
+lr = &id = PLQ5DwAAQBAJ & oi = fnd & pg = PR5 & dq = Minsky + Papert + 1969 +
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1039--1040
+\OT1/cmtt/m/n/10 %E2 % 80 % 94 + Perceptrons & ots = zyEDwMvmXX & sig = aVXF7DB
+JKAOxW066S4UCyzhNARw # v = onepage & q = Minsky % 20Papert %
  []
 
 [14]
-Underfull \hbox (badness 1436) in paragraph at lines 1050--1051
+Underfull \hbox (badness 1436) in paragraph at lines 1049--1050
 []\OT1/cmr/m/n/10 Lopez de Prado, Mar-cos, The Fu-ture of Em-pir-i-cal Fi-nance
  (May 31, 2015). Jour-nal of Port-fo-lio Man-
  []
 
 
-Underfull \hbox (badness 4660) in paragraph at lines 1050--1051
+Underfull \hbox (badness 4660) in paragraph at lines 1049--1050
 \OT1/cmr/m/n/10 age-ment, 41(4). Sum-mer 2015. Forth-com-ing.. Avail-able at SS
 RN: https://ssrn.com/abstract=2609734 or
  []
@@ -1603,37 +1568,25 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1064--1065
+Underfull \hbox (badness 10000) in paragraph at lines 1062--1063
 []\OT1/cmr/m/n/10 Robert L. Schae-fer (2012) Sub-set Se-lec-tion in Re-gres-sio
 n, Tech-no-met-rics, 34:2, 229, DOI:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1085--1086
-[]\OT1/cmr/m/n/10 Siegelmann, H. (1992). The-o-ret-i-cal foun-da-tions of re-cu
-r-rent neu-ral net-works (Ph.D. the-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1085--1086
-\OT1/cmr/m/n/10 sis), New Brunswick Rut-gers, The State of New Jer-sey: Rut-ger
-s. Avail-able at:
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1088--1089
+Underfull \hbox (badness 10000) in paragraph at lines 1086--1087
 []\OT1/cmr/m/n/10 Skabar, Cloete, Net-works, Fi-nan-cial Trad-ing and the Ef-fi
 -cient Mar-kets Hy-poth-e-sis
  []
 
 
-Underfull \hbox (badness 4819) in paragraph at lines 1091--1093
+Underfull \hbox (badness 4819) in paragraph at lines 1089--1091
 []\OT1/cmr/m/n/10 Takeuchi L, Lee Y. Ap-ply-ing Deep Learn-ing to En-hance Mo-m
 en-tum Trad-ing Strate-gies in Stocks.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1091--1093
+Underfull \hbox (badness 10000) in paragraph at lines 1089--1091
 \OT1/cmr/m/n/10 Tech-ni-cal Re-port, 2013. Avail-able at: http://www.smallake.k
 r/wp-content/uploads/2017/04/TakeuchiLee-
  []
@@ -1642,37 +1595,37 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 
-Underfull \hbox (badness 1931) in paragraph at lines 1100--1103
+Underfull \hbox (badness 1931) in paragraph at lines 1098--1101
 \OT1/cmr/m/n/10 ADAP-TIVE STEP-SIZE RULE. SIAM J. OP-TIM. Vol. 8, No. 2, pp. 50
 6531, May 1998. Avail-able at:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1110--1113
+Underfull \hbox (badness 10000) in paragraph at lines 1108--1111
 []\OT1/cmr/m/n/10 Wan Y., Gong X., Si Y. Ef-fect of seg-men-ta-tion on fi-nan-c
 ial time se-ries pat-tern match-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1110--1113
+Underfull \hbox (badness 10000) in paragraph at lines 1108--1111
 \OT1/cmr/m/n/10 ing. Ap-plied Soft Com-put-ing Vol-ume 38, Jan-uary 2016, Pages
  346-359. Avail-able at:
  []
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 1139--1141
+Underfull \hbox (badness 10000) in paragraph at lines 1137--1139
 \OT1/cmtt/m/n/10 S0020025509002539 / 1-[]s2 . 0-[]S0020025509002539-[]main . pd
 f ? _tid = fc9d5d20-[]c0fe-[]4107-[]947c-[]6a4d9e472aab &
  []
 
 
-Underfull \hbox (badness 6842) in paragraph at lines 1151--1154
+Underfull \hbox (badness 6842) in paragraph at lines 1149--1152
 []\OT1/cmr/m/n/10 Zinkevich M, Weimer M, Smola A, Li L. Par-al-lelized Stochas-
 tic Gra-di-ent De-scent. Avail-able at:
  []
 
 
-Underfull \hbox (badness 1112) in paragraph at lines 1156--1158
+Underfull \hbox (badness 1112) in paragraph at lines 1154--1156
 []\OT1/cmr/m/n/10 Zhao Y., Li J., Yu L. A deep learn-ing en-sem-ble ap-proach f
 or crude oil price fore-cast-ing. Avail-able at:
  []
@@ -1680,40 +1633,24 @@ or crude oil price fore-cast-ing. Avail-able at:
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
-! Misplaced alignment tab character &.
-l.1165 ...ieeexplore.ieee.org/stamp/stamp.jsp?tp=&
-                                                  arnumber=5393674}
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
-
-
-Underfull \hbox (badness 1616) in paragraph at lines 1163--1166
-[]\OT1/cmr/m/n/10 Zhou B., Hu J. A Dy-namic Pat-tern Recog-ni-tion Ap-proach Ba
-sed on Neu-ral Net-work for Stock Time-
- []
-
 [16]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1168.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1168.
- (./LitReview.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1168.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1168.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1165.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1165.
+ (./Thesis.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1165.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1165.
 
-Package rerunfilecheck Info: File `LitReview.out' has not changed.
+Package rerunfilecheck Info: File `Thesis.out' has not changed.
 (rerunfilecheck)             Checksum: 597F3016FC6B2CDCF019E2B982155797;1339.
  ) 
 Here is how much of TeX's memory you used:
  18913 strings out of 492995
- 343758 string characters out of 6132704
- 432019 words of memory out of 5000000
+ 343719 string characters out of 6132704
+ 433019 words of memory out of 5000000
  22015 multiletter control sequences out of 15000+600000
  10405 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 54i,8n,73p,812b,489s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,8n,73p,809b,489s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
@@ -1731,10 +1668,10 @@ e/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
 017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/20
 17/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/201
 7/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb>
-Output written on LitReview.pdf (16 pages, 407528 bytes).
+Output written on Thesis.pdf (16 pages, 411697 bytes).
 PDF statistics:
- 501 PDF objects out of 1000 (max. 8388607)
- 458 compressed objects within 5 object streams
+ 519 PDF objects out of 1000 (max. 8388607)
+ 476 compressed objects within 5 object streams
  138 named destinations out of 1000 (max. 500000)
  178 words of extra memory for PDF output out of 10000 (max. 10000000)
 

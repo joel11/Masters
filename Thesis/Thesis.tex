@@ -22,28 +22,64 @@
 %\usepackage{fancyvrb}
 \usepackage{array}
 \usepackage{tabularx}
- \usepackage{colortbl} 
+\usepackage{colortbl} 
 \usepackage{subcaption}
 \usepackage{caption}
 \usepackage{hyperref}
-
 \usepackage[numbib,nottoc]{tocbibind}
+\usepackage{fancyhdr}
 
 \newcommand{\myol}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
+\newenvironment{technicaldoc}
 
 
-\sectionfont{\large\sf\bfseries\color{black!70!blue}} 
+
 %\renewcommand\keywordname{Clavem verborum}
-
-
-\title{Literature Review}
-%\hfill\includegraphics[height=2cm]{/home/fran/logo}}
-
 \begin{document} 
-\maketitle  
-\hrule
+	\sectionfont{\large\sf\bfseries\color{black!70!blue}} 
 
-\section{Technical Analysis}\label{TechnicalAnalysis}
+\begin{technicaldoc}
+	
+	\Huge\textbf{Technical document}
+	
+	\bigskip\large\textbf{1. Current Status}\bigskip\normalsize
+
+		
+	
+	Testing
+	
+\end{technicaldoc}
+
+
+\begin{titlepage}
+	\begin{center}
+		\vspace*{1cm}
+
+		\Huge
+		\textbf{Online non-linear prediction of financial time-series patterns}
+		\vspace{0.5cm}
+		\LARGE
+		%Thesis Subtitle
+		
+		\vspace{1.5cm}
+		
+		\textbf{Joel da Costa}
+		\vfill
+		\vspace{0.8cm}
+		\Large
+		University of Cape Town\\
+		
+	\end{center}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}\label{Introduction}
+\newpage
+\section{LiteratureReview}\label{LiteratureReview}
+\subsection{Technical Analysis}\label{TechnicalAnalysis}
 
 Technical analysis is a financial analysis practice that makes use of past price data in order to identify market 
 structures, as well as forecast future price movements. The techniques are typically objective methodologies 
@@ -86,7 +122,9 @@ showing their ability to achieve statistically significant results, which lends 
 argument against the efficient market hypothesis \cite {Skabar}. 
 \hfill \break
 
-\section{Neural Networks}
+
+
+\subsection{Neural Networks}
 
 A Neural Network (NN) is a learning model which was originally inspired by the biological mechanisms of neurons 
 in brains. The structure is essentially that of a network system, with connected nodes and edges, or ‘neurons’ and 
@@ -124,7 +162,7 @@ reactions are used as inputs to train a network for certain outputs \cite{Schmid
 have their benefits and uses, this paper will largely focus on FNN and RNNs, trained through SL and UL.
 \hfill \break 
 
-\subsection{Training and Backpropagation}
+\subsubsection{Training and Backpropagation}
 
 Historically, the crux of neural networks’ popularity has often been based on the development of novel training 
 methodologies, and how they have increased performance. In line with this, the Backpropagation (BP) algorithm 
@@ -183,7 +221,7 @@ Ge et al. have also shown that it is possible to escape saddle points and offer 
 in certain non-convex problems \cite{Ge}.
 \hfill \break 
 
-\subsection{Activation Functions}
+\subsubsection{Activation Functions}
 
 One of the upfront configuration choices necessary is the activation function, which allows the mapping of input 
 to output at the neuron level. There have been many suggestions and experiments with different functions, though 
@@ -201,7 +239,7 @@ minimization, and result in slower convergence and worse minima, and showed that
 initialization resulted in quicker convergence \cite{Glorot}. Further research with Bordes \& Bengio found that the 
 rectifier (ReLU) functions were  more effective in deep sparse networks compared to the TanH function \cite{Glorot2}.
 
-\subsection{Deep Learning}
+\subsubsection{Deep Learning}
 
 As noted above, most of the earlier work using neural networks relied on shallow models with few layers. 
 However, a resurgence in interest occurred in 2006 after several papers demonstrated the efficacy of 
@@ -268,9 +306,9 @@ training \cite{Wang2}.
 
 
 
-\section{Stacked Autoencoders}
+\subsection{Stacked Autoencoders}
 
-\subsection{High Dimensional Data Reduction}\label{HDDR}
+\subsubsection{High Dimensional Data Reduction}\label{HDDR}
 
 As noted, machine learning techniques have been shown to be extremely effective at modelling non-linear inputs 
 to outputs - neural networks have even been shown to be universal function approximators in this regard \cite{Hornik}. 
@@ -309,7 +347,7 @@ were the algorithms for training deep belief networks \cite{Hinton1}, as well as
 \cite{Ranzato1, Bengio1}. 
 
  
- \subsection{Deep Belief Networks}\label{DBN}
+\subsubsection{Deep Belief Networks}\label{DBN}
  
  Autoencoders were suggested by Hinton et. al as a method of transforming high dimensional 
  data to lower dimensional input vectors, in order to alleviate some of the problems detailed above, and increase 
@@ -341,7 +379,7 @@ effective than PCA or shallow autoencoders on multiple dataset types.
  \label{figure-DBN-RBM}
  \end{figure}
  
- \subsection {Stacked Denoising Autoencoders}\label{SDAE}
+\subsubsection {Stacked Denoising Autoencoders}\label{SDAE}
 
  The second important piece of work was the development of a denoising autoencoder (DAE), by Vincent  et al. \cite{Vincent}. 
  One of the problems identified in the DBN model (and those similar), is that if the encoder dimensions were too high, 
@@ -365,7 +403,7 @@ in the Stacked Denoising Autoencoder (SDAE) formation, only the initial input is
 input from layer to layer). It was shown that the SDAE model outperformed previous AE and DBN networks on 
 numerous benchmark datasets \cite{Vincent} . 
 
-\subsection {Pre-training}
+\subsubsection {Pre-training}
 
 The methods described above follow a similar approach: greedy layer-wise unsupervised pre-training in order to 
 determine initial weights, followed by supervised fine tuning to arrive at the final model. It is shown numerous times, 
@@ -379,7 +417,7 @@ the unsupervised pre-training results in a form of regularization on the model -
 bias introduced acts as a prior to direct the model configuration towards a sample space that is effective for the unsupervised 
 learning generalization optimisations.
 
-\subsection {Time Series Applications}
+\subsubsection {Time Series Applications}
 
 The autoencoder papers reviewed so far in this section derive their results primarily from classification problems, 
 and so do not necessarily account for the problems involved with time series as described in \ref{HDDR}. Due to 
@@ -402,7 +440,7 @@ the use of autoencoders, either as a technique in themselves, or as an auxiliary
 such as convolutional neural networks, were able to offer performance increases in areas such as video analysis, 
 motion capture data and bacteria identification \cite{Langkvist}.
  
-\subsection{Financial Applications}
+\subsubsection{Financial Applications}
 
 There have of course also been successful applications of stacked autoencoders and deep learning models in 
 finance as well. Takeuchi et al. performed some earlier work showing the use of autoencoders when applied to a 
@@ -441,7 +479,7 @@ Recurrent Autoencoder for multidimensional time series prediction \cite{Hsu}. Th
 that the use of AEs and SAEs both by themselves and when used as an assisting technique result in more accurate 
 prediction results and less computationally expensive training.
 
-\section{Data Segmentation}
+\subsection{Data Segmentation}
 \hfill
 
 One of the aspects of time series not yet discussed is how the data might be segmented for analysis. 
@@ -487,7 +525,7 @@ head and shoulders (H\&S). Measuring accuracy, precision and recall, they showed
 generally offered superior results to the others (though it is worth noting that there were various performance 
 differences within the segmentation methods depending on the matching algorithm used).
 
-\section{Online Learning Algorithms and Gradient Descent} \label{OGD}
+\subsection{Online Learning Algorithms and Gradient Descent} \label{OGD}
 \hfill
 
 Most classic machine learning algorithms operate under the assumption that, for all intents and purposes, the 
@@ -569,7 +607,7 @@ training performance of up to 6x, with less than 1\% of accuracy when compared t
 Both of these algorithms have been shown to be effective and applicable in the context of online neural network training.
 \hfill\break
 
-\section{Backtesting and Model Validation} 
+\subsection{Backtesting and Model Validation} 
 \hfill
 
 Much of financial academic literature is currently facing a problem in terms of validation and verification of results. 
@@ -604,7 +642,7 @@ how data and replication procedures are made available \cite{Prado}. While the p
 and so on are certainly important, they don't aid with more effective model training for the researcher up front, and 
 so will not be covered here.
 
-\subsection{Testing Methodologies}
+\subsubsection{Testing Methodologies}
 
 Considering the issues laid out above, there has been much work to develop alternative approaches to backtesting. 
 One of the common approaches to avoid backtest overfitting is the ‘hold-out’ strategy, where a certain portion of 
@@ -695,7 +733,7 @@ arbitrary differences in data sets. It is pointed out that while CSCV and PBO sh
 of a strategy, they should not be the function on which strategy selection relies, which in itself would result in overfitting.
 \hfill \break 
 
-\subsection{Test Data Length}
+\subsubsection{Test Data Length}
 
 The CSCV methodology offers an important but highly generalised framework to assess models and backtest 
 overfitting. It doesn’t however indicate which metrics should be used to assess the IS and OOS performance, nor 
@@ -755,7 +793,7 @@ there is no reason for overfitting to result in negative performance. However, w
  is likely to be detrimental to OOS performance if overfitting isn’t controlled for \cite{BaileyBTL}.
 \hfill \break 
 
-\subsection {Sharpe Ratio}
+\subsubsection {Sharpe Ratio}
 
 The use of the Sharpe Ratio in financial backtesting is not just an arbitrary or persistent literature choice. 
 The statistic offers two benefits: the effectively strategy-agnostic financial information contained, as well as being 
@@ -772,27 +810,7 @@ The t-ratio is defined as
   t-ratio = \frac{\hat{\mu}}{\hat{\sigma}/\sqrt{T}}
 \end{equation}
 
-Evidently, the link here is trivial, as per formula \eqref{SRAnnual} . As noted earlier though, the chances of 
-overfitting with the SR ratio, even if true mean returns are zero, are relatively significant. One of the strategies 
-employed to try and counteract this is to use a 'haircut', where the reported SR ratio is discounted by 50\%. 
-\hfill \break 
-
-The 50\% however, is merely a rule of thumb, and Harvey et Lui \cite{Harvey} were able to report significant work showing 
-that in a context of multiple testing, the haircut is nonlinear - the highest Sharpe ratios are moderately penalized, 
-whereas the marginal Sharpe ratios were heavily penalized. While initially fairly sensible, Harvey et al raise valid 
-concerns regarding the effect on option strategies, controlling for risk as well as, pertinently, what constitutes an 
-appropriate level of significance testing. In light of this, they develop a p-value based statistic for multiple testing, 
-the haircut adjusted sharpe ratio HSR, as well as expand upon work by Harvey et al. \cite{HLZ} to provide a distribution that can 
-be used in a dependent multiple testing framework with an appropriate p-value adjustment.
-\hfill \break 
-
-This work is relevant, in that the HSR statistics proposed offer another framework in which investment strategies 
-might be evaluated against each other. The primary difference in comparison to PBO and CSCV, is that where 
-they offer a methodology for evaluating strategies within a group, HSR aims to adjust the statistical significance 
-of each strategy such that the overall risk of spurious correlation is controlled for. A benefit of this method is that 
-there is less chance of a relevant strategy being disregarded as a result of just poor peer performance. PBO 
-however, does have the primary benefit of being metric-agnostic, where the HSR framework is largely based on 
-using the Sharpe ratio (though it can be generalized to another statistic with a probabilistic interpretation). Additionally, 
+Evidently, the link heree ratio (though it can be generalized to another statistic with a probabilistic interpretation). Additionally, 
 PBO is generally more in line with machine learning literature with the cross validation like approach on time series data.  
 \hfill \break 
 
@@ -805,7 +823,18 @@ predictions to be profitable. The subtlety here is that we will consider the usa
 \hfill \break 
 
 \newpage
-\begin{thebibliography}{9}
+\section{Algorithms}\label{Algorithms}
+\newpage
+\section{Data}\label{Data}
+\newpage
+\section{Results}\label{Results}
+\newpage
+\section{Conclusion}\label{Conclusion}
+
+
+
+\newpage
+\begin{thebibliography}{bibliography}
 
 \bibitem{Albers}
 Albers S. Online Algorithms: a survey. Mathematics Subject Classification (1991): 68W25, 
@@ -859,7 +888,7 @@ Available at: \url{https://www.mitpressjournals.org/doi/abs/10.1162/NECO_a_00052
 
 \bibitem{Chu}
 Chu C., Time series segmentation: A sliding window approach. Information Sciences, Volume 85, Issues 1–3, July 1995, Pages 
-147-173. Available at: https://www.sciencedirect.com/science/article/pii/002002559500021G#!
+147-173. Available at: \url{ttps://www.sciencedirect.com/science/article/pii/002002559500021G#!}
 
 \bibitem{Chung}
  F. L. Chung, T. C. Fu, R. Luk, and V. Ng, “Flexible time series pattern matching based on perceptually important points,’’ in Proc. Int. Joint Conf. Artificial Intelligence Workshop  
@@ -879,7 +908,7 @@ DEEP NEURAL NETWORKS. Available at: https://arxiv.org/pdf/1712.02029.pdf
 
 \bibitem{Donoho}
 David L. Donoho, High-Dimensional Data Analysis: The Curses and Blessings of 
-Dimensionality (August 8, 2000). Available at: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.3392\&rep=rep1\&type=pdf
+Dimensionality (August 8, 2000). Available at: \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.329.3392&rep=rep1&type=pdf}
 
 \bibitem{Duchi}
 John Duchi, Elad Hazan and Yoram Singer. Adaptive Subgradient Methods for
@@ -982,7 +1011,7 @@ Kahn, Michael N. . Technical Analysis Plain and Simple: Charting the Markets in 
 \bibitem{Knerr}
 Stefan Knerr, Handwritten Digit Recognition by Neural Networks with Single-Layer 
 Training. 962 IEEE TRANSACTIONS ON NEURAL NETWORKS, VOL. 3, NO. 6, NOVEMBER 
-1992. Available at: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=165597 
+1992. Available at: \url{https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=165597 }
 
 
 \bibitem{Langford}
@@ -1018,7 +1047,7 @@ Available at: http://www.iro.umontreal.ca/~lisa/publications2/index.php/attachme
 
 \bibitem{Liu}
 Liu X., Lin Z., Wang H. Novel Online Methods for Time Series Segmentation.  IEEE TRANSACTIONS ON KNOWLEDGE AND DATA ENGINEERING, VOL. 20, NO. 12, DECEMBER 
-2008. Available at: https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4445667\&tag=1
+2008. Available at: \url{https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4445667&tag=1}
 
 \bibitem{Lo}
 Lo, Andrew W., The Statistics of Sharpe Ratios. Financial Analysts Journal, Vol. 58, No. 4, July/August 2002. Available at SSRN: https://ssrn.com/abstract=377260
@@ -1026,7 +1055,7 @@ Lo, Andrew W., The Statistics of Sharpe Ratios. Financial Analysts Journal, Vol.
 \bibitem{Lv}
 Yisheng Lv, Yanjie Duan, Wenwen Kang, Zhengxi Li, and Fei-Yue Wang. Traffic Flow Prediction With Big Data:
 A Deep Learning Approach. IEEE TRANSACTIONS ON INTELLIGENT TRANSPORTATION SYSTEMS, VOL. 16, NO. 2, APRIL 
-2015. Available at: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=\&arnumber=6894591\&tag=1
+2015. Available at: \url{https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6894591&tag=1}
 
 \bibitem{Mahajan}
 Mahajan D., Keerthi S., Sundararajan S., Bottou L. A Parallel SGD method with Strong 
@@ -1036,8 +1065,7 @@ Convergence. Available at: https://arxiv.org/pdf/1311.0636.pdf
 McLean, R. David and Pontiff, Jeffrey, Does Academic Research Destroy Stock Return Predictability? (January 7, 2015). Journal of Finance, Forthcoming. Available at SSRN: https://ssrn.com/abstract=2156623 or http://dx.doi.org/10.2139/ssrn.2156623
 
 \bibitem{Minksy}
-M Minsky, SA Papert, L Bottou (1988). Perceptrons: An introduction to computational 
-geometry. Available at: https://books.google.co.za/books?hl=en\&lr=\&id=PLQ5DwAAQBAJ\&oi=fnd\&pg=PR5\&dq=Minsky+Papert+1969+%E2%80%94+Perceptrons&ots=zyEDwMvmXX&sig=aVXF7DBJKAOxW066S4UCyzhNARw#v=onepage&q=Minsky%20Papert%201969%20%E2%80%94%20Perceptrons&f=false
+M Minsky, SA Papert, L Bottou (1988). Perceptrons: An introduction to computational  geometry. Available at: \url{https://books.google.co.za/books?hl=en&lr=&id=PLQ5DwAAQBAJ&oi=fnd&pg=PR5&dq=Minsky+Papert+1969+%E2%80%94+Perceptrons&ots=zyEDwMvmXX&sig=aVXF7DBJKAOxW066S4UCyzhNARw#v=onepage&q=Minsky%20Papert%201969%20%E2%80%94%20Perceptrons&f=false}
 
 \bibitem{Murphy}
 Murphy, John J. Technical analysis of the financial markets: A comprehensive guide to trading methods and applications. Penguin, 1999.
@@ -1050,8 +1078,7 @@ Available at: http://proceedings.mlr.press/v28/pascanu13.pdf
 Lopez de Prado, Marcos, The Future of Empirical Finance (May 31, 2015). Journal of Portfolio Management, 41(4). Summer 2015. Forthcoming.. Available at SSRN: https://ssrn.com/abstract=2609734 or http://dx.doi.org/10.2139/ssrn.2609734
 
 \bibitem{Povey}
-Povey D., Zhang X., Khudanpur S. Parallel training of Deep Neural Networks with Natural Gradient
-and Parameter Averaging. Available at: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.745.6995\&rep=rep1\&type=pdf
+Povey D., Zhang X., Khudanpur S. Parallel training of Deep Neural Networks with Natural Gradient and Parameter Averaging. Available at: \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.745.6995&rep=rep1&type=pdf}
 
 \bibitem{Ranzato1}
 Marc’Aurelio Ranzato, Christopher Poultney, Sumit Chopra, and Yann LeCun. Efficient learning of sparse representations with an energy-based model. In B. Scholkopf, J. Platt, and T. Hoffman, ¨ editors, Advances in Neural Information Processing Systems 19 (NIPS’06), pages 1137–1144. MIT Press, 
@@ -1082,7 +1109,7 @@ Available at: https://arxiv.org/abs/1212.0142
 Shai Shalev-Shwartz, Yoram Singer, and Nathan Srebro. Pegasos: Primal Estimated sub-GrAdient SOlver for SVM. In Proceedings of the Twenty-Fourth International Conference on Machine Learning (ICML-07), 2007.
 
 \bibitem{Siegelmann}
-Siegelmann, H. (1992). Theoretical foundations of recurrent neural networks (Ph.D. thesis), New Brunswick Rutgers, The State of New Jersey: Rutgers. Available at: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.38.920\&rep=rep1\&type=pdf
+Siegelmann, H. (1992). Theoretical foundations of recurrent neural networks (Ph.D. thesis), New Brunswick Rutgers, The State of New Jersey: Rutgers. Available at: \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.38.920&rep=rep1&type=pdf}
 
 \bibitem {Skabar}
  Skabar, Cloete, Networks, Financial Trading and the Efficient Markets Hypothesis (http://crpit.com/confpapers/CRPITV4Skabar.pdf)
@@ -1160,11 +1187,13 @@ forecasting.  Available at: https://doi.org/10.1016/j.eneco.2017.05.023
 Tong Zhang. Solving large scale linear prediction problems using stochastic gradient descent algorithms. In Proceedings of the Twenty-First International Conference on Machine Learning (ICML-04), pages 919–926, 2004
 
 \bibitem{Zhou}
-Zhou B., Hu J. A Dynamic Pattern Recognition Approach Based on Neural Network for Stock 
-Time-Series. 2009 World Congress on Nature \& Biologically Inspired Computing (NaBIC 
-2009). Available at: url{https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5393674}
+Zhou B., Hu J. A Dynamic Pattern Recognition Approach Based on Neural Network for Stock Time-Series. 2009 World Congress on Nature \& Biologically Inspired Computing (NaBIC 
+2009). Available at:\url{ https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5393674}
 
 \end{thebibliography}
 \end {document}
+
+
+
 
 
