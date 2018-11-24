@@ -1,27 +1,47 @@
 \select@language {english}
+\contentsline {paragraph}{Critical}{2}{section*.1}
+\contentsline {paragraph}{Non-Critical/Maybe}{2}{section*.2}
+\contentsline {paragraph}{16th June 2018}{6}{section*.4}
 \contentsline {section}{\numberline {1}Introduction}{2}{section.1}
 \contentsline {section}{\numberline {2}LiteratureReview}{3}{section.2}
 \contentsline {subsection}{\numberline {2.1}Technical Analysis}{3}{subsection.2.1}
 \contentsline {subsection}{\numberline {2.2}Neural Networks}{3}{subsection.2.2}
 \contentsline {subsubsection}{\numberline {2.2.1}Training and Backpropagation}{4}{subsubsection.2.2.1}
-\contentsline {subsubsection}{\numberline {2.2.2}Activation Functions}{5}{subsubsection.2.2.2}
-\contentsline {subsubsection}{\numberline {2.2.3}Deep Learning}{5}{subsubsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.2}Activation Functions}{4}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Deep Learning}{4}{subsubsection.2.2.3}
 \contentsline {subsubsection}{\numberline {2.2.4}Backpropagation Improvements}{5}{subsubsection.2.2.4}
-\contentsline {subsection}{\numberline {2.3}Stacked Autoencoders}{6}{subsection.2.3}
-\contentsline {subsubsection}{\numberline {2.3.1}High Dimensional Data Reduction}{6}{subsubsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3}Stacked Autoencoders}{5}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}High Dimensional Data Reduction}{5}{subsubsection.2.3.1}
 \contentsline {subsubsection}{\numberline {2.3.2}Deep Belief Networks}{6}{subsubsection.2.3.2}
 \contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising Autoencoders}{7}{subsubsection.2.3.3}
 \contentsline {subsubsection}{\numberline {2.3.4}Pre-training}{7}{subsubsection.2.3.4}
 \contentsline {subsubsection}{\numberline {2.3.5}Time Series Applications}{7}{subsubsection.2.3.5}
-\contentsline {subsubsection}{\numberline {2.3.6}Financial Applications}{8}{subsubsection.2.3.6}
+\contentsline {subsubsection}{\numberline {2.3.6}Financial Applications}{7}{subsubsection.2.3.6}
 \contentsline {subsection}{\numberline {2.4}Data Segmentation}{8}{subsection.2.4}
 \contentsline {subsection}{\numberline {2.5}Online Learning Algorithms and Gradient Descent}{9}{subsection.2.5}
 \contentsline {subsection}{\numberline {2.6}Backtesting and Model Validation}{10}{subsection.2.6}
-\contentsline {subsubsection}{\numberline {2.6.1}Testing Methodologies}{11}{subsubsection.2.6.1}
+\contentsline {subsubsection}{\numberline {2.6.1}Testing Methodologies}{10}{subsubsection.2.6.1}
 \contentsline {subsubsection}{\numberline {2.6.2}Test Data Length}{12}{subsubsection.2.6.2}
-\contentsline {subsubsection}{\numberline {2.6.3}Sharpe Ratio}{13}{subsubsection.2.6.3}
-\contentsline {section}{\numberline {3}Algorithms}{14}{section.3}
-\contentsline {section}{\numberline {4}Data}{15}{section.4}
-\contentsline {section}{\numberline {5}Results}{16}{section.5}
-\contentsline {section}{\numberline {6}Conclusion}{17}{section.6}
-\contentsline {section}{\numberline {7}References}{18}{section.7}
+\contentsline {subsubsection}{\numberline {2.6.3}Sharpe Ratio}{12}{subsubsection.2.6.3}
+\contentsline {section}{\numberline {3}Implementation}{14}{section.3}
+\contentsline {subsection}{\numberline {3.1}Process Overview}{14}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Feedforward Neural Networks}{14}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Notation and Network Representation}{14}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Activation Functions}{14}{subsubsection.3.2.2}
+\contentsline {subparagraph}{Sigmoid}{14}{section*.7}
+\contentsline {subparagraph}{ReLU}{15}{section*.8}
+\contentsline {subsubsection}{\numberline {3.2.3}Backpropagation}{15}{subsubsection.3.2.3}
+\contentsline {subsubsection}{\numberline {3.2.4}Gradient Descent Algorithms}{15}{subsubsection.3.2.4}
+\contentsline {subsubsection}{\numberline {3.2.5}Gradient Descent Improvements}{16}{subsubsection.3.2.5}
+\contentsline {subsection}{\numberline {3.3}Restricted Boltzmann Machines}{16}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Contrastive Divergence}{16}{subsubsection.3.3.1}
+\contentsline {subsubsection}{\numberline {3.3.2}CD-1 and SGD}{17}{subsubsection.3.3.2}
+\contentsline {subsection}{\numberline {3.4}Stacked Autoencoders}{17}{subsection.3.4}
+\contentsline {subsubsection}{\numberline {3.4.1}Greedy Layerwise SAE Training}{17}{subsubsection.3.4.1}
+\contentsline {subsubsection}{\numberline {3.4.2}Denoising Autoencoders}{17}{subsubsection.3.4.2}
+\contentsline {subsection}{\numberline {3.5}Deep Network Weight Initializations}{17}{subsection.3.5}
+\contentsline {subsubsection}{\numberline {3.5.1}Deep Belief Network Training}{18}{subsubsection.3.5.1}
+\contentsline {section}{\numberline {4}Data}{19}{section.4}
+\contentsline {section}{\numberline {5}Results}{20}{section.5}
+\contentsline {section}{\numberline {6}Conclusion}{21}{section.6}
+\contentsline {section}{\numberline {7}References}{22}{section.7}

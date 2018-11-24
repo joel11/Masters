@@ -28,6 +28,18 @@
 \usepackage{hyperref}
 \usepackage[numbib,nottoc]{tocbibind}
 \usepackage{fancyhdr}
+\usepackage{placeins}
+
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+%\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+% 
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+%
 
 \newcommand{\myol}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
 \newenvironment{technicaldoc}
@@ -44,10 +56,206 @@
 	
 	\bigskip\large\textbf{1. Current Status}\bigskip\normalsize
 
-		
+	The library implementations are at a point such that an end-to-end process can be run: data with training parameters are specified, and a CSCV based PBO is output.
+
+	\bigskip A full list of implementations is as follows:
 	
-	Testing
+	\begin{itemize}
+		\item[$\bullet$] Network Types
+		\begin{itemize}
+			\item[$\cdot$] Feedforward Network
+			\item[$\cdot$] Restricted Boltzmann Machine
+			\item[$\cdot$] Stacked Auto Encoder
+		\end{itemize}
+		\item[$\bullet$] Learning Algorithms
+		\begin{itemize}
+			\item[$\cdot$] Contrastive Divergence-1 for RBM pre-training
+			\item[$\cdot$] Online Gradient Descent
+			\item[$\cdot$] Stochastic Gradient Descent
+		\end{itemize}
+		\item[$\bullet$] Validation Algorithms
+		\begin{itemize}
+			\item[$\cdot$] CSCV
+			\item[$\cdot$] PBO
+		\end{itemize}
+		\item[$\bullet$] Data Processes
+		\begin{itemize}
+			\item[$\cdot$] Log fluctuation implementation to format dataset with rolling windows
+			\item[$\cdot$] Library to generate synthetic data
+		\end{itemize}	
+		\item[$\bullet$] Optimizations
+		\begin{itemize}
+			\item[$\cdot$] SGD: L1 \& L2 Regularizations
+		\end{itemize}
+		\item[$\bullet$] Neural Network Configurations
+		\begin{itemize}
+			\item[$\cdot$] Activations: Sigmoid, ReLU, Softmax
+			\item[$\cdot$] Initialisations: Normal, Hinton, Xavier, He (Normal \& Uniform variations)
+			\item[$\cdot$] Cost Functions: MSE, CE, Loglikehood
+		\end{itemize}
+		\item[$\bullet$] Output Library
+		\begin{itemize}
+			\item[$\cdot$] Effective graphing of training logs (epoch based performance, weight update rates, output reconstructions etc.)
+		\end{itemize}
+		\item[$\bullet$] Technical Testing
+		\begin{itemize}
+			\item[$\cdot$] Basic hyperparameter search method \& outputs
+			\item[$\cdot$] Automated Unit Tests for CD1, OGD and
+		\end{itemize}	
+	\end{itemize}
 	
+
+	\newpage
+	\bigskip\large\textbf{2. Future Status}\bigskip\normalsize
+	
+	There's a fair amount to do before starting tests on the actual dataset, from software engineering tasks to algorithm optimizations to more critical experiment implementation details. The to-do lists below have been split up into critical and non-critical tasks(or tasks which might not be necessary)
+	
+	\paragraph{Critical}
+
+	\begin{itemize} 
+		\item[$\bullet$] Database work: MongoDB/SQL implementation to record parameters and results 
+		\item[$\bullet$] Learning Optimizations: Variable learning rate (AdaGrad/ADAM/ADA)
+		\item[$\bullet$] Trading Strategy: Decide on the basic strategy used to derive returns	
+		\item[$\bullet$] Synthetic Tests: Run tests on synthetic data to inform experiment design and paraeter choices
+		\item[$\bullet$] Finalise Dataset: Need to properly account for survivorship bias, and decide which data to use
+		\item[$\bullet$] SAE updates: Decide whether the SAE should be updated periodically or not
+		\item[$\bullet$] Literature Review: There are various inclusions and ammendments to be made here
+	\end{itemize}
+
+	\paragraph{Non-Critical/Maybe}
+
+	\begin{itemize}
+		\item[$\bullet$] Better hyper-parameter search technique, e.g. Random Search
+		\item[$\bullet$] Parallelization of training tasks
+		\item[$\bullet$] Denoising SAEs
+		\item[$\bullet$] Learning Optimization: Momentum
+		\item[$\bullet$] Weight monitoring visualizations
+	\end{itemize}	
+
+	\newpage\bigskip\large\textbf{3. Milestones \& Deliverables}\normalsize
+	
+	
+
+	\begin{table}[h]
+		\begin{tcolorbox}[tabularx*={\arrayrulewidth0.6mm}{X||X},fontupper=\normalsize\sffamily,colback=white!10!white,colframe=black!40!]
+			
+			\centerline{\textbf{Finish Date}} &\centerline{\textbf{Item}} \\\hline
+			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {1 Literature Review}\\\hline
+			\vspace{0.1mm}  \centerline {In Progress} &\vspace{0.1mm}   {2 Data Collection}  \\\hline
+			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {3 Data Log Fluctuation Processing}  \\\hline
+			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {4 SAE Implementation}  \\\hline
+			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {5 Online FFN/LSTM Implementation} \\\hline
+			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {6 CSCV Implementation} \\\hline		
+			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {7 Synthetic Data Generation} \\\hline					
+			\vspace{0.1mm}  \centerline {30/11} &\vspace{0.1mm}   {8 Finalise Implementation Process} \\\hline
+			\vspace{0.1mm}  \centerline {30/11} &\vspace{0.1mm}   {9 Database Implementation} \\\hline
+			\vspace{0.1mm}  \centerline {30/11} &\vspace{0.1mm}   {10 Learning Optimizations} \\\hline			
+			\vspace{0.1mm}  \centerline {14/12} &\vspace{0.1mm}   {11 Test full implementation on synthetic
+	data} \\\hline
+			\vspace{0.1mm}  \centerline {14/01} &\vspace{0.1mm}   {12 Test full implementation on actual
+dataset} \\\hline
+			\vspace{0.1mm}  \centerline {31/01} &\vspace{0.1mm}   {13 Statistical Analysis (incl. profitability
+of trading strategy)} \\\hline
+			\vspace{0.1mm}  \centerline {28/02} &\vspace{0.1mm}   {14 Write up \& Revisions} \\\hline
+									
+		\end{tcolorbox}
+	\end{table}
+	\FloatBarrier
+
+	\newpage\bigskip\large\textbf{4. Process Implementation}\bigskip\normalsize
+
+	The steps below indicate how everything is expected to fit together at a high level perspective:
+	
+	\begin{itemize}
+		\item [1] Data preparation
+		\begin{itemize}
+			\item[$\bullet$] The data is processed into day to day log fluctuations
+			\item[$\bullet$] At each time point, rolling historic summations are calculated (e.g. the past 1, 7 and 30 days)
+			\item[$\bullet$] At each time point, rolling future summations are calculated (e.g. the next 10 days)
+		\end{itemize}
+		\item [2] Data Segregation
+		\begin{itemize}
+			\item[$\bullet$] The processed dataset is split into 3 parts, to be used for the following processes: SAE/SGD training, OGD training, hold-out validation (e.g. 60\%, 20\%, 20\%)
+		\end{itemize}	
+		\item [3] SAE Training
+		\begin{itemize}
+			\item[$\bullet$] The dataset defined for SAE/SGD is used to train the auto-encoder network (using either RBM pretraining/weight initialization algorithms + SGD)
+			\item[$\bullet$] Notably, this SAE/SGD dataset will itself be split into training \& testing portions in order to train and validate the SAE network
+			\item[$\bullet$] Once the SAE network has been defined, it can be used to reprocess the datasets such that the input is now encoded, and the output is as before. These encoded datasets will be used for all following steps.
+		\end{itemize}		
+		\item [4] FFN/SGD Training
+		\begin{itemize}
+			\item[$\bullet$] The same SAE/SGD portion of the data will then be used to train the FFN network to predict future prices, using the implemented SGD algorithm \& optimizations.
+		\end{itemize}			
+		\item [5] OGD Training
+		\begin{itemize}
+			\item[$\bullet$] The second portion of data will be used to train and optimize the FNN from 4 for OGD. The purpose of this will be to optimize the OGD parameters		
+		\end{itemize}			
+		\item [6] Holdout Validation
+		\begin{itemize}
+			\item[$\bullet$] The third and last portion of data will be used to obtain results for the model. Predictions will be made on the relevant stock price log fluctuations
+		\end{itemize}				
+		\item [7] Returns generations
+		\begin{itemize}
+			\item[$\bullet$] A basic trading strategy will be used to generate returns from the predicted and actual prices in the holdout dataset. These returns for each time period and each configuration of the model defined by steps 3-5 will form the M matrix for the CSCV process.
+		\end{itemize}	
+		\item [8] CSCV \& PBO
+		\begin{itemize}
+			\item[$\bullet$] Using the M matrix from 7, the CSCV process will be run which will then allow a calculation of PBO.
+		\end{itemize}		
+	\end{itemize}
+
+	\newpage\bigskip\large\textbf{5. Points of concern}\bigskip\normalsize
+	
+	There are several issues which are still undecided/uncertain or which could use further refinement:
+	\begin{itemize}
+		\item[$\bullet$] End to end process: Should the FFN network be trained with SGD prior to OGD, or should the first dataset just be used for OGD training on the FFN after pre-training/weight initialization has taken place?
+		\item[$\bullet$] Predictions attempted: How many steps and stocks should be attempted in the prediction process?
+		\item[$\bullet$] Trading strategy: The CSCV method requires returns to be used, which can then be assessed with something like the Sharpe Ratio. Should an actual trading strategy be used for each configuration here, or just a representation of accuracy which can be calculated as a single figure for each time period (such as MSE)? If a trading strategy is used, what should it be?
+		\item[$\bullet$] SAE Updating: The current implementation does not have any SAE updates taking place as more data is observed. While easy to change, I'm not sure if or when the SAE network should be updated
+		\item[$\bullet$] Denoising SAE: The initial proposal was to use denoising autoencoders. The implementation process is easy enough, but I'm unsure if denoising would be effective in a financial context (where data is already so noisy)		
+		\item[$\bullet$] Final Dataset: The current dataset doesn't account for survivorship bias, and I'm a little unsure of how best to pick the final stocks/indices etc. (the intial proposal was rather limited in comparison to what is now available)
+	\end{itemize}		
+
+	\newpage\bigskip\large\textbf{6. Meeting Minutes}\bigskip\normalsize	
+	\paragraph{16th June 2018}
+	\begin{itemize}
+		\item[$\bullet$] Literature Review
+		Include: Wilcox \& Debbie Hierarchical Paper; Crutchfield \& Farmer: Geometry of Time Series; F Takens: Detecting strange attractors in turbulence; Reference Riaz
+		\item[$\bullet$] Implementation
+		\begin{itemize}
+			\item[$\bullet$] Key implementation point was the data segmentation choices
+			\item[$\bullet$] LSTM network would resolve this point for us (CNN convolution could also potentially
+			work)
+			\item[$\bullet$] Non LSTM will run risk of correlating times with stocks
+			\item[$\bullet$] Representation needs a mixture of time scales as well as the features
+			\item[$\bullet$] Will be considering data for the entire index at any time point t
+			\item[$\bullet$] Will need to consider how to address the changing constituents
+			\item[$\bullet$] Aspect of how often the feature selection is updated (e.g. SDAE in online model)
+			\item[$\bullet$] Does it get updated in the online model ?
+			\item[$\bullet$] SDAE result should be similar to edge detection which will give set of predictions essentially
+			\item[$\bullet$] Use known test cases for CSCV method development
+		\end{itemize}
+		\item[$\bullet$] Data
+		\begin{itemize}
+			\item[$\bullet$] Use simple noise with Gaussian distribution \& long trends to develop network models (6
+			variations of increasing, decreasing and flat with low or high variability)
+			\item[$\bullet$] Build backdated tests module with surrogate data afterwards
+			\item[$\bullet$] Not going to try intraday data due to different nature of problem
+			\item[$\bullet$] Implementation of either a flat file or MongoDB
+			\item[$\bullet$] Important to include Volume datav
+			\item[$\bullet$] Volume time -> might be far more predictable; volume and variance linked
+		\end{itemize}
+		\item[$\bullet$] Other
+		\begin{itemize}
+		\item[$\bullet$] Admin:Single document - table of contents (nice to have) with authors; sections etc. ; full doc with
+		versioning; PDF + latex (always send both)
+		\item[$\bullet$] 	Further Correspondence:
+		* Iterate over FFN/LSTM implementations rather than starting with LSTM
+		* For the meantime, assume the models do not differ fundamentally enough to be considered as
+		separate for the PBO calculations
+		\end{itemize}
+	\end{itemize}		
 \end{technicaldoc}
 
 
@@ -162,38 +370,14 @@ reactions are used as inputs to train a network for certain outputs \cite{Schmid
 have their benefits and uses, this paper will largely focus on FNN and RNNs, trained through SL and UL.
 \hfill \break 
 
-\subsubsection{Training and Backpropagation}
+\subsubsection{Training and Backpropagation}\label{lr_trainingbackprop}
 
 Historically, the crux of neural networks’ popularity has often been based on the development of novel training 
-methodologies, and how they have increased performance. In line with this, the Backpropagation (BP) algorithm 
+methodologies, and how they have increased performance. In line with this, the Backpropagation (BP) algorithm (as defined in \ref{imp_backprop})
 has played a pivotal part: while neural network (or perceptron) models were around long before NN popularity, 
 they were largely deemed ineffective, at least in comparison to other available models of the time 
 \cite{Minksy}. It was only during the 1980’s that the BP algorithm was applied to NNs, and 
-the field started to gain in popularity again \cite{LeCun2, Werbos2}.
-\hfill \break 
-
-The backpropagation algorithm can be summarised as below
-\begin{itemize}
-\item[$\bullet$]  Let N be a neural network of weights \textit{w}, inputs \textit{x} and outputs \textit{y}, where the weights are (naively) initialized to random values
-\item[$\bullet$] The algorithm then iterates through the following:
-\begin{itemize}
-  \item[1] Select a number of training samples, $x_s$
-  \item[2]Forward Pass:
-  \begin{itemize}
-    \item[i] Propagate the samples through the network to generate out output $y_s$
-    \item[ii] Calculate the error terms (aka cost)
-  \end{itemize}
-\item[3]Backward Pass:
-\begin{itemize}
-  \item[i] Propagate activation value back through the network to calculate the delta values (the difference between the network outputs and desired output values at each layer)
-  \item[ii] Each weights output delta and input activation are multiplied to find the weight’s gradient
-  \item[iii]This gradient is reduced by a factor of the ‘learning rate’, and subtracted from the weight
-\end{itemize}
-\item[4] Repeat from step 1, unless a minima or other stopping criterion is reached
-
-\end{itemize}
-\end{itemize}
-
+the field started to gain in popularity again \cite{LeCun2, Werbos2}. 
 \hfill \break 
 
 Rumelhart et al. showed that the BP algorithm as applied in NNs resulted in useful feature representations 
@@ -221,7 +405,7 @@ Ge et al. have also shown that it is possible to escape saddle points and offer 
 in certain non-convex problems \cite{Ge}.
 \hfill \break 
 
-\subsubsection{Activation Functions}
+\subsubsection{Activation Functions}\label{lr_activationfunctions}
 
 One of the upfront configuration choices necessary is the activation function, which allows the mapping of input 
 to output at the neuron level. There have been many suggestions and experiments with different functions, though 
@@ -306,7 +490,7 @@ training \cite{Wang2}.
 
 
 
-\subsection{Stacked Autoencoders}
+\subsection{Stacked Autoencoders}\label{lr_SAE}
 
 \subsubsection{High Dimensional Data Reduction}\label{HDDR}
 
@@ -823,7 +1007,218 @@ predictions to be profitable. The subtlety here is that we will consider the usa
 \hfill \break 
 
 \newpage
-\section{Algorithms}\label{Algorithms}
+\section{Implementation}\label{Implementation}
+\subsection{Process Overview}\label{ProcessOverview}\label{imp_overview}
+
+
+The implementation focuses on bringing together several ideas: data reduction, deep learning with pre-training/weight initialization, online learning and backtest overfitting validation for the purposes of stock price prediction. To this end, the full process was implemented with the following steps:
+
+\begin{itemize}
+	\item [1] The dataset was split into 3 subsets: the SAE/FFN  portion, the OGD portion and the hold-out set for validation
+	\item [2] The first subset was used to train the SAE and deep FFN using the SGD algorithm. These networks were implemented with pre-training and weight initialization techniques
+	\item [3] The second subset of data was used to continue training the network in an online manner using OGD
+	\item [4] The third and last 'hold-out' subset was used to generate log fluctuation prediction
+	\item [5] The predictions from 5 were used in a simple trading strategy to generate returns
+	\item [6] These returns were then used as an input for the CSCV process, and so obtain a PBO calculation for the implementation as a whole
+\end{itemize}
+
+\subsection{Feedforward Neural Networks}
+~\\
+Feedforward Neural Networks (FFN) in the form of multilayer perceptrons is a well established network technique, providing effective nonlinear representations for both shallow and deep structures \cite{Schmidhuber}. Specifically, a FFN is made up of several non-cyclical layers: the first and last are the input and output layers, respectively, and any inbetween are referred to as 'hidden' layers. Each layer is made up of nodes which are fully connected to the nodes in the previous and following layers, but does not have connections to nodes within the layer - information only travels forward. Each 
+node has an activation function, which acts on the weighted input from the previous layers' nodes.
+
+\subsubsection{Notation and Network Representation}\label{imp_ffn_functions}
+~\\
+\begin{itemize}
+\item[$\cdot$] The weights from the $j^{th}$ node in the $l^{th}$ layer from the $k^{th}$ node in the $(l-1)^{th}$ layer are represented by $w^l_{jk}$
+\item[$\cdot$] The bias for the $j^{th}$ node in layer $l$ is represented by $w^l_0j$
+\item[$\cdot$] The output for the $j^{th}$ node is defined as $o(z_j)$, for an activation function $o$ and weighted input $z$
+\item[$\cdot$] The weighted input for the $j^{th}$ neuron in a layer is $z^l_j=\sum_{n=i}{a^{l-1}_iw_{ij}} + w_{0j}$
+\end{itemize}
+~\\
+These definitions allow an input into the network to be propagated through it, having the original values processed through the weights and activations functions, and have an output in the form of the network's last layer.
+
+\subsubsection{Activation Functions}
+~\\
+As noted in \ref{lr_activationfunctions}, there are 3 primary characteristics of concern for activation functions: non-linearity, continuous differentiability and monotonicity. While many different functions have been suggested and used, 2 of the most used were implemented here.
+
+\subparagraph{Sigmoid}
+
+The sigmoid, or logistic, function is one of the most popular and widely used activation functions historically, and is defined as 
+\begin{equation}\label{func_sigmoid}
+f(x) = \frac{1}{1 + e^{-x}}
+\end{equation}
+
+The Sigmoid function is in the range [0,1], making it a suitable choice for problems requiring a probabilistic output. The slope of the function curve is both a boon and a drawback: it allows for fast learning initially, but results in learning slowdown later (often casuing what is referred to as node 'saturation'). The exponent calculation is also computationally expensive, relatively speaking.
+
+\subparagraph{ReLU}
+
+The Rectified Linuear Unit (ReLU) is, as discussed in \change{needs reference section}, a newer activation function which has been shown to be effective in deep learning networks. It is defined as
+
+\begin{equation}\label{func_relu}
+f(x) = max(0, x)
+\end{equation}
+
+The function has the benefits of quick learning which doesn't saturate, as well as being computationally cheap. The downside is that the non-gradient for the negative range of the function can result in 'dead' nodes, which stop updating with the learning process (though 'Leaky ReLUs' can be used to help resolve this)
+
+\subsubsection{Backpropagation}\label{imp_backprop}
+
+The backpropagation algorithm, as discussed in \ref{lr_trainingbackprop}, has allowed for effective training of FNNs for given data. The algorithm relies on incremental improvements of the model, as defined by decreasing the cost function. A common choice for cost is Mean Squared Errors (MSE):
+
+\begin{equation}\label{function_MSE}
+C = \frac{1}{2} \rVert y - a^L \rVert^2
+\end{equation}
+~\\
+This allows the backpropagation algorithm to implemented as follows:
+
+\begin{itemize}
+	\item[$\bullet$]  Let N be a neural network of weights \textit{w}, inputs \textit{x} and outputs \textit{y}, where the weights are (naively) initialized to random values
+	\item[$\bullet$] The algorithm then iterates through the following:
+	\begin{itemize}
+		\item[1] Select a set of $m$ samples $x_s$
+		\item[2]Forward Pass:
+		\begin{itemize}
+			\item[i] Propagate the samples through the network using the functions defined in \ref{imp_ffn_functions} to generate out output $y_s$
+			\item[ii] Calculate the error term (aka cost), as
+			\begin{equation}
+				\lambda^L_x = \nabla_a C \otimes o'(z^L) = (a^L - y) \otimes o'(z^L)
+			\end{equation}
+		\end{itemize}
+		\item[3]Backward Pass:
+		\begin{itemize}
+			\item[i] Propagate activation value back through the network to calculate the delta values (the difference between the network outputs and desired output values at each layer)
+			\begin{equation}
+			\lambda^l_x = ((w^{l+1})^T\lambda^{l+1})  \otimes o'(z^l)
+			\end{equation}
+			\item[ii] Each weights output delta and input activation are multiplied to find the weight’s gradient and this gradient is reduced by a factor of the ‘learning rate’ $\eta$, and the mean of this is subtracted from the network weights
+			\begin{equation}
+			w^l \rightarrow w^l - \frac{\eta}{m} \sum_{x} \lambda^{x, l} (a^{x, l - 1})^T
+			\end{equation}
+		\end{itemize}
+		\item[4] Repeat from step 1, unless a minima or other stopping criterion is reached
+		
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Gradient Descent Algorithms}\label{imp_sgd}
+
+Stochastic Gradient Descent (SGD), as discussed in \ref{OGD}, has been shown to increase the speed at which the backpropagation algorithm can converge a minima in terms of cost. The algorithm runs backpropagation over the entire dataset for a number of 'epochs', and updates the network incrementally through the epoch. The stopping condition for the algorithm is usually defined as either a particular number of epochs being reached, or cost no longer decreasing for some number of epochs (i.e. a minima has been reached).
+
+\begin{itemize}
+	\item [$\cdot$] For each epoch:
+	\item [1] Select $k$ samples at random from the data which have not yet been sampled in this epoch
+	\item [2] Use backpropgation on the network using the $k$ samples to update the weights
+	\item [3] Repeat 1-2 until all samples from the dataset have been sampled
+	\item [4] Start a new epoch, or finish if a stopping condition has been reached
+\end{itemize}
+
+Where SGD is appropriate and effective for scenarios where the entire dataset is available, Online Gradient Descent (OGD) is applicable for when the model is learning in an online fashion. In this case, the backpropagation is run as defined above, but for only one sample at a time (i.e. $m=1$)
+
+\subsubsection{Gradient Descent Improvements}\label{imp_gradientimprovements}
+
+This section will detail and improvements that are used in the project - i.e. L1 and L2 regularization, or the learning rate schedule \todo{write this section}
+
+\subsection{Restricted Boltzmann Machines}
+
+Restricted Boltzmann Machines (RBM) are generative networks which can be trained to learn probability distributions over a dataset. They are structurally different from a FFN in that they have a recurrent weight function - a typical RBM has one visible layer (input/output), and one hidden layer. A sample will be processed from the input layer to the hidden layer, and the activation values from the hidden layer will be used by the input layer to provide a recontruction. The hidden units thus correspond to feature detection of the visible unit data structures, and the learning process of the network results in effetive parameter estimation. 
+
+One of the primary differences from an FFN lies in the stochastic unit determination - the values in a hidden layer will typically be implemented such that the take on a binary value with a probablistic likelihood. Thus, the input and output have the same structure, and the processing from the hidden layer creates the generative process learned by the RBM. 
+~\\
+The joint configuration $(v,h)$ of the visible and hidden units has an energy \todo{add Hopfield 1982 ref} given by:
+
+\begin{equation}\label{func_rbmenergy}
+E(v,h) = - \sum_{i \in visible} a_iv_i - \sum_{j \in hidden} b_jh_j - \sum_{i,j}v_ih_jw_ij
+\end{equation}
+
+where $v,h$ correspond to the binary states of the visible and hidden units, with biases $a,b$, and weights $w$. It can be shown \todo{add hinton reference TR guide}, that network weights can be adjusted to change the probabilities assigned to a particular training sample. The derivations of \ref{func_rbmenergy} show that performing a stochastic asent for the log probability of the data can be implemented through the following weight adjustment:
+
+\begin{equation}
+\Delta w_{ij} = \eta (\langle v_ih_j\rangle_{data} - \langle v_ih_j\rangle_{model})
+\end{equation}
+
+The angular brackets here indicate expectations under the distribution specified by the following subscript. Due to the probabilistic nature of RBMs, the [0,1] ranged Sigmoid activation function is typically used. Thus, for hidden nodes and a data sample $v$, the it is easy to get unbiased sampling of $\langle v_ih_j \rangle_{data}$
+
+\begin{equation}
+p(h_j=1) = \sigma(w_{0j} +  \sum_{i=1}v_iw_{ij})
+\end{equation}
+
+Similarly, the visible states (or reconstruction), can then be calculated as 
+
+\begin{equation}
+p(v_i=1) = \sigma(w_{0i} + \sum_{j=1}h_jw_{ij})
+\end{equation}
+
+
+Getting an unbiased sample of $\langle v_i h_j \rangle$ proves more problematic, and so the model reconstructioms via Gibbs sampling are used instead (this is explained below), resulting in the weight updates of
+
+\begin{equation}
+\Delta w_{ij} = \eta (\langle v_ih_j\rangle_{data} - \langle v_ih_j\rangle_{reconstruction})
+\end{equation}
+
+While it's important for the hidden units to take on a binary value (and so avoid communicating real values rather than learning structure), the visible units may be chosen to take on the probability values, rather than the stochastic samples, particularly if real valued output is necessary. 
+
+\subsubsection{Contrastive Divergence}\label{imp_CD}
+
+The process of sampling and resampling may be run for many iterations between the two layers before finishing on an output - this potentially long running and stochastic process results in the generative aspect of the network, and constitutes a Gibbs sampling chain. Multiple sampling steps in this chain is known as Contrastive Divergence, or CD-n, where $n$ represents the number of steps, and which allows for effective parameter estimation. Thus, CD-1 is the following:
+
+\begin{itemize}
+	\item [$\cdot$] For a random training sample $V'$, sample $H'$ from $P(V|H)$
+	\item [$\cdot$] Sample $V$ from $P(V|H')$
+	\item [$\cdot$] Sample H from $P(H|V)$
+	\item [$\cdot$] Return $(V,H) \sim R $, where R is the reconstructed distribution for $\langle vh \rangle$
+\end{itemize}
+
+Using the reconstructed distribution $R(V,H)$, the weight update for CD-1 is, as above, then 
+\begin{equation}
+\Delta CD(W) = \eta( E_{P(H|V)D(V)}[VH^T] - E_{R(V,H)}[VH^T])
+\end{equation}
+
+There's no upper bound on the iterations used for CD, and running for many can prove more effective for certain purposes. In this case however, where RBMs are used for the purposes of weight initialization, CD-1 is usually deemed sufficient.
+
+\subsubsection{CD-1 and SGD}
+
+In the same way that the backpropagation learning algorithm in \ref{imp_backprop} can be implemented in an SGD process for FFNs, so can the CD learning algorithm for RBMs. The framework is kept the same, with the implementation of epochs and weight updates based on stochastically chosen minibatches, but the calculation used to update the weights is CD-1 instead.
+
+
+\subsection{Stacked Autoencoders}\label{imp_SAE}
+
+As noted in \ref{lr_SAE}, the use of Stacked Autoencoders (SAE) have resulted in significant improvements in deep learning networks, and allowed effective reduction of high dimensional data. A single autoencoder is a specialized type of FNN with 3 layers: one input, one hidden, and one output. The network is trained (using backpropagation as per \ref{imp_backprop}) to reconstruct the input, so the input and output layers have the same structure, and the hidden layer needs to have fewer nodes than the input. This forces the hidden layer to learn effective features of the data, and reduce the dimenstional representation. 
+\newline\newline
+Stacked autoencoders follow a similar structure, but with multiple hidden layers. The only strict requirement of the hidden layers is that the middle one, which will be used as the encoder layer, still has fewer nodes than the input. This structure can still be trained using backpropagation, but with more layers, it is likely to begin suffering from the vanishing or exploding gradient problem. As noted, the work by Hinton et al. for initialization of weights helps resolve this.
+
+\subsubsection{Greedy Layerwise SAE Training}
+
+The algorithm for implementing the SAE training suggested by Hinton et al is as follows
+
+\begin{itemize}
+	\item [1] Define a network structure which conforms to the requirements of an SAE, with $L$ layers
+	\item [2] For the first hidden layer, train as you would for an RBM with 2 layers - with the input layer, and the first layer as the hidden layer, using CD-1 and SGD
+	\item [3] For each layer $l$ in $(2, L/2)$:
+	\begin{itemize}
+		\item [$\cdot$] Process the data through the previously trained layers using the forward propagation as defined in \ref{imp_ffn_functions}
+		\item [$\cdot$] This processed data then forms the input to the $l^th$ layer, which can be trained once again using CD-1 and SGD as if it were two layers
+	\end{itemize}
+	\item[4] Once all the layers up until the encoder layer have been trained in this greedy layerwise fashion, mirror the weights and layers structures after the encoder to create a fully $L$ layered FFN with pre-trained weights
+	\item [5] This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised
+	\item [6] Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE
+\end{itemize}
+
+Notably, this weight initialization will only be effective if the RBM and SAE networks use the same activation function, which due to the RBM implementation, needs to be a function that can output a probabilistic value in [0,1].
+
+\subsubsection{Denoising Autoencoders}
+
+If denoising is implemented (presumably Gaussian denoising), then this section will detail the implementation. \todo{decide on this}
+
+\subsection{Deep Network Weight Initializations}\label{imp_weights}
+
+As noted in \ref{lr_trainingbackprop}, one of the primary barriers to effective deep learning networks was weight initializations: backpropagated gradient values from SGD would either vanish or explode after multiple layers if the initial weights were too small or too large. The effect of which was to either reduce or completely halt the networks learning process. The first breakthrough, as per \ref{DBN}, was to initialize the weights through greedy layerwise pretraining of Restricted Boltzmann Machines. Later research, as per \ref{}, has shown that weights can be initialized to maintain expected variance between the input and output layers. Both methods have been implemented and tested for the purposes of SAE and FFN training.
+
+
+
+\subsubsection{Deep Belief Network Training}
+
+
+
 \newpage
 \section{Data}\label{Data}
 \newpage
