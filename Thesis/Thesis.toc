@@ -21,27 +21,32 @@
 \contentsline {subsection}{\numberline {2.5}Online Learning Algorithms and Gradient Descent}{9}{subsection.2.5}
 \contentsline {subsection}{\numberline {2.6}Backtesting and Model Validation}{10}{subsection.2.6}
 \contentsline {subsubsection}{\numberline {2.6.1}Testing Methodologies}{10}{subsubsection.2.6.1}
-\contentsline {subsubsection}{\numberline {2.6.2}Test Data Length}{12}{subsubsection.2.6.2}
+\contentsline {subsubsection}{\numberline {2.6.2}Test Data Length}{11}{subsubsection.2.6.2}
 \contentsline {subsubsection}{\numberline {2.6.3}Sharpe Ratio}{12}{subsubsection.2.6.3}
-\contentsline {section}{\numberline {3}Implementation}{14}{section.3}
-\contentsline {subsection}{\numberline {3.1}Process Overview}{14}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Feedforward Neural Networks}{14}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Notation and Network Representation}{14}{subsubsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}Activation Functions}{14}{subsubsection.3.2.2}
-\contentsline {subparagraph}{Sigmoid}{14}{section*.7}
-\contentsline {subparagraph}{ReLU}{15}{section*.8}
-\contentsline {subsubsection}{\numberline {3.2.3}Backpropagation}{15}{subsubsection.3.2.3}
-\contentsline {subsubsection}{\numberline {3.2.4}Gradient Descent Algorithms}{15}{subsubsection.3.2.4}
-\contentsline {subsubsection}{\numberline {3.2.5}Gradient Descent Improvements}{16}{subsubsection.3.2.5}
-\contentsline {subsection}{\numberline {3.3}Restricted Boltzmann Machines}{16}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}Contrastive Divergence}{16}{subsubsection.3.3.1}
-\contentsline {subsubsection}{\numberline {3.3.2}CD-1 and SGD}{17}{subsubsection.3.3.2}
-\contentsline {subsection}{\numberline {3.4}Stacked Autoencoders}{17}{subsection.3.4}
-\contentsline {subsubsection}{\numberline {3.4.1}Greedy Layerwise SAE Training}{17}{subsubsection.3.4.1}
-\contentsline {subsubsection}{\numberline {3.4.2}Denoising Autoencoders}{17}{subsubsection.3.4.2}
-\contentsline {subsection}{\numberline {3.5}Deep Network Weight Initializations}{17}{subsection.3.5}
-\contentsline {subsubsection}{\numberline {3.5.1}Deep Belief Network Training}{18}{subsubsection.3.5.1}
-\contentsline {section}{\numberline {4}Data}{19}{section.4}
-\contentsline {section}{\numberline {5}Results}{20}{section.5}
-\contentsline {section}{\numberline {6}Conclusion}{21}{section.6}
-\contentsline {section}{\numberline {7}References}{22}{section.7}
+\contentsline {section}{\numberline {3}Data}{13}{section.3}
+\contentsline {subsection}{\numberline {3.1}Data Processing}{13}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Synthetic Data}{13}{subsection.3.2}
+\contentsline {section}{\numberline {4}Implementation}{14}{section.4}
+\contentsline {subsection}{\numberline {4.1}Process Overview}{14}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Feedforward Neural Networks}{14}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{14}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{14}{subsubsection.4.2.2}
+\contentsline {subparagraph}{Sigmoid}{14}{section*.8}
+\contentsline {subparagraph}{ReLU}{15}{section*.9}
+\contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{15}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{15}{subsubsection.4.2.4}
+\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent Improvements}{16}{subsubsection.4.2.5}
+\contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{16}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Contrastive Divergence}{16}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{17}{subsubsection.4.3.2}
+\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{17}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Greedy Layerwise SAE Training}{17}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}Denoising Autoencoders}{17}{subsubsection.4.4.2}
+\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{18}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Trading Algorithms}{18}{subsection.4.6}
+\contentsline {subsection}{\numberline {4.7}CSCV \& PBO}{18}{subsection.4.7}
+\contentsline {subsection}{\numberline {4.8}Performance Assessment}{19}{subsection.4.8}
+\contentsline {subsection}{\numberline {4.9}Full Process Implementation}{20}{subsection.4.9}
+\contentsline {section}{\numberline {5}Results}{21}{section.5}
+\contentsline {section}{\numberline {6}Conclusions}{22}{section.6}
+\contentsline {section}{\numberline {7}References}{23}{section.7}

@@ -29,6 +29,8 @@
 \usepackage[numbib,nottoc]{tocbibind}
 \usepackage{fancyhdr}
 \usepackage{placeins}
+\usepackage{algorithm2e}
+
 
 \usepackage{xargs}                      % Use more than one optional parameter in a new commands
 %\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
@@ -826,7 +828,7 @@ how data and replication procedures are made available \cite{Prado}. While the p
 and so on are certainly important, they don't aid with more effective model training for the researcher up front, and 
 so will not be covered here.
 
-\subsubsection{Testing Methodologies}
+\subsubsection{Testing Methodologies}\label{lr_cscv}
 
 Considering the issues laid out above, there has been much work to develop alternative approaches to backtesting. 
 One of the common approaches to avoid backtest overfitting is the ‘hold-out’ strategy, where a certain portion of 
@@ -847,68 +849,11 @@ practice is is ineffective due to the inordinate requirement of signal-to-noise 
 models, as well as a lack of penalization over the number of trials attempted.
 \hfill \break
 
-Bailey et a. \cite{BailyPBO} have developed a more robust approach to backtesting and how overfitting during strategy 
-selection might be avoided. Their research defines backtest overfitting as having occurred when the strategy 
-selection which maximizes IS performance systematically underperforms median OOS in comparison to the 
-remaining configurations. They use this definition to develop a framework which measures the probability of such 
-an event occuring, where the sample space is the combined pairs of IS and OOS performance of the available 
-configurations. The probability of backtest overfitting (PBO) is then established as the likelihood of a configuration 
-underperforming the median IS while outperforming IS. 
+Bailey et al. \cite{BailyPBO} have developed a more robust approach to backtesting and how overfitting during strategy 
+selection might be avoided, called Combinatorially Symmetric Cross-validation (CSCV). Their research defines backtest overfitting as having occurred when the strategy selection which maximizes IS performance systematically underperforms median OOS in comparison to the remaining configurations. They use this definition to develop a framework which measures the probability of such an event occuring, where the sample space is the combined pairs of IS and OOS performance of the available configurations. The probability of backtest overfitting (PBO) is then established as the likelihood of a configuration underperforming the median IS while outperforming IS. 
 \hfill \break 
 
-Formulaically, the definition of backtest overfitting is given by
-\begin{equation}\label{eq:PBO1}
-\sum_{n=1}^{N}E[\overline{r_n}|r\in 
-\Omega_{n}^{*}]Prob[r\in\Omega_{n}^{*}]\leq{N/2}
-\end{equation}
-
-Where the search space {\textOmega} consists of the N ranked strategies, and their ranked IS performance \textit{r} and OOS performance
-\textit{\={r}}. This allows the PBO, using the bayesian formula, to be defined as 
-
-\begin{equation}\label{eq:PBO2}
-  PBO = \sum_{n=1}^{N}Prob[\overline{r} < {N/2}|r\in\Omega_{n}^{*}]Prob[r\in\Omega_{n}^{*}]
-  \end{equation}
-
-Notably, the above definitions consider IS as the data made available to the strategy selection, rather than the 
-models calibration (e.g. the full IS dataset, rather than, by was of example, the number of days used in a moving average). 
-This allows the model-free and non-parametric nature of the definition. 
-\hfill \break 
-
-They further developed the combinatorially symmetric cross-validation (CSCV) framework as a methodology to 
-reliably estimate the probability used in PBO, which allows a concrete application of the concept. The CSCV 
-framework does not require using the typical ‘hold-out’ strategy (and thus avoids credibility issues), and is 
-ultimately able to provide a bootstrapped distribution of OOS performance. 
-\hfill \break 
-
-The methodology can be briefly summarised (skipping some details and nuances) as the following steps:
-\begin{itemize}
- \item[1]Generate a TxN performance series matrix, M, representing the profits and losses by the N trials over T time periods
-\item[2]Partition the M matrix into S submatrices
-\item[3]Generate the combination set C of all combinations of the S submatrices
-\item[4]For each combination in C:
-\begin{itemize}
-\item [a] Form the training set by joining the 2 combination sets, and testing set as the rest of the combinations (all in order)
-\item [b] Determine the ranked in-order IS and OOS performance for the sets
-\item [c] Determine n* as the best performing IS strategy
-\item [d] Determine the relative rank of the n* strategy’s OOS performance, where we should observe that \={r}* systematically outperforms OOS as 
-well. Define logit \textlambda = \(\frac{\overline{\textomega}_{c}}{(1 -\overline{\textomega}_{c} )}\), where a high value implies consistency 
-between IS and OOS performance, and thus a low level of backtest overfitting
-\end{itemize}
-\item [5] The {\textlambda} values can then be collected and used to define the relative frequency at which \textlambda 
-occurs across all combination sets in C, signified by f(\textlambda).
-\end{itemize}
-
-The CSCV framework and results thus allows the consideration of several notable statistics. First and foremost, 
-the PBO may now be estimated using the CSCV method and using an integral over the f(\textlambda) function 
-as defined above which offers a rate at which the best IS strategies underperform the median of OOS trials. If \textphi $\approx$ 0,
- it is evidence of no significant overfitting (inversely, \textphi  $\approx$1 would be a sign of probable overfitting). Critically then, a 
- PBO measure may be used in a standard hypothesis test to determine if a model should be rejected or not. This 
- can be extended, as shown by Bailey et al., to show the relationship between overfitting and performance 
-degradation of a strategy. It becomes clear that with models overfitting to backtest data noise, there comes a point 
-where seeking increased IS performance is detrimental to the goal of improving OOS performance.  
-\hfill \break 
-
-The CSCV methodology provides several important benefits (some already mentioned) over traditional testing 
+The CSCV methodology provides several important benefits over traditional testing 
 frameworks, including the usual K-fold cross validation used in machine learning. By recombining the slices of 
 available data, both the training and testing sets are of equal size, which is particularly advantageous when comparing 
 financial statistics such as the Sharpe Ratio (SR), which are susceptible to sample size. Additionally, the symmetry 
@@ -1007,28 +952,51 @@ predictions to be profitable. The subtlety here is that we will consider the usa
 \hfill \break 
 
 \newpage
+
+
+\section{Data}\label{Data}
+\subsection{Data Processing}
+
+All datasets were transformed into log feature fluctuation values, and were then expanded to include fluctuations over rolling window periods.
+\begin{equation}
+\textit{log\_diff}(x_t) = ln(x_t) - ln(x_{t-1})
+\end{equation}
+This log feature fluctuation,  is processed for each OHLCV feature and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and symmetric in terms of gains and losses.
+
+The datasets are then expanded with the rolling window fluctuations both in the past, for input, and in the future, for predicted output. For example, at each data point $t$, the following time series are added:
+\begin{itemize}
+	\item [$\cdot$] Log feature fluctuations over the periods $(t-7, t)$ and $(t-30, t)$ (with $(t-1, t)$ already having been processed)
+	\item [$\cdot$] Log feature fluctuations for the period $(t, t + 10)$, to be predicted
+\end{itemize}\todo{Change to final windows decided on}
+
+\subsection{Synthetic Data}
+
+Synthetic datasets were generated to represent known trends with some variance in prices. 
+
+\newpage
 \section{Implementation}\label{Implementation}
 \subsection{Process Overview}\label{ProcessOverview}\label{imp_overview}
 
 
-The implementation focuses on bringing together several ideas: data reduction, deep learning with pre-training/weight initialization, online learning and backtest overfitting validation for the purposes of stock price prediction. To this end, the full process was implemented with the following steps:
+The implementation focuses on bringing together several ideas: data reduction, deep learning with pre-training/weight initialization, online learning and backtest overfitting validation for the purposes of stock price prediction. The process implementation is discussed fully in \ref{imp_fullprocess}, but can be summarised as the following:
 
 \begin{itemize}
-	\item [1] The dataset was split into 3 subsets: the SAE/FFN  portion, the OGD portion and the hold-out set for validation
-	\item [2] The first subset was used to train the SAE and deep FFN using the SGD algorithm. These networks were implemented with pre-training and weight initialization techniques
-	\item [3] The second subset of data was used to continue training the network in an online manner using OGD
-	\item [4] The third and last 'hold-out' subset was used to generate log fluctuation prediction
-	\item [5] The predictions from 5 were used in a simple trading strategy to generate returns
-	\item [6] These returns were then used as an input for the CSCV process, and so obtain a PBO calculation for the implementation as a whole
+	\item [1] The dataset is split into 3 subsets: the SAE/FFN  portion, the OGD portion and the hold-out set for validation
+	\item [2] The first subset is used to train the SAE and deep FFN using the SGD algorithm. These networks were implemented with pre-training and weight initialization techniques
+	\item [3] The second subset of data is used to continue training the network in an online manner using OGD
+	\item [4] The third and last 'hold-out' subset was used to generate log fluctuation predictions, which can then be used to generate returns from a trading strategy
+	\item [5] The returns generated can then be used in the CSCV process, to estimate the probability of backtest overfitting
 \end{itemize}
+~\\
+The rest of this chapter will detail the algorithms used to train the relevant FFN, RBM and SAE networks, as well as the trading strategy and CSCV \& PBO testing procedures.
 
-\subsection{Feedforward Neural Networks}
+\subsection{Feedforward Neural Networks}\label{imp_ffn}
 ~\\
 Feedforward Neural Networks (FFN) in the form of multilayer perceptrons is a well established network technique, providing effective nonlinear representations for both shallow and deep structures \cite{Schmidhuber}. Specifically, a FFN is made up of several non-cyclical layers: the first and last are the input and output layers, respectively, and any inbetween are referred to as 'hidden' layers. Each layer is made up of nodes which are fully connected to the nodes in the previous and following layers, but does not have connections to nodes within the layer - information only travels forward. Each 
 node has an activation function, which acts on the weighted input from the previous layers' nodes.
 
 \subsubsection{Notation and Network Representation}\label{imp_ffn_functions}
-~\\
+
 \begin{itemize}
 \item[$\cdot$] The weights from the $j^{th}$ node in the $l^{th}$ layer from the $k^{th}$ node in the $(l-1)^{th}$ layer are represented by $w^l_{jk}$
 \item[$\cdot$] The bias for the $j^{th}$ node in layer $l$ is represented by $w^l_0j$
@@ -1118,7 +1086,7 @@ Where SGD is appropriate and effective for scenarios where the entire dataset is
 
 This section will detail and improvements that are used in the project - i.e. L1 and L2 regularization, or the learning rate schedule \todo{write this section}
 
-\subsection{Restricted Boltzmann Machines}
+\subsection{Restricted Boltzmann Machines}\label{imp_rbm}
 
 Restricted Boltzmann Machines (RBM) are generative networks which can be trained to learn probability distributions over a dataset. They are structurally different from a FFN in that they have a recurrent weight function - a typical RBM has one visible layer (input/output), and one hidden layer. A sample will be processed from the input layer to the hidden layer, and the activation values from the hidden layer will be used by the input layer to provide a recontruction. The hidden units thus correspond to feature detection of the visible unit data structures, and the learning process of the network results in effetive parameter estimation. 
 
@@ -1209,22 +1177,163 @@ Notably, this weight initialization will only be effective if the RBM and SAE ne
 
 If denoising is implemented (presumably Gaussian denoising), then this section will detail the implementation. \todo{decide on this}
 
-\subsection{Deep Network Weight Initializations}\label{imp_weights}
+\subsection{Variance Based Weight Initializations}\label{imp_weights}
 
-As noted in \ref{lr_trainingbackprop}, one of the primary barriers to effective deep learning networks was weight initializations: backpropagated gradient values from SGD would either vanish or explode after multiple layers if the initial weights were too small or too large. The effect of which was to either reduce or completely halt the networks learning process. The first breakthrough, as per \ref{DBN}, was to initialize the weights through greedy layerwise pretraining of Restricted Boltzmann Machines. Later research, as per \ref{}, has shown that weights can be initialized to maintain expected variance between the input and output layers. Both methods have been implemented and tested for the purposes of SAE and FFN training.
+Recent research, as noted in \todo{add LR reference here}, has shown that weights can be initialized to maintain expected variance between the input and output layers. These methodologies have the immediate advantages of simpler implementation, as well as faster computation (as no pre-training is required). The also allow for effective weight initialization of non-probabilistic activation functions, such as ReLU. Whether they result in better reconstructions or predictions is less clear (especially as the linearity assumption would prove faulty), and so the methods are tested here as well. 
+\newline\newline
+A typical initialization would be uniform, and layer component agnostic, such as the \todo{add ref} Hinton initialization suggested as
+\begin{equation}
+w_{ij} \sim N(0, 0.01)
+\end{equation}
+The variance balancing methodology is based on balancing the variance of a linear network. For input $X$, with $n$ components and linear neurons with weights $W$, and output $Y$,
+\begin{equation}
+Y = W_1X_1 + W_2X_2 + ... + X_nW_n
+\end{equation}
+It can thus be shown, that for $i.i.id$ samples with mean $0$, then
+\begin{equation}
+Var(Y) = nVar(W_i)Var(X_i)
+\end{equation}
+For the variance of both input $X$ and output $Y$ to be balanced on the forward and backward propagation, then it is necessary for
+\begin{equation}
+Var(W_i) = \frac{1}{n_{in}}= \frac{1}{n_{out}}
+\end{equation}
+
+In the instance where there are not an equal number of nodes in the two layers, the average can be taken, such that
+ \begin{equation}
+Var(W_i) = \frac{2}{n_{in} + n_{out}}
+\end{equation}
 
 
+Using this as the weight values expectation function provides us with the Xavier Glorot initialization \todo{add ref} which can be used for Sigmoid activations, and is defined as follows
+\begin{equation}
+w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}}
+\end{equation}
 
-\subsubsection{Deep Belief Network Training}
+where $n$ is the number of nodes in the $i^{th}$ or $j^{th}$ layer.
+\newline\newline
+The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He \todo{add ref} initialization is used
+
+\begin{equation}
+w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
+\end{equation}
 
 
+\subsection{Trading Algorithms}\label{imp_tradingstrat}
 
-\newpage
-\section{Data}\label{Data}
+Will need to detail the trading strategies  used here - currently just implementing  a niave representaton of prediction accuracy. \todo{}
+
+\subsection{CSCV \& PBO}\label{imp_cscv}
+
+The  combinatorially symmetric cross-validation (CSCV) method developed by Baily et al., as discussed in \ref{lr_cscv}, can be used to assess the likelihood of backtest overfitting through comparison of IS and OOS return metrics. Formulaically, the definition of backtest overfitting is given by
+\begin{equation}\label{eq:PBO1}
+\sum_{n=1}^{N}E[\overline{r_n}|r\in 
+\Omega_{n}^{*}]Prob[r\in\Omega_{n}^{*}]\leq{N/2}
+\end{equation}
+
+Where the search space {\textOmega} consists of the N ranked strategies, and their ranked IS performance \textit{r} and OOS performance
+\textit{\={r}}. This allows the PBO, using the bayesian formula, to be defined as 
+
+\begin{equation}\label{eq:PBO2}
+PBO = \sum_{n=1}^{N}Prob[\overline{r} < {N/2}|r\in\Omega_{n}^{*}]Prob[r\in\Omega_{n}^{*}]
+\end{equation}
+
+Notably, the above definitions consider IS as the data made available to the strategy selection, rather than the 
+models calibration (e.g. the full IS dataset, rather than, by was of example, the number of days used in a moving average). 
+This allows the model-free and non-parametric nature of the definition. 
+\hfill \break 
+
+They further developed the CSCV framework as a methodology to reliably estimate the probability used in PBO, which allows a concrete application of the concept. The CSCV framework does not require using the typical ‘hold-out’ strategy (and thus avoids credibility issues), and is ultimately able to provide a bootstrapped distribution of OOS performance. 
+\hfill \break 
+
+The full methodology is as follows \cite{BailyPBO}:
+\begin{itemize}
+	\item[1]Generate a TxN performance series matrix, $M$, representing the profits and losses by the $N$ configuration trials over $T$ time periods
+	\item[2]Partition the $M$ matrix by rows into $S$ submatrices, each of even size ($T/S x N$)
+	\item[3]Generate the combinations $C_S$ of $M_S$, in groups of size $S/2$, for total $\binom{S}{S/2}$ of combinations
+	\item[4]For each combination in $c \in C_S$:
+	\begin{itemize}
+		\item [a] Form a training set $J$ by joinined $S/2$ $M_S$ submatrices, in their original order. $J$ is a matrix of order $(T/S)(S/2)*N $
+		\item [b] Form the test set $\bar{J}$ as the complement of $J$ in $M$, once again in the original order
+		\item [c] Form a vector of $R^c$ of performance statistics of order $N$, where the $N$th component $R_n^c$ of $R^c$ reports the performance associated with the $n$th column of $J$
+		\item [d] Repeat [c] for $\bar{J}$ to derive $\bar{R}^c$ and $\bar{r}^c$
+		\item [e] Determine the element $n^*$ such that $R^c_n \in \Omega^*_n$ - i.e. $n^*$ is the best performing strategy IS
+		\item [f] Define the relative rank of $\bar{r}^c_{n^*}$ by $\bar{\omega}_c := \bar{r}^c_{n^*} / (N +1) \in (0,1)$. This is the relative rank of the OOS performance associated with the strategy chosen IS, which should systematically outperform OOS if no backtest overfitting has taken place
+		\item[g] Define the logit $\lambda_c = ln \frac{\bar{\omega}_c}{(1-\bar{\omega}_c)}$. High values here indicate consistency between IS and OOS performances (and so low ovefitting)
+	\end{itemize}
+	\item [5] The logit values can now be used to compute the distribution ranks of OOS, by collecting all $\lambda_c$ for $c \in C_S$. The relative frequency for $\lambda$ occurring across all $C_S$ is 
+	\begin{equation}
+	f(\lambda) = \sum_{c \in C_S}\frac{\chi_{\lambda}(\lambda_c)}{\#(C_S)}
+	\end{equation}
+	where $\chi$ is the characterization function and $\#(C_S)$ is the number of elements in $C_S$, and so $\int_{-\infty}^{\infty} f (\lambda) d \lambda = 1$
+\end{itemize}
+
+The CSCV framework and results thus allows the consideration of several notable statistics. First and foremost, 
+the PBO may now be estimated using the CSCV method and using an integral over the $f(\lambda)$ function 
+as defined above which offers a rate at which the best IS strategies underperform the median of OOS trials. The PBO is estimated using
+\begin{equation}
+\Phi = \int_{-\infty}^{0} f (\lambda) d \lambda
+\end{equation}
+
+
+If $\Phi \approx 0$,
+it is evidence of no significant overfitting (inversely, $\Phi \approx 1$ would be a sign of probable overfitting). Critically then, a PBO measure may be used in a standard hypothesis test to determine if a model should be rejected or not. This 
+can be extended, as shown by Bailey et al., to show the relationship between overfitting and performance 
+degradation of a strategy. It becomes clear that with models overfitting to backtest data noise, there comes a point 
+where seeking increased IS performance is detrimental to the goal of improving OOS performance.  
+\hfill \break 
+
+\subsection{Performance Assessment}
+
+This section may detail any choices and implementation of the performance assessment to be used in CSCV if it's not just the Sharpe Ratio. \todo{}
+
+\subsection{Full Process Implementation}\label{imp_fullprocess}
+
+The full process tested here, combining the techniques defined thus far in the paper, is defined  below:
+
+\begin{itemize}
+	\item [1] Data preparation
+	\begin{itemize}
+		\item[$\bullet$] The data is processed into day to day log fluctuations
+		\item[$\bullet$] At each time point, rolling historic summations are calculated (e.g. the past 1, 7 and 30 days) \todo{update with decided windows}
+		\item[$\bullet$] At each time point, rolling future summations are calculated (e.g. the next 10 days) \todo{update with decided windows}
+	\end{itemize}
+	\item [2] Data Segregation
+	\begin{itemize}
+		\item[$\bullet$] The processed dataset is split into 3 parts, to be used for the following processes: SAE/SGD training, OGD training, hold-out validation (e.g. 60\%, 20\%, 20\%)
+	\end{itemize}	
+	\item [3] SAE Training
+	\begin{itemize}
+		\item[$\bullet$] The dataset defined for SAE/SGD is used to train the auto-encoder network (using either RBM pretraining/weight initialization algorithms + SGD)
+		\item[$\bullet$] Notably, this SAE/SGD dataset will itself be split into training \& testing portions in order to train and validate the SAE network
+		\item[$\bullet$] Once the SAE network has been defined, it can be used to reprocess the datasets such that the input is now encoded, and the output is as before. These encoded datasets will be used for all following steps.
+	\end{itemize}		
+	\item [4] FFN/SGD Training
+	\begin{itemize}
+		\item[$\bullet$] The same SAE/SGD portion of the data will then be used to train the FFN network to predict future prices, using the implemented SGD algorithm \& optimizations.
+	\end{itemize}			
+	\item [5] OGD Training
+	\begin{itemize}
+		\item[$\bullet$] The second portion of data will be used to train and optimize the FNN from 4 for OGD. The purpose of this will be to optimize the OGD parameters		
+	\end{itemize}			
+	\item [6] Holdout Validation
+	\begin{itemize}
+		\item[$\bullet$] The third and last portion of data will be used to obtain results for the model. Predictions will be made on the relevant stock price log fluctuations
+	\end{itemize}				
+	\item [7] Returns generations
+	\begin{itemize}
+		\item[$\bullet$] The trading strategy, as per \ref{imp_tradingstrat}, will be used to generate returns from the predicted and actual prices in the holdout dataset. These returns for each time period and each configuration of the model defined by steps 3-5 will form the $M$ matrix for the CSCV process.
+	\end{itemize}	
+	\item [8] CSCV \& PBO
+	\begin{itemize}
+		\item[$\bullet$] Using the $M$ matrix from 7, the CSCV process will be run which will then allow a calculation of PBO.
+	\end{itemize}		
+\end{itemize}
+
+
 \newpage
 \section{Results}\label{Results}
 \newpage
-\section{Conclusion}\label{Conclusion}
+\section{Conclusions}\label{Conclusion}
 
 
 
