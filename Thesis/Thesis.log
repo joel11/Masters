@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  25 NOV 2018 22:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  25 NOV 2018 23:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1172,7 +1172,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 552--561
 
  []
 
-<images/DBN-RBM-process.png, id=400, 483.8075pt x 389.455pt>
+<images/DBN-RBM-process.png, id=410, 483.8075pt x 389.455pt>
 File: images/DBN-RBM-process.png Graphic file (type png)
 
 <use images/DBN-RBM-process.png>
@@ -1460,7 +1460,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 946--953
 [12]
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
 ine 970.
- [13] [14]
+
+Underfull \hbox (badness 10000) in paragraph at lines 982--983
+
+ []
+
+[13] [14]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
@@ -1471,22 +1476,22 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
  [15] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 1153--1156
+Underfull \hbox (badness 10000) in paragraph at lines 1190--1193
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1182--1185
+Underfull \hbox (badness 10000) in paragraph at lines 1219--1222
 
  []
 
 [17]
-Underfull \hbox (badness 10000) in paragraph at lines 1212--1215
+Underfull \hbox (badness 10000) in paragraph at lines 1249--1252
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1240--1244
+Underfull \hbox (badness 10000) in paragraph at lines 1277--1281
 
  []
 
@@ -1497,12 +1502,12 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1245--1247
+Underfull \hbox (badness 10000) in paragraph at lines 1282--1284
 
  []
 
 [18]
-Underfull \hbox (badness 10000) in paragraph at lines 1278--1284
+Underfull \hbox (badness 10000) in paragraph at lines 1315--1321
 
  []
 
@@ -1516,19 +1521,19 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 
-Underfull \hbox (badness 7291) in paragraph at lines 1376--1378
+Underfull \hbox (badness 7291) in paragraph at lines 1413--1415
 []\OT1/cmr/m/n/10 Bengio, Yoshua, and Samy Ben-gio. "Mod-el-ing high-dimensiona
 l dis-crete data with multi-
  []
 
 
-Underfull \hbox (badness 4266) in paragraph at lines 1376--1378
+Underfull \hbox (badness 4266) in paragraph at lines 1413--1415
 \OT1/cmr/m/n/10 layer neu-ral net-works." Ad-vances in Neu-ral In-for-ma-tion P
 ro-cess-ing Sys-tems. 2000. Avail-able
  []
 
 
-Underfull \hbox (badness 7133) in paragraph at lines 1376--1378
+Underfull \hbox (badness 7133) in paragraph at lines 1413--1415
 \OT1/cmr/m/n/10 at: http://papers.nips.cc/paper/1679-modeling-high-dimensional-
 discrete-data-with-multi-layer-neural-
  []
@@ -1551,19 +1556,19 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 
-Underfull \hbox (badness 3375) in paragraph at lines 1406--1408
+Underfull \hbox (badness 3375) in paragraph at lines 1443--1445
 \OT1/cmr/m/n/10 Avail-able at: http://papers.nips.cc/paper/5486-identifying-and
 -attacking-the-saddle-point-problem-in-
  []
 
 [23]
-Underfull \hbox (badness 1259) in paragraph at lines 1423--1426
+Underfull \hbox (badness 1259) in paragraph at lines 1460--1463
 \OT1/cmr/m/n/10 Help Deep Learn-ing?, Jour-nal of Ma-chine Learn-ing Re-search 
 11 (2010) 625-660 . Avail-able at:
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 1428--1430
+Underfull \hbox (badness 1509) in paragraph at lines 1465--1467
 []\OT1/cmr/m/n/10 E.F. Fama, The be-hav-ior of stock-market prices, J. Bus., 1 
 (1965), pp. 34-105. Avail-able at:
  []
@@ -1575,7 +1580,7 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1462--1463
+Underfull \hbox (badness 10000) in paragraph at lines 1499--1500
 []\OT1/cmr/m/n/10 Harvey, Camp-bell R. and Liu, Yan, Back-test-ing (July 28, 20
 15). Avail-able at SSRN:
  []
@@ -1584,25 +1589,25 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1468--1470
+Underfull \hbox (badness 10000) in paragraph at lines 1505--1507
 []\OT1/cmr/m/n/10 Geoffrey E. Hin-ton, Si-mon Osin-dero, and Yee Whye Teh. A fa
 st learn-ing al-go-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1468--1470
+Underfull \hbox (badness 10000) in paragraph at lines 1505--1507
 \OT1/cmr/m/n/10 rithm for deep be-lief nets. Neu-ral Com-pu-ta-tion, 18:1527155
 4, 2006. Avail-able at:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1477--1479
+Underfull \hbox (badness 10000) in paragraph at lines 1514--1516
 []\OT1/cmr/m/n/10 Geoffrey E. Hin-ton, Train-ing Prod-ucts of Ex-perts by Min-i
 -miz-ing Con-trastive Di-ver-
  []
 
 
-Underfull \hbox (badness 2103) in paragraph at lines 1477--1479
+Underfull \hbox (badness 2103) in paragraph at lines 1514--1516
 \OT1/cmr/m/n/10 gence,Neural Com-pu-ta-tion Vol-ume 14 | Is-sue 8 | Au-gust 200
 2 p.1771-1800 . Avail-able at:
  []
@@ -1613,13 +1618,13 @@ Missing character: There is no ¦ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¼ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1488--1490
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1527
 []\OT1/cmr/m/n/10 Sepp Hochre-iter, Jr-gen Schmid-hu-ber. Long Short-Term Mem-o
 ry. Neu-ral Com-pu-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1488--1490
+Underfull \hbox (badness 10000) in paragraph at lines 1525--1527
 \OT1/cmr/m/n/10 ta-tion Vol-ume 9 | Is-sue 8 | Novem-ber 15, 1997 p.1735-1780. 
 Avail-able at
  []
@@ -1635,7 +1640,7 @@ Missing character: There is no – in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no – in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1532--1533
+Underfull \hbox (badness 10000) in paragraph at lines 1569--1570
 []\OT1/cmr/m/n/10 LeCun Y., Bot-tou L, Orr G, Muller K. Ef-fi-cient Back-prop. 
 Avail-able at:
  []
@@ -1644,25 +1649,25 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 
-Underfull \hbox (badness 3199) in paragraph at lines 1535--1538
+Underfull \hbox (badness 3199) in paragraph at lines 1572--1575
 []\OT1/cmr/m/n/10 LeCun, Y. (1988). A the-o-ret-i-cal frame-work for back-propa
 gation. In D. Touret-zky, G. Hin-
  []
 
 
-Underfull \hbox (badness 4479) in paragraph at lines 1535--1538
+Underfull \hbox (badness 4479) in paragraph at lines 1572--1575
 \OT1/cmr/m/n/10 ton, & T. Se-jnowski (Eds.), Pro-ceed-ings of the 1988 con-nec-
 tion-ist mod-els sum-mer school
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1535--1538
+Underfull \hbox (badness 10000) in paragraph at lines 1572--1575
 \OT1/cmr/m/n/10 (pp. 2128). [][]$\OT1/cmtt/m/n/10 Availableat : https : / / www
  . researchgate . net / profile / Yann _ Lecun / publication /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1535--1538
+Underfull \hbox (badness 10000) in paragraph at lines 1572--1575
 \OT1/cmtt/m/n/10 2360531 _ A _ Theoretical _ Framework _ for _ Back-[]Propagati
 on / links / 0deec519dfa297eac1000000 /
  []
@@ -1674,31 +1679,31 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 
-Underfull \hbox (badness 2865) in paragraph at lines 1549--1551
+Underfull \hbox (badness 2865) in paragraph at lines 1586--1588
 []\OT1/cmr/m/n/10 Le Roux, Nico-las, and Yoshua Ben-gio. "Rep-re-sen-ta-tional 
 power of re-stricted Boltz-mann ma-
  []
 
 
-Underfull \hbox (badness 3148) in paragraph at lines 1549--1551
+Underfull \hbox (badness 3148) in paragraph at lines 1586--1588
 \OT1/cmr/m/n/10 chines and deep be-lief net-works." Neu-ral com-pu-ta-tion 20.6
  (2008): 1631-1649. Avail-able at:
  []
 
 [25]
-Underfull \hbox (badness 10000) in paragraph at lines 1572--1573
+Underfull \hbox (badness 10000) in paragraph at lines 1609--1610
 \OT1/cmtt/m/n/10 Minsky + Papert + 1969 + %E2 % 80 % 94 + Perceptrons & ots = z
 yEDwMvmXX & sig = aVXF7DBJKAOxW066S4UCyzhNARw #
  []
 
 
-Underfull \hbox (badness 5260) in paragraph at lines 1578--1580
+Underfull \hbox (badness 5260) in paragraph at lines 1615--1617
 []\OT1/cmr/m/n/10 Pascanu, Raz-van, Tomas Mikolov, and Yoshua Ben-gio. "On the 
 dif-fi-culty of train-ing re-
  []
 
 
-Underfull \hbox (badness 4084) in paragraph at lines 1578--1580
+Underfull \hbox (badness 4084) in paragraph at lines 1615--1617
 \OT1/cmr/m/n/10 cur-rent neu-ral net-works." In-ter-na-tional Con-fer-ence on M
 a-chine Learn-ing. 2013. Avail-able at:
  []
@@ -1718,13 +1723,13 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 
-Underfull \hbox (badness 4859) in paragraph at lines 1595--1596
+Underfull \hbox (badness 4859) in paragraph at lines 1632--1633
 []\OT1/cmr/m/n/10 Robert L. Schae-fer (2012) Sub-set Se-lec-tion in Re-gres-sio
 n, Tech-no-met-rics, 34:2, 229, DOI:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1619--1620
+Underfull \hbox (badness 10000) in paragraph at lines 1656--1657
 []\OT1/cmr/m/n/10 Skabar, Cloete, Net-works, Fi-nan-cial Trad-ing and the Ef-fi
 -cient Mar-kets Hy-poth-e-sis
  []
@@ -1734,61 +1739,61 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1636--1639
+Underfull \hbox (badness 10000) in paragraph at lines 1673--1676
 []\OT1/cmr/m/n/10 Vincent P., Larochell H., La-joie I., Ben-gio Y., Man-zagol P
 ., Stacked De-nois-ing Au-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1636--1639
+Underfull \hbox (badness 10000) in paragraph at lines 1673--1676
 \OT1/cmr/m/n/10 toen-coders: Learn-ing Use-ful Rep-re-sen-ta-tions in a Deep Ne
 t-work with a Lo-cal De-nois-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1636--1639
+Underfull \hbox (badness 10000) in paragraph at lines 1673--1676
 \OT1/cmr/m/n/10 ing Cri-te-rion. Jour-nal of Ma-chine Learn-ing Re-search 11 (2
 010) 3371-3408. Avail-able at:
  []
 
 
-Underfull \hbox (badness 4454) in paragraph at lines 1641--1644
+Underfull \hbox (badness 4454) in paragraph at lines 1678--1681
 []\OT1/cmr/m/n/10 Wan Y., Gong X., Si Y. Ef-fect of seg-men-ta-tion on fi-nan-c
 ial time se-ries pat-tern match-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1641--1644
+Underfull \hbox (badness 10000) in paragraph at lines 1678--1681
 \OT1/cmr/m/n/10 ing. Ap-plied Soft Com-put-ing Vol-ume 38, Jan-uary 2016, Pages
  346-359. Avail-able at:
  []
 
 
-Underfull \hbox (badness 1292) in paragraph at lines 1662--1664
+Underfull \hbox (badness 1292) in paragraph at lines 1699--1701
 []\OT1/cmr/m/n/10 Werbos, P. J. (1974). Be-yond re-gres-sion: new tools for pre
 -dic-tion and anal-y-sis in the be-hav-
  []
 
 
-Underfull \hbox (badness 1210) in paragraph at lines 1662--1664
+Underfull \hbox (badness 1210) in paragraph at lines 1699--1701
 \OT1/cmr/m/n/10 ioral sci-ences (Ph.D. the-sis), Har-vard Uni-ver-sity. Avail-a
 ble at: [][]$\OT1/cmtt/m/n/10 https : / / www . researchgate . net /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1662--1664
+Underfull \hbox (badness 10000) in paragraph at lines 1699--1701
 \OT1/cmtt/m/n/10 publication / 244947191 _ 1974 _ Beyond _ regression _ New _ t
 ools _ for _ predicting _ and _ analysis _ in _
  []
 
 
-Underfull \hbox (badness 3690) in paragraph at lines 1670--1672
+Underfull \hbox (badness 3690) in paragraph at lines 1707--1709
 []\OT1/cmr/m/n/10 Wu, Huaiqin. "Global sta-bil-ity anal-y-sis of a gen-eral cla
 ss of dis-con-tin-u-ous neu-ral net-works
  []
 
 
-Underfull \hbox (badness 1688) in paragraph at lines 1670--1672
+Underfull \hbox (badness 1688) in paragraph at lines 1707--1709
 \OT1/cmr/m/n/10 with lin-ear growth ac-ti-va-tion func-tions." In-for-ma-tion S
 ci-ences 179.19 (2009): 3432-3441. Avail-
  []
@@ -1797,34 +1802,27 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 [27]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1698.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1698.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1735.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1735.
  (./Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1698.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1698.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1735.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1735.
 
-
-
-Package rerunfilecheck Warning: File `Thesis.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Thesis.out':
-(rerunfilecheck)             Before: 055485883009A842455CF9DBA91451F9;3298
-(rerunfilecheck)             After:  C7A093F3794BE42E23D20EBDDE25880F;3362.
+Package rerunfilecheck Info: File `Thesis.out' has not changed.
+(rerunfilecheck)             Checksum: 9FB61F14D0B2836C14A8C256DC47CABC;3421.
  )
 (\end occurred inside a group at level 1)
 
 ### simple group (level 1) entered at line 1061 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 23189 strings out of 492995
- 433792 string characters out of 6132704
- 568630 words of memory out of 5000000
- 26132 multiletter control sequences out of 15000+600000
+ 23214 strings out of 492995
+ 434267 string characters out of 6132704
+ 573510 words of memory out of 5000000
+ 26151 multiletter control sequences out of 15000+600000
  10218 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 54i,13n,77p,809b,5797s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,13n,77p,809b,5825s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmbx12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
@@ -1845,10 +1843,10 @@ l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/
 texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/t
 exlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/te
 xlive/2017/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb>
-Output written on Thesis.pdf (34 pages, 512891 bytes).
+Output written on Thesis.pdf (34 pages, 518909 bytes).
 PDF statistics:
- 824 PDF objects out of 1000 (max. 8388607)
- 757 compressed objects within 8 object streams
- 218 named destinations out of 1000 (max. 500000)
- 378 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 839 PDF objects out of 1000 (max. 8388607)
+ 772 compressed objects within 8 object streams
+ 224 named destinations out of 1000 (max. 500000)
+ 394 words of extra memory for PDF output out of 10000 (max. 10000000)
 

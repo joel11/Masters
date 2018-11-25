@@ -971,7 +971,42 @@ The datasets are then expanded with the rolling window fluctuations both in the 
 
 \subsection{Synthetic Data}
 
-Synthetic datasets were generated to represent known trends with some variance in prices. 
+Synthetic datasets were generated to represent known trends with some variance in prices. Geometric Brownian motion was used to simulate stock price movements. Each dataset was generated with a random seed (using a Mersenne Twister pseudorandom number generator), and had a structure of 9 stocks:
+
+\begin{itemize}
+	\item [$\cdot$] 3 stocks with an upward trend, and high, medium, and low variance levels
+	\item [$\cdot$] 3 stocks with a downward trend, and high, medium, and low variance levels
+	\item [$\cdot$] 3 stocks with an flat trend, and high, medium, and low variance levels
+\end{itemize}
+
+The algorithm for Geometric Brownian Motion is as follows, which allows the stocks simulations to be implemented with a trend ($\sigma$) and variance ($\mu$) for each stock.\newline
+
+\RestyleAlgo{algoruled}
+\begin{algorithm}[H]
+	\KwIn{$\sigma$, $\mu$, $S_0$, $steps$}
+
+	t = 1/steps\;
+	prices = [$S_0$]\;
+
+	\ForEach{i in 1:t}
+	{
+		z = random()  $\sim N(0,1)$\;
+		$S_t = S_{t-1}*e^{(\mu - \frac {\sigma^2}{2})t + \sigma  \sqrt{t}  z)}$\;
+		prices = [prices; $S_t$]\;
+	}
+	\KwResult{prices}
+
+	\caption{Geometric Brownian Motion Simulation}
+\end{algorithm}
+
+\paragraph{Simulated Dataset}
+
+This section will detail the chosen $\sigma$ and $\mu$ values for the dataset, as well as the expected results from training on them.\todo{finish this}
+
+
+\subsection{Real Data}
+
+This section will detail the use of real data - namely the JSE ALSI data collected, and the time periods collected for. Detail will be added once this dataset has been finalised. \todo{finish this}
 
 \newpage
 \section{Implementation}\label{Implementation}
