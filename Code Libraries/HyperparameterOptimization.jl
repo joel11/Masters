@@ -1,24 +1,56 @@
+push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
+
 module HyperparameterOptimization
 
 export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate, ChangeL1Reg, ChangeL2Reg
 
-using NetworkTrainer
-using Plots
-plotlyjs()
+using NetworkTrainer, TrainingStructures, StoppingFunctions
+#using Plots
+#plotlyjs()
 
 
 function ChangeLearningRate(parameters,val)
     parameters.learning_rate = val
+    return parameters
 end
 
 function ChangeL2Reg(parameters, val)
      parameters.l2_lambda = val
+    return parameters
 end
 
 function ChangeL1Reg(parameters, val)
      parameters.l1_lambda = val
+    return parameters
 end
 
+function ChangeMinibatchSize(parameters, val)
+    parameters.minibatch_size = val
+    return parameters
+end
+
+
+vps = []
+basep = TrainingParameters(0.005, 10, 0.0, 1000, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+push!(vps, (ChangeMinibatchSize, (1:2)))
+push!(vps, (ChangeLearningRate, (1, 0.1, 0.01)))
+push!(vps, (ChangeL1Reg, (0.5, 0.2)))
+
+
+
+
+
+combos = GenerateGridBasedParameterSets(vps, basep)
+
+function GenerateGridBasedParameterSets(value_pairs, base_parameters)
+    first = vps[1]
+    one_samples = map(vp -> first[1].(deepcopy(basep), vp), first[2])
+    combos = one_samples
+    for i in 2:length(vps)
+        combos = mapreduce(current_sample -> mapreduce(y -> (vps[i][1](deepcopy(current_sample), y)), vcat, vps[i][2]), vcat, combos)
+    end
+    return combos
+end
 
 
 function HyperparameterRangeSearch(dataset, network_parameters, rbm_parameters, base_ffn_parameters, attribute_change_function, values)
