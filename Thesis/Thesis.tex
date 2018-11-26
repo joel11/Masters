@@ -112,26 +112,42 @@
 	
 	There's a fair amount to do before starting tests on the actual dataset, from software engineering tasks to algorithm optimizations to more critical experiment implementation details. The to-do lists below have been split up into critical and non-critical tasks(or tasks which might not be necessary)
 	
-	\paragraph{Critical}
-
+	
+	\paragraph{Critical Implementations}
 	\begin{itemize} 
 		\item[$\bullet$] Database work: MongoDB/SQL implementation to record parameters and results 
 		\item[$\bullet$] Learning Optimizations: Variable learning rate (AdaGrad/ADAM/ADA)
-		\item[$\bullet$] Trading Strategy: Decide on the basic strategy used to derive returns	
-		\item[$\bullet$] Synthetic Tests: Run tests on synthetic data to inform experiment design and paraeter choices
+		\item[$\bullet$] Synthetic Tests: Run tests on synthetic data to inform experiment design and parameter choices
+		\item[$\bullet$] Better hyper-parameter search technique, e.g. Random Search
 		\item[$\bullet$] Finalise Dataset: Need to properly account for survivorship bias, and decide which data to use
+	\end{itemize}
+	
+	\paragraph{Critical Decisions}
+
+	\begin{itemize} 
+		\item[$\bullet$] Trading Strategy: Decide on the basic strategy used to derive returns	
 		\item[$\bullet$] SAE updates: Decide whether the SAE should be updated periodically or not
-		\item[$\bullet$] Literature Review: There are various inclusions and ammendments to be made here
+		\item[$\bullet$] Decide on data splits and what should be used for CSCV
+		\item[$\bullet$] Decide on data windows - aribtraty choices or.. ?
 	\end{itemize}
 
 	\paragraph{Non-Critical/Maybe}
 
 	\begin{itemize}
-		\item[$\bullet$] Better hyper-parameter search technique, e.g. Random Search
 		\item[$\bullet$] Parallelization of training tasks
 		\item[$\bullet$] Denoising SAEs
 		\item[$\bullet$] Learning Optimization: Momentum
 		\item[$\bullet$] Weight monitoring visualizations
+	\end{itemize}	
+
+	\paragraph{Dissertation to-do list}
+
+	\begin{itemize}
+		\item Literature Review: There are various inclusions and ammendments to be made here (particularly around data windows \& varance initializations)
+		\item Reformatting of Algorithms through document
+		\item Papers and references to add: Wilcox \& Debbie Hierarchical Paper; Crutchfield \& Farmer: Geometry of Time Series; F Takens: Detecting strange attractors in turbulence; Reference Riaz
+		
+		\item Various to-do notes throughout paper
 	\end{itemize}	
 
 	\newpage\bigskip\large\textbf{3. Milestones \& Deliverables}\normalsize
@@ -211,12 +227,15 @@ of trading strategy)} \\\hline
 	
 	There are several issues which are still undecided/uncertain or which could use further refinement:
 	\begin{itemize}
-		\item[$\bullet$] End to end process: Should the FFN network be trained with SGD prior to OGD, or should the first dataset just be used for OGD training on the FFN after pre-training/weight initialization has taken place?
-		\item[$\bullet$] Predictions attempted: How many steps and stocks should be attempted in the prediction process?
-		\item[$\bullet$] Trading strategy: The CSCV method requires returns to be used, which can then be assessed with something like the Sharpe Ratio. Should an actual trading strategy be used for each configuration here, or just a representation of accuracy which can be calculated as a single figure for each time period (such as MSE)? If a trading strategy is used, what should it be?
-		\item[$\bullet$] SAE Updating: The current implementation does not have any SAE updates taking place as more data is observed. While easy to change, I'm not sure if or when the SAE network should be updated
-		\item[$\bullet$] Denoising SAE: The initial proposal was to use denoising autoencoders. The implementation process is easy enough, but I'm unsure if denoising would be effective in a financial context (where data is already so noisy)		
-		\item[$\bullet$] Final Dataset: The current dataset doesn't account for survivorship bias, and I'm a little unsure of how best to pick the final stocks/indices etc. (the intial proposal was rather limited in comparison to what is now available)
+		\item End to end process: Should the FFN network be trained with SGD prior to OGD, or should the first dataset just be used for OGD training on the FFN after pre-training/weight initialization has taken place?
+		\item CSCV data usage: Currently the implementation uses a holdout data set for the CSCV analysis. Though, CSCV shouldn't really require this. I'm unsure in this case whether the entire data set should be run in an online OGD manner to generate returns (after using the same data to train the SAE/FFN networks), or whether it should only use a portion of the data (i.e. what was used during OGD training)
+		\item Search technique used: Considering the PBO issues around brute force space exploration, I'm not sure if there are any obviously appropriate search techniques to be used.
+		\item Predictions attempted: How many steps and stocks should be attempted in the prediction process?
+		\item Rolling Data Windows: These are currently being chosen arbitrarily. Not sure if a more effective method is possible
+		\item Trading strategy: The CSCV method requires returns to be used, which can then be assessed with something like the Sharpe Ratio. Should an actual trading strategy be used for each configuration here, or just a representation of accuracy which can be calculated as a single figure for each time period (such as MSE)? If a trading strategy is used, what should it be?
+		\item SAE Updating: The current implementation does not have any SAE updates taking place as more data is observed. While easy to change, I'm not sure if or when the SAE network should be updated
+		\item Denoising SAE: The initial proposal was to use denoising autoencoders. The implementation process is easy enough, but I'm unsure if denoising would be effective in a financial context (where data is already so noisy)		
+		\item Final Dataset: The current dataset doesn't account for survivorship bias, and I'm a little unsure of how best to pick the final stocks/indices etc. (the intial proposal was rather limited in comparison to what is now available)
 	\end{itemize}		
 
 	\newpage\bigskip\large\textbf{6. Meeting Minutes}\bigskip\normalsize	
@@ -281,7 +300,16 @@ of trading strategy)} \\\hline
 		
 	\end{center}
 \end{titlepage}
-
+\newpage
+\vspace{0.5cm}
+\LARGE
+Abstract
+\normalsize
+\newline\newline
+We consider pattern prediction of financial time-series data. The algorithm framework and workflow is developed and proved on daily sampled OHLCV (open-high-low-close-volume) time-series data for JSE equity markets. The input patterns are based on input data vectors are equal size data windows pre-processed into a sequence of daily, weekly and monthly sampled feature measurement changes (here log feature fluctuations). The data processing is split into at online batch processed step where data is compressed using a stacked autoencoder (SAE) via unsupervised learning, and then batch supervised learning is carried out using the data-compression algorithm with the output being a pattern sequence of measured time-series feature fluctuations (log differenced data) in the future (ex-post) from the training and validation data. Weight initializations for these networks are implemented with Restricted Boltzmann Machine (RBM) pre-training, and variance based initializations. The historical simulation is then run using an online feedforward neutral network (FNN) initialised with the weights from the online training and validation step. The validity of results is considered under a rigorous assessment of backtest overfitting (Combinatorially Symmetrical Cross Validation), and the results are then considered in terms of test for statistical arbitrage with simple correction for transaction costs.
+\todo{this will need to be rewritten once everything is finalised}
+\newline\newline
+Keywords: online learning, feedforward neural network, restricted boltzmann machine, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting
 \newpage
 \tableofcontents
 \newpage
@@ -979,7 +1007,7 @@ Synthetic datasets were generated to represent known trends with some variance i
 	\item [$\cdot$] 3 stocks with an flat trend, and high, medium, and low variance levels
 \end{itemize}
 
-The algorithm for Geometric Brownian Motion is as follows, which allows the stocks simulations to be implemented with a trend ($\sigma$) and variance ($\mu$) for each stock.\newline
+The steps for Geometric Brownian Motion are described in \ref{algo_brownianmotion}, which allows the stocks simulations to be implemented with a trend ($\sigma$) and variance ($\mu$) for each stock.\newline
 
 \RestyleAlgo{algoruled}
 \begin{algorithm}[H]
@@ -995,7 +1023,7 @@ The algorithm for Geometric Brownian Motion is as follows, which allows the stoc
 		prices = [prices; $S_t$]\;
 	}
 	\KwResult{prices}
-
+	\label{algo_brownianmotion}
 	\caption{Geometric Brownian Motion Simulation}
 \end{algorithm}
 
@@ -1367,6 +1395,25 @@ The full process tested here, combining the techniques defined thus far in the p
 
 \newpage
 \section{Results}\label{Results}
+\subsection{Search Methods and Parameters}
+
+This section will detail the search methods used - grid search / random search, details are seed settings etc., and the final configuration parameters chosen to run the models for the results below.
+~\\\newline
+The experiments will be designed around exploration of the following points (listed in order of importance), which will then be written up as results:
+\begin{itemize}
+	\item Online FFN  network performance: This is the crux of the thing - how effective is the online network learning for predicting feature changes, and whether it is able to achieve efficacy such that it can be generate returns.
+	\item CSCV: To show that the first model can be achieved in a manner that does not result in high PBO. A discussion of how the CSCV method has been adapted to be used for a deep machine learning model will be appropriate here as well.
+	\item Data Reduction: Expected results will be a trade off in model efficacy on producing returns vs. training time. Ideal results would be to show that the SAE results in effective feature selection, and the removal of noise thus allows the model to perform better (i.e. better returns are produced). A possible but slightly less favourable result would be to show that it allows for a simpler and faster online model in terms of computation time, for an acceptable reduction in performance and returns. A result which shows neither would probably indicate an implementation failure of some sort, or a misunderstanding of how things should have been applied in the first place. 
+	\item Profitablity: Consider the returns generated in terms of test for statistical arbitrage and a correction for transaction costs.
+	\item Weight Initialization: Experiments here will explore the use of ReLU activations and variance based weight initialization, and whether they are able to compete effectively (or perhaps even better?) than the RBM pre-training and Sigmoid counterparts. If so, it would constitute a favourable  contribution, considering that signficant reduction in computation processing time.
+	\item Training Findings: It's possible that the training process will indicate some learnings which would be appropriate to note - e.g. that L2 regularization has an unexpetedly large impact on performance.
+	\item CSCV and PBO: Note around the fact that will need to train for return results, and not for PBO results (which would be overfitting in itself)
+\end{itemize}
+
+\subsection{Results for Synthetic Data}
+
+\subsection{Results for Real Data}
+
 \newpage
 \section{Conclusions}\label{Conclusion}
 
