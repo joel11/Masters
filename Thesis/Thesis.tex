@@ -146,7 +146,7 @@
 		\item Literature Review: There are various inclusions and ammendments to be made here (particularly around data windows \& varance initializations)
 		\item Reformatting of Algorithms through document
 		\item Papers and references to add: Wilcox \& Debbie Hierarchical Paper; Crutchfield \& Farmer: Geometry of Time Series; F Takens: Detecting strange attractors in turbulence; Reference Riaz
-		
+		\item General formatting changes necessary
 		\item Various to-do notes throughout paper
 	\end{itemize}	
 
@@ -315,9 +315,29 @@ Keywords: online learning, feedforward neural network, restricted boltzmann mach
 \newpage
 
 \section{Introduction}\label{Introduction}
+\todo{may need to add some appropriate in this section}
+
+
+This dissertation explores several ideas for the purposes of effective and valid stock price prediction, and suggests a novel approach to the combination of techniques. The first part of the implementation focuses on the training of deep neural networks, and combines usage of several well known designs for data reduction, deep learning and online learning. The aim here is to produce a deep learning model that is able to effectively produce stock price predictions in an online process, using data reduction of high dimensional finance data in order to achieve better results. 
+~\\\newline
+The second part of the paper focuses on whether the model can be trained such that it does not succumb to backtest overfitting, namely by using methods suggested by Bailey et al. \cite{BailyPBO} in order to calculate the likelihood of overfitting having occurred. As they've noted, and discussed more fully in \ref{lr_backtesting}, backtesting overfitting for trading strategies have become problematically widespread in financial literature. Here we investigate how more rigorous validation techniques can be applied to deep learning models in order to avoid such overfitting. Further validation takes place in assessing the potential profitability of the model in a live market.
+~\\\newline
+The literature review in chapter \ref{lr_LiteratureReview} has a fuller discussion of work that has been done to precede the various techniques which have been implemented. A brief introduction to technical analysis in the financial sector, with it's perspective and history, is discussed and forms the basis for proposing and using the technical analysis methods throughout this paper \ref{lr_TechnicalAnalysis}. The literature review then moves onto covering the usage and history of Neural Networks, which has progressed enourmously in recent times. The section covers both the basic foundations, as well discusses the recent work which has resulted in the widespread use of deep learning models \ref{lr_nn}. This is extended to the coverage of Stacked Autoencoders, and their efficacy in data reduction for complex systems, which has lead them to be pivotal tools in deep learning models \ref{lr_SAE}. Online learning methods are discussed in \ref{lr_OGD} with a coverage of both the historical basis as well as the more recent devopments which have allowed for further improvment in the algorithms. The chapter finishes off with discussing the impact of backtest overfitting and how some notable works developed by Bailey et al. have provided tools with which this may be avoided \ref{lr_backtesting}.
+~\\\newline
+Chapter \ref{Data} provides the details around the data which has been used in the paper. The chapter starts with describing how the data is processed using log feature fluctuations, and then is expanded to include the fluctuations over rolling window periods. The synthetic data used is generated using Geometric Brownian motion, and is implemented such that each randomly seeded dataset consists of the following stocks:
+\begin{itemize}
+	\item 3 stocks with an upward trend, and high, medium and low variance
+	\item 3 stocks with a downward trend, and high medium and low variance
+	\item 3 stocks with a sideways trend, and high medium andlow variance
+\end{itemize}
+There is a further summary of the real data used: OHLCV data for the JSE ALSI over a period of 20 \unsure{check this} years.
+~\\\newline
+Chapter \ref{Implementation} provides more indepth details on the algorithms and structures used to implement the dissertation process. The structure of feedforward neural networks is discussed, as well as how they are trained using the backpropagation algorithm, and how that can be applied in a stochastic descent framework \ref{imp_ffn}. The chapter also provides details for how these network weight initializations can impact performance, and how this can be improved with either RBM pre-training (as per \cite{Hinton2}) or through newer variance based techniques \todo{add ref} - this includes the structures and training techniques used for the Stacked Autoencoders \ref{imp_SAE}. How the CSCV techniques suggested by \cite{BailyPBO} are implemented and used to derive a Probability of Backtest Overfitting figure for the full training and testing processes is detailed in \ref{imp_cscv}. The chapter ends with a summary of the full end to end process, from data preparation to the output of a PBO figure in \ref{imp_fullprocess}.
+~\\\newline
+Chapter \ref{Results} is the final chapter, and discusses the results found from the process. \todo{this will need to be finished once results are known}
 \newpage
-\section{LiteratureReview}\label{LiteratureReview}
-\subsection{Technical Analysis}\label{TechnicalAnalysis}
+\section{LiteratureReview}\label{lr_LiteratureReview}
+\subsection{Technical Analysis}\label{lr_TechnicalAnalysis}
 
 Technical analysis is a financial analysis practice that makes use of past price data in order to identify market 
 structures, as well as forecast future price movements. The techniques are typically objective methodologies 
@@ -362,7 +382,7 @@ argument against the efficient market hypothesis \cite {Skabar}.
 
 
 
-\subsection{Neural Networks}
+\subsection{Neural Networks}\label{lr_nn}
 
 A Neural Network (NN) is a learning model which was originally inspired by the biological mechanisms of neurons 
 in brains. The structure is essentially that of a network system, with connected nodes and edges, or ‘neurons’ and 
@@ -739,7 +759,7 @@ head and shoulders (H\&S). Measuring accuracy, precision and recall, they showed
 generally offered superior results to the others (though it is worth noting that there were various performance 
 differences within the segmentation methods depending on the matching algorithm used).
 
-\subsection{Online Learning Algorithms and Gradient Descent} \label{OGD}
+\subsection{Online Learning Algorithms and Gradient Descent} \label{lr_OGD}
 \hfill
 
 Most classic machine learning algorithms operate under the assumption that, for all intents and purposes, the 
@@ -821,7 +841,7 @@ training performance of up to 6x, with less than 1\% of accuracy when compared t
 Both of these algorithms have been shown to be effective and applicable in the context of online neural network training.
 \hfill\break
 
-\subsection{Backtesting and Model Validation} 
+\subsection{Backtesting and Model Validation} \label{lr_backtesting}
 \hfill
 
 Much of financial academic literature is currently facing a problem in terms of validation and verification of results. 
@@ -1004,7 +1024,7 @@ Synthetic datasets were generated to represent known trends with some variance i
 \begin{itemize}
 	\item [$\cdot$] 3 stocks with an upward trend, and high, medium, and low variance levels
 	\item [$\cdot$] 3 stocks with a downward trend, and high, medium, and low variance levels
-	\item [$\cdot$] 3 stocks with an flat trend, and high, medium, and low variance levels
+	\item [$\cdot$] 3 stocks with a sideways trend, and high, medium, and low variance levels
 \end{itemize}
 
 The steps for Geometric Brownian Motion are described in \ref{algo_brownianmotion}, which allows the stocks simulations to be implemented with a trend ($\sigma$) and variance ($\mu$) for each stock.\newline
