@@ -14,7 +14,7 @@ function RunOGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingPa
     data_values = Array{Float64,2}(sizes)
     predicted_values = Array{Float64,2}(sizes)
 
-    for i in 1:size(transposed_input)[2]
+    for i in 1:size(dataset.training_input)[1]
 
         data_values = vcat(data_values, dataset.training_output[i, :]')
         predicted_values = vcat(predicted_values, Feedforward(network,  dataset.training_input[i, :]')[end])

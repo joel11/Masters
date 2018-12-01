@@ -62,14 +62,14 @@ saesgd_data, ogd_data, holdout_data = map(x -> CreateDataset(x[1], x[2], [0.8, 1
 ##Configuration
 
 srand(1234)
-sae_netpar = NetworkParameters([6, 20, 20, 4],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.HeUniformInit)
-sae_sgd_par = TrainingParameters(0.005, 10, 0.0, 1000, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+sae_netpar = NetworkParameters([6, 20, 20, 4],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
+sae_sgd_par = TrainingParameters(0.005, 10, 0.0, 100, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
-ffn_net_par = NetworkParameters([4, 40, 40, 40, 2] ,[ReluActivation, ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.HeUniformInit)
-ffn_sgd_par = TrainingParameters(0.00005, 30, 0.0, 1000, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+ffn_net_par = NetworkParameters([4, 40, 40, 40, 2] ,[ReluActivation, ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.XavierGlorotNormalInit)
+ffn_sgd_par = TrainingParameters(0.00005, 30, 0.0, 100, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
-ogd_par = TrainingParameters(0.0000000001, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-holdout_ogd_par = TrainingParameters(0.0000000001, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+ogd_par = TrainingParameters(0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+holdout_ogd_par = TrainingParameters(0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
 ##Iterations####################################################################
 
@@ -83,8 +83,8 @@ lrates =  [1, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001, 0.0000001]
 #Any[2.02137e-5, 2.09241e-5, 2.02685e-5, 2.06369e-5, 2.11963e-5, 2.13587e-5, 0.00835043]
 #[-7.73268, -7.30702, -7.4037, -7.49135, -6.53332, -7.03436, 8.26569]
 
-ffn_net_par = NetworkParameters([4, 40, 40, 40, 2] ,[ReluActivation, ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.HeNormalInit)
-ffn_sgd_par = TrainingParameters(0.0, 30, 0.0, 1000, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+ffn_net_par = NetworkParameters([4, 40, 40, 40, 2] ,[ReluActivation, ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.XavierGlorotNormalInit)
+ffn_sgd_par = TrainingParameters(0.0, 30, 0.0, 100, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
 
 for i in 1:length(lrates)
