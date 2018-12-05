@@ -1,11 +1,11 @@
 module SGD
 
-using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, RBM,  CostFunctions, FFN, GradientFunctions
+using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, RBM,  CostFunctions, FFN, GradientFunctions, DatabaseOps
 
 export RunSGD
 
 
-function RunSGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingParameters)
+function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, parameters::TrainingParameters)
 
     number_batches = Int64.(floor(size(dataset.training_input)[1]/parameters.minibatch_size))
     epoch_records = Array{EpochRecord}(0)
@@ -45,18 +45,9 @@ function RunSGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingPa
         IS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
         OOS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0
 
-        push!(epoch_records, EpochRecord(i,
-                                        mean(minibatch_errors),
-                                        IS_error,
-                                        OOS_error,
-                                        IS_accuracy,
-                                        OOS_accuracy,
-                                        0.0,
-                                        toq(),
-                                        CopyNetwork(network),
-                                        weight_change_rates,
-                                        Array{Array{Float64,2},1}()
-                                        ))
+        epoch_record = EpochRecord(i, category, mean(minibatch_errors), IS_error, OOS_error, IS_accuracy, OOS_accuracy, 0.0, toq(), CopyNetwork(network), weight_change_rates, Array{Array{Float64,2},1}())
+        CreateEpochRecord(config_id, epoch_record)
+        push!(epoch_records, epoch_record)
 
         if parameters.verbose
             PrintEpoch(epoch_records[end])

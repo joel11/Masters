@@ -70,10 +70,8 @@ end
 
 type EpochRecord
 
-    #epoch_number, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods
-
     epoch_number::Int64
-
+    category::String
     mean_minibatch_cost::Float64
     training_cost::Float64
     test_cost::Float64
@@ -88,8 +86,8 @@ type EpochRecord
     weight_change_rates::Array{Array{Float64,1},1}
     hidden_activation_likelihoods::Array{Array{Float64,2},1}
 
-    function EpochRecord(epoch_number, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods)
-        return new(epoch_number, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods)
+    function EpochRecord(epoch_number, category, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods)
+        return new(epoch_number, category, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods)
     end
 end
 
