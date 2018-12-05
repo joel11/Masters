@@ -2,52 +2,67 @@ push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 module HyperparameterOptimization
 
-export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate, ChangeL1Reg, ChangeL2Reg
+export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining
 
-using NetworkTrainer, TrainingStructures, StoppingFunctions
+using NetworkTrainer, TrainingStructures, StoppingFunctions, CostFunctions
 #using Plots
 #plotlyjs()
 
 
-function ChangeLearningRate(parameters,val)
-    parameters.learning_rate = val
+function ChangeLearningRate(get_function, parameters,val)
+    get_function(parameters).learning_rate = val
     return parameters
 end
 
-function ChangeL2Reg(parameters, val)
-     parameters.l2_lambda = val
+function ChangeL2Reg(get_function,parameters, val)
+     get_function(parameters).l2_lambda = val
     return parameters
 end
 
-function ChangeL1Reg(parameters, val)
-     parameters.l1_lambda = val
+function ChangeL1Reg(get_function,parameters, val)
+     get_function(parameters).l1_lambda = val
     return parameters
 end
 
-function ChangeMinibatchSize(parameters, val)
-    parameters.minibatch_size = val
+function ChangeMinibatchSize(get_function, parameters, val)
+    get_function(parameters).minibatch_size = val
     return parameters
 end
 
+function GetDataConfig(experiment_config)
+    return experiment_config.data_config
+end
 
-vps = []
-basep = TrainingParameters(0.005, 10, 0.0, 1000, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-push!(vps, (ChangeMinibatchSize, (1:2)))
-push!(vps, (ChangeLearningRate, (1, 0.1, 0.01)))
-push!(vps, (ChangeL1Reg, (0.5, 0.2)))
+function GetSAENetwork(experiment_config)
+    return experiment_config.sae_network
+end
 
+function GetFFNNetwork(experiment_config)
+    return experiment_config.ffn_network
+end
 
+function GetSAETraining(experiment_config)
+    return experiment_config.sae_sgd
+end
 
+function GetFFNTraining(experiment_config)
+    return experiment_config.ffn_sgd
+end
 
+function GetOGDTraining(experiment_config)
+    return experiment_config.ogd
+end
 
-combos = GenerateGridBasedParameterSets(vps, basep)
+function GetOGDHOTraining(experiment_config)
+    return experiment_config.ogd_ho
+end
 
-function GenerateGridBasedParameterSets(value_pairs, base_parameters)
+function GenerateGridBasedParameterSets(vps, base_parameters)
     first = vps[1]
-    one_samples = map(vp -> first[1].(deepcopy(basep), vp), first[2])
+    one_samples = map(vp -> first[2].(first[1], deepcopy(base_parameters), vp), first[3])
     combos = one_samples
     for i in 2:length(vps)
-        combos = mapreduce(current_sample -> mapreduce(y -> (vps[i][1](deepcopy(current_sample), y)), vcat, vps[i][2]), vcat, combos)
+        combos = mapreduce(current_sample -> mapreduce(y -> (vps[i][2](vps[i][1], deepcopy(current_sample), y)), vcat, vps[i][3]), vcat, combos)
     end
     return combos
 end

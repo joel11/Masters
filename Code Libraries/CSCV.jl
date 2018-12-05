@@ -60,7 +60,25 @@ function CalculatePBO(overfit_distribution)
     return mapreduce(x -> (x[1] <= 0 ? x[2] : 0), +, overfit_distribution)
 end
 
+function ExperimentCSCVProcess()
+    return_data = DataFrame()
+    mses = []
 
-#splits = 8
-#data = randn(1000, 10)
+    #for each config_id in considered configurations
+    #    query = "select.."
+    #    actual, predicted = RunQuery(query)
+    #    mse = sum((actual - predicted).^2)/length(actual)
+    #    model_returns = CalculateReturns(actual, predicted)
+    #    push!(mses, mse)
+    #    return_data[parse(string("iteration_", i))] = model_returns
+    #    distribution = RunCSCV(return_data, 16)
+    #    pbo = CalculatePBO(distribution)
+    #end
+
+    #println(pbo)
+    #println(mses)
+    #println(map(x -> sum(return_data[:, x]), 1:size(return_data)[2]))
+    #return (pbo, mses)
+end
+
 end

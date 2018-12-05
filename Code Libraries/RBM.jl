@@ -61,10 +61,10 @@ function TrainRBMLayer(training_input::Array{Float64,2}, testing_input::Array{Fl
             minibatch_data = epoch_data[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
             weight_update, activation_probabilities, vis_activation_probabilities = ContrastiveDivergence1WeightUpdates(minibatch_data, layer)
 
-            if m % 1000 == 0
-                push!(weight_change_rates, [mean(weight_update[2:end,2:end] ./ layer.weights[2:end,2:end])])
-                push!(hidden_activation_likelihoods, activation_probabilities)
-            end
+            #if m % 1000 == 0
+            #    push!(weight_change_rates, [mean(weight_update[2:end,2:end] ./ layer.weights[2:end,2:end])])
+            #    push!(hidden_activation_likelihoods, activation_probabilities)
+            #end
 
             layer.weights -= parameters.learning_rate .* weight_update
 

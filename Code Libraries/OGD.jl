@@ -27,9 +27,9 @@ function RunOGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingPa
         end
 
         #Weight Change Rate
-        if i % 100 == 0
-            push!(weight_change_rates, map((x, y) -> mean(x[2:end,:] ./ y[2:end,:]), weight_updates, map(x -> x.weights, network.layers)))
-        end
+        #if i % 100 == 0
+        #    push!(weight_change_rates, map((x, y) -> mean(x[2:end,:] ./ y[2:end,:]), weight_updates, map(x -> x.weights, network.layers)))
+        #end
 
     end
 

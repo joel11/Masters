@@ -2,7 +2,7 @@ module TrainingStructures
 
 using NeuralNetworks, CostFunctions
 
-export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters
+export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters, DatasetConfig, ExperimentConfig
 
 type DataSet
     training_input::Array{Float64,2}
@@ -15,7 +15,7 @@ type DataSet
 end
 
 type TrainingParameters
-
+    category::String
     learning_rate::Float64
     minibatch_size::Int64
     momentum_rate::Float64
@@ -30,10 +30,42 @@ type TrainingParameters
 end
 
 type NetworkParameters
-
+    category::String
     layer_sizes::Array{Int64}
     layer_activations::Array{Function}
     initialization::Function
+end
+
+type DatasetConfig
+
+    data_seed::Int64
+    category::String
+    steps::Int64
+    deltas::Array{Int64}
+    process_splits::Array{Float64}
+    training_splits::Array{Float64}
+    prediction_steps::Array{Int64}
+    variation_values
+
+    function DatasetConfig(data_seed, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values)
+        return new(data_seed, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values)
+    end
+end
+
+type ExperimentConfig
+
+    seed::Int64
+
+    data_config::DatasetConfig
+
+    sae_network::NetworkParameters
+    ffn_network::NetworkParameters
+
+    sae_sgd::TrainingParameters
+    ffn_sgd::TrainingParameters
+    ogd::TrainingParameters
+    ogd_ho::TrainingParameters
+
 end
 
 type EpochRecord

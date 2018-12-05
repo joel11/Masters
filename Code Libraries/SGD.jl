@@ -31,9 +31,9 @@ function RunSGD(dataset::DataSet, network::NeuralNetwork, parameters::TrainingPa
             end
 
             #Weight Change Rate
-            if m % 100 == 0
-                push!(weight_change_rates, map((x, y) -> mean(x[2:end,:] ./ y[2:end,:]), weight_updates, map(x -> x.weights, network.layers)))
-            end
+            #if m % 100 == 0
+            #    push!(weight_change_rates, map((x, y) -> mean(x[2:end,:] ./ y[2:end,:]), weight_updates, map(x -> x.weights, network.layers)))
+            #end
 
             push!(minibatch_errors, parameters.cost_function.CalculateCost(minibatch_ouput, Feedforward(network, minibatch_input)[end]))
         end
