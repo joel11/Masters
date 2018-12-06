@@ -5,13 +5,13 @@ using NeuralNetworks, CostFunctions
 export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters, DatasetConfig, ExperimentConfig
 
 type DataSet
-    training_input::Array{Float64,2}
-    testing_input::Array{Float64,2}
-    validation_input::Array{Float64,2}
+    training_input#::Array{Float64,2}
+    testing_input#::Array{Float64,2}
+    validation_input#::Array{Float64,2}
 
-    training_output::Array{Float64,2}
-    testing_output::Array{Float64, 2}
-    validation_output::Array{Float64,2}
+    training_output#::Array{Float64,2}
+    testing_output#::Array{Float64, 2}
+    validation_output#::Array{Float64,2}
 end
 
 type TrainingParameters
@@ -55,16 +55,15 @@ end
 type ExperimentConfig
 
     seed::Int64
-
+    experiment_set_name::String
     data_config::DatasetConfig
 
-    sae_network::NetworkParameters
-    ffn_network::NetworkParameters
-
-    sae_sgd::TrainingParameters
-    ffn_sgd::TrainingParameters
-    ogd::TrainingParameters
-    ogd_ho::TrainingParameters
+    sae_network
+    ffn_network
+    sae_sgd
+    ffn_sgd
+    ogd
+    ogd_ho
 
 end
 

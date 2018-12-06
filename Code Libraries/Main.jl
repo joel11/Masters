@@ -30,6 +30,20 @@ using ExperimentProcess
 ################################################################################
 ##0. Base Configuration
 
+function GenerateBaseSAEConfig()
+    seed = abs(Int64.(floor(randn()*100)))
+    ds = abs(Int64.(floor(randn()*100)))
+
+    all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.2, 0.09), (0.2, 0.1), (0.2, 0.15))#bull; bear; stable
+    var_pairs = (all_pairs[1], all_pairs[4])
+
+    data_config = DatasetConfig(ds, "synthetic",  5500,  [1, 7, 30],  [0.6, 0.8],  [0.8, 1.0],  [7], var_pairs)
+    sae_net_par = NetworkParameters("SAE", [6, 20, 20, 4],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
+    sae_sgd_par = TrainingParameters("SAE", 0.005, 10, 0.0, 10, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+
+    return ExperimentConfig(seed, "Null Name", data_config, sae_net_par, nothing , sae_sgd_par, nothing, nothing, nothing)
+end
+
 function GenerateBaseExperimentConfig()
 
     seed = abs(Int64.(floor(randn()*100)))
@@ -48,19 +62,26 @@ function GenerateBaseExperimentConfig()
     ogd_par = TrainingParameters("OGD", 0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
     holdout_ogd_par = TrainingParameters("OGD-HO",0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
-    return ExperimentConfig(seed, data_config, sae_net_par, ffn_net_par, sae_sgd_par, ffn_sgd_par, ogd_par, holdout_ogd_par)
+    return ExperimentConfig(seed, "Null Name", data_config, sae_net_par, ffn_net_par, sae_sgd_par, ffn_sgd_par, ogd_par, holdout_ogd_par)
 end
 
 base_config = GenerateBaseExperimentConfig()
+#sae_config = GenerateBaseSAEConfig()
 
 ################################################################################
 ##1. Configuration Variations
 vps = []
-push!(vps, (GetFFNTraining, ChangeMinibatchSize, (1:2)))
-push!(vps, (GetSAETraining, ChangeLearningRate, (1, 0.1, 0.01)))
-push!(vps, (GetSAETraining, ChangeL1Reg, (0.5, 0.2)))
+push!(vps, (GetFFNTraining, ChangeMinibatchSize, (10, 30)))
+#push!(vps, (GetSAETraining, ChangeLearningRate, (0.05, 0.1)))
+#push!(vps, (GetSAETraining, ChangeL1Reg, (0.0, 0.1)))
 
+base_config.experiment_set_name = "Second Run Experiment"
 combos = GenerateGridBasedParameterSets(vps, base_config)
+
+#combos[1].seed = 6
+#combos[2].seed = 6
+#combos[1].data_config.data_seed = 192
+#combos[2].data_config.data_seed = 192
 
 ################################################################################
 ##2. Run Each Configuration
@@ -71,3 +92,13 @@ end
 ################################################################################
 ##3. CSCV
 #ExperimentCSCVProcess()
+
+
+################################################################################
+#=all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.2, 0.09), (0.2, 0.1), (0.2, 0.15))#bull; bear; stable
+var_pairs = (all_pairs[1], all_pairs[4])
+data_config = DatasetConfig(1, "synthetic",  5500,  [1, 7, 30],  [0.6, 0.8],  [0.8, 1.0],  [7], var_pairs)
+data_raw = GenerateDataset(data_config.data_seed, data_config.steps, data_config.variation_values)
+data_splits = SplitData(data_raw, data_config.process_splits)
+processed_data = map(x -> ProcessData(x, data_config.deltas, data_config.prediction_steps), data_splits)
+saesgd_data, ogd_data, holdout_data = map(x -> CreateDataset(x[1], x[2], data_config.training_splits), processed_data)=#

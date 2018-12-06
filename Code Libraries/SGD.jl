@@ -46,12 +46,14 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
         OOS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0
 
         epoch_record = EpochRecord(i, category, mean(minibatch_errors), IS_error, OOS_error, IS_accuracy, OOS_accuracy, 0.0, toq(), CopyNetwork(network), weight_change_rates, Array{Array{Float64,2},1}())
-        CreateEpochRecord(config_id, epoch_record)
+
         push!(epoch_records, epoch_record)
 
         if parameters.verbose
             PrintEpoch(epoch_records[end])
         end
+
+        CreateEpochRecord(config_id, epoch_record)
 
         if parameters.stopping_function(epoch_records)
             break

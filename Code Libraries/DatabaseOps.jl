@@ -7,9 +7,9 @@ export RecordExperimentConfig, CreateEpochRecord, CreatePredictionRecords
 
 db = SQLite.DB("database_test")
 
-function CreateConfigurationRecord(seed)
+function CreateConfigurationRecord(seed, set_name)
     ts = Dates.now()
-    cmd_record = string("INSERT INTO configuration_run (seed_used, start_time) values($(seed), '$(ts)')")
+    cmd_record = string("INSERT INTO configuration_run (seed_used, experiment_set_name, start_time) values($(seed), '$(set_name)', '$(ts)')")
     SQLite.execute!(db, cmd_record)
     max_id = get(SQLite.query(db, "select max(configuration_id) from configuration_run")[1,1])
     return max_id
@@ -41,10 +41,14 @@ end
 function CreateEpochRecord(config_id, epoch_record)
     ts = Dates.now()
 
+    cminibatch = isnan(epoch_record.mean_minibatch_cost) ? "null" : epoch_record.mean_minibatch_cost
+    ctraining = isnan(epoch_record.training_cost)? "null" : epoch_record.training_cost
+    ctest = isnan(epoch_record.test_cost)? "null" : epoch_record.test_cost
+
     training_cmd = "insert into epoch_records
-            (configuration_id, category, start_time, epoch_number, mean_minibatch_cost, training_cost, testing_cost, run_time)
-            values ($(config_id), $(epoch_record.category), '$(ts)' $(epoch_record.epoch_number),
-            $(epoch_record.mean_minibatch_cost), $(epoch_record.training_cost), $(epoch_record.testing_cost), $(epoch_record.run_time))"
+            (configuration_id, category, record_time, epoch_number, mean_minibatch_cost, training_cost, testing_cost, run_time)
+            values ($(config_id), '$(epoch_record.category)', '$(ts)',  $(epoch_record.epoch_number),
+            $(cminibatch), $(ctraining), $(ctest), $(epoch_record.run_time))"
 
     SQLite.execute!(db, training_cmd)
 end
@@ -58,8 +62,8 @@ function CreateDatasetConfigRecord(config_id, dataset_config)
     variation_vals = mapreduce(x -> string(x, ","), string, dataset_config.variation_values)[1:(end-1)]
 
     training_cmd = "insert into dataset_config
-            (configuration_id, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values)
-            values ($(config_id), '$(dataset_config.category)', $(dataset_config.steps), '$(deltas_val)', '$(processsplit_val)',
+            (configuration_id, data_seed, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values)
+            values ($(config_id), $(dataset_config.data_seed),  '$(dataset_config.category)', $(dataset_config.steps), '$(deltas_val)', '$(processsplit_val)',
              '$(trainingsplit_val)', '$(predictions_val)', '$(variation_vals)')"
 
     SQLite.execute!(db, training_cmd)
@@ -73,7 +77,7 @@ function CreatePredictionRecords(config_id, actual, predictions)
 end
 
 function RecordExperimentConfig(exp_config)
-    config_id = CreateConfigurationRecord(exp_config.seed)
+    config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name)
     CreateDatasetConfigRecord(config_id, exp_config.data_config)
     CreateNetworkRecord(config_id, exp_config.sae_network)
     CreateNetworkRecord(config_id, exp_config.ffn_network)
