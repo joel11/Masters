@@ -1,6 +1,6 @@
 module OGD
 
-using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, RBM,  CostFunctions, FFN, GradientFunctions, DatabaseOps
+using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, RBM,  CostFunctions, FFN, GradientFunctions, DatabaseOps, DataFrames
 
 export RunOGD
 
@@ -10,15 +10,24 @@ function RunOGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
     weight_change_rates = Array{Array{Float64,1},1}()
 
     sizes = (0, size(dataset.training_output)[2])
-    data_values = Array{Float64,2}(sizes)
+    training_output = Array(dataset.training_output)
+
+    data_values = DataFrame()
+    for i in 1:size(dataset.training_output)[2]
+        data_values[i] = []
+    end
+    names!(data_values, names(dataset.training_output))
+
     predicted_values = Array{Float64,2}(sizes)
+
 
     for i in 1:size(dataset.training_input)[1]
 
-        data_values = vcat(data_values, dataset.training_output[i, :]')
+        #data_values = vcat(data_values, training_output[i, :]')
+        push!(data_values, training_output[i, :]')
         predicted_values = vcat(predicted_values, Feedforward(network,  dataset.training_input[i, :]')[end])
 
-        weight_updates = GradientDescentWeightUpdate(network, Array{Float64,2}(dataset.training_input[i,:]'), Array{Float64,2}(dataset.training_output[i,:]'), parameters)
+        weight_updates = GradientDescentWeightUpdate(network, Array{Float64,2}(dataset.training_input[i,:]'), Array{Float64,2}(training_output[i,:]'), parameters)
 
         for l in 1:length(network.layers)
             #momentum_factor[l] = parameters.momentum_rate * momentum_factor[l] - weight_updates[l]
@@ -33,8 +42,8 @@ function RunOGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
     end
 
 
-    IS_error = parameters.cost_function.CalculateCost(dataset.training_output, Feedforward(network, dataset.training_input)[end])
-    OOS_error = parameters.cost_function.CalculateCost(dataset.testing_output, Feedforward(network, dataset.testing_input)[end])
+    IS_error = parameters.cost_function.CalculateCost(training_output, Feedforward(network, dataset.training_input)[end])
+    OOS_error = parameters.cost_function.CalculateCost(Array(dataset.testing_output), Feedforward(network, dataset.testing_input)[end])
 
     IS_accuracy = parameters.is_classification && length(dataset.training_input) > 0 ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
     OOS_accuracy = parameters.is_classification && length(dataset.training_input) > 0 ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0

@@ -60,6 +60,7 @@ function CreateDatabase(database_name)
     prediction_results_table = "
         CREATE TABLE IF NOT EXISTS prediction_results(
             configuration_id INTEGER,
+            time_step INTEGER,
             stock VARCHAR,
             actual FLOAT,
             predicted FLOAT)"

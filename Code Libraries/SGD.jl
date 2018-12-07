@@ -21,7 +21,7 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
 
         for m in 1:number_batches
             minibatch_input = epoch_input[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
-            minibatch_ouput = epoch_output[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
+            minibatch_ouput = Array(epoch_output[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:])
 
             weight_updates = GradientDescentWeightUpdate(network, minibatch_input, minibatch_ouput, parameters)
 
@@ -39,8 +39,8 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
         end
 
 
-        IS_error = parameters.cost_function.CalculateCost(dataset.training_output, Feedforward(network, dataset.training_input)[end])
-        OOS_error = parameters.cost_function.CalculateCost(dataset.testing_output, Feedforward(network, dataset.testing_input)[end])
+        IS_error = parameters.cost_function.CalculateCost(Array(dataset.training_output), Feedforward(network, dataset.training_input)[end])
+        OOS_error = parameters.cost_function.CalculateCost(Array(dataset.testing_output), Feedforward(network, dataset.testing_input)[end])
 
         IS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
         OOS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0

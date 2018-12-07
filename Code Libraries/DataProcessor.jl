@@ -38,8 +38,8 @@ function CreateDataset(input_data, output_data, partition_percentages)
     input_splits = SplitData(input_data, partition_percentages)
     output_splits = SplitData(output_data, partition_percentages)
 
-    sd = DataSet((input_splits[1]), (input_splits[2]), (input_splits[3]), (output_splits[1]), (output_splits[2]), (output_splits[3]))
-    #sd = DataSet(Array(input_splits[1]), Array(input_splits[2]), Array(input_splits[3]), Array(output_splits[1]), Array(output_splits[2]), Array(output_splits[3]))
+    sd = DataSet(Array(input_splits[1]), Array(input_splits[2]), Array(input_splits[3]), (output_splits[1]), (output_splits[2]), (output_splits[3]))
+    return (sd)
 end
 
 function ProcessData(raw_data, deltas, prediction_steps)
@@ -85,7 +85,7 @@ end
 function GenerateEncodedSGDDataset(dataset, encoder_network)
     training_input = Feedforward(encoder_network, dataset.training_input)[end]
     testing_input = Feedforward(encoder_network, dataset.testing_input)[end]
-    validation_input = Feedforward(encoder_network, dataset. validation_input)[end]
+    validation_input = size(dataset.validation_input)[1] > 0 ? Feedforward(encoder_network, dataset.validation_input)[end] : Array{Any}()
 
     nd = DataSet(training_input, testing_input, validation_input, dataset.training_output, dataset.testing_output, dataset.validation_output)
 end

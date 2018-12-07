@@ -9,7 +9,7 @@ function Feedforward(network::NeuralNetwork,  input)
 end
 
 function Feedforward(layers::Array{NetworkLayer},  input)
-    current_vals = input
+    current_vals = Array(input)
     layer_outputs = Array{Array{Float64,2},1}()
     push!(layer_outputs, current_vals)
     for i in 1:length(layers)
