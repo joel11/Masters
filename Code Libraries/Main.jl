@@ -12,7 +12,7 @@ using FinancialFunctions
 using DatabaseOps
 using HyperparameterOptimization
 using ExperimentProcess
-
+using EquityCurveFunctions
 ##Experiment Process############################################################
 
 #0. Create base config
@@ -50,17 +50,21 @@ function GenerateBaseExperimentConfig()
     ds = abs(Int64.(floor(randn()*100)))
 
     #all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.2, 0.09), (0.2, 0.1), (0.2, 0.15))#bull; bear; stable
-    all_pairs = ((0.9, 0.1), (0.9, 0.01), (0.9, 0.01), (-0.9, 0.1), (-0.9, 0.01), (-0.9, 0.01), (0.05, 0.01), (0.05, 0.01), (0.05, 0.01))
-    var_pairs = (all_pairs[1], all_pairs[4])
+    all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.05, 0.2), (0.05, 0.1), (0.05, 0.15))
+    var_pairs = all_pairs #(all_pairs[1], all_pairs[4], all_pairs[7])
 
     data_config = DatasetConfig(ds, "synthetic",  5500,  [1, 7, 30],  [0.6, 0.8],  [0.8, 1.0],  [7], var_pairs)
 
-    sae_net_par = NetworkParameters("SAE", [6, 15, 15, 5],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
-    ffn_net_par = NetworkParameters("FFN", [5, 30, 30, 2] ,[ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.XavierGlorotNormalInit)
+    input_size = (length(var_pairs)*length(data_config.deltas))
+    output_size = (length(var_pairs)*length(data_config.prediction_steps))
+    encoding_layer = 6
+
+    sae_net_par = NetworkParameters("SAE", [input_size, 10, 10, encoding_layer],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
+    ffn_net_par = NetworkParameters("FFN", [encoding_layer, 15, 10, output_size] ,[ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.XavierGlorotNormalInit)
 
     rbm_cd = TrainingParameters("RBM-CD", 0.1, 30, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
     sae_sgd_par = TrainingParameters("SAE", 0.1, 30, 0.0, 50, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-    ffn_sgd_par = TrainingParameters("SGD", 0.1, 30, 0.0, 100, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    ffn_sgd_par = TrainingParameters("SGD", 0.01, 30, 0.0, 100, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
     ogd_par = TrainingParameters("OGD", 0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
     holdout_ogd_par = TrainingParameters("OGD-HO",0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
@@ -74,7 +78,7 @@ base_config = GenerateBaseExperimentConfig()
 ################################################################################
 ##1. Configuration Variations
 vps = []
-push!(vps, (GetFFNTraining, ChangeLearningRate, (0.05, 0.01)))
+#push!(vps, (GetFFNTraining, ChangeLearningRate, (0.01)))
 push!(vps, (GetSAETraining, ChangeLearningRate, (0.05, 0.01)))
 #push!(vps, (GetSAETraining, ChangeL1Reg, (0.0, 0.1)))
 
@@ -86,6 +90,9 @@ combos = GenerateGridBasedParameterSets(vps, base_config)
 for ep in combos
     RunConfigurationTest(ep)
 end
+
+PlotPrices([17,18], "new")
+
 
 ################################################################################
 ##3. CSCV

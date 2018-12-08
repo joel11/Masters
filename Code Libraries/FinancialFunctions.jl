@@ -7,12 +7,17 @@ function SharpeRatio(returns, rfr)
 end
 
 function CalculateProfit(actual, predicted)
-    rev = (abs(actual) > abs(predicted)) ? abs(predicted) : sign(predicted) * (actual - predicted)
-    return rev
+    #if sign(actual) == sign(predicted)
+#        return abs(actual)
+#    else
+#        return - abs(actual - predicted)
+#    end
+    return abs(actual - abs(actual - predicted))
 end
 
-function CalculateReturns(actual, predicted)
-    return map(r -> mapreduce(c -> CalculateProfit(predicted[r, c], actual[r, c]), +, 1:size(actual)[2]), 1:size(actual)[1])
+function CalculateReturns(actuals, predicted)
+    return mapreduce(r -> map(c -> CalculateProfit(actuals[r, c], predicted[r, c]), 1:size(actuals)[2]), hcat, 1:size(actuals)[1])'
+    #return map(r -> mapreduce(c -> CalculateProfit(predicted[r, c], actual[r, c]), +, 1:size(actual)[2]), 1:size(actual)[1])
 end
 
 end
