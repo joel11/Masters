@@ -33,12 +33,18 @@ end
 
 function PlotPrices()
 
-    #all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.2, 0.09), (0.2, 0.1), (0.2, 0.15))
-    #ds = GenerateDataset(1, 3650, all_pairs)
     #using Plots
     #plotlyjs()
-    #price_plot = plot(Array(ds))
-    #savefig(price_plot, "/users/joeldacosta/desktop/PriceGraphs.html")
+
+    #all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.2, 0.09), (0.2, 0.1), (0.2, 0.15))
+    all_pairs = ((0.9, 0.1), (0.9, 0.01), (0.9, 0.01), (-0.9, 0.1), (-0.9, 0.01), (-0.9, 0.01), (0.05, 0.01), (0.05, 0.01), (0.05, 0.01))
+    var_pairs = (all_pairs[1], all_pairs[4])
+
+    s = Int64.(round(rand()*100))
+    ds = GenerateDataset(s, 5500, var_pairs)
+
+    price_plot = plot(Array(ds))
+    savefig(price_plot, "/users/joeldacosta/desktop/PriceGraphs.html")
 
 end
 

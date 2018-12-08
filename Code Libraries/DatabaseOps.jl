@@ -3,7 +3,7 @@ module DatabaseOps
 using SQLite
 using TrainingStructures
 
-export RecordExperimentConfig, CreateEpochRecord, CreatePredictionRecords
+export RecordExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
 db = SQLite.DB("database_test")
 
@@ -80,6 +80,10 @@ function CreatePredictionRecords(config_id, actual, predictions)
     prediction_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
     prediction_cmd = "insert into prediction_results (configuration_id, time_step, stock, actual, predicted) values $(prediction_values)"
     SQLite.execute!(db, prediction_cmd)
+end
+
+function RunQuery(query)
+    return(SQLite.query(db, query))
 end
 
 function RecordExperimentConfig(exp_config)
