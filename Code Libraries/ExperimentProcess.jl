@@ -58,11 +58,13 @@ function RunConfigurationTest(ep)
     #c. Run training, and record all epochs
 
     ## SAE Training & Encoding
-    sae_network, sgd_records = TrainInitSAE(config_id, "SAE-SGD", saesgd_data, ep.sae_network, ep.sae_sgd, LinearActivation)
+    sae_network = (ep.rbm_pretraining == true ? (TrainRBMSAE(config_id, "SAE-SGD-RBM", saesgd_data, ep.sae_network, ep.rbm_cd, ep.sae_sgd)[1])
+                                              : (TrainInitSAE(config_id, "SAE-SGD-Init", saesgd_data, ep.sae_network, ep.sae_sgd, LinearActivation)[1]))
     encoded_dataset =  GenerateEncodedSGDDataset(saesgd_data, sae_network)
 
     ## FFN-SGD Training
-    ffn_network = NeuralNetwork(ep.ffn_network.layer_sizes, ep.ffn_network.layer_activations, ep.ffn_network.initialization)
+    ffn_network = (ep.rbm_pretraining == true ? (TrainRBMNetwork(config_id, encoded_dataset, ep.ffn_network, ep.rbm_cd)[1])
+                                              : NeuralNetwork(ep.ffn_network.layer_sizes, ep.ffn_network.layer_activations, ep.ffn_network.initialization))
     ffn_sgd_records = RunSGD(config_id, "FFN-SGD", encoded_dataset, ffn_network, ep.ffn_sgd)
 
     ## OGD Training
@@ -73,7 +75,6 @@ function RunConfigurationTest(ep)
     ## Use validation data from OGD dataset
     encoded_holdout_dataset = GenerateEncodedSGDDataset(holdout_data, sae_network)
     holdout_records, comparisons = RunOGD(config_id, "OGD-HO", encoded_holdout_dataset, ffn_network,  ep.ogd_ho)
-
 
     ## Record Predictions vs Actual
     actual = comparisons[1]

@@ -7,9 +7,9 @@ export RecordExperimentConfig, CreateEpochRecord, CreatePredictionRecords
 
 db = SQLite.DB("database_test")
 
-function CreateConfigurationRecord(seed, set_name)
+function CreateConfigurationRecord(seed, set_name, rbm_pretraining)
     ts = Dates.now()
-    cmd_record = string("INSERT INTO configuration_run (seed_used, experiment_set_name, start_time) values($(seed), '$(set_name)', '$(ts)')")
+    cmd_record = string("INSERT INTO configuration_run (seed_used, experiment_set_name, rbm_pretraining, start_time) values($(seed), '$(set_name)', $(rbm_pretraining), '$(ts)')")
     SQLite.execute!(db, cmd_record)
     max_id = get(SQLite.query(db, "select max(configuration_id) from configuration_run")[1,1])
     return max_id
@@ -83,7 +83,7 @@ function CreatePredictionRecords(config_id, actual, predictions)
 end
 
 function RecordExperimentConfig(exp_config)
-    config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name)
+    config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name, exp_config.rbm_pretraining)
     CreateDatasetConfigRecord(config_id, exp_config.data_config)
     CreateNetworkRecord(config_id, exp_config.sae_network)
     CreateNetworkRecord(config_id, exp_config.ffn_network)

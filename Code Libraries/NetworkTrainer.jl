@@ -21,18 +21,27 @@ function TrainInitSAE(config_id, category, dataset::DataSet, network_parameters:
     return (autoencoder, sgd_records)
 end
 
-function TrainRBMSAE(dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
+function TrainRBMSAE(config_id, category, dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
 
     encoder_data = CreateEncoderDataset(dataset)
     original_functions = copy(network_parameters.layer_activations)
 
     network_parameters.layer_activations = GenerateActivationFunctions(length(original_functions))
-    rbm_network, rbm_records = RBM.TrainRBMNetwork(encoder_data, network_parameters, rbm_parameters)
+    rbm_network, rbm_records = RBM.TrainRBMNetwork(config_id,encoder_data, network_parameters, rbm_parameters)
     AddDecoder(rbm_network, network_parameters)
-    sgd_records = RunSGD(encoder_data, rbm_network, ffn_parameters)
+    sgd_records = RunSGD(config_id, category, encoder_data, rbm_network, ffn_parameters)
     autoencoder = GetAutoencoder(rbm_network)
     return (autoencoder, rbm_records, sgd_records)
 end
+
+#=function TrainEncoderRBNMFFNNetwork(dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
+
+    encoder_data = dataset#CreateEncoderDataset(dataset)
+    rbm_network, rbm_records = TrainRBMNetwork(encoder_data, network_parameters, rbm_parameters)
+    sgd_records = RunSGD(encoder_data, rbm_network, ffn_parameters)
+
+    return (rbm_network, rbm_records, sgd_records)
+end=#
 
 function GenerateActivationFunctions(number_layers)
     activation_functions = Array{Function,1}()
@@ -64,13 +73,6 @@ function GetAutoencoder(network::NeuralNetwork)
     #return network
 end
 
-#=function TrainEncoderRBNMFFNNetwork(dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
 
-    encoder_data = dataset#CreateEncoderDataset(dataset)
-    rbm_network, rbm_records = TrainRBMNetwork(encoder_data, network_parameters, rbm_parameters)
-    sgd_records = RunSGD(encoder_data, rbm_network, ffn_parameters)
-
-    return (rbm_network, rbm_records, sgd_records)
-end=#
 
 end

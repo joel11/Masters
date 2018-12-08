@@ -9,6 +9,7 @@ function CreateDatabase(database_name)
     " CREATE TABLE IF NOT EXISTS configuration_run(
         configuration_id INTEGER PRIMARY KEY AUTOINCREMENT,
         experiment_set_name VARCHAR,
+        rbm_pretraining BOOL, 
         seed_used INTEGER NOT NULL,
         start_time DATETIME NOT NULL)
         "

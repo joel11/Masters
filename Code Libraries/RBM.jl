@@ -4,6 +4,7 @@ using TrainingStructures
 using GradientFunctions
 using NeuralNetworks, TrainingStructures, ActivationFunctions, InitializationFunctions, CostFunctions, FFN
 using Distributions
+using DatabaseOps
 
 export CreateRBMLayer, TrainRBMNetwork, TrainRBMLayer, ReconstructVisible
 
@@ -19,10 +20,10 @@ end
 
 #Training Methods #############################################################
 
-function TrainRBMNetwork(dataset::DataSet, network_parameters::NetworkParameters, training_parameters::TrainingParameters)
+function TrainRBMNetwork(config_id, dataset::DataSet, network_parameters::NetworkParameters, training_parameters::TrainingParameters)
 
     layer = CreateRBMLayer(1, network_parameters)
-    epoch_records = [TrainRBMLayer(dataset.training_input, dataset.testing_input, layer, training_parameters)]
+    epoch_records = [TrainRBMLayer(config_id, dataset.training_input, dataset.testing_input, layer, training_parameters)]
     RemoveBackwardsBias(layer)
     network = NeuralNetwork([layer])
 
@@ -31,7 +32,7 @@ function TrainRBMNetwork(dataset::DataSet, network_parameters::NetworkParameters
         processed_testing_data = Feedforward(network, dataset.testing_input)[end]
 
         next_layer = CreateRBMLayer(i, network_parameters)
-        new_epoch_records = TrainRBMLayer(processed_training_data, processed_testing_data, next_layer, training_parameters)
+        new_epoch_records = TrainRBMLayer(config_id, processed_training_data, processed_testing_data, next_layer, training_parameters)
         push!(epoch_records, new_epoch_records)
         RemoveBackwardsBias(next_layer)
         AddLayer(network, next_layer)
@@ -42,7 +43,7 @@ end
 
 
 
-function TrainRBMLayer(training_input::Array{Float64,2}, testing_input::Array{Float64,2}, layer::NeuralNetworks.NetworkLayer, parameters::TrainingParameters)
+function TrainRBMLayer(config_id, training_input, testing_input, layer::NeuralNetworks.NetworkLayer, parameters::TrainingParameters)
 
     data_b = hcat(fill(1.0, size(training_input,1)), training_input)
     number_batches = Int64.(floor(size(training_input)[1]/parameters.minibatch_size))
@@ -74,18 +75,9 @@ function TrainRBMLayer(training_input::Array{Float64,2}, testing_input::Array{Fl
         training_error = parameters.cost_function.CalculateCost(training_input, ReconstructVisible(layer, training_input))
         testing_error = parameters.cost_function.CalculateCost(testing_input, ReconstructVisible(layer, testing_input))
 
-        push!(epoch_records, EpochRecord(i,
-                                        mean(minibatch_errors),
-                                        training_error,
-                                        testing_error,
-                                        0.0,
-                                        0.0,
-                                        0.0, #CalculateEpochFreeEnergy(layer, training_input, testing_input),
-                                        toq(),
-                                        NeuralNetwork(CopyLayer(layer)),
-                                        weight_change_rates,
-                                        hidden_activation_likelihoods
-                                        ))
+        epoch_record = EpochRecord(i, "RBM-CD",  mean(minibatch_errors), training_error, testing_error, 0.0, 0.0, 0.0, toq(), NeuralNetwork(CopyLayer(layer)), weight_change_rates, hidden_activation_likelihoods)
+        CreateEpochRecord(config_id, epoch_record)
+        push!(epoch_records, epoch_record)
 
         if parameters.verbose
             PrintEpoch(epoch_records[end])

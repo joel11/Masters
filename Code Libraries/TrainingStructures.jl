@@ -56,12 +56,14 @@ type ExperimentConfig
 
     seed::Int64
     experiment_set_name::String
+    rbm_pretraining::Bool
     data_config::DatasetConfig
 
     sae_network
     ffn_network
     sae_sgd
     ffn_sgd
+    rbm_cd
     ogd
     ogd_ho
 
