@@ -12,7 +12,7 @@ using FinancialFunctions
 using DatabaseOps
 using HyperparameterOptimization
 using ExperimentProcess
-using EquityCurveFunctions
+
 ##Experiment Process############################################################
 
 #0. Create base config
@@ -50,17 +50,17 @@ function GenerateBaseExperimentConfig()
     ds = abs(Int64.(floor(randn()*100)))
 
     #all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.2, 0.09), (0.2, 0.1), (0.2, 0.15))#bull; bear; stable
-    all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.05, 0.2), (0.05, 0.1), (0.05, 0.15))
-    var_pairs = all_pairs #(all_pairs[1], all_pairs[4], all_pairs[7])
+    all_pairs = ((0.9, 0.3), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.05, 0.2), (0.05, 0.1), (0.05, 0.15))
+    var_pairs =  all_pairs
 
-    data_config = DatasetConfig(ds, "synthetic",  5500,  [1, 7, 30],  [0.6, 0.8],  [0.8, 1.0],  [7], var_pairs)
+    data_config = DatasetConfig(ds, "synthetic",  5500,  [1, 3, 7],  [0.6, 0.8],  [0.8, 1.0],  [1], var_pairs)
 
     input_size = (length(var_pairs)*length(data_config.deltas))
     output_size = (length(var_pairs)*length(data_config.prediction_steps))
-    encoding_layer = 6
+    encoding_layer = 4
 
-    sae_net_par = NetworkParameters("SAE", [input_size, 10, 10, encoding_layer],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
-    ffn_net_par = NetworkParameters("FFN", [encoding_layer, 15, 10, output_size] ,[ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.XavierGlorotNormalInit)
+    sae_net_par = NetworkParameters("SAE", [input_size, 5, 5, encoding_layer],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
+    ffn_net_par = NetworkParameters("FFN", [encoding_layer, 15, 15, output_size] ,[ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.XavierGlorotNormalInit)
 
     rbm_cd = TrainingParameters("RBM-CD", 0.1, 30, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
     sae_sgd_par = TrainingParameters("SAE", 0.1, 30, 0.0, 50, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
@@ -79,19 +79,19 @@ base_config = GenerateBaseExperimentConfig()
 ##1. Configuration Variations
 vps = []
 #push!(vps, (GetFFNTraining, ChangeLearningRate, (0.01)))
-push!(vps, (GetSAETraining, ChangeLearningRate, (0.05, 0.01)))
+push!(vps, (GetSAETraining, ChangeLearningRate, (0.05, 0.2)))
 #push!(vps, (GetSAETraining, ChangeL1Reg, (0.0, 0.1)))
 
-base_config.experiment_set_name = "Straight Line Learning Rate"
+set_name = "Graph test"
+base_config.experiment_set_name = set_name
 combos = GenerateGridBasedParameterSets(vps, base_config)
 
 ################################################################################
 ##2. Run Each Configuration
-for ep in combos
-    RunConfigurationTest(ep)
-end
+config_ids = map(x -> RunConfigurationTest(x), combos)
 
-PlotPrices([17,18], "new")
+using EquityCurveFunctions
+PlotEquity(config_ids, set_name)
 
 
 ################################################################################

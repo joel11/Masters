@@ -80,7 +80,7 @@ function RunConfigurationTest(ep)
     actual = comparisons[1]
     predicted = comparisons[2]
     CreatePredictionRecords(config_id, actual, predicted)
-
+    return (config_id)
 end
 
 end

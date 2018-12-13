@@ -64,10 +64,6 @@ function ProcessData(raw_data, deltas, prediction_steps)
         return ldf
     end
 
-    #raw_data = GenerateDataset(1, 7300)
-    #deltas = [1, 7, 30]
-    #prediction_steps = [1, 7]
-
     log_data = GenerateLogDataset(raw_data)
 
     delta_pairs = mapreduce(x -> map(y -> (x, y), deltas), vcat, names(raw_data))

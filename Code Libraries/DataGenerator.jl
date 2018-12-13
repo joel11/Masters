@@ -22,7 +22,7 @@ function GenerateDataset(seed, steps, variation_pairs)
 
     df = DataFrame()
 
-    for i in 1:length(variation_pairs)
+    for i in 1:size(variation_pairs, 1)
         start_price = Float64.(rand(10:60))
         ts_prices = GenerateTimeSeries(start_price, variation_pairs[i][1], variation_pairs[i][2], steps)
         df[parse(string("stock", i))] = ts_prices
