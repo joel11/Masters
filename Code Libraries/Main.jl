@@ -91,7 +91,7 @@ combos = GenerateGridBasedParameterSets(vps, base_config)
 config_ids = map(x -> RunConfigurationTest(x), combos)
 
 using EquityCurveFunctions
-PlotEquity(config_ids, set_name)
+ResultPlots(config_ids, set_name)
 
 
 ################################################################################
