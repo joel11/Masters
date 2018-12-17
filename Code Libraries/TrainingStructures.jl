@@ -7,11 +7,11 @@ export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters, 
 type DataSet
     training_input#::Array{Float64,2}
     testing_input#::Array{Float64,2}
-    validation_input#::Array{Float64,2}
+    #validation_input#::Array{Float64,2}
 
     training_output#::Array{Float64,2}
     testing_output#::Array{Float64, 2}
-    validation_output#::Array{Float64,2}
+    #validation_output#::Array{Float64,2}
 end
 
 type TrainingParameters
@@ -65,7 +65,7 @@ type ExperimentConfig
     ffn_sgd
     rbm_cd
     ogd
-    ogd_ho
+    #ogd_ho
 
 end
 

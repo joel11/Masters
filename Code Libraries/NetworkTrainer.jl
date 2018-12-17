@@ -7,8 +7,9 @@ export TrainRBMSAE, TrainEncoderRBNMFFNNetwork, TrainInitSAE
 function CreateEncoderDataset(dataset::DataSet)
     training_input = dataset.training_input
     testing_input = dataset.testing_input
-    validation_input = dataset.validation_input
-    return DataSet(training_input, testing_input, validation_input, training_input, testing_input, validation_input)
+    #validation_input = dataset.validation_input
+    #return DataSet(training_input, testing_input, validation_input, training_input, testing_input, validation_input)
+    return DataSet(training_input, testing_input, training_input, testing_input)
 end
 
 function TrainInitSAE(config_id, category, dataset::DataSet, network_parameters::NetworkParameters, parameters::TrainingParameters, output_function::Function)

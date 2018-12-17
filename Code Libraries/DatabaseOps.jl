@@ -5,7 +5,7 @@ using TrainingStructures
 
 export RecordExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
-db = SQLite.DB("database_test")
+db = SQLite.DB("database_test.db")
 
 function CreateConfigurationRecord(seed, set_name, rbm_pretraining)
     ts = Dates.now()
@@ -94,7 +94,7 @@ function RecordExperimentConfig(exp_config)
     CreateTrainingRecord(config_id, exp_config.sae_sgd)
     CreateTrainingRecord(config_id, exp_config.ffn_sgd)
     CreateTrainingRecord(config_id, exp_config.ogd)
-    CreateTrainingRecord(config_id, exp_config.ogd_ho)
+    #CreateTrainingRecord(config_id, exp_config.ogd_ho)
     return config_id
 end
 

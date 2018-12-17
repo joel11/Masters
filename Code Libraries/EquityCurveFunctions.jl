@@ -18,7 +18,7 @@ function DeltaOnePlot(config_ids)
 
 
     dataset = GenerateDataset(get(dc[1, :data_seed]), get(dc[1, :steps]), variation_values)
-    ogdsplit = parse(Float64, split(get(dc[1, :process_splits]), ',')[end])
+    ogdsplit = parse(Float64, split(get(dc[1, :process_splits]), ',')[(end-1)])
     data_splits = SplitData(dataset,  [ogdsplit, 1.0])
     processed_data = map(x -> ProcessData(x, [1], [1]), data_splits[1:2])
 
