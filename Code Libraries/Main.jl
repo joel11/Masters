@@ -50,26 +50,28 @@ function GenerateBaseExperimentConfig()
     ds = abs(Int64.(floor(randn()*100)))
 
     #all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.2, 0.09), (0.2, 0.1), (0.2, 0.15))#bull; bear; stable
-    all_pairs = ((0.9, 0.3), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.05, 0.2), (0.05, 0.1), (0.05, 0.15))
-    var_pairs =  all_pairs
 
-    data_config = DatasetConfig(ds, "synthetic",  5500,  [1, 3, 7],  [0.6],  [0.8, 1.0],  [1], var_pairs)
+    all_pairs = ((0.9, 0.15), (0.9, 0.15), (0.9, 0.15), (-0.9, 0.15), (-0.9, 0.2), (-0.9, 0.2), (0.05, 0.2), (0.05, 0.2), (0.05, 0.2))
+    var_pairs =  all_pairs[5:7]
 
-    input_size = (length(var_pairs)*length(data_config.deltas))
+    data_config = DatasetConfig(ds, "synthetic",  5000,  [1, 3, 7],  [0.6],  [0.8, 1.0],  [2], var_pairs)
+
+    input_size =  (length(var_pairs)*length(data_config.deltas))
     output_size = (length(var_pairs)*length(data_config.prediction_steps))
-    encoding_layer = 4
+    encoding_layer = 6
 
-    sae_net_par = NetworkParameters("SAE", [input_size, 5, 5, encoding_layer],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
-    ffn_net_par = NetworkParameters("FFN", [encoding_layer, 15, 15, output_size] ,[ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.XavierGlorotNormalInit)
+    sae_net_par = NetworkParameters("SAE", [input_size, 20, 20, encoding_layer],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
+    ffn_net_par = NetworkParameters("FFN", [encoding_layer, 40, 40, output_size] ,[ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.XavierGlorotNormalInit)
 
     rbm_cd = TrainingParameters("RBM-CD", 0.1, 30, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-    sae_sgd_par = TrainingParameters("SAE", 0.1, 30, 0.0, 50, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-    ffn_sgd_par = TrainingParameters("SGD", 0.01, 30, 0.0, 100, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    sae_sgd_par = TrainingParameters("SAE", 0.1, 30, 0.0, 100, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    ffn_sgd_par = TrainingParameters("SGD", 0.01, 30, 0.0, 200, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
     ogd_par = TrainingParameters("OGD", 0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
     #holdout_ogd_par = TrainingParameters("OGD-HO",0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-
-    return ExperimentConfig(seed, "Null Name", false, data_config, sae_net_par, ffn_net_par, sae_sgd_par, ffn_sgd_par, rbm_cd, ogd_par)#, holdout_ogd_par)
+    rbm_pretraining = false
+    
+    return ExperimentConfig(seed, "Null Name", rbm_pretraining, data_config, sae_net_par, ffn_net_par, sae_sgd_par, ffn_sgd_par, rbm_cd, ogd_par)#, holdout_ogd_par)
 end
 
 base_config = GenerateBaseExperimentConfig()
@@ -79,24 +81,19 @@ base_config = GenerateBaseExperimentConfig()
 ##1. Configuration Variations
 vps = []
 #push!(vps, (GetFFNTraining, ChangeLearningRate, (0.01)))
-push!(vps, (GetSAETraining, ChangeLearningRate, (0.05, 0.2)))
+push!(vps, (GetSAETraining, ChangeLearningRate, (0.01, 0.2)))
 #push!(vps, (GetSAETraining, ChangeL1Reg, (0.0, 0.1)))
 
-set_name = "Graph test"
+set_name = "testset"
 base_config.experiment_set_name = set_name
 combos = GenerateGridBasedParameterSets(vps, base_config)
 
 ################################################################################
 ##2. Run Each Configuration
-config_ids = map(x -> RunConfigurationTest(x), combos)
 
-
+config_ids = map(ep -> RunConfigurationTest(ep), combos)
+println(config_ids)
 
 
 #using EquityCurveFunctions
-#ResultPlots(config_ids, set_name)
-
-
-################################################################################
-##3. CSCV
-#ExperimentCSCVProcess()
+ResultPlots(config_ids, "testset")

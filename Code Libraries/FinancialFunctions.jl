@@ -9,16 +9,13 @@ end
 function CalculateProfit(actual, predicted)
 
     prof = nothing
+    #accuracy = predicted / actual
 
-    if predicted > 0 && actual > 0 && (predicted / actual < 1.1)
-        prof = actual
-    else#if predicted >= 0 && actual < 0
-        println(string("A",- actual))
-        prof = - actual
-    #else
-    #    prof = 0
+    if sign(actual) == sign(predicted)
+        prof = abs(actual) #* accuracy
+    else
+        prof = - abs(actual - predicted)
     end
-    println("$actual , $predicted : $prof")
     return prof
 end
 

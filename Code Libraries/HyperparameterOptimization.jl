@@ -10,21 +10,25 @@ using NetworkTrainer, TrainingStructures, StoppingFunctions, CostFunctions
 
 
 function ChangeLearningRate(get_function, parameters,val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_LearningRate_" , string(val))
     get_function(parameters).learning_rate = val
     return parameters
 end
 
 function ChangeL2Reg(get_function,parameters, val)
-     get_function(parameters).l2_lambda = val
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_L2Reg_" , string(val))
+    get_function(parameters).l2_lambda = val
     return parameters
 end
 
 function ChangeL1Reg(get_function,parameters, val)
-     get_function(parameters).l1_lambda = val
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_L1Reg_" , string(val))
+    get_function(parameters).l1_lambda = val
     return parameters
 end
 
 function ChangeMinibatchSize(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_MinibatchSize_" , string(val))
     get_function(parameters).minibatch_size = val
     return parameters
 end

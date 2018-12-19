@@ -43,9 +43,9 @@ function RunOGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
 
 
     IS_error = parameters.cost_function.CalculateCost(training_output, Feedforward(network, dataset.training_input)[end])
-    OOS_error = nothing #parameters.cost_function.CalculateCost(Array(dataset.testing_output), Feedforward(network, dataset.testing_input)[end])
-    IS_accuracy = nothing #parameters.is_classification && length(dataset.training_input) > 0 ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
-    OOS_accuracy = nothing #parameters.is_classification && length(dataset.training_input) > 0 ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0
+    OOS_error = -1.0 #parameters.cost_function.CalculateCost(Array(dataset.testing_output), Feedforward(network, dataset.testing_input)[end])
+    IS_accuracy = -1.0 #parameters.is_classification && length(dataset.training_input) > 0 ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
+    OOS_accuracy = -1.0 #parameters.is_classification && length(dataset.training_input) > 0 ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0
 
     epoch_record = EpochRecord(1, category, 0.0, IS_error, OOS_error, IS_accuracy, OOS_accuracy, 0.0, toq(), CopyNetwork(network), weight_change_rates, Array{Array{Float64,2},1}())
     CreateEpochRecord(config_id, epoch_record)

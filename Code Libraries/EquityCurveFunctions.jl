@@ -16,9 +16,8 @@ function DeltaOnePlot(config_ids)
     vv = get(dc[1, :variation_values])
     variation_values = map(x -> (parse(Float64, replace(split(x, ',')[1], "(", "")), parse(Float64, replace(split(x, ',')[2], ")", ""))),  split(replace(vv, " ", ""), "),("))
 
-
     dataset = GenerateDataset(get(dc[1, :data_seed]), get(dc[1, :steps]), variation_values)
-    ogdsplit = parse(Float64, split(get(dc[1, :process_splits]), ',')[(end-1)])
+    ogdsplit = parse(Float64, split(get(dc[1, :process_splits]), ',')[max(1, end-1)])
     data_splits = SplitData(dataset,  [ogdsplit, 1.0])
     processed_data = map(x -> ProcessData(x, [1], [1]), data_splits[1:2])
 
@@ -43,29 +42,30 @@ end
 
 function PredictedVsActualPlot(config_ids)
     configs = mapreduce(x->string(x, ","), string, config_ids)[1:(end-1)]
-    query = "select * from prediction_results where configuration_id in($configs)"
-
+    query = string("select pr.*, cr.experiment_set_name from prediction_results pr inner join configuration_run cr on cr.configuration_id = pr.configuration_id where cr.configuration_id in ($configs)")
     results = RunQuery(query)
-    groups = by(results, [:stock, :configuration_id], df -> [df])
+    groups = by(results, [:stock, :experiment_set_name], df -> [df])
 
     comparisons = DataFrame()
     noncum_comparisons = DataFrame()
+
     for g_index in 1:size(groups, 1)
         row = Array(groups[g_index, :])
         sn = string(get(row[1]))
         data = row[3]
-        comparisons[parse(string(sn, "_actual"))] = exp.(cumsum(Array(data[:,:actual])))
-        comparisons[parse(string(sn, "_predicted_", get(row[2])))] = exp.(cumsum(Array(data[:,:predicted])))
+        comparisons[parse(string(sn, "_actual"))] = (cumsum(Array(data[:,:actual])))
+        comparisons[parse(string(sn, "_predicted_", replace(string(get(row[2])), ".", "_")))] = (cumsum(Array(data[:,:predicted])))
 
-        noncum_comparisons[parse(string(sn, "_actual"))] = exp.(Array(data[:,:actual]))
-        noncum_comparisons[parse(string(sn, "_predicted_", get(row[2])))] = exp.(Array(data[:,:predicted]))
+        #noncum_comparisons[parse(string(sn, "_actual"))] = exp.(Array(data[:,:actual]))
+        #noncum_comparisons[parse(string(sn, "_predicted_", replace(string(get(row[2])), ".", "_")))] = exp.(Array(data[:,:predicted]))
     end
 
     #Plot to compare input & output
     colnames = string.(names(comparisons))
     price_plot = plot(comparisons[:,parse(colnames[1])],  labels = colnames[1], title = "Predicted vs Actual Timestep Values")
     for i in 2:size(comparisons)[2]
-        plot!(price_plot, comparisons[:,parse(colnames[i])],  labels = colnames[i])
+        style = contains(colnames[i], "actual") ? :solid : :dash
+        plot!(price_plot, linestyle = style, comparisons[:,parse(colnames[i])],  labels = colnames[i])
     end
 
     return (price_plot)
@@ -73,35 +73,49 @@ end
 
 function PlotEquity(config_ids)
     configs = mapreduce(x->string(x, ","), string, config_ids)[1:(end-1)]
-    query = "select * from prediction_results where configuration_id in($configs)"
+    query = string("select pr.*, cr.experiment_set_name from prediction_results pr inner join configuration_run cr on cr.configuration_id = pr.configuration_id where cr.configuration_id in ($configs)")
 
     results = RunQuery(query)
-    groups = by(results, [:stock, :configuration_id], df -> [df])
+    groups = by(results, [:stock, :experiment_set_name, :configuration_id], df -> [df])
 
     comparisons = DataFrame()
     for g_index in 1:size(groups, 1)
         row = Array(groups[g_index, :])
         sn = string(get(row[1]))
-        data = row[3]
+        configset = replace(string(get(row[2])), ".", "_")
+        c_id = get(row[3])
+        data = row[4]
+
         comparisons[parse(string(sn, "_actual"))] = (Array(data[:,:actual]))
-        comparisons[parse(string(sn, "_predicted_", get(row[2])))] = (Array(data[:,:predicted]))
+        comparisons[parse(string(sn, "_predicted_", configset, "_", c_id))] = (Array(data[:,:predicted]))
     end
 
 
     actuals = comparisons[:, filter(x -> (endswith(string(x), "actual")), names(comparisons))]
     ra = cumsum(CalculateReturns(actuals, actuals))
     eq = mapreduce(x -> ra[:,x], +, 1:size(ra,2))
-    equity_plot = plot(eq,  labels = "actual", title="Trading Profits")
+    equity_plot = plot(eq, labels = "actual", title="Trading Profits")
 
     for c in config_ids
-        println(c)
+        set_name = filter(x -> (endswith(string(x), string(c))), names(comparisons))[1]
         predicted = comparisons[:, filter(x -> (endswith(string(x), string(c))), names(comparisons))]
         returns = cumsum(CalculateReturns(actuals, predicted))
         equity_curve = mapreduce(x -> returns[:,x], +, 1:size(returns,2))
-        plot!(equity_plot, equity_curve,  labels = string("config_", c))
+        plot!(equity_plot, linestyle=:dash, equity_curve,  labels = string("config_", set_name))
     end
 
     return equity_plot
+end
+
+function PlotEpochs(config_ids)
+    config_ids = (76, 77)
+    configs = mapreduce(x->string(x, ","), string, config_ids)[1:(end-1)]
+    query = string("select * from epoch_records where configuration_id in ($configs)")
+    results = RunQuery(query)
+
+
+
+
 end
 
 function ResultPlots(config_ids, file_name)
