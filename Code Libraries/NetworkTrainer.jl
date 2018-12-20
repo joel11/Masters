@@ -19,11 +19,10 @@ function TrainInitSAE(config_id, category, dataset::DataSet, network_parameters:
     network.layers[end].activation = output_function
     sgd_records = RunSGD(config_id, category, encoder_data, network, parameters)
     autoencoder = GetAutoencoder(network)
-    return (autoencoder, sgd_records)
+    return (autoencoder, sgd_records, network)
 end
 
 function TrainRBMSAE(config_id, category, dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
-
     encoder_data = CreateEncoderDataset(dataset)
     original_functions = copy(network_parameters.layer_activations)
 
@@ -32,7 +31,7 @@ function TrainRBMSAE(config_id, category, dataset::DataSet, network_parameters::
     AddDecoder(rbm_network, network_parameters)
     sgd_records = RunSGD(config_id, category, encoder_data, rbm_network, ffn_parameters)
     autoencoder = GetAutoencoder(rbm_network)
-    return (autoencoder, rbm_records, sgd_records)
+    return (autoencoder, rbm_records, sgd_records, rbm_network)
 end
 
 #=function TrainEncoderRBNMFFNNetwork(dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)

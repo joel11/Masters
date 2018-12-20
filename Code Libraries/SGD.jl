@@ -60,10 +60,16 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
         end
     end
 
+    network = GetBestNetwork(epoch_records)
+
     return (epoch_records)
 end
 
-
+function GetBestNetwork(epoch_records)
+    minindex = findmin(map(x -> x.test_cost, epoch_records))[2]
+    println(string(minindex, " ", epoch_records[minindex].test_cost))
+    return epoch_records[minindex].network
+end
 
 function PredictionAccuracy(network, input, output)
     validation_pred = Feedforward(network, input)[end]

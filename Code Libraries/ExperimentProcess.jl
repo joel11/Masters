@@ -13,7 +13,7 @@ using DatabaseOps
 using HyperparameterOptimization
 using ExperimentProcess
 
-export RunConfigurationTest
+export RunConfigurationTest, RunSAEConfigurationTest
 
 function RunSAEConfigurationTest(ep)
 
@@ -28,15 +28,24 @@ function RunSAEConfigurationTest(ep)
     data_raw = GenerateDataset(ep.data_config.data_seed, ep.data_config.steps, ep.data_config.variation_values)
     data_splits = SplitData(data_raw, ep.data_config.process_splits)
     processed_data = map(x -> ProcessData(x, ep.data_config.deltas, ep.data_config.prediction_steps), data_splits)
-    saesgd_data, ogd_data, holdout_data = map(x -> CreateDataset(x[1], x[2], ep.data_config.training_splits), processed_data)
+    #saesgd_data, ogd_data, holdout_data = map(x -> CreateDataset(x[1], x[2], ep.data_config.training_splits), processed_data)
+    saesgd_data = CreateDataset(processed_data[1][1], processed_data[1][2], ep.data_config.training_splits)
 
     ################################################################################
     #c. Run training, and record all epochs
 
     ## SAE Training & Encoding
-    sae_network, sgd_records = TrainInitSAE(config_id, "SAE-SGD", saesgd_data, ep.sae_network, ep.sae_sgd, LinearActivation)
+    training_objects = (ep.rbm_pretraining == true ? (TrainRBMSAE(config_id, "SAE-SGD-RBM", saesgd_data, ep.sae_network, ep.rbm_cd, ep.sae_sgd))
+                                              : (TrainInitSAE(config_id, "SAE-SGD-Init", saesgd_data, ep.sae_network, ep.sae_sgd, LinearActivation)))
 
 
+    full_network = training_objects[4]
+    actual_data = saesgd_data.testing_input
+    reconstructed_data = Feedforward(full_network, actual_data)
+    data_pair = (actual_data, reconstructed_data)
+
+
+    return (config_id, datapair)
 end
 
 function RunConfigurationTest(ep)

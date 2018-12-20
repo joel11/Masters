@@ -1,4 +1,4 @@
-module EquityCurveFunctions
+module ExperimentGraphs
 
 using DatabaseOps
 using DataFrames
@@ -6,7 +6,9 @@ using FinancialFunctions
 using DataGenerator
 using DataProcessor
 using Plots
-export ResultPlots
+export PlotResults, PlotEpochs
+
+plotlyjs()
 
 function DeltaOnePlot(config_ids)
     configs = mapreduce(x->string(x, ","), string, config_ids)[1:(end-1)]
@@ -107,20 +109,39 @@ function PlotEquity(config_ids)
     return equity_plot
 end
 
-function PlotEpochs(config_ids)
-    config_ids = (76, 77)
+function PlotEpochs(config_ids, file_name)
     configs = mapreduce(x->string(x, ","), string, config_ids)[1:(end-1)]
     query = string("select * from epoch_records where configuration_id in ($configs)")
     results = RunQuery(query)
 
+    function PlotErrorsAndTimes(cat)
+        epoch_records = results[Array(results[:,:category]) .== cat, :]
+        config_groups = by(epoch_records, [:configuration_id], df -> [df])
 
+        costsplot = plot(log.(Array(config_groups[1, 2][:, :training_cost])), labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Costs"))
+        plot!(costsplot, log.(Array(config_groups[1, 2][:, :testing_cost])), linestyle = :dash, labels = string(get(config_groups[1, 1]), "_", cat, "_testing"))
 
+        for i in 2:size(config_groups, 1)
+            plot!(log.(Array(config_groups[i, 2][:, :training_cost])), labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
+            plot!(costsplot, log.(Array(config_groups[i, 2][:, :testing_cost])), linestyle = :dash, labels = string(get(config_groups[i, 1]), "_", cat, "_testing"))
+        end
 
+        timesplot = plot(cumsum(Array(config_groups[1, 2][:, :run_time])), labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Runtimes"))
+
+        for i in 2:size(config_groups, 1)
+            plot!(timesplot, cumsum(Array(config_groups[i, 2][:, :run_time])), labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
+        end
+
+        return [costsplot, timesplot]
+    end
+
+    categories = unique(Array(results[:, :category]))
+    plots = mapreduce(PlotErrorsAndTimes, vcat, filter(x -> x != "OGD", categories))
+
+    savefig(plot(plots..., layout = length(plots), size=(1400, 700)), string("/users/joeldacosta/desktop/", file_name, ".html"))
 end
 
-function ResultPlots(config_ids, file_name)
-    plotlyjs()
-
+function PlotResults(config_ids, file_name)
     delta_plots = DeltaOnePlot(config_ids)
     prediction_plot = PredictedVsActualPlot(config_ids)
     equity_plot = PlotEquity(config_ids)
