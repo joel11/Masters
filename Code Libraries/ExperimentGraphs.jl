@@ -6,7 +6,7 @@ using FinancialFunctions
 using DataGenerator
 using DataProcessor
 using Plots
-export PlotResults, PlotEpochs
+export PlotResults, PlotEpochs, PlotSAERecontructions
 
 plotlyjs()
 
@@ -114,16 +114,27 @@ function PlotEpochs(config_ids, file_name)
     query = string("select * from epoch_records where configuration_id in ($configs)")
     results = RunQuery(query)
 
+    function ProcessValueArray(array_vals)
+        vals = deepcopy(array_vals)
+        for i in 1:length(vals)
+            if isnull(vals[i])
+                vals[i] = 1
+            end
+        end
+        return vals
+    end
+
     function PlotErrorsAndTimes(cat)
         epoch_records = results[Array(results[:,:category]) .== cat, :]
         config_groups = by(epoch_records, [:configuration_id], df -> [df])
 
-        costsplot = plot(log.(Array(config_groups[1, 2][:, :training_cost])), labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Costs"))
-        plot!(costsplot, log.(Array(config_groups[1, 2][:, :testing_cost])), linestyle = :dash, labels = string(get(config_groups[1, 1]), "_", cat, "_testing"))
+        costsplot = plot(log.(Array(ProcessValueArray(config_groups[1, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = "Log Cost",  labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Costs"))
+        plot!(costsplot, log.(Array(ProcessValueArray(config_groups[1, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = "Log Cost",linestyle = :dash, labels = string(get(config_groups[1, 1]), "_", cat, "_testing"))
 
         for i in 2:size(config_groups, 1)
-            plot!(log.(Array(config_groups[i, 2][:, :training_cost])), labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
-            plot!(costsplot, log.(Array(config_groups[i, 2][:, :testing_cost])), linestyle = :dash, labels = string(get(config_groups[i, 1]), "_", cat, "_testing"))
+            println(i)
+            plot!(log.(Array(ProcessValueArray(config_groups[i, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = "Log Cost", labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
+            plot!(costsplot, log.(Array(ProcessValueArray(config_groups[i, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = "Log Cost", linestyle = :dash, labels = string(get(config_groups[i, 1]), "_", cat, "_testing"))
         end
 
         timesplot = plot(cumsum(Array(config_groups[1, 2][:, :run_time])), labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Runtimes"))
@@ -148,6 +159,17 @@ function PlotResults(config_ids, file_name)
 
     all_plots = [delta_plots[1] delta_plots[2] prediction_plot equity_plot]
     savefig(plot(all_plots..., layout = 4, size=(1400, 700)), string("/users/joeldacosta/desktop/", file_name, ".html"))
+end
+
+function PlotSAERecontructions(training_pairs, file_name)
+    function ReconPlot(pair)
+        training_inputplot = plot(cumsum(pair[3][1]), linestyle = :solid, labels = "actual", title=string("Testing Data Reconstructions ", pair[1]))
+        plot!(training_inputplot, cumsum(pair[3][2][end]), labels = pair[2], linestyle = :dash)
+        return training_inputplot
+    end
+
+    reconplots = map(ReconPlot, training_pairs)
+    savefig(plot(reconplots..., layout = length(reconplots), size=(1400, 700)), string("/users/joeldacosta/desktop/", file_name, ".html"))
 end
 
 end

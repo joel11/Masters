@@ -35,12 +35,15 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
             #    push!(weight_change_rates, map((x, y) -> mean(x[2:end,:] ./ y[2:end,:]), weight_updates, map(x -> x.weights, network.layers)))
             #end
 
-            push!(minibatch_errors, parameters.cost_function.CalculateCost(minibatch_ouput, Feedforward(network, minibatch_input)[end]))
+            push!(minibatch_errors, 0)
+            #push!(minibatch_errors, parameters.cost_function.CalculateCost(minibatch_ouput, Feedforward(network, minibatch_input)[end]))
         end
 
 
         IS_error = parameters.cost_function.CalculateCost(Array(dataset.training_output), Feedforward(network, dataset.training_input)[end])
         OOS_error = parameters.cost_function.CalculateCost(Array(dataset.testing_output), Feedforward(network, dataset.testing_input)[end])
+
+        println("IS : $IS_error ; OS : $OOS_error")
 
         IS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
         OOS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0

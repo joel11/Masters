@@ -2,7 +2,7 @@ push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 module HyperparameterOptimization
 
-export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining
+export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers
 
 using NetworkTrainer, TrainingStructures, StoppingFunctions, CostFunctions
 #using Plots
@@ -32,6 +32,18 @@ function ChangeMinibatchSize(get_function, parameters, val)
     get_function(parameters).minibatch_size = val
     return parameters
 end
+
+function ChangeLayers(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_LayerSizes_" , string(val[1]))
+    get_function(parameters).layer_sizes = val[2]
+    get_function(parameters).layer_activations = val[3]
+
+    return parameters
+end
+
+
+
+
 
 function GetDataConfig(experiment_config)
     return experiment_config.data_config
@@ -64,13 +76,14 @@ end
 function GenerateGridBasedParameterSets(vps, base_parameters)
     first = vps[1]
     one_samples = map(vp -> first[2].(first[1], deepcopy(base_parameters), vp), first[3])
-    combos = one_samples
-    for i in 2:length(vps)
-        combos = mapreduce(current_sample -> mapreduce(y -> (vps[i][2](vps[i][1], deepcopy(current_sample), y)), vcat, vps[i][3]), vcat, combos)
+    combos = length(first[3]) > 1 ?  one_samples : [one_samples]
+    if length(vps) > 1
+        for i in 2:length(vps)
+            combos = mapreduce(current_sample -> mapreduce(y -> (vps[i][2](vps[i][1], deepcopy(current_sample), y)), vcat, vps[i][3]), vcat, combos)
+        end
     end
     return combos
 end
-
 
 function HyperparameterRangeSearch(dataset, network_parameters, rbm_parameters, base_ffn_parameters, attribute_change_function, values)
     results = []
@@ -90,7 +103,6 @@ function HyperparameterRangeSearch(dataset, network_parameters, rbm_parameters, 
 
     return (results)
 end
-
 
 function GraphHyperparameterResults(results, output_dir, file_name, val_name)
 
@@ -125,8 +137,5 @@ function GraphHyperparameterResults(results, output_dir, file_name, val_name)
 
     savefig(plot(cost_plot, accuracy_plot, runtime_plot, layout = 3, size = (1000,1000)), string(output_dir , file_name, ".html"))
 end
-
-
-
 
 end

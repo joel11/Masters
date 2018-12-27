@@ -28,7 +28,7 @@ end
 
 function CreateTrainingRecord(config_id, parameters)
     cf = split(string(typeof(parameters.cost_function)), ".")[end]
-    sf = "unset"
+    sf = string(split(string(parameters.stopping_function), ".")[end], string(parameters.stopping_parameters))
 
     training_cmd = "insert into training_parameters
             (configuration_id, category, learning_rate, minibatch_size, max_epochs, l1_lambda, l2_lambda, cost_function, stopping_function)
@@ -90,11 +90,15 @@ function RecordExperimentConfig(exp_config)
     config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name, exp_config.rbm_pretraining)
     CreateDatasetConfigRecord(config_id, exp_config.data_config)
     CreateNetworkRecord(config_id, exp_config.sae_network)
-    CreateNetworkRecord(config_id, exp_config.ffn_network)
     CreateTrainingRecord(config_id, exp_config.sae_sgd)
-    CreateTrainingRecord(config_id, exp_config.ffn_sgd)
-    CreateTrainingRecord(config_id, exp_config.ogd)
-    #CreateTrainingRecord(config_id, exp_config.ogd_ho)
+
+    if !exp_config.sae_only
+        CreateNetworkRecord(config_id, exp_config.ffn_network)
+        CreateTrainingRecord(config_id, exp_config.ffn_sgd)
+        CreateTrainingRecord(config_id, exp_config.ogd)
+        #CreateTrainingRecord(config_id, exp_config.ogd_ho)
+    end
+
     return config_id
 end
 

@@ -12,6 +12,7 @@ using FinancialFunctions
 using DatabaseOps
 using HyperparameterOptimization
 using ExperimentProcess
+using DataJSETop40
 
 ##Experiment Process############################################################
 
@@ -30,82 +31,64 @@ using ExperimentProcess
 ################################################################################
 ##0. Base Configuration
 
-function GenerateBaseSAEConfig()
-    seed = abs(Int64.(floor(randn()*100)))
-    ds = abs(Int64.(floor(randn()*100)))
-
-    all_pairs = ((0.9, 0.15), (0.9, 0.4), (0.9, 0.25), (-0.9, 0.15), (-0.9, 0.4), (-0.9, 0.25), (0.2, 0.09), (0.2, 0.1), (0.2, 0.15))#bull; bear; stable
-    var_pairs = (all_pairs[1], all_pairs[4])
-
-    data_config = DatasetConfig(ds, "synthetic",  5000,  [1, 7, 30],  [0.6, 0.8],  [0.8, 1.0],  [7], var_pairs)
-    sae_net_par = NetworkParameters("SAE", [6, 20, 20, 4],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
-    sae_sgd_par = TrainingParameters("SAE", 0.005, 10, 0.0, 10, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-
-    return ExperimentConfig(seed, "Null Name", data_config, sae_net_par, nothing , sae_sgd_par, nothing, nothing, nothing)
-end
-
-function GenerateBaseExperimentConfig()
-
+function GenerateBaseSAEConfig(set_name, datasetname)
     seed = abs(Int64.(floor(randn()*100)))
     ds = abs(Int64.(floor(randn()*100)))
 
     all_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-    var_pairs =  all_pairs
+    var_pairs =  all_pairs[1:end]
 
-    data_config = DatasetConfig(ds, "synthetic",  5000,  [1, 3, 7],  [0.6],  [0.8, 1.0],  [2], var_pairs)
+    data_config = DatasetConfig(ds, datasetname,  5000,  [2],  [0.6],  [0.8, 1.0],  [2], var_pairs)
 
     input_size =  (length(var_pairs)*length(data_config.deltas))
     output_size = (length(var_pairs)*length(data_config.prediction_steps))
     encoding_layer = 4
 
-    sae_net_par = NetworkParameters("SAE", [input_size, 20, 20, encoding_layer],[ReluActivation, ReluActivation, LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
-    ffn_net_par = NetworkParameters("FFN", [encoding_layer, 40, 40, output_size] ,[ReluActivation, ReluActivation, LinearActivation] ,InitializationFunctions.XavierGlorotNormalInit)
+    sae_net_par = NetworkParameters("SAE", [input_size, 10,  encoding_layer],[ReluActivation,  LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
+    sae_sgd_par = TrainingParameters("SAE", 0.005, 10, 0.0, 3000, (0.0001, 50), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
-    rbm_cd = TrainingParameters("RBM-CD", 0.1, 30, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-    sae_sgd_par = TrainingParameters("SAE", 0.1, 30, 0.0, 20, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-    ffn_sgd_par = TrainingParameters("SGD", 0.01, 30, 0.0, 20, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-
-    ogd_par = TrainingParameters("OGD", 0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
-    #holdout_ogd_par = TrainingParameters("OGD-HO",0.1, 1, 0.0, 1, NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
     rbm_pretraining = false
+    rbm_cd = TrainingParameters("RBM-CD", 0.1, 10, 0.0, 1, (0.0001, 50), GenValidationChangeReached, true, false, 0.0, 0.0, MeanSquaredError())
 
-    return ExperimentConfig(seed, "Null Name", rbm_pretraining, data_config, sae_net_par, ffn_net_par, sae_sgd_par, ffn_sgd_par, rbm_cd, ogd_par)#, holdout_ogd_par)
+
+    return ExperimentConfig(seed, set_name, rbm_pretraining, data_config, sae_net_par, nothing , sae_sgd_par, nothing, rbm_cd, nothing, true)
 end
-
-base_config = GenerateBaseExperimentConfig()
-#sae_config = GenerateBaseSAEConfig()
 
 ################################################################################
 ##1. Configuration Variations
-vps = []
-#push!(vps, (GetFFNTraining, ChangeLearningRate, (0.01)))
-push!(vps, (GetSAETraining, ChangeLearningRate, (0.01, 0.2)))
-#push!(vps, (GetSAETraining, ChangeL1Reg, (0.0, 0.1)))
+##Structures
+input = 6
+encoding = 4
+layers =   (("8 - ReLU", [input, 8, encoding], [ReluActivation,  LinearActivation]),
+            ("15 - ReLU", [input, 15, encoding], [ReluActivation,  LinearActivation]),
+            ("30 - ReLU", [input, 30, encoding], [ReluActivation,  LinearActivation]),
+            ("8x8 - ReLU", [input, 8, 8, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            ("15x15 - ReLU", [input, 15, 15, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            ("25x25 - ReLU", [input, 25, 25, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            ("40x40 - ReLU", [input, 40, 40, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            ("8x8x8 - ReLU", [input, 8, 8, 8, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation])
+            #("8 - Sigmoid", [input, 8, encoding], [SigmoidActivation,  LinearActivation]),
+            #("8x8 - Sigmoid", [input, 8, 8, encoding], [SigmoidActivation, SigmoidActivation,  LinearActivation]),
+            #("8x8x8 - Sigmoid", [input, 8, 8, 8, encoding], [SigmoidActivation, SigmoidActivation, SigmoidActivation, LinearActivation]),
+            #("15 - Sigmoid", [input, 15, encoding], [SigmoidActivation,  LinearActivation]),
+            #("15x15 - Sigmoid", [input, 15, 15, encoding], [SigmoidActivation, SigmoidActivation,  LinearActivation])
+            )
 
-set_name = "testset"
-base_config.experiment_set_name = set_name
-combos = GenerateGridBasedParameterSets(vps, base_config)
+vps = []
+push!(vps, (GetSAETraining, ChangeLearningRate, (0.1)))#, 0.05)))
+push!(vps, (GetSAENetwork, ChangeLayers, layers))
+
+combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig("Xavier Init Plus Test_14", "JSETop40_1_2"))
+
 
 ################################################################################
 ##2a. Run Each SAE Configuration
+jsedata = ReadJSETop40Data()
+exp_data = jsedata[:, [:ACL, :AGL, :AMS, :CRH, :CFR , :SOL]]
+sae_results = map(ep -> RunSAEConfigurationTest(ep, exp_data), combos)
+config_ids = map(x -> x[1], sae_results)
 
-config_ids = map(ep -> RunSAEConfigurationTest(ep), combos)
-println(config_ids)
-
-################################################################################
-##2b. Run Each Configuration
-#config_ids = map(ep -> RunConfigurationTest(ep), combos)
-#println(config_ids)
-
-################################################################################
-##3. Plot Results
 
 using ExperimentGraphs
-PlotResults(config_ids, "testresults")
-PlotEpochs(config_ids, "testepochs")
-
-
-
-################################################################################
-################################################################################
-################################################################################
+PlotSAERecontructions(sae_results, "Xavier Init_14")
+PlotEpochs(config_ids, "Xavier Epochs_14")

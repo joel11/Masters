@@ -20,6 +20,7 @@ type TrainingParameters
     minibatch_size::Int64
     momentum_rate::Float64
     max_epochs::Int64
+    stopping_parameters::Tuple
     stopping_function
     verbose::Bool
     is_classification::Bool
@@ -27,6 +28,13 @@ type TrainingParameters
     l1_lambda::Float64
     l2_lambda::Float64
     cost_function::CostFunction
+
+
+    function TrainingParameters(category, learning_rate, minibatch_size, momentum_rate, max_epochs,
+        stopping_parameters, stopping_function, verbose, is_classification, l1_lambda, l2_lambda, cost_function)
+        return new(category, learning_rate, minibatch_size, momentum_rate, max_epochs,
+            stopping_parameters, stopping_function(stopping_parameters), verbose, is_classification, l1_lambda, l2_lambda, cost_function)
+    end
 end
 
 type NetworkParameters
@@ -66,7 +74,7 @@ type ExperimentConfig
     rbm_cd
     ogd
     #ogd_ho
-
+    sae_only
 end
 
 type EpochRecord

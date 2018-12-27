@@ -111,7 +111,9 @@ type MeanSquaredError <: CostFunction
 
     function MeanSquaredError()
         function cost_function(y, y_hat)
-            return(sum((y - y_hat).^2))/size(y, 1)
+            cost =  sum((y - y_hat).^2)/size(y, 1)
+            println(string( sum((y - y_hat).^2), " , ", size(y, 1), " , ", cost))
+            return cost
         end
 
         function delta_function(a, y, z_vals, activation)
