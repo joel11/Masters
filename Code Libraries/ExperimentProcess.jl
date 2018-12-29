@@ -15,6 +15,23 @@ using ExperimentProcess
 
 export RunConfigurationTest, RunSAEConfigurationTest
 
+function NormalizeDataset(dataset)
+    dataset = Array(exp_data)
+    minval = minimum(dataset[:,:])
+    maxval = maximum(dataset[:,:])
+
+    den = maxval - minval
+    top = dataset .- minval
+    scaled_data = top ./ den
+
+    df = DataFrame()
+    for n in 1:length(names(exp_data))
+        df[names(exp_data)[n]] = scaled_data[:, n]
+    end
+
+    return df
+end
+
 function RunSAEConfigurationTest(ep, dataset)
 
     srand(ep.seed)
@@ -29,7 +46,7 @@ function RunSAEConfigurationTest(ep, dataset)
     data_splits = SplitData(data_raw, ep.data_config.process_splits)
     processed_data = map(x -> ProcessData(x, ep.data_config.deltas, ep.data_config.prediction_steps), data_splits)
     #saesgd_data, ogd_data, holdout_data = map(x -> CreateDataset(x[1], x[2], ep.data_config.training_splits), processed_data)
-    saesgd_data = CreateDataset(processed_data[1][1], processed_data[1][2], ep.data_config.training_splits)
+    saesgd_data = NormalizeDataset(CreateDataset(processed_data[1][1], processed_data[1][2], ep.data_config.training_splits))
 
     ################################################################################
     #c. Run training, and record all epochs

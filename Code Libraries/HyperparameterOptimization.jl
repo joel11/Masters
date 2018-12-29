@@ -2,12 +2,17 @@ push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 module HyperparameterOptimization
 
-export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers
+export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit
 
 using NetworkTrainer, TrainingStructures, StoppingFunctions, CostFunctions
 #using Plots
 #plotlyjs()
 
+function ChangeInit(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_Init_" , split(string(val), ".")[end])
+    get_function(parameters).initialization = val
+    return parameters
+end
 
 function ChangeLearningRate(get_function, parameters,val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_LearningRate_" , string(val))
@@ -75,6 +80,7 @@ end
 
 function GenerateGridBasedParameterSets(vps, base_parameters)
     first = vps[1]
+    #firstvals = length(first[3]) > 1 ? first[3] : [first[3]]
     one_samples = map(vp -> first[2].(first[1], deepcopy(base_parameters), vp), first[3])
     combos = length(first[3]) > 1 ?  one_samples : [one_samples]
     if length(vps) > 1

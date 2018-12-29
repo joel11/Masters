@@ -38,17 +38,17 @@ function GenerateBaseSAEConfig(set_name, datasetname)
     all_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
     var_pairs =  all_pairs[1:end]
 
-    data_config = DatasetConfig(ds, datasetname,  5000,  [2],  [0.6],  [0.8, 1.0],  [2], var_pairs)
+    data_config = DatasetConfig(ds, datasetname,  5000,  [1],  [0.6],  [0.8, 1.0],  [1], var_pairs)
 
     input_size =  (length(var_pairs)*length(data_config.deltas))
     output_size = (length(var_pairs)*length(data_config.prediction_steps))
     encoding_layer = 4
 
-    sae_net_par = NetworkParameters("SAE", [input_size, 10,  encoding_layer],[ReluActivation,  LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
-    sae_sgd_par = TrainingParameters("SAE", 0.005, 10, 0.0, 3000, (0.0001, 50), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    sae_net_par = NetworkParameters("SAE", [input_size, 10,  encoding_layer], [ReluActivation,  LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
+    sae_sgd_par = TrainingParameters("SAE", 0.05, 30, 0.0, 1000, (0.0001, 50), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
-    rbm_pretraining = false
-    rbm_cd = TrainingParameters("RBM-CD", 0.1, 10, 0.0, 1, (0.0001, 50), GenValidationChangeReached, true, false, 0.0, 0.0, MeanSquaredError())
+    rbm_pretraining = true
+    rbm_cd = TrainingParameters("RBM-CD", 1, 30, 0.0, 100, (0.0001, 50), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
 
     return ExperimentConfig(seed, set_name, rbm_pretraining, data_config, sae_net_par, nothing , sae_sgd_par, nothing, rbm_cd, nothing, true)
@@ -59,36 +59,80 @@ end
 ##Structures
 input = 6
 encoding = 4
-layers =   (("8 - ReLU", [input, 8, encoding], [ReluActivation,  LinearActivation]),
-            ("15 - ReLU", [input, 15, encoding], [ReluActivation,  LinearActivation]),
-            ("30 - ReLU", [input, 30, encoding], [ReluActivation,  LinearActivation]),
-            ("8x8 - ReLU", [input, 8, 8, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
-            ("15x15 - ReLU", [input, 15, 15, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
-            ("25x25 - ReLU", [input, 25, 25, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
-            ("40x40 - ReLU", [input, 40, 40, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
-            ("8x8x8 - ReLU", [input, 8, 8, 8, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation])
-            #("8 - Sigmoid", [input, 8, encoding], [SigmoidActivation,  LinearActivation]),
-            #("8x8 - Sigmoid", [input, 8, 8, encoding], [SigmoidActivation, SigmoidActivation,  LinearActivation]),
-            #("8x8x8 - Sigmoid", [input, 8, 8, 8, encoding], [SigmoidActivation, SigmoidActivation, SigmoidActivation, LinearActivation]),
-            #("15 - Sigmoid", [input, 15, encoding], [SigmoidActivation,  LinearActivation]),
-            #("15x15 - Sigmoid", [input, 15, 15, encoding], [SigmoidActivation, SigmoidActivation,  LinearActivation])
+layers =   (#("8 - ReLU", [input, 8, encoding], [ReluActivation,  LinearActivation]),
+            #("15 - ReLU", [input, 15, encoding], [ReluActivation,  LinearActivation]),
+            #("50 - ReLU", [input, 50, encoding], [ReluActivation,  LinearActivation]),
+            #("100 - ReLU", [input, 100, encoding], [ReluActivation,  LinearActivation])
+            #("30 - ReLU", [input, 30, encoding], [ReluActivation,  LinearActivation]),
+            #("8x8 - ReLU", [input, 8, 8, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("15x15 - ReLU", [input, 15, 15, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("25x25 - ReLU", [input, 25, 25, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("50x50 - ReLU", [input, 50, 50, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("100x100 - ReLU", [input, 100, 100, encoding], [ReluActivation, ReluActivation,  LinearActivation])
+            ("30x15 - ReLU",     [input, 30,  15, encoding],     [ReluActivation, ReluActivation, LinearActivation]),
+            ("50x30x10 - ReLU",  [input, 50,  30, 10, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation]),
+            ("100x50x20 - ReLU", [input, 100, 50, 20, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation])
+            #("40x40 - ReLU", [input, 40, 40, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("8x8x8 - ReLU", [input, 8, 8, 8, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation]),
+            #("15x15x15 - ReLU", [input, 15, 15, 15, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation]),
+            #("30x30x30 - ReLU", [input, 30, 30, 30, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation])
+            )
+
+sigmoid_layers =
+            (("8 - Sigmoid",    [input, 8, encoding],   [SigmoidActivation,  LinearActivation]),
+            ("15 - Sigmoid",    [input, 15, encoding],  [SigmoidActivation,  LinearActivation]),
+            ("30 - Sigmoid",    [input, 30, encoding],  [SigmoidActivation,  LinearActivation]),
+            ("50 - Sigmoid",    [input, 50, encoding],  [SigmoidActivation,  LinearActivation]),
+            #("100 - Sigmoid",   [input, 100, encoding], [SigmoidActivation,  LinearActivation])
+            #("8x8 - Sigmoid",       [input,  8,  8, encoding],   [SigmoidActivation, SigmoidActivation,  LinearActivation]),
+            #("15x15 - Sigmoid",     [input, 15, 15, encoding],   [SigmoidActivation, SigmoidActivation,  LinearActivation]),
+            #("25x25 - Sigmoid",     [input, 25, 25, encoding],   [SigmoidActivation, SigmoidActivation,  LinearActivation]),
+            #("30x15 - Sigmoid",     [input, 30, 15, encoding],   [SigmoidActivation, SigmoidActivation,  LinearActivation]),
+            ##("40x40 - Sigmoid",     [input, 40, 40, encoding],   [SigmoidActivation, SigmoidActivation,  LinearActivation]),
+            #("50x50 - Sigmoid",     [input, 50, 50, encoding],   [SigmoidActivation, SigmoidActivation,  LinearActivation]),
+            #("100x100 - Sigmoid",   [input, 100, 100, encoding], [SigmoidActivation, SigmoidActivation,  LinearActivation]),
+            #("8x8x8 - Sigmoid",     [input,  8,   8,  8, encoding], [SigmoidActivation, SigmoidActivation, SigmoidActivation, LinearActivation]),
+            #("15x15x15 - Sigmoid",  [input, 15,  15, 15, encoding], [SigmoidActivation, SigmoidActivation, SigmoidActivation, LinearActivation]),
+            #("30x30x30 - Sigmoid",  [input, 30,  30, 30, encoding], [SigmoidActivation, SigmoidActivation, SigmoidActivation, LinearActivation]),
+            #("50x30x10 - Sigmoid",  [input, 50,  30, 10, encoding], [SigmoidActivation, SigmoidActivation, SigmoidActivation, LinearActivation]),
+            #("100x50x20 - Sigmoid", [input, 100, 50, 20, encoding], [SigmoidActivation, SigmoidActivation, SigmoidActivation, LinearActivation])
             )
 
 vps = []
-push!(vps, (GetSAETraining, ChangeLearningRate, (0.1)))#, 0.05)))
-push!(vps, (GetSAENetwork, ChangeLayers, layers))
+push!(vps, (GetSAETraining, ChangeLearningRate, (5)))
+#push!(vps, (GetSAETraining, ChangeMinibatchSize, (30)))
+push!(vps, (GetSAENetwork, ChangeLayers, sigmoid_layers))
 
-combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig("Xavier Init Plus Test_14", "JSETop40_1_2"))
+combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig("Sigmoid 30 MB Test 3", "JSETop40_1_2"))
 
 
 ################################################################################
 ##2a. Run Each SAE Configuration
+function normalizeset(dataset)
+    dataset = Array(exp_data)
+    minval = minimum(dataset[:,:])
+    maxval = maximum(dataset[:,:])
+
+    den = maxval - minval
+    top = dataset .- minval
+    scaled_data = top ./ den
+
+    df = DataFrame()
+    for n in 1:length(names(exp_data))
+        df[names(exp_data)[n]] = scaled_data[:, n]
+    end
+
+    return df
+end
+
+
 jsedata = ReadJSETop40Data()
 exp_data = jsedata[:, [:ACL, :AGL, :AMS, :CRH, :CFR , :SOL]]
-sae_results = map(ep -> RunSAEConfigurationTest(ep, exp_data), combos)
+scaled_data = normalizeset(exp_data)
+sae_results = map(ep -> RunSAEConfigurationTest(ep, scaled_data), combos)
 config_ids = map(x -> x[1], sae_results)
 
 
 using ExperimentGraphs
-PlotSAERecontructions(sae_results, "Xavier Init_14")
-PlotEpochs(config_ids, "Xavier Epochs_14")
+PlotSAERecontructions(sae_results, "Sigmoid Init 3")
+PlotEpochs(config_ids, "Sigmoid Epochs 3")
