@@ -1,6 +1,6 @@
 module ActivationFunctions
 
-export SigmoidActivation, SigmoidPrime, SoftmaxActivation, ReluActivation, NoisyReluActivation, LinearActivation, FunctionDerivatives
+export SigmoidActivation, SigmoidPrime, TanhActivation, TanhPrime, SoftmaxActivation, ReluActivation, NoisyReluActivation, LinearActivation, FunctionDerivatives
 
 
 
@@ -11,6 +11,15 @@ end
 function SigmoidPrime(x)
     act = SigmoidActivation(x)
     return (act.*(1-act))
+end
+
+function TanhActivation(x)
+    return tanh.(x)
+end
+
+function TanhPrime(x)
+    v = 1 .- (tanh.(x)).^2
+    return v
 end
 
 function LinearActivation(x)
@@ -40,7 +49,7 @@ function SoftmaxActivation(vals)
 end
 
 
-FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime, ReluActivation=>ReluPrime, LinearActivation=>LinearPrime)
+FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime, TanhActivation=> TanhPrime, ReluActivation=>ReluPrime, LinearActivation=>LinearPrime)
 
 end
 
@@ -111,8 +120,8 @@ type MeanSquaredError <: CostFunction
 
     function MeanSquaredError()
         function cost_function(y, y_hat)
-            cost =  sum((y - y_hat).^2)/size(y, 1)
-            println(string( sum((y - y_hat).^2), " , ", size(y, 1), " , ", cost))
+            cost =  sum((y - y_hat).^2)/length(y)#, 1)
+            #println(string( sum((y - y_hat).^2), " , ", length(y), " , ", cost))
             return cost
         end
 

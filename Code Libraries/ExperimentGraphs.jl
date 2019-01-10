@@ -131,10 +131,15 @@ function PlotEpochs(config_ids, file_name)
         costsplot = plot(log.(Array(ProcessValueArray(config_groups[1, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = "Log Cost",  labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Costs"))
         plot!(costsplot, log.(Array(ProcessValueArray(config_groups[1, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = "Log Cost",linestyle = :dash, labels = string(get(config_groups[1, 1]), "_", cat, "_testing"))
 
+        #costsplot = plot((Array(ProcessValueArray(config_groups[1, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = " Cost",  labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Costs"))
+        #plot!(costsplot, (Array(ProcessValueArray(config_groups[1, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = " Cost",linestyle = :dash, labels = string(get(config_groups[1, 1]), "_", cat, "_testing"))
+
         for i in 2:size(config_groups, 1)
             println(i)
             plot!(log.(Array(ProcessValueArray(config_groups[i, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = "Log Cost", labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
-            plot!(costsplot, log.(Array(ProcessValueArray(config_groups[i, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = "Log Cost", linestyle = :dash, labels = string(get(config_groups[i, 1]), "_", cat, "_testing"))
+            plot!(costsplot, log.(Array(ProcessValueArray(config_groups[i, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = " Cost", linestyle = :dash, labels = string(get(config_groups[i, 1]), "_", cat, "_testing"))
+            #plot!((Array(ProcessValueArray(config_groups[i, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = " Cost", labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
+            #plot!(costsplot, (Array(ProcessValueArray(config_groups[i, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = " Cost", linestyle = :dash, labels = string(get(config_groups[i, 1]), "_", cat, "_testing"))
         end
 
         timesplot = plot(cumsum(Array(config_groups[1, 2][:, :run_time])), labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Runtimes"))

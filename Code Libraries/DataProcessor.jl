@@ -2,7 +2,66 @@ module DataProcessor
 
 using DataGenerator, FFN, DataFrames, TrainingStructures
 
-export SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset
+export SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, NormalizeDataset, NormalizeDatasetForTanh
+
+function NormalizeDatasetForTanh(dataset)
+
+    maxval = max(maximum(dataset.training_input)
+                ,maximum(dataset.testing_input)
+                ,maximum(Array(dataset.training_output))
+                ,maximum(Array(dataset.testing_output)))
+
+    newds = deepcopy(dataset)
+
+    newds.training_input = newds.training_input ./ maxval
+    newds.testing_input = newds.testing_input ./ maxval
+
+    training_output = Array(newds.training_output) ./ maxval
+    testing_output = Array(newds.testing_output) ./ maxval
+
+    for n in 1:length(names(newds.training_output))
+        newds.training_output[names(newds.training_output)[n]] = training_output[:, n]
+    end
+
+    for n in 1:length(names(newds.testing_output))
+        newds.testing_output[names(newds.testing_output)[n]] = testing_output[:, n]
+    end
+
+    return newds
+end
+
+function NormalizeDatasetToZeroOne(dataset)
+
+    minval = min(minimum(dataset.training_input)
+                ,minimum(dataset.testing_input)
+                ,minimum(Array(dataset.training_output))
+                ,minimum(Array(dataset.testing_output)))
+
+    maxval = max(maximum(dataset.training_input)
+                ,maximum(dataset.testing_input)
+                ,maximum(Array(dataset.training_output))
+                ,maximum(Array(dataset.testing_output)))
+
+    den = maxval - minval
+
+    newds = deepcopy(dataset)
+
+    newds.training_input = (newds.training_input .- minval) ./ den
+    newds.testing_input = (newds.testing_input .- minval) ./ den
+
+    training_output = (Array(newds.training_output) .- minval) ./ den
+    testing_output = (Array(newds.testing_output) .- minval) ./ den
+
+    for n in 1:length(names(newds.training_output))
+        newds.training_output[names(newds.training_output)[n]] = training_output[:, n]
+    end
+
+    for n in 1:length(names(newds.testing_output))
+        newds.testing_output[names(newds.testing_output)[n]] = testing_output[:, n]
+    end
+
+    return newds
+end
 
 function GenerateLogFluctuations(series, delta, start)
     function LogDiff(x1, x2)
