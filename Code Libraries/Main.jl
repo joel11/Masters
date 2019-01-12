@@ -31,7 +31,7 @@ using DataJSETop40
 ################################################################################
 ##0. Base Configuration
 
-srand(12345678)
+srand(1234567891234567)
 
 function GenerateBaseSAEConfig(set_name, datasetname)
     seed = abs(Int64.(floor(randn()*100)))
@@ -47,7 +47,7 @@ function GenerateBaseSAEConfig(set_name, datasetname)
     encoding_layer = 4
 
     sae_net_par = NetworkParameters("SAE", [input_size, 10,  encoding_layer], [ReluActivation,  LinearActivation], InitializationFunctions.XavierGlorotNormalInit)
-    sae_sgd_par = TrainingParameters("SAE", 0.05, 30, 0.0, 150, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+    sae_sgd_par = TrainingParameters("SAE", 0.05, 30, 0.0, 5, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
     rbm_pretraining = false
     rbm_cd = TrainingParameters("RBM-CD", 1, 30, 0.0, 1, (0.0001, 50), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
@@ -119,5 +119,5 @@ sae_results = map(ep -> RunSAEConfigurationTest(ep, exp_data), combos)
 config_ids = map(x -> x[1], sae_results)
 
 using ExperimentGraphs
-PlotSAERecontructions(sae_results, "Sigmoid Test Recons X  11")
-PlotEpochs(config_ids, "Sigmoid Test Epochs X  11")
+PlotSAERecontructions(sae_results, "Sigmoid Test Recons X  13")
+PlotEpochs(config_ids, "Sigmoid Test Epochs X  13")

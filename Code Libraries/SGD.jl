@@ -63,7 +63,7 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
         end
     end
 
-    network = GetBestNetwork(epoch_records)
+    #network = GetBestNetwork(epoch_records)
 
     return (epoch_records)
 end
