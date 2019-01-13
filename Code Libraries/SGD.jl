@@ -19,16 +19,20 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
         epoch_input = dataset.training_input[epoch_order,:]
         epoch_output = dataset.training_output[epoch_order,:]
 
+        total_weight_changes = fill(0.0, (length(network.layers), 1))
+
         for m in 1:number_batches
             minibatch_input = epoch_input[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
             minibatch_ouput = Array(epoch_output[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:])
 
             weight_updates = GradientDescentWeightUpdate(network, minibatch_input, minibatch_ouput, parameters)
+            total_weight_changes[:,1] += map(mean, weight_updates)
 
             for l in 1:length(network.layers)
-                #momentum_factor[l] = parameters.momentum_rate * momentum_factor[l] - weight_updates[l]
                 network.layers[l].weights = CalculateNewWeights(network.layers[l].weights, weight_updates[l], parameters, size(dataset.training_input)[1])
             end
+
+
 
             #Weight Change Rate
             #if m % 100 == 0
@@ -39,6 +43,7 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
             #push!(minibatch_errors, parameters.cost_function.CalculateCost(minibatch_ouput, Feedforward(network, minibatch_input)[end]))
         end
 
+        mean_weight_changes = total_weight_changes[:,1] ./ number_batches
 
         IS_error = parameters.cost_function.CalculateCost(Array(dataset.training_output), Feedforward(network, dataset.training_input)[end])
         OOS_error = parameters.cost_function.CalculateCost(Array(dataset.testing_output), Feedforward(network, dataset.testing_input)[end])
@@ -48,7 +53,9 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
         IS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.training_input, dataset.training_output) : 0
         OOS_accuracy = parameters.is_classification ? PredictionAccuracy(network, dataset.testing_input, dataset.testing_output) : 0
 
-        epoch_record = EpochRecord(i, category, mean(minibatch_errors), IS_error, OOS_error, IS_accuracy, OOS_accuracy, 0.0, toq(), CopyNetwork(network), weight_change_rates, Array{Array{Float64,2},1}())
+        println("mean weight changes")
+        println(mean_weight_changes)
+        epoch_record = EpochRecord(i, category, mean(minibatch_errors), IS_error, OOS_error, IS_accuracy, OOS_accuracy, 0.0, toq(), CopyNetwork(network), weight_change_rates, Array{Array{Float64,2},1}(), mean_weight_changes)
 
         push!(epoch_records, epoch_record)
 
@@ -63,7 +70,7 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
         end
     end
 
-    #network = GetBestNetwork(epoch_records)
+    network = GetBestNetwork(epoch_records)
 
     return (epoch_records)
 end

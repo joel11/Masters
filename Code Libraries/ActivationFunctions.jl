@@ -109,7 +109,14 @@ module CostFunctions
 
 using ActivationFunctions
 
-export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError, LoglikelihoodError, CostFunction
+export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError, LoglikelihoodError, CostFunction, CalculateMAPE
+
+
+function CalculateMAPE(y, y_hat)
+    vals = abs.((y - y_hat) ./ y)
+    avg = median(vals[map(x ->  (isa(x, Number) && !isnan(x) && !isinf(x)), vals)])
+    return avg*100
+end
 
 abstract type CostFunction end
 

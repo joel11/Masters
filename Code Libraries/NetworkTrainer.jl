@@ -9,7 +9,7 @@ function CreateEncoderDataset(dataset::DataSet)
     testing_input = dataset.testing_input
     #validation_input = dataset.validation_input
     #return DataSet(training_input, testing_input, validation_input, training_input, testing_input, validation_input)
-    return DataSet(training_input, testing_input, training_input, testing_input)
+    return DataSet(training_input, testing_input, training_input, testing_input, 0, 0)
 end
 
 function TrainInitSAE(config_id, category, dataset::DataSet, network_parameters::NetworkParameters, parameters::TrainingParameters, output_function::Function)
@@ -26,7 +26,7 @@ function TrainRBMSAE(config_id, category, dataset::DataSet, network_parameters::
     encoder_data = CreateEncoderDataset(dataset)
     original_functions = copy(network_parameters.layer_activations)
 
-    network_parameters.layer_activations = GenerateActivationFunctions(length(original_functions))
+    #network_parameters.layer_activations = GenerateActivationFunctions(length(original_functions))
     rbm_network, rbm_records = RBM.TrainRBMNetwork(config_id,encoder_data, network_parameters, rbm_parameters)
     AddDecoder(rbm_network, network_parameters)
     sgd_records = RunSGD(config_id, category, encoder_data, rbm_network, ffn_parameters)

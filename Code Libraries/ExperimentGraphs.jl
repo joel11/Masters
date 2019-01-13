@@ -2,7 +2,7 @@ module ExperimentGraphs
 
 using DatabaseOps
 using DataFrames
-using FinancialFunctions
+using FinancialFunctions, CostFunctions
 using DataGenerator
 using DataProcessor
 using Plots
@@ -168,8 +168,9 @@ end
 
 function PlotSAERecontructions(training_pairs, file_name)
     function ReconPlot(pair)
-        training_inputplot = plot(cumsum(pair[3][1]), linestyle = :solid, labels = "actual", title=string("Testing Data Reconstructions ", pair[1]))
-        plot!(training_inputplot, cumsum(pair[3][2][end]), labels = pair[2], linestyle = :dash)
+        mape = round(CalculateMAPE(pair[3][1], pair[3][2]), 2)
+        training_inputplot = plot(cumsum(pair[3][1]), linestyle = :solid, labels = "actual", title=string("Data Recon ", pair[1], ":", mape))
+        plot!(training_inputplot, cumsum(pair[3][2]), labels = pair[2], linestyle = :dash)
         return training_inputplot
     end
 

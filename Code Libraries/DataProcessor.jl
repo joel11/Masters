@@ -2,7 +2,14 @@ module DataProcessor
 
 using DataGenerator, FFN, DataFrames, TrainingStructures
 
-export SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, NormalizeDataset, NormalizeDatasetForTanh
+export SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, NormalizeDatasetForTanh, NormalizeDatasetForSigmoid, DenormalizatData
+
+function DenormalizatData(data, min, max)
+    diff = max - min
+    newds = deepcopy(data)
+    newds = newds .* diff .+ min
+    return newds
+end
 
 function NormalizeDatasetForTanh(dataset)
 
@@ -30,7 +37,7 @@ function NormalizeDatasetForTanh(dataset)
     return newds
 end
 
-function NormalizeDatasetToZeroOne(dataset)
+function NormalizeDatasetForSigmoid(dataset)
 
     minval = min(minimum(dataset.training_input)
                 ,minimum(dataset.testing_input)
@@ -45,6 +52,9 @@ function NormalizeDatasetToZeroOne(dataset)
     den = maxval - minval
 
     newds = deepcopy(dataset)
+    newds.scaling_min = minval
+    newds.scaling_max = maxval
+
 
     newds.training_input = (newds.training_input .- minval) ./ den
     newds.testing_input = (newds.testing_input .- minval) ./ den
@@ -98,7 +108,7 @@ function CreateDataset(input_data, output_data, partition_percentages)
     output_splits = SplitData(output_data, partition_percentages)
 
     #sd = DataSet(Array(input_splits[1]), Array(input_splits[2]), Array(input_splits[3]), (output_splits[1]), (output_splits[2]), (output_splits[3]))
-    sd = DataSet(Array(input_splits[1]), Array(input_splits[2]), (output_splits[1]), (output_splits[2]))
+    sd = DataSet(Array(input_splits[1]), Array(input_splits[2]), (output_splits[1]), (output_splits[2]), 0, 0)
     return (sd)
 end
 

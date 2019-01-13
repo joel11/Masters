@@ -29,3 +29,24 @@ maximum(ns.training_input)
 maximum(ns.testing_input)
 #maximum(Array(ns.training_output))
 #maximum(Array(ns.testing_output))
+
+
+
+layers =   (#("8 - ReLU", [input, 8, encoding], [ReluActivation,  LinearActivation]),
+            #("15 - ReLU", [input, 15, encoding], [ReluActivation,  LinearActivation]),
+            #("50 - ReLU", [input, 50, encoding], [ReluActivation,  LinearActivation]),
+            #("100 - ReLU", [input, 100, encoding], [ReluActivation,  LinearActivation])
+            #("30 - ReLU", [input, 30, encoding], [ReluActivation,  LinearActivation]),
+            #("8x8 - ReLU", [input, 8, 8, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("15x15 - ReLU", [input, 15, 15, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("25x25 - ReLU", [input, 25, 25, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("50x50 - ReLU", [input, 50, 50, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("100x100 - ReLU", [input, 100, 100, encoding], [ReluActivation, ReluActivation,  LinearActivation])
+            ("30x15 - ReLU",     [input, 30,  15, encoding],     [ReluActivation, ReluActivation, LinearActivation]),
+            ("50x30x10 - ReLU",  [input, 50,  30, 10, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation]),
+            ("100x50x20 - ReLU", [input, 100, 50, 20, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation])
+            #("40x40 - ReLU", [input, 40, 40, encoding], [ReluActivation, ReluActivation,  LinearActivation]),
+            #("8x8x8 - ReLU", [input, 8, 8, 8, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation]),
+            #("15x15x15 - ReLU", [input, 15, 15, 15, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation]),
+            #("30x30x30 - ReLU", [input, 30, 30, 30, encoding], [ReluActivation, ReluActivation, ReluActivation, LinearActivation])
+            )

@@ -30,22 +30,23 @@ function RunSAEConfigurationTest(ep, dataset)
     processed_data = map(x -> ProcessData(x, ep.data_config.deltas, ep.data_config.prediction_steps), data_splits)
     #saesgd_data, ogd_data, holdout_data = map(x -> CreateDataset(x[1], x[2], ep.data_config.training_splits), processed_data)
     #saesgd_data = NormalizeDatasetForTanh(CreateDataset(processed_data[1][1], processed_data[1][2], ep.data_config.training_splits))
-    saesgd_data = CreateDataset(processed_data[1][1], processed_data[1][2], ep.data_config.training_splits)
+    saesgd_data = NormalizeDatasetForSigmoid(CreateDataset(processed_data[1][1], processed_data[1][2], ep.data_config.training_splits))
     ################################################################################
     #c. Run training, and record all epochs
 
     ## SAE Training & Encoding
     training_objects = (ep.rbm_pretraining == true ? (TrainRBMSAE(config_id, "SAE-SGD-RBM", saesgd_data, ep.sae_network, ep.rbm_cd, ep.sae_sgd))
-                                              : (TrainInitSAE(config_id, "SAE-SGD-Init", saesgd_data, ep.sae_network, ep.sae_sgd, LinearActivation)))
+                                              : (TrainInitSAE(config_id, "SAE-SGD-Init", saesgd_data, ep.sae_network, ep.sae_sgd, SigmoidActivation)))
 
 
     full_network = training_objects[end]
+    sgd_records = training_objects[(end-1)]
     actual_data = saesgd_data.testing_input
-    reconstructed_data = Feedforward(full_network, actual_data)
-    data_pair = (actual_data, reconstructed_data)
+    reconstructed_data = Feedforward(full_network, actual_data)[end]
+    data_pair = (DenormalizatData(actual_data, saesgd_data.scaling_min, saesgd_data.scaling_max)
+                , DenormalizatData(reconstructed_data, saesgd_data.scaling_min, saesgd_data.scaling_max))
 
-
-    return (config_id, ep.experiment_set_name, data_pair)
+    return (config_id, ep.experiment_set_name, data_pair, sgd_records)
 end
 
 function RunConfigurationTest(ep)
