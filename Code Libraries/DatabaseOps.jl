@@ -32,7 +32,7 @@ function CreateTrainingRecord(config_id, parameters)
 
     training_cmd = "insert into training_parameters
             (configuration_id, category, learning_rate, minibatch_size, max_epochs, l1_lambda, l2_lambda, cost_function, stopping_function)
-            values ($(config_id), '$(parameters.category)', $(parameters.learning_rate), $(parameters.minibatch_size), $(parameters.max_epochs),
+            values ($(config_id), '$(parameters.category)', $(parameters.max_learning_rate), $(parameters.minibatch_size), $(parameters.max_epochs),
             $(parameters.l1_lambda), $(parameters.l2_lambda), '$(cf)', '$(sf)')"
 
     SQLite.execute!(db, training_cmd)

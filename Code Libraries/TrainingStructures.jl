@@ -20,7 +20,9 @@ end
 
 type TrainingParameters
     category::String
-    learning_rate::Float64
+    max_learning_rate::Float64
+    min_learning_rate::Float64
+    epoch_cycle_max::Float64
     minibatch_size::Int64
     momentum_rate::Float64
     max_epochs::Int64
@@ -33,10 +35,9 @@ type TrainingParameters
     l2_lambda::Float64
     cost_function::CostFunction
 
-
-    function TrainingParameters(category, learning_rate, minibatch_size, momentum_rate, max_epochs,
+    function TrainingParameters(category, max_learning_rate, min_learning_rate, epoch_cycle_max, minibatch_size, momentum_rate, max_epochs,
         stopping_parameters, stopping_function, verbose, is_classification, l1_lambda, l2_lambda, cost_function)
-        return new(category, learning_rate, minibatch_size, momentum_rate, max_epochs,
+        return new(category, max_learning_rate, min_learning_rate, epoch_cycle_max, minibatch_size, momentum_rate, max_epochs,
             stopping_parameters, stopping_function(stopping_parameters), verbose, is_classification, l1_lambda, l2_lambda, cost_function)
     end
 end
@@ -46,6 +47,7 @@ type NetworkParameters
     layer_sizes::Array{Int64}
     layer_activations::Array{Function}
     initialization::Function
+    output_activation
 end
 
 type DatasetConfig

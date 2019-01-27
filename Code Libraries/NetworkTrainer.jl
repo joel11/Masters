@@ -12,11 +12,11 @@ function CreateEncoderDataset(dataset::DataSet)
     return DataSet(training_input, testing_input, training_input, testing_input, 0, 0)
 end
 
-function TrainInitSAE(config_id, category, dataset::DataSet, network_parameters::NetworkParameters, parameters::TrainingParameters, output_function::Function)
+function TrainInitSAE(config_id, category, dataset::DataSet, network_parameters::NetworkParameters, parameters::TrainingParameters)
     encoder_data = CreateEncoderDataset(dataset)
     network = NeuralNetwork(network_parameters.layer_sizes, network_parameters.layer_activations, network_parameters.initialization)
     AddDecoder(network, network_parameters)
-    network.layers[end].activation = output_function
+    network.layers[end].activation = network_parameters.output_activation
     sgd_records = RunSGD(config_id, category, encoder_data, network, parameters)
     autoencoder = GetAutoencoder(network)
     return (autoencoder, sgd_records, network)

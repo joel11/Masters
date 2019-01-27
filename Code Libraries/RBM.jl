@@ -67,7 +67,7 @@ function TrainRBMLayer(config_id, training_input, testing_input, layer::NeuralNe
             #    push!(hidden_activation_likelihoods, activation_probabilities)
             #end
 
-            layer.weights -= parameters.learning_rate .* weight_update
+            layer.weights -= parameters.max_learning_rate .* weight_update
 
             push!(minibatch_errors, parameters.cost_function.CalculateCost(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
         end
@@ -75,7 +75,7 @@ function TrainRBMLayer(config_id, training_input, testing_input, layer::NeuralNe
         training_error = parameters.cost_function.CalculateCost(training_input, ReconstructVisible(layer, training_input))
         testing_error = parameters.cost_function.CalculateCost(testing_input, ReconstructVisible(layer, testing_input))
 
-        epoch_record = EpochRecord(i, "RBM-CD",  mean(minibatch_errors), training_error, testing_error, 0.0, 0.0, 0.0, toq(), NeuralNetwork(CopyLayer(layer)), weight_change_rates, hidden_activation_likelihoods)
+        epoch_record = EpochRecord(i, "RBM-CD",  mean(minibatch_errors), training_error, testing_error, 0.0, 0.0, 0.0, toq(), NeuralNetwork(CopyLayer(layer)), weight_change_rates, hidden_activation_likelihoods, nothing)
         CreateEpochRecord(config_id, epoch_record)
         push!(epoch_records, epoch_record)
 
@@ -91,14 +91,14 @@ function TrainRBMLayer(config_id, training_input, testing_input, layer::NeuralNe
     return (epoch_records)
 end
 
-function TrainRBMLayerOld(training_input::Array{Float64,2}, testing_input::Array{Float64,2}, layer::NeuralNetworks.NetworkLayer, parameters::TrainingParameters)
+function TrainRBMLayerOld(config_id, training_input, testing_input, layer::NeuralNetworks.NetworkLayer, parameters::TrainingParameters)
 
     data_b = hcat(fill(1.0, size(training_input,1)), training_input)
     number_batches = Int64.(floor(size(training_input)[1]/parameters.minibatch_size))
     momentum_old = zeros(layer.weights)
     epoch_records = Array{EpochRecord}(0)
 
-    for i in 1:(parameters.max_rbm_epochs)
+    for i in 1:(parameters.max_epochs)
 
         tic()
         epoch_data = data_b[(randperm(size(training_input)[1])),:]
@@ -140,23 +140,12 @@ function TrainRBMLayerOld(training_input::Array{Float64,2}, testing_input::Array
             push!(minibatch_errors, MeanSquaredError().CalculateCost(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
         end
 
-        training_error = MeanSquaredError().CalculateCost(training_input, ReconstructVisible(layer, training_input))
-        testing_error = MeanSquaredError().CalculateCost(testing_input, ReconstructVisible(layer, testing_input))
+        training_error = parameters.cost_function.CalculateCost(training_input, ReconstructVisible(layer, training_input))
+        testing_error = parameters.cost_function.CalculateCost(testing_input, ReconstructVisible(layer, testing_input))
 
-        #epoch_number, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods
-
-        push!(epoch_records, EpochRecord(i,
-                                        mean(minibatch_errors),
-                                        training_error,
-                                        testing_error,
-                                        0.0,
-                                        0.0,
-                                        CalculateEpochFreeEnergy(layer, training_input, testing_input),
-                                        toq(),
-                                        NeuralNetwork(CopyLayer(layer)),
-                                        weight_change_rates,
-                                        hidden_activation_likelihoods
-                                        ))
+        epoch_record = EpochRecord(i, "RBM-CD",  mean(minibatch_errors), training_error, testing_error, 0.0, 0.0, 0.0, toq(), NeuralNetwork(CopyLayer(layer)), weight_change_rates, hidden_activation_likelihoods, nothing)
+        CreateEpochRecord(config_id, epoch_record)
+        push!(epoch_records, epoch_record)
 
         if parameters.verbose
             PrintEpoch(epoch_records[end])

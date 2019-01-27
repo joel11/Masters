@@ -4,7 +4,6 @@ using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStru
 
 export RunSGD
 
-
 function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, parameters::TrainingParameters)
 
     number_batches = Int64.(floor(size(dataset.training_input)[1]/parameters.minibatch_size))
@@ -29,7 +28,7 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
             total_weight_changes[:,1] += map(mean, weight_updates)
 
             for l in 1:length(network.layers)
-                network.layers[l].weights = CalculateNewWeights(network.layers[l].weights, weight_updates[l], parameters, size(dataset.training_input)[1])
+                network.layers[l].weights = CalculateNewWeights(network.layers[l].weights, weight_updates[l], parameters, size(dataset.training_input)[1], i)
             end
 
 

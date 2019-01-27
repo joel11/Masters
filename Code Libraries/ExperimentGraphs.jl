@@ -6,7 +6,7 @@ using FinancialFunctions, CostFunctions
 using DataGenerator
 using DataProcessor
 using Plots
-export PlotResults, PlotEpochs, PlotSAERecontructions
+export PlotResults, PlotEpochs, PlotSAERecontructions, PlotGradientChanges, PlotGradientChangesCombined
 
 plotlyjs()
 
@@ -176,6 +176,33 @@ function PlotSAERecontructions(training_pairs, file_name)
 
     reconplots = map(ReconPlot, training_pairs)
     savefig(plot(reconplots..., layout = length(reconplots), size=(1400, 700)), string("/users/joeldacosta/desktop/", file_name, ".html"))
+end
+
+function PlotGradientChanges(sae_results, start_epoch)
+    for i in 1:length(sae_results)
+        gradients = mapreduce(x -> x.mean_weight_changes, hcat, sae_results[i][4])
+        miny = minimum(gradients[:, start_epoch:end])*1.1
+        maxy = maximum(gradients[:, start_epoch:end])*1.1
+        plots = map(i -> plot(gradients[i, start_epoch:end], ylims = (miny, maxy), title = string("Layer ", i)), 1:size(gradients,1))
+        savefig(plot(plots..., layout = length(plots), size=(1400, 700)), string("/users/joeldacosta/desktop/Gradients_Config", i, ".html"))
+    end
+end
+
+function PlotGradientChangesCombined(sae_results, start_epoch, filename)
+    start_epoch = 5
+    gradients = mapreduce(x -> x.mean_weight_changes, hcat, sae_results[1][4])
+    miny = minimum(gradients[:, start_epoch:end])*1.1
+    maxy = maximum(gradients[:, start_epoch:end])*1.1
+    plots = map(i -> plot(gradients[i, start_epoch:end], labels = string(sae_results[1][1], "_", sae_results[1][2]), ylims = (miny, maxy), title = string("Layer ", i)), 1:size(gradients,1))
+
+    for i in 2:length(sae_results)
+        gradients = mapreduce(x -> x.mean_weight_changes, hcat, sae_results[i][4])
+        for r in 1:size(gradients,1)
+            plot!(plots[r], gradients[r, start_epoch:end], labels = string(sae_results[i][1],"_", sae_results[i][2]))
+        end
+    end
+
+    savefig(plot(plots..., layout = length(plots), size=(1400, 700)), string("/users/joeldacosta/desktop/", filename, ".html"))
 end
 
 end

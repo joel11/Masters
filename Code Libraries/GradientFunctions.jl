@@ -10,12 +10,12 @@ function ReverseVector(vector)
 end
 
 function CalculateL2Penalization(parameters, N)
-    l2pen =  (1 - parameters.learning_rate * parameters.l2_lambda /N)
+    l2pen =  (1 - parameters.max_learning_rate * parameters.l2_lambda /N)
     return (l2pen)
 end
 
 function CalculateL1Penalization(parameters, N, weights)
-    l1pen = ((parameters.learning_rate * parameters.l1_lambda / N) .* sign.(weights))
+    l1pen = ((parameters.max_learning_rate * parameters.l1_lambda / N) .* sign.(weights))
     return (l1pen)
 end
 
@@ -87,11 +87,18 @@ function ContrastiveDivergence1WeightUpdates(minibatch_data, layer)
     return (weight_update, activation_probabilities, vis_activation_probabilities)
 end
 
-function CalculateNewWeights(current_weights, weight_update, parameters::TrainingParameters, N::Int64)
+
+function CalculateLearningRate(epoch, training_parameters)
+  #lr = training_parameters.min_lr + 0.5*(training_parameters.max_lr - training_parameters.min_lr)*(1 + cos(epoch/training_parameters.epoch_cycle_max*pi))
+  #println(string(epoch, " : ", lr))
+  return training_parameters.max_learning_rate
+end
+
+function CalculateNewWeights(current_weights, weight_update, parameters::TrainingParameters, N::Int64, epoch::Int64)
     #println("L2: ", mean(CalculateL2Penalization(parameters, N)))
     return (current_weights .* CalculateL2Penalization(parameters, N)
                                 #+ momentum_factor
-                                - parameters.learning_rate .* weight_update
+                                - CalculateLearningRate(epoch, parameters) .* weight_update
                                 - CalculateL1Penalization(parameters, N, current_weights))
 end
 

@@ -2,7 +2,7 @@ push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 module HyperparameterOptimization
 
-export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit
+export HyperparameterRangeSearch, GraphHyperparameterResults, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
 
 using NetworkTrainer, TrainingStructures, StoppingFunctions, CostFunctions
 #using Plots
@@ -14,9 +14,9 @@ function ChangeInit(get_function, parameters, val)
     return parameters
 end
 
-function ChangeLearningRate(get_function, parameters,val)
-    parameters.experiment_set_name = string(parameters.experiment_set_name , "_LearningRate_" , string(val))
-    get_function(parameters).learning_rate = val
+function ChangeMaxLearningRate(get_function, parameters,val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_MaxLearningRate_" , string(val))
+    get_function(parameters).max_learning_rate = val
     return parameters
 end
 
@@ -46,7 +46,11 @@ function ChangeLayers(get_function, parameters, val)
     return parameters
 end
 
-
+function ChangeMaxEpochs(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_MaxEpoch_" , string(val[1]))
+    get_function(parameters).max_epochs = val
+    return parameters
+end
 
 
 
@@ -64,6 +68,10 @@ end
 
 function GetSAETraining(experiment_config)
     return experiment_config.sae_sgd
+end
+
+function GetRBMTraining(experiment_config)
+    return experiment_config.rbm_cd
 end
 
 function GetFFNTraining(experiment_config)
