@@ -2,10 +2,24 @@ module DatabaseOps
 
 using SQLite
 using TrainingStructures
-
-export RecordExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
+using BSON
+#using HDF5
+#using JLD
+export WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
 db = SQLite.DB("database_test.db")
+
+function WriteSAE(config_id, experiment_config, net)
+    file_name = string("SAERepo/SAE_", config_id, ".bson")
+    values = Dict(:config_id => config_id, :config => experiment_config, :sae => net)
+    bson(file_name, values)
+end
+
+function ReadSAE(config_id)
+    ln = BSON.load(string("/SAERepo/SAE_", config_id, ".bson"))
+    return ln[:sae]
+end
+
 
 function CreateConfigurationRecord(seed, set_name, rbm_pretraining)
     ts = Dates.now()
@@ -41,14 +55,13 @@ end
 function CreateEpochRecord(config_id, epoch_record)
     ts = Dates.now()
 
-    cminibatch = isnan(epoch_record.mean_minibatch_cost) ? "null" : epoch_record.mean_minibatch_cost
     ctraining = isnan(epoch_record.training_cost)? "null" : epoch_record.training_cost
     ctest = isnan(epoch_record.test_cost)? "null" : epoch_record.test_cost
 
     training_cmd = "insert into epoch_records
-            (configuration_id, category, record_time, epoch_number, mean_minibatch_cost, training_cost, testing_cost, run_time)
+            (configuration_id, category, record_time, epoch_number, training_cost, testing_cost, run_time)
             values ($(config_id), '$(epoch_record.category)', '$(ts)',  $(epoch_record.epoch_number),
-            $(cminibatch), $(ctraining), $(ctest), $(epoch_record.run_time))"
+            $(ctraining), $(ctest), $(epoch_record.run_time))"
 
     SQLite.execute!(db, training_cmd)
 end
@@ -86,18 +99,23 @@ function RunQuery(query)
     return(SQLite.query(db, query))
 end
 
-function RecordExperimentConfig(exp_config)
+function RecordSAEExperimentConfig(exp_config)
     config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name, exp_config.rbm_pretraining)
     CreateDatasetConfigRecord(config_id, exp_config.data_config)
     CreateNetworkRecord(config_id, exp_config.sae_network)
     CreateTrainingRecord(config_id, exp_config.sae_sgd)
 
-    if !exp_config.sae_only
-        CreateNetworkRecord(config_id, exp_config.ffn_network)
-        CreateTrainingRecord(config_id, exp_config.ffn_sgd)
-        CreateTrainingRecord(config_id, exp_config.ogd)
-        #CreateTrainingRecord(config_id, exp_config.ogd_ho)
-    end
+    return config_id
+end
+
+function RecordFFNExperimentConfig(exp_config)
+    config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name, exp_config.rbm_pretraining)
+    CreateDatasetConfigRecord(config_id, exp_config.data_config)
+
+    CreateNetworkRecord(config_id, exp_config.ffn_network)
+    CreateTrainingRecord(config_id, exp_config.ffn_sgd)
+    CreateTrainingRecord(config_id, exp_config.ogd)
+    #CreateTrainingRecord(config_id, exp_config.ogd_ho)
 
     return config_id
 end

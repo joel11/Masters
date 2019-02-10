@@ -9,7 +9,7 @@ function CreateDatabase(database_name)
     " CREATE TABLE IF NOT EXISTS configuration_run(
         configuration_id INTEGER PRIMARY KEY AUTOINCREMENT,
         experiment_set_name VARCHAR,
-        rbm_pretraining BOOL, 
+        rbm_pretraining BOOL,
         seed_used INTEGER NOT NULL,
         start_time DATETIME NOT NULL)
         "
@@ -74,4 +74,4 @@ function CreateDatabase(database_name)
     SQLite.execute!(db, prediction_results_table)
 end
 
-CreateDatabase("database_test")
+CreateDatabase("database_test.db")

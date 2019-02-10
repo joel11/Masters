@@ -1,4 +1,7 @@
-module SAEReluConfigTests
+#module SAEReluConfigTests
+
+workspace()
+push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 using RBM
 using NeuralNetworks
@@ -13,6 +16,7 @@ using DatabaseOps
 using HyperparameterOptimization
 using ExperimentProcess
 using DataJSETop40
+using BSON
 
 using ExperimentGraphs
 
@@ -26,26 +30,25 @@ function RunReLUSAETest(encoding_layer, layer_size)
         seed = abs(Int64.(floor(randn()*100)))
         ds = abs(Int64.(floor(randn()*100)))
         var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-        data_config = DatasetConfig(ds, datasetname,  5000,  [1],  [0.6],  [0.8, 1.0],  [1], var_pairs)
+        data_config = DatasetConfig(ds, datasetname,  5000,  [1,7],  [0.6],  [0.8, 1.0],  [2], var_pairs)
 
         input_size =  (length(var_pairs)*length(data_config.deltas))
-        layers = [input_size, layer_size, layer_size, encoding_layer]
-        activations = [ReluActivation, ReluActivation,  ReluActivation]
+        layers = [input_size, layer_size, encoding_layer]
+        activations = [ReluActivation, ReluActivation]
 
-        sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.HeUniformInit, ReluActivation)
-        sae_sgd_par = TrainingParameters("SAE", 3.0, Inf, 1,  15, 0.0, 1000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+        sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation)
+        sae_sgd_par = TrainingParameters("SAE", 3.0, Inf, 1,  15, 0.0, 15, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
-
-        return ExperimentConfig(seed, set_name, false, data_config, sae_net_par, nothing , sae_sgd_par, nothing, nothing, nothing, true)
+        return SAEExperimentConfig(seed, set_name, false, data_config, sae_net_par, sae_sgd_par, nothing)
     end
 
     ################################################################################
     ##1. Configuration Variations
-
     vps = []
 
-    push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.00001, 1.0)))#0.0001, 0.001, 0.01, 0.1)))
+    #push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.001, 0.005))) #0.0001, 0.001, 0.01, 0.1)))
     #push!(vps, (GetSAETraining, ChangeMinibatchSize, (10, 30)))
+    push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.001, 0.01)))
 
     set_name = string("ReLU ", layer_size, "x", layer_size, "x", encoding_layer)
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
@@ -55,13 +58,22 @@ function RunReLUSAETest(encoding_layer, layer_size)
     sae_results = map(ep -> RunSAEConfigurationTest(ep, nothing), combos)
     config_ids = map(x -> x[1], sae_results)
 
+    for i in 1:length(config_ids)
+        WriteSAE(config_ids[i], combos[i], sae_results[i][6])
+    end
 
-    PlotSAERecontructions(sae_results, string("ReLU Recons ", set_name))
-    PlotEpochs(config_ids, string("ReLU Epochs ", set_name))
-    PlotGradientChangesCombined(sae_results, 5, string("ReLU Combined Gradients ", set_name))
-    #PlotLayerActivations(sae)
+    prefix = "ReLU "
+    PlotSAERecontructions(sae_results, string(prefix, "Recons ", set_name))
+    PlotEpochs(config_ids, string(prefix, "Epochs ", set_name))
+    PlotGradientChangesCombined(sae_results, 5, string(prefix,"Combined Gradients ", set_name))
+    PlotActivations(sae_results, string(prefix, "Activations"))
+
+    return sae_results
 end
 
-RunReLUSAETest(5, 15)
+#RunReLUSAETest(6, 45)
+#RunReLUSAETest(6, 35)
+results = RunReLUSAETest(10, 25)
 
-end
+
+#end

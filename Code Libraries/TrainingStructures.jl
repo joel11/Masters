@@ -2,7 +2,7 @@ module TrainingStructures
 
 using NeuralNetworks, CostFunctions
 
-export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters, DatasetConfig, ExperimentConfig
+export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters, DatasetConfig, SAEExperimentConfig, FFNExperimentConfig
 
 type DataSet
     training_input#::Array{Float64,2}
@@ -13,8 +13,8 @@ type DataSet
     testing_output#::Array{Float64, 2}
     #validation_output#::Array{Float64,2}
 
-    scaling_min
-    scaling_max
+    standardizing_means
+    standardizing_deviations
 
 end
 
@@ -66,7 +66,7 @@ type DatasetConfig
     end
 end
 
-type ExperimentConfig
+type SAEExperimentConfig
 
     seed::Int64
     experiment_set_name::String
@@ -74,20 +74,29 @@ type ExperimentConfig
     data_config::DatasetConfig
 
     sae_network
-    ffn_network
     sae_sgd
-    ffn_sgd
     rbm_cd
+
+end
+
+type FFNExperimentConfig
+
+    seed::Int64
+    experiment_set_name::String
+    rbm_pretraining::Bool
+    data_config::DatasetConfig
+
+    sae_config_id::Int64
+    ffn_network
+    ffn_sgd
     ogd
-    #ogd_ho
-    sae_only
+
 end
 
 type EpochRecord
 
     epoch_number::Int64
     category::String
-    mean_minibatch_cost::Float64
     training_cost::Float64
     test_cost::Float64
 
@@ -102,9 +111,10 @@ type EpochRecord
     hidden_activation_likelihoods::Array{Array{Float64,2},1}
 
     mean_weight_changes
+    zero_activation_perc
 
-    function EpochRecord(epoch_number, category, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods, mean_weight_changes)
-        return new(epoch_number, category, mean_minibatch_cost, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods, mean_weight_changes)
+    function EpochRecord(epoch_number, category, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods, mean_weight_changes, zero_activation_perc)
+        return new(epoch_number, category, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods, mean_weight_changes, zero_activation_perc)
     end
 end
 

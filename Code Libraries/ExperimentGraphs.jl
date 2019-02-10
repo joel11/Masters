@@ -6,7 +6,7 @@ using FinancialFunctions, CostFunctions
 using DataGenerator
 using DataProcessor
 using Plots
-export PlotResults, PlotEpochs, PlotSAERecontructions, PlotGradientChanges, PlotGradientChangesCombined
+export PlotResults, PlotEpochs, PlotSAERecontructions, PlotGradientChanges, PlotGradientChangesCombined, PlotActivations
 
 plotlyjs()
 
@@ -204,5 +204,20 @@ function PlotGradientChangesCombined(sae_results, start_epoch, filename)
 
     savefig(plot(plots..., layout = length(plots), size=(1400, 700)), string("/users/joeldacosta/desktop/", filename, ".html"))
 end
+
+function PlotActivations(sae_results, filename)
+
+    plots = []
+    config_labels = mapreduce(s -> s[2], hcat, sae_results)
+    #map(i -> plot(gradients[i, start_epoch:end], labels = string(sae_results[1][1], "_", sae_results[1][2]), ylims = (miny, maxy), title = string("Layer ", i)), 1:size(gradients,1))
+
+    for l in 1:length(sae_results[1][4][1].network.layers)
+        activations = mapreduce(sr -> mapreduce(e -> e.zero_activation_perc[:,l], vcat, sr[4]), hcat, sae_results)
+        push!(plots, plot(activations, ylims = (0, 1), labels=config_labels))
+    end
+
+    savefig(plot(plots..., layout = length(plots), size=(1400, 700)), string("/users/joeldacosta/desktop/", filename, ".html"))
+end
+
 
 end

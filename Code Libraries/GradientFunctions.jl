@@ -63,7 +63,9 @@ function GradientDescentWeightUpdate(network, minibatch_input, minibatch_ouput, 
     activations = Feedforward(network, minibatch_input)
     lambdas = CalculateLambdaErrors(network, activations, minibatch_ouput, parameters.cost_function)
     weight_updates = CalculateWeightChanges(activations, lambdas)
-    return (weight_updates)
+    zero_activations = map(i -> sum(activations[i] .== 0), 1:length(activations))[2:end]
+
+    return (weight_updates, zero_activations)
 end
 
 function ContrastiveDivergence1WeightUpdates(minibatch_data, layer)
@@ -86,6 +88,7 @@ function ContrastiveDivergence1WeightUpdates(minibatch_data, layer)
     weight_update = ((neg_cd - pos_cd) / size(minibatch_data, 1))
     return (weight_update, activation_probabilities, vis_activation_probabilities)
 end
+
 
 
 function CalculateLearningRate(epoch, training_parameters)
