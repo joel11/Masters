@@ -10,6 +10,7 @@ function CreateDatabase(database_name)
         configuration_id INTEGER PRIMARY KEY AUTOINCREMENT,
         experiment_set_name VARCHAR,
         rbm_pretraining BOOL,
+        sae_config_id INTEGER,
         seed_used INTEGER NOT NULL,
         start_time DATETIME NOT NULL)
         "

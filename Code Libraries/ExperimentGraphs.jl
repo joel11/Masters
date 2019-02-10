@@ -170,7 +170,11 @@ function PlotSAERecontructions(training_pairs, file_name)
     function ReconPlot(pair)
         mape = round(CalculateMAPE(pair[3][1], pair[3][2]), 2)
         training_inputplot = plot(cumsum(pair[3][1]), linestyle = :solid, labels = "actual", title=string("Data Recon ", pair[1], ":", mape))
-        plot!(training_inputplot, cumsum(pair[3][2]), labels = pair[2], linestyle = :dash)
+
+        recon_vals = deepcopy(pair[3][2])
+        recon_vals[isnan(recon_vals)] = 0.0
+        println(recon_vals)
+        plot!(training_inputplot, cumsum(recon_vals), labels = pair[2], linestyle = :dash)
         return training_inputplot
     end
 

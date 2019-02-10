@@ -114,8 +114,11 @@ export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError, Loglik
 
 function CalculateMAPE(y, y_hat)
     vals = abs.((y - y_hat) ./ y)
-    avg = median(vals[map(x ->  (isa(x, Number) && !isnan(x) && !isinf(x)), vals)])
-    return avg*100
+    mape_vals = vals[map(x ->  (isa(x, Number) && !isnan(x) && !isinf(x)), vals)]
+    if length(mape_vals) > 0
+        return median(mape_vals)*100
+    end
+    return 100
 end
 
 abstract type CostFunction end

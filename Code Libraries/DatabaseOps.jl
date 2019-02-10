@@ -11,19 +11,20 @@ db = SQLite.DB("database_test.db")
 
 function WriteSAE(config_id, experiment_config, net)
     file_name = string("SAERepo/SAE_", config_id, ".bson")
-    values = Dict(:config_id => config_id, :config => experiment_config, :sae => net)
+    #values = Dict(:config_id => config_id, :config => experiment_config, :sae => net)
+    values = Dict(:config_id => config_id, :sae => net)
     bson(file_name, values)
 end
 
 function ReadSAE(config_id)
-    ln = BSON.load(string("/SAERepo/SAE_", config_id, ".bson"))
+    ln = BSON.load(string("SAERepo/SAE_", config_id, ".bson"))
     return ln[:sae]
 end
 
 
-function CreateConfigurationRecord(seed, set_name, rbm_pretraining)
+function CreateConfigurationRecord(seed, set_name, rbm_pretraining, sae_config_id)
     ts = Dates.now()
-    cmd_record = string("INSERT INTO configuration_run (seed_used, experiment_set_name, rbm_pretraining, start_time) values($(seed), '$(set_name)', $(rbm_pretraining), '$(ts)')")
+    cmd_record = string("INSERT INTO configuration_run (seed_used, experiment_set_name, rbm_pretraining, sae_config_id, start_time) values($(seed), '$(set_name)', $(rbm_pretraining), $(sae_config_id), '$(ts)')")
     SQLite.execute!(db, cmd_record)
     max_id = get(SQLite.query(db, "select max(configuration_id) from configuration_run")[1,1])
     return max_id
@@ -100,7 +101,7 @@ function RunQuery(query)
 end
 
 function RecordSAEExperimentConfig(exp_config)
-    config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name, exp_config.rbm_pretraining)
+    config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name, exp_config.rbm_pretraining, 0)
     CreateDatasetConfigRecord(config_id, exp_config.data_config)
     CreateNetworkRecord(config_id, exp_config.sae_network)
     CreateTrainingRecord(config_id, exp_config.sae_sgd)
@@ -109,7 +110,7 @@ function RecordSAEExperimentConfig(exp_config)
 end
 
 function RecordFFNExperimentConfig(exp_config)
-    config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name, exp_config.rbm_pretraining)
+    config_id = CreateConfigurationRecord(exp_config.seed, exp_config.experiment_set_name, exp_config.rbm_pretraining, exp_config.sae_config_id)
     CreateDatasetConfigRecord(config_id, exp_config.data_config)
 
     CreateNetworkRecord(config_id, exp_config.ffn_network)
