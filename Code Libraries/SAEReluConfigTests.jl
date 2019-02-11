@@ -103,7 +103,7 @@ function Run1LayerReLUSAETest(encoding_layer, layer_size)
     #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.NormalRandomInit)))
     #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HintonUniformInit, InitializationFunctions.HeUniformInit)))
 
-    set_name = string("2 Layer ReLU ", layer_size, "x", layer_size, "x", encoding_layer)
+    set_name = string("1 Layer ReLU ", layer_size, "x", encoding_layer)
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
     ################################################################################
     ##2a. Run Each SAE Configuration
@@ -115,7 +115,7 @@ function Run1LayerReLUSAETest(encoding_layer, layer_size)
         WriteSAE(config_ids[i], combos[i], sae_results[i][6])
     end
 
-    prefix = "2 Layer ReLU "
+    prefix = "1 Layer ReLU "
     PlotSAERecontructions(sae_results, string(prefix, "Recons ", set_name))
     PlotEpochs(config_ids, string(prefix, "Epochs ", set_name))
     PlotGradientChangesCombined(sae_results, 5, string(prefix,"Combined Gradients ", set_name))
@@ -124,19 +124,18 @@ function Run1LayerReLUSAETest(encoding_layer, layer_size)
     return sae_results
 end
 
+Run1LayerReLUSAETest(2, 25)
+Run2LayerReLUSAETest(2, 25)
 
 Run2LayerReLUSAETest(10, 25)
-Run1LayerReLUSAETest(10, 25)
-
 Run2LayerReLUSAETest(8, 25)
 Run2LayerReLUSAETest(6, 25)
 Run2LayerReLUSAETest(4, 25)
-Run2LayerReLUSAETest(2, 25)
 
+Run1LayerReLUSAETest(10, 25)
 Run1LayerReLUSAETest(8, 25)
 Run1LayerReLUSAETest(6, 25)
 Run1LayerReLUSAETest(4, 25)
-Run1LayerReLUSAETest(2, 25)
 
 Run2LayerReLUSAETest(10, 40)
 Run2LayerReLUSAETest(8, 40)
