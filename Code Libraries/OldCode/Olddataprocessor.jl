@@ -1,3 +1,21 @@
+function GenerateActivationFunctions(number_layers)
+    activation_functions = Array{Function,1}()
+    for in in 1:number_layers
+        push!(activation_functions, SigmoidActivation)
+    end
+    return (activation_functions)
+end
+
+#=function TrainEncoderRBNMFFNNetwork(dataset::DataSet, network_parameters::NetworkParameters, rbm_parameters::TrainingParameters, ffn_parameters::TrainingParameters)
+
+    encoder_data = dataset#CreateEncoderDataset(dataset)
+    rbm_network, rbm_records = TrainRBMNetwork(encoder_data, network_parameters, rbm_parameters)
+    sgd_records = RunSGD(encoder_data, rbm_network, ffn_parameters)
+
+    return (rbm_network, rbm_records, sgd_records)
+end=#
+
+
 function CalculateLambdaErrors(network::NeuralNetwork, activations::Array{Array{Float64,2}}, training_output::Array{Float64,2}, cost_function)
     #error = activations[end] - training_output
     z_vals = CalculateZVal(network.layers[end].weights, activations[(end-1)])

@@ -53,7 +53,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
     push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.0001, 0.01)))
     #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HintonUniformInit, InitializationFunctions.HeUniformInit)))
 
-    set_name = string(num_hidden, " Layer ReLU ", layer_size, "x", layer_size, "x", encoding_layer)
+    set_name = string(num_hidden, " Layer ReLU ", num_hidden, "x", layer_size, "x", encoding_layer)
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
     ################################################################################
     ##2a. Run Each SAE Configuration
@@ -73,32 +73,6 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
 
     return sae_results
 end
-
-#Run1LayerReLUSAETest(2, 25)
-#Run2LayerReLUSAETest(2, 25)
-#Run2LayerReLUSAETest(10, 25)
-#Run2LayerReLUSAETest(8, 25)
-#Run2LayerReLUSAETest(6, 25)
-#Run2LayerReLUSAETest(4, 25)
-#Run1LayerReLUSAETest(10, 25)
-#Run1LayerReLUSAETest(8, 25)
-#Run1LayerReLUSAETest(6, 25)
-#Run1LayerReLUSAETest(4, 25)
-#Run2LayerReLUSAETest(10, 40)
-#Run2LayerReLUSAETest(8, 40)
-#Run2LayerReLUSAETest(6, 40)
-#Run2LayerReLUSAETest(4, 40)
-#Run2LayerReLUSAETest(2, 40)
-#Run1LayerReLUSAETest(10, 40)
-#Run1LayerReLUSAETest(8, 40)
-#Run1LayerReLUSAETest(6, 40)
-#Run1LayerReLUSAETest(4, 40)
-#Run1LayerReLUSAETest(2, 40)
-
-#Run2LayerReLUSAETest(2, 40)
-#Run2LayerReLUSAETest(4, 40)
-#Run1LayerReLUSAETest(6, 40)
-#Run1LayerReLUSAETest(8, 40)
 
 RunNLayerReLUSAETest(10, 30, 1)
 

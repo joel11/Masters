@@ -11,14 +11,13 @@ db = SQLite.DB("database_test.db")
 
 function WriteSAE(config_id, experiment_config, net)
     file_name = string("SAERepo/SAE_", config_id, ".bson")
-    #values = Dict(:config_id => config_id, :config => experiment_config, :sae => net)
-    values = Dict(:config_id => config_id, :sae => net)
+    values = Dict(:config_id => config_id, :data_configuration => experiment_config.data_config, :sae => net)
     bson(file_name, values)
 end
 
 function ReadSAE(config_id)
     ln = BSON.load(string("SAERepo/SAE_", config_id, ".bson"))
-    return ln[:sae]
+    return (ln[:sae], ln[:data_configuration])
 end
 
 

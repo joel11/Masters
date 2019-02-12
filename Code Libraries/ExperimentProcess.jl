@@ -15,19 +15,19 @@ using ExperimentProcess
 
 export RunFFNConfigurationTest, RunSAEConfigurationTest
 
-function PrepareData(ep, dataset)
-    data_raw = dataset == nothing ? GenerateDataset(ep.data_config.data_seed, ep.data_config.steps, ep.data_config.variation_values) : dataset
-    processed_data = ProcessData(data_raw, ep.data_config.deltas, ep.data_config.prediction_steps)
+function PrepareData(data_config, dataset)
+    data_raw = dataset == nothing ? GenerateDataset(data_config.data_seed, data_config.steps, data_config.variation_values) : dataset
+    processed_data = ProcessData(data_raw, data_config.deltas, data_config.prediction_steps)
     standardized_data = map(x -> StandardizeData(x)[1], processed_data)
-    data_splits = map(df -> SplitData(df, ep.data_config.process_splits), standardized_data)
+    data_splits = map(df -> SplitData(df, data_config.process_splits), standardized_data)
 
-    saesgd_data = CreateDataset(data_splits[1][1], data_splits[2][1], ep.data_config.training_splits)
+    saesgd_data = CreateDataset(data_splits[1][1], data_splits[2][1], data_config.training_splits)
     ogd_data = CreateDataset(data_splits[1][2], data_splits[2][2], [1.0])
 
     return(saesgd_data, ogd_data)
 end
 
-function RunSAEConfigurationTest(ep, dataset)
+function RunSAEConfigurationTest(ep::SAEExperimentConfig, dataset)
 
     srand(ep.seed)
 
@@ -37,7 +37,7 @@ function RunSAEConfigurationTest(ep, dataset)
 
     ################################################################################
     #b. Prepare data accordingly
-    saesgd_data = PrepareData(ep, dataset)[1]
+    saesgd_data = PrepareData(ep.data_config, dataset)[1]
 
     ################################################################################
     #c. Run training, and record all epochs
@@ -59,15 +59,16 @@ function RunSAEConfigurationTest(ep, dataset)
 end
 
 
-function RunFFNConfigurationTest(ep, dataset)
+function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
 
     srand(ep.seed)
 
     ##Data Processing
-    sae = ReadSAE(ep.sae_config_id)
-    saesgd_data, ogd_data = PrepareData(ep, dataset)
-    encoded_dataset =  GenerateEncodedSGDDataset(saesgd_data, sae_network)
-    encoded_ogd_dataset = GenerateEncodedOGDDataset(ogd_data, sae_network)
+    sae_network, data_config = ReadSAE(ep.sae_config_id)
+    encoder = GetAutoencoder(network)
+    saesgd_data, ogd_data = PrepareData(data_config, dataset)
+    encoded_dataset =  GenerateEncodedSGDDataset(saesgd_data, encoder)
+    encoded_ogd_dataset = GenerateEncodedOGDDataset(ogd_data, encoder)
 
     ## FFN-SGD Training
     ffn_network = (ep.rbm_pretraining == true ? (TrainRBMNetwork(config_id, encoded_dataset, ep.ffn_network, ep.rbm_cd)[1])
