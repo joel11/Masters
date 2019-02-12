@@ -4,13 +4,13 @@ using RBM
 using NeuralNetworks
 using ActivationFunctions, InitializationFunctions, NetworkTrainer
 using TrainingStructures
-using SGD, CostFunctions, StoppingFunctions, FFN, OGD
+using SGD, CostFunctions, FunctionsStopping, FFN, OGD
 using DataGenerator, DataProcessor
 using DataFrames
 using CSCV
 using FinancialFunctions
 using DatabaseOps
-using HyperparameterOptimization
+using ConfigGenerator
 using ExperimentProcess
 
 export RunFFNConfigurationTest, RunSAEConfigurationTest

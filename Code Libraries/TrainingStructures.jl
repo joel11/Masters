@@ -33,7 +33,7 @@ type TrainingParameters
 
     l1_lambda::Float64
     l2_lambda::Float64
-    cost_function::CostFunction
+    cost_function
 
     function TrainingParameters(category, max_learning_rate, min_learning_rate, epoch_cycle_max, minibatch_size, momentum_rate, max_epochs,
         stopping_parameters, stopping_function, verbose, is_classification, l1_lambda, l2_lambda, cost_function)

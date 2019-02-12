@@ -172,8 +172,3 @@ type LoglikelihoodError <: CostFunction
 end
 
 end
-
-#y = [[1 0];[0 1]; [0 0]]'
-#y_hat = [[0.4 0.3]; [0.6 0.7]; [0.1 0.1]]'
-#sum(map( i-> (-log.(e, y_hat[i,:])'[Bool.(y[i,:])]), 1:size(y)[1]))[1]
-#-log(e, 0.4) + -log(e, 0.7)
