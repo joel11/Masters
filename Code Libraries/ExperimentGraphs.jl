@@ -173,7 +173,7 @@ function PlotSAERecontructions(training_pairs, file_name)
 
         recon_vals = deepcopy(pair[3][2])
         recon_vals[isnan(recon_vals)] = 0.0
-        println(recon_vals)
+
         plot!(training_inputplot, cumsum(recon_vals), labels = pair[2], linestyle = :dash)
         return training_inputplot
     end

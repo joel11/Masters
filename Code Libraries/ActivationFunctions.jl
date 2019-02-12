@@ -4,37 +4,37 @@ export SigmoidActivation, SigmoidPrime, TanhActivation, TanhPrime, SoftmaxActiva
 
 
 
-function SigmoidActivation(x)
+function SigmoidActivation(x::Array{Float64,2})
   return (1.0 ./ (1.0 .+ exp.(-x)))
 end
 
-function SigmoidPrime(x)
+function SigmoidPrime(x::Array{Float64,2})
     act = SigmoidActivation(x)
     return (act.*(1-act))
 end
 
-function TanhActivation(x)
+function TanhActivation(x::Array{Float64,2})
     return tanh.(x)
 end
 
-function TanhPrime(x)
+function TanhPrime(x::Array{Float64,2})
     v = 1 .- (tanh.(x)).^2
     return v
 end
 
-function LinearActivation(x)
+function LinearActivation(x::Array{Float64,2})
     return (x)
 end
 
-function LinearPrime(x)
+function LinearPrime(x::Array{Float64,2})
     return 1
 end
 
-function ReluActivation(x)
+function ReluActivation(x::Array{Float64,2})
     return (max.(0, x))
 end
 
-function ReluPrime(x)
+function ReluPrime(x::Array{Float64,2})
     return (max.(0,x)./x)
 end
 
@@ -49,7 +49,7 @@ function SoftmaxActivation(vals)
 end
 
 
-FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime, TanhActivation=> TanhPrime, ReluActivation=>ReluPrime, LinearActivation=>LinearPrime)
+const FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime, TanhActivation=> TanhPrime, ReluActivation=>ReluPrime, LinearActivation=>LinearPrime)
 
 end
 
@@ -91,18 +91,6 @@ function HeNormalInit(input, output)
     return(weights)
 end
 
-#input = 100
-#output = 40
-#v = HintonUniformInit(5, 4)
-#var(v)
-#xgn = XavierGlorotNormalInit(input, output)
-#println(var(xgn), " ", 2/(input + output))
-#xgn = XavierGlorotUniformInit(input, output)
-#println(var(xgn), " ", 2/(input + output))
-#xgn = HeNormalInit(input, output)
-#println(var(xgn), " ", 2/(input))
-#xgn = HeUniformInit(input, output)
-#println(var(xgn), " ", 2/(input))
 end
 
 module CostFunctions
@@ -110,7 +98,6 @@ module CostFunctions
 using ActivationFunctions
 
 export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError, LoglikelihoodError, CostFunction, CalculateMAPE
-
 
 function CalculateMAPE(y, y_hat)
     vals = abs.((y - y_hat) ./ y)
@@ -129,15 +116,15 @@ type MeanSquaredError <: CostFunction
     Delta::Function
 
     function MeanSquaredError()
-        function cost_function(y, y_hat)
-            cost =  sum((y - y_hat).^2)/length(y)#, 1)
+        function cost_function(y::Array{Float64,2}, y_hat::Array{Float64,2})
+            return sum((y .- y_hat) .^2) /length(y)#, 1)
             #println(string( sum((y - y_hat).^2), " , ", length(y), " , ", cost))
-            return cost
+            #return cost
         end
 
-        function delta_function(a, y, z_vals, activation)
-            derivative_activations = FunctionDerivatives[activation](z_vals)
-            return ((a-y).*derivative_activations)
+        function delta_function(a::Array{Float64,2}, y::Array{Float64,2}, z_vals::Array{Float64,2}, activation::Function)
+            der = FunctionDerivatives[activation](z_vals)
+            return ((a-y).*der)
         end
 
         return new(cost_function, delta_function)

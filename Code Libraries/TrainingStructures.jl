@@ -5,12 +5,12 @@ using NeuralNetworks, CostFunctions
 export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters, DatasetConfig, SAEExperimentConfig, FFNExperimentConfig
 
 type DataSet
-    training_input#::Array{Float64,2}
-    testing_input#::Array{Float64,2}
+    training_input::Array{Float64,2}
+    testing_input::Array{Float64,2}
     #validation_input#::Array{Float64,2}
 
-    training_output#::Array{Float64,2}
-    testing_output#::Array{Float64, 2}
+    training_output::Array{Float64,2}
+    testing_output::Array{Float64,2}
     #validation_output#::Array{Float64,2}
 
     standardizing_means
@@ -107,7 +107,7 @@ type EpochRecord
 
     run_time::Float64
     network::NeuralNetworks.NeuralNetwork
-    weight_change_rates::Array{Array{Float64,1},1}
+    weight_change_rates
     hidden_activation_likelihoods::Array{Array{Float64,2},1}
 
     mean_weight_changes

@@ -9,13 +9,16 @@ function Feedforward(network::NeuralNetwork,  input)
 end
 
 function Feedforward(layers::Array{NetworkLayer},  input)
-    current_vals = Array(input)
-    layer_outputs = Array{Array{Float64,2},1}()
-    push!(layer_outputs, current_vals)
+    current_vals = Array{Float64,2}(input)
+    layer_outputs = Array{Array{Float64,2},1}(length(layers)+1)
+    layer_outputs[1] = current_vals
+    #push!(layer_outputs, current_vals)
     for i in 1:length(layers)
-        bias_vals = hcat(fill(1.0, size(current_vals,1)), current_vals)
+        bias_vals = Array{Float64,2}(hcat(fill(1.0, size(current_vals,1)), current_vals))
+        #layer_outputs[(i+1)] = layers[i].activation(bias_vals * layers[i].weights)
         current_vals = layers[i].activation(bias_vals * layers[i].weights)
-        push!(layer_outputs, current_vals)
+        layer_outputs[(i+1)] = current_vals
+    #    push!(layer_outputs, current_vals)
     end
 
     return layer_outputs

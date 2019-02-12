@@ -5,10 +5,6 @@ using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStru
 
 export ContrastiveDivergence1WeightUpdates, GradientDescentWeightUpdate, CalculateNewWeights
 
-function ReverseVector(vector)
-    return(vector[(length(vector):-1:1)])
-end
-
 function CalculateL2Penalization(parameters, N)
     l2pen =  (1 - parameters.max_learning_rate * parameters.l2_lambda /N)
     return (l2pen)
@@ -19,53 +15,78 @@ function CalculateL1Penalization(parameters, N, weights)
     return (l1pen)
 end
 
-function GradientDescentWeightUpdate(network, minibatch_input, minibatch_ouput, parameters)
+function GradientDescentWeightUpdate(network::NeuralNetwork, minibatch_input::Array{Float64,2}, minibatch_ouput::Array{Float64,2}, parameters::TrainingParameters, weight_updates::Array{Array{Float64,2}}, zero_activations::Array{Int64,2})
 
-    function CalculateWeightChanges(activations, lambdas)
-
-        weight_changes = Array{Array{Float64,2},1}()
+    function CalculateWeightChanges(activations::Array{Array{Float64,2},1}, lambdas::Array{Array{Float64,2},1}, weight_changes::Array{Array{Float64,2},1})
 
         for i in 1:length(lambdas)
-            acts_withbias = hcat(fill(1.0, size(activations[i],1)), activations[i])
-            change_values = acts_withbias'*lambdas[i]
-            scaled_changes = (change_values ./ size(activations[i],1))
-            push!(weight_changes, scaled_changes)
+            sample_size = size(activations[i], 1)
+            acts_withbias = hcat(fill(1.0, sample_size), activations[i])
+            change_values = (acts_withbias' * lambdas[i]) ./ sample_size
+            weight_changes[i] = change_values
+            #push!(weight_changes, change_values)
         end
 
-        return (weight_changes)
+        nothing#return (weight_changes)
     end
 
-    function CalculateZVal(weights, previous_activation)
-        bias_vals = hcat(fill(1.0, size(previous_activation,1)), previous_activation)
-        return (bias_vals * weights)
+    function CalculateZVal(weights::Array{Float64,2}, previous_activation::Array{Float64,2})
+        return Array{Float64,2}(hcat(fill(1.0, size(previous_activation,1)), previous_activation) * weights)
     end
 
-    function CalculateLambdaErrors(network::NeuralNetwork, activations, training_output, cost_function)
-        layers = network.layers
-        error = activations[end] - training_output
-        z_vals = CalculateZVal(layers[end].weights, activations[(end-1)])
+    function CalculateLambdaErrors(network::NeuralNetwork, activations::Array{Array{Float64,2}}, training_output::Array{Float64,2}, cost_function)
+        #error = activations[end] - training_output
+        z_vals = CalculateZVal(network.layers[end].weights, activations[(end-1)])
         #derivative_activations = FunctionDerivatives[layers[end].activation](z_vals)
-        lambda_L =  cost_function.Delta(activations[end], training_output, z_vals, layers[end].activation)# derivative_activations)
-        lambdas = [lambda_L]
+        lambda_L =  cost_function.Delta(activations[end], training_output, z_vals, network.layers[end].activation)# derivative_activations)
+        lambdas = Array{Array{Float64,2}}([lambda_L])
 
-        for i in (length(layers)-1):-1:1
-            z_vals = CalculateZVal(layers[i].weights,activations[(i)])
+        #lambdas = [lambda_L]
 
-            z_der = FunctionDerivatives[layers[i].activation](z_vals)
-            output_act = lambdas[(length(layers)-i)] * layers[(i+1)].weights'[:, 2:end]
+        for i in (length(network.layers)-1):-1:1
+            z_vals = CalculateZVal(network.layers[i].weights,activations[(i)])
+
+            z_der = FunctionDerivatives[network.layers[i].activation](z_vals)
+            output_act = lambdas[(length(network.layers)-i)] * network.layers[(i+1)].weights'[:, 2:end]
             lambda = output_act .* z_der
             push!(lambdas, lambda)
         end
 
-        return(ReverseVector(lambdas))
+        reverse_lambdas = lambdas[(length(lambdas):-1:1)]
+
+        return reverse_lambdas
     end
+
+    function CalculateZeroValues(activations)
+        za = Array{Int64,1}()
+        for i in 1:length(activations)
+            push!(za, sum(activations[i] .== 0))
+        end
+
+        return za[2:end]
+    end
+
 
     activations = Feedforward(network, minibatch_input)
     lambdas = CalculateLambdaErrors(network, activations, minibatch_ouput, parameters.cost_function)
-    weight_updates = CalculateWeightChanges(activations, lambdas)
-    zero_activations = map(i -> sum(activations[i] .== 0), 1:length(activations))[2:end]
+    weight_changes = Array{Array{Float64,2},1}(length(lambdas))
+    CalculateWeightChanges(activations, lambdas, weight_changes)
+    #weight_changes = CalculateWeightChanges(activations, lambdas)
+    new_zero_activations = CalculateZeroValues(activations)
 
-    return (weight_updates, zero_activations)
+    for i in 1:length(weight_changes)
+        weight_updates[i] = weight_changes[i]
+    end
+
+    for i in 1:length(new_zero_activations)
+        zero_activations[i] = new_zero_activations[i]
+    end
+
+
+    #println(weight_updates)
+
+    nothing
+    #return (weight_updates, zero_activations)
 end
 
 function ContrastiveDivergence1WeightUpdates(minibatch_data, layer)
@@ -99,10 +120,11 @@ end
 
 function CalculateNewWeights(current_weights, weight_update, parameters::TrainingParameters, N::Int64, epoch::Int64)
     #println("L2: ", mean(CalculateL2Penalization(parameters, N)))
-    return (current_weights .* CalculateL2Penalization(parameters, N)
+    return (current_weights #.* CalculateL2Penalization(parameters, N)
                                 #+ momentum_factor
                                 - CalculateLearningRate(epoch, parameters) .* weight_update
-                                - CalculateL1Penalization(parameters, N, current_weights))
+                                #- CalculateL1Penalization(parameters, N, current_weights)
+                                )
 end
 
 function CalculateMomentum(momentum, parameters, weight_updates)

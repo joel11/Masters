@@ -1010,21 +1010,27 @@ All datasets were transformed into log feature fluctuation values, and were then
 \textit{log\_diff}(x_t) = ln(x_t) - ln(x_{t-1})
 \end{equation}
 This log feature fluctuation,  is processed for each OHLCV feature and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and symmetric in terms of gains and losses.
-
+\newline\newline
 The datasets are then expanded with the rolling window fluctuations both in the past, for input, and in the future, for predicted output. For example, at each data point $t$, the following time series are added:
 \begin{itemize}
 	\item [$\cdot$] Log feature fluctuations over the periods $(t-7, t)$ and $(t-30, t)$ (with $(t-1, t)$ already having been processed)
 	\item [$\cdot$] Log feature fluctuations for the period $(t, t + 10)$, to be predicted
 \end{itemize}\todo{Change to final windows decided on}
 
-\subsection{Synthetic Data}
+\subsection{Data Scaling}\label{data_scaling}
+Once the log difference data has been processed, the datasets are standardized to allow for better learning. This is done in the typical way, calculating for mean 0 and variance 1: each feature vector has its mean subtracted, and is divided by its standard deviation.
+\begin{equation}
+\textit{standardized}(x) = \frac{(x - \bar{x}) }{\sigma_x}
+\end{equation}
+
+\subsection{Synthetic Data}\label{data_synthetic}
 
 Synthetic datasets were generated to represent known trends with some variance in prices. Geometric Brownian motion was used to simulate stock price movements. Each dataset was generated with a random seed (using a Mersenne Twister pseudorandom number generator), and had a structure of 9 stocks:
 
 \begin{itemize}
-	\item [$\cdot$] 3 stocks with an upward trend, and high, medium, and low variance levels
-	\item [$\cdot$] 3 stocks with a downward trend, and high, medium, and low variance levels
-	\item [$\cdot$] 3 stocks with a sideways trend, and high, medium, and low variance levels
+	\item [$\cdot$] 2 stocks with an upward trend, and high and low variance levels
+	\item [$\cdot$] 2 stocks with a downward trend, and high and low variance levels
+	\item [$\cdot$] 2 stocks with a sideways trend, and high and low variance levels
 \end{itemize}
 
 The steps for Geometric Brownian Motion are described in \ref{algo_brownianmotion}, which allows the stocks simulations to be implemented with a trend ($\sigma$) and variance ($\mu$) for each stock.\newline
@@ -1064,11 +1070,10 @@ This section will detail the use of real data - namely the JSE ALSI data collect
 The implementation focuses on bringing together several ideas: data reduction, deep learning with pre-training/weight initialization, online learning and backtest overfitting validation for the purposes of stock price prediction. The process implementation is discussed fully in \ref{imp_fullprocess}, but can be summarised as the following:
 
 \begin{itemize}
-	\item [1] The dataset is split into 3 subsets: the SAE/FFN  portion, the OGD portion and the hold-out set for validation
+	\item [1] The dataset is split into 2 subsets: the SAE/FFN  portion, and the OGD portion
 	\item [2] The first subset is used to train the SAE and deep FFN using the SGD algorithm. These networks were implemented with pre-training and weight initialization techniques
 	\item [3] The second subset of data is used to continue training the network in an online manner using OGD
-	\item [4] The third and last 'hold-out' subset was used to generate log fluctuation predictions, which can then be used to generate returns from a trading strategy
-	\item [5] The returns generated can then be used in the CSCV process, to estimate the probability of backtest overfitting
+	\item [4] The returns generated from OGD can then be used in the CSCV process, to estimate the probability of backtest overfitting
 \end{itemize}
 ~\\
 The rest of this chapter will detail the algorithms used to train the relevant FFN, RBM and SAE networks, as well as the trading strategy and CSCV \& PBO testing procedures.
@@ -1237,7 +1242,7 @@ As noted in \ref{lr_SAE}, the use of Stacked Autoencoders (SAE) have resulted in
 \newline\newline
 Stacked autoencoders follow a similar structure, but with multiple hidden layers. The only strict requirement of the hidden layers is that the middle one, which will be used as the encoder layer, still has fewer nodes than the input. This structure can still be trained using backpropagation, but with more layers, it is likely to begin suffering from the vanishing or exploding gradient problem. As noted, the work by Hinton et al. for initialization of weights helps resolve this.
 
-\subsubsection{Greedy Layerwise SAE Training}
+\subsubsection{Sigmoid based Greedy Layerwise SAE Training}\label{imp_sigmoidsae}
 
 The algorithm for implementing the SAE training suggested by Hinton et al is as follows
 
@@ -1255,6 +1260,17 @@ The algorithm for implementing the SAE training suggested by Hinton et al is as 
 \end{itemize}
 
 Notably, this weight initialization will only be effective if the RBM and SAE networks use the same activation function, which due to the RBM implementation, needs to be a function that can output a probabilistic value in [0,1].
+
+\subsubsection{ReLU based SAE Training}\label{imp_relusae}
+
+ReLU activations differ from Sigmoid in that they are not fitting for probability estimations, which makes the algorithm suggest by Hinton et al. unsuitable. The process used here relies on effective weight initialization, and is a simplification of the above.
+
+\begin{itemize}
+	\item [1] Define a network structure which conforms to the requirements of an SAE, with $L$ layers
+	\item [2] Use an effective weight initialization, such as Xavier or He
+	\item [3] This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised
+	\item [4] Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE
+\end{itemize}
 
 \subsubsection{Denoising Autoencoders}
 
@@ -1382,31 +1398,28 @@ The full process tested here, combining the techniques defined thus far in the p
 	\end{itemize}
 	\item [2] Data Segregation
 	\begin{itemize}
-		\item[$\bullet$] The processed dataset is split into 3 parts, to be used for the following processes: SAE/SGD training, OGD training, hold-out validation (e.g. 60\%, 20\%, 20\%)
+		\item[$\bullet$] The processed dataset is split into 2 parts, to be used for the following processes: SAE/SGD training, OGD training (e.g. 60\%, 40\%). The split here will be based on the MinBTL method developed by Bailey et al. \todo{update with decided split}
 	\end{itemize}	
 	\item [3] SAE Training
 	\begin{itemize}
 		\item[$\bullet$] The dataset defined for SAE/SGD is used to train the auto-encoder network (using either RBM pretraining/weight initialization algorithms + SGD)
 		\item[$\bullet$] Notably, this SAE/SGD dataset will itself be split into training \& testing portions in order to train and validate the SAE network
-		\item[$\bullet$] Once the SAE network has been defined, it can be used to reprocess the datasets such that the input is now encoded, and the output is as before. These encoded datasets will be used for all following steps.
+		\item[$\bullet$] The full process will rely on a generated set of 'best' SAE networks at each encoding layer size, to be used for FFN training and prediction. This takes advantage of the fact that the SAE training will not suffer from backtesting concerns, and so a wider consideration of configurations is possible
+		\item[$\bullet$] Once the SAE networks have been defined, they can be used to reprocess the datasets such that the input is encoded, and the output is as before. These encoded datasets will be used for all following steps
 	\end{itemize}		
 	\item [4] FFN/SGD Training
 	\begin{itemize}
-		\item[$\bullet$] The same SAE/SGD portion of the data will then be used to train the FFN network to predict future prices, using the implemented SGD algorithm \& optimizations.
+		\item[$\bullet$] The same SAE/SGD portion of the data will then be used to train the FFN network to predict future prices, using the implemented SGD algorithm \& optimizations and the encoded datasets
 	\end{itemize}			
 	\item [5] OGD Training
 	\begin{itemize}
 		\item[$\bullet$] The second portion of data will be used to train and optimize the FNN from 4 for OGD. The purpose of this will be to optimize the OGD parameters		
 	\end{itemize}			
-	\item [6] Holdout Validation
+	\item [6] Returns generations
 	\begin{itemize}
-		\item[$\bullet$] The third and last portion of data will be used to obtain results for the model. Predictions will be made on the relevant stock price log fluctuations
-	\end{itemize}				
-	\item [7] Returns generations
-	\begin{itemize}
-		\item[$\bullet$] The trading strategy, as per \ref{imp_tradingstrat}, will be used to generate returns from the predicted and actual prices in the holdout dataset. These returns for each time period and each configuration of the model defined by steps 3-5 will form the $M$ matrix for the CSCV process.
+		\item[$\bullet$] The trading strategy, as per \ref{imp_tradingstrat}, will be used to generate returns from the predicted and actual prices in the OGD dataset. These returns for each time period and each configuration of the model defined by steps 3-5 will form the $M$ matrix for the CSCV process.
 	\end{itemize}	
-	\item [8] CSCV \& PBO
+	\item [7] CSCV \& PBO
 	\begin{itemize}
 		\item[$\bullet$] Using the $M$ matrix from 7, the CSCV process will be run which will then allow a calculation of PBO.
 	\end{itemize}		
@@ -1431,6 +1444,31 @@ The experiments will be designed around exploration of the following points (lis
 \end{itemize}
 
 \subsection{Results for Synthetic Data}
+
+\subsubsection{Dataset Generation}
+
+Data was generated and standardized, as per the methods detail in \ref{data_synthetic} and \ref{data_scaling}. The set was generated with the following configurations:
+\begin{itemize}
+	\item Upward Trend, High variance: $\mu$ = 0.9 and $\sigma$ = 0.5
+	\item Upward Trend, Low variance:  $\mu$ = 0.9 and $\sigma$ = 0.2
+	\item Downward Trend, High variance:  $\mu$ = -0.8 and $\sigma$ = 0.55
+	\item Downward Trend, Low variance:  $\mu$ = -0.8 and $\sigma$ = 0.15
+	\item Sideways Trend, High variance:  $\mu$ = 0.05 and $\sigma$ = 0.4
+	\item Sideways Trend, Low variance:  $\mu$ = 0.05 and $\sigma$ = 0.1			
+\end{itemize}
+
+The dataset was generate for 5000 steps, and had a 60/40 split for the SAE/SGD training. The within dataset split for training and validation was 80/20. The prior timewindows used were the past 1 and 7 days, and the future window used for prediction was the next 2 days.
+
+\subsubsection{SAE Network and Results}
+
+The SAE networks considered were all based using ReLU activations and training methodology (as per \ref{imp_relusae}, and were generated for all possible combinations of the following configurations:
+
+\begin{itemize}
+	\item Learning Rates: 0.01, 0.001, 0.0001	
+	\item Weight Initializations: XavierGlorot, He, Hinton, Normal-Uniform
+	\item Layer Sizes: 25, 40, 25 x 25, 40 x 40
+	\item Encoding Sizes: 2, 4, 6, 8, 10
+\end{itemize}
 
 \subsection{Results for Real Data}
 
