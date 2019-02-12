@@ -1,3 +1,28 @@
+function CalculateLambdaErrors(network::NeuralNetwork, activations::Array{Array{Float64,2}}, training_output::Array{Float64,2}, cost_function)
+    #error = activations[end] - training_output
+    z_vals = CalculateZVal(network.layers[end].weights, activations[(end-1)])
+    #derivative_activations = FunctionDerivatives[layers[end].activation](z_vals)
+    lambda_L =  cost_function.Delta(activations[end], training_output, z_vals, network.layers[end].activation)# derivative_activations)
+
+    lambdas = Array{Array{Float64,2}}(length(network.layers))#[lambda_L])
+    lambdas[1] = lambda_L
+    #lambdas = [lambda_L]
+    #lambdas = Array{Array{Float64,2}}([lambda_L])
+
+    for i in (length(network.layers)-1):-1:1
+        z_vals = CalculateZVal(network.layers[i].weights,activations[(i)])
+
+        z_der = FunctionDerivatives[network.layers[i].activation](z_vals)
+        output_act = lambdas[(length(network.layers)-i)] * network.layers[(i+1)].weights'[:, 2:end]
+        lambda = output_act .* z_der
+        lambdas[length(network.layers) - i + 1] = lambda
+        #push!(lambdas, lambda)
+    end
+
+    reverse_lambdas = lambdas[(length(lambdas):-1:1)]
+    return reverse_lambdas
+    #return lambdas
+end
 
 
 function RunSAEConfigurationTest(ep, dataset)

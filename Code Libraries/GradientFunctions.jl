@@ -15,15 +15,14 @@ function CalculateL1Penalization(parameters, N, weights)
     return (l1pen)
 end
 
-function GradientDescentWeightUpdate(network::NeuralNetwork, minibatch_input::Array{Float64,2}, minibatch_ouput::Array{Float64,2}, parameters::TrainingParameters, weight_updates::Array{Array{Float64,2}}, zero_activations::Array{Int64,2})
+function GradientDescentWeightUpdate(network::NeuralNetwork, minibatch_input::Array{Float64,2}, minibatch_ouput::Array{Float64,2}, parameters::TrainingParameters, weight_updates::Array{Array{Float64,2}}, zero_activations::Array{Int64,2}, activations::Array{Array{Float64,2},1})
 
     function CalculateWeightChanges(activations::Array{Array{Float64,2},1}, lambdas::Array{Array{Float64,2},1}, weight_changes::Array{Array{Float64,2},1})
 
         for i in 1:length(lambdas)
             sample_size = size(activations[i], 1)
             acts_withbias = hcat(fill(1.0, sample_size), activations[i])
-            change_values = (acts_withbias' * lambdas[i]) ./ sample_size
-            weight_changes[i] = change_values
+            weight_changes[i] = (acts_withbias' * lambdas[i]) ./ sample_size
             #push!(weight_changes, change_values)
         end
 
@@ -35,58 +34,39 @@ function GradientDescentWeightUpdate(network::NeuralNetwork, minibatch_input::Ar
     end
 
     function CalculateLambdaErrors(network::NeuralNetwork, activations::Array{Array{Float64,2}}, training_output::Array{Float64,2}, cost_function)
-        #error = activations[end] - training_output
         z_vals = CalculateZVal(network.layers[end].weights, activations[(end-1)])
-        #derivative_activations = FunctionDerivatives[layers[end].activation](z_vals)
-        lambda_L =  cost_function.Delta(activations[end], training_output, z_vals, network.layers[end].activation)# derivative_activations)
-        lambdas = Array{Array{Float64,2}}([lambda_L])
-
-        #lambdas = [lambda_L]
+        lambdas = Array{Array{Float64,2}}(length(network.layers))
+        lambdas[end] = cost_function.Delta(activations[end], training_output, z_vals, network.layers[end].activation)
 
         for i in (length(network.layers)-1):-1:1
+
             z_vals = CalculateZVal(network.layers[i].weights,activations[(i)])
-
             z_der = FunctionDerivatives[network.layers[i].activation](z_vals)
-            output_act = lambdas[(length(network.layers)-i)] * network.layers[(i+1)].weights'[:, 2:end]
-            lambda = output_act .* z_der
-            push!(lambdas, lambda)
+
+            output_act = lambdas[(i+1)] * network.layers[(i+1)].weights'[:, 2:end]
+            lambdas[i] = output_act .* z_der
         end
 
-        reverse_lambdas = lambdas[(length(lambdas):-1:1)]
-
-        return reverse_lambdas
+        return lambdas
     end
 
-    function CalculateZeroValues(activations)
-        za = Array{Int64,1}()
-        for i in 1:length(activations)
-            push!(za, sum(activations[i] .== 0))
+    function CalculateZeroValues(activations, zero_activations)
+        for i in 2:length(activations)
+            zero_activations[(i-1)] = sum(activations[i] .== 0)
         end
-
-        return za[2:end]
     end
 
 
-    activations = Feedforward(network, minibatch_input)
+    activations[1] = minibatch_input
+    Feedforwad_Prealloc(network, activations)
+
     lambdas = CalculateLambdaErrors(network, activations, minibatch_ouput, parameters.cost_function)
-    weight_changes = Array{Array{Float64,2},1}(length(lambdas))
-    CalculateWeightChanges(activations, lambdas, weight_changes)
-    #weight_changes = CalculateWeightChanges(activations, lambdas)
-    new_zero_activations = CalculateZeroValues(activations)
 
-    for i in 1:length(weight_changes)
-        weight_updates[i] = weight_changes[i]
-    end
-
-    for i in 1:length(new_zero_activations)
-        zero_activations[i] = new_zero_activations[i]
-    end
-
-
-    #println(weight_updates)
+    CalculateWeightChanges(activations, lambdas, weight_updates)
+    CalculateZeroValues(activations, zero_activations)
 
     nothing
-    #return (weight_updates, zero_activations)
+
 end
 
 function ContrastiveDivergence1WeightUpdates(minibatch_data, layer)
