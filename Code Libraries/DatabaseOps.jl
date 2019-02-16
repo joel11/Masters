@@ -52,6 +52,17 @@ function CreateTrainingRecord(config_id, parameters)
     SQLite.execute!(db, training_cmd)
 end
 
+function CreateOGDTrainingRecord(config_id, parameters)
+    cf = split(string(typeof(parameters.cost_function)), ".")[end]
+
+    training_cmd = "insert into training_parameters
+            (configuration_id, category, learning_rate, minibatch_size, max_epochs, l1_lambda, l2_lambda, cost_function, stopping_function)
+            values ($(config_id), '$(parameters.category)', $(parameters.max_learning_rate), 1, 1,
+            null, null, '$(cf)',  null)"
+
+    SQLite.execute!(db, training_cmd)
+end
+
 function CreateEpochRecord(config_id, epoch_record)
     ts = Dates.now()
 
@@ -114,7 +125,7 @@ function RecordFFNExperimentConfig(exp_config)
 
     CreateNetworkRecord(config_id, exp_config.ffn_network)
     CreateTrainingRecord(config_id, exp_config.ffn_sgd)
-    CreateTrainingRecord(config_id, exp_config.ogd)
+    CreateOGDTrainingRecord(config_id, exp_config.ogd)
     #CreateTrainingRecord(config_id, exp_config.ogd_ho)
 
     return config_id

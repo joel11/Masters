@@ -8,7 +8,7 @@ function CreateEncoderDataset(dataset::DataSet)
     training_input = dataset.training_input
     testing_input = dataset.testing_input
 
-    return DataSet(training_input, testing_input, training_input, testing_input, 0, 0)
+    return DataSet(training_input, testing_input, training_input, testing_input, nothing, nothing, nothing, nothing)
 end
 
 function TrainInitSAE(config_id, category, dataset::DataSet, network_parameters::NetworkParameters, parameters::TrainingParameters)

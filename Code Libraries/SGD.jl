@@ -10,10 +10,14 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
     epoch_records = Array{EpochRecord}(parameters.max_epochs)
     num_training_samples = size(dataset.training_input)[1]
 
+    #Pre-calculated Values
+    training_input = Array{Float64,2}(dataset.training_input)
+    training_output = Array{Float64,2}(dataset.training_output)
+    testing_input = Array{Float64,2}(dataset.testing_input)
+    testing_output = Array{Float64,2}(dataset.testing_output)
+
     mbi_input = map(m -> ((m-1)*parameters.minibatch_size+1), 1:number_batches)
     mbi_output = map(m -> m*parameters.minibatch_size, 1:number_batches)
-
-    #Pre-calculated Values
     layer_sizes = map(l -> size(l.weights, 2), network.layers)
     total_activations = layer_sizes .* size(dataset.training_input)[1]
 
@@ -25,9 +29,9 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
     for i in 1:(parameters.max_epochs)
         tic()
 
-        epoch_order = randperm(size(dataset.training_input)[1])
-        epoch_input = (dataset.training_input[epoch_order,:])
-        epoch_output = (dataset.training_output[epoch_order,:])
+        epoch_order = randperm(size(training_input)[1])
+        epoch_input = (training_input[epoch_order,:])
+        epoch_output = (training_output[epoch_order,:])
 
         zero_activation_history = (fill(0, (length(network.layers),1)))
         total_weight_changes = Array{Float64,2}(fill(0.0, (length(network.layers), 1)))
@@ -46,8 +50,8 @@ function RunSGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
         mean_weight_changes = total_weight_changes[:,1] ./ number_batches
         zero_perc =  (zero_activation_history ./ total_activations)'
 
-        IS_error = parameters.cost_function.CalculateCost(Array{Float64,2}(dataset.training_output), Feedforward(network, dataset.training_input)[end])
-        OOS_error = parameters.cost_function.CalculateCost(Array{Float64,2}(dataset.testing_output), Feedforward(network, dataset.testing_input)[end])
+        IS_error = parameters.cost_function.CalculateCost(training_output, Feedforward(network, training_input)[end])
+        OOS_error = parameters.cost_function.CalculateCost(testing_output, Feedforward(network, testing_input)[end])
 
         epoch_records[i] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc)
 

@@ -6,7 +6,7 @@ using FinancialFunctions, CostFunctions
 using DataGenerator
 using DataProcessor
 using Plots
-export PlotResults, PlotEpochs, PlotSAERecontructions, PlotGradientChanges, PlotGradientChangesCombined, PlotActivations
+export PlotResults, PlotEpochs, PlotSAERecontructions, PlotGradientChanges, PlotGradientChangesCombined, PlotActivations, PlotOGDResults
 
 plotlyjs()
 
@@ -157,6 +157,29 @@ function PlotEpochs(config_ids, file_name)
     savefig(plot(plots..., layout = length(plots), size=(1400, 700)), string("/users/joeldacosta/desktop/", file_name, ".html"))
 end
 
+function PlotOGDResults(ogd_results, file_name)
+    function MSEPerOGDSample(actual, predicted)
+        squares = (Array(actual) - Array(predicted)).^2
+        sampleMSE = map(r -> sum(squares[r, :]), 1:size(squares, 1))./size(squares, 2)
+        cumulativeMSE = map(r -> sum(squares[1:r, :]) ./ length(squares[1:r, :]), 1:size(squares, 1))
+
+        return (sampleMSE, cumulativeMSE)
+    end
+
+    config_one = MSEPerOGDSample(ogd_results[1][2], ogd_results[1][3])
+    sample_plot = plot(config_one[1], labels = string("sample ", ogd_results[1][1]))
+    cumulative_plot = plot(config_one[2], labels = string("cumulative ", ogd_results[1][1]))
+
+    for i in 2:length(ogd_results)
+        config_current = MSEPerOGDSample(ogd_results[i][2], ogd_results[i][3])
+        plot!(sample_plot, config_current[1], labels = string("sample ", ogd_results[i][1]))
+        plot!(cumulative_plot, config_current[2], labels = string("cumulative ", ogd_results[i][1]))
+    end
+
+    plots = [sample_plot, cumulative_plot]
+    savefig(plot(plots..., layout = length(plots), size=(1400, 700)), string("/users/joeldacosta/desktop/", file_name, ".html"))
+end
+
 function PlotResults(config_ids, file_name)
     delta_plots = DeltaOnePlot(config_ids)
     prediction_plot = PredictedVsActualPlot(config_ids)
@@ -169,7 +192,7 @@ end
 function PlotSAERecontructions(training_pairs, file_name)
     function ReconPlot(pair)
         mape = round(CalculateMAPE(pair[3][1], pair[3][2]), 2)
-        training_inputplot = plot(cumsum(pair[3][1]), linestyle = :solid, labels = "actual", title=string("Data Recon ", pair[1], ":", mape))
+        training_inputplot = plot(cumsum(Array(pair[3][1])), linestyle = :solid, labels = "actual", title=string("Data Recon ", pair[1], ":", mape))
 
         recon_vals = deepcopy(pair[3][2])
         recon_vals[isnan(recon_vals)] = 0.0

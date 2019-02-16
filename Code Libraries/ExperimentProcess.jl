@@ -13,7 +13,7 @@ using DatabaseOps
 using ConfigGenerator
 using ExperimentProcess
 
-export RunFFNConfigurationTest, RunSAEConfigurationTest
+export RunFFNConfigurationTest, RunSAEConfigurationTest, PrepareData
 
 function PrepareData(data_config, dataset)
     data_raw = dataset == nothing ? GenerateDataset(data_config.data_seed, data_config.steps, data_config.variation_values) : dataset
@@ -62,13 +62,12 @@ end
 function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
 
     srand(ep.seed)
+    config_id = RecordFFNExperimentConfig(ep)
 
     ##Data Processing
-    sae_network, data_config = ReadSAE(ep.sae_config_id)
-    encoder = GetAutoencoder(network)
-    saesgd_data, ogd_data = PrepareData(data_config, dataset)
-    encoded_dataset =  GenerateEncodedSGDDataset(saesgd_data, encoder)
-    encoded_ogd_dataset = GenerateEncodedOGDDataset(ogd_data, encoder)
+    saesgd_data, ogd_data = PrepareData(ep.data_config, dataset)
+    encoded_dataset =  GenerateEncodedSGDDataset(saesgd_data, ep.auto_encoder)
+    encoded_ogd_dataset = GenerateEncodedOGDDataset(ogd_data, ep.auto_encoder)
 
     ## FFN-SGD Training
     ffn_network = (ep.rbm_pretraining == true ? (TrainRBMNetwork(config_id, encoded_dataset, ep.ffn_network, ep.rbm_cd)[1])
@@ -79,10 +78,14 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
     ogd_records, comparisons = RunOGD(config_id, "OGD", encoded_ogd_dataset, ffn_network, ep.ogd)
 
     ## Record Predictions vs Actual
-    actual = comparisons[1]
-    predicted = comparisons[2]
+    actual = DataFrame(comparisons[1])
+    predicted = DataFrame(comparisons[2])
+
+    names!(actual, names(encoded_ogd_dataset.training_output))
+    names!(predicted, names(encoded_ogd_dataset.training_output))
+
     CreatePredictionRecords(config_id, actual, predicted)
-    return (config_id)
+    return (config_id, actual, predicted, ffn_sgd_records, ffn_network)
 end
 
 end

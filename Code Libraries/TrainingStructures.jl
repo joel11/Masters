@@ -1,18 +1,21 @@
 module TrainingStructures
 
-using NeuralNetworks, CostFunctions
+using DataFrames, NeuralNetworks, CostFunctions
 
-export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters, DatasetConfig, SAEExperimentConfig, FFNExperimentConfig
+export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters, DatasetConfig, SAEExperimentConfig, FFNExperimentConfig, OGDTrainingParameters
 
 type DataSet
-    training_input::Array{Float64,2}
-    testing_input::Array{Float64,2}
+    training_input::DataFrame #::Array{Float64,2}
+    testing_input::DataFrame #Array{Float64,2}
 
-    training_output::Array{Float64,2}
-    testing_output::Array{Float64,2}
+    training_output::DataFrame# ::Array{Float64,2}
+    testing_output::DataFrame #Array{Float64,2}
 
     standardizing_means
     standardizing_deviations
+
+    input_column_names
+    output_column_names
 
 end
 
@@ -37,6 +40,21 @@ type TrainingParameters
         stopping_parameters, stopping_function, verbose, is_classification, l1_lambda, l2_lambda, cost_function)
         return new(category, max_learning_rate, min_learning_rate, epoch_cycle_max, minibatch_size, momentum_rate, max_epochs,
             stopping_parameters, stopping_function(stopping_parameters), verbose, is_classification, l1_lambda, l2_lambda, cost_function)
+    end
+end
+
+type OGDTrainingParameters
+    category::String
+    max_learning_rate::Float64
+    verbose::Bool
+    cost_function
+
+    #momentum_rate::Float64
+    #l1_lambda::Float64
+    #l2_lambda::Float64
+
+    function OGDTrainingParameters(category, max_learning_rate, verbose, cost_function)
+        return new(category, max_learning_rate, verbose, cost_function)
     end
 end
 
@@ -84,12 +102,12 @@ type FFNExperimentConfig
     rbm_pretraining::Bool
     data_config::DatasetConfig
 
-    sae_config_id::Int64
+    sae_config_id
+    auto_encoder::NeuralNetwork
     ffn_network
     ffn_sgd
-    ogd
+    ogd::OGDTrainingParameters
     rbm_cd
-
 end
 
 type EpochRecord
@@ -107,7 +125,7 @@ type EpochRecord
     run_time::Float64
     network::NeuralNetworks.NeuralNetwork
     weight_change_rates
-    hidden_activation_likelihoods::Array{Array{Float64,2},1}
+    hidden_activation_likelihoods
 
     mean_weight_changes
     zero_activation_perc

@@ -100,7 +100,7 @@ using ActivationFunctions
 export MeanSquaredError, CrossEntropyError, CategoricalCrossEntropyError, LoglikelihoodError, CostFunction, CalculateMAPE
 
 function CalculateMAPE(y, y_hat)
-    vals = abs.((y - y_hat) ./ y)
+    vals = abs.((Array(y) - y_hat) ./ Array(y))
     mape_vals = vals[map(x ->  (isa(x, Number) && !isnan(x) && !isinf(x)), vals)]
     if length(mape_vals) > 0
         return median(mape_vals)*100

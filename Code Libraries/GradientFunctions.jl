@@ -15,7 +15,7 @@ function CalculateL1Penalization(parameters, N, weights)
     return (l1pen)
 end
 
-function GradientDescentWeightUpdate(network::NeuralNetwork, minibatch_input::Array{Float64,2}, minibatch_ouput::Array{Float64,2}, parameters::TrainingParameters, weight_updates::Array{Array{Float64,2}}, zero_activations::Array{Int64,2}, activations::Array{Array{Float64,2},1})
+function GradientDescentWeightUpdate(network::NeuralNetwork, minibatch_input::Array{Float64,2}, minibatch_ouput::Array{Float64,2}, parameters, weight_updates::Array{Array{Float64,2}}, zero_activations::Array{Int64,2}, activations::Array{Array{Float64,2},1})
 
     function CalculateWeightChanges(activations::Array{Array{Float64,2},1}, lambdas::Array{Array{Float64,2},1}, weight_changes::Array{Array{Float64,2},1})
 
@@ -98,7 +98,7 @@ function CalculateLearningRate(epoch, training_parameters)
   return training_parameters.max_learning_rate
 end
 
-function CalculateNewWeights(current_weights, weight_update, parameters::TrainingParameters, N::Int64, epoch::Int64)
+function CalculateNewWeights(current_weights, weight_update, parameters, N::Int64, epoch::Int64)
     #println("L2: ", mean(CalculateL2Penalization(parameters, N)))
     return (current_weights #.* CalculateL2Penalization(parameters, N)
                                 #+ momentum_factor
