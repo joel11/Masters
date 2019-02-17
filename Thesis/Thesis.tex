@@ -56,7 +56,7 @@
 	
 	\Huge\textbf{Technical document}
 	
-	\bigskip\large\textbf{1. Current Status}\bigskip\normalsize
+	\bigskip\large\textbf{1. Current Implementation Status}\bigskip\normalsize
 
 	The library implementations are at a point such that an end-to-end process can be run: data with training parameters are specified, and a CSCV based PBO is output.
 
@@ -104,40 +104,71 @@
 			\item[$\cdot$] Basic hyperparameter search method \& outputs
 			\item[$\cdot$] Automated Unit Tests for CD1, OGD and
 		\end{itemize}	
+		\item[$\bullet$] Database Implementation
+		\begin{itemize}
+			\item[$\cdot$] Recording results and configurations in SQL Lite database
+			\item[$\cdot$] Recording networks (SAE) in bson files
+	\end{itemize}	
 	\end{itemize}
 	
 
 	\newpage
-	\bigskip\large\textbf{2. Future Status}\bigskip\normalsize
+	
+	\bigskip\large\textbf{2. Current Experiment Testing Status}\bigskip\normalsize
+		
+	\bigskip A full list of expected experiment is as follows:
+	
+	\begin{itemize}
+		\item[$\bullet$] Synthetic SAE Tests
+		\begin{itemize}
+			\item[$\cdot$] ReLU + Initialization (done in this version)
+			\item[$\cdot$] Sigmoid + Initialization
+			\item[$\cdot$] Sigmoid + Pre-training
+		\end{itemize}
+		\item[$\bullet$] Synthetic FFN Tests
+		\begin{itemize}
+			\item[$\cdot$] ReLU + Initialization (done in this version)
+			\item[$\cdot$] Sigmoid + Initialization
+			\item[$\cdot$] Sigmoid + Pre-training
+		\end{itemize}
+		\item[$\bullet$] Real JSE Daily Close Tests: SAE
+		\item[$\bullet$] Real JSE Daily Close Tests: FFN
+
+	\end{itemize}
+	
+	
+	\newpage
+	
+	
+	
+	\bigskip\large\textbf{3. Future Status}\bigskip\normalsize
 	
 	There's a fair amount to do before starting tests on the actual dataset, from software engineering tasks to algorithm optimizations to more critical experiment implementation details. The to-do lists below have been split up into critical and non-critical tasks(or tasks which might not be necessary)
 	
 	
 	\paragraph{Critical Implementations}
 	\begin{itemize} 
-		\item[$\bullet$] Database work: MongoDB/SQL implementation to record parameters and results 
-		\item[$\bullet$] Learning Optimizations: Variable learning rate (AdaGrad/ADAM/ADA)
+		\item[$\bullet$] Training: Regularization methods \& Learning rate annealing schedule are implemented, but need to be tested and incorporated info configuration testing (results so far suggest these will be necessary).
 		\item[$\bullet$] Synthetic Tests: Run tests on synthetic data to inform experiment design and parameter choices
-		\item[$\bullet$] Better hyper-parameter search technique, e.g. Random Search
-		\item[$\bullet$] Finalise Dataset: Need to properly account for survivorship bias, and decide which data to use
 	\end{itemize}
 	
 	\paragraph{Critical Decisions}
 
 	\begin{itemize} 
+		\item[$\bullet$] Finalise Dataset: Decide which data to use - JSE Close / intra day?
 		\item[$\bullet$] Trading Strategy: Decide on the basic strategy used to derive returns	
 		\item[$\bullet$] SAE updates: Decide whether the SAE should be updated periodically or not
-		\item[$\bullet$] Decide on data splits and what should be used for CSCV
-		\item[$\bullet$] Decide on data windows - aribtraty choices or.. ?
+		\item[$\bullet$] Decide on data splits and what should be used for CSCV - MinBTL method?
+		\item[$\bullet$] Decide on data windows - aribtrary choices or.. ?
 	\end{itemize}
 
 	\paragraph{Non-Critical/Maybe}
 
 	\begin{itemize}
-		\item[$\bullet$] Parallelization of training tasks
+		\item[$\bullet$] Change SAE testing to use K-fold validation		
+		\item[$\bullet$] Better hyper-parameter search technique, e.g. Random Search
 		\item[$\bullet$] Denoising SAEs
 		\item[$\bullet$] Learning Optimization: Momentum
-		\item[$\bullet$] Weight monitoring visualizations
 	\end{itemize}	
 
 	\paragraph{Dissertation to-do list}
@@ -150,7 +181,7 @@
 		\item Various to-do notes throughout paper
 	\end{itemize}	
 
-	\newpage\bigskip\large\textbf{3. Milestones \& Deliverables}\normalsize
+	\newpage\bigskip\large\textbf{4. Milestones \& Deliverables}\normalsize
 	
 	
 
@@ -158,29 +189,29 @@
 		\begin{tcolorbox}[tabularx*={\arrayrulewidth0.6mm}{X||X},fontupper=\normalsize\sffamily,colback=white!10!white,colframe=black!40!]
 			
 			\centerline{\textbf{Finish Date}} &\centerline{\textbf{Item}} \\\hline
-			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {1 Literature Review}\\\hline
-			\vspace{0.1mm}  \centerline {In Progress} &\vspace{0.1mm}   {2 Data Collection}  \\\hline
-			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {3 Data Log Fluctuation Processing}  \\\hline
-			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {4 SAE Implementation}  \\\hline
-			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {5 Online FFN/LSTM Implementation} \\\hline
-			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {6 CSCV Implementation} \\\hline		
-			\vspace{0.1mm}  \centerline {Done} &\vspace{0.1mm}   {7 Synthetic Data Generation} \\\hline					
-			\vspace{0.1mm}  \centerline {30/11} &\vspace{0.1mm}   {8 Finalise Implementation Process} \\\hline
-			\vspace{0.1mm}  \centerline {30/11} &\vspace{0.1mm}   {9 Database Implementation} \\\hline
-			\vspace{0.1mm}  \centerline {30/11} &\vspace{0.1mm}   {10 Learning Optimizations} \\\hline			
-			\vspace{0.1mm}  \centerline {14/12} &\vspace{0.1mm}   {11 Test full implementation on synthetic
+			\centerline {Requires Corrections} & {1 Literature Review}\\\hline
+			\centerline {In Progress} & {2 Data Collection}  \\\hline
+			\centerline {\cellcolor{gray!25}  Done}  & {3 Data Log Fluctuation Processing}  \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {4 SAE Implementation}  \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {5 Online FFN/LSTM Implementation} \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {6 CSCV Implementation} \\\hline		
+			\centerline {\cellcolor{gray!25}  Done} & {7 Synthetic Data Generation} \\\hline					
+			\centerline {\cellcolor{gray!25}  Done} & {8 Finalise Implementation Process} \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {9 Database Implementation} \\\hline
+			\centerline {28/02} & {10 Learning Optimizations} \\\hline			
+			\centerline {28/02} & {11 Test full implementation on synthetic
 	data} \\\hline
-			\vspace{0.1mm}  \centerline {14/01} &\vspace{0.1mm}   {12 Test full implementation on actual
+			\vspace{0.1mm}  \centerline {31/03} &\vspace{0.1mm}   {12 Test full implementation on actual
 dataset} \\\hline
-			\vspace{0.1mm}  \centerline {31/01} &\vspace{0.1mm}   {13 Statistical Analysis (incl. profitability
+			\vspace{0.1mm}  \centerline {31/03} &\vspace{0.1mm}   {13 Statistical Analysis (incl. profitability
 of trading strategy)} \\\hline
-			\vspace{0.1mm}  \centerline {28/02} &\vspace{0.1mm}   {14 Write up \& Revisions} \\\hline
+			\vspace{0.1mm}  \centerline {30/04} &\vspace{0.1mm}   {14 Write up \& Revisions} \\\hline
 									
 		\end{tcolorbox}
 	\end{table}
 	\FloatBarrier
 
-	\newpage\bigskip\large\textbf{4. Process Implementation}\bigskip\normalsize
+	\newpage\bigskip\large\textbf{5. Process Implementation}\bigskip\normalsize
 
 	The steps below indicate how everything is expected to fit together at a high level perspective:
 	
@@ -1482,7 +1513,7 @@ Thus, a total of 240 different neural networks were trained on the synthetic dat
 	\item One unexpected result was the occurence of overfitting for smaller encoding layers with higher learning rates. Overfitting, as defined by the persistent decrease in training MSE and the increase in testing MSE, was more likely to occur as the encoding layer was reduced from 12 and lower, and as the learning rate increased from 0.001 upwards and as the number of hidden layer nodes increased. It would seem that the reduction in signal as a result from smaller encoding layers results in reducing the models ability to train properly, and so overfitting on training data occurs, which in turn is more easily induced through larger layer sizes and learning rates. The smaller layers, in this scenario, work as a form of regularization. It would require algorithmic changes, such as the use of SGD regularization, to try and avoid this issue in the noted configurations.
 \end{itemize}
 
-These conclusions were used to choose a set of networks to refine and train further, with the aim of producing one best network per encoding layer size, which can then be used as a configuration item in the training of the prediction network. All of the networks chosen had one hidden layer, were initialized using the Xavier technique and were trained for 15000 epochs.
+These conclusions were used to choose a set of networks to refine and train further, with the aim of producing one best network per encoding layer size, which can then be used as a configuration item in the training of the prediction network. All of the networks chosen had one hidden layer, were initialized using the Xavier technique and were trained for 15000 epochs. Notably, the input size here is 18 (6 stocks at 3 time windows).
 
 \begin{table}[h]
 	\begin{tcolorbox}[tabularx*={\arrayrulewidth0.6mm}{X|X|X|X|X},fontupper=\normalsize\sffamily,colback=white!10!white,colframe=black!40!]
@@ -1494,18 +1525,25 @@ These conclusions were used to choose a set of networks to refine and train furt
 		&\centerline{\textbf{Best Epoch Test MSE}}
 		\\\hline
 		{3} & {40} & {0.001} & {75.93\%} & {0.5580}  \\\hline
-		{3} & {80} & {0.0001} & {} & {}  \\\hline
-		{6} & {}   & {} & {} & {}  \\\hline
-		{9} & {40} & {0.0001} & {} & {}  \\\hline
-		{9} & {80}  & {0.0001} & {} & {}  \\\hline
-		{12} & {40} & {0.01} & {} & {}  \\\hline
-		{12} & {40} & {0.001} & {} & {}  \\\hline
-		{12} & {80} & {0.0001} & {} & {}  \\\hline
-		{15} & {80} & {0.01} & {} & {}  \\\hline
+		{3} & {80} & {0.0001} & {86.8\%} & {0.6810}  \\\hline
+		{6} & {40}   & {0.001} & {} & {}  \\\hline
+		{6} & {40}   & {0.0001} & {} & {}  \\\hline
+		{6} & {80}   & {0.001} & {} & {}  \\\hline
+		{6} & {80}   & {0.0001} & {} & {}  \\\hline						
+		{9} & {40} & {0.0001} & {54.53\%} & {0.2787}  \\\hline
+		{9} & {80}  & {0.0001} & {56.8\%} & {0.2886}  \\\hline
+		{12} & {40} & {0.01} & {39.62\%} & {id 262}  \\\hline
+		{12} & {40} & {0.001} & {38.23\%} & {id 260}  \\\hline
+		{12} & {80} & {0.0001} & {39.96\%} & {id 261}  \\\hline
+		{15} & {80} & {0.01} & {27.85\%} & {id 263}  \\\hline
 		{15} & {80} & {0.0001} & {} & {}  \\\hline
 	\end{tcolorbox}
 \end{table} \FloatBarrier
 
+9 and 80 are overfitting
+12 and 80 starting to overfit as well
+12 and 40 - testing stable, training decreasing 
+15 and 80 and 0.01 - testing stable, training decreasing 
 \subsection{Results for Real Data}
 
 \newpage

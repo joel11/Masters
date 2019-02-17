@@ -46,14 +46,14 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
 
     ################################################################################
     ##1. Configuration Variations
-    #vps = []
+    vps = []
 
-    #push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.0001, 0.001, 0.01, 0.1)))
+    push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.0001, 0.001)))
     #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HintonUniformInit, InitializationFunctions.HeUniformInit)))
 
     set_name = string(num_hidden, " Layer ReLU ", num_hidden, "x", layer_size, "x", encoding_layer)
-    #combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
-    combos = [GenerateBaseSAEConfig(set_name, "Synthetic Set")]
+    combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
+    #combos = [GenerateBaseSAEConfig(set_name, "Synthetic Set")]
     ################################################################################
     ##2a. Run Each SAE Configuration
     sae_results = map(ep -> RunSAEConfigurationTest(ep, nothing), combos)
@@ -74,6 +74,4 @@ end
 
 
 
-RunNLayerReLUSAETest(9, 80, 1)
-#1x80x9	0.0001	Xavier
-#1x40x9	0.0001	Xavier
+RunNLayerReLUSAETest(6, 40, 1)
