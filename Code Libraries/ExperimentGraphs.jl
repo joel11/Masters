@@ -148,7 +148,7 @@ function PlotEpochs(config_ids, file_name)
             plot!(timesplot, cumsum(Array(config_groups[i, 2][:, :run_time])), labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
         end
 
-        return [costsplot, timesplot]
+        return [costsplot]#, timesplot]
     end
 
     categories = unique(Array(results[:, :category]))

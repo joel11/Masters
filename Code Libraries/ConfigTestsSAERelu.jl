@@ -39,20 +39,21 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
         activations = map(x -> ReluActivation, 1:(length(layers)-1))
 
         sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation)
-        sae_sgd_par = TrainingParameters("SAE", 3.0, Inf, 1,  20, 0.0, 2000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+        sae_sgd_par = TrainingParameters("SAE", 0.0001, Inf, 1,  20, 0.0, 15000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
 
         return SAEExperimentConfig(seed, set_name, false, data_config, sae_net_par, sae_sgd_par, nothing)
     end
 
     ################################################################################
     ##1. Configuration Variations
-    vps = []
+    #vps = []
 
-    push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.0001, 0.001, 0.01, 0.1)))
-    push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HintonUniformInit, InitializationFunctions.HeUniformInit)))
+    #push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.0001, 0.001, 0.01, 0.1)))
+    #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HintonUniformInit, InitializationFunctions.HeUniformInit)))
 
     set_name = string(num_hidden, " Layer ReLU ", num_hidden, "x", layer_size, "x", encoding_layer)
-    combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
+    #combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
+    combos = [GenerateBaseSAEConfig(set_name, "Synthetic Set")]
     ################################################################################
     ##2a. Run Each SAE Configuration
     sae_results = map(ep -> RunSAEConfigurationTest(ep, nothing), combos)
@@ -71,9 +72,8 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
     return sae_results
 end
 
-RunNLayerReLUSAETest(10, 30, 1)
-RunNLayerReLUSAETest(10, 30, 1)
-RunNLayerReLUSAETest(10, 30, 1)
-RunNLayerReLUSAETest(10, 30, 1)
-RunNLayerReLUSAETest(10, 30, 1)
-RunNLayerReLUSAETest(10, 30, 1)
+
+
+RunNLayerReLUSAETest(9, 80, 1)
+#1x80x9	0.0001	Xavier
+#1x40x9	0.0001	Xavier

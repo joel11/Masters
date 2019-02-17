@@ -1457,18 +1457,54 @@ Data was generated and standardized, as per the methods detail in \ref{data_synt
 	\item Sideways Trend, Low variance:  $\mu$ = 0.05 and $\sigma$ = 0.1			
 \end{itemize}
 
-The dataset was generate for 5000 steps, and had a 60/40 split for the SAE/SGD training. The within dataset split for training and validation was 80/20. The prior timewindows used were the past 1 and 7 days, and the future window used for prediction was the next 2 days.
+The dataset was generated for 5000 steps, and had a 60/40 split for the SAE\&SGD/OGD training. The within dataset split for training and validation was 80/20. The prior timewindows used were the past 1, 7 and 30 days, and the future window used for prediction was the next 2 days.
 
 \subsubsection{SAE Network and Results}
 
-The SAE networks considered were all based using ReLU activations and training methodology (as per \ref{imp_relusae}, and were generated for all possible combinations of the following configurations:
+The SAE networks considered were all based using ReLU activations and training methodology (as per \ref{imp_relusae}), and were generated for all possible combinations of the following configurations:
 
 \begin{itemize}
-	\item Learning Rates: 0.01, 0.001, 0.0001	
-	\item Weight Initializations: XavierGlorot, He, Hinton, Normal-Uniform
-	\item Layer Sizes: 25, 40, 25 x 25, 40 x 40
-	\item Encoding Sizes: 2, 4, 6, 8, 10
+	\item Learning Rates: 0.1, 0.01, 0.001, 0.0001	
+	\item Weight Initializations: XavierGlorot, He, Hinton
+	\item Layer Sizes: 40, 80
+	\item Number of Hidden Layers: 1, 2
+	\item Encoding Layer Sizes: 3, 6, 9, 12, 15
 \end{itemize}
+
+Thus, a total of 240 different neural networks were trained on the synthetic data generated. Each was run for 2000 epochs, with a minibatch size of 20. The results were compared, with assessment ultimately based on best epoch MSE and MAPE as well as a view on the training vs. testing cost progression over epochs. The conclustions drawn from this are as follows:
+
+\begin{itemize}
+	\item The Hinton initialization results in almost uniformly worse performance than the He \& Xavier initializations. 
+	\item While the He initialization is considered ideal for ReLU activations, the Xavier seemed to show slightly better performance at an aggregate level (though there was no clear winner here). There may be some lack of stability introduced by He as it only considers the previous layer, as opposed to both the previous and following layers as with Xavier. In the context of an SAE with a smaller encoding layer, this may not be ideal behaviour, though this conclusion would warrant further investigation.
+	\item The results for the 1 hidden layer SAE networks were typically better than their pairwise 2 layer version. There is no reason to believe that a deeper network would be inherently worse, but it did highlight that it would require greater effort to tweak the training parameters to account for the extra 2 layers in the SGD process.
+	\item The learning rate 0.1 is too high and had uniformly worse results across configurations, especially for the He and Hinton initializations.
+	\item The layer sizes (40 / 80) had mixed effects - the larger hidden layer sizes had better results for lower learning rates (0.001 and 0.0001), while at a higher learning rate of 0.01 the smaller layers outperformed. The suggestion, as confirmed through epoch assessment, is that the lower learning rate combined with a larger network can allow for a more consistent, though slower, improvement of the network. Higher learning rates allow for a quicker oscillation to a minima, which is more easily done in a smaller network.
+	\item One unexpected result was the occurence of overfitting for smaller encoding layers with higher learning rates. Overfitting, as defined by the persistent decrease in training MSE and the increase in testing MSE, was more likely to occur as the encoding layer was reduced from 12 and lower, and as the learning rate increased from 0.001 upwards and as the number of hidden layer nodes increased. It would seem that the reduction in signal as a result from smaller encoding layers results in reducing the models ability to train properly, and so overfitting on training data occurs, which in turn is more easily induced through larger layer sizes and learning rates. The smaller layers, in this scenario, work as a form of regularization. It would require algorithmic changes, such as the use of SGD regularization, to try and avoid this issue in the noted configurations.
+\end{itemize}
+
+These conclusions were used to choose a set of networks to refine and train further, with the aim of producing one best network per encoding layer size, which can then be used as a configuration item in the training of the prediction network. All of the networks chosen had one hidden layer, were initialized using the Xavier technique and were trained for 15000 epochs.
+
+\begin{table}[h]
+	\begin{tcolorbox}[tabularx*={\arrayrulewidth0.6mm}{X|X|X|X|X},fontupper=\normalsize\sffamily,colback=white!10!white,colframe=black!40!]
+		
+		\centerline{\textbf{Encoding Size}} 
+		&\centerline{\textbf{Hidden Layer Nodes}} 
+		&\centerline{\textbf{Learning Rate}}
+		&\centerline{\textbf{Reconstruction MAPE}}
+		&\centerline{\textbf{Best Epoch Test MSE}}
+		\\\hline
+		{3} & {40} & {0.001} & {75.93\%} & {0.5580}  \\\hline
+		{3} & {80} & {0.0001} & {} & {}  \\\hline
+		{6} & {}   & {} & {} & {}  \\\hline
+		{9} & {40} & {0.0001} & {} & {}  \\\hline
+		{9} & {80}  & {0.0001} & {} & {}  \\\hline
+		{12} & {40} & {0.01} & {} & {}  \\\hline
+		{12} & {40} & {0.001} & {} & {}  \\\hline
+		{12} & {80} & {0.0001} & {} & {}  \\\hline
+		{15} & {80} & {0.01} & {} & {}  \\\hline
+		{15} & {80} & {0.0001} & {} & {}  \\\hline
+	\end{tcolorbox}
+\end{table} \FloatBarrier
 
 \subsection{Results for Real Data}
 
