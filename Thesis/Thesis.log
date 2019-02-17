@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  18 FEB 2019 00:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  18 FEB 2019 00:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -957,17 +957,17 @@ Package caption Info: End \AtBeginDocument code.
 ifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.333 \end{titlepage}
+l.328 \end{titlepage}
                       [1]
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 341.
+ine 336.
 
-Underfull \hbox (badness 10000) in paragraph at lines 337--344
+Underfull \hbox (badness 10000) in paragraph at lines 332--339
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 337--344
+Underfull \hbox (badness 10000) in paragraph at lines 332--339
 
  []
 
@@ -975,7 +975,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.344 \newpage
+l.339 \newpage
                [1] (./Thesis.toc)
 \tf@toc=\write7
 \openout7 = `Thesis.toc'.
@@ -984,29 +984,29 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.346 \newpage
+l.341 \newpage
                [2]
-Underfull \hbox (badness 10000) in paragraph at lines 352--359
+Underfull \hbox (badness 10000) in paragraph at lines 347--354
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 352--359
+Underfull \hbox (badness 10000) in paragraph at lines 347--354
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 352--359
+Underfull \hbox (badness 10000) in paragraph at lines 347--354
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 364--369
+Underfull \hbox (badness 10000) in paragraph at lines 359--364
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 364--369
+Underfull \hbox (badness 10000) in paragraph at lines 359--364
 
  []
 
@@ -1014,24 +1014,24 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.369 \newpage
+l.364 \newpage
                [3]
-Underfull \hbox (badness 10000) in paragraph at lines 373--381
+Underfull \hbox (badness 10000) in paragraph at lines 368--376
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 382--393
+Underfull \hbox (badness 10000) in paragraph at lines 377--388
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 394--400
+Underfull \hbox (badness 10000) in paragraph at lines 389--395
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 401--413
+Underfull \hbox (badness 10000) in paragraph at lines 396--408
 
  []
 
@@ -1066,17 +1066,17 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 418--427
+Underfull \hbox (badness 10000) in paragraph at lines 413--422
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 428--433
+Underfull \hbox (badness 10000) in paragraph at lines 423--428
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 434--446
+Underfull \hbox (badness 10000) in paragraph at lines 429--441
 
  []
 
@@ -1084,9 +1084,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.446 
+l.441 
        [4]
-Underfull \hbox (badness 10000) in paragraph at lines 447--453
+Underfull \hbox (badness 10000) in paragraph at lines 442--448
 
  []
 
@@ -1097,35 +1097,35 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 456--463
+Underfull \hbox (badness 10000) in paragraph at lines 451--458
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 464--469
+Underfull \hbox (badness 10000) in paragraph at lines 459--464
 
  []
 
 
-LaTeX Warning: Reference `OGD' on page 5 undefined on input line 470.
+LaTeX Warning: Reference `OGD' on page 5 undefined on input line 465.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 470--478
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 479--488
+Underfull \hbox (badness 10000) in paragraph at lines 465--473
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 491--499
+Underfull \hbox (badness 10000) in paragraph at lines 474--483
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 509--514
+Underfull \hbox (badness 10000) in paragraph at lines 486--494
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 504--509
 
  []
 
@@ -1133,31 +1133,20 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.5}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.515  T
+l.510  T
         he essential point behind the unsupervised learning was to initializ...
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 515--526
+Underfull \hbox (badness 10000) in paragraph at lines 510--521
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 527--533
+Underfull \hbox (badness 10000) in paragraph at lines 522--528
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 534--543
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 546--556
+Underfull \hbox (badness 10000) in paragraph at lines 529--538
 
  []
 
@@ -1167,11 +1156,22 @@ Missing character: There is no ò in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 541--551
+
+ []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ò in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 557--564
+Underfull \hbox (badness 10000) in paragraph at lines 552--559
 
  []
 
@@ -1179,12 +1179,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 578--585
+Underfull \hbox (badness 10000) in paragraph at lines 573--580
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 586--594
+Underfull \hbox (badness 10000) in paragraph at lines 581--589
 
  []
 
@@ -1192,29 +1192,29 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.6}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.594 
+l.589 
        [6]
-Underfull \hbox (badness 10000) in paragraph at lines 595--601
+Underfull \hbox (badness 10000) in paragraph at lines 590--596
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 602--608
+Underfull \hbox (badness 10000) in paragraph at lines 597--603
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 617--621
+Underfull \hbox (badness 10000) in paragraph at lines 612--616
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 622--630
+Underfull \hbox (badness 10000) in paragraph at lines 617--625
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 631--640
+Underfull \hbox (badness 10000) in paragraph at lines 626--635
 
  []
 
@@ -1222,7 +1222,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 631--640
 File: images/DBN-RBM-process.png Graphic file (type png)
 
 <use images/DBN-RBM-process.png>
-Package pdftex.def Info: images/DBN-RBM-process.png used on input line 642.
+Package pdftex.def Info: images/DBN-RBM-process.png used on input line 637.
 (pdftex.def)             Requested size: 241.90315pt x 194.72702pt.
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -1231,7 +1231,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 649--654
+Underfull \hbox (badness 10000) in paragraph at lines 644--649
 
  []
 
@@ -1239,7 +1239,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.7}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.654 
+l.649 
        [7 <./images/DBN-RBM-process.png>]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -1248,27 +1248,27 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 655--661
+Underfull \hbox (badness 10000) in paragraph at lines 650--656
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 673--679
+Underfull \hbox (badness 10000) in paragraph at lines 668--674
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 687--694
+Underfull \hbox (badness 10000) in paragraph at lines 682--689
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 695--702
+Underfull \hbox (badness 10000) in paragraph at lines 690--697
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 710--716
+Underfull \hbox (badness 10000) in paragraph at lines 705--711
 
  []
 
@@ -1279,12 +1279,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 717--723
+Underfull \hbox (badness 10000) in paragraph at lines 712--718
 
  []
 
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 724--732
+Underfull \hbox (badness 10000) in paragraph at lines 719--727
 
  []
 
@@ -1304,16 +1304,16 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 733--741
+Underfull \hbox (badness 10000) in paragraph at lines 728--736
 
  []
 
 
 LaTeX Warning: Reference `TechnicalAnalysis' on page 9 undefined on input line 
-751.
+746.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 750--754
+Underfull \hbox (badness 10000) in paragraph at lines 745--749
 
  []
 
@@ -1333,7 +1333,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ¶ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 755--765
+Underfull \hbox (badness 10000) in paragraph at lines 750--760
 
  []
 
@@ -1341,17 +1341,17 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 766--772
+Underfull \hbox (badness 10000) in paragraph at lines 761--767
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 773--782
+Underfull \hbox (badness 10000) in paragraph at lines 768--777
 
  []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 796--802
+Underfull \hbox (badness 10000) in paragraph at lines 791--797
 
  []
 
@@ -1359,7 +1359,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 803--809
+Underfull \hbox (badness 10000) in paragraph at lines 798--804
 
  []
 
@@ -1376,27 +1376,27 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 810--824
+Underfull \hbox (badness 10000) in paragraph at lines 805--819
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 825--829
+Underfull \hbox (badness 10000) in paragraph at lines 820--824
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 830--836
+Underfull \hbox (badness 10000) in paragraph at lines 825--831
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 837--847
+Underfull \hbox (badness 10000) in paragraph at lines 832--842
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 848--858
+Underfull \hbox (badness 10000) in paragraph at lines 843--853
 
  []
 
@@ -1404,7 +1404,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 859--874
+Underfull \hbox (badness 10000) in paragraph at lines 854--869
 
  []
 
@@ -1422,23 +1422,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 878--885
+Underfull \hbox (badness 10000) in paragraph at lines 873--880
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 886--895
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 896--903
+Underfull \hbox (badness 10000) in paragraph at lines 881--890
 
  []
 
@@ -1449,22 +1438,33 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 912--920
+Underfull \hbox (badness 10000) in paragraph at lines 891--898
+
+ []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ò in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 907--915
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 921--930
+Underfull \hbox (badness 10000) in paragraph at lines 916--925
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 931--934
+Underfull \hbox (badness 10000) in paragraph at lines 926--929
 
  []
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 935--943
+Underfull \hbox (badness 10000) in paragraph at lines 930--938
 
  []
 
@@ -1472,7 +1472,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 946--954
+Underfull \hbox (badness 10000) in paragraph at lines 941--949
 
  []
 
@@ -1480,12 +1480,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 985--990
+Underfull \hbox (badness 10000) in paragraph at lines 980--985
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 991--996
+Underfull \hbox (badness 10000) in paragraph at lines 986--991
 
  []
 
@@ -1493,27 +1493,27 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 997--1003
+Underfull \hbox (badness 10000) in paragraph at lines 992--998
 
  []
 
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 1021--1024
+Underfull \hbox (badness 10000) in paragraph at lines 1016--1019
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1025--1032
+Underfull \hbox (badness 10000) in paragraph at lines 1020--1027
 
  []
 
 [13]
-Underfull \hbox (badness 10000) in paragraph at lines 1042--1046
+Underfull \hbox (badness 10000) in paragraph at lines 1037--1041
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1067--1068
+Underfull \hbox (badness 10000) in paragraph at lines 1062--1063
 
  []
 
@@ -1529,25 +1529,25 @@ Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
 
-LaTeX Warning: Reference `OGD' on page 16 undefined on input line 1192.
+LaTeX Warning: Reference `OGD' on page 16 undefined on input line 1187.
 
 [16] [17]
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1275
+Underfull \hbox (badness 10000) in paragraph at lines 1267--1270
 
  []
 
 [18]
-Underfull \hbox (badness 10000) in paragraph at lines 1312--1315
+Underfull \hbox (badness 10000) in paragraph at lines 1307--1310
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1342--1345
+Underfull \hbox (badness 10000) in paragraph at lines 1337--1340
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1370--1374
+Underfull \hbox (badness 10000) in paragraph at lines 1365--1369
 
  []
 
@@ -1559,12 +1559,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1375--1377
+Underfull \hbox (badness 10000) in paragraph at lines 1370--1372
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1408--1414
+Underfull \hbox (badness 10000) in paragraph at lines 1403--1409
 
  []
 
@@ -1573,7 +1573,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1408--1414
 LaTeX Warning: Marginpar on page 21 moved.
 
 [21]
-Underfull \hbox (badness 10000) in paragraph at lines 1464--1467
+Underfull \hbox (badness 10000) in paragraph at lines 1459--1462
 
  []
 
@@ -1591,19 +1591,19 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 7291) in paragraph at lines 1590--1592
+Underfull \hbox (badness 7291) in paragraph at lines 1585--1587
 []\OT1/cmr/m/n/10 Bengio, Yoshua, and Samy Ben-gio. "Mod-el-ing high-dimensiona
 l dis-crete data with multi-
  []
 
 
-Underfull \hbox (badness 4266) in paragraph at lines 1590--1592
+Underfull \hbox (badness 4266) in paragraph at lines 1585--1587
 \OT1/cmr/m/n/10 layer neu-ral net-works." Ad-vances in Neu-ral In-for-ma-tion P
 ro-cess-ing Sys-tems. 2000. Avail-able
  []
 
 
-Underfull \hbox (badness 7133) in paragraph at lines 1590--1592
+Underfull \hbox (badness 7133) in paragraph at lines 1585--1587
 \OT1/cmr/m/n/10 at: http://papers.nips.cc/paper/1679-modeling-high-dimensional-
 discrete-data-with-multi-layer-neural-
  []
@@ -1626,19 +1626,19 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 3375) in paragraph at lines 1620--1622
+Underfull \hbox (badness 3375) in paragraph at lines 1615--1617
 \OT1/cmr/m/n/10 Avail-able at: http://papers.nips.cc/paper/5486-identifying-and
 -attacking-the-saddle-point-problem-in-
  []
 
 [26]
-Underfull \hbox (badness 1259) in paragraph at lines 1637--1640
+Underfull \hbox (badness 1259) in paragraph at lines 1632--1635
 \OT1/cmr/m/n/10 Help Deep Learn-ing?, Jour-nal of Ma-chine Learn-ing Re-search 
 11 (2010) 625-660 . Avail-able at:
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 1642--1644
+Underfull \hbox (badness 1509) in paragraph at lines 1637--1639
 []\OT1/cmr/m/n/10 E.F. Fama, The be-hav-ior of stock-market prices, J. Bus., 1 
 (1965), pp. 34-105. Avail-able at:
  []
@@ -1650,7 +1650,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no î in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1676--1677
+Underfull \hbox (badness 10000) in paragraph at lines 1671--1672
 []\OT1/cmr/m/n/10 Harvey, Camp-bell R. and Liu, Yan, Back-test-ing (July 28, 20
 15). Avail-able at SSRN:
  []
@@ -1659,25 +1659,25 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1682--1684
+Underfull \hbox (badness 10000) in paragraph at lines 1677--1679
 []\OT1/cmr/m/n/10 Geoffrey E. Hin-ton, Si-mon Osin-dero, and Yee Whye Teh. A fa
 st learn-ing al-go-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1682--1684
+Underfull \hbox (badness 10000) in paragraph at lines 1677--1679
 \OT1/cmr/m/n/10 rithm for deep be-lief nets. Neu-ral Com-pu-ta-tion, 18:1527155
 4, 2006. Avail-able at:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1691--1693
+Underfull \hbox (badness 10000) in paragraph at lines 1686--1688
 []\OT1/cmr/m/n/10 Geoffrey E. Hin-ton, Train-ing Prod-ucts of Ex-perts by Min-i
 -miz-ing Con-trastive Di-ver-
  []
 
 
-Underfull \hbox (badness 2103) in paragraph at lines 1691--1693
+Underfull \hbox (badness 2103) in paragraph at lines 1686--1688
 \OT1/cmr/m/n/10 gence,Neural Com-pu-ta-tion Vol-ume 14 | Is-sue 8 | Au-gust 200
 2 p.1771-1800 . Avail-able at:
  []
@@ -1688,13 +1688,13 @@ Missing character: There is no ¶ in font cmr10!
 Missing character: There is no √ in font cmr10!
 Missing character: There is no º in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1702--1704
+Underfull \hbox (badness 10000) in paragraph at lines 1697--1699
 []\OT1/cmr/m/n/10 Sepp Hochre-iter, Jr-gen Schmid-hu-ber. Long Short-Term Mem-o
 ry. Neu-ral Com-pu-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1702--1704
+Underfull \hbox (badness 10000) in paragraph at lines 1697--1699
 \OT1/cmr/m/n/10 ta-tion Vol-ume 9 | Is-sue 8 | Novem-ber 15, 1997 p.1735-1780. 
 Avail-able at
  []
@@ -1710,7 +1710,7 @@ Missing character: There is no ñ in font cmr10!
 Missing character: There is no √ in font cmr10!
 Missing character: There is no ñ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1746--1747
+Underfull \hbox (badness 10000) in paragraph at lines 1741--1742
 []\OT1/cmr/m/n/10 LeCun Y., Bot-tou L, Orr G, Muller K. Ef-fi-cient Back-prop. 
 Avail-able at:
  []
@@ -1719,25 +1719,25 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 3199) in paragraph at lines 1749--1752
+Underfull \hbox (badness 3199) in paragraph at lines 1744--1747
 []\OT1/cmr/m/n/10 LeCun, Y. (1988). A the-o-ret-i-cal frame-work for back-propa
 gation. In D. Touret-zky, G. Hin-
  []
 
 
-Underfull \hbox (badness 4479) in paragraph at lines 1749--1752
+Underfull \hbox (badness 4479) in paragraph at lines 1744--1747
 \OT1/cmr/m/n/10 ton, & T. Se-jnowski (Eds.), Pro-ceed-ings of the 1988 con-nec-
 tion-ist mod-els sum-mer school
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1749--1752
+Underfull \hbox (badness 10000) in paragraph at lines 1744--1747
 \OT1/cmr/m/n/10 (pp. 2128). [][]$\OT1/cmtt/m/n/10 Availableat : https : / / www
  . researchgate . net / profile / Yann _ Lecun / publication /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1749--1752
+Underfull \hbox (badness 10000) in paragraph at lines 1744--1747
 \OT1/cmtt/m/n/10 2360531 _ A _ Theoretical _ Framework _ for _ Back-[]Propagati
 on / links / 0deec519dfa297eac1000000 /
  []
@@ -1749,31 +1749,31 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 2865) in paragraph at lines 1763--1765
+Underfull \hbox (badness 2865) in paragraph at lines 1758--1760
 []\OT1/cmr/m/n/10 Le Roux, Nico-las, and Yoshua Ben-gio. "Rep-re-sen-ta-tional 
 power of re-stricted Boltz-mann ma-
  []
 
 
-Underfull \hbox (badness 3148) in paragraph at lines 1763--1765
+Underfull \hbox (badness 3148) in paragraph at lines 1758--1760
 \OT1/cmr/m/n/10 chines and deep be-lief net-works." Neu-ral com-pu-ta-tion 20.6
  (2008): 1631-1649. Avail-able at:
  []
 
 [28]
-Underfull \hbox (badness 10000) in paragraph at lines 1786--1787
+Underfull \hbox (badness 10000) in paragraph at lines 1781--1782
 \OT1/cmtt/m/n/10 Minsky + Papert + 1969 + %E2 % 80 % 94 + Perceptrons & ots = z
 yEDwMvmXX & sig = aVXF7DBJKAOxW066S4UCyzhNARw #
  []
 
 
-Underfull \hbox (badness 5260) in paragraph at lines 1792--1794
+Underfull \hbox (badness 5260) in paragraph at lines 1787--1789
 []\OT1/cmr/m/n/10 Pascanu, Raz-van, Tomas Mikolov, and Yoshua Ben-gio. "On the 
 dif-fi-culty of train-ing re-
  []
 
 
-Underfull \hbox (badness 4084) in paragraph at lines 1792--1794
+Underfull \hbox (badness 4084) in paragraph at lines 1787--1789
 \OT1/cmr/m/n/10 cur-rent neu-ral net-works." In-ter-na-tional Con-fer-ence on M
 a-chine Learn-ing. 2013. Avail-able at:
  []
@@ -1793,13 +1793,13 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 4859) in paragraph at lines 1809--1810
+Underfull \hbox (badness 4859) in paragraph at lines 1804--1805
 []\OT1/cmr/m/n/10 Robert L. Schae-fer (2012) Sub-set Se-lec-tion in Re-gres-sio
 n, Tech-no-met-rics, 34:2, 229, DOI:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1833--1834
+Underfull \hbox (badness 10000) in paragraph at lines 1828--1829
 []\OT1/cmr/m/n/10 Skabar, Cloete, Net-works, Fi-nan-cial Trad-ing and the Ef-fi
 -cient Mar-kets Hy-poth-e-sis
  []
@@ -1809,61 +1809,61 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1850--1853
+Underfull \hbox (badness 10000) in paragraph at lines 1845--1848
 []\OT1/cmr/m/n/10 Vincent P., Larochell H., La-joie I., Ben-gio Y., Man-zagol P
 ., Stacked De-nois-ing Au-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1850--1853
+Underfull \hbox (badness 10000) in paragraph at lines 1845--1848
 \OT1/cmr/m/n/10 toen-coders: Learn-ing Use-ful Rep-re-sen-ta-tions in a Deep Ne
 t-work with a Lo-cal De-nois-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1850--1853
+Underfull \hbox (badness 10000) in paragraph at lines 1845--1848
 \OT1/cmr/m/n/10 ing Cri-te-rion. Jour-nal of Ma-chine Learn-ing Re-search 11 (2
 010) 3371-3408. Avail-able at:
  []
 
 
-Underfull \hbox (badness 4454) in paragraph at lines 1855--1858
+Underfull \hbox (badness 4454) in paragraph at lines 1850--1853
 []\OT1/cmr/m/n/10 Wan Y., Gong X., Si Y. Ef-fect of seg-men-ta-tion on fi-nan-c
 ial time se-ries pat-tern match-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1855--1858
+Underfull \hbox (badness 10000) in paragraph at lines 1850--1853
 \OT1/cmr/m/n/10 ing. Ap-plied Soft Com-put-ing Vol-ume 38, Jan-uary 2016, Pages
  346-359. Avail-able at:
  []
 
 
-Underfull \hbox (badness 1292) in paragraph at lines 1876--1878
+Underfull \hbox (badness 1292) in paragraph at lines 1871--1873
 []\OT1/cmr/m/n/10 Werbos, P. J. (1974). Be-yond re-gres-sion: new tools for pre
 -dic-tion and anal-y-sis in the be-hav-
  []
 
 
-Underfull \hbox (badness 1210) in paragraph at lines 1876--1878
+Underfull \hbox (badness 1210) in paragraph at lines 1871--1873
 \OT1/cmr/m/n/10 ioral sci-ences (Ph.D. the-sis), Har-vard Uni-ver-sity. Avail-a
 ble at: [][]$\OT1/cmtt/m/n/10 https : / / www . researchgate . net /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1876--1878
+Underfull \hbox (badness 10000) in paragraph at lines 1871--1873
 \OT1/cmtt/m/n/10 publication / 244947191 _ 1974 _ Beyond _ regression _ New _ t
 ools _ for _ predicting _ and _ analysis _ in _
  []
 
 
-Underfull \hbox (badness 3690) in paragraph at lines 1884--1886
+Underfull \hbox (badness 3690) in paragraph at lines 1879--1881
 []\OT1/cmr/m/n/10 Wu, Huaiqin. "Global sta-bil-ity anal-y-sis of a gen-eral cla
 ss of dis-con-tin-u-ous neu-ral net-works
  []
 
 
-Underfull \hbox (badness 1688) in paragraph at lines 1884--1886
+Underfull \hbox (badness 1688) in paragraph at lines 1879--1881
 \OT1/cmr/m/n/10 with lin-ear growth ac-ti-va-tion func-tions." In-for-ma-tion S
 ci-ences 179.19 (2009): 3432-3441. Avail-
  []
@@ -1872,11 +1872,11 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 [30]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1912.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1912.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1907.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1907.
  (./Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1912.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1912.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1907.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1907.
 
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
 (rerunfilecheck)             Checksum: 9BD5C5230091535D8305F02C89E257C5;3967.
@@ -1892,7 +1892,7 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  23299 strings out of 492995
  435907 string characters out of 6132704
- 596057 words of memory out of 5000000
+ 597061 words of memory out of 5000000
  26216 multiletter control sequences out of 15000+600000
  10218 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1918,7 +1918,7 @@ texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/te
 xlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/tex
 live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texl
 ive/2017/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb>
-Output written on Thesis.pdf (38 pages, 548710 bytes).
+Output written on Thesis.pdf (38 pages, 548156 bytes).
 PDF statistics:
  928 PDF objects out of 1000 (max. 8388607)
  855 compressed objects within 9 object streams

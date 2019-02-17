@@ -191,13 +191,13 @@
 			\centerline{\textbf{Finish Date}} &\centerline{\textbf{Item}} \\\hline
 			\centerline {Requires Corrections} & {1 Literature Review}\\\hline
 			\centerline {In Progress} & {2 Data Collection}  \\\hline
-			\centerline {\cellcolor{gray!25}  Done}  & {3 Data Log Fluctuation Processing}  \\\hline
-			\centerline {\cellcolor{gray!25}  Done} & {4 SAE Implementation}  \\\hline
-			\centerline {\cellcolor{gray!25}  Done} & {5 Online FFN/LSTM Implementation} \\\hline
-			\centerline {\cellcolor{gray!25}  Done} & {6 CSCV Implementation} \\\hline		
-			\centerline {\cellcolor{gray!25}  Done} & {7 Synthetic Data Generation} \\\hline					
-			\centerline {\cellcolor{gray!25}  Done} & {8 Finalise Implementation Process} \\\hline
-			\centerline {\cellcolor{gray!25}  Done} & {9 Database Implementation} \\\hline
+			\centerline {\cellcolor{gray!25}  Done}  & {\cellcolor{gray!25}  3 Data Log Fluctuation Processing}  \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  4 SAE Implementation}  \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  5 Online FFN/LSTM Implementation} \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  6 CSCV Implementation} \\\hline		
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  7 Synthetic Data Generation} \\\hline					
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  8 Finalise Implementation Process} \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  9 Database Implementation} \\\hline
 			\centerline {28/02} & {10 Learning Optimizations} \\\hline			
 			\centerline {28/02} & {11 Test full implementation on synthetic
 	data} \\\hline
@@ -220,17 +220,18 @@ of trading strategy)} \\\hline
 		\begin{itemize}
 			\item[$\bullet$] The data is processed into day to day log fluctuations
 			\item[$\bullet$] At each time point, rolling historic summations are calculated (e.g. the past 1, 7 and 30 days)
-			\item[$\bullet$] At each time point, rolling future summations are calculated (e.g. the next 10 days)
+			\item[$\bullet$] At each time point, rolling future summations are calculated (e.g. the next 2 days)
 		\end{itemize}
 		\item [2] Data Segregation
 		\begin{itemize}
-			\item[$\bullet$] The processed dataset is split into 3 parts, to be used for the following processes: SAE/SGD training, OGD training, hold-out validation (e.g. 60\%, 20\%, 20\%)
+			\item[$\bullet$] The processed dataset is split into 2 parts, to be used for the following processes: SAE/SGD training and OGD training (e.g. 60\%, 40\%)
+			\item[$\bullet$] Bailey's MinBTL method should be considered to determine this split length
 		\end{itemize}	
 		\item [3] SAE Training
 		\begin{itemize}
-			\item[$\bullet$] The dataset defined for SAE/SGD is used to train the auto-encoder network (using either RBM pretraining/weight initialization algorithms + SGD)
+			\item[$\bullet$] The dataset defined for SAE/SGD is used to train the auto-encoder networks (using either RBM pretraining/weight initialization algorithms + SGD)
 			\item[$\bullet$] Notably, this SAE/SGD dataset will itself be split into training \& testing portions in order to train and validate the SAE network
-			\item[$\bullet$] Once the SAE network has been defined, it can be used to reprocess the datasets such that the input is now encoded, and the output is as before. These encoded datasets will be used for all following steps.
+			\item[$\bullet$] The SAE training does not suffer from the same backtesting concerns as for the predictive network. A full set of models for difference encoding layers can be trained to sufficient performance, and then used as a configuration aspect for the predictive training.
 		\end{itemize}		
 		\item [4] FFN/SGD Training
 		\begin{itemize}
@@ -238,38 +239,32 @@ of trading strategy)} \\\hline
 		\end{itemize}			
 		\item [5] OGD Training
 		\begin{itemize}
-			\item[$\bullet$] The second portion of data will be used to train and optimize the FNN from 4 for OGD. The purpose of this will be to optimize the OGD parameters		
+			\item[$\bullet$] The second portion of data will be used to train and optimize the FNN from 4 for OGD. The purpose of this will be to optimize to train the network and produce returns.	
 		\end{itemize}			
-		\item [6] Holdout Validation
-		\begin{itemize}
-			\item[$\bullet$] The third and last portion of data will be used to obtain results for the model. Predictions will be made on the relevant stock price log fluctuations
-		\end{itemize}				
-		\item [7] Returns generations
+		\item [6] Returns generations
 		\begin{itemize}
 			\item[$\bullet$] A basic trading strategy will be used to generate returns from the predicted and actual prices in the holdout dataset. These returns for each time period and each configuration of the model defined by steps 3-5 will form the M matrix for the CSCV process.
 		\end{itemize}	
-		\item [8] CSCV \& PBO
+		\item [7] CSCV \& PBO
 		\begin{itemize}
-			\item[$\bullet$] Using the M matrix from 7, the CSCV process will be run which will then allow a calculation of PBO.
+			\item[$\bullet$] Using the M matrix from 6, the CSCV process will be run which will then allow a calculation of PBO.
 		\end{itemize}		
 	\end{itemize}
 
-	\newpage\bigskip\large\textbf{5. Points of concern}\bigskip\normalsize
+	\newpage\bigskip\large\textbf{6. Points of concern}\bigskip\normalsize
 	
 	There are several issues which are still undecided/uncertain or which could use further refinement:
 	\begin{itemize}
-		\item End to end process: Should the FFN network be trained with SGD prior to OGD, or should the first dataset just be used for OGD training on the FFN after pre-training/weight initialization has taken place?
-		\item CSCV data usage: Currently the implementation uses a holdout data set for the CSCV analysis. Though, CSCV shouldn't really require this. I'm unsure in this case whether the entire data set should be run in an online OGD manner to generate returns (after using the same data to train the SAE/FFN networks), or whether it should only use a portion of the data (i.e. what was used during OGD training)
-		\item Search technique used: Considering the PBO issues around brute force space exploration, I'm not sure if there are any obviously appropriate search techniques to be used.
 		\item Predictions attempted: How many steps and stocks should be attempted in the prediction process?
 		\item Rolling Data Windows: These are currently being chosen arbitrarily. Not sure if a more effective method is possible
 		\item Trading strategy: The CSCV method requires returns to be used, which can then be assessed with something like the Sharpe Ratio. Should an actual trading strategy be used for each configuration here, or just a representation of accuracy which can be calculated as a single figure for each time period (such as MSE)? If a trading strategy is used, what should it be?
 		\item SAE Updating: The current implementation does not have any SAE updates taking place as more data is observed. While easy to change, I'm not sure if or when the SAE network should be updated
 		\item Denoising SAE: The initial proposal was to use denoising autoencoders. The implementation process is easy enough, but I'm unsure if denoising would be effective in a financial context (where data is already so noisy)		
-		\item Final Dataset: The current dataset doesn't account for survivorship bias, and I'm a little unsure of how best to pick the final stocks/indices etc. (the intial proposal was rather limited in comparison to what is now available)
+		\item Final Datasets still need to be chosen
+		\item Search technique used: Considering the PBO issues around brute force space exploration, I'm not sure if there are any obviously appropriate search techniques to be used.
 	\end{itemize}		
 
-	\newpage\bigskip\large\textbf{6. Meeting Minutes}\bigskip\normalsize	
+	\newpage\bigskip\large\textbf{7. Meeting Minutes}\bigskip\normalsize	
 	\paragraph{16th June 2018}
 	\begin{itemize}
 		\item[$\bullet$] Literature Review
@@ -1452,7 +1447,7 @@ The full process tested here, combining the techniques defined thus far in the p
 	\end{itemize}	
 	\item [7] CSCV \& PBO
 	\begin{itemize}
-		\item[$\bullet$] Using the $M$ matrix from 7, the CSCV process will be run which will then allow a calculation of PBO.
+		\item[$\bullet$] Using the $M$ matrix from 6, the CSCV process will be run which will then allow a calculation of PBO.
 	\end{itemize}		
 \end{itemize}
 
