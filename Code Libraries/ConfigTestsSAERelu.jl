@@ -74,4 +74,4 @@ end
 
 
 
-RunNLayerReLUSAETest(6, 40, 1)
+RunNLayerReLUSAETest(6, 80, 1)

@@ -8,6 +8,12 @@ function ChangeInit(get_function, parameters, val)
     return parameters
 end
 
+function ChangeSAENetwork(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_SAE_" , split(string(val), ".")[end])
+    get_function(parameters).sae_config_id = val
+    return parameters
+end
+
 function ChangeMaxLearningRate(get_function, parameters,val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_MaxLearningRate_" , string(val))
     get_function(parameters).max_learning_rate = val

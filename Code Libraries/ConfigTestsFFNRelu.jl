@@ -17,11 +17,11 @@ using BSON
 
 using ExperimentGraphs
 
-function RunNLayerReLUFFNTest(sae_config_id, layer_size, num_hidden)
+function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs)
 
     srand(12345678912345678)
 
-    function GenerateBaseFFNConfig(set_name, dataset)
+    function GenerateBaseFFNConfig(set_name, dataset, sae_config_id)
 
         seed = abs(Int64.(floor(randn()*100)))
         sae_network, data_config = ReadSAE(sae_config_id)
@@ -29,7 +29,7 @@ function RunNLayerReLUFFNTest(sae_config_id, layer_size, num_hidden)
 
         output_size = dataset != nothing ? (size(dataset,2) * length(data_config.prediction_steps)) : (length(data_config.variation_values) * length(data_config.prediction_steps))
 
-        layers = [10; map(x -> layer_size, 1:num_hidden); output_size]
+        layers = [OutputSize(encoder); map(x -> layer_size, 1:num_hidden); output_size]
 
         activations = []
         for i in 1:(length(layers)-1)
@@ -38,7 +38,7 @@ function RunNLayerReLUFFNTest(sae_config_id, layer_size, num_hidden)
         activations[end] = LinearActivation
 
         ffn_net_par = NetworkParameters("FFN", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation)
-        ffn_sgd_par = TrainingParameters("FFN", 3.0, Inf, 1,  20, 0.0, 1000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+        ffn_sgd_par = TrainingParameters("FFN", 3.0, Inf, 1,  20, 0.0, 2000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
         ogd_par = OGDTrainingParameters("FFN", 0.001, true, MeanSquaredError())
 
         return FFNExperimentConfig(seed, set_name, false, data_config, sae_config_id, encoder, ffn_net_par, ffn_sgd_par, ogd_par, nothing)
@@ -50,8 +50,17 @@ function RunNLayerReLUFFNTest(sae_config_id, layer_size, num_hidden)
     dataset = nothing
 
     vps = []
-    push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.0001, 0.01)))
-    combos = GenerateGridBasedParameterSets(vps, GenerateBaseFFNConfig(set_name, dataset))
+
+    push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.0001, 0.001, 0.01, 0.1)))
+    push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.0001, 0.001, 0.01)))
+
+    combos = []
+    for s in sae_configs
+        sae_combos = GenerateGridBasedParameterSets(vps, GenerateBaseFFNConfig(set_name, dataset, s))
+        for c in sae_combos
+            push!(combos, c)
+        end
+    end
 
     ffn_results = map(ep -> RunFFNConfigurationTest(ep, dataset), combos)
 
@@ -62,4 +71,16 @@ function RunNLayerReLUFFNTest(sae_config_id, layer_size, num_hidden)
     return ffn_results
 end
 
-results = RunNLayerReLUFFNTest(305, 100, 2)
+sae_choices = (253, 265, 256, 260, 264)
+
+RunNLayerReLUFFNTest(20, 1, sae_choices)
+RunNLayerReLUFFNTest(20, 2, sae_choices)
+RunNLayerReLUFFNTest(20, 3, sae_choices)
+
+RunNLayerReLUFFNTest(40, 1, sae_choices)
+RunNLayerReLUFFNTest(40, 2, sae_choices)
+RunNLayerReLUFFNTest(40, 3, sae_choices)
+
+RunNLayerReLUFFNTest(80, 1, sae_choices)
+RunNLayerReLUFFNTest(80, 2, sae_choices)
+RunNLayerReLUFFNTest(80, 3, sae_choices)
