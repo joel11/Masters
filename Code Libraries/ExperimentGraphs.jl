@@ -6,7 +6,7 @@ using FinancialFunctions, CostFunctions
 using DataGenerator
 using DataProcessor
 using Plots
-export PlotResults, PlotEpochs, PlotSAERecontructions, PlotGradientChanges, PlotGradientChangesCombined, PlotActivations, PlotOGDResults
+export ProfitPlots, PlotResults, PlotEpochs, PlotSAERecontructions, PlotGradientChanges, PlotGradientChangesCombined, PlotActivations, PlotOGDResults
 
 plotlyjs()
 
@@ -40,6 +40,15 @@ function DeltaOnePlot(config_ids)
     end
 
     return (allplot, ogdplot)
+end
+
+function ProfitPlots(config_ids, file_name)
+
+    pva = PredictedVsActualPlot(config_ids)
+    pe = PlotEquity(config_ids)
+    plots = [pva, pe]
+    savefig(plot(plots..., layout = length(plots), size=(1400, 700)), string("/users/joeldacosta/desktop/", file_name, ".html"))
+
 end
 
 function PredictedVsActualPlot(config_ids)
@@ -111,7 +120,7 @@ end
 
 function PlotEpochs(config_ids, file_name)
     configs = mapreduce(x->string(x, ","), string, config_ids)[1:(end-1)]
-    query = string("select * from epoch_records where configuration_id in ($configs)")
+    query = string("select * from epoch_records where epoch_number > 1 and configuration_id in ($configs)")
     results = RunQuery(query)
 
     function ProcessValueArray(array_vals)

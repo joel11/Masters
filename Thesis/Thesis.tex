@@ -141,20 +141,22 @@
 	
 	
 	
-	\bigskip\large\textbf{3. Future Status}\bigskip\normalsize
+	\bigskip\large\textbf{3. Future Status and Next Iteration}\bigskip\normalsize
 	
-	There's a fair amount to do before starting tests on the actual dataset, from software engineering tasks to algorithm optimizations to more critical experiment implementation details. The to-do lists below have been split up into critical and non-critical tasks(or tasks which might not be necessary)
+	The results of the current set highlight that overfitting is the biggest problem at the moment. A set of features, as noted below, will be implemented prior to proceeding with tests.
 	
-	
-	\paragraph{Critical Implementations}
+	\paragraph{Next Iteration}
 	\begin{itemize} 
-		\item[$\bullet$] Training: Regularization methods \& Learning rate annealing schedule are implemented, but need to be tested and incorporated info configuration testing (results so far suggest these will be necessary).
-		\item[$\bullet$] Synthetic Tests: Run tests on synthetic data to inform experiment design and parameter choices
+		\item[$\bullet$] Change SAE testing to use cross validation. The current (constant) split on training and testing data is resulting in significant overfitting issues.
+		\item[$\bullet$] Training: Regularization methods \& Learning rate annealing schedule are implemented, but need to be tested and incorporated info configuration testing.
+		\item[$\bullet$] Synthetic Tests: Run tests on synthetic data using the above features, and including Sigmoid activations with Weight Initialization \& Pre-Training techniques.
+		\item[$\bullet$] Extended Training: The predictive models in this iteration were not trained for very long - they could probably be easily improved in this way.
 	\end{itemize}
 	
-	\paragraph{Critical Decisions}
+	\paragraph{Critical Decisions and Points of Concern}
 
 	\begin{itemize} 
+		\item[$\bullet$] Data Scaling - How should this work for different activations and online learning?
 		\item[$\bullet$] Finalise Dataset: Decide which data to use - JSE Close / intra day?
 		\item[$\bullet$] Trading Strategy: Decide on the basic strategy used to derive returns	
 		\item[$\bullet$] SAE updates: Decide whether the SAE should be updated periodically or not
@@ -162,10 +164,10 @@
 		\item[$\bullet$] Decide on data windows - aribtrary choices or.. ?
 	\end{itemize}
 
-	\paragraph{Non-Critical/Maybe}
+	\paragraph{Non-Critical Features}
 
 	\begin{itemize}
-		\item[$\bullet$] Change SAE testing to use K-fold validation		
+
 		\item[$\bullet$] Better hyper-parameter search technique, e.g. Random Search
 		\item[$\bullet$] Denoising SAEs
 		\item[$\bullet$] Learning Optimization: Momentum
@@ -251,20 +253,7 @@ of trading strategy)} \\\hline
 		\end{itemize}		
 	\end{itemize}
 
-	\newpage\bigskip\large\textbf{6. Points of concern}\bigskip\normalsize
-	
-	There are several issues which are still undecided/uncertain or which could use further refinement:
-	\begin{itemize}
-		\item Predictions attempted: How many steps and stocks should be attempted in the prediction process?
-		\item Rolling Data Windows: These are currently being chosen arbitrarily. Not sure if a more effective method is possible
-		\item Trading strategy: The CSCV method requires returns to be used, which can then be assessed with something like the Sharpe Ratio. Should an actual trading strategy be used for each configuration here, or just a representation of accuracy which can be calculated as a single figure for each time period (such as MSE)? If a trading strategy is used, what should it be?
-		\item SAE Updating: The current implementation does not have any SAE updates taking place as more data is observed. While easy to change, I'm not sure if or when the SAE network should be updated
-		\item Denoising SAE: The initial proposal was to use denoising autoencoders. The implementation process is easy enough, but I'm unsure if denoising would be effective in a financial context (where data is already so noisy)		
-		\item Final Datasets still need to be chosen
-		\item Search technique used: Considering the PBO issues around brute force space exploration, I'm not sure if there are any obviously appropriate search techniques to be used.
-	\end{itemize}		
-
-	\newpage\bigskip\large\textbf{7. Meeting Minutes}\bigskip\normalsize	
+	\newpage\bigskip\large\textbf{6. Meeting Minutes}\bigskip\normalsize	
 	\paragraph{16th June 2018}
 	\begin{itemize}
 		\item[$\bullet$] Literature Review
@@ -1483,9 +1472,16 @@ Data was generated and standardized, as per the methods detail in \ref{data_synt
 	\item Sideways Trend, Low variance:  $\mu$ = 0.05 and $\sigma$ = 0.1			
 \end{itemize}
 
-The dataset was generated for 5000 steps, and had a 60/40 split for the SAE\&SGD/OGD training. The within dataset split for training and validation was 80/20. The prior timewindows used were the past 1, 7 and 30 days, and the future window used for prediction was the next 2 days.
+The dataset was generated for 5000 steps, and had a 60/40 split for the SAE\&SGD/OGD training. The within dataset split for training and validation was 80/20. The prior timewindows used were the past 1, 7 and 30 days, and the future window used for prediction was the next 2 days. The actual price points generated are visible in figure \ref{figure-synthetic-prices}.
 
-\subsubsection{SAE Network and Results}
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/priceplot.png}
+	\caption{Price Points}
+	\label{figure-synthetic-prices}
+\end{figure}
+
+
+\subsubsection{SAE Network and Results}\label{results_synthetic_sae}
 
 The SAE networks considered were all based using ReLU activations and training methodology (as per \ref{imp_relusae}), and were generated for all possible combinations of the following configurations:
 
@@ -1497,18 +1493,26 @@ The SAE networks considered were all based using ReLU activations and training m
 	\item Encoding Layer Sizes: 3, 6, 9, 12, 15
 \end{itemize}
 
-Thus, a total of 240 different neural networks were trained on the synthetic data generated. Each was run for 2000 epochs, with a minibatch size of 20. The results were compared, with assessment ultimately based on best epoch MSE and MAPE as well as a view on the training vs. testing cost progression over epochs. The conclustions drawn from this are as follows:
+Thus, a total of 240 different neural networks were trained on the synthetic data generated. Each was run for 2000 epochs, with a minibatch size of 20. The results were compared, with assessment ultimately based on best epoch MSE and MAPE as well as a view on the training vs. testing cost progression over epochs. The conclusions drawn from this are as follows:
 
 \begin{itemize}
 	\item The Hinton initialization results in almost uniformly worse performance than the He \& Xavier initializations. 
-	\item While the He initialization is considered ideal for ReLU activations, the Xavier seemed to show slightly better performance at an aggregate level (though there was no clear winner here). There may be some lack of stability introduced by He as it only considers the previous layer, as opposed to both the previous and following layers as with Xavier. In the context of an SAE with a smaller encoding layer, this may not be ideal behaviour, though this conclusion would warrant further investigation.
+	\item While the He initialization is considered ideal for ReLU activations, the Xavier seemed to show slightly better performance at an aggregate level (though there was no clear winner here). There may be some lack of stability introduced by He as it only considers the previous layer, as opposed to both the previous and following layers as with Xavier. In the context of an SAE with a smaller encoding layer, this may not be ideal behaviour, though this conclusion would warrant further investigation. The initialization MSE results are displayed in \ref{figure-synthetic-sae-init}.
 	\item The results for the 1 hidden layer SAE networks were typically better than their pairwise 2 layer version. There is no reason to believe that a deeper network would be inherently worse, but it did highlight that it would require greater effort to tweak the training parameters to account for the extra 2 layers in the SGD process.
 	\item The learning rate 0.1 is too high and had uniformly worse results across configurations, especially for the He and Hinton initializations.
 	\item The layer sizes (40 / 80) had mixed effects - the larger hidden layer sizes had better results for lower learning rates (0.001 and 0.0001), while at a higher learning rate of 0.01 the smaller layers outperformed. The suggestion, as confirmed through epoch assessment, is that the lower learning rate combined with a larger network can allow for a more consistent, though slower, improvement of the network. Higher learning rates allow for a quicker oscillation to a minima, which is more easily done in a smaller network.
 	\item One unexpected result was the occurence of overfitting for smaller encoding layers with higher learning rates. Overfitting, as defined by the persistent decrease in training MSE and the increase in testing MSE, was more likely to occur as the encoding layer was reduced from 12 and lower, and as the learning rate increased from 0.001 upwards and as the number of hidden layer nodes increased. It would seem that the reduction in signal as a result from smaller encoding layers results in reducing the models ability to train properly, and so overfitting on training data occurs, which in turn is more easily induced through larger layer sizes and learning rates. The smaller layers, in this scenario, work as a form of regularization. It would require algorithmic changes, such as the use of SGD regularization, to try and avoid this issue in the noted configurations.
 \end{itemize}
 
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/boxplot_sae_init.png}
+	\caption{Boxplot of SAE Minimum MSE}
+	\label{figure-synthetic-sae-init}
+\end{figure}
+
 These conclusions were used to choose a set of networks to refine and train further, with the aim of producing one best network per encoding layer size, which can then be used as a configuration item in the training of the prediction network. All of the networks chosen had one hidden layer, were initialized using the Xavier technique and were trained for 15000 epochs. Notably, the input size here is 18 (6 stocks at 3 time windows).
+
+
 
 \begin{table}[h]
 	\begin{tcolorbox}[tabularx*={\arrayrulewidth0.6mm}{X|X|X|X|X},fontupper=\normalsize\sffamily,colback=white!10!white,colframe=black!40!]
@@ -1519,27 +1523,195 @@ These conclusions were used to choose a set of networks to refine and train furt
 		&\centerline{\textbf{Reconstruction MAPE}}
 		&\centerline{\textbf{Best Epoch Test MSE}}
 		\\\hline
-		{3} & {40} & {0.001} & {75.93\%} & {id 253 0.5580}  \\\hline
-		{3} & {80} & {0.0001} & {86.8\%} & {id 254 0.6810}  \\\hline
-		{6} & {40}   & {0.001} & {67.99\%} & {id 266}  \\\hline
-		{6} & {40}   & {0.0001} & {67.83\%} & {id 265}  \\\hline
-		{6} & {80}   & {0.001} & {72.86\%} & {id 268}  \\\hline
-		{6} & {80}   & {0.0001} & {68.82\%} & {id 267}  \\\hline						
-		{9} & {40} & {0.0001} & {54.53\%} & {id256 0.2787}  \\\hline
-		{9} & {80}  & {0.0001} & {56.8\%} & {id 258 0.2886}  \\\hline
-		{12} & {40} & {0.01} & {39.62\%} & {id 262}  \\\hline
-		{12} & {40} & {0.001} & {38.23\%} & {id 260}  \\\hline
-		{12} & {80} & {0.0001} & {39.96\%} & {id 261}  \\\hline
-		{15} & {80} & {0.01} & {27.85\%} & {id 263}  \\\hline
-		{15} & {80} & {0.0001} & {26.03\%} & {id 264}  \\\hline
+		{3} & {40} & {0.001} & {75.93\%} & {0.5580}  \\\hline
+		{3} & {80} & {0.0001} & {86.8\%} & {0.6810}  \\\hline
+		{6} & {40}   & {0.001} & {67.99\%} & {0.4247}  \\\hline
+		{6} & {40}   & {0.0001} & {67.83\%} & {0.4255}  \\\hline
+		{6} & {80}   & {0.001} & {72.86\%} & {0.4252}  \\\hline
+		{6} & {80}   & {0.0001} & {68.82\%} & {0.4269}  \\\hline						
+		{9} & {40} & {0.0001} & {54.53\%} & {0.2787}  \\\hline
+		{9} & {80}  & {0.0001} & {56.8\%} & {0.2886}  \\\hline
+		{12} & {40} & {0.01} & {39.62\%} & {0.1521}  \\\hline
+		{12} & {40} & {0.001} & {38.23\%} & {0.1481}  \\\hline
+		{12} & {80} & {0.0001} & {39.96\%} & {0.1562}  \\\hline
+		{15} & {80} & {0.01} & {27.85\%} & {0.0797}  \\\hline
+		{15} & {80} & {0.0001} & {26.03\%} & {0.0820}  \\\hline
 	\end{tcolorbox}
 \end{table} \FloatBarrier
 
-6 and 80 are overfitting
-9 and 80 are overfitting
-12 and 80 starting to overfit as well
-12 and 40 - testing stable, training decreasing 
-15 and 80  - testing stable, training decreasing 
+There was some evidence of overfitting in the smaller encoding layers, something expanded on later.
+ 
+\subsubsection{Predictive FFN Network and Results}
+
+In light of the results presented in \ref{results_synthetic_sae}, the predictive FFN networks were trained on a set of configurations encapsluating all permutations of the features below:
+
+\begin{itemize}
+	\item AutoEncoders: Of encoding layer sizes 3, 6, 9, 12 and 15
+	\item Number of hidden layers: 1, 2, 3
+	\item Size of hidden layers: 20, 40, 80
+	\item SGD Learning Rate: 0.0001, 0.001, 0.01
+	\item OGD Learning Rate: 0.00001, 0.0001, 0.001
+\end{itemize}
+
+Each configuration was run for 2000 epochs, with a minibatch size of 20. Results were considered in terms of the SGD MSE scores, as well as the overall profit a model was able to produce. The 'profit' calculation used here is more representative of practical performance than of expected effect, particularly as the comparison is being made on scaled log difference returns (i.e. the processed dataset output). The formula is as follows:
+
+\begin{equation}\label{func_profit}
+f(price_{actual}, price_{predicted})=\begin{cases}
+	abs(price_{actual}) & \text{if $sign(price_{predicted})=sign(price_{actual})$ }.\\
+	- abs(price_{actual} - price_{predicted}), & \text{otherwise}.
+\end{cases}
+\end{equation}
+
+The profit results for all combinations can be viewed in \ref{figure-synthetic-profit-pdf} below. While most are very poor, this is in part a result of the experiments being conducted to explore the configuration space quite widely. The highest profit calculated here was 781, where perfect knowledge of price movement would have resulted in a profit of 9511.
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/profit_histogram.png}
+	\caption{Histogram of Total Profits}
+	\label{figure-synthetic-profit-pdf}
+\end{figure}
+
+\paragraph{SAE Results}\mbox{}\\
+
+Figure \ref{figure-synthetic-sae-profit} shows the effect of the different autoencoders on the profits generated, with encoding layer 9 performing the best for the most part. Encoding layer 12 seems to be out of pattern with 9 and 15 in the profits generated - it's possible that the trade off between feature reduction and feature representation is at a minima in the network used there. Aside from that, the results seem appropriate, showing effective feature reducton up to a point, but a loss in performance when the reduction is pushed too far (though this could be improved with better training).\newline
+
+Figures \ref{figure-synthetic-sae-best} and \ref{figure-synthetic-sae-last} show the effect of the different autoencoders on the best test score in the training epochs and the average score in the last 100 epochs, respectively. Noting the y-axis in figure \ref{figure-synthetic-sae-best} shows that the networks are largely able to achieve similar performances here, with no clear sense of one being better than the other - 15 has the lowest MSE score, but also the highest by far. Figure \ref{figure-synthetic-sae-last}  shows the effect of overfitting on the training at the moment, with the ending MSE scores getting progressively worse.
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/boxplot_sae_profit.png}
+	\caption{Boxplot of SAE Profits Generated}
+	\label{figure-synthetic-sae-profit}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/boxplot_sae_best_mse.png}
+	\caption{Boxplot of SAE Best MSE Scores}
+	\label{figure-synthetic-sae-best}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/boxplot_sae_last_mse.png}
+	\caption{Boxplot of SAE Last 100 MSE Scores}
+	\label{figure-synthetic-sae-last}
+\end{figure}
+
+\paragraph{Layer Size \& SGD Learning Rate Results}\mbox{}\\
+
+The same graphs can be seen grouped for the different layer configurations in figures \ref{figure-synthetic-layer-profit}, \ref{figure-synthetic-layer-best} and \ref{figure-synthetic-layer-last}. Looking at the profits generated, the larger node 1 and 2 layer configurations are best, though training seems to start struggling at 3 layers, where the increase in layer size only has poorer effects.\newline
+
+The best MSE scores are largely within similar ranges, though are interestingly bounded in the networks with more, smaller layers, likely as a result of inherent regularization. Once again, the scores of the last 100 epochs show how the larger networks are overfitting and causing general performance to degrade significantly. \newline
+
+The learning rates shown here are that of the SGD training of the network prior to the OGD training, which is the network which will produce the profits. There is likely to be an optimal combination of the two which sufficiently prepares the network for OGD training without overfitting to a less useful minima.\newline
+
+The learning rate effects in figures \ref{figure-synthetic-lr-mse} and \ref{figure-synthetic-lr-profit} show that the lowest learning rate results in significantly better profits, but also generally worse MSE scores. Figures \ref{figure-synthetic-layer-lr-mse} and \ref{figure-synthetic-layer-lr-profit} put all this together, showing the scoring across layers and learning rates for MSE and profits. It would appear that larger nodes of 1 and 2 layers with a smaller learning rate have better capacity to learn effectively - this leads to both the higher profit on the best version networks, as well as the degradation of mean MSE scores as training progresses and the model begins to overfit.
+		
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/bp_layers_profit.png}
+	\caption{Boxplot of Layers Profits Generated}
+	\label{figure-synthetic-layer-profit}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/bp_layers_best_mse.png}
+	\caption{Boxplot of Layers Best MSE Scores}
+	\label{figure-synthetic-layer-best}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/bp_layers_last_mse.png}
+	\caption{Boxplot of Layers Last 100 MSE Scores}
+	\label{figure-synthetic-layer-last}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/bp_lr_mse.png}
+	\caption{Learning Rates MSE}
+	\label{figure-synthetic-lr-mse}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/bp_lr_profit.png}
+	\caption{Learning Rates Profit}
+	\label{figure-synthetic-lr-profit}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/layers_lr_heatmap_mean_min_mse.png}
+	\caption{Heatmap of Layer and Learning Rates Mean Minimum MSE}
+	\label{figure-synthetic-layer-lr-mse}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/layers_lr_heatmap_max_profit.png}
+	\caption{Heatmap of Layer and Learning Rates Maximum Profit}
+	\label{figure-synthetic-layer-lr-profit}
+\end{figure}
+
+\paragraph{OGD Learning Rate Results}\mbox{}\\
+
+OGD learning rates produce the best profits at 0.001, though also seem be oscillating more at that point, producing larger MSE values (0.01 produced exloding gradients and computational faults). This seems to make sense, 40\% of the dataset was dedicated to OGD learning, and so higher learning values producing better networks would be appropriate. Network's that are in a poorer starting configuration may end up with larger errors as a result, leading to the MSE scores seen. A better look at the breakdown of MSE results in the 0.01 group would be warranted upon iteration.
+
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/bp_ogd_lr_mse.png}
+	\caption{OGD Learning Rates MSE}
+	\label{figure-synthetic-ogd-lr-mse}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/bp_ogd_lr_profit.png}
+	\caption{OGD Learning Rates Profit}
+	\label{figure-synthetic-ogd-lr-profit}
+\end{figure}
+
+\paragraph{Prediction Plots}\mbox{}\\
+
+The model with the highest profit is, unsurprisingly, also the model with the lowest OGD training MSE costs. The model with the lowest SGD MSE score did not respond as well to the OGD training, and the two are compared in the graphs below, showing the actual and predicted changes in stock prices. The difference highlights the importance of the OGD phase and selecting a model that will respond to both that and the SGD training.
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/recreation_stock1.png}
+	\caption{Stock 1 Recreations}
+	\label{figure-synthetic-stock1-recreation}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/recreation_stock2.png}
+	\caption{Stock 2 Recreations}
+	\label{figure-synthetic-stock2-recreation}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/recreation_stock3.png}
+	\caption{Stock 3 Recreations}
+	\label{figure-synthetic-stock3-recreation}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/recreation_stock4.png}
+	\caption{Stock 4 Recreations}
+	\label{figure-synthetic-stock4-recreation}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/recreation_stock5.png}
+	\caption{Stock 5 Recreations}
+	\label{figure-synthetic-stock5-recreation}
+\end{figure}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/recreation_stock6.png}
+	\caption{Stock 6 Recreations}
+	\label{figure-synthetic-stock6-recreation}
+\end{figure}
+
+\paragraph{CSCV Plots}\mbox{}\\
+
+While not really necessary for this iteration, the CSCV method was run on all the configurations which were used to generate returns for synthetic data. The resulting logit distribution is displayed in \ref{figure-synthetic-logit-dist}. This results in a PBO figure of 0\%.
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/synthetic_results/logit_distribution.png}
+	\caption{CSCV Logit Distribution}
+	\label{figure-synthetic-logit-dist}
+\end{figure}
 
 \subsection{Results for Real Data}
 

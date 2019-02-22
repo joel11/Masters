@@ -1,8 +1,10 @@
 module CSCV
-
+push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 using Combinatorics
 using StatsBase
 using FinancialFunctions
+using DatabaseOps
+using DataFrames
 
 export RunCSCV, CalculatePBO
 
@@ -60,25 +62,40 @@ function CalculatePBO(overfit_distribution)
     return mapreduce(x -> (x[1] <= 0 ? x[2] : 0), +, overfit_distribution)
 end
 
-function ExperimentCSCVProcess()
+config_ids = Array(RunQuery("select distinct(configuration_id) from prediction_results where configuration_id >=504")[:,1])
+
+function ExperimentCSCVProcess(config_ids)
     return_data = DataFrame()
     mses = []
 
-    #for each config_id in considered configurations
-    #    query = "select.."
-    #    actual, predicted = RunQuery(query)
-    #    mse = sum((actual - predicted).^2)/length(actual)
-    #    model_returns = CalculateReturns(actual, predicted)
-    #    push!(mses, mse)
-    #    return_data[parse(string("iteration_", i))] = model_returns
-    #    distribution = RunCSCV(return_data, 16)
-    #    pbo = CalculatePBO(distribution)
-    #end
+    for c in config_ids
+        println(c)
+        query = "select actual, predicted from prediction_results where configuration_id = $c"
+        predictionvals = RunQuery(query)
+        pa = Array{Float64}(fill(NaN, size(predictionvals,1),2))
+        pa[:,1] = Array(predictionvals[:predicted])
+        pa[:,2] = Array(predictionvals[:actual])
 
-    #println(pbo)
-    #println(mses)
-    #println(map(x -> sum(return_data[:, x]), 1:size(return_data)[2]))
-    #return (pbo, mses)
+        actual = pa[:,2:2]
+        predicted = pa[:,1:1]
+
+        mse = sum((actual - predicted).^2)/length(actual)
+        model_returns = CalculateReturns(actual, predicted)
+        push!(mses, mse)
+        return_data[:,parse(string("iteration_", c))] = Array(model_returns)[:,1]
+    end
+
+    distribution = RunCSCV(return_data, 16)
+    pbo = CalculatePBO(distribution)
+
+    #using PlotlyJS
+    #x0 = map(i -> round(distribution[i][1],1), 1:size(distribution,1))
+    #y0 = map(i -> distribution[i][2], 1:size(distribution,1))
+    #trace = bar(;x=x0,y=y0, name="Logit Distribution", bargap=0.1)
+    #data = [trace]
+    #savefig(plot(data), string("/users/joeldacosta/desktop/CSCV Distribution.html"))
+
+    return (pbo, mses)
 end
 
 end

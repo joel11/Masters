@@ -1,6 +1,6 @@
 module FinancialFunctions
 
-export SharpeRatio, CalculateProfit, CalculateReturns
+export SharpeRatio, CalculateProfit, CalculateReturns, CalculateReturnsOneD
 
 function SharpeRatio(returns, rfr)
     return (mean(returns) - rfr)/std(returns)
@@ -17,6 +17,14 @@ function CalculateProfit(actual, predicted)
         prof = - abs(actual - predicted)
     end
     return prof
+end
+
+function CalculateReturnsOneD(actuals, predicted)
+    total_return = 0
+    for i in 1:size(actuals,1)
+        total_return += CalculateProfit(actuals[i], predicted[i])
+    end
+    return total_return
 end
 
 function CalculateReturns(actuals, predicted)
