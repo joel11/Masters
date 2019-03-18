@@ -13,10 +13,7 @@ type DataSet
 
     standardizing_means
     standardizing_deviations
-
-    input_column_names
-    output_column_names
-
+    
 end
 
 type TrainingParameters

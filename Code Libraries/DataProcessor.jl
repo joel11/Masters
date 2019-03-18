@@ -2,7 +2,7 @@ module DataProcessor
 
 using DataGenerator, FFN, DataFrames, TrainingStructures
 
-export SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData
+export GenerateRandomisedDataset, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData
 
 function StandardizeData(data)
     means = map(c -> mean(data[:,c]), 1:size(data,2))
@@ -18,6 +18,26 @@ function StandardizeData(data)
     return (new_data, means, stds)
 end
 
+
+function GenerateRandomisedDataset(input_data, output_data, parameters::TrainingParameters)
+
+    rows = size(input_data, 1)
+    order = randperm(rows)
+
+    ts = parameters.training_splits# [0.8, 1.0]
+    split_point = Int64(floor(rows * ts[1]))
+    training_indices = order[1:split_point]
+    testing_indices = order[(split_point + 1): end]
+
+    training_input = input_data[training_indices,:]
+    training_output = output_data[training_indices,:]
+    testing_input = input_data[testing_indices,:]
+    testing_output = output_data[testing_indices,:]
+
+    newds = DataSet(training_input, testing_input, training_output, testing_output, nothing, nothing, nothing, nothing)
+
+    return newds
+end
 
 function GenerateLogFluctuations(series, delta, start)
     function LogDiff(x1, x2)

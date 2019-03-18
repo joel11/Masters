@@ -21,7 +21,7 @@ function PrepareData(data_config, dataset)
     standardized_data = map(x -> StandardizeData(x)[1], processed_data)
     data_splits = map(df -> SplitData(df, data_config.process_splits), standardized_data)
 
-    saesgd_data = CreateDataset(data_splits[1][1], data_splits[2][1], data_config.training_splits)
+    saesgd_data = CreateDataset(data_splits[1][1], data_splits[2][1], [1.0])
     ogd_data = CreateDataset(data_splits[1][2], data_splits[2][2], [1.0])
 
     return(saesgd_data, ogd_data)
