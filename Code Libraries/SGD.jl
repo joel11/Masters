@@ -1,27 +1,8 @@
 module SGD
 
-using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, RBM,  CostFunctions, FFN, GradientFunctions, DatabaseOps
+using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, RBM,  CostFunctions, FFN, GradientFunctions, DatabaseOps, DataProcessor
 
 export RunSGD
-
-seed = abs(Int64.(floor(randn()*100)))
-ds = abs(Int64.(floor(randn()*100)))
-var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-data_config = DatasetConfig(ds, "test",  5000,  [1, 7, 30],  [0.6],  [0.8, 1.0],  [2], var_pairs)
-dataset = nothing
-
-function PrepareData(data_config, dataset)
-    data_raw = dataset == nothing ? GenerateDataset(data_config.data_seed, data_config.steps, data_config.variation_values) : dataset
-    processed_data = ProcessData(data_raw, data_config.deltas, data_config.prediction_steps)
-    standardized_data = map(x -> StandardizeData(x)[1], processed_data)
-    data_splits = map(df -> SplitData(df, data_config.process_splits), standardized_data)
-
-    saesgd_data = CreateDataset(data_splits[1][1], data_splits[2][1], [1.0])
-    ogd_data = CreateDataset(data_splits[1][2], data_splits[2][2], [1.0])
-
-    return(saesgd_data, ogd_data)
-end
-
 
 function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralNetwork, parameters::TrainingParameters)
 
@@ -30,19 +11,32 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
     zero_activations = (fill(0, (length(network.layers),1)))
     activations = Array{Array{Float64,2},1}(length(network.layers)+1)
 
-    number_batches = Int64.(floor(size(dataset.training_input)[1]/parameters.minibatch_size))
     epoch_records = Array{EpochRecord}(parameters.max_epochs)
-    num_training_samples = Int64(floor(rows * parameters.training_splits[1])) #size(dataset.training_input)[1]
+    num_training_samples = Int64(floor(size(original_dataset.training_input)[1] * parameters.training_splits[1])) #size(dataset.training_input)[1]
+    number_batches = Int64.(floor(num_training_samples/parameters.minibatch_size))
+
+    #println(size(original_dataset.training_input))
+    #println(parameters.minibatch_size)
+    #println(number_batches)
 
     mbi_input = map(m -> ((m-1)*parameters.minibatch_size+1), 1:number_batches)
     mbi_output = map(m -> m*parameters.minibatch_size, 1:number_batches)
     layer_sizes = map(l -> size(l.weights, 2), network.layers)
     total_activations = layer_sizes .* num_training_samples
 
+    #println(mbi_input)
+    #println(mbi_output)
+
     for i in 1:(parameters.max_epochs)
         tic()
 
-        dataset = GenerateRandomisedDataset(original_dataset)
+        dataset = GenerateRandomisedDataset(original_dataset.training_input, original_dataset.training_output, parameters)
+
+        #println("epoch ds size")
+        #println(size(dataset.training_input))
+        #println(size(dataset.testing_input))
+        #println(size(dataset.training_output))
+        #println(size(dataset.testing_output))
 
         training_input = Array{Float64,2}(dataset.training_input)
         training_output = Array{Float64,2}(dataset.training_output)
@@ -72,9 +66,11 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
         zero_perc =  (zero_activation_history ./ total_activations)'
 
         IS_error = parameters.cost_function.CalculateCost(training_output, Feedforward(network, training_input)[end])
-        OOS_error = parameters.cost_function.CalculateCost(testing_output, Feedforward(network, testing_input)[end])
+        test_recreation = Feedforward(network, testing_input)[end]
+        OOS_error = parameters.cost_function.CalculateCost(testing_output, test_recreation)
+        OOS_mape = round(CalculateMAPE(testing_output, test_recreation), 2)
 
-        epoch_records[i] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc)
+        epoch_records[i] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc, OOS_mape, CalculateLearningRate(i, parameters))
 
         if parameters.verbose
             PrintEpoch(epoch_records[i])

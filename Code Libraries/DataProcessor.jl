@@ -18,6 +18,48 @@ function StandardizeData(data)
     return (new_data, means, stds)
 end
 
+function NormalizeData(data)
+    maxes = []
+    mins = []
+
+    new_data = DataFrame()
+    cols = names(data)
+
+    for i in 1:size(data, 2)
+        min = minimum(data[:,i])
+        max = maximum(data[:,i])
+        new_data[cols[i]]  = (data[cols[i]] .- min) ./ (max .- min)
+        push!(maxes, max)
+        push!(mins, min)
+    end
+
+    return (new_data, maxes, mins)
+end
+#processingvar1#mean / max
+#processingvar2 #dev / min
+function ReverseNormalization(data, pv1, pv2)
+
+    newds = DataFrame()
+    colnames = names(data)
+
+    for c in 1:length(pv1)
+        newds[colnames[c]] = data[:,c] .* (pv1[c] - pv2[c]) .+ pv2[c]
+    end
+
+    return newds
+end
+
+function ReverseStandardization(data, pv1, pv2)
+
+    newds = DataFrame()
+    colnames = names(data)
+
+    for c in 1:length(pv1)
+        newds[colnames[c]] = data[:,c] .* (pv2[c]) .+ pv1[c]
+    end
+
+    return newds
+end
 
 function GenerateRandomisedDataset(input_data, output_data, parameters::TrainingParameters)
 
@@ -69,11 +111,11 @@ function SplitData(data, partition_percentages)
     return partitions
 end
 
-function CreateDataset(input_data, output_data, partition_percentages)
+function CreateDataset(input_data, output_data, partition_percentages, input_processvar1, input_processvar2, output_processvar1, output_processvar2)
     input_splits = SplitData(input_data, partition_percentages)
     output_splits = SplitData(output_data, partition_percentages)
 
-    sd = DataSet((input_splits[1]), (input_splits[2]), (output_splits[1]), (output_splits[2]), nothing, nothing, nothing, nothing)
+    sd = DataSet((input_splits[1]), (input_splits[2]), (output_splits[1]), (output_splits[2]), input_processvar1, input_processvar2, output_processvar1, output_processvar2)
     return (sd)
 end
 

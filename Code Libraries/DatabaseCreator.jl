@@ -44,7 +44,8 @@ function CreateDatabase(database_name)
             mean_minibatch_cost FLOAT,
             training_cost FLOAT,
             testing_cost FLOAT,
-            run_time FLOAT NOT NULL)"
+            run_time FLOAT NOT NULL,
+            mape FLOAT)"
 
     epoch_dataconfig_table = "
         CREATE TABLE IF NOT EXISTS dataset_config(

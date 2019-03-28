@@ -39,7 +39,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
         activations = map(x -> ReluActivation, 1:(length(layers)-1))
 
         sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation)
-        sae_sgd_par = TrainingParameters("SAE", 0.0001, Inf, 1,  20, 0.0, 15000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError())
+        sae_sgd_par = TrainingParameters("SAE", 0.0001, Inf, 1,  20, 0.0, 100, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
 
         return SAEExperimentConfig(seed, set_name, false, data_config, sae_net_par, sae_sgd_par, nothing)
     end
@@ -75,3 +75,4 @@ end
 
 
 RunNLayerReLUSAETest(6, 80, 1)
+RunNLayerReLUSAETest(3, 20, 2)

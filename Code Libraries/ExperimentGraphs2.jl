@@ -1,4 +1,4 @@
-#module ExperimetGraphs2
+#module ExperimentGraphs2
 
 workspace()
 push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
@@ -18,6 +18,10 @@ using ExperimentProcess
 using DataJSETop40
 using BSON
 
+using PlotlyJS
+
+################################################################################
+##Profit Records
 
 function UpdateTotalProfits(config_ids)
 
@@ -31,28 +35,30 @@ function UpdateTotalProfits(config_ids)
     current_configs = TotalProfits[:,1]
     needed_configs = collect(setdiff(Set(config_ids), Set(current_configs)))
 
-    configs = mapreduce(x->string(x, ","), string, needed_configs)[1:(end-1)]
-    query = string("select * from prediction_results where configuration_id in ($configs)")
-    results = RunQuery(query)
+    if (length(needed_configs) > 0)
 
-    for i in 1:(length(needed_configs))
-
-        c = needed_configs[i]
-        println(c)
-        query = string("select * from prediction_results where configuration_id in ($c)")
+        configs = mapreduce(x->string(x, ","), string, needed_configs)[1:(end-1)]
+        query = string("select * from prediction_results where configuration_id in ($configs)")
         results = RunQuery(query)
-        profits = sum(CalculateReturnsOneD(Array(results[:,:actual]), Array(results[:,:predicted])))
-        #profits = sum(CalculateReturnsOneD(Array(results[:,:actual]), Array(results[:,:actual])))
 
-        TotalProfits = cat(1, TotalProfits, [c profits])
+        for i in 1:(length(needed_configs))
+
+            c = needed_configs[i]
+            println(c)
+            query = string("select * from prediction_results where configuration_id in ($c)")
+            results = RunQuery(query)
+            profits = sum(CalculateReturnsOneD(Array(results[:,:actual]), Array(results[:,:predicted])))
+            #profits = sum(CalculateReturnsOneD(Array(results[:,:actual]), Array(results[:,:actual])))
+
+            TotalProfits = cat(1, TotalProfits, [c profits])
+        end
+
+        profit_array = Array(TotalProfits)
+        file_name = string("ProfitVals.bson")
+        values = Dict(:profits => profit_array)
+        bson(file_name, values)
     end
-
-    profit_array = Array(TotalProfits)
-    file_name = string("ProfitVals.bson")
-    values = Dict(:profits => profit_array)
-    bson(file_name, values)
 end
-
 
 function ReadProfits()
     pa = BSON.load("ProfitVals.bson")
@@ -63,182 +69,8 @@ function ReadProfits()
     return TotalProfits
 end
 
-config_ids = 504:622
-UpdateTotalProfits(504:622)
-maximum(TotalProfits[:profit])
-
-##Prediction Plots#############################################################
-
-#using Plots
-#plotlyjs()
-using PlotlyJS
-
-#minmse = 510
-#maxprof = 902
-
-best_config = 902 #TotalProfits[Array{Bool}(TotalProfits[:profit] .== maximum(TotalProfits[:profit])),:][1][1]
-best_query = string("select * from prediction_results where configuration_id in (510, 902)")
-best_results = RunQuery(best_query)
-best_groups = by(best_results, [:stock], df -> [df])
-#recreation_plots = Vector{GenericTrace{Dict{Symbol,Any}}}()
-
-names = Dict(902 => "Profit", 510 => "MSE")
-
-for i in 1:size(best_groups,1)
-    timesteps = best_groups[i,2][:time_step]
-    config_groups = by(best_groups[i,2], [:configuration_id], df-> [df])
-
-    actual = cumsum(config_groups[1,2][:actual])
-    predicted_one = cumsum(config_groups[1,2][:predicted])
-    predicted_two = cumsum(config_groups[2,2][:predicted])
-
-    stock_name = get(best_groups[i,1])
-
-    t0 = scatter(;y=actual, x = timesteps, name=string(stock_name, "_actual"), mode ="lines", xaxis = string("x", i), yaxis = string("y", i))
-    t1 = scatter(;y=predicted_one, x = timesteps, name=string(stock_name, "_predicted_", names[get(config_groups[1][1])]), mode="lines", xaxis = string("x", i), yaxis = string("y", i))
-    t2 = scatter(;y=predicted_two, x = timesteps, name=string(stock_name, "_predicted_", names[get(config_groups[1][2])]), mode="lines", xaxis = string("x", i), yaxis = string("y", i))
-
-    recreation_plots = [t0, t1, t2]
-    filename = string("recreation_", stock_name)
-    savefig(plot(recreation_plots), string("/users/joeldacosta/desktop/", filename, ".html"))
-
-    #push!(recreation_plots, t0)
-    #push!(recreation_plots, t1)
-end
-
-
-sae_choices = (253, 265, 256, 260, 264)
-min_config = minimum(TotalProfits[:,1])
-
-
-
 ################################################################################
-##Layers vs. SGD Learning Rate Best MSE
-
-
-layer_msequery = string("select er.configuration_id, learning_rate, min(testing_cost) min_test_cost, experiment_set_name
-from epoch_records er
-inner join configuration_run cr on cr.configuration_id = er.configuration_id
-inner join training_parameters tp on tp.configuration_id = er.configuration_id
-where er.configuration_id >= $min_config
-and er.category = \"FFN-SGD\"
-and tp. category = \"FFN\"
-group by er.configuration_id, sae_config_id, learning_rate")
-layer_mseresults = RunQuery(layer_msequery)
-
-
-
-layer_mseresults[:,1] = Array{Int64,1}(layer_mseresults[:,1])
-layer_mseresults[:,2] = Array{Float64,1}(layer_mseresults[:,2])
-layer_mseresults[:,3] = Array{Float64,1}(layer_mseresults[:,3])
-layer_mseresults[:,4] = Array{String,1}(layer_mseresults[:,4])
-layer_mseresults[:layers] = map(getlayerstruc, Array(layer_mseresults[:experiment_set_name]))
-layer_mseresults = join(TotalProfits, layer_mseresults, on = :configuration_id)
-
-
-comb_mse = by(layer_mseresults, [:layers, :learning_rate], df -> maximum(df[:profit]))
-#comb_mse = by(layer_mseresults, [:layers, :learning_rate], df -> mean(df[:min_test_cost]))
-
-layers_order = Array(unique(comb_mse[:layers]))
-
-layers_order = Array(sort(map(l -> string(split(l, "x")[2], "x", split(l, "x")[1]), layers_order)))
-rates_order = Array(unique(comb_mse[:learning_rate]))
-
-vals = Array{Float64,2}(fill(NaN, length(layers), length(rates)))
-for r in 1:size(comb_mse, 1)
-    lval = string(split(comb_mse[r,1], "x")[2], "x", split(comb_mse[r,1], "x")[1])
-    l_index = findfirst(layers_order, lval)
-    r_index = findfirst(rates_order, comb_mse[r,2])
-    vals[l_index, r_index] = comb_mse[r,3]
-end
-
-yvals = map(i -> string("lr ", i), rates_order)
-trace = heatmap(z = vals, y = yvals, x = layers_order)
-data = [trace]
-savefig(plot(data), string("/users/joeldacosta/desktop/layers_lr_heatmap_max_profit.html"))
-
-
-
-
-
-
-
-
-
-################################################################################
-##All configuration Profits
-x0 = Array(TotalProfits[:profit])
-trace = histogram(;x=x0, name="Configuration Profits")
-data = [trace]
-savefig(plot(data), string("/users/joeldacosta/desktop/profit pdf.html"))
-################################################################################
-##OGD Learning Rates BoxPlot####################################################
-
-ogd_mse_query = "select tp.configuration_id, learning_rate, avg(training_cost) training_cost
-            from training_parameters tp
-            inner join epoch_records er on er.configuration_id = tp.configuration_id
-            where tp.configuration_id >= $min_config
-                and tp.category = \"FFN\"
-                and er.category = \"OGD\"
-            group by tp.configuration_id, learning_rate
-            having training_cost not null"
-
-ogd_mse_results = RunQuery(ogd_mse_query)
-ogd_mse_results[:,1] = Array{Int64,1}(ogd_mse_results[:,1])
-ogd_mse_results[:,2] = Array{Float64,1}(ogd_mse_results[:,2])
-ogd_mse_results[:,3] = Array{Float64,1}(ogd_mse_results[:,3])
-ogd_mse_groups = by(ogd_mse_results, [:learning_rate], df -> [df])
-general_boxplot(ogd_mse_groups, "OGD learning rate", "OGD mse", :training_cost)
-
-
-################################################################################
-##OGD Learning Rates BoxPlot####################################################
-
-lr_query = "select configuration_id, learning_rate from training_parameters where configuration_id >= $min_config and category = \"FFN-OGD\""
-learning_results = RunQuery(lr_query)
-learning_results[:,1] = Array{Int64,1}(learning_results[:,1])
-learning_results[:,2] = Array{Float64,1}(learning_results[:,2])
-
-learning_returns = join(TotalProfits, learning_results, on = :configuration_id)
-groups = by(learning_returns, [:learning_rate], df -> [df])
-
-general_boxplot(groups, "OGD learning rate", "OGD profit", :profit)
-
-################################################################################
-##FFN Learning Rates MSE Boxplot
-
-lr_msequery = "select tp.configuration_id, learning_rate, min(testing_cost) min_test_cost
-            from training_parameters tp
-            inner join epoch_records er on er.configuration_id = tp.configuration_id
-            where tp.configuration_id >= $min_config and tp.category = \"FFN\"
-                and er.category = \"FFN-SGD\"
-            group by tp.configuration_id, learning_rate
-            "
-lrmse_results = RunQuery(lr_msequery)
-lrmse_results[:,1] = Array{Int64,1}(lrmse_results[:,1])
-lrmse_results[:,2] = Array{Float64,1}(lrmse_results[:,2])
-lrmse_results[:,3] = Array{Float64,1}(lrmse_results[:,3])
-
-lr_groups = by(lrmse_results, [:learning_rate], df -> [df])
-
-general_boxplot(lr_groups, "learning rate", "learning_rate_mse", :min_test_cost)
-
-################################################################################
-##FFN Learning Rates Profit Boxplot
-
-
-lr_query = "select configuration_id, learning_rate from training_parameters where configuration_id >= $min_config and category = \"FFN\""
-learning_results = RunQuery(lr_query)
-learning_results[:,1] = Array{Int64,1}(learning_results[:,1])
-learning_results[:,2] = Array{Float64,1}(learning_results[:,2])
-
-learning_returns = join(TotalProfits, learning_results, on = :configuration_id)
-groups = by(learning_returns, [:learning_rate], df -> [df])
-
-general_boxplot(groups, "learning rate", "learning_rate_profits", :profit)
-
-################################################################################
-##Layers Profit Boxplot
+##Boxplots
 
 function getlayerstruc(set_name)
     return ascii(split(split(set_name, "_")[1])[end])
@@ -255,84 +87,24 @@ function general_boxplot(layer_groups, prefix, filename, variable_name)
         trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[i,1]))
         push!(data, trace)
     end
-
+    plot(data)
     savefig(plot(data), string("/users/joeldacosta/desktop/", filename, ".html"))
 end
 
-layers_query = string("select configuration_id, experiment_set_name from configuration_run where configuration_id >= $min_config")
-layers_results = RunQuery(layers_query)
-
-layers_results[:layers] = map(getlayerstruc, Array(layers_results[:experiment_set_name]))
-layers_results[:,1] = Array{Int64,1}(layers_results[:,1])
-layers_results[:,2] = Array{String,1}(layers_results[:,2])
-layer_returns = join(TotalProfits, layers_results, on = :configuration_id)
-groups = by(layer_returns, [:layers], df -> [df])
-
-general_boxplot(groups, "layers", "layer_boxes", :profit)
-
-################################################################################
-##Layer Best MSE Boxplot
-
-
-layer_msequery = string("
-select er.configuration_id, min(testing_cost) min_test_cost, experiment_set_name
-from epoch_records er
-inner join configuration_run cr on cr.configuration_id = er.configuration_id
-where er.configuration_id >= $min_config
-and category = \"FFN-SGD\"
-group by er.configuration_id, sae_config_id")
-layer_mseresults = RunQuery(layer_msequery)
-layer_mseresults[:,1] = Array{Int64,1}(layer_mseresults[:,1])
-layer_mseresults[:,2] = Array{Float64,1}(layer_mseresults[:,2])
-layer_mseresults[:,3] = Array{String,1}(layer_mseresults[:,3])
-layer_mseresults[:layers] = map(getlayerstruc, Array(layer_mseresults[:experiment_set_name]))
-
-layer_msegroups = by(layer_mseresults, [:layers], df -> [df])
-
-general_boxplot(layer_msegroups, "layers", "layer_bestmse_boxes", :min_test_cost)
-
-################################################################################
-##Layer Last MSE Boxplot
-layer_last_query = string("
-select er.configuration_id, avg(testing_cost) min_test_cost, experiment_set_name
-from epoch_records er
-inner join configuration_run cr on cr.configuration_id = er.configuration_id
-where er.configuration_id >= $min_config
-and category = \"FFN-SGD\"
-and epoch_number > 1900
-group by er.configuration_id, experiment_set_name
-order by min_test_cost")
-
-layer_lastmseresults = RunQuery(layer_last_query)
-layer_lastmseresults[:,1] = Array{Int64,1}(layer_lastmseresults[:,1])
-layer_lastmseresults[:,2] = Array{Float64,1}(layer_lastmseresults[:,2])
-layer_lastmseresults[:,3] = Array{String,1}(layer_lastmseresults[:,3])
-layer_lastmseresults[:layers] = map(getlayerstruc, Array(layer_lastmseresults[:experiment_set_name]))
-
-layer_lastmsegroups = by(layer_lastmseresults, [:layers], df -> [df])
-
-general_boxplot(layer_lastmsegroups, "layers", "layer_lastmse_boxes", :min_test_cost)
-
-
-
-################################################################################
-##SAE Boxplot
-
-
-function sae_boxplot(profit_groups, filename, variable_name)
+function sae_boxplot(sae_groups, filename, variable_name)
 
     encodings = Dict()
-    for id in profit_groups[1]
+    for id in sae_groups[1]
         encodings[id] = OutputSize(GetAutoencoder(ReadSAE(id)[1]))
     end
 
-    y_vals = profit_groups[1,2][:,variable_name]
-    trace = box(;y=y_vals, name = string("encoding ", encodings[profit_groups[1,1]]))
+    y_vals = sae_groups[1,2][:,variable_name]
+    trace = box(;y=y_vals, name = string("encoding ", encodings[sae_groups[1,1]]))
     data = [trace]
 
-    for i in 2:size(profit_groups,1)
-        y_vals = profit_groups[i,2][:,variable_name]
-        trace = box(;y=y_vals, name = string("encoding ", encodings[profit_groups[i,1]]))
+    for i in 2:size(sae_groups,1)
+        y_vals = sae_groups[i,2][:,variable_name]
+        trace = box(;y=y_vals, name = string("encoding ", encodings[sae_groups[i,1]]))
         push!(data, trace)
     end
 
@@ -346,108 +118,287 @@ function sae_boxplot(profit_groups, filename, variable_name)
     savefig(plot(data), string("/users/joeldacosta/desktop/", filename, ".html"))
 end
 
+function ProfitBoxplot(query, group_column, prefix, filename, secondary_type, transform_function)
+    results = RunQuery(query)
 
-sae_query = string("select configuration_id, sae_config_id from configuration_run where configuration_id >= $min_config")
-sae_results = RunQuery(sae_query)
+    results = transform_function(results)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{secondary_type,1}(results[:,2])
+    layer_returns = join(TotalProfits, results, on = :configuration_id)
+    groups = by(layer_returns, [group_column], df -> [df])
 
-sae_results[:,1] = Array{Int64,1}(sae_results[:,1])
-sae_results[:,2] = Array{Int64,1}(sae_results[:,2])
-sae_returns = join(TotalProfits, sae_results, on = :configuration_id)
-groups = by(sae_returns, [:sae_config_id], df -> [df])
+    general_boxplot(groups, prefix, filename, :profit)
+end
 
-sae_boxplot(groups, "sae boxplots")
+function MSEBoxplot(query, group_column, prefix, filename, secondary_type, transform_function)
+    results = RunQuery(query)
 
+    results = transform_function(results)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Float64,1}(results[:,2])
+    results[:,3] = Array{secondary_type,1}(results[:,3])
+    #layer_returns = join(TotalProfits, results, on = :configuration_id)
+    groups = by(results, [group_column], df -> [df])
 
+    general_boxplot(groups, prefix, filename, :cost)
+end
+
+function NullTransform(dataset)
+    return dataset
+end
+
+function LayerTransform(dataset)
+    dataset[:layers] = map(getlayerstruc, Array(dataset[:experiment_set_name]))
+    return dataset
+end
+
+##Profit BoxPlots
+
+function Layer_BxProfit(min_config)
+    layers_query = string("select configuration_id, experiment_set_name from configuration_run where configuration_id >= $min_config")
+    ProfitBoxplot(layers_query, :layers, "layers", "Layers Profits", String, LayerTransform)
+end
+
+function OGD_LR_BxProfit(min_config)
+    lr_query = "select configuration_id, learning_rate from training_parameters where configuration_id >= $min_config and category = \"FFN-OGD\""
+    ProfitBoxplot(lr_query, :learning_rate, "OGD Learning Rate", "OGD LR Profits", Float64, NullTransform)
+end
+
+function FFN_LR_BxProfit(min_config)
+    lr_query = "select configuration_id, learning_rate from training_parameters where configuration_id >= $min_config and category = \"FFN\""
+    ProfitBoxplot(lr_query, :learning_rate, "FFN Learning Rate", "FFN LR Profits", Float64, NullTransform)
+end
+
+function FFN_LR_Sched_BxProfit(min_config)
+    min_config = 2064
+    lr_query = "select tp.configuration_id, (cast(learning_rate as text) || '-' ||  cast(min_learning_rate as text)) learning_rates
+                from training_parameters tp
+                inner join configuration_run cr on cr.configuration_id = tp.configuration_id
+                where tp.configuration_id >= $min_config and category = 'FFN'
+                order by tp.configuration_id desc"
+
+    ProfitBoxplot(lr_query, :learning_rates, "FFN Learning Rates Schedules", "FFN LR-Schedule Profits", String, NullTransform)
+end
+
+function SAEProfitBoxPlot(min_config)
+
+    sae_query = string("select configuration_id, sae_config_id from configuration_run where configuration_id >= $min_config")
+    sae_results = RunQuery(sae_query)
+
+    sae_results[:,1] = Array{Int64,1}(sae_results[:,1])
+    sae_results[:,2] = Array{Int64,1}(sae_results[:,2])
+    sae_returns = join(TotalProfits, sae_results, on = :configuration_id)
+    groups = by(sae_returns, [:sae_config_id], df -> [df])
+
+    sae_boxplot(groups, "SAE Profit Boxplots", :profit)
+end
+
+##MSE BoxPlots
+
+function FFN_LR_MinTest_BxMSE(min_config)
+
+    lr_msequery = "select tp.configuration_id, min(testing_cost) cost, learning_rate
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                where tp.configuration_id >= $min_config
+                    and tp.category = \"FFN\"
+                    and er.category = \"FFN-SGD\"
+                group by tp.configuration_id, learning_rate"
+
+    MSEBoxplot(lr_msequery, :learning_rate, "FFN LR", "FFN Learning Rate Min Test MSE", Float64, NullTransform)
+end
+
+function OGD_LR_AvgTrain_BxMSE(min_config)
+
+    ogd_mse_query = "select tp.configuration_id, avg(training_cost) cost, learning_rate
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                where tp.configuration_id >= $min_config
+                    and tp.category = \"FFN-OGD\"
+                    and er.category = \"OGD\"
+                group by tp.configuration_id, learning_rate
+                having training_cost not null"
+
+    MSEBoxplot(ogd_mse_query, :learning_rate, "OGD LR", "OGD Learning Rate Avg Train MSE", Float64, NullTransform)
+end
+
+function Layer_MinTest_MxMSE(min_config)
+    layer_msequery = string("select er.configuration_id, min(testing_cost) cost, experiment_set_name
+                            from epoch_records er
+                            inner join configuration_run cr on cr.configuration_id = er.configuration_id
+                            where er.configuration_id >= $min_config
+                            and er.category = \"FFN-SGD\"
+                            group by er.configuration_id, sae_config_id")
+
+    MSEBoxplot(layer_msequery, :layers, "Layers", "Layers Min Test MSE", String, LayerTransform)
+end
+
+function LastLayer_MinTest_MxMSE(min_config)
+    layer_last_query = string("select er.configuration_id, avg(testing_cost) cost, experiment_set_name
+                                from epoch_records er
+                                inner join configuration_run cr on cr.configuration_id = er.configuration_id
+                                where er.configuration_id >= $min_config
+                                and er.category = \"FFN-SGD\"
+                                and epoch_number > 1900
+                                group by er.configuration_id, experiment_set_name
+                                order by cost")
+
+    MSEBoxplot(layer_last_query, :layers, "Layers", "Last Layer Min Test MSE", String, LayerTransform)
+end
+
+function Init_MinTest_MxMSE(min_config)
+    init_query = string("select er.configuration_id, min(testing_cost) cost, initialization init
+                        from epoch_records er
+                        inner join network_parameters np on np.configuration_id = er.configuration_id
+                        where np.category = \"SAE\"
+                        group by er.configuration_id, init
+                        having cost not null")
+
+    MSEBoxplot(init_query, :init, "Init", "Inits Min Test MSE", String, NullTransform)
+end
+
+function SAEMSEBoxPlot(min_config) #Best Epoch - Min Test
+    sae_msequery = string("select er.configuration_id, min(testing_cost) min_test_cost, sae_config_id
+                            from epoch_records er
+                            inner join configuration_run cr on cr.configuration_id = er.configuration_id
+                            where er.configuration_id >= $min_config
+                            and er.category = \"FFN-SGD\"
+                            group by er.configuration_id, sae_config_id")
+
+    sae_mseresults = RunQuery(sae_msequery)
+    sae_mseresults[:,1] = Array{Int64,1}(sae_mseresults[:,1])
+    sae_mseresults[:,2] = Array{Float64,1}(sae_mseresults[:,2])
+    sae_mseresults[:,3] = Array{Int64,1}(sae_mseresults[:,3])
+    mse_groups = by(sae_mseresults, [:sae_config_id], df -> [df])
+    sae_boxplot(mse_groups, "SAE Best Epoch - Min MSE Boxplot", :min_test_cost)
+end
+
+function SAELastEpochsMSEBoxPlot(min_config) #Average Test over last 100
+
+    sae_last_query = string("select er.configuration_id, epoch_number, avg(testing_cost) min_test_cost, sae_config_id
+                            from epoch_records er
+                            inner join configuration_run cr on cr.configuration_id = er.configuration_id
+                            where er.configuration_id >= $min_config
+                            and er.category = \"FFN-SGD\"
+                            and epoch_number > 1900
+                            group by er.configuration_id
+                            order by min_test_cost")
+    sae_lastresults = RunQuery(sae_last_query)
+    sae_lastresults[:,1] = Array{Int64,1}(sae_lastresults[:,1])
+    sae_lastresults[:,2] = Array{Int64,1}(sae_lastresults[:,2])
+    sae_lastresults[:,3] = Array{Float64,1}(sae_lastresults[:,3])
+    sae_lastresults[:,4] = Array{Int64,1}(sae_lastresults[:,4])
+    last_groups = by(sae_lastresults, [:sae_config_id], df -> [df])
+    sae_boxplot(last_groups, "SAE Last 100 Average MSE Boxplot", :min_test_cost)
+end
 
 ################################################################################
-##SAE Best Epoch
+##Heatmaps
 
+function FFN_LR_x_Layers_ProfitHeatmap(min_config)
 
-sae_msequery = string("
-select er.configuration_id, min(testing_cost) min_test_cost, sae_config_id
-from epoch_records er
-inner join configuration_run cr on cr.configuration_id = er.configuration_id
-where er.configuration_id >= $min_config
-and category = \"FFN-SGD\"
-group by er.configuration_id, sae_config_id")
-sae_mseresults = RunQuery(sae_msequery)
-sae_mseresults[:,1] = Array{Int64,1}(sae_mseresults[:,1])
-sae_mseresults[:,2] = Array{Float64,1}(sae_mseresults[:,2])
-sae_mseresults[:,3] = Array{Int64,1}(sae_mseresults[:,3])
-mse_groups = by(sae_mseresults, [:sae_config_id], df -> [df])
-sae_boxplot(mse_groups, "sae_mse_boxplots", :min_test_cost)
+    layer_msequery = string("select er.configuration_id, learning_rate, min(testing_cost) min_test_cost, experiment_set_name
+                            from epoch_records er
+                            inner join configuration_run cr on cr.configuration_id = er.configuration_id
+                            inner join training_parameters tp on tp.configuration_id = er.configuration_id
+                            where er.configuration_id >= $min_config
+                            and er.category = \"FFN-SGD\"
+                            and tp. category = \"FFN\"
+                            group by er.configuration_id, sae_config_id, learning_rate")
+    layer_mseresults = RunQuery(layer_msequery)
 
+    layer_mseresults[:,1] = Array{Int64,1}(layer_mseresults[:,1])
+    layer_mseresults[:,2] = Array{Float64,1}(layer_mseresults[:,2])
+    layer_mseresults[:,3] = Array{Float64,1}(layer_mseresults[:,3])
+    layer_mseresults[:,4] = Array{String,1}(layer_mseresults[:,4])
+    layer_mseresults = LayerTransform(layer_mseresults)
+    layer_mseresults = join(TotalProfits, layer_mseresults, on = :configuration_id)
 
+    comb_mse = by(layer_mseresults, [:layers, :learning_rate], df -> maximum(df[:profit]))
+    #comb_mse = by(layer_mseresults, [:layers, :learning_rate], df -> mean(df[:min_test_cost]))
 
+    layers_order = Array(unique(comb_mse[:layers]))
 
+    layers_order = Array(sort(map(l -> string(split(l, "x")[2], "x", split(l, "x")[1]), layers_order)))
+    rates_order = Array(unique(comb_mse[:learning_rate]))
 
-################################################################################
-##SAE Last 100 Epochs
+    vals = Array{Float64,2}(fill(NaN, length(layers_order), length(rates_order)))
 
-sae_last_query = string("
-select er.configuration_id, epoch_number, avg(testing_cost) min_test_cost, sae_config_id
-from epoch_records er
-inner join configuration_run cr on cr.configuration_id = er.configuration_id
-where er.configuration_id >= $min_config
-and category = \"FFN-SGD\"
-and epoch_number > 1900
-group by er.configuration_id
-order by min_test_cost")
-sae_lastresults = RunQuery(sae_last_query)
-sae_lastresults[:,1] = Array{Int64,1}(sae_lastresults[:,1])
-sae_lastresults[:,2] = Array{Int64,1}(sae_lastresults[:,2])
-sae_lastresults[:,3] = Array{Float64,1}(sae_lastresults[:,3])
-sae_lastresults[:,4] = Array{Int64,1}(sae_lastresults[:,4])
-last_groups = by(sae_lastresults, [:sae_config_id], df -> [df])
-sae_boxplot(last_groups, "sae_lastmse_boxplots", :min_test_cost)
+    for r in 1:size(comb_mse, 1)
+        lval = string(split(comb_mse[r,1], "x")[2], "x", split(comb_mse[r,1], "x")[1])
+        l_index = findfirst(layers_order, lval)
+        r_index = findfirst(rates_order, comb_mse[r,2])
+        vals[l_index, r_index] = comb_mse[r,3]
+    end
 
-
-
-
-
-
-
-
-
+    yvals = map(i -> string("lr ", i), rates_order)
+    trace = heatmap(z = vals, y = yvals, x = layers_order)
+    data = [trace]
+    savefig(plot(data), string("/users/joeldacosta/desktop/layers_lr_heatmap_max_profit.html"))
+end
 
 ################################################################################
-##Init SAE Training
-init_query = string("
-select er.configuration_id, min(testing_cost) min_test_cost, initialization init
-from epoch_records er
-inner join network_parameters np on np.configuration_id = er.configuration_id
-where np.category = \"SAE\"
-group by er.configuration_id, init
-having min_test_cost not null")
-init_results = RunQuery(init_query)
+##Price Line Plots
 
-init_results[:,1] = Array{Int64,1}(init_results[:,1])
-init_results[:,2] = Array{Float64,1}(init_results[:,2])
-init_results[:,3] = Array{String,1}(init_results[:,3])
-init_groups = by(init_results, [:init], df -> [df])
-general_boxplot(init_groups, "Initialization", "init_boxplots", :min_test_cost)
+function StockPricePlot()
+    var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
+    ds = GenerateDataset(167, 5000, var_pairs)
 
+    price_plot = plot(Array(ds), name = ["stock 1" "stock 2" "stock 3" "stock 4" "stock 5" "stock 6"])
+    savefig(price_plot, "/users/joeldacosta/desktop/PriceGraphs.html")
+end
 
+function RecreateStockPrices(config_names)
+    configs = mapreduce(x->string(x, ","), string, collect(keys(config_names)))[1:(end-1)]
+    best_query = string("select * from prediction_results where configuration_id in ($configs)")
+    best_results = RunQuery(best_query)
+    best_groups = by(best_results, [:stock], df -> [df])
 
+    for i in 1:size(best_groups,1)
+        timesteps = best_groups[i,2][:time_step]
+        config_groups = by(best_groups[i,2], [:configuration_id], df-> [df])
 
+        actual = cumsum(config_groups[1,2][:actual])
+        predicted_one = cumsum(config_groups[1,2][:predicted])
+        predicted_two = cumsum(config_groups[2,2][:predicted])
 
+        stock_name = get(best_groups[i,1])
 
+        t0 = scatter(;y=actual, x = timesteps, name=string(stock_name, "_actual"), mode ="lines", xaxis = string("x", i), yaxis = string("y", i))
+        t1 = scatter(;y=predicted_one, x = timesteps, name=string(stock_name, "_predicted_", config_names[get(config_groups[1][1])]), mode="lines", xaxis = string("x", i), yaxis = string("y", i))
+        t2 = scatter(;y=predicted_two, x = timesteps, name=string(stock_name, "_predicted_", config_names[get(config_groups[1][2])]), mode="lines", xaxis = string("x", i), yaxis = string("y", i))
 
+        recreation_plots = [t0, t1, t2]
+        filename = string("recreation_", stock_name)
+        savefig(plot(recreation_plots), string("/users/joeldacosta/desktop/", filename, ".html"))
+
+    end
+end
+
+#names = Dict(902 => "Profit", 510 => "MSE")
+#RecreateStockPrices(names)
 
 ################################################################################
-##Init SAE Training
+##Profit PDF
 
+function AllProfitsPDF(min_config)
+    indexes = Array{Bool}(TotalProfits[:configuration_id] .> min_config)
 
+    x0 = Array(TotalProfits[indexes,:profit])
+    trace = histogram(;x=x0, name="Configuration Profits")
+    data = [trace]
+    savefig(plot(data), string("/users/joeldacosta/desktop/Profits PDF.html"))
+end
 
-var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-data_config = DatasetConfig(ds, datasetname,  5000,  [1, 7, 30],  [0.6],  [0.8, 1.0],  [2], var_pairs)
+###############################################################################
+##General Plots
 
-
-ds = GenerateDataset(167, 5000, var_pairs)
-
-price_plot = plot(Array(ds), name = ["stock 1" "stock 2" "stock 3" "stock 4" "stock 5" "stock 6"])
-savefig(price_plot, "/users/joeldacosta/desktop/PriceGraphs.html")
-
-
+#config_ids = 504:999
+config_ids = 2064:2183
+UpdateTotalProfits(config_ids)
+TotalProfits = ReadProfits()
+#min_config = 504
+#sae_choices = (253, 265, 256, 260, 264)
+#min_config = minimum(TotalProfits[:,1])
 
 #end

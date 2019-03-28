@@ -3,7 +3,7 @@ module GradientFunctions
 using Distributions
 using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, CostFunctions, FFN
 
-export ContrastiveDivergence1WeightUpdates, GradientDescentWeightUpdate, CalculateNewWeights
+export CalculateLearningRate, ContrastiveDivergence1WeightUpdates, GradientDescentWeightUpdate, CalculateNewWeights
 
 function CalculateL2Penalization(parameters, N)
     l2pen =  (1 - parameters.max_learning_rate * parameters.l2_lambda /N)
@@ -93,9 +93,13 @@ end
 
 
 function CalculateLearningRate(epoch, training_parameters)
-  #lr = training_parameters.min_lr + 0.5*(training_parameters.max_lr - training_parameters.min_lr)*(1 + cos(epoch/training_parameters.epoch_cycle_max*pi))
-  #println(string(epoch, " : ", lr))
-  return training_parameters.max_learning_rate
+
+    if split(string(typeof(training_parameters)), ".")[end] == "OGDTrainingParameters"
+        return training_parameters.max_learning_rate
+    end
+
+    return training_parameters.min_learning_rate + 0.5*(training_parameters.max_learning_rate - training_parameters.min_learning_rate)*(1 + cos(epoch/training_parameters.epoch_cycle_max*pi))
+    #return training_parameters.max_learning_rate
 end
 
 function CalculateNewWeights(current_weights, weight_update, parameters, N::Int64, epoch::Int64)
