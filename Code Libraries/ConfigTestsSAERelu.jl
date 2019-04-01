@@ -28,9 +28,10 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
         seed = abs(Int64.(floor(randn()*100)))
         ds = abs(Int64.(floor(randn()*100)))
         var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 7, 30],  [0.6],  [0.8, 1.0],  [2], var_pairs)
+        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 7, 14, 30],  [0.6],  [0.8, 1.0],  [2], var_pairs)
 
-        layers = [(length(var_pairs)*length(data_config.deltas))]
+        #layers = [(length(var_pairs)*length(data_config.deltas))]
+        layers = [1*length(data_config.deltas)]
         for i in 1:num_hidden
             push!(layers, layer_size)
         end
@@ -39,7 +40,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
         activations = map(x -> ReluActivation, 1:(length(layers)-1))
 
         sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation)
-        sae_sgd_par = TrainingParameters("SAE", 0.0001, Inf, 1,  20, 0.0, 100, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
+        sae_sgd_par = TrainingParameters("SAE", 0.0001, 0.0001, 100,  20, 0.0, 1000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
 
         return SAEExperimentConfig(seed, set_name, false, data_config, sae_net_par, sae_sgd_par, nothing)
     end
@@ -48,7 +49,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
     ##1. Configuration Variations
     vps = []
 
-    push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.0001, 0.001)))
+    push!(vps, (GetSAETraining, ChangeMinLearningRate, (0.00001, 0.0001)))
     #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HintonUniformInit, InitializationFunctions.HeUniformInit)))
 
     set_name = string(num_hidden, " Layer ReLU ", num_hidden, "x", layer_size, "x", encoding_layer)
@@ -56,7 +57,11 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
     #combos = [GenerateBaseSAEConfig(set_name, "Synthetic Set")]
     ################################################################################
     ##2a. Run Each SAE Configuration
-    sae_results = map(ep -> RunSAEConfigurationTest(ep, nothing), combos)
+    jsedata = ReadJSETop40Data()
+    exp_data = jsedata[:, [:AGL]]
+
+    sae_results = map(ep -> RunSAEConfigurationTest(ep, exp_data), combos)
+    #sae_results = map(ep -> RunSAEConfigurationTest(ep, nothing), combos)
     config_ids = map(x -> x[1], sae_results)
 
     for i in 1:length(config_ids)
@@ -73,6 +78,19 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
 end
 
 
+#input of 4
+#2n + 1 = 9
 
-RunNLayerReLUSAETest(6, 80, 1)
-RunNLayerReLUSAETest(3, 20, 2)
+RunNLayerReLUSAETest(1, 9, 1)
+RunNLayerReLUSAETest(1, 9, 2)
+RunNLayerReLUSAETest(2, 9, 1)
+RunNLayerReLUSAETest(2, 9, 2)
+RunNLayerReLUSAETest(3, 9, 1)
+RunNLayerReLUSAETest(3, 9, 2)
+
+RunNLayerReLUSAETest(1, 6, 1)
+RunNLayerReLUSAETest(1, 6, 2)
+RunNLayerReLUSAETest(2, 6, 1)
+RunNLayerReLUSAETest(2, 6, 2)
+RunNLayerReLUSAETest(3, 6, 1)
+RunNLayerReLUSAETest(3, 6, 2)

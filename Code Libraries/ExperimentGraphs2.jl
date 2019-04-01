@@ -71,9 +71,9 @@ end
 
 ################################################################################
 ##Boxplots
-
 function getlayerstruc(set_name)
-    return ascii(split(split(set_name, "_")[1])[end])
+    #return ascii(split(split(set_name, "_")[1])[end])
+    return ascii(filter(l -> contains(l, "x"), split(set_name, " "))[1])
 end
 
 function general_boxplot(layer_groups, prefix, filename, variable_name)
@@ -170,7 +170,6 @@ function FFN_LR_BxProfit(min_config)
 end
 
 function FFN_LR_Sched_BxProfit(min_config)
-    min_config = 2064
     lr_query = "select tp.configuration_id, (cast(learning_rate as text) || '-' ||  cast(min_learning_rate as text)) learning_rates
                 from training_parameters tp
                 inner join configuration_run cr on cr.configuration_id = tp.configuration_id
@@ -192,6 +191,7 @@ function SAEProfitBoxPlot(min_config)
 
     sae_boxplot(groups, "SAE Profit Boxplots", :profit)
 end
+
 
 ##MSE BoxPlots
 
@@ -297,14 +297,14 @@ end
 
 function FFN_LR_x_Layers_ProfitHeatmap(min_config)
 
-    layer_msequery = string("select er.configuration_id, learning_rate, min(testing_cost) min_test_cost, experiment_set_name
+    layer_msequery = string("select er.configuration_id, tp.learning_rate, min(testing_cost) min_test_cost, experiment_set_name
                             from epoch_records er
                             inner join configuration_run cr on cr.configuration_id = er.configuration_id
                             inner join training_parameters tp on tp.configuration_id = er.configuration_id
                             where er.configuration_id >= $min_config
                             and er.category = \"FFN-SGD\"
                             and tp. category = \"FFN\"
-                            group by er.configuration_id, sae_config_id, learning_rate")
+                            group by er.configuration_id, sae_config_id, tp.learning_rate")
     layer_mseresults = RunQuery(layer_msequery)
 
     layer_mseresults[:,1] = Array{Int64,1}(layer_mseresults[:,1])
@@ -394,11 +394,18 @@ end
 ##General Plots
 
 #config_ids = 504:999
-config_ids = 2064:2183
+config_ids = 61:195
 UpdateTotalProfits(config_ids)
 TotalProfits = ReadProfits()
-#min_config = 504
+min_config = minimum(config_ids)
 #sae_choices = (253, 265, 256, 260, 264)
 #min_config = minimum(TotalProfits[:,1])
 
 #end
+Layer_BxProfit(min_config)
+OGD_LR_BxProfit(min_config)
+FFN_LR_BxProfit(min_config)
+FFN_LR_Sched_BxProfit(min_config)
+SAEProfitBoxPlot(min_config)
+AllProfitsPDF(min_config)
+FFN_LR_x_Layers_ProfitHeatmap(min_config)

@@ -33,7 +33,9 @@ function CreateDatabase(database_name)
             l1_lambda FLOAT,
             l2_lambda FLOAT,
             cost_function VARCHAR,
-            stopping_function VARCHAR)"
+            stopping_function VARCHAR,
+            min_learning_rate FLOAT,
+            epoch_cycle_max INTEGER)"
 
     epoch_records_table = "
         CREATE TABLE IF NOT EXISTS epoch_records(
@@ -45,7 +47,8 @@ function CreateDatabase(database_name)
             training_cost FLOAT,
             testing_cost FLOAT,
             run_time FLOAT NOT NULL,
-            mape FLOAT)"
+            mape FLOAT,
+            learning_rate FLOAT)"
 
     epoch_dataconfig_table = "
         CREATE TABLE IF NOT EXISTS dataset_config(
