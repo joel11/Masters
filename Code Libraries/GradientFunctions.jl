@@ -5,9 +5,8 @@ using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStru
 
 export CalculateLearningRate, ContrastiveDivergence1WeightUpdates, GradientDescentWeightUpdate, CalculateNewWeights
 
-function CalculateL2Penalization(parameters, N)
-    l2pen =  (1 - parameters.max_learning_rate * parameters.l2_lambda /N)
-    return (l2pen)
+function CalculateL2Penalization(learning_rate, parameters, N)
+    return  (1 - learning_rate * parameters.l2_lambda /N)
 end
 
 function CalculateL1Penalization(parameters, N, weights)
@@ -90,8 +89,6 @@ function ContrastiveDivergence1WeightUpdates(minibatch_data, layer)
     return (weight_update, activation_probabilities, vis_activation_probabilities)
 end
 
-
-
 function CalculateLearningRate(epoch, training_parameters)
 
     if split(string(typeof(training_parameters)), ".")[end] == "OGDTrainingParameters"
@@ -103,8 +100,8 @@ function CalculateLearningRate(epoch, training_parameters)
 end
 
 function CalculateNewWeights(current_weights, weight_update, parameters, N::Int64, epoch::Int64)
-    #println("L2: ", mean(CalculateL2Penalization(parameters, N)))
-    return (current_weights #.* CalculateL2Penalization(parameters, N)
+
+    return (current_weights #.* CalculateL2Penalization(CalculateLearningRate(epoch, parameters), parameters, N)
                                 #+ momentum_factor
                                 - CalculateLearningRate(epoch, parameters) .* weight_update
                                 #- CalculateL1Penalization(parameters, N, current_weights)

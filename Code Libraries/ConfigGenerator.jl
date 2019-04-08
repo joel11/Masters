@@ -1,6 +1,6 @@
 module ConfigGenerator
 
-export ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
+export ChangeScalingFunction, ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
 
 function ChangeInit(get_function, parameters, val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_Init_" , split(string(val), ".")[end])
@@ -62,6 +62,12 @@ end
 function ChangeMaxEpochs(get_function, parameters, val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_MaxEpoch_" , string(val[1]))
     get_function(parameters).max_epochs = val
+    return parameters
+end
+
+function ChangeScalingFunction(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_Scaling_" , string(val))
+    get_function(parameters).scaling_function = val
     return parameters
 end
 

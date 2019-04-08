@@ -45,13 +45,14 @@ end
 function ProfitPlots(config_ids, file_name)
 
     pva = PredictedVsActualPlot(config_ids)
-    pe = PlotEquity(config_ids)
-    plots = [pva, pe]
+    #pe = PlotEquity(config_ids)
+    plots = [pva]#, pe]
     savefig(plot(plots..., layout = length(plots), size=(1400, 700)), string("/users/joeldacosta/desktop/", file_name, ".html"))
 
 end
 
 function PredictedVsActualPlot(config_ids)
+
     configs = mapreduce(x->string(x, ","), string, config_ids)[1:(end-1)]
     query = string("select pr.*, cr.experiment_set_name from prediction_results pr inner join configuration_run cr on cr.configuration_id = pr.configuration_id where cr.configuration_id in ($configs)")
     results = RunQuery(query)
@@ -61,12 +62,12 @@ function PredictedVsActualPlot(config_ids)
     noncum_comparisons = DataFrame()
 
     for g_index in 1:size(groups, 1)
+        println(g_index)
         row = Array(groups[g_index, :])
         sn = string(get(row[1]))
         data = row[3]
         comparisons[parse(string(sn, "_actual"))] = (cumsum(Array(data[:,:actual])))
-        comparisons[parse(string(sn, "_predicted_", replace(string(get(row[2])), ".", "_")))] = (cumsum(Array(data[:,:predicted])))
-
+        comparisons[parse(string(sn, "_predicted_", replace(replace(replace(string(get(row[2])), ".", "_"), " ", "_"), "e-", "e_")))] = (cumsum(Array(data[:,:predicted])))
         #noncum_comparisons[parse(string(sn, "_actual"))] = exp.(Array(data[:,:actual]))
         #noncum_comparisons[parse(string(sn, "_predicted_", replace(string(get(row[2])), ".", "_")))] = exp.(Array(data[:,:predicted]))
     end
@@ -118,7 +119,13 @@ function PlotEquity(config_ids)
     return equity_plot
 end
 
+function NullFunction(x)
+    return x
+end
+
 function PlotEpochs(config_ids, file_name)
+    transformationFunction = NullFunction
+
     configs = mapreduce(x->string(x, ","), string, config_ids)[1:(end-1)]
     query = string("select * from epoch_records where epoch_number > 1 and configuration_id in ($configs)")
     results = RunQuery(query)
@@ -137,16 +144,16 @@ function PlotEpochs(config_ids, file_name)
         epoch_records = results[Array(results[:,:category]) .== cat, :]
         config_groups = by(epoch_records, [:configuration_id], df -> [df])
 
-        costsplot = plot(log.(Array(ProcessValueArray(config_groups[1, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = "Log Cost",  labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Costs"))
-        plot!(costsplot, log.(Array(ProcessValueArray(config_groups[1, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = "Log Cost",linestyle = :dash, labels = string(get(config_groups[1, 1]), "_", cat, "_testing"))
+        costsplot = plot(transformationFunction.(Array(ProcessValueArray(config_groups[1, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = "Log Cost",  labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Costs"))
+        plot!(costsplot, transformationFunction.(Array(ProcessValueArray(config_groups[1, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = "Log Cost",linestyle = :dash, labels = string(get(config_groups[1, 1]), "_", cat, "_testing"))
 
         #costsplot = plot((Array(ProcessValueArray(config_groups[1, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = " Cost",  labels = string(get(config_groups[1, 1]), "_", cat, "_training"), title = string(cat, " Costs"))
         #plot!(costsplot, (Array(ProcessValueArray(config_groups[1, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = " Cost",linestyle = :dash, labels = string(get(config_groups[1, 1]), "_", cat, "_testing"))
 
         for i in 2:size(config_groups, 1)
             println(i)
-            plot!(log.(Array(ProcessValueArray(config_groups[i, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = "Log Cost", labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
-            plot!(costsplot, log.(Array(ProcessValueArray(config_groups[i, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = " Cost", linestyle = :dash, labels = string(get(config_groups[i, 1]), "_", cat, "_testing"))
+            plot!(transformationFunction.(Array(ProcessValueArray(config_groups[i, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = "Log Cost", labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
+            plot!(costsplot, transformationFunction.(Array(ProcessValueArray(config_groups[i, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = " Cost", linestyle = :dash, labels = string(get(config_groups[i, 1]), "_", cat, "_testing"))
             #plot!((Array(ProcessValueArray(config_groups[i, 2][:, :training_cost]))), xlabel = "Epoch", ylabel = " Cost", labels = string(get(config_groups[i, 1]), "_", cat, "_training"))
             #plot!(costsplot, (Array(ProcessValueArray(config_groups[i, 2][:, :testing_cost]))), xlabel = "Epoch", ylabel = " Cost", linestyle = :dash, labels = string(get(config_groups[i, 1]), "_", cat, "_testing"))
         end
@@ -203,7 +210,7 @@ function PlotSAERecontructions(training_pairs, file_name)
         mape = round(CalculateMAPE(pair[3][1], pair[3][2]), 2)
         training_inputplot = plot(cumsum(Array(pair[3][1])), linestyle = :solid, labels = "actual", title=string("Data Recon ", pair[1], ":", mape))
 
-        recon_vals = deepcopy(pair[3][2])
+        recon_vals = Array(deepcopy(pair[3][2]))
         recon_vals[isnan(recon_vals)] = 0.0
 
         plot!(training_inputplot, cumsum(recon_vals), labels = pair[2], linestyle = :dash)

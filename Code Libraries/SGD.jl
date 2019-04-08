@@ -1,7 +1,7 @@
 module SGD
 
 using ActivationFunctions, InitializationFunctions, NeuralNetworks, TrainingStructures, RBM,  CostFunctions, FFN, GradientFunctions, DatabaseOps, DataProcessor
-
+using DataFrames
 export RunSGD
 
 function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralNetwork, parameters::TrainingParameters)
@@ -11,42 +11,39 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
     zero_activations = (fill(0, (length(network.layers),1)))
     activations = Array{Array{Float64,2},1}(length(network.layers)+1)
 
+    zero_activation_history = (fill(0, (length(network.layers),1)))
+    total_weight_changes = Array{Float64,2}(fill(0.0, (length(network.layers), 1)))
+
     epoch_records = Array{EpochRecord}(parameters.max_epochs)
     num_training_samples = Int64(floor(size(original_dataset.training_input)[1] * parameters.training_splits[1])) #size(dataset.training_input)[1]
     number_batches = Int64.(floor(num_training_samples/parameters.minibatch_size))
-
-    #println(size(original_dataset.training_input))
-    #println(parameters.minibatch_size)
-    #println(number_batches)
 
     mbi_input = map(m -> ((m-1)*parameters.minibatch_size+1), 1:number_batches)
     mbi_output = map(m -> m*parameters.minibatch_size, 1:number_batches)
     layer_sizes = map(l -> size(l.weights, 2), network.layers)
     total_activations = layer_sizes .* num_training_samples
 
-    #println(mbi_input)
-    #println(mbi_output)
+    training_input = Array{Float64,2}(original_dataset.training_input)
+    training_output = Array{Float64,2}(original_dataset.training_output)
+    testing_input = Array{Float64,2}(original_dataset.testing_input)
+    testing_output = Array{Float64,2}(original_dataset.testing_output)
+
+    original_input = Array{Float64,2}(original_dataset.training_input)
+    original_output = Array{Float64,2}(original_dataset.training_output)
+    split_point = Int64(floor(size(original_input,1) * parameters.training_splits[1]))
 
     for i in 1:(parameters.max_epochs)
         tic()
 
-        dataset = GenerateRandomisedDataset(original_dataset.training_input, original_dataset.training_output, parameters)
+        indice_order = randperm(size(original_input, 1))
+        training_indices = indice_order[1:split_point]
+        testing_indices = indice_order[(split_point + 1): end]
 
-        #println("epoch ds size")
-        #println(size(dataset.training_input))
-        #println(size(dataset.testing_input))
-        #println(size(dataset.training_output))
-        #println(size(dataset.testing_output))
+        training_input = original_input[training_indices,:]
+        training_output = original_output[training_indices,:]
+        testing_input = original_input[testing_indices,:]
+        testing_output = original_output[testing_indices,:]
 
-        training_input = Array{Float64,2}(dataset.training_input)
-        training_output = Array{Float64,2}(dataset.training_output)
-
-        testing_input = Array{Float64,2}(dataset.testing_input)
-        testing_output = Array{Float64,2}(dataset.testing_output)
-
-        #epoch_order = randperm(size(training_input)[1])
-        #epoch_input = (training_input[epoch_order,:])
-        #epoch_output = (training_output[epoch_order,:])
 
         zero_activation_history = (fill(0, (length(network.layers),1)))
         total_weight_changes = Array{Float64,2}(fill(0.0, (length(network.layers), 1)))

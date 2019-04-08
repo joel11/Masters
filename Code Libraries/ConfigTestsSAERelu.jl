@@ -28,7 +28,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
         seed = abs(Int64.(floor(randn()*100)))
         ds = abs(Int64.(floor(randn()*100)))
         var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 7, 14, 30],  [0.6],  [0.8, 1.0],  [2], var_pairs)
+        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 7, 14, 30],  [0.6],  [0.8, 1.0],  [2], var_pairs, StandardizeData)
 
         #layers = [(length(var_pairs)*length(data_config.deltas))]
         layers = [1*length(data_config.deltas)]
@@ -49,10 +49,12 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
     ##1. Configuration Variations
     vps = []
 
-    push!(vps, (GetSAETraining, ChangeMinLearningRate, (0.00001, 0.0001)))
+    push!(vps, (GetSAETraining, ChangeMinLearningRate, (0.0001, 0.001)))
+    #push!(vps, (GetSAETraining, ChangeL2Reg, (0.0, 100.0)))
+    #push!(vps, (GetSAETraining, ChangeMinLearningRate, (0.00001, 0.0001)))
     #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HintonUniformInit, InitializationFunctions.HeUniformInit)))
 
-    set_name = string(num_hidden, " Layer ReLU ", num_hidden, "x", layer_size, "x", encoding_layer)
+    set_name = string(num_hidden, " L2Reg Layer ReLU ", num_hidden, "x", layer_size, "x", encoding_layer)
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
     #combos = [GenerateBaseSAEConfig(set_name, "Synthetic Set")]
     ################################################################################
@@ -82,15 +84,18 @@ end
 #2n + 1 = 9
 
 RunNLayerReLUSAETest(1, 9, 1)
-RunNLayerReLUSAETest(1, 9, 2)
-RunNLayerReLUSAETest(2, 9, 1)
-RunNLayerReLUSAETest(2, 9, 2)
-RunNLayerReLUSAETest(3, 9, 1)
-RunNLayerReLUSAETest(3, 9, 2)
+#RunNLayerReLUSAETest(1, 9, 2)
+#RunNLayerReLUSAETest(2, 9, 1)
+#RunNLayerReLUSAETest(2, 9, 2)
+#RunNLayerReLUSAETest(3, 9, 1)
+#RunNLayerReLUSAETest(3, 9, 2)
 
-RunNLayerReLUSAETest(1, 6, 1)
-RunNLayerReLUSAETest(1, 6, 2)
-RunNLayerReLUSAETest(2, 6, 1)
-RunNLayerReLUSAETest(2, 6, 2)
-RunNLayerReLUSAETest(3, 6, 1)
-RunNLayerReLUSAETest(3, 6, 2)
+#RunNLayerReLUSAETest(1, 6, 1)
+#RunNLayerReLUSAETest(1, 6, 2)
+#RunNLayerReLUSAETest(2, 6, 1)
+#RunNLayerReLUSAETest(2, 6, 2)
+#RunNLayerReLUSAETest(3, 6, 1)
+#RunNLayerReLUSAETest(3, 6, 2)
+
+#RunNLayerReLUSAETest(10, 80, 1)
+#RunNLayerReLUSAETest(10, 40, 2)

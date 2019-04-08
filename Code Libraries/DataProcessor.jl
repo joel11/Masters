@@ -2,9 +2,45 @@ module DataProcessor
 
 using DataGenerator, FFN, DataFrames, TrainingStructures
 
-export GenerateRandomisedDataset, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData
+export LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, GenerateRandomisedDataset, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions
 
-function StandardizeData(data)
+function LimitedStandardizeData(data, parameters)
+
+    limit_point = Int64(floor(size(data,1) * parameters.process_splits[1]))
+
+    means = map(c -> mean(data[1:limit_point,c]), 1:size(data,2))
+    stds = map(c -> std(data[1:limit_point,c]), 1:size(data, 2))
+
+    new_data = DataFrame()
+    cols = names(data)
+
+    for i in 1:size(data, 2)
+        new_data[cols[i]] = (data[:,i] - means[i]) / stds[i]
+    end
+
+    return (new_data, means, stds)
+end
+
+function LimitedNormalizeData(data, parameters)
+    maxes = []
+    mins = []
+
+    limit_point = Int64(floor(size(data,1) * parameters.process_splits[1]))
+    new_data = DataFrame()
+    cols = names(data)
+
+    for i in 1:size(data, 2)
+        min = minimum(data[1:limit_point,i])
+        max = maximum(data[1:limit_point,i])
+        new_data[cols[i]]  = (data[cols[i]] .- min) ./ (max .- min)
+        push!(maxes, max)
+        push!(mins, min)
+    end
+
+    return (new_data, maxes, mins)
+end
+
+function StandardizeData(data, parameters)
     means = map(c -> mean(data[:,c]), 1:size(data,2))
     stds = map(c -> std(data[:,c]), 1:size(data, 2))
 
@@ -18,7 +54,7 @@ function StandardizeData(data)
     return (new_data, means, stds)
 end
 
-function NormalizeData(data)
+function NormalizeData(data, parameters)
     maxes = []
     mins = []
 
@@ -35,15 +71,14 @@ function NormalizeData(data)
 
     return (new_data, maxes, mins)
 end
-#processingvar1#mean / max
-#processingvar2 #dev / min
+
 function ReverseNormalization(data, pv1, pv2)
 
     newds = DataFrame()
-    colnames = names(data)
+    #colnames = names(data)
 
     for c in 1:length(pv1)
-        newds[colnames[c]] = data[:,c] .* (pv1[c] - pv2[c]) .+ pv2[c]
+        newds[parse(string(c))] = data[:,c] .* (pv1[c] - pv2[c]) .+ pv2[c]
     end
 
     return newds
@@ -52,10 +87,10 @@ end
 function ReverseStandardization(data, pv1, pv2)
 
     newds = DataFrame()
-    colnames = names(data)
+    #colnames = names(data)
 
     for c in 1:length(pv1)
-        newds[colnames[c]] = data[:,c] .* (pv2[c]) .+ pv1[c]
+        newds[parse(string(c))] = data[:,c] .* (pv2[c]) .+ pv1[c]
     end
 
     return newds
@@ -63,22 +98,17 @@ end
 
 function GenerateRandomisedDataset(input_data, output_data, parameters::TrainingParameters)
 
-    rows = size(input_data, 1)
-    order = randperm(rows)
+    order = randperm(size(input_data, 1))
 
-    ts = parameters.training_splits# [0.8, 1.0]
-    split_point = Int64(floor(rows * ts[1]))
+    split_point = Int64(floor(length(order) * parameters.training_splits[1]))
     training_indices = order[1:split_point]
     testing_indices = order[(split_point + 1): end]
 
-    training_input = input_data[training_indices,:]
-    training_output = output_data[training_indices,:]
-    testing_input = input_data[testing_indices,:]
-    testing_output = output_data[testing_indices,:]
-
-    newds = DataSet(training_input, testing_input, training_output, testing_output, nothing, nothing, nothing, nothing)
-
-    return newds
+    return DataSet(input_data[training_indices,:],
+                    input_data[testing_indices,:],
+                    output_data[training_indices,:],
+                    output_data[testing_indices,:],
+                    nothing, nothing, nothing, nothing)
 end
 
 function GenerateLogFluctuations(series, delta, start)
@@ -168,5 +198,10 @@ function GenerateEncodedOGDDataset(dataset, encoder_network)
     training_input = Feedforward(encoder_network, dataset.training_input)[end]
     return DataSet(training_input, DataFrame(), dataset.training_output, DataFrame(), nothing, nothing, nothing, nothing)
 end
+
+const ReverseFunctions = Dict{Function,Function}(StandardizeData=>ReverseStandardization,
+    LimitedStandardizeData=>ReverseStandardization,
+    NormalizeData=> ReverseNormalization,
+    LimitedNormalizeData => ReverseNormalization)
 
 end

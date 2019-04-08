@@ -76,9 +76,10 @@ type DatasetConfig
     training_splits::Array{Float64}
     prediction_steps::Array{Int64}
     variation_values
+    scaling_function
 
-    function DatasetConfig(data_seed, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values)
-        return new(data_seed, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values)
+    function DatasetConfig(data_seed, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values, scaling_function)
+        return new(data_seed, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values, scaling_function)
     end
 end
 
