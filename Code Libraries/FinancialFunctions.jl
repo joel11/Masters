@@ -6,7 +6,20 @@ function SharpeRatio(returns, rfr)
     return (mean(returns) - rfr)/std(returns)
 end
 
-function CalculateProfit(actual, predicted)
+function CalculateExpectedProfit(actual, predicted)
+
+    prof = nothing
+    #accuracy = predicted / actual
+
+    if sign(actual) == sign(predicted)
+        prof = abs(actual) #* accuracy
+    else
+        prof = - abs(actual - predicted)
+    end
+    return prof
+end
+
+function CalculateRealisedProfit(actual, predicted)
 
     prof = nothing
     #accuracy = predicted / actual

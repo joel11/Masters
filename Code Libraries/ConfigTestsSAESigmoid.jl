@@ -44,7 +44,7 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
         activations = map(x -> SigmoidActivation, 1:(length(layers)-1))
 
         sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation)
-        sae_sgd_par = TrainingParameters("SAE", 2.0, 1.0, 100, 20, 0.0, 300, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
+        sae_sgd_par = TrainingParameters("SAE", 2.0, 1.0, 100, 20, 0.0, 500, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
 
         rbm_cd = TrainingParameters("RBM-CD", 0.5, 3.0, 1, 20, 0.0, 1, (0.0001, 50), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
 
@@ -60,7 +60,7 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
     #push!(vps, (GetDataConfig, ChangeScalingFunction, (NormalizeData, StandardizeData)))
     #push!(vps, (GetSAETraining, ChangeMinibatchSize, (10, 30)))
 
-    push!(vps, (GetDataConfig, ChangeScalingFunction, (NormalizeData, LimitedNormalizeData)))
+    #push!(vps, (GetDataConfig, ChangeScalingFunction, (NormalizeData, LimitedNormalizeData)))
 
     #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HeNormalInit, InitializationFunctions.HintonUniformInit)))
 
@@ -69,7 +69,7 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
     push!(vps, (GetRBMTraining, ChangeMaxLearningRate, (0.5, 1.0))) #, 2.0)))
     push!(vps, (GetRBMTraining, ChangeMaxEpochs, (0, 1, 10, 50))) # , 15)))
 
-    set_name =  string("Sigmoid Test Set ", layer_size, "x", layer_size, "x", encoding_layer)
+    set_name =  string("Sigmoid Test Set ", num_hidden, "x", layer_size, "x", encoding_layer)
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic"))
     ################################################################################
     ##2a. Run Each SAE Configuration
@@ -94,19 +94,19 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
 end
 
 
-RunSAEPreTrainingTest(9, 20, 1)
-RunSAEPreTrainingTest(9, 40, 1)
-RunSAEPreTrainingTest(9, 20, 2)
-RunSAEPreTrainingTest(9, 40, 2)
+#RunSAEPreTrainingTest(9, 20, 1)
+#RunSAEPreTrainingTest(9, 40, 1)
+#RunSAEPreTrainingTest(9, 20, 2)
+#RunSAEPreTrainingTest(9, 40, 2)
 
-RunSAEPreTrainingTest(6, 20, 1)
-RunSAEPreTrainingTest(6, 40, 1)
-RunSAEPreTrainingTest(6, 20, 2)
-RunSAEPreTrainingTest(6, 40, 2)
+RunSAEPreTrainingTest(6, 15, 1)
+RunSAEPreTrainingTest(6, 30, 1)
+RunSAEPreTrainingTest(6, 15, 2)
+RunSAEPreTrainingTest(6, 30, 2)
 
-RunSAEPreTrainingTest(3, 20, 1)
-RunSAEPreTrainingTest(3, 40, 1)
-RunSAEPreTrainingTest(3, 20, 2)
-RunSAEPreTrainingTest(3, 40, 2)
+#RunSAEPreTrainingTest(3, 20, 1)
+#RunSAEPreTrainingTest(3, 40, 1)
+#RunSAEPreTrainingTest(3, 20, 2)
+#RunSAEPreTrainingTest(3, 40, 2)
 
 #end

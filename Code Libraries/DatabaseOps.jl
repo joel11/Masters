@@ -116,6 +116,10 @@ function RecordSAEExperimentConfig(exp_config)
     CreateNetworkRecord(config_id, exp_config.sae_network)
     CreateTrainingRecord(config_id, exp_config.sae_sgd)
 
+    if exp_config.rbm_pretraining == true
+        CreateTrainingRecord(config_id, exp_config.rbm_cd)
+    end
+
     return config_id
 end
 

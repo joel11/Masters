@@ -5,6 +5,8 @@ using DataFrames, NeuralNetworks, CostFunctions
 export TrainingParameters, EpochRecord, PrintEpoch, DataSet, NetworkParameters, DatasetConfig, SAEExperimentConfig, FFNExperimentConfig, OGDTrainingParameters
 
 type DataSet
+    original_prices
+
     training_input::DataFrame #::Array{Float64,2}
     testing_input::DataFrame #Array{Float64,2}
 

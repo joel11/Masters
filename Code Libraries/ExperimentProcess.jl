@@ -21,8 +21,8 @@ function PrepareData(data_config, dataset)
     standardized_data = map(x -> data_config.scaling_function(x, data_config), processed_data)
     data_splits = map(df -> SplitData(df[1], data_config.process_splits), standardized_data)
 
-    saesgd_data = CreateDataset(data_splits[1][1], data_splits[2][1], [1.0], standardized_data[1][2], standardized_data[1][3], standardized_data[2][2], standardized_data[2][3])
-    ogd_data = CreateDataset(data_splits[1][2], data_splits[2][2], [1.0], standardized_data[1][2], standardized_data[1][3], standardized_data[2][2], standardized_data[2][3])
+    saesgd_data = CreateDataset(data_raw,data_splits[1][1], data_splits[2][1], [1.0], standardized_data[1][2], standardized_data[1][3], standardized_data[2][2], standardized_data[2][3])
+    ogd_data = CreateDataset(data_raw,data_splits[1][2], data_splits[2][2], [1.0], standardized_data[1][2], standardized_data[1][3], standardized_data[2][2], standardized_data[2][3])
 
     return(saesgd_data, ogd_data)
 end
@@ -37,7 +37,8 @@ function RunSAEConfigurationTest(ep::SAEExperimentConfig, dataset)
 
     ################################################################################
     #b. Prepare data accordingly
-    saesgd_data = PrepareData(ep.data_config, dataset)[1]
+    full_dataset = PrepareData(ep.data_config, dataset)
+    saesgd_data = full_dataset[1]
 
     ################################################################################
     #c. Run training, and record all epochs
@@ -57,9 +58,10 @@ function RunSAEConfigurationTest(ep::SAEExperimentConfig, dataset)
     reverse_function = ReverseFunctions[ep.data_config.scaling_function]
     deprocessed_actual = reverse_function(actual_data, saesgd_data.input_processingvar1, saesgd_data.input_processingvar2)
     deprocessed_recon = reverse_function(reconstructed_data, saesgd_data.input_processingvar1, saesgd_data.input_processingvar2)
-
-    println(deprocessed_actual)
-    println(deprocessed_recon)
+    #reconstructed_actual = ReconstructPrices(deprocessed_actual, ep.data_config, saesgd_data.original_prices)
+    #reconstructed_recon = ReconstructPrices(deprocessed_recon, ep.data_config, saesgd_data.original_prices)
+    #println(deprocessed_actual)
+    #println(deprocessed_recon)
 
     data_pair = (deprocessed_actual, deprocessed_recon)
 
@@ -89,10 +91,22 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
     actual = DataFrame(comparisons[1])
     predicted = DataFrame(comparisons[2])
 
-    names!(actual, names(encoded_ogd_dataset.training_output))
-    names!(predicted, names(encoded_ogd_dataset.training_output))
+    println(size(actual))
+    println(size(ogd_data.output_processingvar1))
+    println(size(ogd_data.output_processingvar2))
 
-    CreatePredictionRecords(config_id, actual, predicted)
+    reverse_function = ReverseFunctions[ep.data_config.scaling_function]
+    deprocessed_actual = reverse_function(actual, ogd_data.output_processingvar1, ogd_data.output_processingvar2)
+    deprocessed_predicted = reverse_function(predicted, ogd_data.output_processingvar1, ogd_data.output_processingvar2)
+    reconstructed_actual = ReconstructPrices(deprocessed_actual, ep.data_config, ogd_data.original_prices)
+    reconstructed_predicted = ReconstructPrices(deprocessed_predicted, ep.data_config, ogd_data.original_prices)
+
+    reconstructed_actual = DataFrame(reconstructed_actual)
+    reconstructed_predicted = DataFrame(reconstructed_predicted)
+    names!(reconstructed_actual, names(encoded_ogd_dataset.training_output))
+    names!(reconstructed_predicted, names(encoded_ogd_dataset.training_output))
+
+    CreatePredictionRecords(config_id, reconstructed_actual, reconstructed_predicted)
     return (config_id, actual, predicted, ffn_sgd_records, ffn_network)
 end
 

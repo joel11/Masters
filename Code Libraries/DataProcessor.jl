@@ -2,7 +2,27 @@ module DataProcessor
 
 using DataGenerator, FFN, DataFrames, TrainingStructures
 
-export LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, GenerateRandomisedDataset, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions
+export ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, GenerateRandomisedDataset, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions
+
+function ReconstructPrices(output_values, data_config, original_prices)
+
+    output_ahead = data_config.prediction_steps[1]
+    price_index = (size(original_prices,1) - size(output_values,1) - output_ahead) +1
+
+    prices = Array{Float64}(original_prices[price_index:price_index+output_ahead-1,:])
+    init_price_length = size(prices, 1)
+    prices = vcat(prices, fill(0.0, (size(output_values))))
+
+    multipliers = e.^Array(output_values)
+
+    for i in 1:size(output_values,1)
+        for c in 1:size(prices, 2)
+            prices[(i+init_price_length),c] = prices[(i),c] * multipliers[i,c]
+        end
+    end
+
+    prices
+end
 
 function LimitedStandardizeData(data, parameters)
 
@@ -38,6 +58,10 @@ function LimitedNormalizeData(data, parameters)
     end
 
     return (new_data, maxes, mins)
+end
+
+function NullScaling(data, parameters)
+    return (data, [], [])
 end
 
 function StandardizeData(data, parameters)
@@ -104,7 +128,8 @@ function GenerateRandomisedDataset(input_data, output_data, parameters::Training
     training_indices = order[1:split_point]
     testing_indices = order[(split_point + 1): end]
 
-    return DataSet(input_data[training_indices,:],
+    return DataSet(nothing,
+                    input_data[training_indices,:],
                     input_data[testing_indices,:],
                     output_data[training_indices,:],
                     output_data[testing_indices,:],
@@ -141,11 +166,11 @@ function SplitData(data, partition_percentages)
     return partitions
 end
 
-function CreateDataset(input_data, output_data, partition_percentages, input_processvar1, input_processvar2, output_processvar1, output_processvar2)
+function CreateDataset(original_prices, input_data, output_data, partition_percentages, input_processvar1, input_processvar2, output_processvar1, output_processvar2)
     input_splits = SplitData(input_data, partition_percentages)
     output_splits = SplitData(output_data, partition_percentages)
 
-    sd = DataSet((input_splits[1]), (input_splits[2]), (output_splits[1]), (output_splits[2]), input_processvar1, input_processvar2, output_processvar1, output_processvar2)
+    sd = DataSet(original_prices, (input_splits[1]), (input_splits[2]), (output_splits[1]), (output_splits[2]), input_processvar1, input_processvar2, output_processvar1, output_processvar2)
     return (sd)
 end
 
@@ -191,12 +216,12 @@ function GenerateEncodedSGDDataset(dataset, encoder_network)
     #validation_input = size(dataset.validation_input)[1] > 0 ? Feedforward(encoder_network, dataset.validation_input)[end] : Array{Any}()
 
     #nd = DataSet(training_input, testing_input, validation_input, dataset.training_output, dataset.testing_output, dataset.validation_output)
-    nd = DataSet(DataFrame(training_input), DataFrame(testing_input), dataset.training_output, dataset.testing_output, nothing, nothing, nothing, nothing)
+    nd = DataSet(dataset.original_prices, DataFrame(training_input), DataFrame(testing_input), dataset.training_output, dataset.testing_output, nothing, nothing, nothing, nothing)
 end
 
 function GenerateEncodedOGDDataset(dataset, encoder_network)
     training_input = Feedforward(encoder_network, dataset.training_input)[end]
-    return DataSet(training_input, DataFrame(), dataset.training_output, DataFrame(), nothing, nothing, nothing, nothing)
+    return DataSet(dataset.original_prices, training_input, DataFrame(), dataset.training_output, DataFrame(), nothing, nothing, nothing, nothing)
 end
 
 const ReverseFunctions = Dict{Function,Function}(StandardizeData=>ReverseStandardization,

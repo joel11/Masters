@@ -73,7 +73,7 @@ end
 ##Boxplots
 function getlayerstruc(set_name)
     #return ascii(split(split(set_name, "_")[1])[end])
-    return ascii(filter(l -> contains(l, "x"), split(set_name, " "))[1])
+    return ascii(filter(l -> contains(l, "x"), split(set_name, "_"))[1])
 end
 
 function general_boxplot(layer_groups, prefix, filename, variable_name)
@@ -195,6 +195,47 @@ end
 
 ##MSE BoxPlots
 
+function SAE_ScalingLimited_MinTest_BxMSE(min_config)
+
+    query = "select  tp.configuration_id,
+                    min(testing_cost) cost,
+                    case when experiment_set_name like '%Limited%' then 1 else 0 end limited
+            from training_parameters tp
+            inner join epoch_records er on er.configuration_id = tp.configuration_id
+            inner join configuration_run cr on cr.configuration_id = tp.configuration_id
+            where tp.configuration_id >= $min_config
+                and tp.category = \"SAE\"
+            group by tp.configuration_id, limited"
+
+    MSEBoxplot(query, :limited, "Scaling Ltd ", "SAE Scaling Limitation Min Test MSE", Float64, NullTransform)
+end
+
+function SAE_Pretraining_MinTest_BxMSE(min_config)
+
+    query = "select er.configuration_id, min(er.testing_cost) cost, ifnull(max(er2.epoch_number), 0) pre_training_epochs
+            from epoch_records er
+            left join epoch_records er2 on er.configuration_id = er2.configuration_id and er2.category = 'RBM-CD'
+            where er.category like \"SAE-SGD%\"
+                and er.configuration_id >= $min_config
+            group by er.configuration_id
+            having cost not null"
+
+    MSEBoxplot(query, :pre_training_epochs, "Pretraining Epochs ", "SAE Pre-training epochs Min Test MSE", Float64, NullTransform)
+end
+
+function SAE_MinLR_MinTest_BxMSE(min_config)
+
+    lr_msequery = "select tp.configuration_id, min(testing_cost) cost, tp.min_learning_rate
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                where tp.configuration_id >= $min_config
+                    and tp.category like \"SAE%\"
+                    and er.category like \"SAE%\"
+                group by tp.configuration_id, tp.min_learning_rate"
+
+    MSEBoxplot(lr_msequery, :min_learning_rate, "SAE Min LR", "SAE Min Learning Rate Min Test MSE", Float64, NullTransform)
+end
+
 function FFN_LR_MinTest_BxMSE(min_config)
 
     lr_msequery = "select tp.configuration_id, min(testing_cost) cost, learning_rate
@@ -222,12 +263,12 @@ function OGD_LR_AvgTrain_BxMSE(min_config)
     MSEBoxplot(ogd_mse_query, :learning_rate, "OGD LR", "OGD Learning Rate Avg Train MSE", Float64, NullTransform)
 end
 
-function Layer_MinTest_MxMSE(min_config)
+function Layer_MinTest_MxMSE(min_config, category)
     layer_msequery = string("select er.configuration_id, min(testing_cost) cost, experiment_set_name
                             from epoch_records er
                             inner join configuration_run cr on cr.configuration_id = er.configuration_id
                             where er.configuration_id >= $min_config
-                            and er.category = \"FFN-SGD\"
+                            and er.category like \"$category%\"
                             group by er.configuration_id, sae_config_id")
 
     MSEBoxplot(layer_msequery, :layers, "Layers", "Layers Min Test MSE", String, LayerTransform)
@@ -246,15 +287,16 @@ function LastLayer_MinTest_MxMSE(min_config)
     MSEBoxplot(layer_last_query, :layers, "Layers", "Last Layer Min Test MSE", String, LayerTransform)
 end
 
-function Init_MinTest_MxMSE(min_config)
+function SAE_Init_MinTest_MxMSE(min_config)
     init_query = string("select er.configuration_id, min(testing_cost) cost, initialization init
                         from epoch_records er
                         inner join network_parameters np on np.configuration_id = er.configuration_id
                         where np.category = \"SAE\"
+                            and er.configuration_id > $min_config
                         group by er.configuration_id, init
                         having cost not null")
 
-    MSEBoxplot(init_query, :init, "Init", "Inits Min Test MSE", String, NullTransform)
+    MSEBoxplot(init_query, :init, "Init", "SAE Inits Min Test MSE", String, NullTransform)
 end
 
 function SAEMSEBoxPlot(min_config) #Best Epoch - Min Test
@@ -394,9 +436,9 @@ end
 ##General Plots
 
 #config_ids = 504:999
-config_ids = 61:195
-UpdateTotalProfits(config_ids)
-TotalProfits = ReadProfits()
+config_ids = 830:1405
+#UpdateTotalProfits(config_ids)
+#TotalProfits = ReadProfits()
 min_config = minimum(config_ids)
 #sae_choices = (253, 265, 256, 260, 264)
 #min_config = minimum(TotalProfits[:,1])
@@ -409,3 +451,8 @@ FFN_LR_Sched_BxProfit(min_config)
 SAEProfitBoxPlot(min_config)
 AllProfitsPDF(min_config)
 FFN_LR_x_Layers_ProfitHeatmap(min_config)
+
+SAE_Init_MinTest_MxMSE(min_config)
+SAE_Pretraining_MinTest_BxMSE(min_config)
+Layer_MinTest_MxMSE(min_config, "SAE")
+SAE_LR_MinTest_BxMSE(min_config)
