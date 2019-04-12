@@ -27,37 +27,25 @@ function UpdateTotalProfits(config_ids)
 
     #Original Setup
     #TotalProfits = DataFrame()
-    #TotalProfits[:configuration_id] = config_ids
-    #TotalProfits[:profit] = NaN
+    #TotalProfits[:configuration_id] = []
+    #TotalProfits[:profit] = []
 
     TotalProfits = BSON.load("ProfitVals.bson")[:profits]
 
     current_configs = TotalProfits[:,1]
     needed_configs = collect(setdiff(Set(config_ids), Set(current_configs)))
 
-    if (length(needed_configs) > 0)
-
-        configs = mapreduce(x->string(x, ","), string, needed_configs)[1:(end-1)]
-        query = string("select * from prediction_results where configuration_id in ($configs)")
-        results = RunQuery(query)
-
-        for i in 1:(length(needed_configs))
-
-            c = needed_configs[i]
-            println(c)
-            query = string("select * from prediction_results where configuration_id in ($c)")
-            results = RunQuery(query)
-            profits = sum(CalculateReturnsOneD(Array(results[:,:actual]), Array(results[:,:predicted])))
-            #profits = sum(CalculateReturnsOneD(Array(results[:,:actual]), Array(results[:,:actual])))
-
-            TotalProfits = cat(1, TotalProfits, [c profits])
-        end
-
-        profit_array = Array(TotalProfits)
-        file_name = string("ProfitVals.bson")
-        values = Dict(:profits => profit_array)
-        bson(file_name, values)
+    for c in needed_configs
+        println(c)
+        profits = GenerateTotalProfit(c, nothing)
+        TotalProfits = cat(1, TotalProfits, [c profits])
     end
+
+    profit_array = Array(TotalProfits)
+    file_name = string("ProfitVals.bson")
+    values = Dict(:profits => profit_array)
+    bson(file_name, values)
+
 end
 
 function ReadProfits()
@@ -73,7 +61,7 @@ end
 ##Boxplots
 function getlayerstruc(set_name)
     #return ascii(split(split(set_name, "_")[1])[end])
-    return ascii(filter(l -> contains(l, "x"), split(set_name, "_"))[1])
+    return ascii(filter(l -> contains(l, "x"), split(set_name, " "))[1])
 end
 
 function general_boxplot(layer_groups, prefix, filename, variable_name)
@@ -384,7 +372,7 @@ end
 
 function StockPricePlot()
     var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-    ds = GenerateDataset(167, 5000, var_pairs)
+    ds = GenerateDataset(38, 5000, var_pairs)
 
     price_plot = plot(Array(ds), name = ["stock 1" "stock 2" "stock 3" "stock 4" "stock 5" "stock 6"])
     savefig(price_plot, "/users/joeldacosta/desktop/PriceGraphs.html")
@@ -400,9 +388,13 @@ function RecreateStockPrices(config_names)
         timesteps = best_groups[i,2][:time_step]
         config_groups = by(best_groups[i,2], [:configuration_id], df-> [df])
 
-        actual = cumsum(config_groups[1,2][:actual])
-        predicted_one = cumsum(config_groups[1,2][:predicted])
-        predicted_two = cumsum(config_groups[2,2][:predicted])
+        #actual = cumsum(config_groups[1,2][:actual])
+        #predicted_one = cumsum(config_groups[1,2][:predicted])
+        #predicted_two = cumsum(config_groups[2,2][:predicted])
+
+        actual = (config_groups[1,2][:actual])
+        predicted_one = (config_groups[1,2][:predicted])
+        predicted_two = (config_groups[2,2][:predicted])
 
         stock_name = get(best_groups[i,1])
 
@@ -416,9 +408,6 @@ function RecreateStockPrices(config_names)
 
     end
 end
-
-#names = Dict(902 => "Profit", 510 => "MSE")
-#RecreateStockPrices(names)
 
 ################################################################################
 ##Profit PDF
@@ -435,15 +424,32 @@ end
 ###############################################################################
 ##General Plots
 
-#config_ids = 504:999
-config_ids = 830:1405
+config_ids = 443:665
+config_ids = 666:761
+TotalProfits = ReadProfits()
+
+SAE_Pretraining_MinTest_BxMSE(666)
+
+Layer_BxProfit(443)
+SAEProfitBoxPlot(443)
+StockPricePlot()
 #UpdateTotalProfits(config_ids)
-#TotalProfits = ReadProfits()
+
+
+indices = TotalProfits[:profit] .> 75
+
+TotalProfits[Bool.(Array(indices)),:]
+sort(TotalProfits[:profit])
+
 min_config = minimum(config_ids)
+
 #sae_choices = (253, 265, 256, 260, 264)
 #min_config = minimum(TotalProfits[:,1])
 
 #end
+names = Dict(627 => "Profit", 626 => "MSE")
+RecreateStockPrices(names)
+
 Layer_BxProfit(min_config)
 OGD_LR_BxProfit(min_config)
 FFN_LR_BxProfit(min_config)
@@ -456,3 +462,88 @@ SAE_Init_MinTest_MxMSE(min_config)
 SAE_Pretraining_MinTest_BxMSE(min_config)
 Layer_MinTest_MxMSE(min_config, "SAE")
 SAE_LR_MinTest_BxMSE(min_config)
+
+
+config_ids = 443:665
+min_config = 443
+AllProfitsPDF(min_config)
+
+query = "select er.configuration_id, training_cost cost,
+    (sf.scaling_method || \"-\" ||
+    case when cr.experiment_set_name like '%LinearActivation%' then 'LinearActivation'
+    else 'ReluActivation'
+    end) scaling_method
+from epoch_records er
+inner join configuration_run cr on cr.configuration_id = er.configuration_id
+inner join scaling_functions sf on sf.configuration_id = er.configuration_id
+where er.configuration_id > $min_config
+and category = \"OGD\"
+and training_cost is not null"
+
+p = MSEBoxplot(query, :scaling_method, "Scaling Method ", "OGD Scaling Limitation Min MSE", String, NullTransform)
+
+
+lr_query = "select er.configuration_id,
+    (sf.scaling_method || '-' ||
+    case when cr.experiment_set_name like '%LinearActivation%' then 'LinearActivation'
+    else 'ReluActivation'
+    end) scaling_method
+from epoch_records er
+inner join configuration_run cr on cr.configuration_id = er.configuration_id
+inner join scaling_functions sf on sf.configuration_id = er.configuration_id
+where er.configuration_id > $min_config
+and category = 'OGD'
+and training_cost is not null"
+
+ProfitBoxplot(lr_query, :scaling_method, "Scaling", "OGD Profits by Scaling", String, NullTransform)
+
+
+
+
+query = "select  tp.configuration_id,
+                min(testing_cost) cost,
+                (case when experiment_set_name like '%Limited%' then \"LimitedStandardize\" else \"Standardize\" end || '-' ||
+                case when cr.experiment_set_name like '%LinearActivation%' then 'LinearActivation' else 'ReluActivation' end) scaling
+
+        from training_parameters tp
+        inner join epoch_records er on er.configuration_id = tp.configuration_id
+        inner join configuration_run cr on cr.configuration_id = tp.configuration_id
+        where tp.configuration_id between 1 and 320
+            and tp.category = \"SAE\"
+        group by tp.configuration_id, scaling"
+
+MSEBoxplot(query, :scaling, "Scaling Ltd ", "SAE Scaling Limitation Min Test MSE", String, NullTransform)
+
+
+
+
+
+
+
+
+
+
+
+
+#=
+standard_configs = []
+limited_configs = []
+config_ids = 1:320
+for c in config_ids
+
+    data_config = ReadSAE(c)[2]
+    method = split(string(data_config.scaling_function), ".")[2]
+    if method == "StandardizeData"
+        push!(standard_configs, c)
+    else
+        push!(limited_configs, c)
+    end
+end
+
+std = ""
+for i in standard_configs
+    std = string(std, "($i, \"StandardizeData\"),\n")
+end
+
+println(std)
+=#

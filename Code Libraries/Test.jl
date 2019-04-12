@@ -16,7 +16,8 @@ using ConfigGenerator
 using ExperimentProcess
 
 export RunFFNConfigurationTest, RunSAEConfigurationTest, PrepareData
-
+using PlotlyJS
+#=
 function NullScaling(data, parameters)
     return (data, [], [])
 end
@@ -51,30 +52,10 @@ function ReconstructPrices(output_values, data_config, original_prices)
     end
 
     prices
-end
+end=#
 
-srand(1234567891234567)
-seed = abs(Int64.(floor(randn()*100)))
-ds = abs(Int64.(floor(randn()*100)))
-var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-data_config = DatasetConfig(ds, "test",  5000,  [1,7],  [0.6],  [0.8, 1.0],  [2], var_pairs, LimitedStandardizeData)
 
-processed_data = PrepareData(data_config, nothing)
-#recon_output = ReverseStandardization(processed_data[2].training_output, processed_data[2].output_processingvar1, processed_data[2].output_processingvar2)
-#output_values = recon_output
-original_prices = processed_data[2].original_prices
-
-#ReconstructPrices(output_values, data_config, original_prices)
-
-#size(output_values)
-#size(original_prices)
-
-#deprocessed is (599, 12),
-#prices are 5001, 6: stock1, stock2, stock3 ...
-
-#Recon Testing##################################################################
-
-#config 109
+using DatabaseOps
 
 function GenerateStockReturns(step_predictions, start_t, finish_t, timestep, original_prices)
 
@@ -90,81 +71,150 @@ function GenerateStockReturns(step_predictions, start_t, finish_t, timestep, ori
         df[:observed_t] = Array(original_prices[start_t:(finish_t-timestep),parse(stock_name)])
 
         df[:trade] = vcat(Int64.(Array(df[:expected_t2]) .> Array(df[:observed_t])))
-        df[:perfect_trade] = vcat(Int64.(Array(df[:observed_t2]) .> Array(df[:observed_t])))
+        df[:trade_perfect] = vcat(Int64.(Array(df[:observed_t2]) .> Array(df[:observed_t])))
 
-        df[:trade_cost] = df[:trade] .* df[:observed_t]
-        df[:perfect_trade_cost] = df[:perfect_trade] .* df[:observed_t]
+        df[:return_observed] = Array(df[:observed_t2]).*df[:trade]
+        df[:return_expected] = Array(df[:expected_t2]).*df[:trade]
+        df[:return_perfect] =  Array(df[:observed_t2]).*df[:trade_perfect]
 
-        df[:return_observed_amount] = Array(df[:observed_t2]).*df[:trade]
-        df[:return_expected_amount] = Array(df[:expected_t2]).*df[:trade]
-        df[:return_perfect_amount] =  Array(df[:observed_t2]).*df[:perfect_trade]
 
-        #df[:return_observed_rate] = (Array(df[:observed_t2])./Array(df[:observed_t])).*df[:trade]
-        #df[:return_observed_amount] = (Array(df[:observed_t2]) .- Array(df[:observed_t])).*df[:trade]
+        df[:cost] = df[:trade] .* df[:observed_t]
+        df[:cost_perfect] = df[:trade_perfect] .* df[:observed_t]
 
-        #df[:return_expected_rate] = (Array(df[:expected_t2])./Array(df[:observed_t])).*df[:trade]
-        #df[:return_expected_amount] = (Array(df[:expected_t2]) .- Array(df[:observed_t])).*df[:trade]
+        df[:trading_cost] = df[:observed_t] .* (0.1/365*2) + df[:observed_t] .* (0.45/100)
 
-        #df[:return_perfect_amount] = (Array(df[:observed_t2]) .- Array(df[:observed_t])).*df[:perfect_trade]
+        df[:fullcost] = (df[:observed_t] .+ df[:trading_cost]) .* df[:trade]
+        df[:fullcost_perfect] = (df[:observed_t] .+ df[:trading_cost]) .* df[:trade_perfect]
+
     end
 
     return groups
 end
 
-
-function GenerateStrategyReturns(stockreturns)
+function GenerateStrategyReturns(stockreturns, timestep)
 
     strat_df = DataFrame()
 
-    observed_returns = mapreduce(i -> Array(stockreturns[i,2][:return_observed_amount]), hcat, 1:size(stockreturns,1))
-    expected_returns = mapreduce(i -> Array(stockreturns[i,2][:return_expected_amount]), hcat, 1:size(stockreturns,1))
-    perfect_returns = mapreduce(i -> Array(stockreturns[i,2][:return_perfect_amount]), hcat, 1:size(stockreturns,1))
+    returns_observed = mapreduce(i -> Array(stockreturns[i,2][:return_observed]), hcat, 1:size(stockreturns,1))
+    returns_expected = mapreduce(i -> Array(stockreturns[i,2][:return_expected]), hcat, 1:size(stockreturns,1))
+    returns_perfect = mapreduce(i -> Array(stockreturns[i,2][:return_perfect]), hcat, 1:size(stockreturns,1))
 
-    trade_costs = mapreduce(i -> stockreturns[i,2][:trade_cost], hcat, 1:size(stockreturns,1))
-    perfect_trade_costs = mapreduce(i -> stockreturns[i,2][:perfect_trade_cost], hcat, 1:size(stockreturns,1))
+    trade_costs = mapreduce(i -> stockreturns[i,2][:cost], hcat, 1:size(stockreturns,1))
+    trade_costs_perfect = mapreduce(i -> stockreturns[i,2][:cost_perfect], hcat, 1:size(stockreturns,1))
 
-    strat_df[:total_observed_returns] = mapreduce(i -> sum(observed_returns[i, :]), vcat, 1:size(observed_returns, 1))
-    strat_df[:total_expected_returns] = mapreduce(i -> sum(expected_returns[i, :]), vcat, 1:size(expected_returns, 1))
-    strat_df[:total_perfect_returns] = mapreduce(i -> sum(perfect_returns[i, :]), vcat, 1:size(perfect_returns, 1))
+    full_costs = mapreduce(i -> stockreturns[i,2][:fullcost], hcat, 1:size(stockreturns,1))
+    full_costs_perfect = mapreduce(i -> stockreturns[i,2][:fullcost_perfect], hcat, 1:size(stockreturns,1))
+
+    strat_df[:total_returns_observed] = mapreduce(i -> sum(returns_observed[i, :]), vcat, 1:size(returns_observed, 1))
+    strat_df[:total_returns_expected] = mapreduce(i -> sum(returns_expected[i, :]), vcat, 1:size(returns_expected, 1))
+    strat_df[:total_returns_perfect] = mapreduce(i -> sum(returns_perfect[i, :]), vcat, 1:size(returns_perfect, 1))
     strat_df[:total_trade_costs] = mapreduce(i -> sum(trade_costs[i, :]), vcat, 1:size(trade_costs, 1))
-    strat_df[:total_perfect_trade_costs] = mapreduce(i -> sum(perfect_trade_costs[i, :]), vcat, 1:size(perfect_trade_costs, 1))
+    strat_df[:total_trade_costs_perfect] = mapreduce(i -> sum(trade_costs_perfect[i, :]), vcat, 1:size(trade_costs_perfect, 1))
 
-    strat_df[:return_expected_rate] = strat_df[:total_expected_returns] ./ strat_df[:total_trade_costs]
-    strat_df[:return_observed_rate] = strat_df[:total_observed_returns] ./ strat_df[:total_trade_costs]
+    strat_df[:total_full_costs] = mapreduce(i -> sum(full_costs[i, :]), vcat, 1:size(full_costs, 1))
+    strat_df[:total_full_costs_perfect] = mapreduce(i -> sum(full_costs_perfect[i, :]), vcat, 1:size(full_costs_perfect, 1))
 
-    strat_df[:return_expected_rate][isnan.(strat_df[:return_expected_rate])] = 0
-    strat_df[:return_observed_rate][isnan.(strat_df[:return_observed_rate])] = 0
+    strat_df[:daily_rates_observed] = vcat(-strat_df[1:timestep, :total_trade_costs],
+        -strat_df[(timestep+1):end, :total_trade_costs] + strat_df[1:(end-2), :total_returns_observed])
 
-    strat_df[:cumulative_return_expected] = cumsum(strat_df[:total_expected_returns] - strat_df[:total_trade_costs])
-    strat_df[:cumulative_return_observed] = cumsum(strat_df[:total_observed_returns] - strat_df[:total_trade_costs])
+    strat_df[:daily_rates_observed_fullcosts] = vcat(-strat_df[1:timestep, :total_full_costs],
+        -strat_df[(timestep+1):end, :total_full_costs] + strat_df[1:(end-2), :total_returns_observed])
 
-    strat_df[:cumulative_return_perfect] = cumsum(strat_df[:total_perfect_returns] - strat_df[:total_perfect_trade_costs])
+    strat_df[:cumulative_profit_observed] = cumsum(strat_df[:total_returns_observed] .- strat_df[:total_trade_costs])
+    strat_df[:cumulative_profit_observed_fullcosts] = cumsum(strat_df[:total_returns_observed] .- strat_df[:total_full_costs])
+    strat_df[:cumulative_profit_observed_perfect] = cumsum(strat_df[:total_returns_observed] .- strat_df[:total_trade_costs_perfect])
+    strat_df[:cumulative_profit_observed_perfect_fullcosts] = cumsum(strat_df[:total_returns_observed] .- strat_df[:total_full_costs_perfect])
+
+    strat_df[:cumulative_observed_rate] = cumsum(strat_df[:total_returns_observed]) ./ cumsum(strat_df[:total_trade_costs])
+    strat_df[:cumulative_expected_rate] = cumsum(strat_df[:total_returns_expected]) ./ cumsum(strat_df[:total_trade_costs])
+    strat_df[:cumulative_perfect_rate] = cumsum(strat_df[:total_returns_perfect]) ./ cumsum(strat_df[:total_trade_costs_perfect])
+
+    strat_df[:cumulative_observed_rate_fullcost] = cumsum(strat_df[:total_returns_observed]) ./ cumsum(strat_df[:total_full_costs])
+    strat_df[:cumulative_expected_rate_fullcost] = cumsum(strat_df[:total_returns_expected]) ./ cumsum(strat_df[:total_full_costs])
+    strat_df[:cumulative_perfect_rate_fullcost] = cumsum(strat_df[:total_returns_perfect]) ./ cumsum(strat_df[:total_full_costs_perfect])
 
     return strat_df
 end
 
+function GenericStrategyResultPlot(strategyreturns, columns, filename)
+    timesteps = size(strategyreturns, 1)
+    traceplots = map(c -> scatter(;y=strategyreturns[c], x = timesteps, name=string(c), mode ="lines"), columns)
+    savefig(plot(traceplots), string("/users/joeldacosta/desktop/", filename, ".html"))
+end
+
+function WriteStrategyGraphs(config_id, strategyreturns)
+    daily_rates = [:daily_rates_observed, :daily_rates_observed_fullcosts]
+    cumulative_profits = [:cumulative_profit_observed, :cumulative_profit_observed_fullcosts, :cumulative_profit_observed_perfect, :cumulative_profit_observed_perfect_fullcosts]
+    cumulative_rates = [:cumulative_observed_rate, :cumulative_expected_rate, :cumulative_perfect_rate]
+    cumulative_rates_fullcosts = [:cumulative_observed_rate_fullcost, :cumulative_expected_rate_fullcost, :cumulative_perfect_rate_fullcost]
+
+    GenericStrategyResultPlot(strategyreturns, daily_rates, string(config_id, "_DailyRates"))
+    GenericStrategyResultPlot(strategyreturns, cumulative_profits, string(config_id, "_CumulativeProfits"))
+    GenericStrategyResultPlot(strategyreturns, cumulative_rates, string(config_id, "_CumulativeRates"))
+    GenericStrategyResultPlot(strategyreturns, cumulative_rates_fullcosts, string(config_id, "_CumulativeRatesFullCost"))
+end
+
+function ConfigStrategyOutput(config_id, original_prices)
+
+    #db = SQLite.DB("database_test.db")
+
+    results = RunQuery("select * from configuration_run where configuration_id = $config_id")
+    sae_id = get(results[1, :sae_config_id])
+    data_config = ReadSAE(sae_id)[2]
+    timestep = data_config.prediction_steps[1]
+
+    if original_prices == nothing
+        processed_data = PrepareData(data_config, nothing)
+        original_prices = processed_data[2].original_prices
+    end
 
 
+    results = RunQuery("select * from prediction_results where configuration_id = $config_id")
 
-using DatabaseOps
-using PlotlyJS
+    num_predictions = get(maximum(results[:time_step]))
+    finish_t = size(original_prices, 1)
+    start_t = finish_t - num_predictions - 1
 
-timestep = 2
-start_t = 3001
-finish_t = 5001
-original_prices
-db = SQLite.DB("database_test.db")
-results = SQLite.query(db, "select * from prediction_results where configuration_id = 109")
+    stockreturns = GenerateStockReturns(results, start_t, finish_t, timestep, original_prices)
+    strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
 
-stockreturns = GenerateStockReturns(results, start_t, finish_t, timestep, original_prices)
-stratreturns = GenerateStrategyReturns(stockreturns)
-stockreturns[1,2]
-#rets = hcat(stratreturns[:,8].*100,stratreturns[:,9].*100,stratreturns[:,10].*100)
-rets = hcat(stratreturns[:,8], stratreturns[:,9],stratreturns[:,10])
+    WriteStrategyGraphs(config_id, strategyreturns)
 
-price_plot = plot(rets)
-savefig(price_plot, "/users/joeldacosta/desktop/PriceRecon.html")
+end
 
-sum(stratreturns[:total_perfect_trade_costs])
 
-sum(stratreturns[:total_perfect_returns])/sum(stratreturns[:total_perfect_trade_costs])*100
+function GenerateTotalProfit(config_id, original_prices)
+    results = RunQuery("select * from configuration_run where configuration_id = $config_id")
+    sae_id = get(results[1, :sae_config_id])
+    data_config = ReadSAE(sae_id)[2]
+    timestep = data_config.prediction_steps[1]
+
+    if original_prices == nothing
+        processed_data = PrepareData(data_config, nothing)
+        original_prices = processed_data[2].original_prices
+    end
+
+
+    results = RunQuery("select * from prediction_results where configuration_id = $config_id")
+
+    num_predictions = get(maximum(results[:time_step]))
+    finish_t = size(original_prices, 1)
+    start_t = finish_t - num_predictions - 1
+
+    stockreturns = GenerateStockReturns(results, start_t, finish_t, timestep, original_prices)
+    strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
+
+
+    return strategyreturns[end, :cumulative_profit_observed]
+end
+
+config_id  = 626
+original_prices = nothing
+ConfigStrategyOutput(626, nothing)
+GenerateTotalProfit(626, nothing)
+#using DatabaseOps
+#
+#original_prices
+#original_prices2 = DataFrame()
+#original_prices2[:stock1] = [5; 6; 7; 6; 8; 10; 9; 9.5; 10; 11; 11; 10]
+#original_prices2[:stock2] = [6;5;4;4;4.5;6;7;6.5;8;8.5;10;11]

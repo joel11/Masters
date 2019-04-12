@@ -38,7 +38,7 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs)
         activations[end] = LinearActivation
 
         ffn_net_par = NetworkParameters("FFN", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation)
-        ffn_sgd_par = TrainingParameters("FFN", 0.001, 0.00001, 100,  20, 0.0, 1000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
+        ffn_sgd_par = TrainingParameters("FFN", 0.1, 0.00001, 1,  20, 0.0, 1000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.99])
         ogd_par = OGDTrainingParameters("FFN-OGD", 0.001, true, MeanSquaredError())
 
         return FFNExperimentConfig(seed, set_name, false, data_config, sae_config_id, encoder, ffn_net_par, ffn_sgd_par, ogd_par, nothing)
@@ -46,26 +46,17 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs)
 
     ################################################################################
     ##1. Configuration Variations
-    set_name = string("2 OF 2 Test AGL 2 FFN ", num_hidden, " Layer ReLU ", num_hidden, "x", layer_size)
-    jsedata = ReadJSETop40Data()
+    set_name = string("Reduced Scaling FFN ", num_hidden, " Layer ReLU ", num_hidden, "x", layer_size)
+    #jsedata = ReadJSETop40Data()
     dataset = nothing #jsedata[:, [:AGL]]
 
     vps = []
 
-    #push!(vps, (GetFFNTraining, ChangeMinMaxLearningRate, ((0.01, 0.01), (0.01, 0.001), (0.01, 0.0001),
+    push!(vps, (GetFFNNetwork, ChangeOutputActivation, (LinearActivation, ReluActivation)))
+    push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.1, 0.01, 0.00001)))
+    #push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.00001, 0.001)))
 
-    #current max 1843
-    #(0.001, 0.001),
-    #(0.0001, 0.0001))))
-    #(0.1, 0.1)
-    #(0,1, ...3 options)
 
-    push!(vps, (GetFFNTraining, ChangeMinLearningRate, (0.00001, 0.000001)))
-    #push!(vps, (GetFFNTraining, ChangeMinLearningRate, (0.0001, 0.001)))
-    #push!(vps, (GetFFNTraining, ChangeMinLearningRate, (0.0001)))
-
-    #push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (         0.0001, 0.001, 0.01)))
-    #push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.00001, 0.0001, 0.001)))
 
     combos = []
     for s in sae_configs
@@ -86,38 +77,35 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs)
 end
 
 #Overfit Test
-sae_choices = (43)
-results = RunNLayerReLUFFNTest(40, 1, sae_choices)
-
+#sae_choices = (43)
+#results = RunNLayerReLUFFNTest(40, 1, sae_choices)
 #config_ids = map(r -> r[1], results)
 #configs = mapreduce(x->string(x, "_"), string, config_ids)[1:(end-1)]
 #ProfitPlots(config_ids, string("ProfitPlot_", configs))
 
-#sae_choices = (2, 30, 36)
+#Limited
+#limited_sae_choices = ( 318, 302, 286,190, 254)
+limited_sae_choices = ( 318,  286, 254)
+#Nonlimited
+#normal_sae_choices = (317, 301, 285, 189, 253)
+normal_sae_choices = (317,  285,  253)
 
-#RunNLayerReLUFFNTest(6, 1, sae_choices)
-#RunNLayerReLUFFNTest(6, 2, sae_choices)
-#RunNLayerReLUFFNTest(6, 3, sae_choices)
+#RunNLayerReLUFFNTest(40, 1, limited_sae_choices)
+#RunNLayerReLUFFNTest(40, 2, limited_sae_choices)
+#RunNLayerReLUFFNTest(40, 3, limited_sae_choices)
 
-#RunNLayerReLUFFNTest(9, 1, sae_choices)
-#RunNLayerReLUFFNTest(9, 2, sae_choices)
-#RunNLayerReLUFFNTest(9, 3, sae_choices)
+RunNLayerReLUFFNTest(80, 1, limited_sae_choices)
+RunNLayerReLUFFNTest(80, 2, limited_sae_choices)
+RunNLayerReLUFFNTest(80, 3, limited_sae_choices)
+
+RunNLayerReLUFFNTest(40, 1, normal_sae_choices)
+RunNLayerReLUFFNTest(40, 2, normal_sae_choices)
+RunNLayerReLUFFNTest(40, 3, normal_sae_choices)
+
+RunNLayerReLUFFNTest(80, 1, normal_sae_choices)
+RunNLayerReLUFFNTest(80, 2, normal_sae_choices)
+RunNLayerReLUFFNTest(80, 3, normal_sae_choices)
 
 #RunNLayerReLUFFNTest(15, 1, sae_choices)
 #RunNLayerReLUFFNTest(15, 2, sae_choices)
 #RunNLayerReLUFFNTest(15, 3, sae_choices)
-
-#RunNLayerReLUFFNTest(20, 1, sae_choices)
-#ProfitPlots(map(i ->i, 504:548), "ProfitPlot20x1")
-#RunNLayerReLUFFNTest(20, 2, sae_choices)
-#ProfitPlots(map(i ->i, 549:593), "ProfitPlot20x2")
-#friRunNLayerReLUFFNTest(20, 3, sae_choices)
-#ProfitPlots(map(i ->i, 594:638), "ProfitPlot20x3")
-
-#RunNLayerReLUFFNTest(40, 1, sae_choices)
-#RunNLayerReLUFFNTest(40, 2, sae_choices)
-#RunNLayerReLUFFNTest(40, 3, sae_choices)
-
-#RunNLayerReLUFFNTest(80, 1, sae_choices)
-#RunNLayerReLUFFNTest(80, 2, sae_choices)
-#RunNLayerReLUFFNTest(80, 3, sae_choices)

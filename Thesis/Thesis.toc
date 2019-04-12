@@ -1,9 +1,15 @@
 \select@language {english}
-\contentsline {paragraph}{Next Iteration}{3}{section*.1}
-\contentsline {paragraph}{Critical Decisions and Points of Concern}{3}{section*.2}
-\contentsline {paragraph}{Non-Critical Features}{3}{section*.3}
-\contentsline {paragraph}{Dissertation to-do list}{3}{section*.4}
-\contentsline {paragraph}{16th June 2018}{6}{section*.6}
+\contentsline {paragraph}{Scaling}{3}{section*.1}
+\contentsline {paragraph}{General Configurations \& CV}{4}{section*.5}
+\contentsline {paragraph}{Return Graphs}{6}{section*.10}
+\contentsline {paragraph}{Price Predictions}{8}{section*.14}
+\contentsline {paragraph}{Sigmoid Pre-training}{11}{section*.21}
+\contentsline {paragraph}{Next Iteration}{12}{section*.23}
+\contentsline {paragraph}{Critical Decisions and Points of Concern}{12}{section*.24}
+\contentsline {paragraph}{Non-Critical Features}{12}{section*.25}
+\contentsline {paragraph}{Dissertation to-do list}{12}{section*.26}
+\contentsline {paragraph}{16th June 2018}{15}{section*.28}
+\contentsline {paragraph}{29th March 2019}{15}{section*.29}
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}
 \contentsline {section}{\numberline {2}LiteratureReview}{4}{section.2}
 \contentsline {subsection}{\numberline {2.1}Technical Analysis}{4}{subsection.2.1}
@@ -29,15 +35,15 @@
 \contentsline {subsection}{\numberline {3.1}Data Processing}{14}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Data Scaling}{14}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}Synthetic Data}{14}{subsection.3.3}
-\contentsline {paragraph}{Simulated Dataset}{14}{section*.15}
+\contentsline {paragraph}{Simulated Dataset}{14}{section*.38}
 \contentsline {subsection}{\numberline {3.4}Real Data}{14}{subsection.3.4}
 \contentsline {section}{\numberline {4}Implementation}{15}{section.4}
 \contentsline {subsection}{\numberline {4.1}Process Overview}{15}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Feedforward Neural Networks}{15}{subsection.4.2}
 \contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{15}{subsubsection.4.2.1}
 \contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{15}{subsubsection.4.2.2}
-\contentsline {subparagraph}{Sigmoid}{15}{section*.18}
-\contentsline {subparagraph}{ReLU}{16}{section*.19}
+\contentsline {subparagraph}{Sigmoid}{15}{section*.41}
+\contentsline {subparagraph}{ReLU}{16}{section*.42}
 \contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{16}{subsubsection.4.2.3}
 \contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{16}{subsubsection.4.2.4}
 \contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent Improvements}{17}{subsubsection.4.2.5}
@@ -54,16 +60,17 @@
 \contentsline {subsection}{\numberline {4.8}Performance Assessment}{20}{subsection.4.8}
 \contentsline {subsection}{\numberline {4.9}Full Process Implementation}{21}{subsection.4.9}
 \contentsline {section}{\numberline {5}Results}{22}{section.5}
-\contentsline {subsection}{\numberline {5.1}Search Methods and Parameters}{22}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Results for Synthetic Data}{22}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Dataset Generation}{22}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}SAE Network and Results}{23}{subsubsection.5.2.2}
+\contentsline {paragraph}{Working Notes}{22}{section*.57}
+\contentsline {subsection}{\numberline {5.1}Money Management Strategy and Returns}{22}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Results for Synthetic Data}{23}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Dataset Generation}{23}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}SAE Network and Results}{24}{subsubsection.5.2.2}
 \contentsline {subsubsection}{\numberline {5.2.3}Predictive FFN Network and Results}{24}{subsubsection.5.2.3}
-\contentsline {paragraph}{SAE Results}{25}{section*.38}
-\contentsline {paragraph}{Layer Size \& SGD Learning Rate Results}{27}{section*.42}
-\contentsline {paragraph}{OGD Learning Rate Results}{31}{section*.50}
-\contentsline {paragraph}{Prediction Plots}{32}{section*.53}
-\contentsline {paragraph}{CSCV Plots}{35}{section*.60}
-\contentsline {subsection}{\numberline {5.3}Results for Real Data}{35}{subsection.5.3}
-\contentsline {section}{\numberline {6}Conclusions}{36}{section.6}
-\contentsline {section}{\numberline {7}References}{37}{section.7}
+\contentsline {paragraph}{SAE Results}{24}{section*.59}
+\contentsline {paragraph}{Layer Size \& SGD Learning Rate Results}{24}{section*.60}
+\contentsline {paragraph}{OGD Learning Rate Results}{24}{section*.61}
+\contentsline {paragraph}{Prediction Plots}{24}{section*.62}
+\contentsline {paragraph}{CSCV Plots}{24}{section*.63}
+\contentsline {subsection}{\numberline {5.3}Results for Real Data}{24}{subsection.5.3}
+\contentsline {section}{\numberline {6}Conclusions}{25}{section.6}
+\contentsline {section}{\numberline {7}References}{26}{section.7}

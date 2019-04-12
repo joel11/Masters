@@ -69,7 +69,7 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
     push!(vps, (GetRBMTraining, ChangeMaxLearningRate, (0.5, 1.0))) #, 2.0)))
     push!(vps, (GetRBMTraining, ChangeMaxEpochs, (0, 1, 10, 50))) # , 15)))
 
-    set_name =  string("Sigmoid Test Set ", num_hidden, "x", layer_size, "x", encoding_layer)
+    set_name =  string("SAE Sigmoid Test Set ", num_hidden, "x", layer_size, "x", encoding_layer)
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic"))
     ################################################################################
     ##2a. Run Each SAE Configuration

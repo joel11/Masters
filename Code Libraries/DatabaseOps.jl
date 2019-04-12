@@ -96,11 +96,21 @@ end
 
 function CreatePredictionRecords(config_id, actual, predictions)
     records = []
+
+    function NanRemover(x)
+        if isnan(x)
+            return "null"
+        end
+        return x
+    end
+
+
     for c in 1:size(actual)[2]
         for r in 1:size(actual)[1]
-            push!(records, (string("(", config_id,",", r, ",'", names(actual)[c],"',", actual[r, c],",", predictions[r,c], ")")))
+            push!(records, (string("(", config_id,",", r, ",'", names(actual)[c],"',", NanRemover(actual[r, c]),",", NanRemover(predictions[r,c]), ")")))
         end
     end
+
     prediction_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
     prediction_cmd = "insert into prediction_results (configuration_id, time_step, stock, actual, predicted) values $(prediction_values)"
     SQLite.execute!(db, prediction_cmd)

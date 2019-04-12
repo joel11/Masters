@@ -112,3 +112,11 @@ RunNLayerReLUSAETest(12, 80, 2)
 RunNLayerReLUSAETest(9, 80, 2)
 RunNLayerReLUSAETest(6, 80, 2)
 RunNLayerReLUSAETest(3, 80, 2)
+
+#3: 318
+#6: 301
+#9: 286
+#12: 189
+#15: 253
+
+(318, 301, 286, 189, 253)
