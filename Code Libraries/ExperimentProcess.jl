@@ -100,6 +100,9 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
     reconstructed_actual = DataFrame(reconstructed_actual)
     reconstructed_predicted = DataFrame(reconstructed_predicted)
 
+    #reconstructed_actual = DataFrame(deprocessed_actual)
+    #reconstructed_predicted = DataFrame(deprocessed_predicted)
+
     names!(reconstructed_actual, names(encoded_ogd_dataset.training_output))
     names!(reconstructed_predicted, names(encoded_ogd_dataset.training_output))
 

@@ -2,14 +2,14 @@ module DataProcessor
 
 using DataGenerator, FFN, DataFrames, TrainingStructures
 
-export GenerateNonRandomisedDataset, ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions
+export NullScaling, RerevseNull, GenerateNonRandomisedDataset, ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions
 
 function ReconstructPrices(output_values, data_config, original_prices)
 
     output_ahead = data_config.prediction_steps[1]
-    price_index = (size(original_prices,1) - size(output_values,1) - output_ahead + 1)
+    price_index = (size(original_prices,1) - size(output_values,1) - output_ahead)
 
-    prices = Array{Float64}(original_prices[price_index:price_index+output_ahead-1,:])
+    prices = Array{Float64}(original_prices[price_index:price_index+output_ahead,:])
     init_price_length = size(prices, 1)
     prices = vcat(prices, fill(0.0, (size(output_values))))
 

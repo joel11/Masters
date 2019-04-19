@@ -47,8 +47,8 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs)
     ################################################################################
     ##1. Configuration Variations
     set_name = string("Oscillation Tests FFN ", num_hidden, " Layer ReLU ", num_hidden, "x", layer_size)
-    #jsedata = ReadJSETop40Data()
-    dataset = nothing #jsedata[:, [:AGL]] #nothing
+    jsedata = ReadJSETop40Data()
+    dataset = jsedata[:, [:ACL, :AGL]] #nothing
 
     vps = []
 
@@ -76,14 +76,13 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs)
     return ffn_results
 end
 
-choices = (865)
-RunNLayerReLUFFNTest(40, 2, choices)
+choices = (890)
+RunNLayerReLUFFNTest(20, 2, choices)
 
 
 
 
 using PlotlyJS
-
 
 function RecreateStockPrices(config_names)
     configs = mapreduce(x->string(x, ","), string, collect(keys(config_names)))[1:(end-1)]
@@ -115,5 +114,5 @@ function RecreateStockPrices(config_names)
 
     end
 end
-names = Dict(870 => "870", 871 => "871")
-RecreateStockPrices(names)
+#names = Dict(880 => "874", 875 => "875")
+#RecreateStockPrices(names)
