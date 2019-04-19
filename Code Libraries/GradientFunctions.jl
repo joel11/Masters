@@ -100,7 +100,6 @@ function CalculateLearningRate(epoch, training_parameters)
 end
 
 function CalculateNewWeights(current_weights, weight_update, parameters, N::Int64, epoch::Int64)
-
     return (current_weights #.* CalculateL2Penalization(CalculateLearningRate(epoch, parameters), parameters, N)
                                 #+ momentum_factor
                                 - CalculateLearningRate(epoch, parameters) .* weight_update

@@ -28,7 +28,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
         seed = abs(Int64.(floor(randn()*100)))
         ds = abs(Int64.(floor(randn()*100)))
         var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 7, 30],  [0.6],  [0.8, 1.0],  [2], var_pairs, StandardizeData)
+        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 5, 20],  [0.6],  [0.8, 1.0],  [2], var_pairs, StandardizeData)
 
         layers = [(length(var_pairs)*length(data_config.deltas))]
         #layers = [1*length(data_config.deltas)]
@@ -49,9 +49,10 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
     ##1. Configuration Variations
     vps = []
 
-    push!(vps, (GetSAETraining, ChangeMinLearningRate, (0.000001, 0.00001, 0.0001, 0.001)))
-    push!(vps, (GetSAENetwork, ChangeOutputActivation, (LinearActivation, ReluActivation)))
-    push!(vps, (GetDataConfig, ChangeScalingFunction, (StandardizeData, LimitedStandardizeData)))
+    push!(vps, (GetSAETraining, ChangeMinLearningRate, (0.00001, 0.0001)))
+    #push!(vps, (GetSAETraining, ChangeMinLearningRate, (0.000001, 0.00001, 0.0001, 0.001)))
+    #push!(vps, (GetSAENetwork, ChangeOutputActivation, (LinearActivation, ReluActivation)))
+    #push!(vps, (GetDataConfig, ChangeScalingFunction, (StandardizeData, LimitedStandardizeData)))
     #push!(vps, (GetSAETraining, ChangeL2Reg, (0.0, 100.0)))
     #push!(vps, (GetSAETraining, ChangeMinLearningRate, (0.00001, 0.0001)))
     #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HintonUniformInit, InitializationFunctions.HeUniformInit)))
@@ -82,41 +83,4 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden)
 end
 
 
-#input of 18
-#2n + 1 = 9
-
-#1, 2 layers of 40 and 80
-#15, 12, 9, 6, 3
-#(encoding_layer, layer_size, num_hidden)
-
-RunNLayerReLUSAETest(15, 40, 1)
-RunNLayerReLUSAETest(12, 40, 1)
-RunNLayerReLUSAETest(9, 40, 1)
-RunNLayerReLUSAETest(6, 40, 1)
-RunNLayerReLUSAETest(3, 40, 1)
-
 RunNLayerReLUSAETest(15, 40, 2)
-RunNLayerReLUSAETest(12, 40, 2)
-RunNLayerReLUSAETest(9, 40, 2)
-RunNLayerReLUSAETest(6, 40, 2)
-RunNLayerReLUSAETest(3, 40, 2)
-
-RunNLayerReLUSAETest(15, 80, 1)
-RunNLayerReLUSAETest(12, 80, 1)
-RunNLayerReLUSAETest(9, 80, 1)
-RunNLayerReLUSAETest(6, 80, 1)
-RunNLayerReLUSAETest(3, 80, 1)
-
-RunNLayerReLUSAETest(15, 80, 2)
-RunNLayerReLUSAETest(12, 80, 2)
-RunNLayerReLUSAETest(9, 80, 2)
-RunNLayerReLUSAETest(6, 80, 2)
-RunNLayerReLUSAETest(3, 80, 2)
-
-#3: 318
-#6: 301
-#9: 286
-#12: 189
-#15: 253
-
-(318, 301, 286, 189, 253)

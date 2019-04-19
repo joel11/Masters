@@ -32,7 +32,7 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
         seed = abs(Int64.(floor(randn()*100)))
         ds = abs(Int64.(floor(randn()*100)))
         var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 7],  [0.6],  [0.8, 1.0],  [2], var_pairs, LimitedNormalizeData)
+        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 5, 20],  [0.6],  [0.8, 1.0],  [2], var_pairs, LimitedNormalizeData)
 
         layers = [(length(var_pairs)*length(data_config.deltas))]
         #layers = [1*length(data_config.deltas)]

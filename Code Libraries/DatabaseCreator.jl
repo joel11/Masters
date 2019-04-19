@@ -60,7 +60,8 @@ function CreateDatabase(database_name)
             process_splits VARCHAR,
             training_splits VARCHAR,
             prediction_steps VARCHAR NOT NULL,
-            variation_values VARCHAR)
+            variation_values VARCHAR,
+            scaling_function VARCHAR)
     "
 
     prediction_results_table = "

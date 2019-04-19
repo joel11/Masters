@@ -91,10 +91,6 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
     actual = DataFrame(comparisons[1])
     predicted = DataFrame(comparisons[2])
 
-    println(size(actual))
-    println(size(ogd_data.output_processingvar1))
-    println(size(ogd_data.output_processingvar2))
-
     reverse_function = ReverseFunctions[ep.data_config.scaling_function]
     deprocessed_actual = reverse_function(actual, ogd_data.output_processingvar1, ogd_data.output_processingvar2)
     deprocessed_predicted = reverse_function(predicted, ogd_data.output_processingvar1, ogd_data.output_processingvar2)
@@ -103,6 +99,7 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
 
     reconstructed_actual = DataFrame(reconstructed_actual)
     reconstructed_predicted = DataFrame(reconstructed_predicted)
+
     names!(reconstructed_actual, names(encoded_ogd_dataset.training_output))
     names!(reconstructed_predicted, names(encoded_ogd_dataset.training_output))
 

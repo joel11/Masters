@@ -54,9 +54,7 @@ function ReconstructPrices(output_values, data_config, original_prices)
     prices
 end=#
 
-
-using DatabaseOps
-
+#=
 function GenerateStockReturns(step_predictions, start_t, finish_t, timestep, original_prices)
 
     groups = by(step_predictions, [:stock], df -> [df[:,4:5]])
@@ -135,78 +133,9 @@ function GenerateStrategyReturns(stockreturns, timestep)
 
     return strat_df
 end
-
-function GenericStrategyResultPlot(strategyreturns, columns, filename)
-    timesteps = size(strategyreturns, 1)
-    traceplots = map(c -> scatter(;y=strategyreturns[c], x = timesteps, name=string(c), mode ="lines"), columns)
-    savefig(plot(traceplots), string("/users/joeldacosta/desktop/", filename, ".html"))
-end
-
-function WriteStrategyGraphs(config_id, strategyreturns)
-    daily_rates = [:daily_rates_observed, :daily_rates_observed_fullcosts]
-    cumulative_profits = [:cumulative_profit_observed, :cumulative_profit_observed_fullcosts, :cumulative_profit_observed_perfect, :cumulative_profit_observed_perfect_fullcosts]
-    cumulative_rates = [:cumulative_observed_rate, :cumulative_expected_rate, :cumulative_perfect_rate]
-    cumulative_rates_fullcosts = [:cumulative_observed_rate_fullcost, :cumulative_expected_rate_fullcost, :cumulative_perfect_rate_fullcost]
-
-    GenericStrategyResultPlot(strategyreturns, daily_rates, string(config_id, "_DailyRates"))
-    GenericStrategyResultPlot(strategyreturns, cumulative_profits, string(config_id, "_CumulativeProfits"))
-    GenericStrategyResultPlot(strategyreturns, cumulative_rates, string(config_id, "_CumulativeRates"))
-    GenericStrategyResultPlot(strategyreturns, cumulative_rates_fullcosts, string(config_id, "_CumulativeRatesFullCost"))
-end
-
-function ConfigStrategyOutput(config_id, original_prices)
-
-    #db = SQLite.DB("database_test.db")
-
-    results = RunQuery("select * from configuration_run where configuration_id = $config_id")
-    sae_id = get(results[1, :sae_config_id])
-    data_config = ReadSAE(sae_id)[2]
-    timestep = data_config.prediction_steps[1]
-
-    if original_prices == nothing
-        processed_data = PrepareData(data_config, nothing)
-        original_prices = processed_data[2].original_prices
-    end
+=#
 
 
-    results = RunQuery("select * from prediction_results where configuration_id = $config_id")
-
-    num_predictions = get(maximum(results[:time_step]))
-    finish_t = size(original_prices, 1)
-    start_t = finish_t - num_predictions - 1
-
-    stockreturns = GenerateStockReturns(results, start_t, finish_t, timestep, original_prices)
-    strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
-
-    WriteStrategyGraphs(config_id, strategyreturns)
-
-end
-
-
-function GenerateTotalProfit(config_id, original_prices)
-    results = RunQuery("select * from configuration_run where configuration_id = $config_id")
-    sae_id = get(results[1, :sae_config_id])
-    data_config = ReadSAE(sae_id)[2]
-    timestep = data_config.prediction_steps[1]
-
-    if original_prices == nothing
-        processed_data = PrepareData(data_config, nothing)
-        original_prices = processed_data[2].original_prices
-    end
-
-
-    results = RunQuery("select * from prediction_results where configuration_id = $config_id")
-
-    num_predictions = get(maximum(results[:time_step]))
-    finish_t = size(original_prices, 1)
-    start_t = finish_t - num_predictions - 1
-
-    stockreturns = GenerateStockReturns(results, start_t, finish_t, timestep, original_prices)
-    strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
-
-
-    return strategyreturns[end, :cumulative_profit_observed]
-end
 
 config_id  = 626
 original_prices = nothing

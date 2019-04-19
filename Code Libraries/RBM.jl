@@ -54,7 +54,7 @@ function TrainRBMLayer(config_id, training_data, layer::NeuralNetworks.NetworkLa
 
         tic()
 
-        dataset = GenerateRandomisedDataset(biased_training_data, biased_training_data, parameters)
+        dataset = GenerateNonRandomisedDataset(biased_training_data, biased_training_data, parameters)
         training_input = Array{Float64,2}(dataset.training_input)
         testing_input = Array{Float64,2}(dataset.testing_input)
 

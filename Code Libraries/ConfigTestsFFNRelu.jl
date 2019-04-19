@@ -38,7 +38,7 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs)
         activations[end] = LinearActivation
 
         ffn_net_par = NetworkParameters("FFN", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation)
-        ffn_sgd_par = TrainingParameters("FFN", 0.1, 0.00001, 1,  20, 0.0, 1000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.99])
+        ffn_sgd_par = TrainingParameters("FFN", 0.1, 0.00001, 1,  20, 0.0, 1000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [1.0])
         ogd_par = OGDTrainingParameters("FFN-OGD", 0.001, true, MeanSquaredError())
 
         return FFNExperimentConfig(seed, set_name, false, data_config, sae_config_id, encoder, ffn_net_par, ffn_sgd_par, ogd_par, nothing)
@@ -46,15 +46,15 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs)
 
     ################################################################################
     ##1. Configuration Variations
-    set_name = string("Reduced Scaling FFN ", num_hidden, " Layer ReLU ", num_hidden, "x", layer_size)
+    set_name = string("Oscillation Tests FFN ", num_hidden, " Layer ReLU ", num_hidden, "x", layer_size)
     #jsedata = ReadJSETop40Data()
-    dataset = nothing #jsedata[:, [:AGL]]
+    dataset = nothing #jsedata[:, [:AGL]] #nothing
 
     vps = []
 
-    push!(vps, (GetFFNNetwork, ChangeOutputActivation, (LinearActivation, ReluActivation)))
-    push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.1, 0.01, 0.00001)))
-    #push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.00001, 0.001)))
+    #push!(vps, (GetFFNNetwork, ChangeOutputActivation, (LinearActivation, ReluActivation)))
+    #push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.01, 0.00001)))
+    push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.000001, 0.001)))
 
 
 
@@ -76,36 +76,44 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs)
     return ffn_results
 end
 
-#Overfit Test
-#sae_choices = (43)
-#results = RunNLayerReLUFFNTest(40, 1, sae_choices)
-#config_ids = map(r -> r[1], results)
-#configs = mapreduce(x->string(x, "_"), string, config_ids)[1:(end-1)]
-#ProfitPlots(config_ids, string("ProfitPlot_", configs))
+choices = (865)
+RunNLayerReLUFFNTest(40, 2, choices)
 
-#Limited
-#limited_sae_choices = ( 318, 302, 286,190, 254)
-limited_sae_choices = ( 318,  286, 254)
-#Nonlimited
-#normal_sae_choices = (317, 301, 285, 189, 253)
-normal_sae_choices = (317,  285,  253)
 
-#RunNLayerReLUFFNTest(40, 1, limited_sae_choices)
-#RunNLayerReLUFFNTest(40, 2, limited_sae_choices)
-#RunNLayerReLUFFNTest(40, 3, limited_sae_choices)
 
-RunNLayerReLUFFNTest(80, 1, limited_sae_choices)
-RunNLayerReLUFFNTest(80, 2, limited_sae_choices)
-RunNLayerReLUFFNTest(80, 3, limited_sae_choices)
 
-RunNLayerReLUFFNTest(40, 1, normal_sae_choices)
-RunNLayerReLUFFNTest(40, 2, normal_sae_choices)
-RunNLayerReLUFFNTest(40, 3, normal_sae_choices)
+using PlotlyJS
 
-RunNLayerReLUFFNTest(80, 1, normal_sae_choices)
-RunNLayerReLUFFNTest(80, 2, normal_sae_choices)
-RunNLayerReLUFFNTest(80, 3, normal_sae_choices)
 
-#RunNLayerReLUFFNTest(15, 1, sae_choices)
-#RunNLayerReLUFFNTest(15, 2, sae_choices)
-#RunNLayerReLUFFNTest(15, 3, sae_choices)
+function RecreateStockPrices(config_names)
+    configs = mapreduce(x->string(x, ","), string, collect(keys(config_names)))[1:(end-1)]
+    best_query = string("select * from prediction_results where configuration_id in ($configs)")
+    best_results = RunQuery(best_query)
+    best_groups = by(best_results, [:stock], df -> [df])
+
+    for i in 1:size(best_groups,1)
+        timesteps = best_groups[i,2][:time_step]
+        config_groups = by(best_groups[i,2], [:configuration_id], df-> [df])
+
+        #actual = cumsum(config_groups[1,2][:actual])
+        #predicted_one = cumsum(config_groups[1,2][:predicted])
+        #predicted_two = cumsum(config_groups[2,2][:predicted])
+
+        actual = (config_groups[1,2][:actual])
+        predicted_one = (config_groups[1,2][:predicted])
+        predicted_two = (config_groups[2,2][:predicted])
+
+        stock_name = get(best_groups[i,1])
+
+        t0 = scatter(;y=actual, x = timesteps, name=string(stock_name, "_actual"), mode ="lines", xaxis = string("x", i), yaxis = string("y", i))
+        t1 = scatter(;y=predicted_one, x = timesteps, name=string(stock_name, "_predicted_", config_names[get(config_groups[1][1])]), mode="lines", xaxis = string("x", i), yaxis = string("y", i))
+        t2 = scatter(;y=predicted_two, x = timesteps, name=string(stock_name, "_predicted_", config_names[get(config_groups[1][2])]), mode="lines", xaxis = string("x", i), yaxis = string("y", i))
+
+        recreation_plots = [t0, t1, t2]
+        filename = string("recreation_", stock_name, "_", collect(keys(config_names))[1])
+        savefig(plot(recreation_plots), string("/users/joeldacosta/desktop/", filename, ".html"))
+
+    end
+end
+names = Dict(870 => "870", 871 => "871")
+RecreateStockPrices(names)

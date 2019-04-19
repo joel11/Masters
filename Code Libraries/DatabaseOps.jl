@@ -84,11 +84,11 @@ function CreateDatasetConfigRecord(config_id, dataset_config)
     trainingsplit_val = mapreduce(x -> string(x, ","), string, dataset_config.training_splits)[1:(end-1)]
     predictions_val = mapreduce(x -> string(x, ","), string, dataset_config.prediction_steps)[1:(end-1)]
     variation_vals = mapreduce(x -> string(x, ","), string, dataset_config.variation_values)[1:(end-1)]
-
+    scaling = split(string(dataset_config.scaling_function), ".")[2]
     training_cmd = "insert into dataset_config
-            (configuration_id, data_seed, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values)
+            (configuration_id, data_seed, category, steps, deltas, process_splits, training_splits, prediction_steps, variation_values, scaling_function)
             values ($(config_id), $(dataset_config.data_seed),  '$(dataset_config.category)', $(dataset_config.steps), '$(deltas_val)', '$(processsplit_val)',
-             '$(trainingsplit_val)', '$(predictions_val)', '$(variation_vals)')"
+             '$(trainingsplit_val)', '$(predictions_val)', '$(variation_vals)', '$scaling')"
 
     SQLite.execute!(db, training_cmd)
 
