@@ -35,12 +35,13 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
     for i in 1:(parameters.max_epochs)
         tic()
 
-        indice_order = randperm(size(original_input, 1))
+        indice_order = 1:(size(original_input, 1)) #randperm(size(original_input, 1))
         training_indices = indice_order[1:split_point]
         testing_indices = indice_order[(split_point + 1): end]
+        random_order_training_indices = randperm(length(training_indices))
 
-        training_input = original_input[training_indices,:]
-        training_output = original_output[training_indices,:]
+        training_input = original_input[random_order_training_indices,:]
+        training_output = original_output[random_order_training_indices,:]
         testing_input = original_input[testing_indices,:]
         testing_output = original_output[testing_indices,:]
 
