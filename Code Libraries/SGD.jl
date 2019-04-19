@@ -66,6 +66,7 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
         IS_error = parameters.cost_function.CalculateCost(training_output, Feedforward(network, training_input)[end])
         test_recreation = Feedforward(network, testing_input)[end]
         OOS_error = parameters.cost_function.CalculateCost(testing_output, test_recreation)
+        #OOS_error = PredictionAccuracy(network, testing_input, testing_output)
         OOS_mape = round(CalculateMAPE(testing_output, test_recreation), 2)
 
         epoch_records[i] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc, OOS_mape, CalculateLearningRate(i, parameters))

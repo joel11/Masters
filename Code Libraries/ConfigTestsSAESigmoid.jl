@@ -32,10 +32,10 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
         seed = abs(Int64.(floor(randn()*100)))
         ds = abs(Int64.(floor(randn()*100)))
         var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 5, 20],  [0.6],  [0.8, 1.0],  [2], var_pairs, LimitedNormalizeData)
+        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 5, 20],  [0.6],  [0.8, 1.0],  [2], var_pairs, NormalizeData)
 
-        layers = [(length(var_pairs)*length(data_config.deltas))]
-        #layers = [1*length(data_config.deltas)]
+        #layers = [(length(var_pairs)*length(data_config.deltas))]
+        layers = [2*length(data_config.deltas)]
         for i in 1:num_hidden
             push!(layers, layer_size)
         end
@@ -43,12 +43,10 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
 
         activations = map(x -> SigmoidActivation, 1:(length(layers)-1))
 
-        sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation)
-        sae_sgd_par = TrainingParameters("SAE", 2.0, 1.0, 100, 20, 0.0, 500, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
+        sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, SigmoidActivation)
+        sae_sgd_par = TrainingParameters("SAE", 2.0, 1.0, 1, 20, 0.0, 200, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
 
-        rbm_cd = TrainingParameters("RBM-CD", 0.5, 3.0, 1, 20, 0.0, 1, (0.0001, 50), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
-
-        return SAEExperimentConfig(seed, set_name, true, data_config, sae_net_par, sae_sgd_par, rbm_cd)
+        return SAEExperimentConfig(seed, set_name, false, data_config, sae_net_par, sae_sgd_par, nothing)
     end
 
     ################################################################################
@@ -56,26 +54,16 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
 
     vps = []
 
-    #push!(vps, (GetSAETraining, ChangeMaxEpochs, (100, 1000)))
-    #push!(vps, (GetDataConfig, ChangeScalingFunction, (NormalizeData, StandardizeData)))
-    #push!(vps, (GetSAETraining, ChangeMinibatchSize, (10, 30)))
+    push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.0000001, 0.00001, 0.001, 0.1, 1.0, 2.0, 4.0, 5.0)))
+    push!(vps, (GetSAENetwork, ChangeOutputActivation, (SigmoidActivation, LinearActivation)))
 
-    #push!(vps, (GetDataConfig, ChangeScalingFunction, (NormalizeData, LimitedNormalizeData)))
-
-    #push!(vps, (GetSAENetwork, ChangeInit, (InitializationFunctions.XavierGlorotNormalInit, InitializationFunctions.HeNormalInit, InitializationFunctions.HintonUniformInit)))
-
-    push!(vps, (GetSAETraining, ChangeMinLearningRate, (2.0, 1.0, 0.5)))
-
-    push!(vps, (GetRBMTraining, ChangeMaxLearningRate, (0.5, 1.0))) #, 2.0)))
-    push!(vps, (GetRBMTraining, ChangeMaxEpochs, (0, 1, 10, 50))) # , 15)))
-
-    set_name =  string("SAE Sigmoid Test Set ", num_hidden, "x", layer_size, "x", encoding_layer)
+    set_name =  string("SAE Sigmoid Output Activation Test ", num_hidden, "x", layer_size, "x", encoding_layer)
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic"))
     ################################################################################
     ##2a. Run Each SAE Configuration
 
     jsedata = ReadJSETop40Data()
-    exp_data = nothing#jsedata[:, [:AGL]]#[:ACL, :AGL, :AMS, :CRH, :CFR , :SOL]]
+    exp_data = jsedata[:, [:ACL, :AGL]] #[:ACL, :AGL, :AMS, :CRH, :CFR , :SOL]]
     sae_results = map(ep -> RunSAEConfigurationTest(ep, exp_data), combos)
     #sae_results = map(ep -> RunSAEConfigurationTest(ep, nothing), combos)
     config_ids = map(x -> x[1], sae_results)
@@ -94,19 +82,8 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
 end
 
 
-#RunSAEPreTrainingTest(9, 20, 1)
-#RunSAEPreTrainingTest(9, 40, 1)
-#RunSAEPreTrainingTest(9, 20, 2)
-#RunSAEPreTrainingTest(9, 40, 2)
+RunSAEPreTrainingTest(5, 15, 1)
+RunSAEPreTrainingTest(5, 15, 2)
 
-RunSAEPreTrainingTest(6, 15, 1)
-RunSAEPreTrainingTest(6, 30, 1)
-RunSAEPreTrainingTest(6, 15, 2)
-RunSAEPreTrainingTest(6, 30, 2)
-
-#RunSAEPreTrainingTest(3, 20, 1)
-#RunSAEPreTrainingTest(3, 40, 1)
-#RunSAEPreTrainingTest(3, 20, 2)
-#RunSAEPreTrainingTest(3, 40, 2)
-
-#end
+#SGD learning rate was chosen by considering the best out of a large series of configurations
+#Then run boxplot by pre-training epochs to show issues

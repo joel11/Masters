@@ -57,7 +57,7 @@ module InitializationFunctions
 
 using Distributions
 
-export  HintonUniformInit, XavierGlorotUniformInit, HeUniformInit
+export  HintonUniformInit, XavierGlorotUniformInit, HeUniformInit, NormalRandomInit
 
 function NormalRandomInit(input, output)
     weights = rand(Normal(0, 1), input, output)

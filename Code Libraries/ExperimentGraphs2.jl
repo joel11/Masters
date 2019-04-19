@@ -261,13 +261,16 @@ function SAE_ScalingLimited_MinTest_BxMSE(min_config)
     MSEBoxplot(query, :limited, "Scaling Ltd ", "SAE Scaling Limitation Min Test MSE", Float64, NullTransform)
 end
 
-function SAE_Pretraining_MinTest_BxMSE(min_config)
+function SAE_Pretraining_MinTest_BxMSE(config_ids)
+
+    mc = minimum(config_ids)
+    xc = maximum(config_ids)
 
     query = "select er.configuration_id, min(er.testing_cost) cost, ifnull(max(er2.epoch_number), 0) pre_training_epochs
             from epoch_records er
             left join epoch_records er2 on er.configuration_id = er2.configuration_id and er2.category = 'RBM-CD'
             where er.category like \"SAE-SGD%\"
-                and er.configuration_id >= $min_config
+                and er.configuration_id between $mc and $xc
             group by er.configuration_id
             having cost not null"
 
@@ -285,6 +288,19 @@ function SAE_MinLR_MinTest_BxMSE(min_config)
                 group by tp.configuration_id, tp.min_learning_rate"
 
     MSEBoxplot(lr_msequery, :min_learning_rate, "SAE Min LR", "SAE Min Learning Rate Min Test MSE", Float64, NullTransform)
+end
+
+function SAE_MaxLR_MinTest_BxMSE(min_config)
+
+    lr_msequery = "select tp.configuration_id, min(testing_cost) cost, tp.learning_rate
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                where tp.configuration_id >= $min_config
+                    and tp.category like \"SAE%\"
+                    and er.category like \"SAE%\"
+                group by tp.configuration_id, tp.learning_rate"
+
+    MSEBoxplot(lr_msequery, :learning_rate, "SAE Max LR", "SAE Max Learning Rate Min Test MSE", Float64, NullTransform)
 end
 
 function FFN_LR_MinTest_BxMSE(min_config)
@@ -588,24 +604,26 @@ end
 ###############################################################################
 ##General Plots
 
-#config_ids = 762:780
+#config_ids = 913:932
+config_ids = 1193:1256
 #min_config = minimum(config_ids)
 #UpdateTotalProfits(config_ids)
 #TotalProfits = ReadProfits()
 #807, 808, 809, 810
-names = Dict(845 => "845", 846 => "846")
-RecreateStockPrices(names)
+#names = Dict(845 => "845", 846 => "846")
+#RecreateStockPrices(names)
 
+#for c in map(i -> i, 781:2:786)
+#    names = Dict()
+#    names[c] = string(c)
+#    names[(c+1)] = string(c+1)
+#    config_names = names
+#    RecreateStockPrices(names)
+#end
 
-for c in map(i -> i, 781:2:786)
-    names = Dict()
-    names[c] = string(c)
-    names[(c+1)] = string(c+1)
-    config_names = names
-    RecreateStockPrices(names)
-end
-
-
+min_config = minimum(config_ids)
+SAE_Pretraining_MinTest_BxMSE(config_ids)
+SAE_MaxLR_MinTest_BxMSE(1193)
 
 RecreateStockPrices(names)
 StockPricePlot(38)
@@ -619,6 +637,6 @@ AllProfitsPDF(min_config)
 FFN_LR_x_Layers_ProfitHeatmap(min_config)
 
 SAE_Init_MinTest_MxMSE(min_config)
-SAE_Pretraining_MinTest_BxMSE(min_config)
+
 Layer_MinTest_MxMSE(min_config, "SAE")
 SAE_LR_MinTest_BxMSE(min_config)

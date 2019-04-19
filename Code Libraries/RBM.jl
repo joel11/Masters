@@ -24,7 +24,7 @@ end
 function TrainRBMNetwork(config_id, dataset::DataSet, network_parameters::NetworkParameters, training_parameters::TrainingParameters)
 
     layer = CreateRBMLayer(1, network_parameters)
-    epoch_records = [TrainRBMLayerOld(config_id, dataset.training_input, layer, training_parameters)]
+    epoch_records = [TrainRBMLayer(config_id, dataset.training_input, layer, training_parameters)]
     RemoveBackwardsBias(layer)
     network = NeuralNetwork([layer])
 
@@ -34,7 +34,7 @@ function TrainRBMNetwork(config_id, dataset::DataSet, network_parameters::Networ
         #processed_testing_data = Feedforward(network, dataset.testing_input)[end]
 
         next_layer = CreateRBMLayer(i, network_parameters)
-        new_epoch_records = TrainRBMLayerOld(config_id, processed_training_data, next_layer, training_parameters)
+        new_epoch_records = TrainRBMLayer(config_id, processed_training_data, next_layer, training_parameters)
         push!(epoch_records, new_epoch_records)
         RemoveBackwardsBias(next_layer)
         AddLayer(network, next_layer)
@@ -68,6 +68,7 @@ function TrainRBMLayer(config_id, training_data, layer::NeuralNetworks.NetworkLa
         number_batches = Int64.(floor(size(training_input)[1]/parameters.minibatch_size))
         #minibatch_errors = []
 
+        println("batches")
         for m in 1:number_batches
 
             minibatch_data = training_input[((m-1)*parameters.minibatch_size+1):m*parameters.minibatch_size,:]
@@ -82,7 +83,7 @@ function TrainRBMLayer(config_id, training_data, layer::NeuralNetworks.NetworkLa
 
             #push!(minibatch_errors, parameters.cost_function.CalculateCost(minibatch_data[2:end, 2:end], vis_activation_probabilities[2:end, 2:end]))
         end
-
+        println("end batches")
         training_error = parameters.cost_function.CalculateCost(training_input, ReconstructVisible(layer, training_input))
         testing_error = parameters.cost_function.CalculateCost(testing_input, ReconstructVisible(layer, testing_input))
 
