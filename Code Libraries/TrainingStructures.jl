@@ -66,6 +66,7 @@ type NetworkParameters
     layer_activations::Array{Function}
     initialization::Function
     output_activation
+    encoding_activation
 end
 
 type DatasetConfig

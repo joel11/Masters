@@ -15,6 +15,9 @@ function TrainInitSAE(config_id, category, dataset::DataSet, network_parameters:
     encoder_data = CreateEncoderDataset(dataset)
     network = NeuralNetwork(network_parameters.layer_sizes, network_parameters.layer_activations, network_parameters.initialization)
     AddDecoder(network, network_parameters)
+
+    encoding = length(network_parameters.layer_activations)
+    network.layers[encoding].activation = network_parameters.encoding_activation
     network.layers[end].activation = network_parameters.output_activation
     sgd_records = RunSGD(config_id, category, encoder_data, network, parameters)
     return (sgd_records, network)

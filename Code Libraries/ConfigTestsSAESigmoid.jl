@@ -44,7 +44,7 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
         activations = map(x -> SigmoidActivation, 1:(length(layers)-1))
 
         sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, SigmoidActivation)
-        sae_sgd_par = TrainingParameters("SAE", 2.0, 1.0, 1, 20, 0.0, 200, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
+        sae_sgd_par = TrainingParameters("SAE", 2.0, 1.0, 1, 20, 0.0, 1000, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
 
         return SAEExperimentConfig(seed, set_name, false, data_config, sae_net_par, sae_sgd_par, nothing)
     end
@@ -54,10 +54,10 @@ function RunSAEPreTrainingTest(encoding_layer, layer_size, num_hidden)
 
     vps = []
 
-    push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.0000001, 0.00001, 0.001, 0.1, 1.0, 2.0, 4.0, 5.0)))
+    push!(vps, (GetSAETraining, ChangeMaxLearningRate, (0.0000001, 0.00001, 0.001, 0.1, 1.0, 2.0))) #, 4.0))) #, 6.0)))
     push!(vps, (GetSAENetwork, ChangeOutputActivation, (SigmoidActivation, LinearActivation)))
 
-    set_name =  string("SAE Sigmoid Output Activation Test ", num_hidden, "x", layer_size, "x", encoding_layer)
+    set_name =  string("SAE Sigmoid Output Activation Test 4 ", num_hidden, "x", layer_size, "x", encoding_layer)
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic"))
     ################################################################################
     ##2a. Run Each SAE Configuration
@@ -84,6 +84,3 @@ end
 
 RunSAEPreTrainingTest(5, 15, 1)
 RunSAEPreTrainingTest(5, 15, 2)
-
-#SGD learning rate was chosen by considering the best out of a large series of configurations
-#Then run boxplot by pre-training epochs to show issues

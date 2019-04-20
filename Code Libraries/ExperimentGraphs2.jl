@@ -245,6 +245,29 @@ function OGD_ScalingOutput_BxMSE(config_ids)
     p = MSEBoxplot(query, :scaling_method, "Scaling Method ", "OGD Scaling Limitation Min MSE", String, NullTransform)
 end
 
+function SAE_ScalingOutput_BxMSE(config_ids)
+
+    minid = minimum(config_ids)
+    maxid = maximum(config_ids)
+
+    query = "select er.configuration_id, min(training_cost) cost,
+        min((dc.scaling_function || '-' ||
+        case when cr.experiment_set_name like '%LinearActivation%' then 'LinearActivation'
+        when cr.experiment_set_name like '%SigmoidActivation%' then 'SigmoidActivation'
+        else 'ReluActivation'
+        end)) scaling_method
+    from epoch_records er
+    inner join configuration_run cr on cr.configuration_id = er.configuration_id
+    inner join dataset_config dc on dc.configuration_id = er.configuration_id
+    where er.configuration_id between $minid and $maxid
+    and er.category = \"SAE-SGD-Init\"
+    and training_cost is not null
+    group by er.configuration_id"
+
+    results = RunQuery(query)
+
+    p = MSEBoxplot(query, :scaling_method, "Scaling Method ", "SAE ScalingOutput Min MSE", String, NullTransform)
+end
 
 function SAE_ScalingLimited_MinTest_BxMSE(min_config)
 
@@ -605,7 +628,10 @@ end
 ##General Plots
 
 #config_ids = 913:932
-config_ids = 1193:1256
+config_ids = 1301:1312
+config_ids = 1313:1324
+config_ids = 1301:1324
+SAE_ScalingOutput_BxMSE(config_ids)
 #min_config = minimum(config_ids)
 #UpdateTotalProfits(config_ids)
 #TotalProfits = ReadProfits()

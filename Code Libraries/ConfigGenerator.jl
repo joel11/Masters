@@ -1,6 +1,6 @@
 module ConfigGenerator
 
-export ChangeOutputActivation,ChangeScalingFunction, ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
+export ChangeEncodingActivation, ChangeOutputActivation,ChangeScalingFunction, ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
 
 function ChangeInit(get_function, parameters, val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_Init_" , split(string(val), ".")[end])
@@ -17,6 +17,12 @@ end
 function ChangeOutputActivation(get_function, parameters, val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_output_activation_" , split(string(val), ".")[end])
     get_function(parameters).output_activation = val
+    return parameters
+end
+
+function ChangeEncodingActivation(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_encoding_activation_" , split(string(val), ".")[end])
+    get_function(parameters).encoding_activation = val
     return parameters
 end
 

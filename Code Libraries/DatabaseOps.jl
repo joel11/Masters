@@ -33,9 +33,13 @@ function CreateNetworkRecord(config_id, parameters)
     ls = mapreduce(x -> string(x, ","), string, parameters.layer_sizes)[1:(end-1)]
     la = mapreduce(x -> string(split(string(x), ".")[end], ","), string, parameters.layer_activations)[1:(end-1)]
     init = split(string(parameters.initialization), ".")[end]
+
+    outputfunction = split(string(parameters.output_activation), ".")[2]
+    encodingfunction = split(string(parameters.encoding_activation), ".")[2]
+
     network_cmd = "insert into network_parameters
-            (configuration_id, category, layer_sizes, layer_activations, initialization)
-            values ($(config_id), '$(parameters.category)', '$(ls)', '$(la)', '$(init)')"
+            (configuration_id, category, layer_sizes, layer_activations, initialization, output_activation, encoding_activation)
+            values ($(config_id), '$(parameters.category)', '$(ls)', '$(la)', '$(init)', '$(outputfunction)', '$(encodingfunction)')"
 
     SQLite.execute!(db, network_cmd)
 end

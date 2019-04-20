@@ -91,12 +91,12 @@ end
 
 function CalculateLearningRate(epoch, training_parameters)
 
-    if split(string(typeof(training_parameters)), ".")[end] == "OGDTrainingParameters"
-        return training_parameters.max_learning_rate
-    end
+    #if split(string(typeof(training_parameters)), ".")[end] == "OGDTrainingParameters"
+    #    return training_parameters.max_learning_rate
+    #end
 
-    return training_parameters.min_learning_rate + 0.5*(training_parameters.max_learning_rate - training_parameters.min_learning_rate)*(1 + cos(epoch/training_parameters.epoch_cycle_max*pi))
-    #return training_parameters.max_learning_rate
+    #return training_parameters.min_learning_rate + 0.5*(training_parameters.max_learning_rate - training_parameters.min_learning_rate)*(1 + cos(epoch/training_parameters.epoch_cycle_max*pi))
+    return training_parameters.max_learning_rate
 end
 
 function CalculateNewWeights(current_weights, weight_update, parameters, N::Int64, epoch::Int64)

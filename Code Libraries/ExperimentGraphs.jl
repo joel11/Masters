@@ -218,7 +218,7 @@ function PlotSAERecontructions(training_pairs, file_name)
     end
 
     reconplots = map(ReconPlot, training_pairs)
-    savefig(plot(reconplots..., layout = length(reconplots), size=(1400, 700)), string("/users/joeldacosta/desktop/", file_name, ".html"))
+    savefig(plot(reconplots..., layout = length(reconplots), size=(2000, 2000)), string("/users/joeldacosta/desktop/", file_name, ".html"))
 end
 
 function PlotGradientChanges(sae_results, start_epoch)
