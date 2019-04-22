@@ -143,9 +143,20 @@
 	
 	
 	
-	\bigskip\large\textbf{3. Current Iteration Results}\bigskip\normalsize
+	\bigskip\large\textbf{3. Iteration Results}\bigskip\normalsize
 	
-	\bigskip
+	\bigskip\large\textbf{Iteration 2: 26th April}
+		
+		
+	\paragraph{Sigmoid Pre-training Efficacy}
+		
+		
+		
+	\paragraph{Linear Activation Tests}		
+	
+	
+		
+	\newpage\large\textbf{Iteration 1: 12th April}
 	
 	\paragraph{Scaling}
 	
@@ -510,15 +521,69 @@
 		\end{itemize}
 	\end{itemize}
 	
+	\paragraph{12th April 2019}
 	
+	\begin{itemize}
+		\item Implementation Choices
+		\begin{itemize}
+			\item Scaling Methods: Just expose the decision and impact of using a scaling technique that can’t account for future data
+			\item Cross Validation: Demonstrate payoff either way and make decision from there 
+			\item Denoising Stacked Autoencoders: Try gaussian noise approach and assess results
+		\end{itemize}
 	
+		\item Time Window Aggregation
+		\begin{itemize}
+			\item Should be 5 for week same for month (should be 1, 5, 20, 60)
+			\item Should be using a simulation of horizons to create distribution and choose time windows that way
+			\item Defend through domain knowledge, pose and suggest that it should be learnt - not going to be with primary scope
+			\item Calendars because that’s how traders work - defend this way 
+			\item Know system is hierarchical in feature space and time (articulate this and look at Tims paper)
+			\item One day: non-tradeable mean reversion, weekend activity for week, mutual funds rebalance monthly 
+			\item Consider inclusion of 90 days 
+		\end{itemize}
+
+		\item MMS
+		\begin{itemize}
+			\item Highlight the separation of MMS and signal
+			\item Long only is fine: If there’s a strategy / method that consistently loses money - would be a great finding. Right side of MMS, wrong side of pattern recognition.
+			\item Point out that learning the patterns should not be coupled with making it profitable. Articulate that RL should not be used in the sense that choosing features etc. : highlight modularisation.
+			\item Daily rates: need to separate pattern recognition signal and MMS in text 
+			\item Benchmark is perfect information world, so correct. Check “Can we learn to beat best stock paper ?” Paper
+			\item Shorts: Discuss stop losses and pyramiding stop losses training - way of making MMS more effective (bands implementation). Should be machine learned ideally but don’t have that.							
+		\end{itemize}
+
+		\item Price Predictions
+		\begin{itemize}
+			\item Oscillating predictions: potentially aliasing feedback?
+			\item Otherwise, MSE vs. Profits finding is interesting: understand why the differences are seen and what the model differences are 
+		\end{itemize}
+
+		\item Pre-training Findings
+		\begin{itemize}
+			\item Training in a lot of noise may be jumping to pathological corner cases in solution space
+			\item Should be useful to constrain solution space
+			\item Data is pathological though, reduced data that can be used for actual algorithm 
+			\item Result is optimising in a subspace - throwing data away in a sense
+			\item Check IID aspects and requirements for pre-training
+			\item Important story: dynamic nature of financial market is not the same as some IID distribution 
+			\item Odds are changing through time
+			\item Ringfence and add diagnostics 
+		\end{itemize}
 	
+		\item Generally (Dissertation notes)
+		\begin{itemize}
+			\item Focus on the modularisation of the framework and how it enables exploring of components and algorithms rather than an explicit solution
+			\item “Perfect” ->  “Benchmark”
+			\item Return should be “P\&L”, return is \%
+			\item Text: Times roman not italics for functions and have equation numbers
+			\item Enumerate rather than bullets
+			\item Table of tables, figures, variables used \& definitions and page number introduced 
+			\item Y tilde :measurement, y U feedback process error, y hat projection, y theoretical 
+			\item Notations: Look at process control by G
+			\item “Trade Long” should be teletype 
+		\end{itemize}	
 	
-	
-	
-	
-	
-	
+	\end{itemize}
 	
 \end{technicaldoc}
 

@@ -289,15 +289,21 @@ function SAE_Pretraining_MinTest_BxMSE(config_ids)
     mc = minimum(config_ids)
     xc = maximum(config_ids)
 
-    query = "select er.configuration_id, min(er.testing_cost) cost, ifnull(max(er2.epoch_number), 0) pre_training_epochs
+#ifnull(max(er2.epoch_number), 0) pre_training_epochs
+
+    query = "select er.configuration_id, min(er.testing_cost) cost,
+                (cast(ifnull(max(er2.epoch_number), 0) as string) || '-' || cast(tp.learning_rate as string)) pre_training_epochs
+
             from epoch_records er
             left join epoch_records er2 on er.configuration_id = er2.configuration_id and er2.category = 'RBM-CD'
+            inner join training_parameters tp on tp.configuration_id = er.configuration_id and tp.category = 'RBM-CD'
             where er.category like \"SAE-SGD%\"
                 and er.configuration_id between $mc and $xc
             group by er.configuration_id
             having cost not null"
 
-    MSEBoxplot(query, :pre_training_epochs, "Pretraining Epochs ", "SAE Pre-training epochs Min Test MSE", Float64, NullTransform)
+    MSEBoxplot(query, :pre_training_epochs, "Pretraining Epochs ", "SAE Pre-training Learning Rates epochs Min Test MSE", String, NullTransform)
+
 end
 
 function SAE_MinLR_MinTest_BxMSE(min_config)
@@ -628,9 +634,81 @@ end
 ##General Plots
 
 #config_ids = 913:932
-config_ids = 1301:1312
-config_ids = 1313:1324
-config_ids = 1301:1324
+config_ids = 3058:3249
+
+function LinearActivationPlots()
+
+    function general_boxplot2(layer_groups, prefix, fn, variable_name)
+
+        y_vals = layer_groups[1,2][:,variable_name]
+        trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[1,1]))
+        data = [trace]
+
+        for i in 2:size(layer_groups,1)
+            y_vals = layer_groups[i,2][:,variable_name]
+            trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[i,1]))
+            push!(data, trace)
+        end
+        plot(data)
+        l = Layout(width = 1500, height = 500, margin = Dict(:b => 120))
+        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
+    end
+
+    minid = minimum(config_ids)
+    maxid = maximum(config_ids)
+
+    query = "select
+            er.configuration_id,
+            min(training_cost) cost,
+            np.output_activation,
+            np.encoding_activation,
+            experiment_set_name,
+            min(er.learning_rate) lr,
+            dc.scaling_function
+        from epoch_records er
+        inner join configuration_run cr on cr.configuration_id = er.configuration_id
+        inner join dataset_config dc on dc.configuration_id = er.configuration_id
+        inner join network_parameters np on np.configuration_id = er.configuration_id
+        where er.configuration_id between $minid and $maxid
+        and er.category = 'SAE-SGD-Init'
+        and training_cost is not null
+        and output_activation not like 'Relu%'
+        and scaling_function not like 'Standardize%'
+        group by er.configuration_id
+        having cost < 1000
+        order by cost desc"
+
+    results = RunQuery(query)
+
+    #By encoding; output activation; primary activation; encoding layer & network size
+    results[:network] =  ascii.(Array(map(e -> split(e, " ")[4], results[:experiment_set_name])))
+    results[:primary_activation] =  ascii.(Array(map(e -> split(split(e, " ")[end], "_")[1], results[:experiment_set_name])))
+    results[:encoding_size] = Array(map(n -> split(n, "x")[end], results[:network]))
+
+    results[:config_group] = string.(
+                                    replace.(results[:primary_activation], "Activation", ""), "-",
+                                    replace.(Array(results[:encoding_activation]), "Activation", ""), "-",
+                                    replace.(Array(results[:output_activation]), "Activation", ""), "-"
+                                    #,Array(results[:scaling_function])
+                                    #, "-"
+                                    #,"-", Array(results[:lr])
+                                    #,results[:encoding_size]
+                                    , "-",results[:network]
+    )
+
+    filtered_indices = Array(results[:primary_activation] .!= "SigmoidActivation") & Array(results[:encoding_size] .== "5")
+    filtered_results = results[filtered_indices, :]
+    #filtered_results = results
+
+    groups = by(filtered_results, [:config_group], df -> [df])
+
+    general_boxplot2(groups, " ", "Network Size Activation Combos for Encoding 5 Min MSE", :cost)
+end
+
+SAE_Pretraining_MinTest_BxMSE(config_ids)
+
+
+
 SAE_ScalingOutput_BxMSE(config_ids)
 #min_config = minimum(config_ids)
 #UpdateTotalProfits(config_ids)
