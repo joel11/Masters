@@ -1,8 +1,33 @@
 module DataProcessor
 
-using DataGenerator, FFN, DataFrames, TrainingStructures
+using DataGenerator, FFN, DataFrames, TrainingStructures, Distributions
 
-export NullScaling, RerevseNull, GenerateNonRandomisedDataset, ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions
+export AddNoiseToArray, AddNoiseToDataFrame, NullScaling, RerevseNull, GenerateNonRandomisedDataset, ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions
+
+function AddNoiseToArray(df, variance)
+
+    function AddNoise(x)
+        return rand(Normal(x, variance))
+    end
+
+    newdf = AddNoise.(Array(df))
+
+    return newdf
+end
+
+
+function AddNoiseToDataFrame(df, variance)
+
+    function AddNoise(x)
+        return rand(Normal(x, variance))
+    end
+
+    newdf = DataFrame(AddNoise.(Array(df)))
+    names!(newdf, names(df))
+
+    return newdf
+end
+
 
 function ReconstructPrices(output_values, data_config, original_prices)
 

@@ -5,7 +5,7 @@ using TrainingStructures
 using BSON
 #using HDF5
 #using JLD
-export WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
+export CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
 db = SQLite.DB("database_test.db")
 
@@ -20,6 +20,14 @@ function ReadSAE(config_id)
     return (ln[:sae], ln[:data_configuration])
 end
 
+function CreateMapeRecord(configuration_id, mape_score)
+    cmd = "insert into mape_scores
+            (configuration_id, mape)
+            values ($(configuration_id), $mape_score)"
+
+    SQLite.execute!(db, cmd)
+
+end
 
 function CreateConfigurationRecord(seed, set_name, rbm_pretraining, sae_config_id)
     ts = Dates.now()
@@ -34,8 +42,8 @@ function CreateNetworkRecord(config_id, parameters)
     la = mapreduce(x -> string(split(string(x), ".")[end], ","), string, parameters.layer_activations)[1:(end-1)]
     init = split(string(parameters.initialization), ".")[end]
 
-    outputfunction = split(string(parameters.output_activation), ".")[2]
-    encodingfunction = split(string(parameters.encoding_activation), ".")[2]
+    outputfunction = split(string(parameters.output_activation), ".")[end]
+    encodingfunction = split(string(parameters.encoding_activation), ".")[end]
 
     network_cmd = "insert into network_parameters
             (configuration_id, category, layer_sizes, layer_activations, initialization, output_activation, encoding_activation)
@@ -44,14 +52,15 @@ function CreateNetworkRecord(config_id, parameters)
     SQLite.execute!(db, network_cmd)
 end
 
+
 function CreateTrainingRecord(config_id, parameters)
     cf = split(string(typeof(parameters.cost_function)), ".")[end]
     sf = string(split(string(parameters.stopping_function), ".")[end], string(parameters.stopping_parameters))
 
     training_cmd = "insert into training_parameters
-            (configuration_id, category, learning_rate, minibatch_size, max_epochs, l1_lambda, l2_lambda, cost_function, stopping_function, min_learning_rate, epoch_cycle_max)
+            (configuration_id, category, learning_rate, minibatch_size, max_epochs, l1_lambda, cost_function, stopping_function, min_learning_rate, epoch_cycle_max, is_denoising, denoising_variance)
             values ($(config_id), '$(parameters.category)', $(parameters.max_learning_rate), $(parameters.minibatch_size), $(parameters.max_epochs),
-            $(parameters.l1_lambda), $(parameters.l2_lambda), '$(cf)', '$(sf)', $(parameters.min_learning_rate), $(parameters.epoch_cycle_max))"
+            $(parameters.l1_lambda),'$(cf)', '$(sf)', $(parameters.min_learning_rate), $(parameters.epoch_cycle_max), $(parameters.is_denoising), $(parameters.denoising_variance))"
 
     SQLite.execute!(db, training_cmd)
 end
@@ -60,9 +69,8 @@ function CreateOGDTrainingRecord(config_id, parameters)
     cf = split(string(typeof(parameters.cost_function)), ".")[end]
 
     training_cmd = "insert into training_parameters
-            (configuration_id, category, learning_rate, minibatch_size, max_epochs, l1_lambda, l2_lambda, cost_function, stopping_function)
-            values ($(config_id), '$(parameters.category)', $(parameters.max_learning_rate), 1, 1,
-            null, null, '$(cf)',  null)"
+            (configuration_id, category, learning_rate, minibatch_size, max_epochs, l1_lambda, cost_function, stopping_function)
+            values ($(config_id), '$(parameters.category)', $(parameters.max_learning_rate), 1, 1, null, '$(cf)',  null)"
 
     SQLite.execute!(db, training_cmd)
 end
@@ -74,9 +82,9 @@ function CreateEpochRecord(config_id, epoch_record)
     ctest = isnan(epoch_record.test_cost)? "null" : epoch_record.test_cost
 
     training_cmd = "insert into epoch_records
-            (configuration_id, category, record_time, epoch_number, training_cost, testing_cost, run_time, mape, learning_rate)
+            (configuration_id, category, record_time, epoch_number, training_cost, testing_cost, run_time, learning_rate)
             values ($(config_id), '$(epoch_record.category)', '$(ts)',  $(epoch_record.epoch_number),
-            $(ctraining), $(ctest), $(epoch_record.run_time), $(epoch_record.error_mape), $(epoch_record.learning_rate))"
+            $(ctraining), $(ctest), $(epoch_record.run_time), $(epoch_record.learning_rate))"
 
     SQLite.execute!(db, training_cmd)
 end

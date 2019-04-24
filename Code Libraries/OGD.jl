@@ -33,7 +33,9 @@ function RunOGD(config_id, category, dataset::DataSet, network::NeuralNetwork, p
 
     IS_error = parameters.cost_function.CalculateCost(training_output, predicted_values)
 
-    epoch_record = EpochRecord(1, category, IS_error, 0.0,       0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, nothing, nothing, nothing, 0.0, parameters.max_learning_rate)
+#    epoch_records[i] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc, CalculateLearningRate(i, parameters))
+
+    epoch_record     = EpochRecord(1, category, IS_error, 0.0,       0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, nothing,                     nothing,              nothing, parameters.max_learning_rate)
 
     CreateEpochRecord(config_id, epoch_record)
 

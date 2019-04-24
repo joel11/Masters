@@ -1,6 +1,6 @@
 module ConfigGenerator
 
-export ChangeEncodingActivation, ChangeOutputActivation,ChangeScalingFunction, ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
+export ChangeTrainingSplits, ChangeIsDenoising, ChangeDenoisingVariance, ChangeEncodingActivation, ChangeOutputActivation,ChangeScalingFunction, ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
 
 function ChangeInit(get_function, parameters, val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_Init_" , split(string(val), ".")[end])
@@ -11,6 +11,18 @@ end
 function ChangeSAENetwork(get_function, parameters, val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_SAE_" , split(string(val), ".")[end])
     get_function(parameters).sae_config_id = val
+    return parameters
+end
+
+function ChangeIsDenoising(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_denoising_" , split(string(val), ".")[end])
+    get_function(parameters).is_denoising = val
+    return parameters
+end
+
+function ChangeDenoisingVariance(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_variance_" , split(string(val), ".")[end])
+    get_function(parameters).denoising_variance = val
     return parameters
 end
 
@@ -29,6 +41,12 @@ end
 function ChangeMaxLearningRate(get_function, parameters,val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_MaxLearningRate_" , string(val))
     get_function(parameters).max_learning_rate = val
+    return parameters
+end
+
+function ChangeTrainingSplits(get_function, parameters,val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_CVSplit_" , string(val))
+    get_function(parameters).training_splits = val
     return parameters
 end
 

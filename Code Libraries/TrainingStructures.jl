@@ -26,22 +26,19 @@ type TrainingParameters
     min_learning_rate::Float64
     epoch_cycle_max::Float64
     minibatch_size::Int64
-    momentum_rate::Float64
     max_epochs::Int64
     stopping_parameters::Tuple
     stopping_function
-    verbose::Bool
-    is_classification::Bool
-
     l1_lambda::Float64
-    l2_lambda::Float64
     cost_function
     training_splits
+    is_denoising
+    denoising_variance
 
-    function TrainingParameters(category, max_learning_rate, min_learning_rate, epoch_cycle_max, minibatch_size, momentum_rate, max_epochs,
-        stopping_parameters, stopping_function, verbose, is_classification, l1_lambda, l2_lambda, cost_function, training_splits)
-        return new(category, max_learning_rate, min_learning_rate, epoch_cycle_max, minibatch_size, momentum_rate, max_epochs,
-            stopping_parameters, stopping_function(stopping_parameters), verbose, is_classification, l1_lambda, l2_lambda, cost_function, training_splits)
+    function TrainingParameters(category, max_learning_rate, min_learning_rate, epoch_cycle_max, minibatch_size, max_epochs,
+        stopping_parameters, stopping_function, l1_lambda, cost_function, training_splits, is_denoising, denoising_variance)
+        return new(category, max_learning_rate, min_learning_rate, epoch_cycle_max, minibatch_size, max_epochs,
+            stopping_parameters, stopping_function(stopping_parameters), l1_lambda, cost_function, training_splits, is_denoising, denoising_variance)
     end
 end
 
@@ -133,11 +130,10 @@ type EpochRecord
 
     mean_weight_changes
     zero_activation_perc
-    error_mape
     learning_rate
 
-    function EpochRecord(epoch_number, category, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods, mean_weight_changes, zero_activation_perc, error_mape, learning_rate)
-        return new(epoch_number, category, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods, mean_weight_changes, zero_activation_perc, error_mape, learning_rate)
+    function EpochRecord(epoch_number, category, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods, mean_weight_changes, zero_activation_perc, learning_rate)
+        return new(epoch_number, category, training_cost, test_cost, training_accuracy, test_accuracy, energy_ratio, run_time, network, weight_change_rates, hidden_activation_likelihoods, mean_weight_changes, zero_activation_perc, learning_rate)
     end
 end
 

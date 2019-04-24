@@ -51,23 +51,22 @@ function RunSAEConfigurationTest(ep::SAEExperimentConfig, dataset)
     sgd_records = training_objects[(end-1)]
 
     actual_data = saesgd_data.training_input[1:Int64(floor(size(saesgd_data.training_input,1)*0.2)),:]
-
     ffdata = Feedforward(full_network, actual_data)
     reconstructed_data = ffdata[end]
 
     reverse_function = ReverseFunctions[ep.data_config.scaling_function]
     deprocessed_actual = reverse_function(actual_data, saesgd_data.input_processingvar1, saesgd_data.input_processingvar2)
     deprocessed_recon = reverse_function(reconstructed_data, saesgd_data.input_processingvar1, saesgd_data.input_processingvar2)
-    #reconstructed_actual = ReconstructPrices(deprocessed_actual, ep.data_config, saesgd_data.original_prices)
-    #reconstructed_recon = ReconstructPrices(deprocessed_recon, ep.data_config, saesgd_data.original_prices)
-    #println(deprocessed_actual)
-    #println(deprocessed_recon)
+    #reconstructed_actual = ReconstructPrices(deprocessed_actual, ep.data_config, actual_data)
+    #reconstructed_recon = ReconstructPrices(deprocessed_recon, ep.data_config, actual_data)
 
     data_pair = (deprocessed_actual, deprocessed_recon)
 
+    mape = round(CalculateMAPE(deprocessed_actual, deprocessed_recon), 2)
+    CreateMapeRecord(config_id, mape)
+
     return (config_id, ep.experiment_set_name, data_pair, sgd_records, ffdata, full_network)
 end
-
 
 function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
 
@@ -80,9 +79,10 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
     encoded_ogd_dataset = GenerateEncodedOGDDataset(ogd_data, ep.auto_encoder)
 
     ## FFN-SGD Training
-    ffn_network = (ep.rbm_pretraining == true ? (TrainRBMNetwork(config_id, encoded_dataset, ep.ffn_network, ep.rbm_cd)[1])
-                                              : NeuralNetwork(ep.ffn_network.layer_sizes, ep.ffn_network.layer_activations, ep.ffn_network.initialization))
-    ffn_sgd_records = RunSGD(config_id, "FFN-SGD", encoded_dataset, ffn_network, ep.ffn_sgd)
+    #ffn_network = (ep.rbm_pretraining == true ? (TrainRBMNetwork(config_id, encoded_dataset, ep.ffn_network, ep.rbm_cd)[1])
+    #                                          : NeuralNetwork(ep.ffn_network.layer_sizes, ep.ffn_network.layer_activations, ep.ffn_network.initialization))
+
+    ffn_sgd_records, ffn_network = TrainInitFFN(config_id, "FFN-SGD", encoded_dataset, ep.ffn_network, ep.ffn_sgd)
 
     ## OGD Training
     ogd_records, comparisons = RunOGD(config_id, "OGD", encoded_ogd_dataset, ffn_network, ep.ogd)

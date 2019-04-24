@@ -2,13 +2,21 @@ module NetworkTrainer
 
 using RBM, NeuralNetworks, ActivationFunctions, InitializationFunctions, TrainingStructures, SGD, CostFunctions
 
-export TrainRBMSAE, TrainEncoderRBNMFFNNetwork, TrainInitSAE, GetAutoencoder
+export TrainInitFFN, TrainRBMSAE, TrainEncoderRBNMFFNNetwork, TrainInitSAE, GetAutoencoder
 
 function CreateEncoderDataset(dataset::DataSet)
     training_input = dataset.training_input
     testing_input = dataset.testing_input
 
     return DataSet(dataset.original_prices, training_input, testing_input, training_input, testing_input, nothing, nothing, nothing, nothing)
+end
+
+function TrainInitFFN(config_id, category, dataset::DataSet, network_parameters::NetworkParameters, parameters::TrainingParameters)
+
+    network = NeuralNetwork(network_parameters.layer_sizes, network_parameters.layer_activations, network_parameters.initialization)
+    network.layers[end].activation = network_parameters.output_activation
+    sgd_records = RunSGD(config_id, category, dataset, network, parameters)
+    return (sgd_records, network)
 end
 
 function TrainInitSAE(config_id, category, dataset::DataSet, network_parameters::NetworkParameters, parameters::TrainingParameters)

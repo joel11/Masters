@@ -106,9 +106,9 @@ training_data = mnist_data.training_input
 encoder_data = CreateEncoderDataset(mnist_data)
 layers = [784, 200, 50]
 activations = map(x -> SigmoidActivation, 1:(length(layers)))
-network_parameters = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, SigmoidActivation)
+network_parameters = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotNormalInit, SigmoidActivation, SigmoidActivation)
 ffn_parameters = TrainingParameters("SAE", 0.5, 1.0, 100, 20, 0.0, 10, (0.0001, 100), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
-rbm_parameters = TrainingParameters("RBM-CD", 0.5, 0.0, 1, 20, 0.0, 2, (0.0001, 50), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
+rbm_parameters = TrainingParameters("RBM-CD", 0.5, 0.0, 1, 20, 0.0, 5, (0.0001, 50), NonStopping, true, false, 0.0, 0.0, MeanSquaredError(), [0.8])
 
 rbm_network, rbm_records = RBM.TrainRBMNetwork(config_id,encoder_data, network_parameters, rbm_parameters)
 #rbm_network = NeuralNetwork(network_parameters.layer_sizes, network_parameters.layer_activations, network_parameters.initialization)
@@ -121,3 +121,22 @@ AddLayer(rbm_network, softmax)
 
 
 sgd_records = RunSGD(config_id, category, mnist_data, rbm_network, ffn_parameters)
+
+
+using PlotlyJS
+
+zero = [0.1115, 0.0982, 0.095, 0.0982, 0.1115, 0.2166, 0.5807, 0.754, 0.865, 0.8783]
+one = [0.9131, 0.9278, 0.9364, 0.9409, 0.9449, 0.9482, 0.9475, 0.9488, 0.95, 0.9527]
+five = [0.9157, 0.9292, 0.9397, 0.9438, 0.9463, 0.9503, 0.9516, 0.9537, 0.9539, 0.9564]
+
+epochs = map(i -> i, 1:10)
+
+t0 = scatter(;y=zero, x = epochs, name="0 Pre-training Epoch", mode ="lines")
+t1 = scatter(;y=one, x = epochs, name="1 Pre-training Epoch", mode="lines")
+t2 = scatter(;y=five, x = epochs, name="5 Pre-training Epoch", mode="lines")
+
+recreation_plots = [t0, t1, t2]
+l = Layout(yaxis= Dict(:title => "Prediction Accuracy"), xaxis = Dict(:title => "SGD Epoch"))
+plot(recreation_plots, l)
+
+savefig(plot(recreation_plots, l), string("/users/joeldacosta/desktop/rbm_pretraining.html"))

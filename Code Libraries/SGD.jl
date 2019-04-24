@@ -45,6 +45,9 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
         testing_input = original_input[testing_indices,:]
         testing_output = original_output[testing_indices,:]
 
+        if (parameters.is_denoising)
+            training_input = AddNoiseToArray(training_input, parameters.denoising_variance)
+        end
 
         zero_activation_history = (fill(0, (length(network.layers),1)))
         total_weight_changes = Array{Float64,2}(fill(0.0, (length(network.layers), 1)))
@@ -67,11 +70,10 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
         test_recreation = Feedforward(network, testing_input)[end]
         OOS_error = parameters.cost_function.CalculateCost(testing_output, test_recreation)
         #OOS_error = PredictionAccuracy(network, testing_input, testing_output)
-        OOS_mape = round(CalculateMAPE(testing_output, test_recreation), 2)
 
-        epoch_records[i] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc, OOS_mape, CalculateLearningRate(i, parameters))
+        epoch_records[i] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc, CalculateLearningRate(i, parameters))
 
-        if parameters.verbose
+        if true
             PrintEpoch(epoch_records[i])
         end
 

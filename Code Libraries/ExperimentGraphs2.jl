@@ -1,4 +1,4 @@
-#module ExperimentGraphs2
+    #module ExperimentGraphs2
 
 workspace()
 push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
@@ -634,7 +634,22 @@ end
 ##General Plots
 
 #config_ids = 913:932
-config_ids = 3058:3249
+config_ids = 3311:3553
+
+function Denoising_BsMSE(config_ids)
+
+    mc = minimum(config_ids)
+    mx = maximum(config_ids)
+
+    dn_mse_query = "select tp.configuration_id, avg(testing_cost) cost, denoising_variance
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                where tp.configuration_id between $mc and $mx
+                group by tp.configuration_id, denoising_variance
+                having training_cost not null"
+
+    MSEBoxplot(dn_mse_query, :denoising_variance, "DN Variance", "Denoising Variance Min MSE", Float64, NullTransform)
+end
 
 function LinearActivationPlots()
 

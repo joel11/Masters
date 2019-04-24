@@ -150,11 +150,100 @@
 		
 	\paragraph{Sigmoid Pre-training Efficacy}
 		
+	The pre-training implementation was tested using the MNIST dataset using 2 validations: the first was RBM training to generate variations of the MNIST data which was inspected manually and considered to be working correctly, the second of which was to use pre-training on a classification network and assess the benefit, as in the graph below.
+		
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/pt/rbm_pretraining.png}
+	\caption{SAE MSE By Scaling \newline The three series above show the classification accuracy scores (percentage) by epoch on an AutoEncoder which was used to classify MNIST images. The series were trained with 0, 1 and 5 pre-training epochs, and show a clear improvment in having an epoch of pre-training in the SAE formation (though not much for more than 1).}
+	\label{figure-pretraining-effect}
+	\end{figure}		
+		
+	Having considered the implementation to be correct and effective in the classic use case, it was then trialled on the following SAE configuration, with the results in the graphs below.
+	\begin{itemize}
+		\item Data: Closing prices for AGL \& ACL
+		\item Processing: Time windows of 1, 5 and 20 (thus an input vector of size 6)
+		\item Encoding Layer Activations: Sigmoid and Linear
+		\item Encoding Layer Size: 5
+		\item Hidden Layer Size: 15
+		\item Number of Hidden Layers: 1, 2
+		\item Learning Rates: 0.0000001, 0.00001, 0.001, 0.1, 1.0, 2.0
+	\end{itemize}
+		
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png}
+	\caption{Pre-training Effects on financial SAE \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.}
+	\label{figure-it2-pretraining-effect}
+	\end{figure}		
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_Learning_Rates_epochs_Min_Test_MSE.png}
+	\caption{Pre-training Effects on financial SAE, by learning rate \newline These boxplots show the same as above, but further grouped by learning rate. We can see the few samples that appears to be benefiting from having 1 epoch of pre-training are simply a result of the learning rate being small enough so as not to have much effect.}
+	\label{figure-it2-pretraining-effect2}
+	\end{figure}		
 		
 		
-	\paragraph{Linear Activation Tests}		
+		
+		
+	\paragraph{SAE Linear Activation Tests}		
 	
+	In consideration of the previous iterations results, numerous tests were run to assess the efficacy of Linear Activations in the encoding and output layers of the SAE networks. The list of configuration combinations are below.
+	\begin{itemize}
+		\item Data: Closing Prices for ACL, AGL, AMS, AOD, BAW, BIL, BVT, CFR, CRH, DDT
+		\item Data Windows: 1, 5, 20 (thus input of 30)
+		\item Data Scaling: Normalize, Standardize
+		\item Weight Init,: Xavier Glorot Uniform
+		\item All Layer Encodings: Sigmoid, ReLU, Linear (split by hidden, encoding and output)
+		\item Encoding Layer Size: 5, 15, 25
+		\item Hidden Layer Size: 60, 120
+		\item Number of Hidden Layers: 1, 2, 3
+		\item Learning Rates: Various for each different activation type (chosen by hidden activation used)
+	\end{itemize}
+		
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png}
+	\caption{Effects of Standardizing \& ReLU Output \newline These boxplots show the MSE scores for the combinations run grouped by 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. There is significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.}
+	\label{figure-it2-scaling-and-relu}
+	\end{figure}				
+		
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/1Activation_Combos-Min_MSE.png}
+	\caption{Effects of Linear Activation \newline This is the same data as in Figure 4, focusing on the more effective configurations. We can see Sigmoid has largely poor performance unless there is a Linear encoding layer (a widely experienced behaviour), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.}
+	\label{figure-it2-linear-act}
+	\end{figure}				
+		
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png}
+	\caption{Encoding Size 25 \newline These plots show the performance for all configurations with an encoding layer size of 25 (input 30). There is once again a surprisingly high performance in the fully linear network.}
+	\label{figure-it2-encoding25}
+	\end{figure}				
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png}
+	\caption{Encoding Size 5 \newline These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we finally see the benefit of non-linear activations in the ReLU based newtorks, which the fully linear is not able to outperform.}
+	\label{figure-it2-encoding5}
+	\end{figure}				
+		
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/5Network_Size_Activation_Combos_for_Encoding_5_Min_MSE.png}
+	\caption{Performance by Network Size 
+		\newline We can further break these down by network size, and see performance is as one would hope, with the best ReLU configurations corresponding with more layers and of larger sizes.}
+	\label{figure-it2-networksize-effect}
+	\end{figure}				
+		
+		
+	\paragraph{Denoising SAEs}
 	
+	Using the same data and general set up as above, a series of tests were run for DSAE using the best ReLU configurations and a gaussian noise process such that $\tilde{x} = \mathcal{N}(x, \sigma) $
+		
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/denoise/denoising.png}
+	\caption{Performance by Denoising Variation
+		\newline The above groupings show the decreasing SAE performance as the level of denoising is increased. The grouping with variance 1.0e-11 essentially represents no denoising.}
+	\label{figure-it2-denoise}
+	\end{figure}						
+		
+		
+		
 		
 	\newpage\large\textbf{Iteration 1: 12th April}
 	

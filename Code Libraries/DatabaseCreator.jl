@@ -15,13 +15,21 @@ function CreateDatabase(database_name)
         start_time DATETIME NOT NULL)
         "
 
+    mape_table =
+        " CREATE TABLE IF NOT EXISTS mape_scores(
+            configuration_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            mape FLOAT)
+            "
+
     network_parameters_table = "
         CREATE TABLE IF NOT EXISTS network_parameters(
             configuration_id INTEGER,
             category VARCHAR NOT NULL,
             layer_sizes VARCHAR NOT NULL,
             layer_activations VARCHAR NOT NULL,
-            initialization VARCHAR NOT NULL)
+            initialization VARCHAR NOT NULL,
+            encoding_activation VARCHAR,
+            output_activation VARCHAR)
             "
     training_parameters_table = "
         CREATE TABLE IF NOT EXISTS training_parameters(
@@ -47,7 +55,6 @@ function CreateDatabase(database_name)
             training_cost FLOAT,
             testing_cost FLOAT,
             run_time FLOAT NOT NULL,
-            mape FLOAT,
             learning_rate FLOAT)"
 
     epoch_dataconfig_table = "
@@ -78,6 +85,7 @@ function CreateDatabase(database_name)
     SQLite.execute!(db, epoch_records_table)
     SQLite.execute!(db, epoch_dataconfig_table)
     SQLite.execute!(db, prediction_results_table)
+    SQLite.execute!(db, mape_table)
 end
 
 CreateDatabase("database_test.db")
