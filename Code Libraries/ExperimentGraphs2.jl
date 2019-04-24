@@ -23,6 +23,8 @@ using PlotlyJS
 ################################################################################
 ##Profit Records
 
+
+
 function UpdateTotalProfits(config_ids)
 
     #Original Setup
@@ -75,8 +77,9 @@ function general_boxplot(layer_groups, prefix, filename, variable_name)
         trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[i,1]))
         push!(data, trace)
     end
-    plot(data)
-    savefig(plot(data), string("/users/joeldacosta/desktop/", filename, ".html"))
+    l = Layout(width = 1000, height = 600, margin = Dict(:b => 150))
+    plot(data,l)
+    savefig(plot(data,l), string("/users/joeldacosta/desktop/", filename, ".html"))
 end
 
 function sae_boxplot(sae_groups, filename, variable_name)
@@ -180,24 +183,20 @@ function SAEProfitBoxPlot(min_config)
     sae_boxplot(groups, "SAE Profit Boxplots", :profit)
 end
 
-function OGD_Scaling_Profits_BxMSE(config_ids)
+function OGD_ScalingOutputActivation_Profits_Bx(config_ids)
 
     minid = minimum(config_ids)
     maxid = maximum(config_ids)
 
-    lr_query = "select er.configuration_id,
-                    (sf.scaling_method || '-' ||
-                    case when cr.experiment_set_name like '%LinearActivation%' then 'LinearActivation'
-                    else 'ReluActivation'
-                    end) scaling_method
-                from epoch_records er
-                inner join configuration_run cr on cr.configuration_id = er.configuration_id
-                inner join scaling_functions sf on sf.configuration_id = er.configuration_id
-                where er.configuration_id between $minid and $maxid
-                and category = 'OGD'
-                and training_cost is not null"
+    query = "select cr.configuration_id,
+                    (substr(layer_activations, 1,  instr(layer_activations, ',')-11) || '-' || output_activation || '-' || scaling_function) scaling_methodology
+            from configuration_run cr
+            inner join dataset_config dc on cr.configuration_id = dc.configuration_id
+            inner join network_parameters np on np.configuration_id = cr.configuration_id
+            where cr.configuration_id between $minid and $maxid
+            order by cr.configuration_id desc"
 
-    ProfitBoxplot(lr_query, :scaling_method, "Scaling", "OGD Profits by Scaling", String, NullTransform)
+    ProfitBoxplot(query, :scaling_methodology, " ", "Scaling Methodolgy Profits", String, NullTransform)
 end
 
 
@@ -289,7 +288,7 @@ function SAE_Pretraining_MinTest_BxMSE(config_ids)
     mc = minimum(config_ids)
     xc = maximum(config_ids)
 
-#ifnull(max(er2.epoch_number), 0) pre_training_epochs
+    #ifnull(max(er2.epoch_number), 0) pre_training_epochs
 
     query = "select er.configuration_id, min(er.testing_cost) cost,
                 (cast(ifnull(max(er2.epoch_number), 0) as string) || '-' || cast(tp.learning_rate as string)) pre_training_epochs
@@ -631,10 +630,7 @@ function GenerateTotalProfit(config_id, original_prices)
 end
 
 ###############################################################################
-##General Plots
-
-#config_ids = 913:932
-config_ids = 3311:3553
+##New Plots
 
 function Denoising_BsMSE(config_ids)
 
@@ -720,6 +716,13 @@ function LinearActivationPlots()
     general_boxplot2(groups, " ", "Network Size Activation Combos for Encoding 5 Min MSE", :cost)
 end
 
+
+###############################################################################
+##General Plots
+
+config_ids = 3704:4663
+
+
 SAE_Pretraining_MinTest_BxMSE(config_ids)
 
 
@@ -727,7 +730,7 @@ SAE_Pretraining_MinTest_BxMSE(config_ids)
 SAE_ScalingOutput_BxMSE(config_ids)
 #min_config = minimum(config_ids)
 #UpdateTotalProfits(config_ids)
-#TotalProfits = ReadProfits()
+TotalProfits = ReadProfits()
 #807, 808, 809, 810
 #names = Dict(845 => "845", 846 => "846")
 #RecreateStockPrices(names)

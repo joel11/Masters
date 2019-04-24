@@ -36,7 +36,7 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
             push!(activations, primary_activation)
         end
 
-        ffn_net_par = NetworkParameters("FFN", layers, activations, InitializationFunctions.XavierGlorotNormalInit, "", "")
+        ffn_net_par = NetworkParameters("FFN", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation, LinearActivation)
         ffn_sgd_par = TrainingParameters("FFN", 0.1, 0, 0,  20, 500, (0.0001, 100), NonStopping, 0.0, MeanSquaredError(), [1.0], false, 0.0)
         ogd_par = OGDTrainingParameters("FFN-OGD", 0.001, true, MeanSquaredError())
 
@@ -45,7 +45,7 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
 
     ################################################################################
     ##1. Configuration Variations
-    set_name = string("Iteration2_1 Tests FFN ", num_hidden, " Layer ReLU ", num_hidden, "x", layer_size)
+    set_name = string("Iteration2_1 CV Tests FFN ", num_hidden, " Layer ReLU ", num_hidden, "x", layer_size)
     #jsedata = ReadJSETop40Data()
     dataset = nothing #jsedata[:, [:ACL, :AGL]] #nothing
 
@@ -88,10 +88,10 @@ end
 
 all_saes  =  (3560,3574,3580,3590,3613, 3620,3626,3638,3650,3671)
 
-RunNLayerReLUFFNTest(40, 1, all_saes, ReluActivation)
-RunNLayerReLUFFNTest(40, 3, all_saes, ReluActivation)
-RunNLayerReLUFFNTest(80, 1, all_saes, ReluActivation)
-RunNLayerReLUFFNTest(80, 3, all_saes, ReluActivation)
+#RunNLayerReLUFFNTest(40, 1, all_saes, ReluActivation)
+#RunNLayerReLUFFNTest(40, 3, all_saes, ReluActivation)
+#RunNLayerReLUFFNTest(80, 1, all_saes, ReluActivation)
+#RunNLayerReLUFFNTest(80, 3, all_saes, ReluActivation)
 
 RunNLayerReLUFFNTest(40, 1, all_saes, LinearActivation)
 RunNLayerReLUFFNTest(40, 3, all_saes, LinearActivation)

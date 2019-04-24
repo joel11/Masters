@@ -243,7 +243,29 @@
 	\end{figure}						
 		
 		
+	\paragraph{Linear Activations in FFN}
+	
+	A series of predictive FFN networks were run, with the following combinations
+	
+	\begin{itemize}
+		\item SAEs: Best performance (lowest MSE) of encoding sizes 3, 6, 9, 12, 15 (input 18), of both Limited Scaling and typical Scaling methods
+		\item Output Activations: ReLU, Linear
+		\item Hidden Activations: ReLU, Linear
+		\item Layer Sizes: 40, 80
+		\item Number of Layers: 1, 3
+		\item Various Learning rates for SGD \& OGD training
+	\end{itemize}
 		
+		\begin{figure}[H]
+			\centering \includegraphics[scale=0.3]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
+			\caption{Linear Activations in FFN 
+				\newline The above groupings show the profits generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). There are several takeaways:
+				\newline 1. Higher performance of Linear networks (may be down to network size and amount of input data)
+				\newline 2. The limited scaling technique is having a noticeable impact on profits
+				\newline 3. The decrease in performance with ReLU output persists
+				}	
+			\label{figure-it2-linear-ffn_activations}
+		\end{figure}						
 		
 	\newpage\large\textbf{Iteration 1: 12th April}
 	
@@ -1402,23 +1424,69 @@ predictions to be profitable. The subtlety here is that we will consider the usa
 \section{Data}\label{Data}
 \subsection{Data Processing}
 
+The datasets used go through several transformations throughout the usage cycle, each of which are captured below.
+
+\subsubsection{Log Difference Transformation and Aggregation}\label{ldata_og_difference}
 All datasets were transformed into log feature fluctuation values, and were then expanded to include fluctuations over rolling window periods.
 \begin{equation}
 \textit{log\_diff}(x_t) = ln(x_t) - ln(x_{t-1})
 \end{equation}
 This log feature fluctuation,  is processed for each OHLCV feature and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and symmetric in terms of gains and losses.
 \newline\newline
-The datasets are then expanded with the rolling window fluctuations both in the past, for input, and in the future, for predicted output. For example, at each data point $t$, the following time series are added:
+The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. For example, at each data point $t$, the following time series are added:
 \begin{itemize}
-	\item [$\cdot$] Log feature fluctuations over the periods $(t-7, t)$ and $(t-30, t)$ (with $(t-1, t)$ already having been processed)
-	\item [$\cdot$] Log feature fluctuations for the period $(t, t + 10)$, to be predicted
-\end{itemize}\todo{Change to final windows decided on}
+	\item [$\cdot$] Log feature fluctuations over the periods $(t-5, t)$ and $(t-20, t)$ (with $(t-1, t)$ already having been processed)
+	\item [$\cdot$] Log feature fluctuations for the period $(t, t + 2)$, to be predicted \todo{Change to final windows decided on}
+\end{itemize}
 
-\subsection{Data Scaling}\label{data_scaling}
-Once the log difference data has been processed, the datasets are standardized to allow for better learning. This is done in the typical way, calculating for mean 0 and variance 1: each feature vector has its mean subtracted, and is divided by its standard deviation.
+Only data points with a full set of features are used for training and prediction later on in the framework.
+
+\subsubsection{Data Scaling}\label{data_scaling}
+Once the log difference data has been processed, the datasets are either standardized or normalized to allow for better learning. This is done in the typical ways:
 \begin{equation}
-\textit{standardized}(x) = \frac{(x - \bar{x}) }{\sigma_x}
+\textit{standardize:  }x_s = \frac{(x_i - \bar{x}) }{\sigma_x}
 \end{equation}
+
+\begin{equation}
+\textit{normalize:  }x_n = \frac{x_i - min(x) }{max(x) - min(x)}
+\end{equation}
+
+Two extensions of these are used later on, dubbed 'Limited Standardization' and 'Limited Normalization', which are used when the data is split up into the SAE training and OGD prediction sets. In this case all the data needs to be scaled, but the information should not be travelling from the OGD dataset to the SAE training set through the use of aggregated measures such as $\bar{x}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:
+
+\begin{equation}
+\textit{limited standardize:  } x_{ls} = \frac{(x_i - \bar{x_{1:t}}) }{\sigma_{x_{1:t}}} , \forall  i \in (1, n)
+\end{equation}
+
+\begin{equation}
+\textit{limited normalize:  } x_{ln} = \frac{x_i - min(x_{1:t}) }{max(x_{1:t}) - min(x_{1:t})} , \forall  i \in (1, n)
+\end{equation}
+
+
+This log-differenced, aggregated and scaled data is then used as the input for the neural network models.
+
+\subsubsection{Reverse Data Scaling}\label{data_reverse_scaling}
+
+The predicted data points are transformed back into actual prices for returns analysis. The first step is to reverse the scaling that is done in \ref{data_scaling} in order to retrieve the log difference fluctuations.
+
+\begin{equation}
+\textit{reverse standardize:  }x_i = x_s * \sigma_x + \bar{x}
+\end{equation}
+
+\begin{equation}
+\textit{reverse normalize:  } x_i = x_n * (max(x) - min(x)) + min(x)
+\end{equation}
+
+These are applied similarly for the limited variations.
+
+\subsubsection{Price Reconstruction}\label{data_price_recon}
+
+The predicted log fluctuations produced in \ref{data_reverse_scaling} are used to reconstruct the predicted prices. For original prices $o$, stocks $s$, time window predicted $t$, predicted log fluctuation $p$ and time steps $i \in (0, n)$i:
+
+\begin{equation}
+\textit{reconstructed price}_{s,i} = o_{s,i-t} * e^{p_{s,i}}
+\end{equation}
+
+These reconstructed prices are then used to assess model returns later.
 
 \subsection{Synthetic Data}\label{data_synthetic}
 

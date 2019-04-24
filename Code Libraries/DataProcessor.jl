@@ -256,17 +256,17 @@ function ProcessData(raw_data, deltas, prediction_steps)
     return (input_data[start_point:end_point, :],output_data[start_point:end_point, :])
 end
 
-function GenerateEncodedSGDDataset(dataset, encoder_network)
-    training_input = Feedforward(encoder_network, dataset.training_input)[end]
-    testing_input = Feedforward(encoder_network, dataset.testing_input)[end]
+function GenerateEncodedSGDDataset(dataset, encoder_network, encode)
+    training_input = encode ? Feedforward(encoder_network, dataset.training_input)[end] : dataset.training_input
+    testing_input = encode ? Feedforward(encoder_network, dataset.testing_input)[end] : dataset.testing_input
     #validation_input = size(dataset.validation_input)[1] > 0 ? Feedforward(encoder_network, dataset.validation_input)[end] : Array{Any}()
 
     #nd = DataSet(training_input, testing_input, validation_input, dataset.training_output, dataset.testing_output, dataset.validation_output)
     nd = DataSet(dataset.original_prices, DataFrame(training_input), DataFrame(testing_input), dataset.training_output, dataset.testing_output, nothing, nothing, nothing, nothing)
 end
 
-function GenerateEncodedOGDDataset(dataset, encoder_network)
-    training_input = Feedforward(encoder_network, dataset.training_input)[end]
+function GenerateEncodedOGDDataset(dataset, encoder_network, encode)
+    training_input = encode? Feedforward(encoder_network, dataset.training_input)[end] : dataset.training_input
     return DataSet(dataset.original_prices, training_input, DataFrame(), dataset.training_output, DataFrame(), nothing, nothing, nothing, nothing)
 end
 

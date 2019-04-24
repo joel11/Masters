@@ -75,8 +75,8 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
 
     ##Data Processing
     saesgd_data, ogd_data = PrepareData(ep.data_config, dataset)
-    encoded_dataset =  GenerateEncodedSGDDataset(saesgd_data, ep.auto_encoder)
-    encoded_ogd_dataset = GenerateEncodedOGDDataset(ogd_data, ep.auto_encoder)
+    encoded_dataset =  GenerateEncodedSGDDataset(saesgd_data, ep.auto_encoder, true)
+    encoded_ogd_dataset = GenerateEncodedOGDDataset(ogd_data, ep.auto_encoder, true)
 
     ## FFN-SGD Training
     #ffn_network = (ep.rbm_pretraining == true ? (TrainRBMNetwork(config_id, encoded_dataset, ep.ffn_network, ep.rbm_cd)[1])
