@@ -87,6 +87,9 @@ function sae_boxplot(sae_groups, filename, variable_name)
     encodings = Dict()
     for id in sae_groups[1]
         encodings[id] = OutputSize(GetAutoencoder(ReadSAE(id)[1]))
+        if id == 1
+            encodings[id] = 0
+        end
     end
 
     y_vals = sae_groups[1,2][:,variable_name]
@@ -170,9 +173,12 @@ function FFN_LR_Sched_BxProfit(min_config)
     ProfitBoxplot(lr_query, :learning_rates, "FFN Learning Rates Schedules", "FFN LR-Schedule Profits", String, NullTransform)
 end
 
-function SAEProfitBoxPlot(min_config)
+function SAEProfitBoxPlot(config_ids)
 
-    sae_query = string("select configuration_id, sae_config_id from configuration_run where configuration_id >= $min_config")
+    mn = minimum(config_ids)
+    mx = maximum(config_ids)
+
+    sae_query = string("select configuration_id, sae_config_id from configuration_run where configuration_id between $mn and $mx")
     sae_results = RunQuery(sae_query)
 
     sae_results[:,1] = Array{Int64,1}(sae_results[:,1])
@@ -199,6 +205,60 @@ function OGD_ScalingOutputActivation_Profits_Bx(config_ids)
     ProfitBoxplot(query, :scaling_methodology, " ", "Scaling Methodolgy Profits", String, NullTransform)
 end
 
+function OGD_NetworkSize_Profits_Bx(config_ids)
+
+    minid = minimum(config_ids)
+    maxid = maximum(config_ids)
+
+    query = "select cr.configuration_id,
+            (
+            --substr(layer_activations, 1,  instr(layer_activations, ',')-11)
+            --|| '-' || output_activation
+            --|| '-' ||
+            substr(layer_sizes, instr(layer_sizes, ','), length(layer_sizes))
+            ) networkconfig
+            from configuration_run cr
+            inner join  network_parameters np on cr.configuration_id = np.configuration_id
+            where cr.configuration_id between $minid and $maxid
+            order by cr.configuration_id desc"
+
+    ProfitBoxplot(query, :networkconfig, " ", "Network Size Profits", String, NullTransform)
+end
+
+function OGD_Activations_Profits_Bx(config_ids)
+
+    minid = minimum(config_ids)
+    maxid = maximum(config_ids)
+
+    query = "select cr.configuration_id,
+            (
+            substr(layer_activations, 1,  instr(layer_activations, ',')-11)
+            || '-' || output_activation
+            ) networkconfig
+            from configuration_run cr
+            inner join  network_parameters np on cr.configuration_id = np.configuration_id
+            where cr.configuration_id between $minid and $maxid
+            order by cr.configuration_id desc"
+
+    ProfitBoxplot(query, :networkconfig, " ", "Network Activations Profits", String, NullTransform)
+end
+
+function OGD_CV_Profits_bx(config_ids)
+
+    minid = minimum(config_ids)
+    maxid = maximum(config_ids)
+
+    query = "select cr.configuration_id,
+                case when experiment_set_name like '%CV%' then 10
+                else 0
+                end Validation_Percentage_Size
+            from configuration_run cr
+            where configuration_id between $minid and $maxid
+            order by cr.configuration_id desc"
+
+    ProfitBoxplot(query, :Validation_Percentage_Size, "Validation Set Percentage ", "Validation Set Effects on Profits", Float64, NullTransform)
+
+end
 
 ##MSE BoxPlots
 
@@ -566,9 +626,9 @@ end
 
 function WriteStrategyGraphs(config_id, strategyreturns)
     daily_rates = [:daily_rates_observed, :daily_rates_observed_fullcosts]
-    cumulative_profits = [:cumulative_profit_observed, :cumulative_profit_observed_fullcosts, :cumulative_profit_observed_perfect, :cumulative_profit_observed_perfect_fullcosts]
-    cumulative_rates = [:cumulative_observed_rate, :cumulative_expected_rate, :cumulative_perfect_rate]
-    cumulative_rates_fullcosts = [:cumulative_observed_rate_fullcost, :cumulative_expected_rate_fullcost, :cumulative_perfect_rate_fullcost]
+    cumulative_profits = [:cumulative_profit_observed, :cumulative_profit_observed_fullcosts, :cumulative_profit_observed_benchmark, :cumulative_profit_observed_benchmark_fullcosts]
+    cumulative_rates = [:cumulative_observed_rate, :cumulative_expected_rate, :cumulative_benchmark_rate]
+    cumulative_rates_fullcosts = [:cumulative_observed_rate_fullcost, :cumulative_expected_rate_fullcost, :cumulative_benchmark_rate_fullcost]
 
     GenericStrategyResultPlot(strategyreturns, daily_rates, string(config_id, "_DailyRates"))
     GenericStrategyResultPlot(strategyreturns, cumulative_profits, string(config_id, "_CumulativeProfits"))
@@ -718,22 +778,56 @@ end
 
 
 ###############################################################################
+##Get Best Network
+
+nets = RunQuery("select configuration_id, layer_activations like 'Relu%' isrelu from network_parameters where configuration_id > 3704")
+
+nets[:,1] = Array{Int64,1}(nets[:,1])
+nets[:,2] = Array{Bool,1}(nets[:,2])
+
+layer_returns = join(TotalProfits, nets, on = :configuration_id)
+
+relu_indices = layer_returns[:isrelu]
+
+layer_returns[Array{Bool}(
+layer_returns[:profit] .== maximum(layer_returns[layer_returns[:isrelu],:profit])
+),:]
+
+var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
+original_prices = GenerateDataset(75, 5000, var_pairs)
+config_id = 3933
+
+ConfigStrategyOutput(config_id, original_prices)
+
+
+###############################################################################
 ##General Plots
 
-config_ids = 3704:4663
+#config_ids = 3704:4759
+config_ids = 3704:5999
+config_ids = 3704:5998
+UpdateTotalProfits(config_ids)
+TotalProfits = ReadProfits()
+
+
+#4605
+
+
+
+AllProfitsPDF(3704)
+SAEProfitBoxPlot(config_ids)
 
 
 SAE_Pretraining_MinTest_BxMSE(config_ids)
-
-
-
 SAE_ScalingOutput_BxMSE(config_ids)
 #min_config = minimum(config_ids)
-#UpdateTotalProfits(config_ids)
-TotalProfits = ReadProfits()
+
 #807, 808, 809, 810
-#names = Dict(845 => "845", 846 => "846")
-#RecreateStockPrices(names)
+mse_config = 3704
+profit_config = 3933
+
+names = Dict(4991 => "Best OGD MSE", 3933 => "Best PL")
+RecreateStockPrices(names)
 
 #for c in map(i -> i, 781:2:786)
 #    names = Dict()

@@ -3,18 +3,23 @@
 \contentsline {paragraph}{SAE Linear Activation Tests}{4}{section*.5}
 \contentsline {paragraph}{Denoising SAEs}{6}{section*.11}
 \contentsline {paragraph}{Linear Activations in FFN}{6}{section*.13}
-\contentsline {paragraph}{Scaling}{8}{section*.15}
-\contentsline {paragraph}{General Configurations \& CV}{9}{section*.19}
-\contentsline {paragraph}{Return Graphs}{11}{section*.24}
-\contentsline {paragraph}{Price Predictions}{13}{section*.28}
-\contentsline {paragraph}{Sigmoid Pre-training}{16}{section*.35}
-\contentsline {paragraph}{Next Iteration}{17}{section*.37}
-\contentsline {paragraph}{Critical Decisions and Points of Concern}{17}{section*.38}
-\contentsline {paragraph}{Non-Critical Features}{17}{section*.39}
-\contentsline {paragraph}{Dissertation to-do list}{17}{section*.40}
-\contentsline {paragraph}{16th June 2018}{20}{section*.42}
-\contentsline {paragraph}{29th March 2019}{20}{section*.43}
-\contentsline {paragraph}{12th April 2019}{21}{section*.44}
+\contentsline {paragraph}{SAE Effects}{7}{section*.15}
+\contentsline {paragraph}{Predictive Network Sizes}{7}{section*.17}
+\contentsline {paragraph}{Cross Validation Effects}{8}{section*.19}
+\contentsline {paragraph}{Returns Analysis}{8}{section*.21}
+\contentsline {paragraph}{Scaling}{11}{section*.27}
+\contentsline {paragraph}{General Configurations \& CV}{12}{section*.31}
+\contentsline {paragraph}{Return Graphs}{14}{section*.36}
+\contentsline {paragraph}{Price Predictions}{16}{section*.40}
+\contentsline {paragraph}{Sigmoid Pre-training}{19}{section*.47}
+\contentsline {paragraph}{Next Iteration}{20}{section*.49}
+\contentsline {paragraph}{Iteration Output}{20}{section*.50}
+\contentsline {paragraph}{Critical Decisions and Points of Concern}{20}{section*.51}
+\contentsline {paragraph}{Non-Critical Features}{20}{section*.52}
+\contentsline {paragraph}{Dissertation to-do list}{20}{section*.53}
+\contentsline {paragraph}{16th June 2018}{23}{section*.55}
+\contentsline {paragraph}{29th March 2019}{23}{section*.56}
+\contentsline {paragraph}{12th April 2019}{24}{section*.57}
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}
 \contentsline {section}{\numberline {2}LiteratureReview}{4}{section.2}
 \contentsline {subsection}{\numberline {2.1}Technical Analysis}{4}{subsection.2.1}
@@ -43,15 +48,15 @@
 \contentsline {subsubsection}{\numberline {3.1.3}Reverse Data Scaling}{14}{subsubsection.3.1.3}
 \contentsline {subsubsection}{\numberline {3.1.4}Price Reconstruction}{14}{subsubsection.3.1.4}
 \contentsline {subsection}{\numberline {3.2}Synthetic Data}{15}{subsection.3.2}
-\contentsline {paragraph}{Simulated Dataset}{15}{section*.53}
+\contentsline {paragraph}{Simulated Dataset}{15}{section*.66}
 \contentsline {subsection}{\numberline {3.3}Real Data}{15}{subsection.3.3}
 \contentsline {section}{\numberline {4}Implementation}{16}{section.4}
 \contentsline {subsection}{\numberline {4.1}Process Overview}{16}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Feedforward Neural Networks}{16}{subsection.4.2}
 \contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{16}{subsubsection.4.2.1}
 \contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{16}{subsubsection.4.2.2}
-\contentsline {subparagraph}{Sigmoid}{16}{section*.56}
-\contentsline {subparagraph}{ReLU}{17}{section*.57}
+\contentsline {subparagraph}{Sigmoid}{16}{section*.69}
+\contentsline {subparagraph}{ReLU}{17}{section*.70}
 \contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{17}{subsubsection.4.2.3}
 \contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{17}{subsubsection.4.2.4}
 \contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent Improvements}{18}{subsubsection.4.2.5}
@@ -68,17 +73,17 @@
 \contentsline {subsection}{\numberline {4.8}Performance Assessment}{21}{subsection.4.8}
 \contentsline {subsection}{\numberline {4.9}Full Process Implementation}{22}{subsection.4.9}
 \contentsline {section}{\numberline {5}Results}{23}{section.5}
-\contentsline {paragraph}{Working Notes}{23}{section*.72}
+\contentsline {paragraph}{Working Notes}{23}{section*.85}
 \contentsline {subsection}{\numberline {5.1}Money Management Strategy and Returns}{23}{subsection.5.1}
 \contentsline {subsection}{\numberline {5.2}Results for Synthetic Data}{24}{subsection.5.2}
 \contentsline {subsubsection}{\numberline {5.2.1}Dataset Generation}{24}{subsubsection.5.2.1}
 \contentsline {subsubsection}{\numberline {5.2.2}SAE Network and Results}{25}{subsubsection.5.2.2}
 \contentsline {subsubsection}{\numberline {5.2.3}Predictive FFN Network and Results}{25}{subsubsection.5.2.3}
-\contentsline {paragraph}{SAE Results}{25}{section*.74}
-\contentsline {paragraph}{Layer Size \& SGD Learning Rate Results}{25}{section*.75}
-\contentsline {paragraph}{OGD Learning Rate Results}{25}{section*.76}
-\contentsline {paragraph}{Prediction Plots}{25}{section*.77}
-\contentsline {paragraph}{CSCV Plots}{25}{section*.78}
+\contentsline {paragraph}{SAE Results}{25}{section*.87}
+\contentsline {paragraph}{Layer Size \& SGD Learning Rate Results}{25}{section*.88}
+\contentsline {paragraph}{OGD Learning Rate Results}{25}{section*.89}
+\contentsline {paragraph}{Prediction Plots}{25}{section*.90}
+\contentsline {paragraph}{CSCV Plots}{25}{section*.91}
 \contentsline {subsection}{\numberline {5.3}Results for Real Data}{25}{subsection.5.3}
 \contentsline {section}{\numberline {6}Conclusions}{26}{section.6}
 \contentsline {section}{\numberline {7}References}{27}{section.7}

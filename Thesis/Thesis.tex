@@ -267,6 +267,90 @@
 			\label{figure-it2-linear-ffn_activations}
 		\end{figure}						
 		
+		\paragraph{SAE Effects}
+		
+		The graph below shows an aggregation of the above configuratios by SAE sizes.
+		
+		\begin{figure}[H]
+			\centering \includegraphics[scale=0.3]{images/iteration_two/networks/SAE_Profit_Boxplots.png}
+			\caption{SAE Effects on P\&L
+				\newline The above groupings show the profits generated for different SAE encoding layers. The results are encouraging, showing that no SAE (encoding 0) has the worst results, and that the best results are found in one of the lower encoding layers (6).}	
+			\label{figure-it2-sae-effects}
+		\end{figure}			
+		
+		
+		\paragraph{Predictive Network Sizes}
+
+		Similarly, the below graph shows profits for the predictive networks sizes.
+		
+		\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/networks/Network_Size_Profits.png}
+		\caption{Network Size Effects on P\&L
+			\newline We can see the effects are largely as expected here, with networks of more layers and larger layer sizes having a better effect on profits.
+		}	
+		\label{figure-it2-network-size-effects}
+		\end{figure}					
+		
+		\paragraph{Cross Validation Effects}
+		
+		The same set of configuration were run with a Cross Validation set of 0\% and 10\%.
+		
+		\begin{figure}[H]
+			\centering \includegraphics[scale=0.3]{images/iteration_two/validation/Validation_Set_Effects_on_Profits.png}
+			\caption{Validation Set Effects on P\&L
+			\newline This tested the witholding of 10\% of the data from the SGD training versus witholding no data. Curiously, there doesn't seem to be a notable effect here, possibly speaking to the much larger general effect of the OGD training in comparison.
+			}	
+			\label{figure-it2-validation	}
+		\end{figure}	
+		
+		
+		\paragraph{Returns Analysis}
+		
+		This section will look at the aggregate returns, and the predictions of the best networks by profit and OGD MSE.
+		
+		\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/profits_pdf.png}
+		\caption{Histogram of P\&L from Predictive MMS
+			\newline The P\&L values seem to be rather low, with few losses. Could warrant a different trading strategy being used.
+			}	
+		\label{figure-it2-profit-pdf	}
+		\end{figure}	
+		
+		The returns below are for the best P\&L network with Relu hidden activations. This network had an SAE encoding layer of size 3, 3 hidden layers with ReLU activations and a linear output layer, which produced a profit of 150.128
+		
+		\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/cumulative_profits.png}
+		\caption{Cumulative P\&L
+		\newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered.
+		}	
+		\label{figure-it2-cumprof}
+		\end{figure}	
+
+		\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/cumulative_rates.png}
+		\caption{Cumulative Rates
+			\newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered.
+		}	
+		\label{figure-it2-cumrates}
+		\end{figure}	
+		
+		\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/stock5_full.png}
+		\caption{Price Predictions
+		\newline This graphs displays the actual prices for the one stock, as well as the predictions made by the two best networks (chosen by MSE and Profit)
+		}	
+		\label{figure-it2-pricepredfull}
+		\end{figure}			
+		
+
+		\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/stock5_zoom.png}
+		\caption{Price Predictions (Zoomed)
+			\newline A closer zoom reveals that it looks like the predictions are very much a lagged time series
+		}	
+		\label{figure-it2-pricepredzoom}
+	\end{figure}			
+		
 	\newpage\large\textbf{Iteration 1: 12th April}
 	
 	\paragraph{Scaling}
@@ -442,22 +526,27 @@
 	
 	\paragraph{Next Iteration}
 
+	\paragraph{Iteration Output}
+
+	\begin{itemize} 
+		\item[$\bullet$] Split point decision
+		\item[$\bullet$] Decisions around activations, regularization, learning schedules and SAEs
+		\item[$\bullet$] Final result set for synthetic data
+	\end{itemize}
 	
 	\paragraph{Critical Decisions and Points of Concern}
 
 	\begin{itemize} 
-		\item[$\bullet$] Scaling Choices
-		\item[$\bullet$] Price Prediction oscillations		
-		\item[$\bullet$] Effect of profit strategy on poor prediction models
-		\item[$\bullet$] Pre-training efficacy		
+		\item[$\bullet$] Price predictions appear to be a lagged time series to actual prices
+		\item[$\bullet$] Profits from MMS appear to be very low
 		\item[$\bullet$] Decide on data splits and what should be used for CSCV - MinBTL method?
-		\item[$\bullet$] Decide on data windows - aribtrary choices or.. ?
 	\end{itemize}
 
 	\paragraph{Non-Critical Features}
 
 	\begin{itemize}
-		\item[$\bullet$] Denoising SAEs
+		\item[$\bullet$] SAE Improvements
+		\item[$\bullet$] ReLU Activation Improvements		
 	\end{itemize}	
 
 	\paragraph{Dissertation to-do list}

@@ -1,4 +1,5 @@
-module CSCV
+#module CSCV
+workspace()
 push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 using Combinatorics
 using StatsBase
@@ -62,7 +63,7 @@ function CalculatePBO(overfit_distribution)
     return mapreduce(x -> (x[1] <= 0 ? x[2] : 0), +, overfit_distribution)
 end
 
-config_ids = Array(RunQuery("select distinct(configuration_id) from prediction_results where configuration_id >=504")[:,1])
+config_ids = Array(RunQuery("select distinct(configuration_id) from prediction_results where configuration_id between 3704 and 4759")[:,1])
 
 function ExperimentCSCVProcess(config_ids)
     return_data = DataFrame()
