@@ -7,7 +7,7 @@ using TrainingStructures
 using SGD, CostFunctions, FunctionsStopping, FFN, OGD
 using DataGenerator, DataProcessor
 using DataFrames
-using CSCV
+#using CSCV
 using FinancialFunctions
 using DatabaseOps
 using ConfigGenerator
@@ -37,7 +37,7 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
         end
 
         ffn_net_par = NetworkParameters("FFN", layers, activations, InitializationFunctions.XavierGlorotNormalInit, LinearActivation, LinearActivation)
-        ffn_sgd_par = TrainingParameters("FFN", 0.1, 0, 0,  20, 500, (0.0001, 100), NonStopping, 0.0, MeanSquaredError(), [0.9], false, 0.0)
+        ffn_sgd_par = TrainingParameters("FFN", 0.1, 0, 0,  20, 500, (0.0001, 100), NonStopping, 0.0, MeanSquaredError(), [1.0], false, 0.0)
         ogd_par = OGDTrainingParameters("FFN-OGD", 0.001, true, MeanSquaredError())
 
         return FFNExperimentConfig(seed, set_name, false, data_config, sae_config_id, encoder, ffn_net_par, ffn_sgd_par, ogd_par, nothing)
@@ -45,13 +45,13 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
 
     ################################################################################
     ##1. Configuration Variations
-    set_name = string("Iteration2_1 CV Tests FFN ", num_hidden, " Layer ReLU ", num_hidden, "x", layer_size)
+    set_name = string("Iteration2_1 Leaky ReLU Tests FFN ", num_hidden, " Layer ReLU ", num_hidden, "x", layer_size)
     #jsedata = ReadJSETop40Data()
     dataset = nothing #jsedata[:, [:ACL, :AGL]] #nothing
 
     vps = []
 
-    push!(vps, (GetFFNNetwork, ChangeOutputActivation, (LinearActivation, ReluActivation)))
+    push!(vps, (GetFFNNetwork, ChangeOutputActivation, (LinearActivation, LeakyReluActivation)))
     #push!(vps, (GetFFNNetwork, ChangeInit, (XavierGlorotUniformInit, HeUniformInit)))
     push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.00001, 0.0001, 0.001, 0.01)))
     push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.0001, 0.001)))
@@ -86,14 +86,27 @@ end
 #Layers = 1, 3
 #Activations = ReLU, Linear
 
-all_saes  =  (3560,3574,3580,3590,3613, 3620,3626,3638,3650,3671)
+#mse choices
+#all_saes  =  (3560,3574,3580,3590,3613, 3620,3626,3638,3650,3671)
+leaky_saes = (7730, 7723, 7711, 7698, 7687)
+#mapes_choices = (3564,3575,3589,3601,3612, 3624,3635,3649,3661,3673)
 
-RunNLayerReLUFFNTest(40, 1, all_saes, ReluActivation)
-RunNLayerReLUFFNTest(40, 3, all_saes, ReluActivation)
-RunNLayerReLUFFNTest(80, 1, all_saes, ReluActivation)
-RunNLayerReLUFFNTest(80, 3, all_saes, ReluActivation)
+RunNLayerReLUFFNTest(40, 1, leaky_saes, LeakyReluActivation)
+RunNLayerReLUFFNTest(40, 3, leaky_saes, LeakyReluActivation)
+RunNLayerReLUFFNTest(80, 1, leaky_saes, LeakyReluActivation)
+RunNLayerReLUFFNTest(80, 3, leaky_saes, LeakyReluActivation)
 
-RunNLayerReLUFFNTest(40, 1, all_saes, LinearActivation)
-RunNLayerReLUFFNTest(40, 3, all_saes, LinearActivation)
-RunNLayerReLUFFNTest(80, 1, all_saes, LinearActivation)
-RunNLayerReLUFFNTest(80, 3, all_saes, LinearActivation)
+#RunNLayerReLUFFNTest(40, 1, all_saes, LinearActivation)
+#RunNLayerReLUFFNTest(40, 3, all_saes, LinearActivation)
+#RunNLayerReLUFFNTest(80, 1, all_saes, LinearActivation)
+#RunNLayerReLUFFNTest(80, 3, all_saes, LinearActivation)
+
+
+
+#RunNLayerReLUFFNTest(20, 1, all_saes, ReluActivation)
+#RunNLayerReLUFFNTest(20, 2, all_saes, ReluActivation)
+#RunNLayerReLUFFNTest(20, 3, all_saes, ReluActivation)
+
+#RunNLayerReLUFFNTest(20, 1, all_saes, LinearActivation)
+#RunNLayerReLUFFNTest(20, 2, all_saes, LinearActivation)
+#RunNLayerReLUFFNTest(20, 3, all_saes, LinearActivation)

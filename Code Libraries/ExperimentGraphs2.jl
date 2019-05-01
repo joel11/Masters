@@ -1,7 +1,7 @@
-    #module ExperimentGraphs2
+module ExperimentGraphs2
 
-workspace()
-push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
+#workspace()
+#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 using RBM
 using NeuralNetworks
@@ -20,10 +20,15 @@ using BSON
 
 using PlotlyJS
 
+
+export OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE
+
+function TransformConfigIDs(config_ids)
+    return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
+end
+
 ################################################################################
 ##Profit Records
-
-
 
 function UpdateTotalProfits(config_ids)
 
@@ -47,7 +52,6 @@ function UpdateTotalProfits(config_ids)
     file_name = string("ProfitVals.bson")
     values = Dict(:profits => profit_array)
     bson(file_name, values)
-
 end
 
 function ReadProfits()
@@ -205,26 +209,6 @@ function OGD_ScalingOutputActivation_Profits_Bx(config_ids)
     ProfitBoxplot(query, :scaling_methodology, " ", "Scaling Methodolgy Profits", String, NullTransform)
 end
 
-function OGD_NetworkSize_Profits_Bx(config_ids)
-
-    minid = minimum(config_ids)
-    maxid = maximum(config_ids)
-
-    query = "select cr.configuration_id,
-            (
-            --substr(layer_activations, 1,  instr(layer_activations, ',')-11)
-            --|| '-' || output_activation
-            --|| '-' ||
-            substr(layer_sizes, instr(layer_sizes, ','), length(layer_sizes))
-            ) networkconfig
-            from configuration_run cr
-            inner join  network_parameters np on cr.configuration_id = np.configuration_id
-            where cr.configuration_id between $minid and $maxid
-            order by cr.configuration_id desc"
-
-    ProfitBoxplot(query, :networkconfig, " ", "Network Size Profits", String, NullTransform)
-end
-
 function OGD_Activations_Profits_Bx(config_ids)
 
     minid = minimum(config_ids)
@@ -257,10 +241,125 @@ function OGD_CV_Profits_bx(config_ids)
             order by cr.configuration_id desc"
 
     ProfitBoxplot(query, :Validation_Percentage_Size, "Validation Set Percentage ", "Validation Set Effects on Profits", Float64, NullTransform)
-
 end
 
-##MSE BoxPlots
+#config transform done
+
+function OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select cr.configuration_id,
+            (
+            substr(layer_activations, 1,  instr(layer_activations, ',')-11)
+            --|| '-' || output_activation
+            || '-' ||
+            substr(layer_sizes, instr(layer_sizes, ','), length(layer_sizes))
+            ) networkconfig
+            from configuration_run cr
+            inner join  network_parameters np on cr.configuration_id = np.configuration_id
+            where cr.configuration_id in($ids)
+            order by cr.configuration_id desc"
+
+    ProfitBoxplot(query, :networkconfig, " ", "Network Size Profits", String, NullTransform)
+end
+
+function OGD_SAE_Selection_Profits_bx(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select cr.configuration_id,
+                case when experiment_set_name like '%MAPE%' then 'MAPE'
+            else 'MSE'
+            end SAE_Selection
+            from configuration_run cr
+            where configuration_id in ($ids)
+            order by cr.configuration_id desc"
+
+    ProfitBoxplot(query, :SAE_Selection, "Method ", "SAE Selection Method Effects on Profits", String, NullTransform)
+end
+
+################################################################################
+#MSE BoxPlots
+
+function SAE_ActivationsNetworkSizes_MinMSE(config_ids, encoding_size = nothing)
+
+    function general_boxplot2(layer_groups, prefix, fn, variable_name)
+
+        y_vals = layer_groups[1,2][:,variable_name]
+        trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[1,1]))
+        data = [trace]
+
+        for i in 2:size(layer_groups,1)
+            y_vals = layer_groups[i,2][:,variable_name]
+            trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[i,1]))
+            push!(data, trace)
+        end
+        plot(data)
+        l = Layout(width = 1500, height = 500, margin = Dict(:b => 120))
+        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
+    end
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select
+            er.configuration_id,
+            min(training_cost) cost,
+            np.output_activation,
+            np.encoding_activation,
+            experiment_set_name,
+            min(er.learning_rate) lr,
+            dc.scaling_function,
+            np.layer_sizes
+        from epoch_records er
+        inner join configuration_run cr on cr.configuration_id = er.configuration_id
+        inner join dataset_config dc on dc.configuration_id = er.configuration_id
+        inner join network_parameters np on np.configuration_id = er.configuration_id
+        where er.configuration_id in ($ids)
+        and er.category = 'SAE-SGD-Init'
+        and training_cost is not null
+        and output_activation not like 'Relu%'
+        and scaling_function not like 'Standardize%'
+        group by er.configuration_id
+        having cost < 1000
+        order by cost desc"
+
+    results = RunQuery(query)
+
+    #By encoding; output activation; primary activation; encoding layer & network size
+    results[:network] =  map(t -> replace(t[(findin(t, ",")[1]+1):end], ",", "x"), Array(results[:layer_sizes]))
+    results[:primary_activation] =  ascii.(Array(map(e -> split(split(e, " ")[end], "_")[1], results[:experiment_set_name])))
+    results[:encoding_size] = Array(map(n -> split(n, "x")[end], results[:network]))
+
+    results[:config_group] = string.(
+                                    replace.(results[:primary_activation], "Activation", ""), "-",
+                                    replace.(Array(results[:encoding_activation]), "Activation", ""), "-",
+                                    replace.(Array(results[:output_activation]), "Activation", ""), "-"
+                                    #,Array(results[:scaling_function])
+                                    #, "-"
+                                    #,"-", Array(results[:lr])
+                                    #,results[:encoding_size]
+                                    , "-",results[:network]
+    )
+
+    #filtered_indices = Array(results[:primary_activation] .!= "SigmoidActivation") & Array(results[:encoding_size] .== "5")
+
+    filename = "SAE Activations And Network Sizes Min MSE"
+
+    if encoding_size != nothing
+        filtered_indices = Array(results[:encoding_size] .== string(encoding_size))
+        filtered_results = results[filtered_indices, :]
+        filename = string(filename, " Encoding " , encoding_size)
+    else
+        filtered_results = results
+    end
+
+    groups = by(filtered_results, [:config_group], df -> [df])
+
+
+
+    general_boxplot2(groups, " ", filename, :cost)
+end
 
 
 function SAE_Scaling_MinTest_BxMSE(config_ids)
@@ -281,7 +380,6 @@ function SAE_Scaling_MinTest_BxMSE(config_ids)
             group by tp.configuration_id, scaling"
 
     MSEBoxplot(query, :scaling, "Scaling Ltd ", "SAE Scaling Limitation Min Test MSE", String, NullTransform)
-
 end
 
 function OGD_ScalingOutput_BxMSE(config_ids)
@@ -362,7 +460,6 @@ function SAE_Pretraining_MinTest_BxMSE(config_ids)
             having cost not null"
 
     MSEBoxplot(query, :pre_training_epochs, "Pretraining Epochs ", "SAE Pre-training Learning Rates epochs Min Test MSE", String, NullTransform)
-
 end
 
 function SAE_MinLR_MinTest_BxMSE(min_config)
@@ -661,7 +758,6 @@ function ConfigStrategyOutput(config_id, original_prices)
     strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
 
     WriteStrategyGraphs(config_id, strategyreturns)
-
 end
 
 function GenerateTotalProfit(config_id, original_prices)
@@ -707,79 +803,11 @@ function Denoising_BsMSE(config_ids)
     MSEBoxplot(dn_mse_query, :denoising_variance, "DN Variance", "Denoising Variance Min MSE", Float64, NullTransform)
 end
 
-function LinearActivationPlots()
-
-    function general_boxplot2(layer_groups, prefix, fn, variable_name)
-
-        y_vals = layer_groups[1,2][:,variable_name]
-        trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[1,1]))
-        data = [trace]
-
-        for i in 2:size(layer_groups,1)
-            y_vals = layer_groups[i,2][:,variable_name]
-            trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[i,1]))
-            push!(data, trace)
-        end
-        plot(data)
-        l = Layout(width = 1500, height = 500, margin = Dict(:b => 120))
-        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
-    end
-
-    minid = minimum(config_ids)
-    maxid = maximum(config_ids)
-
-    query = "select
-            er.configuration_id,
-            min(training_cost) cost,
-            np.output_activation,
-            np.encoding_activation,
-            experiment_set_name,
-            min(er.learning_rate) lr,
-            dc.scaling_function
-        from epoch_records er
-        inner join configuration_run cr on cr.configuration_id = er.configuration_id
-        inner join dataset_config dc on dc.configuration_id = er.configuration_id
-        inner join network_parameters np on np.configuration_id = er.configuration_id
-        where er.configuration_id between $minid and $maxid
-        and er.category = 'SAE-SGD-Init'
-        and training_cost is not null
-        and output_activation not like 'Relu%'
-        and scaling_function not like 'Standardize%'
-        group by er.configuration_id
-        having cost < 1000
-        order by cost desc"
-
-    results = RunQuery(query)
-
-    #By encoding; output activation; primary activation; encoding layer & network size
-    results[:network] =  ascii.(Array(map(e -> split(e, " ")[4], results[:experiment_set_name])))
-    results[:primary_activation] =  ascii.(Array(map(e -> split(split(e, " ")[end], "_")[1], results[:experiment_set_name])))
-    results[:encoding_size] = Array(map(n -> split(n, "x")[end], results[:network]))
-
-    results[:config_group] = string.(
-                                    replace.(results[:primary_activation], "Activation", ""), "-",
-                                    replace.(Array(results[:encoding_activation]), "Activation", ""), "-",
-                                    replace.(Array(results[:output_activation]), "Activation", ""), "-"
-                                    #,Array(results[:scaling_function])
-                                    #, "-"
-                                    #,"-", Array(results[:lr])
-                                    #,results[:encoding_size]
-                                    , "-",results[:network]
-    )
-
-    filtered_indices = Array(results[:primary_activation] .!= "SigmoidActivation") & Array(results[:encoding_size] .== "5")
-    filtered_results = results[filtered_indices, :]
-    #filtered_results = results
-
-    groups = by(filtered_results, [:config_group], df -> [df])
-
-    general_boxplot2(groups, " ", "Network Size Activation Combos for Encoding 5 Min MSE", :cost)
-end
 
 
 ###############################################################################
 ##Get Best Network
-
+#=
 nets = RunQuery("select configuration_id, layer_activations like 'Relu%' isrelu from network_parameters where configuration_id > 3704")
 
 nets[:,1] = Array{Int64,1}(nets[:,1])
@@ -798,15 +826,16 @@ original_prices = GenerateDataset(75, 5000, var_pairs)
 config_id = 3933
 
 ConfigStrategyOutput(config_id, original_prices)
-
+=#
 
 ###############################################################################
 ##General Plots
 
 #config_ids = 3704:4759
-config_ids = 3704:5999
-config_ids = 3704:5998
-UpdateTotalProfits(config_ids)
+#config_ids = 3704:5999
+#config_ids = 3704:5998
+#config_ids = 6000:7679
+#UpdateTotalProfits(config_ids)
 TotalProfits = ReadProfits()
 
 
@@ -814,20 +843,20 @@ TotalProfits = ReadProfits()
 
 
 
-AllProfitsPDF(3704)
-SAEProfitBoxPlot(config_ids)
+#AllProfitsPDF(3704)
+#SAEProfitBoxPlot(config_ids)
 
 
-SAE_Pretraining_MinTest_BxMSE(config_ids)
-SAE_ScalingOutput_BxMSE(config_ids)
+#SAE_Pretraining_MinTest_BxMSE(config_ids)
+#SAE_ScalingOutput_BxMSE(config_ids)
 #min_config = minimum(config_ids)
 
 #807, 808, 809, 810
-mse_config = 3704
-profit_config = 3933
+#mse_config = 3704
+#profit_config = 3933
 
-names = Dict(4991 => "Best OGD MSE", 3933 => "Best PL")
-RecreateStockPrices(names)
+#names = Dict(4991 => "Best OGD MSE", 3933 => "Best PL")
+#RecreateStockPrices(names)
 
 #for c in map(i -> i, 781:2:786)
 #    names = Dict()
@@ -837,22 +866,23 @@ RecreateStockPrices(names)
 #    RecreateStockPrices(names)
 #end
 
-min_config = minimum(config_ids)
-SAE_Pretraining_MinTest_BxMSE(config_ids)
-SAE_MaxLR_MinTest_BxMSE(1193)
+#min_config = minimum(config_ids)
+#SAE_Pretraining_MinTest_BxMSE(config_ids)
+#SAE_MaxLR_MinTest_BxMSE(1193)
 
-RecreateStockPrices(names)
-StockPricePlot(38)
+#RecreateStockPrices(names)
+#StockPricePlot(38)
 
-Layer_BxProfit(min_config)
-OGD_LR_BxProfit(min_config)
-FFN_LR_BxProfit(min_config)
-FFN_LR_Sched_BxProfit(min_config)
-SAEProfitBoxPlot(min_config)
-AllProfitsPDF(min_config)
-FFN_LR_x_Layers_ProfitHeatmap(min_config)
+#Layer_BxProfit(min_config)
+#OGD_LR_BxProfit(min_config)
+#FFN_LR_BxProfit(min_config)
+#FFN_LR_Sched_BxProfit(min_config)
+#SAEProfitBoxPlot(min_config)
+#AllProfitsPDF(min_config)
+#FFN_LR_x_Layers_ProfitHeatmap(min_config)
 
-SAE_Init_MinTest_MxMSE(min_config)
+#SAE_Init_MinTest_MxMSE(min_config)
+#Layer_MinTest_MxMSE(min_config, "SAE")
+#SAE_LR_MinTest_BxMSE(min_config)
 
-Layer_MinTest_MxMSE(min_config, "SAE")
-SAE_LR_MinTest_BxMSE(min_config)
+end

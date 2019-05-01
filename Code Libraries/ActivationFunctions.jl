@@ -1,6 +1,6 @@
 module ActivationFunctions
 
-export SigmoidActivation, SigmoidPrime, TanhActivation, TanhPrime, SoftmaxActivation, ReluActivation, NoisyReluActivation, LinearActivation, FunctionDerivatives
+export LeakyReluActivation, SigmoidActivation, SigmoidPrime, TanhActivation, TanhPrime, SoftmaxActivation, ReluActivation, NoisyReluActivation, LinearActivation, FunctionDerivatives
 
 
 
@@ -38,6 +38,27 @@ function ReluPrime(x::Array{Float64,2})
     return (max.(0,x)./x)
 end
 
+function LeakyReluActivation(x::Array{Float64,2})
+    function LeakyRelu(v)
+        if v > 0
+            return v
+        end
+        return 0.01*v
+    end
+
+    return LeakyRelu.(x)
+end
+
+function LeakyReluPrime(x::Array{Float64,2})
+    function LeakyReluP(v)
+        if v > 0
+            return 1
+        end
+        return 0.01
+    end
+    return LeakyReluP.(x)
+end
+
 function SoftmaxActivation(vals)
     function Softmax(x)
         num_x = (x .- maximum(x))
@@ -49,7 +70,7 @@ function SoftmaxActivation(vals)
 end
 
 
-const FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime, TanhActivation=> TanhPrime, ReluActivation=>ReluPrime, LinearActivation=>LinearPrime)
+const FunctionDerivatives = Dict{Function,Function}(SigmoidActivation=>SigmoidPrime, TanhActivation=> TanhPrime, ReluActivation=>ReluPrime, LeakyReluActivation=>LeakyReluPrime, LinearActivation=>LinearPrime)
 
 end
 

@@ -110,7 +110,7 @@ function CreatePredictionRecords(config_id, actual, predictions)
     records = []
 
     function NanRemover(x)
-        if isnan(x)
+        if (isnan(x) || isinf(x))
             return "null"
         end
         return x
