@@ -20,6 +20,44 @@ using ExperimentGraphs
 
 export  RunReLUSAETest
 
+function GenerateTwoAssetConfig()
+
+    means = (-0.5, 0.05, 0.5)
+    variances = (0.05, 0.35 )
+
+    allcombos = []
+    for m in means
+        push!(allcombos, ((m, variances[1]),(m, variances[2])))
+        push!(allcombos, ((m, variances[1]),(m, variances[2])))
+        push!(allcombos, ((m, variances[1]),(m, variances[2])))
+    end
+
+    for v in variances
+            push!(allcombos, ((v, means[1]),(v, means[2])))
+            push!(allcombos, ((v, means[1]),(v, means[3])))
+            push!(allcombos, ((v, means[2]),(v, means[3])))
+    end
+
+    return allcombos
+end
+
+function GenerateThreeAssetConfig()
+
+    means = (-0.5, 0.05, 0.5)
+    variances = (0.05, 0.1, 0.35 )
+
+    allcombos = []
+    for m in means
+        push!(allcombos, ((m, variances[1]),(m, variances[2]),(m, variances[3])))
+    end
+
+    for v in variances
+        push!(allcombos, ((v, means[1]),(v, means[2]),(v, means[3])))
+    end
+
+    return allcombos
+end
+
 function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden, primary_activation, learning_rates)
 
     srand(2)
@@ -27,11 +65,19 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden, primary_ac
     function GenerateBaseSAEConfig(set_name, datasetname)
         seed = abs(Int64.(floor(randn()*100)))
         ds = abs(Int64.(floor(randn()*100)))
-        var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-        data_config = DatasetConfig(ds, datasetname,  5000,  [1, 5, 20],  [0.6],  [0.8, 1.0],  [2], var_pairs, LimitedNormalizeData)
+        var_pairs = () #((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
+        data_config = DatasetConfig(ds, datasetname,
+                                    5000,  #timesteps
+                                    [1, 5, 20], #delta aggregatios
+                                    [0.6], #process split (for SAE/SGD & OGD)
+                                    [0.8, 1.0], #validation set split
+                                    [2], #prediction step
+                                    var_pairs,
+                                    LimitedNormalizeData) #scaling function
 
-        layers = [(length(var_pairs)*length(data_config.deltas))]
+        #layers = [(length(var_pairs)*length(data_config.deltas))]
         #layers = [10*length(data_config.deltas)]
+        layers = [9]
         for i in 1:num_hidden
             push!(layers, layer_size)
         end
@@ -39,8 +85,24 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden, primary_ac
 
         activations = map(x -> primary_activation, 1:(length(layers)-1))
 
-        sae_net_par = NetworkParameters("SAE", layers, activations, InitializationFunctions.XavierGlorotUniformInit, LinearActivation, LinearActivation)
-        sae_sgd_par = TrainingParameters("SAE", 0.1, 0, 0,  20, 1000, (0.0001, 100), NonStopping, 0.0, MeanSquaredError(), [0.8], true, 0.1)
+        sae_net_par = NetworkParameters("SAE", layers, activations,
+                                        InitializationFunctions.XavierGlorotUniformInit,
+                                        LinearActivation, #output
+                                        LinearActivation) #encoding
+
+        sae_sgd_par = TrainingParameters("SAE",
+                                        0.005,    #max learning rate
+                                        0,        #min learning rate
+                                        0,        #epoch cycle max
+                                        20,       #minibatch size
+                                        250,      #max epochs
+                                        (0.0001, 100), #stopping parameters
+                                        NonStopping,   #stopping function
+                                        0.0,           #l1 lambda
+                                        MeanSquaredError(), #cost_function
+                                        [0.8],              #validation set split
+                                        false,  #denoising enabled
+                                        0.0)    #denoising level
 
         return SAEExperimentConfig(seed, set_name, false, data_config, sae_net_par, sae_sgd_par, nothing)
     end
@@ -52,13 +114,19 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden, primary_ac
     #push!(vps, (GetSAENetwork, ChangeEncodingActivation, (LinearActivation, primary_activation)))
     #push!(vps, (GetSAENetwork, ChangeOutputActivation, (LinearActivation, primary_activation)))
     #push!(vps, (GetSAENetwork, ChangeInit, (XavierGlorotUniformInit, HeUniformInit)))
-    push!(vps, (GetSAETraining, ChangeMaxLearningRate, learning_rates))
     #push!(vps, (GetSAETraining, ChangeIsDenoising, (true, false)))
     #push!(vps, (GetSAETraining, ChangeDenoisingVariance, (0.1, 0.01, 0.001, 0.0001, 0.00000000001)))
+    #push!(vps, (GetSAETraining, ChangeMaxLearningRate, learning_rates))
+    #push!(vps, (GetSAETraining, ChangeDenoisingVariance, (0.01, 0.05, 0.1, 0.15, 0.2, 0.25)))
+    #push!(vps, (GetSAETraining, ChangeL1Reg, (0.1, 1.0, 10.0, 20.0, 40.0, 80.0)))
 
-    set_name = string("Iteration3 SAE LeakyRelu v2 ", num_hidden, "x", layer_size, "x", encoding_layer, " ", split(string(primary_activation), ".")[2])
+    push!(vps, (GetSAETraining, ChangeMaxLearningRate, learning_rates))
+    push!(vps, (GetDataConfig, ChangeDeltas, ([1,5,20], [5,10,20])))
+    push!(vps, (GetDataConfig, ChangeVariations, GenerateThreeAssetConfig()))
+
+    set_name = string("Iteration3_2 SAE 3 Asset Combo ", num_hidden, "x", layer_size, "x", encoding_layer, " ", split(string(primary_activation), ".")[2])
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
-    #combos = [GenerateBaseSAEConfig(set_name, "Synthetic Set")]
+
     ################################################################################
     ##2a. Run Each SAE Configuration
     jsedata = ReadJSETop40Data()
@@ -81,42 +149,80 @@ function RunNLayerReLUSAETest(encoding_layer, layer_size, num_hidden, primary_ac
     return sae_results
 end
 
+RunNLayerReLUSAETest(2, 30, 1, LeakyReluActivation, (0.05))
+RunNLayerReLUSAETest(3, 30, 1, LeakyReluActivation, (0.05))
+RunNLayerReLUSAETest(4, 30, 1, LeakyReluActivation, (0.05))
+RunNLayerReLUSAETest(6, 30, 1, LeakyReluActivation, (0.05))
+
+#RunNLayerReLUSAETest(1, 20, 2, LeakyReluActivation, (0.05))
+#RunNLayerReLUSAETest(2, 20, 2, LeakyReluActivation, (0.05))
+#RunNLayerReLUSAETest(3, 20, 2, LeakyReluActivation, (0.05))
+#RunNLayerReLUSAETest(4, 20, 2, LeakyReluActivation, (0.05))
+#RunNLayerReLUSAETest(5, 20, 2, LeakyReluActivation, (0.05))
+
+#Input: 30
+#Sizes: 60, 120
+#Layers:1, 2
+#Encoding: 25, 15, 5
+#=
+activation_function = LeakyReluActivation
+
+RunNLayerReLUSAETest(25, 60, 1,  activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+RunNLayerReLUSAETest(25, 60, 2,  activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+RunNLayerReLUSAETest(25, 120, 1, activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+RunNLayerReLUSAETest(25, 120, 2, activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+
+RunNLayerReLUSAETest(15, 60, 1,  activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+RunNLayerReLUSAETest(15, 60, 2,  activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+RunNLayerReLUSAETest(15, 120, 1, activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+RunNLayerReLUSAETest(15, 120, 2, activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+
+RunNLayerReLUSAETest(5, 60, 1,  activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+RunNLayerReLUSAETest(5, 60, 2,  activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+RunNLayerReLUSAETest(5, 120, 1, activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+RunNLayerReLUSAETest(5, 120, 2, activation_function,  (0.0001, 0.001, 0.01, 0.1, 1.0))
+
+
+
 #Input: 18
 #Encoding: 15, 12, 9, 6, 3
 #Sizes: 40, 80
 #Layers:1, 2, 3
 
-RunNLayerReLUSAETest(15, 40, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(15, 40, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(15, 40, 3, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(15, 80, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(15, 80, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(15, 80, 3, LeakyReluActivation, (0.05, 0.1))
+activation_function = LeakyReluActivation
 
-RunNLayerReLUSAETest(12, 40, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(12, 40, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(12, 40, 3, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(12, 80, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(12, 80, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(12, 80, 3, LeakyReluActivation, (0.05, 0.1))
+RunNLayerReLUSAETest(15, 40, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(15, 40, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(15, 40, 3, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(15, 80, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(15, 80, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(15, 80, 3, activation_function, (0.001, 0.1))
 
-RunNLayerReLUSAETest(9, 40, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(9, 40, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(9, 40, 3, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(9, 80, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(9, 80, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(9, 80, 3, LeakyReluActivation, (0.05, 0.1))
+RunNLayerReLUSAETest(12, 40, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(12, 40, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(12, 40, 3, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(12, 80, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(12, 80, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(12, 80, 3, activation_function, (0.001, 0.1))
 
-RunNLayerReLUSAETest(6, 40, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(6, 40, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(6, 40, 3, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(6, 80, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(6, 80, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(6, 80, 3, LeakyReluActivation, (0.05, 0.1))
+RunNLayerReLUSAETest(9, 40, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(9, 40, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(9, 40, 3, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(9, 80, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(9, 80, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(9, 80, 3, activation_function, (0.001, 0.1))
 
-RunNLayerReLUSAETest(3, 40, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(3, 40, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(3, 40, 3, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(3, 80, 1, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(3, 80, 2, LeakyReluActivation, (0.05, 0.1))
-RunNLayerReLUSAETest(3, 80, 3, LeakyReluActivation, (0.05, 0.1))
+RunNLayerReLUSAETest(6, 40, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(6, 40, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(6, 40, 3, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(6, 80, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(6, 80, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(6, 80, 3, activation_function, (0.001, 0.1))
+
+RunNLayerReLUSAETest(3, 40, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(3, 40, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(3, 40, 3, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(3, 80, 1, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(3, 80, 2, activation_function, (0.001, 0.1))
+RunNLayerReLUSAETest(3, 80, 3, activation_function, (0.001, 0.1))
+=#

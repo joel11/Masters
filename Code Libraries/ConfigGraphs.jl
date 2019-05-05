@@ -46,6 +46,20 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Linear Tests 2 Std%' then 'Linear Tests 2 Std'
        when experiment_set_name like 'Linear Tests%' then 'Linear Tests'
        when experiment_set_name like 'Linear Tests%' then 'Linear Tests'
+       when experiment_set_name like 'Iteration3 SAE LeakyRelu v2%' then 'Iteration3 SAE LeakyRelu v2'
+       when experiment_set_name like 'Iteration3 SAE LeakyRelu Implementation2v1%' then 'Iteration3 SAE LeakyRelu Implementation2v1'
+       when experiment_set_name like 'Iteration3 FFN Leaky ReLU Tests v2%' then 'Iteration3 FFN Leaky ReLU Tests v2'
+       when experiment_set_name like 'Iteration3 FFN Validation Set Tests 2%' then 'Iteration3 FFN Validation Set Tests 2'
+       when experiment_set_name like 'Iteration3 FFN Validation Set Tests%' then 'Iteration3 FFN Validation Set Tests'
+       when experiment_set_name like 'Iteration3 FFN Max Epoch Tests%' then 'Iteration3 FFN Max Epoch Tests'
+       when experiment_set_name like 'Iteration3_2 SAE LeakyRelu vs Relu%' then 'Iteration3_2 SAE LeakyRelu vs Relu'
+       when experiment_set_name like 'Iteration3_2 FFN LeakyRelu vs Relu%' then 'Iteration3_2 FFN LeakyRelu vs Relu'
+       when experiment_set_name like 'Iteration3_2 FFN LeakyRelu New Validation Set Test%' then 'Iteration3_2 FFN LeakyRelu New Validation Set Test'
+       when experiment_set_name like 'Iteration3_2 Denoising On-Off Tests Real Data%' then 'Iteration3_2 Denoising On-Off Tests Real Data'
+       when experiment_set_name like 'Iteration3_2 Regularization Tests Real Data%' then 'Iteration3_2 Regularization Tests Real Data'
+       when experiment_set_name like 'Iteration3_2 SAE Regularization Tests Synthetic Data%' then 'Iteration3_2 SAE Regularization Tests Synthetic Data'
+       when experiment_set_name like 'Iteration3_2 FFN Regularization Tests Synthetic Data %' then 'Iteration3_2 FFN Regularization Tests Synthetic Data'
+
        else null end as esn
     from configuration_run
     group by esn
@@ -56,17 +70,49 @@ category_ids = RunQuery(category_query)
 
 
 
+## Redone/ Fine
+function It3_SAE_L1RegSyntheticlData()
+    setnames = ["Iteration3_2 SAE Regularization Tests Synthetic Data"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Lambda1_MinTest_BxMSE(config_ids)
+end
 
-#function It3_SAE_LeakyRelu_vs_Relu()
-setnames = ["Iteration2 LTD SAE", "Iteration2 Leaky ReLU SAE"]
-config_ids = SelectConfigIDs(setnames)
-SAE_ActivationsNetworkSizes_MinMSE(config_ids)
-SAE_ActivationsNetworkSizes_MinMSE(config_ids, 3)
-SAE_ActivationsNetworkSizes_MinMSE(config_ids, 6)
-SAE_ActivationsNetworkSizes_MinMSE(config_ids, 9)
-SAE_ActivationsNetworkSizes_MinMSE(config_ids, 12)
-SAE_ActivationsNetworkSizes_MinMSE(config_ids, 15)
-#end
+function It3_L1RegRealData()
+    setnames = ["Iteration3_2 Regularization Tests Real Data"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Lambda1_MinTest_BxMSE(config_ids)
+end
+
+function It3_DenoisingOnOff()
+    setnames = ["Iteration3_2 Denoising On-Off Tests Real Data"]
+    config_ids = SelectConfigIDs(setnames)
+
+    Denoising_BxMSE(config_ids)
+end
+
+function It3_ValidationSetPercentages()
+    setnames = ["Iteration3_2 FFN LeakyRelu New Validation Set Test"]
+    config_ids = SelectConfigIDs(setnames)
+
+    OGD_ValidationSet_Profits_bx(config_ids)
+end
+
+function It3_SAE_OGD_LearningRate_Activations()
+    sae_setnames = ["Iteration3_2 SAE LeakyRelu vs Relu"]
+
+    sae_config_ids = SelectConfigIDs(sae_setnames)
+    #SAE MSE
+    SAE_MaxLR_MinTest_BxMSE(sae_config_ids)
+
+    ffn_setnames = ["Iteration3_2 FFN LeakyRelu vs Relu"]
+    ffn_config_ids = SelectConfigIDs(ffn_setnames)
+    #FFN LR Profits
+    FFN_LR_BxProfit(ffn_config_ids)
+    #OGD LR MSE
+    OGD_LR_AvgTrain_BxMSE(ffn_config_ids)
+    #OGD LR Profits
+    OGD_LR_BxProfit(ffn_config_ids)
+end
 
 function It3_FFN_Mape_vs_MSE()
     setnames = ["Iteration2_1 Tests FFN", "Iteration2_1 Linear Tests FFN", "Iteration2_1 MAPE Tests FFN"]
@@ -80,7 +126,24 @@ function It3_FFN_SmallerNetwork_Linear_vs_Relu()
     OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids)
 end
 
-It3_SmallerNetworkLinearVsRelu()
+function It3_FFN_LeakyRelu_vs_Relu()
+    setnames = ["Iteration3_2 FFN LeakyRelu vs Relu"]
+    config_ids = SelectConfigIDs(setnames)
+    OGD_Activations_Profits_Bx(config_ids)
+end
+
+function It3_SAE_LeakyRelu_vs_Relu()
+    setnames = ["Iteration3_2 SAE LeakyRelu vs Relu"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_ActivationsNetworkSizes_MinMSE(config_ids)
+    SAE_ActivationsEncodingSizes_MinMSE(config_ids)
+    SAE_ActivationsEncodingSizes_MinMSE(config_ids, 3)
+    SAE_ActivationsEncodingSizes_MinMSE(config_ids, 6)
+    SAE_ActivationsEncodingSizes_MinMSE(config_ids, 9)
+    SAE_ActivationsEncodingSizes_MinMSE(config_ids, 12)
+    SAE_ActivationsEncodingSizes_MinMSE(config_ids, 15)
+end
+
 
 #Configs Needed
 

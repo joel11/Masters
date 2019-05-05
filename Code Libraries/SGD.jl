@@ -46,7 +46,7 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
         testing_output = original_output[testing_indices,:]
 
         if (parameters.is_denoising)
-            training_input = AddNoiseToArray(training_input, parameters.denoising_variance)
+            training_input = DataframeDenoiseOnOff(training_input, parameters.denoising_variance)
         end
 
         zero_activation_history = (fill(0, (length(network.layers),1)))

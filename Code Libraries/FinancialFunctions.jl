@@ -10,7 +10,7 @@ function SharpeRatio(returns, rfr)
 end
 
 function GenerateTotalProfit(config_id, original_prices)
-    configresults = RunQuery("select * from configuration_run where configuration_id = $config_id  and predicted is not null")
+    configresults = RunQuery("select * from configuration_run where configuration_id = $config_id")
     sae_id = get(configresults[1, :sae_config_id])
     data_config = ReadSAE(sae_id)[2]
     timestep = data_config.prediction_steps[1]

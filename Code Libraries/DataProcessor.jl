@@ -2,7 +2,8 @@ module DataProcessor
 
 using DataGenerator, FFN, DataFrames, TrainingStructures, Distributions
 
-export AddNoiseToArray, AddNoiseToDataFrame, NullScaling, RerevseNull, GenerateNonRandomisedDataset, ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions
+export DataframeDenoiseOnOff, AddNoiseToArray, AddNoiseToDataFrame, NullScaling, RerevseNull, GenerateNonRandomisedDataset, ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions
+
 
 function AddNoiseToArray(df, variance)
 
@@ -15,6 +16,18 @@ function AddNoiseToArray(df, variance)
     return newdf
 end
 
+function DataframeDenoiseOnOff(df, feature_percentage)
+
+    newdf = deepcopy(df)
+
+    for c in 1:size(newdf, 2)
+        feature_numbers = ceil(Int64, feature_percentage*size(newdf,1))
+        indices = randperm(size(newdf,1))[1:feature_numbers]
+        newdf[indices,c] = 0
+    end
+
+    return newdf
+end
 
 function AddNoiseToDataFrame(df, variance)
 

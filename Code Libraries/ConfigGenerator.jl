@@ -1,6 +1,6 @@
 module ConfigGenerator
 
-export ChangeTrainingSplits, ChangeIsDenoising, ChangeDenoisingVariance, ChangeEncodingActivation, ChangeOutputActivation,ChangeScalingFunction, ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
+export ChangeVariations,ChangeDeltas, ChangeTrainingSplits, ChangeIsDenoising, ChangeDenoisingVariance, ChangeEncodingActivation, ChangeOutputActivation,ChangeScalingFunction, ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
 
 function ChangeInit(get_function, parameters, val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_Init_" , split(string(val), ".")[end])
@@ -100,6 +100,21 @@ function ChangeScalingFunction(get_function, parameters, val)
     get_function(parameters).scaling_function = val
     return parameters
 end
+
+function ChangeDeltas(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_Deltas_" , string(val))
+    get_function(parameters).deltas = val
+    return parameters
+end
+
+function ChangeVariations(get_function, parameters, val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_Variations_" , string(val))
+    get_function(parameters).variation_values = val
+    return parameters
+end
+
+
+
 
 function GetDataConfig(experiment_config)
     return experiment_config.data_config

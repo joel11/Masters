@@ -47,13 +47,14 @@ type OGDTrainingParameters
     max_learning_rate::Float64
     verbose::Bool
     cost_function
+    l1_lambda
 
     #momentum_rate::Float64
     #l1_lambda::Float64
     #l2_lambda::Float64
 
-    function OGDTrainingParameters(category, max_learning_rate, verbose, cost_function)
-        return new(category, max_learning_rate, verbose, cost_function)
+    function OGDTrainingParameters(category, max_learning_rate, verbose, cost_function, l1_lambda)
+        return new(category, max_learning_rate, verbose, cost_function, l1_lambda)
     end
 end
 

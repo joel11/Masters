@@ -38,26 +38,28 @@ function ReluPrime(x::Array{Float64,2})
     return (max.(0,x)./x)
 end
 
-function LeakyReluActivation(x::Array{Float64,2})
-    function LeakyRelu(v)
-        if v > 0
-            return v
-        end
-        return 0.01*v
-    end
+####
 
-    return LeakyRelu.(x)
+function LeakyReluActivation(x::Array{Float64,2})
+    return max.(0, x) .+ min.(0, x * 0.01)
 end
 
 function LeakyReluPrime(x::Array{Float64,2})
-    function LeakyReluP(v)
-        if v > 0
-            return 1
-        end
-        return 0.01
-    end
-    return LeakyReluP.(x)
+    return max.(0, x)./x .+ min.(0, x * 0.01)./x
 end
+
+
+#T = [-1 1; 0.0001 -4; -0.001 0.01]
+
+#function LeakyReluActivation(x::Array{Float64,2})
+#    return (Int.(sign.(x) .== 1) .* x) .+ (Int.(sign.(x) .== -1) .* x .* 0.01)
+#end
+
+#function LeakyReluPrime(x::Array{Float64,2})
+#    return (Int.(sign.(x) .== 1)) .+ (Int.(sign.(x) .== -1) .* 0.01)
+#end
+
+####
 
 function SoftmaxActivation(vals)
     function Softmax(x)
