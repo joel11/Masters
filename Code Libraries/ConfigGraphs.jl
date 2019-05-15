@@ -59,26 +59,103 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration3_2 Regularization Tests Real Data%' then 'Iteration3_2 Regularization Tests Real Data'
        when experiment_set_name like 'Iteration3_2 SAE Regularization Tests Synthetic Data%' then 'Iteration3_2 SAE Regularization Tests Synthetic Data'
        when experiment_set_name like 'Iteration3_2 FFN Regularization Tests Synthetic Data %' then 'Iteration3_2 FFN Regularization Tests Synthetic Data'
+       when experiment_set_name like 'Iteration3_2 SAE Real Data Regularization Redo%' then 'Iteration3_2 SAE Real Data Regularization Redo'
+       when experiment_set_name like 'Iteration3_2 SAE Synthetic Data Regularization Redo%' then 'Iteration3_2 SAE Synthetic Data Regularization Redo'
+       when experiment_set_name like 'Iteration3_2 SAE 2 Asset Tests%' then 'Iteration3_2 SAE 2 Asset Tests'
+       when experiment_set_name like 'Iteration3_2 SAE 2 Asset Same Mean%' then 'Iteration3_2 SAE 2 Asset Same Mean'
+       when experiment_set_name like 'Iteration3_2 FFN 2 Asset Six Combo%' then 'Iteration3_2 FFN 2 Asset Six Combo'
+       when experiment_set_name like 'Iteration3_2 SAE 2 Asset Six Combo%' then 'Iteration3_2 SAE 2 Asset Six Combo'
+       when experiment_set_name like 'Iteration3_2 FFN 3 Asset Combo%' then 'Iteration3_2 FFN 3 Asset Combo'
+       when experiment_set_name like 'Iteration3_2 SAE 3 Asset Combo%' then 'Iteration3_2 SAE 3 Asset Combo'
+       when experiment_set_name like 'Iteration3_2 FFN 4 Asset Combo%' then 'Iteration3_2 FFN 4 Asset Combo'
+       when experiment_set_name like 'Iteration3_2 SAE 4 Asset Combo%' then 'Iteration3_2 SAE 4 Asset Combo'
+
+       when experiment_set_name like 'Iteration3_3 SAE Redo 2 Asset%' then 'Iteration3_3 SAE Redo 2 Asset'
+       when experiment_set_name like 'Iteration3_3 FFN 2 Asset Combo%' then 'Iteration3_3 FFN 2 Asset Combo'
+       when experiment_set_name like 'Iteration3_4 SAE Redo 2 Asset%' then 'Iteration3_4 SAE Redo 2 Asset'
+       when experiment_set_name like 'Iteration3_4 FFN 2 Asset Combo%' then 'Iteration3_4 FFN 2 Asset Combo'
+       when experiment_set_name like 'Iteration3_4 SAE Redo 3 Asset%' then 'Iteration3_4 SAE Redo 3 Asset'
+       when experiment_set_name like 'Iteration3_4 FFN 3 Asset Combo%' then 'Iteration3_4 FFN 3 Asset Combo'
+       when experiment_set_name like 'Iteration3_4 SAE Redo 4 Asset%' then 'Iteration3_4 SAE Redo 4 Asset'
+       when experiment_set_name like 'Iteration3_5 SAE Redo 4 Asset%' then 'Iteration3_5 SAE Redo 4 Asset'
+
+       when experiment_set_name like 'Iteration3_12 SAE 1 Asset%' then 'Iteration3_12 SAE 1 Asset'
+       when experiment_set_name like 'Iteration3_12 FFN 1 Asset%' then 'Iteration3_12 FFN 1 Asset'
+       when experiment_set_name like 'Iteration3_12 SAE 2 Asset%' then 'Iteration3_12 SAE 2 Asset'
+       when experiment_set_name like 'Iteration3_12 FFN 2 Asset%' then 'Iteration3_12 FFN 2 Asset'
+       when experiment_set_name like 'Iteration3_12 SAE 3 Asset%' then 'Iteration3_12 SAE 3 Asset'
+       when experiment_set_name like 'Iteration3_12 FFN 3 Asset%' then 'Iteration3_12 FFN 3 Asset'
+       when experiment_set_name like 'Iteration3_12 SAE 4 Asset%' then 'Iteration3_12 SAE 4 Asset'
+       when experiment_set_name like 'Iteration3_12 FFN 4 Asset%' then 'Iteration3_12 FFN 4 Asset'
+
+       when experiment_set_name like 'Iteration3_13 SAE 2 Asset%' then 'Iteration3_13 SAE 2 Asset'
+       when experiment_set_name like 'Iteration3_13 FFN 2 Asset%' then 'Iteration3_13 FFN 2 Asset'
+       when experiment_set_name like 'Iteration3_13 SAE 3 Asset%' then 'Iteration3_13 SAE 3 Asset'
+       when experiment_set_name like 'Iteration3_13 FFN 3 Asset%' then 'Iteration3_13 FFN 3 Asset'
+       when experiment_set_name like 'Iteration3_13 SAE 4 Asset%' then 'Iteration3_13 SAE 4 Asset'
+       when experiment_set_name like 'Iteration3_13 FFN 4 Asset%' then 'Iteration3_13 FFN 4 Asset'
+
+       when experiment_set_name like 'Iteration3_6 FFN 1 Asset%' then 'Iteration3_6 FFN 1 Asset'
 
        else null end as esn
     from configuration_run
     group by esn
     having esn is not null
     order by maxid desc"
+
 category_ids = RunQuery(category_query)
 
 
+function It3_4AssetSynthetic()
+    setnames = ["Iteration3_13 FFN 4 Asset"]
+    config_ids = SelectConfigIDs(setnames)
+
+    OGD_DataVariances_Profits_Bx(config_ids)
+    SAEProfitBoxPlot(config_ids)
+    OGD_DataDeltas_Profits_Bx(config_ids)
+    BestStrategyGraphs(config_ids)
+end
+
+function It3_3AssetSynthetic()
+    setnames = ["Iteration3_13 FFN 3 Asset"]
+    config_ids = SelectConfigIDs(setnames)
+
+    OGD_DataVariances_Profits_Bx(config_ids)
+    SAEProfitBoxPlot(config_ids)
+    OGD_DataDeltas_Profits_Bx(config_ids)
+    BestStrategyGraphs(config_ids)
+end
+
+function It3_2AssetSynthetic()
+    setnames = ["Iteration3_13 FFN 2 Asset"]
+    config_ids = SelectConfigIDs(setnames)
+
+    OGD_DataVariances_Profits_Bx(config_ids)
+    SAEProfitBoxPlot(config_ids)
+    OGD_DataDeltas_Profits_Bx(config_ids)
+    BestStrategyGraphs(config_ids)
+end
+
+function It3_1AssetProfitByVariances()
+    setnames = ["Iteration3_12 FFN 1 Asset"]
+    config_ids = SelectConfigIDs(setnames)
+
+    OGD_DataVariances_Profits_Bx(config_ids)
+    SAEProfitBoxPlot(config_ids)
+    OGD_DataDeltas_Profits_Bx(config_ids)
+    BestStrategyGraphs(config_ids)
+end
 
 
-## Redone/ Fine
-function It3_SAE_L1RegSyntheticlData()
-    setnames = ["Iteration3_2 SAE Regularization Tests Synthetic Data"]
+
+function It3_SAE_L1RegSyntheticData()
+    setnames = ["Iteration3_2 SAE Synthetic Data Regularization Redo"]
     config_ids = SelectConfigIDs(setnames)
     SAE_Lambda1_MinTest_BxMSE(config_ids)
 end
 
 function It3_L1RegRealData()
-    setnames = ["Iteration3_2 Regularization Tests Real Data"]
+    setnames = ["Iteration3_2 SAE Real Data Regularization Redo"]
     config_ids = SelectConfigIDs(setnames)
     SAE_Lambda1_MinTest_BxMSE(config_ids)
 end

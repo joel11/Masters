@@ -1,9 +1,8 @@
-#module ExperimentGraphs2
+module ExperimentGraphs2
 
-workspace()
-push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
+#workspace()
+#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
-using RBM
 using NeuralNetworks
 using ActivationFunctions, InitializationFunctions, NetworkTrainer
 using TrainingStructures
@@ -14,14 +13,13 @@ using CSCV
 using FinancialFunctions
 using DatabaseOps
 using ConfigGenerator
-using ExperimentProcess
 using DataJSETop40
 using BSON
 
 using PlotlyJS
 
 
-export SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
+export RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -30,7 +28,7 @@ end
 ################################################################################
 ##Profit Records
 
-function UpdateTotalProfits(config_ids)
+function UpdateTotalProfits(config_ids, over_ride)
 
     #Original Setup
     #TotalProfits = DataFrame()
@@ -40,12 +38,22 @@ function UpdateTotalProfits(config_ids)
     TotalProfits = BSON.load("ProfitVals.bson")[:profits]
 
     current_configs = TotalProfits[:,1]
-    needed_configs = collect(setdiff(Set(config_ids), Set(current_configs)))
+    if over_ride
+        needed_configs = config_ids
+    else
+        needed_configs = collect(setdiff(Set(config_ids), Set(current_configs)))
+    end
 
     for c in needed_configs
         println(c)
         profits = GenerateTotalProfit(c, nothing)
-        TotalProfits = cat(1, TotalProfits, [c profits])
+
+        index = findin(TotalProfits[:,1], c)
+        if length(index) > 0
+            TotalProfits[index[1],2] = profits
+        else
+            TotalProfits = cat(1, TotalProfits, [c profits])
+        end
     end
 
     profit_array = Array(TotalProfits)
@@ -168,21 +176,7 @@ function FFN_LR_Sched_BxProfit(min_config)
     ProfitBoxplot(lr_query, :learning_rates, "FFN Learning Rates Schedules", "FFN LR-Schedule Profits", String, NullTransform)
 end
 
-function SAEProfitBoxPlot(config_ids)
 
-    mn = minimum(config_ids)
-    mx = maximum(config_ids)
-
-    sae_query = string("select configuration_id, sae_config_id from configuration_run where configuration_id between $mn and $mx")
-    sae_results = RunQuery(sae_query)
-
-    sae_results[:,1] = Array{Int64,1}(sae_results[:,1])
-    sae_results[:,2] = Array{Int64,1}(sae_results[:,2])
-    sae_returns = join(TotalProfits, sae_results, on = :configuration_id)
-    groups = by(sae_returns, [:sae_config_id], df -> [df])
-
-    sae_boxplot(groups, "SAE Profit Boxplots", :profit)
-end
 
 function OGD_ScalingOutputActivation_Profits_Bx(config_ids)
 
@@ -202,9 +196,24 @@ end
 
 #config transform done
 
+function SAEProfitBoxPlot(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    sae_query = string("select configuration_id, sae_config_id from configuration_run
+                            where configuration_id in ($ids)")
+    sae_results = RunQuery(sae_query)
+
+    sae_results[:,1] = Array{Int64,1}(sae_results[:,1])
+    sae_results[:,2] = Array{Int64,1}(sae_results[:,2])
+    sae_returns = join(TotalProfits, sae_results, on = :configuration_id)
+    groups = by(sae_returns, [:sae_config_id], df -> [df])
+
+    sae_boxplot(groups, "SAE Profit Boxplots", :profit)
+end
+
 function OGD_L1Reg_BxProfit(config_ids)
 
-config_ids = 10116:10435
     ids = TransformConfigIDs(config_ids)
     lr_query = "select tp.configuration_id,
                     l1_lambda regval
@@ -320,6 +329,30 @@ function OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids)
             order by cr.configuration_id desc"
 
     ProfitBoxplot(query, :networkconfig, " ", "Network Size Profits", String, NullTransform)
+end
+
+function OGD_DataVariances_Profits_Bx(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select configuration_id,
+            variation_values
+            from dataset_config dc
+            where configuration_id in($ids)"
+
+    ProfitBoxplot(query, :variation_values, " ", "Data Variances Profits", String, NullTransform)
+end
+
+function OGD_DataDeltas_Profits_Bx(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select configuration_id,
+            deltas
+            from dataset_config dc
+            where configuration_id in($ids)"
+
+    ProfitBoxplot(query, :deltas, " ", "Data Deltas Profits", String, NullTransform)
 end
 
 function OGD_SAE_Selection_Profits_bx(config_ids)
@@ -548,7 +581,6 @@ function OGD_LR_AvgTrain_BxMSE(config_ids)
 
     MSEBoxplot(ogd_mse_query, :activation_learningrate, "OGD LR", "OGD Learning Rate Avg Train MSE", String, NullTransform)
 end
-
 
 function SAE_Lambda1_MinTest_BxMSE(config_ids)
 
@@ -854,6 +886,31 @@ function RecreateStockPrices(config_names)
     end
 end
 
+function RecreateStockPricesSingle(config_names)
+    configs = mapreduce(x->string(x, ","), string, collect(keys(config_names)))[1:(end-1)]
+    best_query = string("select * from prediction_results where configuration_id in ($configs)")
+    best_results = RunQuery(best_query)
+    best_groups = by(best_results, [:stock], df -> [df])
+
+    for i in 1:size(best_groups,1)
+        timesteps = best_groups[i,2][:time_step]
+        config_groups = by(best_groups[i,2], [:configuration_id], df-> [df])
+
+        actual = (config_groups[1,2][:actual])
+        predicted_one = (config_groups[1,2][:predicted])
+
+        stock_name = get(best_groups[i,1])
+
+        t0 = scatter(;y=actual, x = timesteps, name=string(stock_name, "_actual"), mode ="lines", xaxis = string("x", i), yaxis = string("y", i))
+        t1 = scatter(;y=predicted_one, x = timesteps, name=string(stock_name, "_predicted_", config_names[get(config_groups[1][1])]), mode="lines", xaxis = string("x", i), yaxis = string("y", i))
+
+        recreation_plots = [t0, t1]
+        filename = string("recreation_", stock_name, "_", collect(keys(config_names))[1])
+        savefig(plot(recreation_plots), string("/users/joeldacosta/desktop/", filename, ".html"))
+
+    end
+end
+
 function RecreateStockPricesMany(config_names)
     configs = mapreduce(x->string(x, ","), string, collect(keys(config_names)))[1:(end-1)]
     best_query = string("select * from prediction_results where configuration_id in ($configs)")
@@ -903,12 +960,12 @@ function GenericStrategyResultPlot(strategyreturns, columns, filename)
 end
 
 function WriteStrategyGraphs(config_id, strategyreturns)
-    daily_rates = [:daily_rates_observed, :daily_rates_observed_fullcosts]
+    #daily_rates = [:daily_rates_observed, :daily_rates_observed_fullcosts]
     cumulative_profits = [:cumulative_profit_observed, :cumulative_profit_observed_fullcosts, :cumulative_profit_observed_benchmark, :cumulative_profit_observed_benchmark_fullcosts]
     cumulative_rates = [:cumulative_observed_rate, :cumulative_expected_rate, :cumulative_benchmark_rate]
     cumulative_rates_fullcosts = [:cumulative_observed_rate_fullcost, :cumulative_expected_rate_fullcost, :cumulative_benchmark_rate_fullcost]
 
-    GenericStrategyResultPlot(strategyreturns, daily_rates, string(config_id, "_DailyRates"))
+    #GenericStrategyResultPlot(strategyreturns, daily_rates, string(config_id, "_DailyRates"))
     GenericStrategyResultPlot(strategyreturns, cumulative_profits, string(config_id, "_CumulativeProfits"))
     GenericStrategyResultPlot(strategyreturns, cumulative_rates, string(config_id, "_CumulativeRates"))
     GenericStrategyResultPlot(strategyreturns, cumulative_rates_fullcosts, string(config_id, "_CumulativeRatesFullCost"))
@@ -928,12 +985,14 @@ function ConfigStrategyOutput(config_id, original_prices)
         original_prices = processed_data[2].original_prices
     end
 
-
     results = RunQuery("select * from prediction_results where configuration_id = $config_id")
 
     num_predictions = get(maximum(results[:time_step]))
     finish_t = size(original_prices, 1)
-    start_t = finish_t - num_predictions - 1
+    start_t = finish_t - num_predictions + 1
+
+    #actuals = original_prices[start_t:finish_t, :]
+    #all(round.(Array(results[:actual]),4) .== round.(Array(actuals),4))
 
     stockreturns = GenerateStockReturns(results, start_t, finish_t, timestep, original_prices)
     strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
@@ -941,33 +1000,6 @@ function ConfigStrategyOutput(config_id, original_prices)
     WriteStrategyGraphs(config_id, strategyreturns)
 end
 
-#=
-function GenerateTotalProfit(config_id, original_prices)
-
-    results = RunQuery("select * from configuration_run where configuration_id = $config_id")
-    sae_id = get(results[1, :sae_config_id])
-    data_config = ReadSAE(sae_id)[2]
-    timestep = data_config.prediction_steps[1]
-
-    if original_prices == nothing
-        processed_data = PrepareData(data_config, nothing)
-        original_prices = processed_data[2].original_prices
-    end
-
-
-    results = RunQuery("select * from prediction_results where configuration_id = $config_id")
-
-    num_predictions = get(maximum(results[:time_step]))
-    finish_t = size(original_prices, 1)
-    start_t = finish_t - num_predictions - 1
-
-    stockreturns = GenerateStockReturns(results, start_t, finish_t, timestep, original_prices)
-    strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
-
-
-    return strategyreturns[end, :cumulative_profit_observed]
-end
-=#
 ###############################################################################
 ##New Plots
 
@@ -985,90 +1017,27 @@ function Denoising_BxMSE(config_ids)
     MSEBoxplot(dn_mse_query, :denoising_variance, "DN Variance", "Denoising Variance Min MSE", Float64, NullTransform)
 end
 
-
-
-###############################################################################
-##Get Best Network
-#=
-nets = RunQuery("select configuration_id, layer_activations like 'Relu%' isrelu from network_parameters where configuration_id > 3704")
-
-nets[:,1] = Array{Int64,1}(nets[:,1])
-nets[:,2] = Array{Bool,1}(nets[:,2])
-
-layer_returns = join(TotalProfits, nets, on = :configuration_id)
-
-relu_indices = layer_returns[:isrelu]
-
-layer_returns[Array{Bool}(
-layer_returns[:profit] .== maximum(layer_returns[layer_returns[:isrelu],:profit])
-),:]
-
-var_pairs = ((0.9, 0.5), (0.9, 0.2), (-0.8, 0.55), (-0.8, 0.15), (0.05, 0.4), (0.05, 0.1))
-original_prices = GenerateDataset(75, 5000, var_pairs)
-config_id = 3933
-
-ConfigStrategyOutput(config_id, original_prices)
-=#
+function BestStrategyGraphs(config_ids)
+    mini = minimum(config_ids)
+    maxi = maximum(config_ids)
+    subset = TotalProfits[Array(TotalProfits[:configuration_id] .>= mini) & Array(TotalProfits[:configuration_id] .<= maxi), :]
+    maxp = maximum(subset[:profit])
+    indices = Array{Bool}(subset[:profit] .== maxp)
+    cid = subset[indices,:][:configuration_id][1]
+    ConfigStrategyOutput(cid, nothing)
+    config_names = Dict(cid=>"best")
+    RecreateStockPricesSingle(config_names)
+end
 
 ###############################################################################
 ##General Plots
 
-#config_ids = 3704:4759
-#config_ids = 3704:5999
-#config_ids = 3704:5998
-#config_ids = 8391:8790
-#config_ids = 8911:8990
-config_ids = 10116:10435
-UpdateTotalProfits(config_ids)
+#config_ids = 15131:15162
+#UpdateTotalProfits(config_ids, true)
+
 TotalProfits = ReadProfits()
 
 
-#4605
-
-#config_names = Dict(10297=>"80", 10120=>"0.1")
-#RecreateStockPrices(config_names)
-
-
 #AllProfitsPDF(3704)
-#SAEProfitBoxPlot(config_ids)
-
-
-#SAE_Pretraining_MinTest_BxMSE(config_ids)
-#SAE_ScalingOutput_BxMSE(config_ids)
-#min_config = minimum(config_ids)
-
-#807, 808, 809, 810
-#mse_config = 3704
-#profit_config = 3933
-
-#names = Dict(4991 => "Best OGD MSE", 3933 => "Best PL")
-#RecreateStockPrices(names)
-
-#for c in map(i -> i, 781:2:786)
-#    names = Dict()
-#    names[c] = string(c)
-#    names[(c+1)] = string(c+1)
-#    config_names = names
-#    RecreateStockPrices(names)
-#end
-
-#min_config = minimum(config_ids)
-#SAE_Pretraining_MinTest_BxMSE(config_ids)
-#SAE_MaxLR_MinTest_BxMSE(1193)
-
-#RecreateStockPrices(names)
-#StockPricePlot(38)
-
-#Layer_BxProfit(min_config)
-#OGD_LR_BxProfit(min_config)
-#FFN_LR_BxProfit(min_config)
-#FFN_LR_Sched_BxProfit(min_config)
-#SAEProfitBoxPlot(min_config)
-#AllProfitsPDF(min_config)
-#FFN_LR_x_Layers_ProfitHeatmap(min_config)
-
-#SAE_Init_MinTest_MxMSE(min_config)
-#Layer_MinTest_MxMSE(min_config, "SAE")
-#SAE_LR_MinTest_BxMSE(min_config)
 
 end

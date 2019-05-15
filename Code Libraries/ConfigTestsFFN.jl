@@ -23,6 +23,7 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
 
     function GenerateBaseFFNConfig(set_name, dataset, sae_config_id)
 
+        srand(2)
         seed = abs(Int64.(floor(randn()*100)))
         sae_network, data_config = ReadSAE(sae_config_id)
         encoder = GetAutoencoder(sae_network)
@@ -45,7 +46,7 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
 
     ################################################################################
     ##1. Configuration Variations
-    set_name = string("Iteration3_2 FFN 3 Asset Combo   ", num_hidden, "x", layer_size)
+    set_name = string("Iteration3_13 FFN 4 Asset ", num_hidden, "x", layer_size)
     #jsedata = ReadJSETop40Data()
     dataset = nothing #jsedata[:, [:ACL, :AGL]] #nothing
 
@@ -79,11 +80,12 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
     return ffn_results
 end
 
-sae_choices = map(i -> i, 11487:11534)
+sae_choices = map(i -> i, 16346:16441)
 
-RunNLayerReLUFFNTest(30, 1, sae_choices, LeakyReluActivation)
-RunNLayerReLUFFNTest(30, 2, sae_choices, LeakyReluActivation)
-#RunNLayerReLUFFNTest(20, 3, sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest(40, 2, sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest(40, 3, sae_choices, LeakyReluActivation)
+#RunNLayerReLUFFNTest(10, 2, sae_choices, LeakyReluActivation)
+#RunNLayerReLUFFNTest(40, 3, sae_choices, LeakyReluActivation)
 
 
 #RunNLayerReLUFFNTest(40, 1, reg_choices, LeakyReluActivation)

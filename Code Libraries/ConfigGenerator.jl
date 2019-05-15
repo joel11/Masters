@@ -1,6 +1,6 @@
 module ConfigGenerator
 
-export ChangeVariations,ChangeDeltas, ChangeTrainingSplits, ChangeIsDenoising, ChangeDenoisingVariance, ChangeEncodingActivation, ChangeOutputActivation,ChangeScalingFunction, ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
+export ChangeLearningRateCycle, ChangeVariations,ChangeDeltas, ChangeTrainingSplits, ChangeIsDenoising, ChangeDenoisingVariance, ChangeEncodingActivation, ChangeOutputActivation,ChangeScalingFunction, ChangeMinLearningRate, ChangeMinMaxLearningRate, ChangeMaxLearningRate, ChangeL1Reg, ChangeL2Reg, ChangeMinibatchSize, GenerateGridBasedParameterSets, GetDataConfig, GetSAENetwork, GetFFNNetwork, GetSAETraining, GetFFNTraining, GetOGDTraining, GetOGDHOTraining, ChangeLayers, ChangeInit, GetRBMTraining, ChangeMaxEpochs
 
 function ChangeInit(get_function, parameters, val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_Init_" , split(string(val), ".")[end])
@@ -53,6 +53,12 @@ end
 function ChangeMinLearningRate(get_function, parameters,val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_MinLearningRate_" , string(val))
     get_function(parameters).min_learning_rate = val
+    return parameters
+end
+
+function ChangeLearningRateCycle(get_function, parameters,val)
+    parameters.experiment_set_name = string(parameters.experiment_set_name , "_LRCycle_" , string(val))
+    get_function(parameters).epoch_cycle_max = val
     return parameters
 end
 
