@@ -97,6 +97,12 @@ category_query = "select min(configuration_id) minid,
 
        when experiment_set_name like 'Iteration3_6 FFN 1 Asset%' then 'Iteration3_6 FFN 1 Asset'
 
+       when experiment_set_name like 'Iteration3_13 FFN Validation Set Tests%' then 'Iteration3_13 FFN Validation Set Tests'
+
+       when experiment_set_name like 'Iteration3_15 FFN Validation 3 Test%' then 'Iteration3_15 FFN Validation 3 Test'
+
+       when experiment_set_name like 'Iteration3_15 SAE LR Real Data Test%' then 'Iteration3_15 SAE LR Real Data Test'
+
        else null end as esn
     from configuration_run
     group by esn
@@ -105,6 +111,11 @@ category_query = "select min(configuration_id) minid,
 
 category_ids = RunQuery(category_query)
 
+function It3_deltas()
+    setnames = ["Iteration3_13 FFN 3 Asset", "Iteration3_13 FFN 2 Asset", "Iteration3_13 FFN 4 Asset", "Iteration3_12 FFN 1 Asset"]
+    config_ids = SelectConfigIDs(setnames)
+    OGD_DataDeltas_Profits_Bx(config_ids)
+end
 
 function It3_4AssetSynthetic()
     setnames = ["Iteration3_13 FFN 4 Asset"]
@@ -146,7 +157,26 @@ function It3_1AssetProfitByVariances()
     BestStrategyGraphs(config_ids)
 end
 
+function It3_ValidationSetPercentages()
+    setnames = ["Iteration3_15 FFN Validation 3 Test"]
+    config_ids = SelectConfigIDs(setnames)
 
+    OGD_ValidationSet_Profits_bx(config_ids)
+end
+
+function It3_DenoisingOnOff()
+    setnames = ["Iteration3_2 Denoising On-Off Tests Real Data"]
+    config_ids = SelectConfigIDs(setnames)
+
+    Denoising_BxMSE(config_ids)
+end
+
+function It3_LearningSchedule()
+    setnames = ["Iteration3_15 SAE LR Real Data Test"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_MaxLR_MinTest_BxMSE(config_ids)
+    SAE_LREpochs_MinTest_BxMSE(config_ids)
+end
 
 function It3_SAE_L1RegSyntheticData()
     setnames = ["Iteration3_2 SAE Synthetic Data Regularization Redo"]
@@ -158,20 +188,6 @@ function It3_L1RegRealData()
     setnames = ["Iteration3_2 SAE Real Data Regularization Redo"]
     config_ids = SelectConfigIDs(setnames)
     SAE_Lambda1_MinTest_BxMSE(config_ids)
-end
-
-function It3_DenoisingOnOff()
-    setnames = ["Iteration3_2 Denoising On-Off Tests Real Data"]
-    config_ids = SelectConfigIDs(setnames)
-
-    Denoising_BxMSE(config_ids)
-end
-
-function It3_ValidationSetPercentages()
-    setnames = ["Iteration3_2 FFN LeakyRelu New Validation Set Test"]
-    config_ids = SelectConfigIDs(setnames)
-
-    OGD_ValidationSet_Profits_bx(config_ids)
 end
 
 function It3_SAE_OGD_LearningRate_Activations()
@@ -197,12 +213,6 @@ function It3_FFN_Mape_vs_MSE()
     OGD_SAE_Selection_Profits_bx(config_ids)
 end
 
-function It3_FFN_SmallerNetwork_Linear_vs_Relu()
-    setnames = ["Iteration2_1 Smaller Linear Tests"]
-    config_ids = SelectConfigIDs(setnames)
-    OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids)
-end
-
 function It3_FFN_LeakyRelu_vs_Relu()
     setnames = ["Iteration3_2 FFN LeakyRelu vs Relu"]
     config_ids = SelectConfigIDs(setnames)
@@ -221,7 +231,11 @@ function It3_SAE_LeakyRelu_vs_Relu()
     SAE_ActivationsEncodingSizes_MinMSE(config_ids, 15)
 end
 
-
+function It3_FFN_SmallerNetwork_Linear_vs_Relu()
+    setnames = ["Iteration2_1 Smaller Linear Tests"]
+    config_ids = SelectConfigIDs(setnames)
+    OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids)
+end
 #Configs Needed
 
 #Written Iteration 1

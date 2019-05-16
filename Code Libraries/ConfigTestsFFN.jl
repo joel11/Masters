@@ -46,7 +46,7 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
 
     ################################################################################
     ##1. Configuration Variations
-    set_name = string("Iteration3_13 FFN 4 Asset ", num_hidden, "x", layer_size)
+    set_name = string("Iteration3_15 FFN Validation 3 Test ", num_hidden, "x", layer_size)
     #jsedata = ReadJSETop40Data()
     dataset = nothing #jsedata[:, [:ACL, :AGL]] #nothing
 
@@ -57,7 +57,7 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
     #push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.00001, 0.0001, 0.001, 0.01)))
     #push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.0001, 0.001)))
     #push!(vps, (GetFFNTraining, ChangeTrainingSplits, (0.8, 1.0)))
-    #push!(vps, (GetFFNTraining, ChangeTrainingSplits, (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)))
+    push!(vps, (GetFFNTraining, ChangeTrainingSplits, (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)))
     #push!(vps, (GetFFNTraining, ChangeMaxEpochs, (1, 5, 10, 50, 100)))
     push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.001, 0.01)))
     #push!(vps, (GetFFNTraining, ChangeL1Reg, (0.1, 1.0, 10.0, 20.0, 40.0, 80.0, 120, 160)))
@@ -80,10 +80,10 @@ function RunNLayerReLUFFNTest(layer_size, num_hidden, sae_configs, primary_activ
     return ffn_results
 end
 
-sae_choices = map(i -> i, 16346:16441)
+sae_choices = (17196, 17190, 17180, 17178)
 
-RunNLayerReLUFFNTest(40, 2, sae_choices, LeakyReluActivation)
-RunNLayerReLUFFNTest(40, 3, sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest(60, 2, sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest(60, 3, sae_choices, LeakyReluActivation)
 #RunNLayerReLUFFNTest(10, 2, sae_choices, LeakyReluActivation)
 #RunNLayerReLUFFNTest(40, 3, sae_choices, LeakyReluActivation)
 

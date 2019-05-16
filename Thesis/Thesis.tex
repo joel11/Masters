@@ -87,7 +87,9 @@
 		\end{itemize}	
 		\item[$\bullet$] Optimizations
 		\begin{itemize}
-			\item[$\cdot$] SGD: L1 \& L2 Regularizations
+			\item[$\cdot$] SGD: L1 Regularizations
+			\item[$\cdot$] Learning Schedule Epochs
+			\item[$\cdot$] Denoising: Gaussian Noise \& Feature On-Off Switching			
 		\end{itemize}
 		\item[$\bullet$] Neural Network Configurations
 		\begin{itemize}
@@ -114,40 +116,228 @@
 
 	\newpage
 	
-	\bigskip\large\textbf{2. Current Experiment Testing Status}\bigskip\normalsize
-		
-	\bigskip A full list of expected experiment is as follows:
-	
-	\begin{itemize}
-		\item[$\bullet$] Synthetic SAE Tests
-		\begin{itemize}
-			\item[$\cdot$] ReLU + Initialization
-			\item[$\cdot$] Sigmoid + Initialization
-			\item[$\cdot$] Sigmoid + Pre-training
-		\end{itemize}
-		\item[$\bullet$] Synthetic FFN Tests
-		\begin{itemize}
-			\item[$\cdot$] ReLU + Initialization
-			\item[$\cdot$] Sigmoid + Initialization
-			\item[$\cdot$] Sigmoid + Pre-training
-		\end{itemize}
-		\item[$\bullet$] Real JSE Daily Close Tests: SAE
-		\item[$\bullet$] Real JSE Daily Close Tests: FFN
+	\bigskip\large\textbf{2. Iteration Results}\bigskip\normalsize
 
-	\end{itemize}
+	\bigskip\large\textbf{Iteration 3: 17th May}
+
+	\paragraph{Linear vs ReLU: Smaller Network}
+
+	Synthetic assets (6) were used on smaller prediction networks to test the performance of Linear vs. ReLU activations, once again showing the higher performance of Linear activations.
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_linear_vs_relu.png}
+	\caption{Linear vs ReLU activation on smaller networks \newline The boxplots here show the summary of P\&L at networks with smaller layer sizes than previously. The networks were trained on 6 synthetic assets with a total of 18 inputs, and box groupings reflect different sized autoencoders and learning rates (720 configurations in total). We once again see the outperformance of ReLU by the linear activations.}
+	\label{figure-it3_linear_vs_relu}
+	\end{figure}		
+
+	\paragraph{Leaky ReLU vs ReLU}
+
+	Leaky ReLU activations were implemented and tested using synthetic data, showing negligible differences on SAE but slighly better performance on the predictive FFN networks. The differences seem to range from none to a marginal gain, which makes sense.
+
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_leaky_relu_1.png}
+		\caption{SAE: Leaky ReLU vs ReLU \newline The plot above shows the MSE for 120 different SAEs, grouped by encoding size and activations.}
+		\label{figure-it3_leaky_relu_1}
+	\end{figure}		
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_leaky_relu_3.png}
+	\caption{FFN: Leaky ReLU vs ReLU \newline The plot above shows the P\&L for 80 different predictive networks, grouped by activation, showing some improvements from the Leaky ReLU.}
+	\label{figure-it3_leaky_relu_3}
+	\end{figure}		
+	
+	\paragraph{SAE Selection: MSE vs MAPE}
+
+	The P\$L was compared for SAEs chosen using MAPE rather than MSE. The performance are fairly similar, with MSE being the better.
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_mse_vs_mape.png}
+	\caption{MSE vs MAPE \newline The plot above shows the P\&L for 1920 different predictive networks, grouped by SAE selection method, showing little difference, but some improvement from MSE.}
+	\label{figure-it3_mse_vs_mape}
+	\end{figure}		
+
+	\paragraph{L1 Regularization}
+
+	L1 Regularization was implemented and tested on a selection of 10 real assets, as per below.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_l1reg_sae.png}
+		\caption{SAE L1 Regularization - 10 Real Assets \newline The plot above shows the MSE for 360 different SAE networks, grouped by L1 Lambda, showing notable degradation as regularization is increased. Synthetic data tests showed no performance changes below 0.01.}
+		\label{figure-it3_l1reg_sae}
+	\end{figure}		
+	
+	\paragraph{Learning Rate Schedule Implementation}
+	
+	A learning rate schedule, where the learning rate cycles through a sine-like curve every 100/200 epochs was implemented and tested on real asset SAEs as below.
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_lr_schedule.png}
+		\caption{SAE Learning Rate Schedule - 10 Real Assets \newline The plot above shows the MSE for 120 different SAE networks, grouped by the maximum learning rate, where all minimum learning rates were 0.00001. The scheduling with high rates shows a clearly better performance and exploration of solution space.}
+		\label{figure-	it3_lr_schedule}
+	\end{figure}		
+
+
+	\paragraph{Denoising - On/Off Feature Selection}
+	
+	Denoising where random features are switched on or off for each epoch was implemented.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_denoising_onoff.png}
+		\caption{SAE Denoising - 10 Real Assets \newline The plot above shows the MSE for 72 different SAE networks, grouped by the percentage of features switch off at random.}
+		\label{figure-it3_denoising_onoff}
+	\end{figure}
 	
 	
+	
+	\paragraph{Validation Set Percentage}
+	
+	A full set of tests were run on synthetic data to determine the effect of excluding data from the SGD training of the predictive network (through the mechanism of the validation set). It should be noted that these predictive networks make use of SAEs that were trained on 80\% of the data regardless, which may prime the input of data to the predictive network despite the portion of data being excluded. It would seem that the use of historical data is very beneficial, but not the primary factor in determining P\$L. It may even just be the equivalent of pre-training weight initialisation for the OGD phase.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_validationset.png}
+		\caption{SAE Denoising - 6 Synthetic Assets \newline The plot above shows the P\&L for 160 different FFN predictive networks, grouped by the percentage of data excluded from the SGD training.}
+		\label{figure-it3_validationset}
+	\end{figure}
+	
+	
+	\subsection{Limited Synthetic Asset Tests}
+	
+	Tests were run on 1, 2, 3 and 4 synthetic asset datasets using the same mean / same variance approach suggested to determine how well the model is able to learn in a limited (simpler) context.
+	
+	Tests were run on a 5 day prediction point in order to aim for a profitable strategy, and different past window inputs of [1, 10, 20 ] days or [10, 20, 60] days to see if the removal of the 1 day price change would change the martingale effect being presented. SAEs were also trained with varying encoding layer sizes to test if the number of assets is typically the optimal number.
+	
+	\paragraph{1 Asset}
+	
+	High Mean, Low Variance test (0.6, 0.04)
+	32 Predictive Networks trained
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_1asset_encoding.png}
+	\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 1 asset according to the different encoding size in the P\&L. Maximum P\$L is the same for both 1 and 2 encoding.}
+	\label{figure-it3_1asset_encoding}
+	\end{figure}	
+	
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_1asset_bestffn.png}
+	\caption{Cumulative P\&L for best 1 Asset network \newline The plot above shows the P\&L for  the best 1 asset network.}
+	\label{figure-it3_1asset_bestffn}
+	\end{figure}
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_1asset_pricerec.png}
+	\caption{Price Recreation for best 1 Asset network \newline The plot above shows the predicted prices for the best 1 asset network.}
+	\label{figure-it3_1asset_pricerec}
+	\end{figure}
+	
+	
+	\paragraph{2 Asset}
+
+	Means = (0.05, 0.6)
+	Variances = (0.02, 0.4)
+
+	128 Predictive Networks trained
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_variations.png}
+	\caption{Variations P\&L \newline The plot above shows the P\&L for 2 asset according to the different mean \& variance combinations. }
+	\label{figure-it3_2asset_variations}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_encoding.png}
+		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 2 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.}
+		\label{figure-it3_2asset_encoding}
+	\end{figure}	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_bestffn.png}
+		\caption{Cumulative P\&L for best 2 Asset network \newline The plot above shows the P\&L for  the best 2 asset network.}
+		\label{figure-it3_2asset_bestffn}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_pricerec.png}
+		\caption{Price Recreation for best 2 Asset network \newline The plot above shows one of the predicted prices for the best 2 asset network.}
+		\label{figure-it3_2asset_pricerec}
+	\end{figure}
+	
+	
+	\paragraph{3 Asset}
+	
+    Means = (0.05, 0.2, 0.6)
+	Variances = (0.02, 0.1, 0.4)
+
+	240 Predictive Networks trained
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_3asset_variations.png}
+		\caption{Variations P\&L \newline The plot above shows the P\&L for 3 asset according to the different mean \& variance combinations. }
+		\label{figure-it3_3asset_variations}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_3asset_encoding.png}
+		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 3 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.}
+		\label{figure-it3_3asset_encoding}
+	\end{figure}	
+
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_3asset_bestffn.png}
+		\caption{Cumulative P\&L for best 3 Asset network \newline The plot above shows the P\&L for  the best 3 asset network.}
+		\label{figure-it3_3asset_bestffn}
+	\end{figure}
+	
+	\paragraph{4 Asset}
+	
+	 Means = (0.05, 0.2, 0.4, 0.8)
+	 Variances = (0.02, 0.1, 0.3, 0.6)
+	
+	 384 Predictive Networks trained
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_4asset_variations.png}
+		\caption{Variations P\&L \newline The plot above shows the P\&L for 4 asset according to the different mean \& variance combinations. }
+		\label{figure-it3_4asset_variations}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_4asset_encodings.png}
+		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 4 asset according to the different encoding size in the P\&L. This supports the idea of the number of assets being the best encoding.}
+		\label{figure-it3_4asset_encoding}
+	\end{figure}	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_4asset_bestffn.png}
+		\caption{Cumulative P\&L for best 4 Asset network \newline The plot above shows the P\&L for the best 4 asset network.}
+		\label{figure-it3_4asset_bestffn}
+	\end{figure}
+	
+	
+	\paragraph{Effect of Rolling Window Sizes}
+
+	The effects of the [1, 10, 20] and [10, 20, 60] window sizes
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_all_deltas.png}
+		\caption{Effect of Rolling Window Sizes on P\$L for 1, 2, 3 and 4 Assets}
+		\label{figure-it3_all_deltas}
+	\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	\newpage
-	
-	
-	
-	
-	
-	\bigskip\large\textbf{3. Iteration Results}\bigskip\normalsize
-	
 	\bigskip\large\textbf{Iteration 2: 26th April}
-		
-		
+
 	\paragraph{Sigmoid Pre-training Efficacy}
 		
 	The pre-training implementation was tested using the MNIST dataset using 2 validations: the first was RBM training to generate variations of the MNIST data which was inspected manually and considered to be working correctly, the second of which was to use pre-training on a classification network and assess the benefit, as in the graph below.
@@ -180,6 +370,12 @@
 	\caption{Pre-training Effects on financial SAE, by learning rate \newline These boxplots show the same as above, but further grouped by learning rate. We can see the few samples that appears to be benefiting from having 1 epoch of pre-training are simply a result of the learning rate being small enough so as not to have much effect.}
 	\label{figure-it2-pretraining-effect2}
 	\end{figure}		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -512,15 +708,7 @@
 	
 	\newpage
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	\bigskip\large\textbf{4. Future Status and Next Iteration}\bigskip\normalsize
+	\bigskip\large\textbf{3. Future Status and Next Iteration}\bigskip\normalsize
 	
 	The results of the current set highlight that overfitting is the biggest problem at the moment. A set of features, as noted below, will be implemented prior to proceeding with tests.
 	
@@ -530,24 +718,19 @@
 
 	\begin{itemize} 
 		\item[$\bullet$] Split point decision
-		\item[$\bullet$] Decisions around activations, regularization, learning schedules and SAEs
-		\item[$\bullet$] Final result set for synthetic data
+		\item[$\bullet$] Result set for synthetic data
+		\item[$\bullet$] Dissertation skeleton structure
+		
 	\end{itemize}
 	
 	\paragraph{Critical Decisions and Points of Concern}
 
 	\begin{itemize} 
-		\item[$\bullet$] Price predictions appear to be a lagged time series to actual prices
-		\item[$\bullet$] Profits from MMS appear to be very low
+		\item[$\bullet$] Price predictions appear to be a lagged time series/matringale
 		\item[$\bullet$] Decide on data splits and what should be used for CSCV - MinBTL method?
 	\end{itemize}
 
-	\paragraph{Non-Critical Features}
 
-	\begin{itemize}
-		\item[$\bullet$] SAE Improvements
-		\item[$\bullet$] ReLU Activation Improvements		
-	\end{itemize}	
 
 	\paragraph{Dissertation to-do list}
 
@@ -559,6 +742,57 @@
 		\item Various to-do notes throughout paper
 	\end{itemize}	
 
+	\newpage
+	\bigskip\large\textbf{4. Synthetic Test Plan}\bigskip\normalsize
+
+	Expected Time: 1 Week
+
+	\paragraph{General Configuration}
+
+	\begin{itemize}
+		\item Data: 10 Synthetic Assets
+		\item Rolling Windows: [1, 5, 20] / [5, 20 60] / [10, 20, 60]
+		\item Initializations: Xavier, He
+		\item Activations: Leaky Relu With Linear Encodings and Output
+	\end{itemize}
+
+	\paragraph{SAE Configurations (945)}
+	
+	\begin{itemize}
+		\item Learning Rate Schedules: 0.005 to (0.01, 0.05, 0.1) by (100) epochs
+		\item Network Structures:
+		\begin{itemize}
+			\item 120, 60, 30	
+			\item 90, 60, 30	
+			\item 90, 90, 90	
+			\item 90, 90	
+			\item 120, 90	
+			\item 120,60	
+			\item 120
+		\end{itemize}
+		\item Encoding: 25;20;15;10;5
+	\end{itemize}
+
+	\paragraph{FFN Configurations (2835)}
+
+	\begin{itemize}
+		\item Best SAEs by encoding size and window aggregations (15 total)
+		\item Learning Rate Schedules: 0.005 to (0.01, 0.05, 0.1) by (100) epochs
+		\item Network Structures:
+		\begin{itemize}
+			\item 120;120;120;120
+			\item 120;90;90;60
+			\item 120;90;60
+			\item 120;120;120
+			\item 120;120
+			\item 120;60
+			\item 120
+		\end{itemize}
+		\item L1 Lambda: 0; 2 values
+		\item OGD Learning Rates: 0.01; 0.005; 0.05
+	\end{itemize}
+
+	\newpage
 	\newpage\bigskip\large\textbf{5. Milestones \& Deliverables}\normalsize
 	
 	
@@ -782,6 +1016,33 @@
 			\item Notations: Look at process control by G
 			\item “Trade Long” should be teletype 
 		\end{itemize}	
+	
+	\end{itemize}
+	
+	\paragraph{26th April 2019}
+
+	\begin{itemize}
+	\item General Notes around results
+	\begin{itemize}
+		\item SAE encoding results: degrees of freedom argument. Make it clear that it was on synthetic data and same seed etc. 
+		\item Day on day with real data is almost perfectly predictable, but you can’t trade it (“1 day momentum”). Can’t trade from the closing auction, but no volume and can’t get positions in it. 2 day onwards you get the martingale effect .
+		\item Prices are nonlinear in breadth, but not in depth of time series 
+		\item Highlight that it is cross sectional depth of data that will give advantage of these models rather than breadth of history - ML is possible, but have to load up with every single current data feed. Patterns are nonlinear but adaptive because of feedback - tech not mature enough to leverage that yet 
+		\item Profit- log scale on graph 
+		\item Network sizes: order by layers and layer size to see pattern
+		\item Speaks to argument that it’s cross section of information now rather than temporal dynamics
+	\end{itemize}
+	
+	\item Synthetic Tests
+	\begin{itemize}
+		\item P\&L Found: High means and low means. Do edge case testing
+		\item 2 stocks: same means, different variances
+		\item 2 stocks: same variances, different means
+		\item Then up to 4 and 6 assets and check results for P\&L 
+		\item High low medium means etc. Log axes.
+		\item 2 assets: 0 on means, 4 and 6 after with the different variances. Will pinpoint whether it’s working or not. Cases with high variance and low means -> expect to lose money.
+		\item Consider test framework on HMM to assess linear activation results 
+	\end{itemize}
 	
 	\end{itemize}
 	

@@ -19,7 +19,7 @@ using BSON
 using PlotlyJS
 
 
-export RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
+export SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -175,8 +175,6 @@ function FFN_LR_Sched_BxProfit(min_config)
 
     ProfitBoxplot(lr_query, :learning_rates, "FFN Learning Rates Schedules", "FFN LR-Schedule Profits", String, NullTransform)
 end
-
-
 
 function OGD_ScalingOutputActivation_Profits_Bx(config_ids)
 
@@ -555,11 +553,34 @@ function SAE_MaxLR_MinTest_BxMSE(config_ids)
                 where tp.configuration_id in ($ids)
                     and tp.category like \"SAE%\"
                     and er.category like \"SAE%\"
-                group by tp.configuration_id, tp.learning_rate"
+                group by tp.configuration_id, tp.learning_rate
+                having min(testing_cost) is not null"
 
     r = RunQuery(lr_msequery)
 
     MSEBoxplot(lr_msequery, :activation_learningrate, "SAE Max LR", "SAE Max Learning Rate Min Test MSE", String, NullTransform)
+end
+
+function SAE_LREpochs_MinTest_BxMSE(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    lr_msequery = "select
+                    tp.configuration_id,
+                    min(testing_cost) cost,
+                    epoch_cycle_max
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                inner join network_parameters np on np.configuration_id = tp.configuration_id
+                where tp.configuration_id in ($ids)
+                    and tp.category like \"SAE%\"
+                    and er.category like \"SAE%\"
+                group by tp.configuration_id, tp.epoch_cycle_max
+                having min(testing_cost) is not null"
+
+    r = RunQuery(lr_msequery)
+
+    MSEBoxplot(lr_msequery, :epoch_cycle_max, "SAE LR Epoch Cycle", "SAE Learning Rate Epoch Cycle Min Test MSE", Int64, NullTransform)
 end
 
 function OGD_LR_AvgTrain_BxMSE(config_ids)
@@ -596,6 +617,24 @@ function SAE_Lambda1_MinTest_BxMSE(config_ids)
                 having cost not null"
 
     MSEBoxplot(lr_msequery, :l1_lambda, "Lambda1 ", "SAE L1 Reg Min Test MSE", Float64, NullTransform)
+end
+
+
+function SAE_MinLR_MinTest_BxMSE(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    lr_msequery = "select tp.configuration_id,
+                            min(testing_cost) cost,
+                            tp.min_learning_rate
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                where tp.configuration_id in ($ids)
+                    and tp.category like \"SAE%\"
+                    and er.category like \"SAE%\"
+                group by tp.configuration_id, tp.min_learning_rate"
+
+    MSEBoxplot(lr_msequery, :min_learning_rate, "SAE Min LR", "SAE Min Learning Rate Min Test MSE", Float64, NullTransform)
 end
 
 #####
@@ -1032,7 +1071,7 @@ end
 ###############################################################################
 ##General Plots
 
-#config_ids = 15131:15162
+#config_ids = 17203:17362
 #UpdateTotalProfits(config_ids, true)
 
 TotalProfits = ReadProfits()

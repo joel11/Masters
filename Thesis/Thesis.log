@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  25 APR 2019 18:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  17 MAY 2019 00:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1001,337 +1001,525 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
  [1{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-] [2]
-<images/iteration_two/pt/rbm_pretraining.png, id=253, 702.625pt x 451.6875pt>
+]
+<images/iteration_three/it3_linear_vs_relu.png, id=253, 1003.75pt x 602.25pt>
+File: images/iteration_three/it3_linear_vs_relu.png Graphic file (type png)
+
+<use images/iteration_three/it3_linear_vs_relu.png>
+Package pdftex.def Info: images/iteration_three/it3_linear_vs_relu.png used on 
+input line 128.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+
+<images/iteration_three/it3_leaky_relu_1.png, id=255, 1505.625pt x 501.875pt>
+File: images/iteration_three/it3_leaky_relu_1.png Graphic file (type png)
+
+<use images/iteration_three/it3_leaky_relu_1.png>
+Package pdftex.def Info: images/iteration_three/it3_leaky_relu_1.png used on in
+put line 138.
+(pdftex.def)             Requested size: 451.691pt x 150.56366pt.
+
+<images/iteration_three/it3_leaky_relu_3.png, id=256, 1003.75pt x 602.25pt>
+File: images/iteration_three/it3_leaky_relu_3.png Graphic file (type png)
+
+<use images/iteration_three/it3_leaky_relu_3.png>
+Package pdftex.def Info: images/iteration_three/it3_leaky_relu_3.png used on in
+put line 144.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+ [2 <./images/iteration_three/it3_linear_vs_relu.png> <./images/iteration_three
+/it3_leaky_relu_1.png>]
+<images/iteration_three/it3_mse_vs_mape.png, id=270, 1003.75pt x 602.25pt>
+File: images/iteration_three/it3_mse_vs_mape.png Graphic file (type png)
+
+<use images/iteration_three/it3_mse_vs_mape.png>
+Package pdftex.def Info: images/iteration_three/it3_mse_vs_mape.png used on inp
+ut line 154.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+
+<images/iteration_three/it3_l1reg_sae.png, id=271, 1003.75pt x 602.25pt>
+File: images/iteration_three/it3_l1reg_sae.png Graphic file (type png)
+
+<use images/iteration_three/it3_l1reg_sae.png>
+Package pdftex.def Info: images/iteration_three/it3_l1reg_sae.png used on input
+ line 164.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+ [3 <./images/iteration_three/it3_leaky_relu_3.png> <./images/iteration_three/i
+t3_mse_vs_mape.png>]
+<images/iteration_three/it3_lr_schedule.png, id=282, 1003.75pt x 602.25pt>
+File: images/iteration_three/it3_lr_schedule.png Graphic file (type png)
+
+<use images/iteration_three/it3_lr_schedule.png>
+Package pdftex.def Info: images/iteration_three/it3_lr_schedule.png used on inp
+ut line 173.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+
+<images/iteration_three/it3_denoising_onoff.png, id=283, 1003.75pt x 602.25pt>
+File: images/iteration_three/it3_denoising_onoff.png Graphic file (type png)
+
+<use images/iteration_three/it3_denoising_onoff.png>
+Package pdftex.def Info: images/iteration_three/it3_denoising_onoff.png used on
+ input line 184.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+ [4 <./images/iteration_three/it3_l1reg_sae.png> <./images/iteration_three/it3_
+lr_schedule.png>]
+<images/iteration_three/it3_validationset.png, id=294, 1003.75pt x 602.25pt>
+File: images/iteration_three/it3_validationset.png Graphic file (type png)
+
+<use images/iteration_three/it3_validationset.png>
+Package pdftex.def Info: images/iteration_three/it3_validationset.png used on i
+nput line 196.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+
+<images/iteration_three/it3_1asset_encoding.png, id=295, 702.625pt x 451.6875pt
+>
+File: images/iteration_three/it3_1asset_encoding.png Graphic file (type png)
+ <use images/iteration_three/it3_1asset_encoding.png>
+Package pdftex.def Info: images/iteration_three/it3_1asset_encoding.png used on
+ input line 214.
+(pdftex.def)             Requested size: 210.78912pt x 135.5073pt.
+ [5 <./images/iteration_three/it3_denoising_onoff.png> <./images/iteration_thre
+e/it3_validationset.png>]
+<images/iteration_three/it3_1asset_bestffn.png, id=306, 1666.225pt x 353.32pt>
+File: images/iteration_three/it3_1asset_bestffn.png Graphic file (type png)
+
+<use images/iteration_three/it3_1asset_bestffn.png>
+Package pdftex.def Info: images/iteration_three/it3_1asset_bestffn.png used on 
+input line 220.
+(pdftex.def)             Requested size: 499.87137pt x 105.99681pt.
+
+<images/iteration_three/it3_1asset_pricerec.png, id=307, 702.625pt x 451.6875pt
+>
+File: images/iteration_three/it3_1asset_pricerec.png Graphic file (type png)
+ <use images/iteration_three/it3_1asset_pricerec.png>
+Package pdftex.def Info: images/iteration_three/it3_1asset_pricerec.png used on
+ input line 226.
+(pdftex.def)             Requested size: 210.78912pt x 135.5073pt.
+
+<images/iteration_three/it3_2asset_variations.png, id=308, 1003.75pt x 602.25pt
+>
+File: images/iteration_three/it3_2asset_variations.png Graphic file (type png)
+ <use images/iteration_three/it3_2asset_variations.png>
+Package pdftex.def Info: images/iteration_three/it3_2asset_variations.png used 
+on input line 240.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+ [6 <./images/iteration_three/it3_1asset_encoding.png> <./images/iteration_thre
+e/it3_1asset_bestffn.png> <./images/iteration_three/it3_1asset_pricerec.png>]
+<images/iteration_three/it3_2asset_encoding.png, id=320, 702.625pt x 451.6875pt
+>
+File: images/iteration_three/it3_2asset_encoding.png Graphic file (type png)
+ <use images/iteration_three/it3_2asset_encoding.png>
+Package pdftex.def Info: images/iteration_three/it3_2asset_encoding.png used on
+ input line 246.
+(pdftex.def)             Requested size: 210.78912pt x 135.5073pt.
+
+<images/iteration_three/it3_2asset_bestffn.png, id=321, 1492.57625pt x 334.2487
+5pt>
+File: images/iteration_three/it3_2asset_bestffn.png Graphic file (type png)
+ <use images/iteration_three/it3_2asset_bestffn.png>
+Package pdftex.def Info: images/iteration_three/it3_2asset_bestffn.png used on 
+input line 252.
+(pdftex.def)             Requested size: 447.77634pt x 100.27539pt.
+
+<images/iteration_three/it3_2asset_pricerec.png, id=322, 702.625pt x 451.6875pt
+>
+File: images/iteration_three/it3_2asset_pricerec.png Graphic file (type png)
+ <use images/iteration_three/it3_2asset_pricerec.png>
+Package pdftex.def Info: images/iteration_three/it3_2asset_pricerec.png used on
+ input line 258.
+(pdftex.def)             Requested size: 210.78912pt x 135.5073pt.
+ [7 <./images/iteration_three/it3_2asset_variations.png> <./images/iteration_th
+ree/it3_2asset_encoding.png> <./images/iteration_three/it3_2asset_bestffn.png>]
+
+<images/iteration_three/it3_3asset_variations.png, id=334, 1003.75pt x 602.25pt
+>
+File: images/iteration_three/it3_3asset_variations.png Graphic file (type png)
+ <use images/iteration_three/it3_3asset_variations.png>
+Package pdftex.def Info: images/iteration_three/it3_3asset_variations.png used 
+on input line 272.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+
+<images/iteration_three/it3_3asset_encoding.png, id=335, 702.625pt x 451.6875pt
+>
+File: images/iteration_three/it3_3asset_encoding.png Graphic file (type png)
+ <use images/iteration_three/it3_3asset_encoding.png>
+Package pdftex.def Info: images/iteration_three/it3_3asset_encoding.png used on
+ input line 278.
+(pdftex.def)             Requested size: 210.78912pt x 135.5073pt.
+
+<images/iteration_three/it3_3asset_bestffn.png, id=336, 1443.3925pt x 370.38374
+pt>
+File: images/iteration_three/it3_3asset_bestffn.png Graphic file (type png)
+ <use images/iteration_three/it3_3asset_bestffn.png>
+Package pdftex.def Info: images/iteration_three/it3_3asset_bestffn.png used on 
+input line 284.
+(pdftex.def)             Requested size: 433.02109pt x 111.11597pt.
+ [8 <./images/iteration_three/it3_2asset_pricerec.png> <./images/iteration_thre
+e/it3_3asset_variations.png> <./images/iteration_three/it3_3asset_encoding.png>
+]
+<images/iteration_three/it3_4asset_variations.png, id=348, 1003.75pt x 602.25pt
+>
+File: images/iteration_three/it3_4asset_variations.png Graphic file (type png)
+ <use images/iteration_three/it3_4asset_variations.png>
+Package pdftex.def Info: images/iteration_three/it3_4asset_variations.png used 
+on input line 297.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+
+<images/iteration_three/it3_4asset_encodings.png, id=349, 702.625pt x 451.6875p
+t>
+File: images/iteration_three/it3_4asset_encodings.png Graphic file (type png)
+ <use images/iteration_three/it3_4asset_encodings.png>
+Package pdftex.def Info: images/iteration_three/it3_4asset_encodings.png used o
+n input line 303.
+(pdftex.def)             Requested size: 210.78912pt x 135.5073pt.
+
+<images/iteration_three/it3_4asset_bestffn.png, id=350, 1396.21625pt x 348.3012
+5pt>
+File: images/iteration_three/it3_4asset_bestffn.png Graphic file (type png)
+ <use images/iteration_three/it3_4asset_bestffn.png>
+Package pdftex.def Info: images/iteration_three/it3_4asset_bestffn.png used on 
+input line 309.
+(pdftex.def)             Requested size: 418.86812pt x 104.49118pt.
+ [9 <./images/iteration_three/it3_3asset_bestffn.png> <./images/iteration_three
+/it3_4asset_variations.png> <./images/iteration_three/it3_4asset_encodings.png>
+]
+<images/iteration_three/it3_all_deltas.png, id=362, 1003.75pt x 602.25pt>
+File: images/iteration_three/it3_all_deltas.png Graphic file (type png)
+
+<use images/iteration_three/it3_all_deltas.png>
+Package pdftex.def Info: images/iteration_three/it3_all_deltas.png used on inpu
+t line 320.
+(pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
+ [10 <./images/iteration_three/it3_4asset_bestffn.png> <./images/iteration_thre
+e/it3_all_deltas.png>]
+<images/iteration_two/pt/rbm_pretraining.png, id=372, 702.625pt x 451.6875pt>
 File: images/iteration_two/pt/rbm_pretraining.png Graphic file (type png)
 
 <use images/iteration_two/pt/rbm_pretraining.png>
 Package pdftex.def Info: images/iteration_two/pt/rbm_pretraining.png used on in
-put line 156.
+put line 346.
 (pdftex.def)             Requested size: 210.78912pt x 135.5073pt.
 
-<images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png, id=255, 1536
+<images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png, id=373, 1536
 .74126pt x 438.63875pt>
 File: images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png Graphic 
 file (type png)
 
 <use images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png>
 Package pdftex.def Info: images/iteration_two/pt/SAE_Pre-training_epochs_Min_Te
-st_MSE.png used on input line 173.
+st_MSE.png used on input line 363.
 (pdftex.def)             Requested size: 461.02594pt x 131.59264pt.
 
 <images/iteration_two/pt/SAE_Pre-training_Learning_Rates_epochs_Min_Test_MSE.pn
-g, id=256, 1529.715pt x 465.74pt>
+g, id=374, 1529.715pt x 465.74pt>
 File: images/iteration_two/pt/SAE_Pre-training_Learning_Rates_epochs_Min_Test_M
 SE.png Graphic file (type png)
 
 <use images/iteration_two/pt/SAE_Pre-training_Learning_Rates_epochs_Min_Test_MS
 E.png>
 Package pdftex.def Info: images/iteration_two/pt/SAE_Pre-training_Learning_Rate
-s_epochs_Min_Test_MSE.png used on input line 179.
+s_epochs_Min_Test_MSE.png used on input line 369.
 (pdftex.def)             Requested size: 458.91805pt x 139.72307pt.
- [3 <./images/iteration_two/pt/rbm_pretraining.png> <./images/iteration_two/pt/
-SAE_Pre-training_epochs_Min_Test_MSE.png>]
-<images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png, id=269
+ [11 <./images/iteration_two/pt/rbm_pretraining.png> <./images/iteration_two/pt
+/SAE_Pre-training_epochs_Min_Test_MSE.png>]
+<images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png, id=384
 , 1505.625pt x 501.875pt>
 File: images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png Gr
 aphic file (type png)
 
 <use images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png>
 Package pdftex.def Info: images/iteration_two/linear/0Scaling_and_Activation_Co
-mbos_Min_MSE.png used on input line 203.
+mbos_Min_MSE.png used on input line 399.
 (pdftex.def)             Requested size: 451.691pt x 150.56366pt.
 
-<images/iteration_two/linear/1Activation_Combos-Min_MSE.png, id=270, 1505.625pt
+<images/iteration_two/linear/1Activation_Combos-Min_MSE.png, id=385, 1505.625pt
  x 501.875pt>
 File: images/iteration_two/linear/1Activation_Combos-Min_MSE.png Graphic file (
 type png)
  <use images/iteration_two/linear/1Activation_Combos-Min_MSE.png>
 Package pdftex.def Info: images/iteration_two/linear/1Activation_Combos-Min_MSE
-.png used on input line 209.
+.png used on input line 405.
 (pdftex.def)             Requested size: 451.691pt x 150.56366pt.
 
-[4 <./images/iteration_two/pt/SAE_Pre-training_Learning_Rates_epochs_Min_Test_M
-SE.png> <./images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.p
-ng>]
-<images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png, id=280
+[12 <./images/iteration_two/pt/SAE_Pre-training_Learning_Rates_epochs_Min_Test_
+MSE.png> <./images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.
+png>]
+<images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png, id=395
 , 1505.625pt x 501.875pt>
 File: images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png Gr
 aphic file (type png)
 
 <use images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png>
 Package pdftex.def Info: images/iteration_two/linear/3Encoding_25_Activation_Co
-mbos_Min_MSE.png used on input line 215.
+mbos_Min_MSE.png used on input line 411.
 (pdftex.def)             Requested size: 451.691pt x 150.56366pt.
 
-<images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png, id=281,
+<images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png, id=396,
  1505.625pt x 501.875pt>
 File: images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png Gra
 phic file (type png)
 
 <use images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png>
 Package pdftex.def Info: images/iteration_two/linear/4Encoding_5_Activation_Com
-bos_Min_MSE.png used on input line 221.
+bos_Min_MSE.png used on input line 417.
 (pdftex.def)             Requested size: 451.691pt x 150.56366pt.
 
 <images/iteration_two/linear/5Network_Size_Activation_Combos_for_Encoding_5_Min
-_MSE.png, id=282, 1505.625pt x 501.875pt>
+_MSE.png, id=397, 1505.625pt x 501.875pt>
 File: images/iteration_two/linear/5Network_Size_Activation_Combos_for_Encoding_
 5_Min_MSE.png Graphic file (type png)
 
 <use images/iteration_two/linear/5Network_Size_Activation_Combos_for_Encoding_5
 _Min_MSE.png>
 Package pdftex.def Info: images/iteration_two/linear/5Network_Size_Activation_C
-ombos_for_Encoding_5_Min_MSE.png used on input line 227.
+ombos_for_Encoding_5_Min_MSE.png used on input line 423.
 (pdftex.def)             Requested size: 451.691pt x 150.56366pt.
- [5 <./images/iteration_two/linear/1Activation_Combos-Min_MSE.png> <./images/it
-eration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png> <./images/iterat
-ion_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png>]
-<images/iteration_two/denoise/denoising.png, id=293, 1524.69624pt x 492.84125pt
+ [13 <./images/iteration_two/linear/1Activation_Combos-Min_MSE.png> <./images/i
+teration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png> <./images/itera
+tion_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png>]
+<images/iteration_two/denoise/denoising.png, id=410, 1524.69624pt x 492.84125pt
 >
 File: images/iteration_two/denoise/denoising.png Graphic file (type png)
  <use images/iteration_two/denoise/denoising.png>
 Package pdftex.def Info: images/iteration_two/denoise/denoising.png used on inp
-ut line 239.
+ut line 435.
 (pdftex.def)             Requested size: 457.4124pt x 147.8535pt.
 
-<images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png, id=294, 1003.7
+<images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png, id=411, 1003.7
 5pt x 602.25pt>
 File: images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png Graphic fi
 le (type png)
 
 <use images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png>
 Package pdftex.def Info: images/iteration_two/linear-ffn/Scaling_Methodolgy_Pro
-fits.png used on input line 260.
+fits.png used on input line 456.
 (pdftex.def)             Requested size: 301.12732pt x 180.67639pt.
- [6 <./images/iteration_two/linear/5Network_Size_Activation_Combos_for_Encoding
-_5_Min_MSE.png> <./images/iteration_two/denoise/denoising.png>]
-<images/iteration_two/networks/SAE_Profit_Boxplots.png, id=306, 1507.6325pt x 4
+ [14 <./images/iteration_two/linear/5Network_Size_Activation_Combos_for_Encodin
+g_5_Min_MSE.png> <./images/iteration_two/denoise/denoising.png>]
+<images/iteration_two/networks/SAE_Profit_Boxplots.png, id=423, 1507.6325pt x 4
 63.7325pt>
 File: images/iteration_two/networks/SAE_Profit_Boxplots.png Graphic file (type 
 png)
  <use images/iteration_two/networks/SAE_Profit_Boxplots.png>
 Package pdftex.def Info: images/iteration_two/networks/SAE_Profit_Boxplots.png 
-used on input line 275.
+used on input line 471.
 (pdftex.def)             Requested size: 452.29324pt x 139.12082pt.
 
-<images/iteration_two/networks/Network_Size_Profits.png, id=307, 995.72pt x 496
+<images/iteration_two/networks/Network_Size_Profits.png, id=424, 995.72pt x 496
 .85625pt>
 File: images/iteration_two/networks/Network_Size_Profits.png Graphic file (type
  png)
  <use images/iteration_two/networks/Network_Size_Profits.png>
 Package pdftex.def Info: images/iteration_two/networks/Network_Size_Profits.png
- used on input line 287.
+ used on input line 483.
 (pdftex.def)             Requested size: 298.7183pt x 149.05801pt.
- [7 <./images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png> <./image
-s/iteration_two/networks/SAE_Profit_Boxplots.png>]
-<images/iteration_two/validation/Validation_Set_Effects_on_Profits.png, id=319,
+ [15 <./images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png> <./imag
+es/iteration_two/networks/SAE_Profit_Boxplots.png>]
+<images/iteration_two/validation/Validation_Set_Effects_on_Profits.png, id=435,
  1057.9525pt x 502.87875pt>
 File: images/iteration_two/validation/Validation_Set_Effects_on_Profits.png Gra
 phic file (type png)
 
 <use images/iteration_two/validation/Validation_Set_Effects_on_Profits.png>
 Package pdftex.def Info: images/iteration_two/validation/Validation_Set_Effects
-_on_Profits.png used on input line 299.
+_on_Profits.png used on input line 495.
 (pdftex.def)             Requested size: 317.3882pt x 150.86478pt.
 
-<images/iteration_two/returns/profits_pdf.png, id=320, 702.625pt x 451.6875pt>
+<images/iteration_two/returns/profits_pdf.png, id=436, 702.625pt x 451.6875pt>
 File: images/iteration_two/returns/profits_pdf.png Graphic file (type png)
 
 <use images/iteration_two/returns/profits_pdf.png>
 Package pdftex.def Info: images/iteration_two/returns/profits_pdf.png used on i
-nput line 312.
+nput line 508.
 (pdftex.def)             Requested size: 210.78912pt x 135.5073pt.
 
-<images/iteration_two/returns/cumulative_profits.png, id=321, 1510.64375pt x 41
+<images/iteration_two/returns/cumulative_profits.png, id=437, 1510.64375pt x 41
 8.56375pt>
 File: images/iteration_two/returns/cumulative_profits.png Graphic file (type pn
 g)
  <use images/iteration_two/returns/cumulative_profits.png>
 Package pdftex.def Info: images/iteration_two/returns/cumulative_profits.png us
-ed on input line 322.
+ed on input line 518.
 (pdftex.def)             Requested size: 453.19662pt x 125.57008pt.
- [8 <./images/iteration_two/networks/Network_Size_Profits.png> <./images/iterat
-ion_two/validation/Validation_Set_Effects_on_Profits.png> <./images/iteration_t
-wo/returns/profits_pdf.png>]
-<images/iteration_two/returns/cumulative_rates.png, id=334, 1509.64pt x 441.65p
+ [16 <./images/iteration_two/networks/Network_Size_Profits.png> <./images/itera
+tion_two/validation/Validation_Set_Effects_on_Profits.png> <./images/iteration_
+two/returns/profits_pdf.png>]
+<images/iteration_two/returns/cumulative_rates.png, id=450, 1509.64pt x 441.65p
 t>
 File: images/iteration_two/returns/cumulative_rates.png Graphic file (type png)
 
  <use images/iteration_two/returns/cumulative_rates.png>
 Package pdftex.def Info: images/iteration_two/returns/cumulative_rates.png used
- on input line 330.
+ on input line 526.
 (pdftex.def)             Requested size: 452.89551pt x 132.49602pt.
 
-<images/iteration_two/returns/stock5_full.png, id=335, 1516.66624pt x 482.80376
+<images/iteration_two/returns/stock5_full.png, id=451, 1516.66624pt x 482.80376
 pt>
 File: images/iteration_two/returns/stock5_full.png Graphic file (type png)
  <use images/iteration_two/returns/stock5_full.png>
 Package pdftex.def Info: images/iteration_two/returns/stock5_full.png used on i
-nput line 338.
+nput line 534.
 (pdftex.def)             Requested size: 455.00339pt x 144.84224pt.
 
-<images/iteration_two/returns/stock5_zoom.png, id=336, 1510.64375pt x 448.67625
+<images/iteration_two/returns/stock5_zoom.png, id=452, 1510.64375pt x 448.67625
 pt>
 File: images/iteration_two/returns/stock5_zoom.png Graphic file (type png)
  <use images/iteration_two/returns/stock5_zoom.png>
 Package pdftex.def Info: images/iteration_two/returns/stock5_zoom.png used on i
-nput line 347.
+nput line 543.
 (pdftex.def)             Requested size: 453.19662pt x 134.60391pt.
- [9 <./images/iteration_two/returns/cumulative_profits.png> <./images/iteration
-_two/returns/cumulative_rates.png> <./images/iteration_two/returns/stock5_full.
-png>] [10 <./images/iteration_two/returns/stock5_zoom.png>]
-<images/iteration_one/sae_mse_by_scaling.png, id=353, 702.625pt x 451.6875pt>
+ [17 <./images/iteration_two/returns/cumulative_profits.png> <./images/iteratio
+n_two/returns/cumulative_rates.png> <./images/iteration_two/returns/stock5_full
+.png>] [18 <./images/iteration_two/returns/stock5_zoom.png>]
+<images/iteration_one/sae_mse_by_scaling.png, id=469, 702.625pt x 451.6875pt>
 File: images/iteration_one/sae_mse_by_scaling.png Graphic file (type png)
 
 <use images/iteration_one/sae_mse_by_scaling.png>
 Package pdftex.def Info: images/iteration_one/sae_mse_by_scaling.png used on in
-put line 361.
+put line 557.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
 
-<images/iteration_one/ogd_mse_by_scaling.png, id=354, 702.625pt x 451.6875pt>
+<images/iteration_one/ogd_mse_by_scaling.png, id=470, 702.625pt x 451.6875pt>
 File: images/iteration_one/ogd_mse_by_scaling.png Graphic file (type png)
 
 <use images/iteration_one/ogd_mse_by_scaling.png>
 Package pdftex.def Info: images/iteration_one/ogd_mse_by_scaling.png used on in
-put line 367.
+put line 563.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
 
-<images/iteration_one/ogd_profits_by_scaling.png, id=355, 702.625pt x 451.6875p
+<images/iteration_one/ogd_profits_by_scaling.png, id=471, 702.625pt x 451.6875p
 t>
 File: images/iteration_one/ogd_profits_by_scaling.png Graphic file (type png)
  <use images/iteration_one/ogd_profits_by_scaling.png>
 Package pdftex.def Info: images/iteration_one/ogd_profits_by_scaling.png used o
-n input line 373.
+n input line 569.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
- [11 <./images/iteration_one/sae_mse_by_scaling.png> <./images/iteration_one/og
+ [19 <./images/iteration_one/sae_mse_by_scaling.png> <./images/iteration_one/og
 d_mse_by_scaling.png>]
-<images/iteration_one/price_plot.png, id=365, 702.625pt x 451.6875pt>
+<images/iteration_one/price_plot.png, id=482, 702.625pt x 451.6875pt>
 File: images/iteration_one/price_plot.png Graphic file (type png)
 
 <use images/iteration_one/price_plot.png>
 Package pdftex.def Info: images/iteration_one/price_plot.png used on input line
- 411.
+ 607.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
- [12 <./images/iteration_one/ogd_profits_by_scaling.png>]
-<images/iteration_one/profit_pdf.png, id=373, 702.625pt x 451.6875pt>
+ [20 <./images/iteration_one/ogd_profits_by_scaling.png>]
+<images/iteration_one/profit_pdf.png, id=490, 702.625pt x 451.6875pt>
 File: images/iteration_one/profit_pdf.png Graphic file (type png)
 
 <use images/iteration_one/profit_pdf.png>
 Package pdftex.def Info: images/iteration_one/profit_pdf.png used on input line
- 417.
+ 613.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
 
-<images/iteration_one/profits_sae.png, id=374, 702.625pt x 451.6875pt>
+<images/iteration_one/profits_sae.png, id=491, 702.625pt x 451.6875pt>
 File: images/iteration_one/profits_sae.png Graphic file (type png)
 
 <use images/iteration_one/profits_sae.png>
 Package pdftex.def Info: images/iteration_one/profits_sae.png used on input lin
-e 425.
+e 621.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
- [13 <./images/iteration_one/price_plot.png> <./images/iteration_one/profit_pdf
+ [21 <./images/iteration_one/price_plot.png> <./images/iteration_one/profit_pdf
 .png>]
-<images/iteration_one/profits_networks.png, id=384, 702.625pt x 451.6875pt>
+<images/iteration_one/profits_networks.png, id=500, 702.625pt x 451.6875pt>
 File: images/iteration_one/profits_networks.png Graphic file (type png)
 
 <use images/iteration_one/profits_networks.png>
 Package pdftex.def Info: images/iteration_one/profits_networks.png used on inpu
-t line 433.
+t line 629.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
 
-<images/iteration_one/results_cumulative_profits.png, id=385, 702.625pt x 451.6
+<images/iteration_one/results_cumulative_profits.png, id=501, 702.625pt x 451.6
 875pt>
 File: images/iteration_one/results_cumulative_profits.png Graphic file (type pn
 g)
  <use images/iteration_one/results_cumulative_profits.png>
 Package pdftex.def Info: images/iteration_one/results_cumulative_profits.png us
-ed on input line 444.
+ed on input line 640.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
- [14 <./images/iteration_one/profits_sae.png> <./images/iteration_one/profits_n
+ [22 <./images/iteration_one/profits_sae.png> <./images/iteration_one/profits_n
 etworks.png>]
-<images/iteration_one/results_cumulative_rates.png, id=395, 702.625pt x 451.687
+<images/iteration_one/results_cumulative_rates.png, id=511, 702.625pt x 451.687
 5pt>
 File: images/iteration_one/results_cumulative_rates.png Graphic file (type png)
 
  <use images/iteration_one/results_cumulative_rates.png>
 Package pdftex.def Info: images/iteration_one/results_cumulative_rates.png used
- on input line 450.
+ on input line 646.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
 
-<images/iteration_one/results_daily_rates.png, id=396, 702.625pt x 451.6875pt>
+<images/iteration_one/results_daily_rates.png, id=512, 702.625pt x 451.6875pt>
 File: images/iteration_one/results_daily_rates.png Graphic file (type png)
 
 <use images/iteration_one/results_daily_rates.png>
 Package pdftex.def Info: images/iteration_one/results_daily_rates.png used on i
-nput line 456.
+nput line 652.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
- [15 <./images/iteration_one/results_cumulative_profits.png> <./images/iteratio
-n_one/results_cumulative_rates.png>] <images/iteration_one/stock1.png, id=406, 
+ [23 <./images/iteration_one/results_cumulative_profits.png> <./images/iteratio
+n_one/results_cumulative_rates.png>] <images/iteration_one/stock1.png, id=521, 
 702.625pt x 451.6875pt>
 File: images/iteration_one/stock1.png Graphic file (type png)
 
 <use images/iteration_one/stock1.png>
-Package pdftex.def Info: images/iteration_one/stock1.png used on input line 467
+Package pdftex.def Info: images/iteration_one/stock1.png used on input line 663
 .
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
 
-<images/iteration_one/stock2.png, id=407, 702.625pt x 451.6875pt>
+<images/iteration_one/stock2.png, id=522, 702.625pt x 451.6875pt>
 File: images/iteration_one/stock2.png Graphic file (type png)
 
 <use images/iteration_one/stock2.png>
-Package pdftex.def Info: images/iteration_one/stock2.png used on input line 473
+Package pdftex.def Info: images/iteration_one/stock2.png used on input line 669
 .
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
- [16 <./images/iteration_one/results_daily_rates.png> <./images/iteration_one/s
+ [24 <./images/iteration_one/results_daily_rates.png> <./images/iteration_one/s
 tock1.png>]
-<images/iteration_one/stock3.png, id=417, 702.625pt x 451.6875pt>
+<images/iteration_one/stock3.png, id=532, 702.625pt x 451.6875pt>
 File: images/iteration_one/stock3.png Graphic file (type png)
 
 <use images/iteration_one/stock3.png>
-Package pdftex.def Info: images/iteration_one/stock3.png used on input line 479
+Package pdftex.def Info: images/iteration_one/stock3.png used on input line 675
 .
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
 
-<images/iteration_one/stock4.png, id=418, 702.625pt x 451.6875pt>
+<images/iteration_one/stock4.png, id=533, 702.625pt x 451.6875pt>
 File: images/iteration_one/stock4.png Graphic file (type png)
 
 <use images/iteration_one/stock4.png>
-Package pdftex.def Info: images/iteration_one/stock4.png used on input line 485
+Package pdftex.def Info: images/iteration_one/stock4.png used on input line 681
 .
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
- [17 <./images/iteration_one/stock2.png> <./images/iteration_one/stock3.png>]
-<images/iteration_one/stock5.png, id=427, 702.625pt x 451.6875pt>
+ [25 <./images/iteration_one/stock2.png> <./images/iteration_one/stock3.png>]
+<images/iteration_one/stock5.png, id=543, 702.625pt x 451.6875pt>
 File: images/iteration_one/stock5.png Graphic file (type png)
 
 <use images/iteration_one/stock5.png>
-Package pdftex.def Info: images/iteration_one/stock5.png used on input line 491
+Package pdftex.def Info: images/iteration_one/stock5.png used on input line 687
 .
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
 
-<images/iteration_one/stock6.png, id=428, 702.625pt x 451.6875pt>
+<images/iteration_one/stock6.png, id=544, 702.625pt x 451.6875pt>
 File: images/iteration_one/stock6.png Graphic file (type png)
 
 <use images/iteration_one/stock6.png>
-Package pdftex.def Info: images/iteration_one/stock6.png used on input line 497
+Package pdftex.def Info: images/iteration_one/stock6.png used on input line 693
 .
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
- [18 <./images/iteration_one/stock4.png> <./images/iteration_one/stock5.png>]
-<images/iteration_one/pretraining.png, id=437, 702.625pt x 451.6875pt>
+ [26 <./images/iteration_one/stock4.png> <./images/iteration_one/stock5.png>]
+<images/iteration_one/pretraining.png, id=553, 702.625pt x 451.6875pt>
 File: images/iteration_one/pretraining.png Graphic file (type png)
 
 <use images/iteration_one/pretraining.png>
 Package pdftex.def Info: images/iteration_one/pretraining.png used on input lin
-e 507.
+e 703.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
- [19 <./images/iteration_one/stock6.png> <./images/iteration_one/pretraining.pn
-g>] [20] [21] [22]
+ [27 <./images/iteration_one/stock6.png> <./images/iteration_one/pretraining.pn
+g>] [28] [29] [30] [31]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no î in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [23]
+ [32]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
@@ -1350,7 +1538,7 @@ Missing character: There is no ù in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [24]
+ [33]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
@@ -1375,21 +1563,43 @@ Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
- [25]pdfTeX warning (ext4): destination with the same identifier (name{page.1})
- has been already used, duplicate ignored
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+
+[34]pdfTeX warning (ext4): destination with the same identifier (name{page.1}) 
+has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.810 \end{titlepage}
-                      [1]
+l.1071 \end{titlepage}
+                       [1]
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 818.
+ine 1079.
 
-Underfull \hbox (badness 10000) in paragraph at lines 814--821
+Underfull \hbox (badness 10000) in paragraph at lines 1075--1082
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 814--821
+Underfull \hbox (badness 10000) in paragraph at lines 1075--1082
 
  []
 
@@ -1397,8 +1607,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.821 \newpage
-               [1] (./Thesis.toc)
+l.1082 \newpage
+                [1] (./Thesis.toc)
 \tf@toc=\write7
 \openout7 = `Thesis.toc'.
 
@@ -1406,29 +1616,29 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.823 \newpage
-               [2]
-Underfull \hbox (badness 10000) in paragraph at lines 829--836
+l.1084 \newpage
+                [2]
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1097
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 829--836
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1097
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 829--836
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1097
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 841--846
+Underfull \hbox (badness 10000) in paragraph at lines 1102--1107
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 841--846
+Underfull \hbox (badness 10000) in paragraph at lines 1102--1107
 
  []
 
@@ -1436,24 +1646,24 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.846 \newpage
-               [3]
-Underfull \hbox (badness 10000) in paragraph at lines 850--858
+l.1107 \newpage
+                [3]
+Underfull \hbox (badness 10000) in paragraph at lines 1111--1119
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 859--870
+Underfull \hbox (badness 10000) in paragraph at lines 1120--1131
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 871--877
+Underfull \hbox (badness 10000) in paragraph at lines 1132--1138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 878--890
+Underfull \hbox (badness 10000) in paragraph at lines 1139--1151
 
  []
 
@@ -1488,17 +1698,17 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 895--904
+Underfull \hbox (badness 10000) in paragraph at lines 1156--1165
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 905--910
+Underfull \hbox (badness 10000) in paragraph at lines 1166--1171
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 911--923
+Underfull \hbox (badness 10000) in paragraph at lines 1172--1184
 
  []
 
@@ -1506,9 +1716,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.923 
-       [4]
-Underfull \hbox (badness 10000) in paragraph at lines 924--930
+l.1184 
+        [4]
+Underfull \hbox (badness 10000) in paragraph at lines 1185--1191
 
  []
 
@@ -1519,35 +1729,35 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 933--940
+Underfull \hbox (badness 10000) in paragraph at lines 1194--1201
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 941--946
+Underfull \hbox (badness 10000) in paragraph at lines 1202--1207
 
  []
 
 
-LaTeX Warning: Reference `OGD' on page 5 undefined on input line 947.
+LaTeX Warning: Reference `OGD' on page 5 undefined on input line 1208.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 947--955
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 956--965
+Underfull \hbox (badness 10000) in paragraph at lines 1208--1216
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 968--976
+Underfull \hbox (badness 10000) in paragraph at lines 1217--1226
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 986--991
+Underfull \hbox (badness 10000) in paragraph at lines 1229--1237
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1247--1252
 
  []
 
@@ -1555,31 +1765,20 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.5}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.992  T
-        he essential point behind the unsupervised learning was to initializ...
+l.1253  T
+         he essential point behind the unsupervised learning was to initiali...
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 992--1003
+Underfull \hbox (badness 10000) in paragraph at lines 1253--1264
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1004--1010
+Underfull \hbox (badness 10000) in paragraph at lines 1265--1271
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1011--1020
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 1023--1033
+Underfull \hbox (badness 10000) in paragraph at lines 1272--1281
 
  []
 
@@ -1589,11 +1788,22 @@ Missing character: There is no ò in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 1284--1294
+
+ []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ò in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1034--1041
+Underfull \hbox (badness 10000) in paragraph at lines 1295--1302
 
  []
 
@@ -1601,12 +1811,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1055--1062
+Underfull \hbox (badness 10000) in paragraph at lines 1316--1323
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1063--1071
+Underfull \hbox (badness 10000) in paragraph at lines 1324--1332
 
  []
 
@@ -1614,37 +1824,37 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.6}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1071 
+l.1332 
         [6]
-Underfull \hbox (badness 10000) in paragraph at lines 1072--1078
+Underfull \hbox (badness 10000) in paragraph at lines 1333--1339
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1079--1085
+Underfull \hbox (badness 10000) in paragraph at lines 1340--1346
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1094--1098
+Underfull \hbox (badness 10000) in paragraph at lines 1355--1359
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1099--1107
+Underfull \hbox (badness 10000) in paragraph at lines 1360--1368
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1108--1117
+Underfull \hbox (badness 10000) in paragraph at lines 1369--1378
 
  []
 
-<images/DBN-RBM-process.png, id=700, 483.8075pt x 389.455pt>
+<images/DBN-RBM-process.png, id=823, 483.8075pt x 389.455pt>
 File: images/DBN-RBM-process.png Graphic file (type png)
 
 <use images/DBN-RBM-process.png>
-Package pdftex.def Info: images/DBN-RBM-process.png used on input line 1119.
+Package pdftex.def Info: images/DBN-RBM-process.png used on input line 1380.
 (pdftex.def)             Requested size: 241.90315pt x 194.72702pt.
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -1653,7 +1863,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1126--1131
+Underfull \hbox (badness 10000) in paragraph at lines 1387--1392
 
  []
 
@@ -1661,7 +1871,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.7}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1131 
+l.1392 
         [7 <./images/DBN-RBM-process.png>]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -1670,27 +1880,27 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1132--1138
+Underfull \hbox (badness 10000) in paragraph at lines 1393--1399
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1150--1156
+Underfull \hbox (badness 10000) in paragraph at lines 1411--1417
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1164--1171
+Underfull \hbox (badness 10000) in paragraph at lines 1425--1432
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1172--1179
+Underfull \hbox (badness 10000) in paragraph at lines 1433--1440
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1187--1193
+Underfull \hbox (badness 10000) in paragraph at lines 1448--1454
 
  []
 
@@ -1701,7 +1911,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1194--1200
+Underfull \hbox (badness 10000) in paragraph at lines 1455--1461
 
  []
 
@@ -1709,9 +1919,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.8}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1200 
+l.1461 
         [8]
-Underfull \hbox (badness 10000) in paragraph at lines 1201--1209
+Underfull \hbox (badness 10000) in paragraph at lines 1462--1470
 
  []
 
@@ -1731,16 +1941,16 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1210--1218
+Underfull \hbox (badness 10000) in paragraph at lines 1471--1479
 
  []
 
 
 LaTeX Warning: Reference `TechnicalAnalysis' on page 9 undefined on input line 
-1228.
+1489.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1227--1231
+Underfull \hbox (badness 10000) in paragraph at lines 1488--1492
 
  []
 
@@ -1760,7 +1970,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ¶ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1232--1242
+Underfull \hbox (badness 10000) in paragraph at lines 1493--1503
 
  []
 
@@ -1768,12 +1978,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1243--1249
+Underfull \hbox (badness 10000) in paragraph at lines 1504--1510
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1250--1259
+Underfull \hbox (badness 10000) in paragraph at lines 1511--1520
 
  []
 
@@ -1781,10 +1991,10 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.9}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1273 M
+l.1534 M
         ost classic machine learning algorithms operate under the assumption...
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 1273--1279
+Underfull \hbox (badness 10000) in paragraph at lines 1534--1540
 
  []
 
@@ -1792,7 +2002,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1280--1286
+Underfull \hbox (badness 10000) in paragraph at lines 1541--1547
 
  []
 
@@ -1809,27 +2019,27 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1287--1301
+Underfull \hbox (badness 10000) in paragraph at lines 1548--1562
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1302--1306
+Underfull \hbox (badness 10000) in paragraph at lines 1563--1567
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1307--1313
+Underfull \hbox (badness 10000) in paragraph at lines 1568--1574
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1314--1324
+Underfull \hbox (badness 10000) in paragraph at lines 1575--1585
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1325--1335
+Underfull \hbox (badness 10000) in paragraph at lines 1586--1596
 
  []
 
@@ -1837,7 +2047,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1336--1351
+Underfull \hbox (badness 10000) in paragraph at lines 1597--1612
 
  []
 
@@ -1845,7 +2055,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.10}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1351 
+l.1612 
         [10]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -1860,23 +2070,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1355--1362
+Underfull \hbox (badness 10000) in paragraph at lines 1616--1623
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1363--1372
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 1373--1380
+Underfull \hbox (badness 10000) in paragraph at lines 1624--1633
 
  []
 
@@ -1887,17 +2086,28 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1389--1397
+Underfull \hbox (badness 10000) in paragraph at lines 1634--1641
+
+ []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ò in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 1650--1658
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1398--1407
+Underfull \hbox (badness 10000) in paragraph at lines 1659--1668
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1408--1411
+Underfull \hbox (badness 10000) in paragraph at lines 1669--1672
 
  []
 
@@ -1905,9 +2115,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.11}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1411 
+l.1672 
         [11]
-Underfull \hbox (badness 10000) in paragraph at lines 1412--1420
+Underfull \hbox (badness 10000) in paragraph at lines 1673--1681
 
  []
 
@@ -1915,7 +2125,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1423--1431
+Underfull \hbox (badness 10000) in paragraph at lines 1684--1692
 
  []
 
@@ -1923,12 +2133,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1462--1467
+Underfull \hbox (badness 10000) in paragraph at lines 1723--1728
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1468--1473
+Underfull \hbox (badness 10000) in paragraph at lines 1729--1734
 
  []
 
@@ -1936,7 +2146,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1474--1480
+Underfull \hbox (badness 10000) in paragraph at lines 1735--1741
 
  []
 
@@ -1944,14 +2154,14 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.12}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1490 \end{equation}
+l.1751 \end{equation}
                       [12]
-Underfull \hbox (badness 10000) in paragraph at lines 1498--1501
+Underfull \hbox (badness 10000) in paragraph at lines 1759--1762
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1502--1509
+Underfull \hbox (badness 10000) in paragraph at lines 1763--1770
 
  []
 
@@ -1959,9 +2169,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.13}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1510 \newpage
+l.1771 \newpage
                 [13]
-Underfull \hbox (badness 10000) in paragraph at lines 1522--1526
+Underfull \hbox (badness 10000) in paragraph at lines 1783--1787
 
  []
 
@@ -1969,9 +2179,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.14}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1583 
+l.1844 
         [14]
-Underfull \hbox (badness 10000) in paragraph at lines 1590--1591
+Underfull \hbox (badness 10000) in paragraph at lines 1851--1852
 
  []
 
@@ -1979,12 +2189,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.15}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1619 \newpage
+l.1880 \newpage
                 [15]pdfTeX warning (ext4): destination with the same identifier
  (name{page.16}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1673 
+l.1934 
         [16]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -1997,20 +2207,20 @@ Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
 
-LaTeX Warning: Reference `OGD' on page 17 undefined on input line 1715.
+LaTeX Warning: Reference `OGD' on page 17 undefined on input line 1976.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.17}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1730 
+l.1991 
         [17]pdfTeX warning (ext4): destination with the same identifier (name{p
 age.18}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1788 \subsubsection
+l.2049 \subsubsection
                      {CD-1 and SGD} [18]
-Underfull \hbox (badness 10000) in paragraph at lines 1795--1798
+Underfull \hbox (badness 10000) in paragraph at lines 2056--2059
 
  []
 
@@ -2018,19 +2228,19 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.19}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1832 
+l.2093 
         [19]
-Underfull \hbox (badness 10000) in paragraph at lines 1835--1838
+Underfull \hbox (badness 10000) in paragraph at lines 2096--2099
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1865--1868
+Underfull \hbox (badness 10000) in paragraph at lines 2126--2129
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1893--1897
+Underfull \hbox (badness 10000) in paragraph at lines 2154--2158
 
  []
 
@@ -2038,7 +2248,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.20}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1897 
+l.2158 
         [20]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -2047,12 +2257,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 1898--1900
+Underfull \hbox (badness 10000) in paragraph at lines 2159--2161
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1931--1937
+Underfull \hbox (badness 10000) in paragraph at lines 2192--2198
 
  []
 
@@ -2060,7 +2270,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.21}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1947 	\item [1]
+l.2208 	\item [1]
                   Data preparation [21]
 
 LaTeX Warning: Marginpar on page 22 moved.
@@ -2069,24 +2279,24 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.22}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1983 \newpage
+l.2244 \newpage
                 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 1987--1990
+Underfull \hbox (badness 10000) in paragraph at lines 2248--2251
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2011--2013
+Underfull \hbox (badness 10000) in paragraph at lines 2272--2274
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2015--2017
+Underfull \hbox (badness 10000) in paragraph at lines 2276--2278
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2018--2020
+Underfull \hbox (badness 10000) in paragraph at lines 2279--2281
 
  []
 
@@ -2094,47 +2304,47 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.23}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2022 	\item $
+l.2283 	\item $
                fullcost_{p,t} = (y_t + trading\_cost_t) * trade\_long_{p, t}...
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 2037--2041
+Underfull \hbox (badness 10000) in paragraph at lines 2298--2302
 
  []
 
-<images/synthetic_results/priceplot.png, id=951, 702.625pt x 451.6875pt>
+<images/synthetic_results/priceplot.png, id=1073, 702.625pt x 451.6875pt>
 File: images/synthetic_results/priceplot.png Graphic file (type png)
 
 <use images/synthetic_results/priceplot.png>
 Package pdftex.def Info: images/synthetic_results/priceplot.png used on input l
-ine 2059.
+ine 2320.
 (pdftex.def)             Requested size: 351.31163pt x 225.84319pt.
 pdfTeX warning (ext4): destination with the same identifier (name{page.24}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2063 
+l.2324 
         [24]
-Underfull \hbox (badness 10000) in paragraph at lines 2068--2069
+Underfull \hbox (badness 10000) in paragraph at lines 2329--2330
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2069--2070
+Underfull \hbox (badness 10000) in paragraph at lines 2330--2331
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2070--2071
+Underfull \hbox (badness 10000) in paragraph at lines 2331--2332
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2071--2072
+Underfull \hbox (badness 10000) in paragraph at lines 2332--2333
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2072--2073
+Underfull \hbox (badness 10000) in paragraph at lines 2333--2334
 
  []
 
@@ -2142,8 +2352,14 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.25}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2075 \newpage
-                [25 <./images/synthetic_results/priceplot.png>] [26]
+l.2336 \newpage
+                [25 <./images/synthetic_results/priceplot.png>]pdfTeX warning (
+ext4): destination with the same identifier (name{page.26}) has been already us
+ed, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2341 \newpage
+                [26]
 Missing character: There is no ¬ in font cmr10!
 Missing character: There is no ® in font cmr10!
 Missing character: There is no ‚ in font cmr10!
@@ -2153,19 +2369,19 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 7291) in paragraph at lines 2116--2118
+Underfull \hbox (badness 7291) in paragraph at lines 2377--2379
 []\OT1/cmr/m/n/10 Bengio, Yoshua, and Samy Ben-gio. "Mod-el-ing high-dimensiona
 l dis-crete data with multi-
  []
 
 
-Underfull \hbox (badness 4266) in paragraph at lines 2116--2118
+Underfull \hbox (badness 4266) in paragraph at lines 2377--2379
 \OT1/cmr/m/n/10 layer neu-ral net-works." Ad-vances in Neu-ral In-for-ma-tion P
 ro-cess-ing Sys-tems. 2000. Avail-able
  []
 
 
-Underfull \hbox (badness 7133) in paragraph at lines 2116--2118
+Underfull \hbox (badness 7133) in paragraph at lines 2377--2379
 \OT1/cmr/m/n/10 at: http://papers.nips.cc/paper/1679-modeling-high-dimensional-
 discrete-data-with-multi-layer-neural-
  []
@@ -2188,19 +2404,24 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 3375) in paragraph at lines 2146--2148
+Underfull \hbox (badness 3375) in paragraph at lines 2407--2409
 \OT1/cmr/m/n/10 Avail-able at: http://papers.nips.cc/paper/5486-identifying-and
 -attacking-the-saddle-point-problem-in-
  []
 
-[27]
-Underfull \hbox (badness 1259) in paragraph at lines 2163--2166
+pdfTeX warning (ext4): destination with the same identifier (name{page.27}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2409 
+        [27]
+Underfull \hbox (badness 1259) in paragraph at lines 2424--2427
 \OT1/cmr/m/n/10 Help Deep Learn-ing?, Jour-nal of Ma-chine Learn-ing Re-search 
 11 (2010) 625-660 . Avail-able at:
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 2168--2170
+Underfull \hbox (badness 1509) in paragraph at lines 2429--2431
 []\OT1/cmr/m/n/10 E.F. Fama, The be-hav-ior of stock-market prices, J. Bus., 1 
 (1965), pp. 34-105. Avail-able at:
  []
@@ -2212,7 +2433,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no î in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 2202--2203
+Underfull \hbox (badness 10000) in paragraph at lines 2463--2464
 []\OT1/cmr/m/n/10 Harvey, Camp-bell R. and Liu, Yan, Back-test-ing (July 28, 20
 15). Avail-able at SSRN:
  []
@@ -2221,25 +2442,25 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 2208--2210
+Underfull \hbox (badness 10000) in paragraph at lines 2469--2471
 []\OT1/cmr/m/n/10 Geoffrey E. Hin-ton, Si-mon Osin-dero, and Yee Whye Teh. A fa
 st learn-ing al-go-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2208--2210
+Underfull \hbox (badness 10000) in paragraph at lines 2469--2471
 \OT1/cmr/m/n/10 rithm for deep be-lief nets. Neu-ral Com-pu-ta-tion, 18:1527155
 4, 2006. Avail-able at:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2217--2219
+Underfull \hbox (badness 10000) in paragraph at lines 2478--2480
 []\OT1/cmr/m/n/10 Geoffrey E. Hin-ton, Train-ing Prod-ucts of Ex-perts by Min-i
 -miz-ing Con-trastive Di-ver-
  []
 
 
-Underfull \hbox (badness 2103) in paragraph at lines 2217--2219
+Underfull \hbox (badness 2103) in paragraph at lines 2478--2480
 \OT1/cmr/m/n/10 gence,Neural Com-pu-ta-tion Vol-ume 14 | Is-sue 8 | Au-gust 200
 2 p.1771-1800 . Avail-able at:
  []
@@ -2250,18 +2471,23 @@ Missing character: There is no ¶ in font cmr10!
 Missing character: There is no √ in font cmr10!
 Missing character: There is no º in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 2228--2230
+Underfull \hbox (badness 10000) in paragraph at lines 2489--2491
 []\OT1/cmr/m/n/10 Sepp Hochre-iter, Jr-gen Schmid-hu-ber. Long Short-Term Mem-o
 ry. Neu-ral Com-pu-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2228--2230
+Underfull \hbox (badness 10000) in paragraph at lines 2489--2491
 \OT1/cmr/m/n/10 ta-tion Vol-ume 9 | Is-sue 8 | Novem-ber 15, 1997 p.1735-1780. 
 Avail-able at
  []
 
-[28]
+pdfTeX warning (ext4): destination with the same identifier (name{page.28}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2491 
+        [28]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
@@ -2272,7 +2498,7 @@ Missing character: There is no ñ in font cmr10!
 Missing character: There is no √ in font cmr10!
 Missing character: There is no ñ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 2272--2273
+Underfull \hbox (badness 10000) in paragraph at lines 2533--2534
 []\OT1/cmr/m/n/10 LeCun Y., Bot-tou L, Orr G, Muller K. Ef-fi-cient Back-prop. 
 Avail-able at:
  []
@@ -2281,25 +2507,25 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 3199) in paragraph at lines 2275--2278
+Underfull \hbox (badness 3199) in paragraph at lines 2536--2539
 []\OT1/cmr/m/n/10 LeCun, Y. (1988). A the-o-ret-i-cal frame-work for back-propa
 gation. In D. Touret-zky, G. Hin-
  []
 
 
-Underfull \hbox (badness 4479) in paragraph at lines 2275--2278
+Underfull \hbox (badness 4479) in paragraph at lines 2536--2539
 \OT1/cmr/m/n/10 ton, & T. Se-jnowski (Eds.), Pro-ceed-ings of the 1988 con-nec-
 tion-ist mod-els sum-mer school
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2275--2278
+Underfull \hbox (badness 10000) in paragraph at lines 2536--2539
 \OT1/cmr/m/n/10 (pp. 2128). [][]$\OT1/cmtt/m/n/10 Availableat : https : / / www
  . researchgate . net / profile / Yann _ Lecun / publication /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2275--2278
+Underfull \hbox (badness 10000) in paragraph at lines 2536--2539
 \OT1/cmtt/m/n/10 2360531 _ A _ Theoretical _ Framework _ for _ Back-[]Propagati
 on / links / 0deec519dfa297eac1000000 /
  []
@@ -2311,31 +2537,36 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 2865) in paragraph at lines 2289--2291
+Underfull \hbox (badness 2865) in paragraph at lines 2550--2552
 []\OT1/cmr/m/n/10 Le Roux, Nico-las, and Yoshua Ben-gio. "Rep-re-sen-ta-tional 
 power of re-stricted Boltz-mann ma-
  []
 
 
-Underfull \hbox (badness 3148) in paragraph at lines 2289--2291
+Underfull \hbox (badness 3148) in paragraph at lines 2550--2552
 \OT1/cmr/m/n/10 chines and deep be-lief net-works." Neu-ral com-pu-ta-tion 20.6
  (2008): 1631-1649. Avail-able at:
  []
 
-[29]
-Underfull \hbox (badness 10000) in paragraph at lines 2312--2313
+pdfTeX warning (ext4): destination with the same identifier (name{page.29}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2565 \bibitem{Mahajan}
+                         [29]
+Underfull \hbox (badness 10000) in paragraph at lines 2573--2574
 \OT1/cmtt/m/n/10 Minsky + Papert + 1969 + %E2 % 80 % 94 + Perceptrons & ots = z
 yEDwMvmXX & sig = aVXF7DBJKAOxW066S4UCyzhNARw #
  []
 
 
-Underfull \hbox (badness 5260) in paragraph at lines 2318--2320
+Underfull \hbox (badness 5260) in paragraph at lines 2579--2581
 []\OT1/cmr/m/n/10 Pascanu, Raz-van, Tomas Mikolov, and Yoshua Ben-gio. "On the 
 dif-fi-culty of train-ing re-
  []
 
 
-Underfull \hbox (badness 4084) in paragraph at lines 2318--2320
+Underfull \hbox (badness 4084) in paragraph at lines 2579--2581
 \OT1/cmr/m/n/10 cur-rent neu-ral net-works." In-ter-na-tional Con-fer-ence on M
 a-chine Learn-ing. 2013. Avail-able at:
  []
@@ -2355,77 +2586,82 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 4859) in paragraph at lines 2335--2336
+Underfull \hbox (badness 4859) in paragraph at lines 2596--2597
 []\OT1/cmr/m/n/10 Robert L. Schae-fer (2012) Sub-set Se-lec-tion in Re-gres-sio
 n, Tech-no-met-rics, 34:2, 229, DOI:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2359--2360
+Underfull \hbox (badness 10000) in paragraph at lines 2620--2621
 []\OT1/cmr/m/n/10 Skabar, Cloete, Net-works, Fi-nan-cial Trad-ing and the Ef-fi
 -cient Mar-kets Hy-poth-e-sis
  []
 
-[30]
+pdfTeX warning (ext4): destination with the same identifier (name{page.30}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2626 \bibitem{Troiano}
+                         [30]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 2376--2379
+Underfull \hbox (badness 10000) in paragraph at lines 2637--2640
 []\OT1/cmr/m/n/10 Vincent P., Larochell H., La-joie I., Ben-gio Y., Man-zagol P
 ., Stacked De-nois-ing Au-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2376--2379
+Underfull \hbox (badness 10000) in paragraph at lines 2637--2640
 \OT1/cmr/m/n/10 toen-coders: Learn-ing Use-ful Rep-re-sen-ta-tions in a Deep Ne
 t-work with a Lo-cal De-nois-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2376--2379
+Underfull \hbox (badness 10000) in paragraph at lines 2637--2640
 \OT1/cmr/m/n/10 ing Cri-te-rion. Jour-nal of Ma-chine Learn-ing Re-search 11 (2
 010) 3371-3408. Avail-able at:
  []
 
 
-Underfull \hbox (badness 4454) in paragraph at lines 2381--2384
+Underfull \hbox (badness 4454) in paragraph at lines 2642--2645
 []\OT1/cmr/m/n/10 Wan Y., Gong X., Si Y. Ef-fect of seg-men-ta-tion on fi-nan-c
 ial time se-ries pat-tern match-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2381--2384
+Underfull \hbox (badness 10000) in paragraph at lines 2642--2645
 \OT1/cmr/m/n/10 ing. Ap-plied Soft Com-put-ing Vol-ume 38, Jan-uary 2016, Pages
  346-359. Avail-able at:
  []
 
 
-Underfull \hbox (badness 1292) in paragraph at lines 2402--2404
+Underfull \hbox (badness 1292) in paragraph at lines 2663--2665
 []\OT1/cmr/m/n/10 Werbos, P. J. (1974). Be-yond re-gres-sion: new tools for pre
 -dic-tion and anal-y-sis in the be-hav-
  []
 
 
-Underfull \hbox (badness 1210) in paragraph at lines 2402--2404
+Underfull \hbox (badness 1210) in paragraph at lines 2663--2665
 \OT1/cmr/m/n/10 ioral sci-ences (Ph.D. the-sis), Har-vard Uni-ver-sity. Avail-a
 ble at: [][]$\OT1/cmtt/m/n/10 https : / / www . researchgate . net /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2402--2404
+Underfull \hbox (badness 10000) in paragraph at lines 2663--2665
 \OT1/cmtt/m/n/10 publication / 244947191 _ 1974 _ Beyond _ regression _ New _ t
 ools _ for _ predicting _ and _ analysis _ in _
  []
 
 
-Underfull \hbox (badness 3690) in paragraph at lines 2410--2412
+Underfull \hbox (badness 3690) in paragraph at lines 2671--2673
 []\OT1/cmr/m/n/10 Wu, Huaiqin. "Global sta-bil-ity anal-y-sis of a gen-eral cla
 ss of dis-con-tin-u-ous neu-ral net-works
  []
 
 
-Underfull \hbox (badness 1688) in paragraph at lines 2410--2412
+Underfull \hbox (badness 1688) in paragraph at lines 2671--2673
 \OT1/cmr/m/n/10 with lin-ear growth ac-ti-va-tion func-tions." In-for-ma-tion S
 ci-ences 179.19 (2009): 3432-3441. Avail-
  []
@@ -2433,15 +2669,20 @@ ci-ences 179.19 (2009): 3432-3441. Avail-
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ì in font cmr10!
-[31]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2438.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2438.
+pdfTeX warning (ext4): destination with the same identifier (name{page.31}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2699 \end {document}
+                       [31]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2699.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2699.
  (./Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2438.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2438.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2699.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2699.
 
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 4880BCED257A184D953905442ABDCF6A;4344.
+(rerunfilecheck)             Checksum: 0F308C6969CF0E4AC97E7B56D2F4370A;4414.
 
 
 LaTeX Warning: There were undefined references.
@@ -2455,45 +2696,39 @@ LaTeX Warning: There were multiply-defined labels.
 ### simple group (level 1) entered at line 1061 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 23604 strings out of 492995
- 446531 string characters out of 6132704
- 592576 words of memory out of 5000000
- 26398 multiletter control sequences out of 15000+600000
+ 23777 strings out of 492995
+ 452577 string characters out of 6132704
+ 598995 words of memory out of 5000000
+ 26509 multiletter control sequences out of 15000+600000
  13330 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  54i,13n,77p,1419b,5889s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{figure.caption.85} has been referen
-ced but does not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{figure.caption.63} has been referenced but does not
- exist, replaced by a fixed one
-
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
-/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
-usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
-sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
-r/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr
-/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/l
-ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loc
-al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local
-/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/t
-exlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/tex
-live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texliv
-e/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2
-017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2017
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2017/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/local/texlive/2017/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2017/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2017/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2017/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/texmf-di
-st/fonts/type1/public/cbfonts/grmn1000.pfb>
-Output written on Thesis.pdf (57 pages, 2281556 bytes).
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmex10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi12.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi5.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i7.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
+.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.p
+fb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb
+></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></
+usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr
+/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/lo
+cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/loc
+al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/local
+/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/loca
+l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
+/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/t
+exlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/tex
+live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texl
+ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texli
+ve/2017/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb>
+Output written on Thesis.pdf (66 pages, 3040140 bytes).
 PDF statistics:
- 1168 PDF objects out of 1200 (max. 8388607)
- 1001 compressed objects within 11 object streams
- 314 named destinations out of 1000 (max. 500000)
- 662 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1290 PDF objects out of 1440 (max. 8388607)
+ 1070 compressed objects within 11 object streams
+ 353 named destinations out of 1000 (max. 500000)
+ 780 words of extra memory for PDF output out of 10000 (max. 10000000)
 
