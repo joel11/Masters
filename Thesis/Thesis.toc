@@ -36,6 +36,7 @@
 \contentsline {paragraph}{29th March 2019}{32}{section*.92}
 \contentsline {paragraph}{12th April 2019}{33}{section*.93}
 \contentsline {paragraph}{26th April 2019}{34}{section*.94}
+\contentsline {paragraph}{17th May 2019}{35}{section*.95}
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}
 \contentsline {section}{\numberline {2}LiteratureReview}{4}{section.2}
 \contentsline {subsection}{\numberline {2.1}Technical Analysis}{4}{subsection.2.1}
@@ -64,15 +65,15 @@
 \contentsline {subsubsection}{\numberline {3.1.3}Reverse Data Scaling}{14}{subsubsection.3.1.3}
 \contentsline {subsubsection}{\numberline {3.1.4}Price Reconstruction}{14}{subsubsection.3.1.4}
 \contentsline {subsection}{\numberline {3.2}Synthetic Data}{15}{subsection.3.2}
-\contentsline {paragraph}{Simulated Dataset}{15}{section*.103}
+\contentsline {paragraph}{Simulated Dataset}{15}{section*.104}
 \contentsline {subsection}{\numberline {3.3}Real Data}{15}{subsection.3.3}
 \contentsline {section}{\numberline {4}Implementation}{16}{section.4}
 \contentsline {subsection}{\numberline {4.1}Process Overview}{16}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Feedforward Neural Networks}{16}{subsection.4.2}
 \contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{16}{subsubsection.4.2.1}
 \contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{16}{subsubsection.4.2.2}
-\contentsline {subparagraph}{Sigmoid}{16}{section*.106}
-\contentsline {subparagraph}{ReLU}{17}{section*.107}
+\contentsline {subparagraph}{Sigmoid}{16}{section*.107}
+\contentsline {subparagraph}{ReLU}{17}{section*.108}
 \contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{17}{subsubsection.4.2.3}
 \contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{17}{subsubsection.4.2.4}
 \contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent Improvements}{18}{subsubsection.4.2.5}
@@ -89,17 +90,17 @@
 \contentsline {subsection}{\numberline {4.8}Performance Assessment}{21}{subsection.4.8}
 \contentsline {subsection}{\numberline {4.9}Full Process Implementation}{22}{subsection.4.9}
 \contentsline {section}{\numberline {5}Results}{23}{section.5}
-\contentsline {paragraph}{Working Notes}{23}{section*.122}
+\contentsline {paragraph}{Working Notes}{23}{section*.123}
 \contentsline {subsection}{\numberline {5.1}Money Management Strategy and Returns}{23}{subsection.5.1}
 \contentsline {subsection}{\numberline {5.2}Results for Synthetic Data}{24}{subsection.5.2}
 \contentsline {subsubsection}{\numberline {5.2.1}Dataset Generation}{24}{subsubsection.5.2.1}
 \contentsline {subsubsection}{\numberline {5.2.2}SAE Network and Results}{25}{subsubsection.5.2.2}
 \contentsline {subsubsection}{\numberline {5.2.3}Predictive FFN Network and Results}{25}{subsubsection.5.2.3}
-\contentsline {paragraph}{SAE Results}{25}{section*.124}
-\contentsline {paragraph}{Layer Size \& SGD Learning Rate Results}{25}{section*.125}
-\contentsline {paragraph}{OGD Learning Rate Results}{25}{section*.126}
-\contentsline {paragraph}{Prediction Plots}{25}{section*.127}
-\contentsline {paragraph}{CSCV Plots}{25}{section*.128}
+\contentsline {paragraph}{SAE Results}{25}{section*.125}
+\contentsline {paragraph}{Layer Size \& SGD Learning Rate Results}{25}{section*.126}
+\contentsline {paragraph}{OGD Learning Rate Results}{25}{section*.127}
+\contentsline {paragraph}{Prediction Plots}{25}{section*.128}
+\contentsline {paragraph}{CSCV Plots}{25}{section*.129}
 \contentsline {subsection}{\numberline {5.3}Results for Real Data}{25}{subsection.5.3}
 \contentsline {section}{\numberline {6}Conclusions}{26}{section.6}
 \contentsline {section}{\numberline {7}References}{27}{section.7}
