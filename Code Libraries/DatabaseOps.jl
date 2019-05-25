@@ -7,16 +7,16 @@ using BSON
 #using JLD
 export CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
-db = SQLite.DB("database_test.db")
+db = SQLite.DB("/users/joeldacosta/Masters/Code Libraries/database_test.db")
 
 function WriteSAE(config_id, experiment_config, net)
-    file_name = string("SAERepo/SAE_", config_id, ".bson")
+    file_name = string("/users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson")
     values = Dict(:config_id => config_id, :data_configuration => experiment_config.data_config, :sae => net)
     bson(file_name, values)
 end
 
 function ReadSAE(config_id)
-    ln = BSON.load(string("SAERepo/SAE_", config_id, ".bson"))
+    ln = BSON.load(string("/users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson"))
     return (ln[:sae], ln[:data_configuration])
 end
 

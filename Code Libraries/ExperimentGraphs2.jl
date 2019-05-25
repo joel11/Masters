@@ -15,11 +15,12 @@ using DatabaseOps
 using ConfigGenerator
 using DataJSETop40
 using BSON
+using MLBase
 
 using PlotlyJS
 
 
-export SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
+export SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -539,6 +540,91 @@ function SAE_ActivationsEncodingSizes_MinMSE(config_ids, encoding_size = nothing
     general_boxplot2(groups, " ", filename, :cost)
 end
 
+function SAE_EncodingSizes_MinMSE(config_ids, encoding_size = nothing)
+
+    function general_boxplot2(layer_groups, prefix, fn, variable_name)
+
+        y_vals = layer_groups[1,2][:,variable_name]
+        trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[1,1]))
+        data = [trace]
+
+        for i in 2:size(layer_groups,1)
+            y_vals = layer_groups[i,2][:,variable_name]
+            trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[i,1]))
+            push!(data, trace)
+        end
+        plot(data)
+        l = Layout(width = 1500, height = 500, margin = Dict(:b => 120))
+        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
+    end
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select
+            er.configuration_id,
+            min(training_cost) cost,
+            np.layer_sizes
+        from epoch_records er
+        inner join configuration_run cr on cr.configuration_id = er.configuration_id
+        inner join network_parameters np on np.configuration_id = er.configuration_id
+        where er.configuration_id in ($ids)
+            and er.category = 'SAE-SGD-Init'
+            and training_cost is not null
+        group by er.configuration_id
+        having cost < 1000
+        order by cost desc"
+
+    results = RunQuery(query)
+    results[:encoding_size] = Array(map(n -> split(n, ",")[end], results[:layer_sizes]))
+    filename = "SAE Activations And Encoding Sizes Min MSE"
+    groups = by(results, [:encoding_size], df -> [df])
+    general_boxplot2(groups, " ", filename, :cost)
+end
+
+function SAE_LayerSizes_MinMSE(config_ids, encoding_size = nothing)
+
+    function general_boxplot2(layer_groups, prefix, fn, variable_name)
+
+        y_vals = layer_groups[1,2][:,variable_name]
+        trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[1,1]))
+        data = [trace]
+
+        for i in 2:size(layer_groups,1)
+            y_vals = layer_groups[i,2][:,variable_name]
+            trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[i,1]))
+            push!(data, trace)
+        end
+        plot(data)
+        l = Layout(width = 1500, height = 500, margin = Dict(:b => 120))
+        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
+    end
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select
+            er.configuration_id,
+            min(training_cost) cost,
+            np.layer_sizes
+        from epoch_records er
+        inner join configuration_run cr on cr.configuration_id = er.configuration_id
+        inner join network_parameters np on np.configuration_id = er.configuration_id
+        where er.configuration_id in ($ids)
+            and er.category = 'SAE-SGD-Init'
+            and training_cost is not null
+        group by er.configuration_id
+        having cost < 1000
+        order by cost desc"
+
+    results = RunQuery(query)
+
+    results[:layers] = Array(map(t -> t[1:(findin(t, ",")[end]-1)], Array(results[:layer_sizes])))
+
+    filename = "SAE Layer Sizes Min MSE"
+    groups = by(results, [:layers], df -> [df])
+    general_boxplot2(groups, " ", filename, :cost)
+
+end
+
 function SAE_MaxLR_MinTest_BxMSE(config_ids)
 
     ids = TransformConfigIDs(config_ids)
@@ -619,7 +705,6 @@ function SAE_Lambda1_MinTest_BxMSE(config_ids)
     MSEBoxplot(lr_msequery, :l1_lambda, "Lambda1 ", "SAE L1 Reg Min Test MSE", Float64, NullTransform)
 end
 
-
 function SAE_MinLR_MinTest_BxMSE(config_ids)
 
     ids = TransformConfigIDs(config_ids)
@@ -636,6 +721,37 @@ function SAE_MinLR_MinTest_BxMSE(config_ids)
 
     MSEBoxplot(lr_msequery, :min_learning_rate, "SAE Min LR", "SAE Min Learning Rate Min Test MSE", Float64, NullTransform)
 end
+
+function SAE_Init_MinTest_MxMSE(config_ids)
+    ids = TransformConfigIDs(config_ids)
+
+    init_query = string("select er.configuration_id, min(testing_cost) cost, initialization init
+                        from epoch_records er
+                        inner join network_parameters np on np.configuration_id = er.configuration_id
+                        where np.category = \"SAE\"
+                            and er.configuration_id in ($ids)
+                        group by er.configuration_id, init
+                        having cost not null")
+
+    MSEBoxplot(init_query, :init, "Init", "SAE Inits Min Test MSE", String, NullTransform)
+end
+
+function SAE_Deltas_MinTest_MxMSE(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    delta_query = string("select er.configuration_id, min(testing_cost) cost, deltas
+                        from epoch_records er
+                        inner join network_parameters np on np.configuration_id = er.configuration_id
+                        inner join dataset_config dc on dc.configuration_id = er.configuration_id
+                        where np.category = \"SAE\"
+                            and er.configuration_id in ($ids)
+                        group by er.configuration_id, deltas
+                        having cost not null")
+
+    MSEBoxplot(delta_query, :deltas, "Delta", "SAE Delta MSE", String, NullTransform)
+end
+
 
 #####
 
@@ -789,18 +905,6 @@ function LastLayer_MinTest_MxMSE(min_config)
                                 order by cost")
 
     MSEBoxplot(layer_last_query, :layers, "Layers", "Last Layer Min Test MSE", String, LayerTransform)
-end
-
-function SAE_Init_MinTest_MxMSE(min_config)
-    init_query = string("select er.configuration_id, min(testing_cost) cost, initialization init
-                        from epoch_records er
-                        inner join network_parameters np on np.configuration_id = er.configuration_id
-                        where np.category = \"SAE\"
-                            and er.configuration_id > $min_config
-                        group by er.configuration_id, init
-                        having cost not null")
-
-    MSEBoxplot(init_query, :init, "Init", "SAE Inits Min Test MSE", String, NullTransform)
 end
 
 function SAEMSEBoxPlot(min_config) #Best Epoch - Min Test
@@ -1012,7 +1116,8 @@ end
 
 function ConfigStrategyOutput(config_id, original_prices)
 
-    #db = SQLite.DB("database_test.db")
+    config_id = 17223
+    original_prices = nothing
 
     results = RunQuery("select * from configuration_run where configuration_id = $config_id")
     sae_id = get(results[1, :sae_config_id])
@@ -1037,6 +1142,19 @@ function ConfigStrategyOutput(config_id, original_prices)
     strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
 
     WriteStrategyGraphs(config_id, strategyreturns)
+    ConfusionMatrix(config_id, strategyreturns)
+end
+
+function ConfusionMatrix(config_id, strategyreturns)
+    trades = mapreduce(i -> stockreturns[i,2][:,[:trade, :trade_benchmark]], vcat, 1:size(stockreturns,1))
+
+    actual =   trades[:,2]
+    model =    trades[:,1]
+
+    df = DataFrame(confusmat(2, actual .+ 1, model .+ 1))
+    names!(df, [:model_no_trade, :model_trade])
+
+    writetable(string("/users/joeldacosta/desktop/", config_id, "_confusion.csv"), df)
 end
 
 ###############################################################################

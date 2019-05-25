@@ -1,13 +1,13 @@
 module CSCV
 
-#=
+
 #workspace()
 #push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
-#using Combinatorics
-#using StatsBase
-#using FinancialFunctions
-#using DatabaseOps
-#using DataFrames
+using Combinatorics
+using StatsBase
+using FinancialFunctions
+using DatabaseOps
+using DataFrames
 
 export RunCSCV, CalculatePBO
 
@@ -100,5 +100,5 @@ function ExperimentCSCVProcess(config_ids)
 
     return (pbo, mses)
 end
-=#
+
 end

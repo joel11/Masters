@@ -103,6 +103,8 @@ category_query = "select min(configuration_id) minid,
 
        when experiment_set_name like 'Iteration3_15 SAE LR Real Data Test%' then 'Iteration3_15 SAE LR Real Data Test'
 
+       when experiment_set_name like 'Iteration4_1 SAE Tests%' then 'Iteration4_1 SAE Tests'
+
        else null end as esn
     from configuration_run
     group by esn
@@ -110,6 +112,34 @@ category_query = "select min(configuration_id) minid,
     order by maxid desc"
 
 category_ids = RunQuery(category_query)
+
+
+
+
+
+
+
+#By Init
+#by Deltas
+#By LR / LR Sched
+#By Encoding
+#By Structure
+
+function It4_SAE()
+    setnames = ["Iteration4_1 SAE Tests"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Init_MinTest_MxMSE(config_ids)
+    SAE_Deltas_MinTest_MxMSE(config_ids)
+
+    SAE_MaxLR_MinTest_BxMSE(config_ids)
+    SAE_LREpochs_MinTest_BxMSE(config_ids)
+
+    SAE_EncodingSizes_MinMSE(config_ids)
+    SAE_LayerSizes_MinMSE(config_ids)
+end
+
+
+################################################################################
 
 function It3_deltas()
     setnames = ["Iteration3_13 FFN 3 Asset", "Iteration3_13 FFN 2 Asset", "Iteration3_13 FFN 4 Asset", "Iteration3_12 FFN 1 Asset"]
