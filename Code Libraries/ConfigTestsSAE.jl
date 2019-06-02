@@ -181,11 +181,11 @@ end
 
 
 activation_function = LeakyReluActivation
-layer_sizes = (90, 60)
+layer_sizes = (90, 90)
 learning_rates = (0.005, 0.01, 0.05, 0.1)
 
-#RunNLayerReLUSAETest(25, layer_sizes, activation_function, learning_rates)
-#RunNLayerReLUSAETest(20, layer_sizes, activation_function, learning_rates)
-#RunNLayerReLUSAETest(15, layer_sizes, activation_function, learning_rates)
-#RunNLayerReLUSAETest(10, layer_sizes, activation_function, learning_rates)
-#RunNLayerReLUSAETest(5,  layer_sizes, activation_function, learning_rates)
+RunNLayerReLUSAETest(25, layer_sizes, activation_function, learning_rates)
+RunNLayerReLUSAETest(20, layer_sizes, activation_function, learning_rates)
+RunNLayerReLUSAETest(15, layer_sizes, activation_function, learning_rates)
+RunNLayerReLUSAETest(10, layer_sizes, activation_function, learning_rates)
+RunNLayerReLUSAETest(5,  layer_sizes, activation_function, learning_rates)

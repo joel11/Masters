@@ -43,7 +43,11 @@ function CreateNetworkRecord(config_id, parameters)
     init = split(string(parameters.initialization), ".")[end]
 
     outputfunction = split(string(parameters.output_activation), ".")[end]
-    encodingfunction = split(string(parameters.encoding_activation), ".")[end]
+    if parameters.encoding_activation == nothing
+        encodingfunction = "None"
+    else
+        encodingfunction = split(string(parameters.encoding_activation), ".")[end]
+    end
 
     network_cmd = "insert into network_parameters
             (configuration_id, category, layer_sizes, layer_activations, initialization, output_activation, encoding_activation)
