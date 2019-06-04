@@ -118,7 +118,123 @@
 	
 	\bigskip\large\textbf{2. Iteration Results}\bigskip\normalsize
 
-	\bigskip\large\textbf{Iteration 3: 17th May}
+	\bigskip\large\textbf{Iteration 4: 3rd June}
+
+	\paragraph{Weight Initializations}
+
+	Weight initializations for SAE were tested using the typical Xavier \& He intialization techniques, as well as a customed ("DC") initialization.
+	
+	Xavier:
+	\begin{equation}
+	w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}}
+	\end{equation}
+	
+	The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He initialization is used
+	
+	\begin{equation}
+	w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
+	\end{equation}
+	
+	DC:
+	\begin{equation}
+	w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
+	\end{equation}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_sae_init.png}
+		\caption{Weight Initialization for SAE \newline The box plots show the MSE for a series of SAE networks trained. Surprisingly, the generally used He initialization has the worst performance, whereas the Xavier and DC initializations largely better and on par.}
+		\label{figure-it4_sae_init}
+	\end{figure}
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_four/it4_ffn_init.png}
+	\caption{Weight Initialization for Predictive FFN \newline The box plots show the profits for a series of FFN networks trained, with the custom DC init showing better performance to Xavier.}
+	\label{figure-it4_ffn_init}
+	\end{figure}
+
+
+
+	\paragraph{Network Structures}
+
+	Networks were trained at various number of layers and layer sizes, as presented below.
+
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_sae_layers.png}
+		\caption{Network Sizes for SAE \newline The box plots show the MSE for the series of SAE networks trained. The results show worse performance for the typical descending network sizes used for SAE, and show no improvement form increasing network size and complexity.}
+		\label{figure-it4_sae_layers}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_ffn_network_size.png}
+		\caption{Network Sizes for Predictive FFN \newline The box plots show the profits for the series of FFN networks trained, showing small improvments for network size increases.}
+		\label{figure-it4_ffn_network_size}
+	\end{figure}
+
+
+	\paragraph{Data Windows}
+
+	All configurations were tested using data windows of 
+	\begin{itemize}
+		\item (1, 5, 20)
+		\item(5, 20, 60)
+		\item (10, 20, 60)
+	\end{itemize}
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_four/it4_sae_deltas.png}
+	\caption{SAE Data Window Aggregations \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The MSE is lower for the higher aggregations, presumably due to reduced noise in the dataset, which may support longer windows in further training.}
+	\label{figure-it4_sae_deltas}
+	\end{figure}
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_four/it4_ffn_deltas.png}
+	\caption{FFN Data Window Aggregations \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations once again supporting longer windows in further training.}
+	\label{figure-it4_ffn_deltas}
+	\end{figure}
+
+	\paragraph{Best network performance}
+
+	The stock data generated for this iteration had 10 assets with the following stocks and variances
+	\begin{itemize}
+		\item (0.9, 0.5)
+		\item (0.7, 0.2)
+		\item (0.05, 0.4)
+		\item (0.05, 0.5)
+		\item (0.04, 0.1)
+		\item (0.02, 0.15)
+		\item (0.01, 0.05)
+		\item (-0.8, 0.55)
+		\item (-0.4, 0.15)
+		\item (-0.1, 0.2)
+	\end{itemize}
+
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_best_profit.png}
+		\caption{Best Network Cumulative Profits \newline The graph here shows cumulative profits for the best network and benchmark, both producing profits with costs attached.}
+		\label{figure-it4_best_profit}
+	\end{figure}
+	
+
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_confusion.png}
+		\caption{Best Network Confusion Matrix \newline A confusion matrix showing the match up of trades and no trades on all assets for the best model and benchmark.}
+		\label{figure-it4_confusion}
+	\end{figure}
+
+
+
+
+	\paragraph{Regularization}
+
+	Once again, the regularization shows notable worse performance, now on the predictive network as well. This still stands in contrast to the increased performance from the learning rates schedule.
+
+	\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_four/it4_reg.png}
+	\caption{Predictive Network Regularization \newline Effects of L1 regularization on predictive network profits.}
+	\label{figure-it4_reg}
+	\end{figure}
+
+	\newpage\bigskip\large\textbf{Iteration 3: 17th May}
 
 	\paragraph{Linear vs ReLU: Smaller Network}
 

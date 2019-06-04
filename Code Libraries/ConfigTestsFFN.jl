@@ -107,4 +107,6 @@ sae_choices = (18140,18914,18259,18311,19481, 20662,18917,18260,18314,18766,1811
 #RunNLayerReLUFFNTest((120, 120, 120), sae_choices, LeakyReluActivation)
 #RunNLayerReLUFFNTest((120, 90, 90, 60), sae_choices, LeakyReluActivation)
 
-RunNLayerReLUFFNTest((120, 90, 60), sae_choices, LeakyReluActivation)
+#RunNLayerReLUFFNTest((120, 90, 60), sae_choices, LeakyReluActivation)
+#RunNLayerReLUFFNTest((120), sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((120, 60), sae_choices, LeakyReluActivation)

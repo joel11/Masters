@@ -104,6 +104,8 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration3_15 SAE LR Real Data Test%' then 'Iteration3_15 SAE LR Real Data Test'
 
        when experiment_set_name like 'Iteration4_1 SAE Tests%' then 'Iteration4_1 SAE Tests'
+       when experiment_set_name like 'Iteration4_2 FFN Tests%' then 'Iteration4_2 FFN Tests'
+
 
        else null end as esn
     from configuration_run
@@ -123,8 +125,20 @@ category_ids = RunQuery(category_query)
 #By Init
 #by Deltas
 #By LR / LR Sched
-#By Encoding
+#By Encodings
 #By Structure
+
+function It4_FFN()
+    setnames = ["Iteration4_2 FFN Tests"]
+    config_ids = SelectConfigIDs(setnames)
+
+    OGD_DataDeltas_Profits_Bx(config_ids)
+    OGD_Init_Profits_Bx(config_ids)
+    OGD_NetworkSize_Profits_Bx(config_ids)
+    BestStrategyGraphs(config_ids)
+
+    OGD_L1Reg_BxProfit(config_ids)
+end
 
 function It4_SAE()
     setnames = ["Iteration4_1 SAE Tests"]

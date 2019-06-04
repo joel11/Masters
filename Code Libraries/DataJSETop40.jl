@@ -33,4 +33,9 @@ function ReadJSETop40Data()
     return (newdf)
 end
 
+
+data = ReadJSETop40Data()
+
+
+print(names(data))
 end

@@ -22,160 +22,183 @@
 \@writefile{toc}{\select@language{english}}
 \@writefile{lof}{\select@language{english}}
 \@writefile{lot}{\select@language{english}}
-\@writefile{toc}{\contentsline {paragraph}{Linear vs ReLU: Smaller Network}{2}{section*.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Linear vs ReLU activation on smaller networks \newline  The boxplots here show the summary of P\&L at networks with smaller layer sizes than previously. The networks were trained on 6 synthetic assets with a total of 18 inputs, and box groupings reflect different sized autoencoders and learning rates (720 configurations in total). We once again see the outperformance of ReLU by the linear activations.\relax }}{2}{figure.caption.2}}
+\@writefile{toc}{\contentsline {paragraph}{Weight Initializations}{2}{section*.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Weight Initialization for SAE \newline  The box plots show the MSE for a series of SAE networks trained. Surprisingly, the generally used He initialization has the worst performance, whereas the Xavier and DC initializations largely better and on par.\relax }}{2}{figure.caption.2}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{figure-it3_linear_vs_relu}{{1}{2}{Linear vs ReLU activation on smaller networks \newline The boxplots here show the summary of P\&L at networks with smaller layer sizes than previously. The networks were trained on 6 synthetic assets with a total of 18 inputs, and box groupings reflect different sized autoencoders and learning rates (720 configurations in total). We once again see the outperformance of ReLU by the linear activations.\relax }{figure.caption.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Leaky ReLU vs ReLU}{2}{section*.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces SAE: Leaky ReLU vs ReLU \newline  The plot above shows the MSE for 120 different SAEs, grouped by encoding size and activations.\relax }}{2}{figure.caption.4}}
-\newlabel{figure-it3_leaky_relu_1}{{2}{2}{SAE: Leaky ReLU vs ReLU \newline The plot above shows the MSE for 120 different SAEs, grouped by encoding size and activations.\relax }{figure.caption.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces FFN: Leaky ReLU vs ReLU \newline  The plot above shows the P\&L for 80 different predictive networks, grouped by activation, showing some improvements from the Leaky ReLU.\relax }}{3}{figure.caption.5}}
-\newlabel{figure-it3_leaky_relu_3}{{3}{3}{FFN: Leaky ReLU vs ReLU \newline The plot above shows the P\&L for 80 different predictive networks, grouped by activation, showing some improvements from the Leaky ReLU.\relax }{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {paragraph}{SAE Selection: MSE vs MAPE}{3}{section*.6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces MSE vs MAPE \newline  The plot above shows the P\&L for 1920 different predictive networks, grouped by SAE selection method, showing little difference, but some improvement from MSE.\relax }}{3}{figure.caption.7}}
-\newlabel{figure-it3_mse_vs_mape}{{4}{3}{MSE vs MAPE \newline The plot above shows the P\&L for 1920 different predictive networks, grouped by SAE selection method, showing little difference, but some improvement from MSE.\relax }{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {paragraph}{L1 Regularization}{3}{section*.8}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces SAE L1 Regularization - 10 Real Assets \newline  The plot above shows the MSE for 360 different SAE networks, grouped by L1 Lambda, showing notable degradation as regularization is increased. Synthetic data tests showed no performance changes below 0.01.\relax }}{4}{figure.caption.9}}
-\newlabel{figure-it3_l1reg_sae}{{5}{4}{SAE L1 Regularization - 10 Real Assets \newline The plot above shows the MSE for 360 different SAE networks, grouped by L1 Lambda, showing notable degradation as regularization is increased. Synthetic data tests showed no performance changes below 0.01.\relax }{figure.caption.9}{}}
-\@writefile{toc}{\contentsline {paragraph}{Learning Rate Schedule Implementation}{4}{section*.10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces SAE Learning Rate Schedule - 10 Real Assets \newline  The plot above shows the MSE for 120 different SAE networks, grouped by the maximum learning rate, where all minimum learning rates were 0.00001. The scheduling with high rates shows a clearly better performance and exploration of solution space.\relax }}{4}{figure.caption.11}}
-\newlabel{figure- it3_lr_schedule}{{6}{4}{SAE Learning Rate Schedule - 10 Real Assets \newline The plot above shows the MSE for 120 different SAE networks, grouped by the maximum learning rate, where all minimum learning rates were 0.00001. The scheduling with high rates shows a clearly better performance and exploration of solution space.\relax }{figure.caption.11}{}}
-\@writefile{toc}{\contentsline {paragraph}{Denoising - On/Off Feature Selection}{4}{section*.12}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces SAE Denoising - 10 Real Assets \newline  The plot above shows the MSE for 72 different SAE networks, grouped by the percentage of features switch off at random.\relax }}{5}{figure.caption.13}}
-\newlabel{figure-it3_denoising_onoff}{{7}{5}{SAE Denoising - 10 Real Assets \newline The plot above shows the MSE for 72 different SAE networks, grouped by the percentage of features switch off at random.\relax }{figure.caption.13}{}}
-\@writefile{toc}{\contentsline {paragraph}{Validation Set Percentage}{5}{section*.14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces SAE Denoising - 6 Synthetic Assets \newline  The plot above shows the P\&L for 160 different FFN predictive networks, grouped by the percentage of data excluded from the SGD training.\relax }}{5}{figure.caption.15}}
-\newlabel{figure-it3_validationset}{{8}{5}{SAE Denoising - 6 Synthetic Assets \newline The plot above shows the P\&L for 160 different FFN predictive networks, grouped by the percentage of data excluded from the SGD training.\relax }{figure.caption.15}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {0.1}Limited Synthetic Asset Tests}{5}{subsection.0.1}}
-\@writefile{toc}{\contentsline {paragraph}{1 Asset}{5}{section*.16}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces SAE Encoding Size P\&L \newline  The plot above shows the P\&L for 1 asset according to the different encoding size in the P\&L. Maximum P\$L is the same for both 1 and 2 encoding.\relax }}{6}{figure.caption.17}}
-\newlabel{figure-it3_1asset_encoding}{{9}{6}{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 1 asset according to the different encoding size in the P\&L. Maximum P\$L is the same for both 1 and 2 encoding.\relax }{figure.caption.17}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Cumulative P\&L for best 1 Asset network \newline  The plot above shows the P\&L for the best 1 asset network.\relax }}{6}{figure.caption.18}}
-\newlabel{figure-it3_1asset_bestffn}{{10}{6}{Cumulative P\&L for best 1 Asset network \newline The plot above shows the P\&L for the best 1 asset network.\relax }{figure.caption.18}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Price Recreation for best 1 Asset network \newline  The plot above shows the predicted prices for the best 1 asset network.\relax }}{6}{figure.caption.19}}
-\newlabel{figure-it3_1asset_pricerec}{{11}{6}{Price Recreation for best 1 Asset network \newline The plot above shows the predicted prices for the best 1 asset network.\relax }{figure.caption.19}{}}
-\@writefile{toc}{\contentsline {paragraph}{2 Asset}{6}{section*.20}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Variations P\&L \newline  The plot above shows the P\&L for 2 asset according to the different mean \& variance combinations. \relax }}{7}{figure.caption.21}}
-\newlabel{figure-it3_2asset_variations}{{12}{7}{Variations P\&L \newline The plot above shows the P\&L for 2 asset according to the different mean \& variance combinations. \relax }{figure.caption.21}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces SAE Encoding Size P\&L \newline  The plot above shows the P\&L for 2 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.\relax }}{7}{figure.caption.22}}
-\newlabel{figure-it3_2asset_encoding}{{13}{7}{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 2 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.\relax }{figure.caption.22}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Cumulative P\&L for best 2 Asset network \newline  The plot above shows the P\&L for the best 2 asset network.\relax }}{7}{figure.caption.23}}
-\newlabel{figure-it3_2asset_bestffn}{{14}{7}{Cumulative P\&L for best 2 Asset network \newline The plot above shows the P\&L for the best 2 asset network.\relax }{figure.caption.23}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Price Recreation for best 2 Asset network \newline  The plot above shows one of the predicted prices for the best 2 asset network.\relax }}{8}{figure.caption.24}}
-\newlabel{figure-it3_2asset_pricerec}{{15}{8}{Price Recreation for best 2 Asset network \newline The plot above shows one of the predicted prices for the best 2 asset network.\relax }{figure.caption.24}{}}
-\@writefile{toc}{\contentsline {paragraph}{3 Asset}{8}{section*.25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Variations P\&L \newline  The plot above shows the P\&L for 3 asset according to the different mean \& variance combinations. \relax }}{8}{figure.caption.26}}
-\newlabel{figure-it3_3asset_variations}{{16}{8}{Variations P\&L \newline The plot above shows the P\&L for 3 asset according to the different mean \& variance combinations. \relax }{figure.caption.26}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces SAE Encoding Size P\&L \newline  The plot above shows the P\&L for 3 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.\relax }}{8}{figure.caption.27}}
-\newlabel{figure-it3_3asset_encoding}{{17}{8}{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 3 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.\relax }{figure.caption.27}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Cumulative P\&L for best 3 Asset network \newline  The plot above shows the P\&L for the best 3 asset network.\relax }}{9}{figure.caption.28}}
-\newlabel{figure-it3_3asset_bestffn}{{18}{9}{Cumulative P\&L for best 3 Asset network \newline The plot above shows the P\&L for the best 3 asset network.\relax }{figure.caption.28}{}}
-\@writefile{toc}{\contentsline {paragraph}{4 Asset}{9}{section*.29}}
-\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Variations P\&L \newline  The plot above shows the P\&L for 4 asset according to the different mean \& variance combinations. \relax }}{9}{figure.caption.30}}
-\newlabel{figure-it3_4asset_variations}{{19}{9}{Variations P\&L \newline The plot above shows the P\&L for 4 asset according to the different mean \& variance combinations. \relax }{figure.caption.30}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces SAE Encoding Size P\&L \newline  The plot above shows the P\&L for 4 asset according to the different encoding size in the P\&L. This supports the idea of the number of assets being the best encoding.\relax }}{9}{figure.caption.31}}
-\newlabel{figure-it3_4asset_encoding}{{20}{9}{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 4 asset according to the different encoding size in the P\&L. This supports the idea of the number of assets being the best encoding.\relax }{figure.caption.31}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Cumulative P\&L for best 4 Asset network \newline  The plot above shows the P\&L for the best 4 asset network.\relax }}{10}{figure.caption.32}}
-\newlabel{figure-it3_4asset_bestffn}{{21}{10}{Cumulative P\&L for best 4 Asset network \newline The plot above shows the P\&L for the best 4 asset network.\relax }{figure.caption.32}{}}
-\@writefile{toc}{\contentsline {paragraph}{Effect of Rolling Window Sizes}{10}{section*.33}}
-\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Effect of Rolling Window Sizes on P\$L for 1, 2, 3 and 4 Assets\relax }}{10}{figure.caption.34}}
-\newlabel{figure-it3_all_deltas}{{22}{10}{Effect of Rolling Window Sizes on P\$L for 1, 2, 3 and 4 Assets\relax }{figure.caption.34}{}}
-\@writefile{toc}{\contentsline {paragraph}{Sigmoid Pre-training Efficacy}{11}{section*.35}}
-\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces SAE MSE By Scaling \newline  The three series above show the classification accuracy scores (percentage) by epoch on an AutoEncoder which was used to classify MNIST images. The series were trained with 0, 1 and 5 pre-training epochs, and show a clear improvment in having an epoch of pre-training in the SAE formation (though not much for more than 1).\relax }}{11}{figure.caption.36}}
-\newlabel{figure-pretraining-effect}{{23}{11}{SAE MSE By Scaling \newline The three series above show the classification accuracy scores (percentage) by epoch on an AutoEncoder which was used to classify MNIST images. The series were trained with 0, 1 and 5 pre-training epochs, and show a clear improvment in having an epoch of pre-training in the SAE formation (though not much for more than 1).\relax }{figure.caption.36}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces Pre-training Effects on financial SAE \newline  The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.\relax }}{11}{figure.caption.37}}
-\newlabel{figure-it2-pretraining-effect}{{24}{11}{Pre-training Effects on financial SAE \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.\relax }{figure.caption.37}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Pre-training Effects on financial SAE, by learning rate \newline  These boxplots show the same as above, but further grouped by learning rate. We can see the few samples that appears to be benefiting from having 1 epoch of pre-training are simply a result of the learning rate being small enough so as not to have much effect.\relax }}{12}{figure.caption.38}}
-\newlabel{figure-it2-pretraining-effect2}{{25}{12}{Pre-training Effects on financial SAE, by learning rate \newline These boxplots show the same as above, but further grouped by learning rate. We can see the few samples that appears to be benefiting from having 1 epoch of pre-training are simply a result of the learning rate being small enough so as not to have much effect.\relax }{figure.caption.38}{}}
-\@writefile{toc}{\contentsline {paragraph}{SAE Linear Activation Tests}{12}{section*.39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces Effects of Standardizing \& ReLU Output \newline  These boxplots show the MSE scores for the combinations run grouped by 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. There is significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.\relax }}{12}{figure.caption.40}}
-\newlabel{figure-it2-scaling-and-relu}{{26}{12}{Effects of Standardizing \& ReLU Output \newline These boxplots show the MSE scores for the combinations run grouped by 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. There is significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.\relax }{figure.caption.40}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces Effects of Linear Activation \newline  This is the same data as in Figure 4, focusing on the more effective configurations. We can see Sigmoid has largely poor performance unless there is a Linear encoding layer (a widely experienced behaviour), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.\relax }}{13}{figure.caption.41}}
-\newlabel{figure-it2-linear-act}{{27}{13}{Effects of Linear Activation \newline This is the same data as in Figure 4, focusing on the more effective configurations. We can see Sigmoid has largely poor performance unless there is a Linear encoding layer (a widely experienced behaviour), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.\relax }{figure.caption.41}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces Encoding Size 25 \newline  These plots show the performance for all configurations with an encoding layer size of 25 (input 30). There is once again a surprisingly high performance in the fully linear network.\relax }}{13}{figure.caption.42}}
-\newlabel{figure-it2-encoding25}{{28}{13}{Encoding Size 25 \newline These plots show the performance for all configurations with an encoding layer size of 25 (input 30). There is once again a surprisingly high performance in the fully linear network.\relax }{figure.caption.42}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {29}{\ignorespaces Encoding Size 5 \newline  These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we finally see the benefit of non-linear activations in the ReLU based newtorks, which the fully linear is not able to outperform.\relax }}{13}{figure.caption.43}}
-\newlabel{figure-it2-encoding5}{{29}{13}{Encoding Size 5 \newline These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we finally see the benefit of non-linear activations in the ReLU based newtorks, which the fully linear is not able to outperform.\relax }{figure.caption.43}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {30}{\ignorespaces Performance by Network Size \newline  We can further break these down by network size, and see performance is as one would hope, with the best ReLU configurations corresponding with more layers and of larger sizes.\relax }}{14}{figure.caption.44}}
-\newlabel{figure-it2-networksize-effect}{{30}{14}{Performance by Network Size \newline We can further break these down by network size, and see performance is as one would hope, with the best ReLU configurations corresponding with more layers and of larger sizes.\relax }{figure.caption.44}{}}
-\@writefile{toc}{\contentsline {paragraph}{Denoising SAEs}{14}{section*.45}}
-\@writefile{lof}{\contentsline {figure}{\numberline {31}{\ignorespaces Performance by Denoising Variation \newline  The above groupings show the decreasing SAE performance as the level of denoising is increased. The grouping with variance 1.0e-11 essentially represents no denoising.\relax }}{14}{figure.caption.46}}
-\newlabel{figure-it2-denoise}{{31}{14}{Performance by Denoising Variation \newline The above groupings show the decreasing SAE performance as the level of denoising is increased. The grouping with variance 1.0e-11 essentially represents no denoising.\relax }{figure.caption.46}{}}
-\@writefile{toc}{\contentsline {paragraph}{Linear Activations in FFN}{14}{section*.47}}
-\@writefile{lof}{\contentsline {figure}{\numberline {32}{\ignorespaces Linear Activations in FFN \newline  The above groupings show the profits generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). There are several takeaways: \newline  1. Higher performance of Linear networks (may be down to network size and amount of input data) \newline  2. The limited scaling technique is having a noticeable impact on profits \newline  3. The decrease in performance with ReLU output persists \relax }}{15}{figure.caption.48}}
-\newlabel{figure-it2-linear-ffn_activations}{{32}{15}{Linear Activations in FFN \newline The above groupings show the profits generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). There are several takeaways: \newline 1. Higher performance of Linear networks (may be down to network size and amount of input data) \newline 2. The limited scaling technique is having a noticeable impact on profits \newline 3. The decrease in performance with ReLU output persists \relax }{figure.caption.48}{}}
-\@writefile{toc}{\contentsline {paragraph}{SAE Effects}{15}{section*.49}}
-\@writefile{lof}{\contentsline {figure}{\numberline {33}{\ignorespaces SAE Effects on P\&L \newline  The above groupings show the profits generated for different SAE encoding layers. The results are encouraging, showing that no SAE (encoding 0) has the worst results, and that the best results are found in one of the lower encoding layers (6).\relax }}{15}{figure.caption.50}}
-\newlabel{figure-it2-sae-effects}{{33}{15}{SAE Effects on P\&L \newline The above groupings show the profits generated for different SAE encoding layers. The results are encouraging, showing that no SAE (encoding 0) has the worst results, and that the best results are found in one of the lower encoding layers (6).\relax }{figure.caption.50}{}}
-\@writefile{toc}{\contentsline {paragraph}{Predictive Network Sizes}{15}{section*.51}}
-\@writefile{lof}{\contentsline {figure}{\numberline {34}{\ignorespaces Network Size Effects on P\&L \newline  We can see the effects are largely as expected here, with networks of more layers and larger layer sizes having a better effect on profits. \relax }}{16}{figure.caption.52}}
-\newlabel{figure-it2-network-size-effects}{{34}{16}{Network Size Effects on P\&L \newline We can see the effects are largely as expected here, with networks of more layers and larger layer sizes having a better effect on profits. \relax }{figure.caption.52}{}}
-\@writefile{toc}{\contentsline {paragraph}{Cross Validation Effects}{16}{section*.53}}
-\@writefile{lof}{\contentsline {figure}{\numberline {35}{\ignorespaces Validation Set Effects on P\&L \newline  This tested the witholding of 10\% of the data from the SGD training versus witholding no data. Curiously, there doesn't seem to be a notable effect here, possibly speaking to the much larger general effect of the OGD training in comparison. \relax }}{16}{figure.caption.54}}
-\newlabel{figure-it2-validation }{{35}{16}{Validation Set Effects on P\&L \newline This tested the witholding of 10\% of the data from the SGD training versus witholding no data. Curiously, there doesn't seem to be a notable effect here, possibly speaking to the much larger general effect of the OGD training in comparison. \relax }{figure.caption.54}{}}
-\@writefile{toc}{\contentsline {paragraph}{Returns Analysis}{16}{section*.55}}
-\@writefile{lof}{\contentsline {figure}{\numberline {36}{\ignorespaces Histogram of P\&L from Predictive MMS \newline  The P\&L values seem to be rather low, with few losses. Could warrant a different trading strategy being used. \relax }}{16}{figure.caption.56}}
-\newlabel{figure-it2-profit-pdf }{{36}{16}{Histogram of P\&L from Predictive MMS \newline The P\&L values seem to be rather low, with few losses. Could warrant a different trading strategy being used. \relax }{figure.caption.56}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {37}{\ignorespaces Cumulative P\&L \newline  We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered. \relax }}{17}{figure.caption.57}}
-\newlabel{figure-it2-cumprof}{{37}{17}{Cumulative P\&L \newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered. \relax }{figure.caption.57}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {38}{\ignorespaces Cumulative Rates \newline  We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered. \relax }}{17}{figure.caption.58}}
-\newlabel{figure-it2-cumrates}{{38}{17}{Cumulative Rates \newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered. \relax }{figure.caption.58}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {39}{\ignorespaces Price Predictions \newline  This graphs displays the actual prices for the one stock, as well as the predictions made by the two best networks (chosen by MSE and Profit) \relax }}{17}{figure.caption.59}}
-\newlabel{figure-it2-pricepredfull}{{39}{17}{Price Predictions \newline This graphs displays the actual prices for the one stock, as well as the predictions made by the two best networks (chosen by MSE and Profit) \relax }{figure.caption.59}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces Price Predictions (Zoomed) \newline  A closer zoom reveals that it looks like the predictions are very much a lagged time series \relax }}{18}{figure.caption.60}}
-\newlabel{figure-it2-pricepredzoom}{{40}{18}{Price Predictions (Zoomed) \newline A closer zoom reveals that it looks like the predictions are very much a lagged time series \relax }{figure.caption.60}{}}
-\@writefile{toc}{\contentsline {paragraph}{Scaling}{19}{section*.61}}
-\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces SAE MSE By Scaling\relax }}{19}{figure.caption.62}}
-\newlabel{figure-synthetic-prices}{{41}{19}{SAE MSE By Scaling\relax }{figure.caption.62}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces OGD MSE By Scaling\relax }}{19}{figure.caption.63}}
-\newlabel{figure-synthetic-prices}{{42}{19}{OGD MSE By Scaling\relax }{figure.caption.63}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces OGD Profits by Scaling\relax }}{20}{figure.caption.64}}
-\newlabel{figure-synthetic-prices}{{43}{20}{OGD Profits by Scaling\relax }{figure.caption.64}{}}
-\@writefile{toc}{\contentsline {paragraph}{General Configurations \& CV}{20}{section*.65}}
-\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Price Plot\relax }}{21}{figure.caption.66}}
-\newlabel{figure-synthetic-prices}{{44}{21}{Price Plot\relax }{figure.caption.66}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces PDF of all Profits Generated\relax }}{21}{figure.caption.67}}
-\newlabel{figure-synthetic-prices}{{45}{21}{PDF of all Profits Generated\relax }{figure.caption.67}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces SAE Profits\relax }}{22}{figure.caption.68}}
-\newlabel{figure-synthetic-prices}{{46}{22}{SAE Profits\relax }{figure.caption.68}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Network Structure Profits\relax }}{22}{figure.caption.69}}
-\newlabel{figure-synthetic-prices}{{47}{22}{Network Structure Profits\relax }{figure.caption.69}{}}
-\@writefile{toc}{\contentsline {paragraph}{Return Graphs}{22}{section*.70}}
-\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Cumulative Profits\relax }}{23}{figure.caption.71}}
-\newlabel{figure-synthetic-prices}{{48}{23}{Cumulative Profits\relax }{figure.caption.71}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Cumulative Return Rates\relax }}{23}{figure.caption.72}}
-\newlabel{figure-synthetic-prices}{{49}{23}{Cumulative Return Rates\relax }{figure.caption.72}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {50}{\ignorespaces Daily Rates\relax }}{24}{figure.caption.73}}
-\newlabel{figure-synthetic-prices}{{50}{24}{Daily Rates\relax }{figure.caption.73}{}}
-\@writefile{toc}{\contentsline {paragraph}{Price Predictions}{24}{section*.74}}
-\@writefile{lof}{\contentsline {figure}{\numberline {51}{\ignorespaces Stock 1\relax }}{24}{figure.caption.75}}
-\newlabel{figure-synthetic-prices}{{51}{24}{Stock 1\relax }{figure.caption.75}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {52}{\ignorespaces Stock 2\relax }}{25}{figure.caption.76}}
-\newlabel{figure-synthetic-prices}{{52}{25}{Stock 2\relax }{figure.caption.76}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {53}{\ignorespaces Stock 3\relax }}{25}{figure.caption.77}}
-\newlabel{figure-synthetic-prices}{{53}{25}{Stock 3\relax }{figure.caption.77}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {54}{\ignorespaces Stock 4\relax }}{26}{figure.caption.78}}
-\newlabel{figure-synthetic-prices}{{54}{26}{Stock 4\relax }{figure.caption.78}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {55}{\ignorespaces Stock 5\relax }}{26}{figure.caption.79}}
-\newlabel{figure-synthetic-prices}{{55}{26}{Stock 5\relax }{figure.caption.79}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {56}{\ignorespaces Stock 6\relax }}{27}{figure.caption.80}}
-\newlabel{figure-synthetic-prices}{{56}{27}{Stock 6\relax }{figure.caption.80}{}}
-\@writefile{toc}{\contentsline {paragraph}{Sigmoid Pre-training}{27}{section*.81}}
-\@writefile{lof}{\contentsline {figure}{\numberline {57}{\ignorespaces Stock 6\relax }}{27}{figure.caption.82}}
-\newlabel{Pre-training MSE performance}{{57}{27}{Stock 6\relax }{figure.caption.82}{}}
-\@writefile{toc}{\contentsline {paragraph}{Next Iteration}{28}{section*.83}}
-\@writefile{toc}{\contentsline {paragraph}{Iteration Output}{28}{section*.84}}
-\@writefile{toc}{\contentsline {paragraph}{Critical Decisions and Points of Concern}{28}{section*.85}}
-\@writefile{toc}{\contentsline {paragraph}{Dissertation to-do list}{28}{section*.86}}
-\@writefile{toc}{\contentsline {paragraph}{General Configuration}{29}{section*.87}}
-\@writefile{toc}{\contentsline {paragraph}{SAE Configurations (945)}{29}{section*.88}}
-\@writefile{toc}{\contentsline {paragraph}{FFN Configurations (2835)}{29}{section*.89}}
-\@writefile{toc}{\contentsline {paragraph}{16th June 2018}{32}{section*.91}}
-\@writefile{toc}{\contentsline {paragraph}{29th March 2019}{32}{section*.92}}
-\@writefile{toc}{\contentsline {paragraph}{12th April 2019}{33}{section*.93}}
-\@writefile{toc}{\contentsline {paragraph}{26th April 2019}{34}{section*.94}}
-\@writefile{toc}{\contentsline {paragraph}{17th May 2019}{35}{section*.95}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ this will need to be rewritten once everything is finalised}{1}{section*.96}}
+\newlabel{figure-it4_sae_init}{{1}{2}{Weight Initialization for SAE \newline The box plots show the MSE for a series of SAE networks trained. Surprisingly, the generally used He initialization has the worst performance, whereas the Xavier and DC initializations largely better and on par.\relax }{figure.caption.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Weight Initialization for Predictive FFN \newline  The box plots show the profits for a series of FFN networks trained, with the custom DC init showing better performance to Xavier.\relax }}{2}{figure.caption.3}}
+\newlabel{figure-it4_ffn_init}{{2}{2}{Weight Initialization for Predictive FFN \newline The box plots show the profits for a series of FFN networks trained, with the custom DC init showing better performance to Xavier.\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Network Structures}{3}{section*.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Network Sizes for SAE \newline  The box plots show the MSE for the series of SAE networks trained. The results show worse performance for the typical descending network sizes used for SAE, and show no improvement form increasing network size and complexity.\relax }}{3}{figure.caption.5}}
+\newlabel{figure-it4_sae_layers}{{3}{3}{Network Sizes for SAE \newline The box plots show the MSE for the series of SAE networks trained. The results show worse performance for the typical descending network sizes used for SAE, and show no improvement form increasing network size and complexity.\relax }{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Network Sizes for Predictive FFN \newline  The box plots show the profits for the series of FFN networks trained, showing small improvments for network size increases.\relax }}{3}{figure.caption.6}}
+\newlabel{figure-it4_ffn_network_size}{{4}{3}{Network Sizes for Predictive FFN \newline The box plots show the profits for the series of FFN networks trained, showing small improvments for network size increases.\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Data Windows}{3}{section*.7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces SAE Data Window Aggregations \newline  The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The MSE is lower for the higher aggregations, presumably due to reduced noise in the dataset, which may support longer windows in further training.\relax }}{4}{figure.caption.8}}
+\newlabel{figure-it4_sae_deltas}{{5}{4}{SAE Data Window Aggregations \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The MSE is lower for the higher aggregations, presumably due to reduced noise in the dataset, which may support longer windows in further training.\relax }{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces FFN Data Window Aggregations \newline  The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations once again supporting longer windows in further training.\relax }}{4}{figure.caption.9}}
+\newlabel{figure-it4_ffn_deltas}{{6}{4}{FFN Data Window Aggregations \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations once again supporting longer windows in further training.\relax }{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {paragraph}{Best network performance}{4}{section*.10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Best Network Cumulative Profits \newline  The graph here shows cumulative profits for the best network and benchmark, both producing profits with costs attached.\relax }}{5}{figure.caption.11}}
+\newlabel{figure-it4_best_profit}{{7}{5}{Best Network Cumulative Profits \newline The graph here shows cumulative profits for the best network and benchmark, both producing profits with costs attached.\relax }{figure.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Best Network Confusion Matrix \newline  A confusion matrix showing the match up of trades and no trades on all assets for the best model and benchmark.\relax }}{5}{figure.caption.12}}
+\newlabel{figure-it4_confusion}{{8}{5}{Best Network Confusion Matrix \newline A confusion matrix showing the match up of trades and no trades on all assets for the best model and benchmark.\relax }{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {paragraph}{Regularization}{5}{section*.13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Predictive Network Regularization \newline  Effects of L1 regularization on predictive network profits.\relax }}{5}{figure.caption.14}}
+\newlabel{figure-it4_reg}{{9}{5}{Predictive Network Regularization \newline Effects of L1 regularization on predictive network profits.\relax }{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {paragraph}{Linear vs ReLU: Smaller Network}{6}{section*.15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Linear vs ReLU activation on smaller networks \newline  The boxplots here show the summary of P\&L at networks with smaller layer sizes than previously. The networks were trained on 6 synthetic assets with a total of 18 inputs, and box groupings reflect different sized autoencoders and learning rates (720 configurations in total). We once again see the outperformance of ReLU by the linear activations.\relax }}{6}{figure.caption.16}}
+\newlabel{figure-it3_linear_vs_relu}{{10}{6}{Linear vs ReLU activation on smaller networks \newline The boxplots here show the summary of P\&L at networks with smaller layer sizes than previously. The networks were trained on 6 synthetic assets with a total of 18 inputs, and box groupings reflect different sized autoencoders and learning rates (720 configurations in total). We once again see the outperformance of ReLU by the linear activations.\relax }{figure.caption.16}{}}
+\@writefile{toc}{\contentsline {paragraph}{Leaky ReLU vs ReLU}{6}{section*.17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces SAE: Leaky ReLU vs ReLU \newline  The plot above shows the MSE for 120 different SAEs, grouped by encoding size and activations.\relax }}{6}{figure.caption.18}}
+\newlabel{figure-it3_leaky_relu_1}{{11}{6}{SAE: Leaky ReLU vs ReLU \newline The plot above shows the MSE for 120 different SAEs, grouped by encoding size and activations.\relax }{figure.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces FFN: Leaky ReLU vs ReLU \newline  The plot above shows the P\&L for 80 different predictive networks, grouped by activation, showing some improvements from the Leaky ReLU.\relax }}{7}{figure.caption.19}}
+\newlabel{figure-it3_leaky_relu_3}{{12}{7}{FFN: Leaky ReLU vs ReLU \newline The plot above shows the P\&L for 80 different predictive networks, grouped by activation, showing some improvements from the Leaky ReLU.\relax }{figure.caption.19}{}}
+\@writefile{toc}{\contentsline {paragraph}{SAE Selection: MSE vs MAPE}{7}{section*.20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces MSE vs MAPE \newline  The plot above shows the P\&L for 1920 different predictive networks, grouped by SAE selection method, showing little difference, but some improvement from MSE.\relax }}{7}{figure.caption.21}}
+\newlabel{figure-it3_mse_vs_mape}{{13}{7}{MSE vs MAPE \newline The plot above shows the P\&L for 1920 different predictive networks, grouped by SAE selection method, showing little difference, but some improvement from MSE.\relax }{figure.caption.21}{}}
+\@writefile{toc}{\contentsline {paragraph}{L1 Regularization}{7}{section*.22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces SAE L1 Regularization - 10 Real Assets \newline  The plot above shows the MSE for 360 different SAE networks, grouped by L1 Lambda, showing notable degradation as regularization is increased. Synthetic data tests showed no performance changes below 0.01.\relax }}{8}{figure.caption.23}}
+\newlabel{figure-it3_l1reg_sae}{{14}{8}{SAE L1 Regularization - 10 Real Assets \newline The plot above shows the MSE for 360 different SAE networks, grouped by L1 Lambda, showing notable degradation as regularization is increased. Synthetic data tests showed no performance changes below 0.01.\relax }{figure.caption.23}{}}
+\@writefile{toc}{\contentsline {paragraph}{Learning Rate Schedule Implementation}{8}{section*.24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces SAE Learning Rate Schedule - 10 Real Assets \newline  The plot above shows the MSE for 120 different SAE networks, grouped by the maximum learning rate, where all minimum learning rates were 0.00001. The scheduling with high rates shows a clearly better performance and exploration of solution space.\relax }}{8}{figure.caption.25}}
+\newlabel{figure- it3_lr_schedule}{{15}{8}{SAE Learning Rate Schedule - 10 Real Assets \newline The plot above shows the MSE for 120 different SAE networks, grouped by the maximum learning rate, where all minimum learning rates were 0.00001. The scheduling with high rates shows a clearly better performance and exploration of solution space.\relax }{figure.caption.25}{}}
+\@writefile{toc}{\contentsline {paragraph}{Denoising - On/Off Feature Selection}{8}{section*.26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces SAE Denoising - 10 Real Assets \newline  The plot above shows the MSE for 72 different SAE networks, grouped by the percentage of features switch off at random.\relax }}{9}{figure.caption.27}}
+\newlabel{figure-it3_denoising_onoff}{{16}{9}{SAE Denoising - 10 Real Assets \newline The plot above shows the MSE for 72 different SAE networks, grouped by the percentage of features switch off at random.\relax }{figure.caption.27}{}}
+\@writefile{toc}{\contentsline {paragraph}{Validation Set Percentage}{9}{section*.28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces SAE Denoising - 6 Synthetic Assets \newline  The plot above shows the P\&L for 160 different FFN predictive networks, grouped by the percentage of data excluded from the SGD training.\relax }}{9}{figure.caption.29}}
+\newlabel{figure-it3_validationset}{{17}{9}{SAE Denoising - 6 Synthetic Assets \newline The plot above shows the P\&L for 160 different FFN predictive networks, grouped by the percentage of data excluded from the SGD training.\relax }{figure.caption.29}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {0.1}Limited Synthetic Asset Tests}{9}{subsection.0.1}}
+\@writefile{toc}{\contentsline {paragraph}{1 Asset}{9}{section*.30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces SAE Encoding Size P\&L \newline  The plot above shows the P\&L for 1 asset according to the different encoding size in the P\&L. Maximum P\$L is the same for both 1 and 2 encoding.\relax }}{10}{figure.caption.31}}
+\newlabel{figure-it3_1asset_encoding}{{18}{10}{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 1 asset according to the different encoding size in the P\&L. Maximum P\$L is the same for both 1 and 2 encoding.\relax }{figure.caption.31}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Cumulative P\&L for best 1 Asset network \newline  The plot above shows the P\&L for the best 1 asset network.\relax }}{10}{figure.caption.32}}
+\newlabel{figure-it3_1asset_bestffn}{{19}{10}{Cumulative P\&L for best 1 Asset network \newline The plot above shows the P\&L for the best 1 asset network.\relax }{figure.caption.32}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Price Recreation for best 1 Asset network \newline  The plot above shows the predicted prices for the best 1 asset network.\relax }}{10}{figure.caption.33}}
+\newlabel{figure-it3_1asset_pricerec}{{20}{10}{Price Recreation for best 1 Asset network \newline The plot above shows the predicted prices for the best 1 asset network.\relax }{figure.caption.33}{}}
+\@writefile{toc}{\contentsline {paragraph}{2 Asset}{10}{section*.34}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Variations P\&L \newline  The plot above shows the P\&L for 2 asset according to the different mean \& variance combinations. \relax }}{11}{figure.caption.35}}
+\newlabel{figure-it3_2asset_variations}{{21}{11}{Variations P\&L \newline The plot above shows the P\&L for 2 asset according to the different mean \& variance combinations. \relax }{figure.caption.35}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces SAE Encoding Size P\&L \newline  The plot above shows the P\&L for 2 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.\relax }}{11}{figure.caption.36}}
+\newlabel{figure-it3_2asset_encoding}{{22}{11}{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 2 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.\relax }{figure.caption.36}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Cumulative P\&L for best 2 Asset network \newline  The plot above shows the P\&L for the best 2 asset network.\relax }}{11}{figure.caption.37}}
+\newlabel{figure-it3_2asset_bestffn}{{23}{11}{Cumulative P\&L for best 2 Asset network \newline The plot above shows the P\&L for the best 2 asset network.\relax }{figure.caption.37}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces Price Recreation for best 2 Asset network \newline  The plot above shows one of the predicted prices for the best 2 asset network.\relax }}{12}{figure.caption.38}}
+\newlabel{figure-it3_2asset_pricerec}{{24}{12}{Price Recreation for best 2 Asset network \newline The plot above shows one of the predicted prices for the best 2 asset network.\relax }{figure.caption.38}{}}
+\@writefile{toc}{\contentsline {paragraph}{3 Asset}{12}{section*.39}}
+\@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Variations P\&L \newline  The plot above shows the P\&L for 3 asset according to the different mean \& variance combinations. \relax }}{12}{figure.caption.40}}
+\newlabel{figure-it3_3asset_variations}{{25}{12}{Variations P\&L \newline The plot above shows the P\&L for 3 asset according to the different mean \& variance combinations. \relax }{figure.caption.40}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces SAE Encoding Size P\&L \newline  The plot above shows the P\&L for 3 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.\relax }}{12}{figure.caption.41}}
+\newlabel{figure-it3_3asset_encoding}{{26}{12}{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 3 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.\relax }{figure.caption.41}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces Cumulative P\&L for best 3 Asset network \newline  The plot above shows the P\&L for the best 3 asset network.\relax }}{13}{figure.caption.42}}
+\newlabel{figure-it3_3asset_bestffn}{{27}{13}{Cumulative P\&L for best 3 Asset network \newline The plot above shows the P\&L for the best 3 asset network.\relax }{figure.caption.42}{}}
+\@writefile{toc}{\contentsline {paragraph}{4 Asset}{13}{section*.43}}
+\@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces Variations P\&L \newline  The plot above shows the P\&L for 4 asset according to the different mean \& variance combinations. \relax }}{13}{figure.caption.44}}
+\newlabel{figure-it3_4asset_variations}{{28}{13}{Variations P\&L \newline The plot above shows the P\&L for 4 asset according to the different mean \& variance combinations. \relax }{figure.caption.44}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {29}{\ignorespaces SAE Encoding Size P\&L \newline  The plot above shows the P\&L for 4 asset according to the different encoding size in the P\&L. This supports the idea of the number of assets being the best encoding.\relax }}{13}{figure.caption.45}}
+\newlabel{figure-it3_4asset_encoding}{{29}{13}{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 4 asset according to the different encoding size in the P\&L. This supports the idea of the number of assets being the best encoding.\relax }{figure.caption.45}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {30}{\ignorespaces Cumulative P\&L for best 4 Asset network \newline  The plot above shows the P\&L for the best 4 asset network.\relax }}{14}{figure.caption.46}}
+\newlabel{figure-it3_4asset_bestffn}{{30}{14}{Cumulative P\&L for best 4 Asset network \newline The plot above shows the P\&L for the best 4 asset network.\relax }{figure.caption.46}{}}
+\@writefile{toc}{\contentsline {paragraph}{Effect of Rolling Window Sizes}{14}{section*.47}}
+\@writefile{lof}{\contentsline {figure}{\numberline {31}{\ignorespaces Effect of Rolling Window Sizes on P\$L for 1, 2, 3 and 4 Assets\relax }}{14}{figure.caption.48}}
+\newlabel{figure-it3_all_deltas}{{31}{14}{Effect of Rolling Window Sizes on P\$L for 1, 2, 3 and 4 Assets\relax }{figure.caption.48}{}}
+\@writefile{toc}{\contentsline {paragraph}{Sigmoid Pre-training Efficacy}{15}{section*.49}}
+\@writefile{lof}{\contentsline {figure}{\numberline {32}{\ignorespaces SAE MSE By Scaling \newline  The three series above show the classification accuracy scores (percentage) by epoch on an AutoEncoder which was used to classify MNIST images. The series were trained with 0, 1 and 5 pre-training epochs, and show a clear improvment in having an epoch of pre-training in the SAE formation (though not much for more than 1).\relax }}{15}{figure.caption.50}}
+\newlabel{figure-pretraining-effect}{{32}{15}{SAE MSE By Scaling \newline The three series above show the classification accuracy scores (percentage) by epoch on an AutoEncoder which was used to classify MNIST images. The series were trained with 0, 1 and 5 pre-training epochs, and show a clear improvment in having an epoch of pre-training in the SAE formation (though not much for more than 1).\relax }{figure.caption.50}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {33}{\ignorespaces Pre-training Effects on financial SAE \newline  The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.\relax }}{15}{figure.caption.51}}
+\newlabel{figure-it2-pretraining-effect}{{33}{15}{Pre-training Effects on financial SAE \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.\relax }{figure.caption.51}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {34}{\ignorespaces Pre-training Effects on financial SAE, by learning rate \newline  These boxplots show the same as above, but further grouped by learning rate. We can see the few samples that appears to be benefiting from having 1 epoch of pre-training are simply a result of the learning rate being small enough so as not to have much effect.\relax }}{16}{figure.caption.52}}
+\newlabel{figure-it2-pretraining-effect2}{{34}{16}{Pre-training Effects on financial SAE, by learning rate \newline These boxplots show the same as above, but further grouped by learning rate. We can see the few samples that appears to be benefiting from having 1 epoch of pre-training are simply a result of the learning rate being small enough so as not to have much effect.\relax }{figure.caption.52}{}}
+\@writefile{toc}{\contentsline {paragraph}{SAE Linear Activation Tests}{16}{section*.53}}
+\@writefile{lof}{\contentsline {figure}{\numberline {35}{\ignorespaces Effects of Standardizing \& ReLU Output \newline  These boxplots show the MSE scores for the combinations run grouped by 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. There is significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.\relax }}{16}{figure.caption.54}}
+\newlabel{figure-it2-scaling-and-relu}{{35}{16}{Effects of Standardizing \& ReLU Output \newline These boxplots show the MSE scores for the combinations run grouped by 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. There is significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.\relax }{figure.caption.54}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {36}{\ignorespaces Effects of Linear Activation \newline  This is the same data as in Figure 4, focusing on the more effective configurations. We can see Sigmoid has largely poor performance unless there is a Linear encoding layer (a widely experienced behaviour), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.\relax }}{17}{figure.caption.55}}
+\newlabel{figure-it2-linear-act}{{36}{17}{Effects of Linear Activation \newline This is the same data as in Figure 4, focusing on the more effective configurations. We can see Sigmoid has largely poor performance unless there is a Linear encoding layer (a widely experienced behaviour), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.\relax }{figure.caption.55}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {37}{\ignorespaces Encoding Size 25 \newline  These plots show the performance for all configurations with an encoding layer size of 25 (input 30). There is once again a surprisingly high performance in the fully linear network.\relax }}{17}{figure.caption.56}}
+\newlabel{figure-it2-encoding25}{{37}{17}{Encoding Size 25 \newline These plots show the performance for all configurations with an encoding layer size of 25 (input 30). There is once again a surprisingly high performance in the fully linear network.\relax }{figure.caption.56}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {38}{\ignorespaces Encoding Size 5 \newline  These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we finally see the benefit of non-linear activations in the ReLU based newtorks, which the fully linear is not able to outperform.\relax }}{17}{figure.caption.57}}
+\newlabel{figure-it2-encoding5}{{38}{17}{Encoding Size 5 \newline These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we finally see the benefit of non-linear activations in the ReLU based newtorks, which the fully linear is not able to outperform.\relax }{figure.caption.57}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {39}{\ignorespaces Performance by Network Size \newline  We can further break these down by network size, and see performance is as one would hope, with the best ReLU configurations corresponding with more layers and of larger sizes.\relax }}{18}{figure.caption.58}}
+\newlabel{figure-it2-networksize-effect}{{39}{18}{Performance by Network Size \newline We can further break these down by network size, and see performance is as one would hope, with the best ReLU configurations corresponding with more layers and of larger sizes.\relax }{figure.caption.58}{}}
+\@writefile{toc}{\contentsline {paragraph}{Denoising SAEs}{18}{section*.59}}
+\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces Performance by Denoising Variation \newline  The above groupings show the decreasing SAE performance as the level of denoising is increased. The grouping with variance 1.0e-11 essentially represents no denoising.\relax }}{18}{figure.caption.60}}
+\newlabel{figure-it2-denoise}{{40}{18}{Performance by Denoising Variation \newline The above groupings show the decreasing SAE performance as the level of denoising is increased. The grouping with variance 1.0e-11 essentially represents no denoising.\relax }{figure.caption.60}{}}
+\@writefile{toc}{\contentsline {paragraph}{Linear Activations in FFN}{18}{section*.61}}
+\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces Linear Activations in FFN \newline  The above groupings show the profits generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). There are several takeaways: \newline  1. Higher performance of Linear networks (may be down to network size and amount of input data) \newline  2. The limited scaling technique is having a noticeable impact on profits \newline  3. The decrease in performance with ReLU output persists \relax }}{19}{figure.caption.62}}
+\newlabel{figure-it2-linear-ffn_activations}{{41}{19}{Linear Activations in FFN \newline The above groupings show the profits generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). There are several takeaways: \newline 1. Higher performance of Linear networks (may be down to network size and amount of input data) \newline 2. The limited scaling technique is having a noticeable impact on profits \newline 3. The decrease in performance with ReLU output persists \relax }{figure.caption.62}{}}
+\@writefile{toc}{\contentsline {paragraph}{SAE Effects}{19}{section*.63}}
+\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces SAE Effects on P\&L \newline  The above groupings show the profits generated for different SAE encoding layers. The results are encouraging, showing that no SAE (encoding 0) has the worst results, and that the best results are found in one of the lower encoding layers (6).\relax }}{19}{figure.caption.64}}
+\newlabel{figure-it2-sae-effects}{{42}{19}{SAE Effects on P\&L \newline The above groupings show the profits generated for different SAE encoding layers. The results are encouraging, showing that no SAE (encoding 0) has the worst results, and that the best results are found in one of the lower encoding layers (6).\relax }{figure.caption.64}{}}
+\@writefile{toc}{\contentsline {paragraph}{Predictive Network Sizes}{19}{section*.65}}
+\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces Network Size Effects on P\&L \newline  We can see the effects are largely as expected here, with networks of more layers and larger layer sizes having a better effect on profits. \relax }}{20}{figure.caption.66}}
+\newlabel{figure-it2-network-size-effects}{{43}{20}{Network Size Effects on P\&L \newline We can see the effects are largely as expected here, with networks of more layers and larger layer sizes having a better effect on profits. \relax }{figure.caption.66}{}}
+\@writefile{toc}{\contentsline {paragraph}{Cross Validation Effects}{20}{section*.67}}
+\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Validation Set Effects on P\&L \newline  This tested the witholding of 10\% of the data from the SGD training versus witholding no data. Curiously, there doesn't seem to be a notable effect here, possibly speaking to the much larger general effect of the OGD training in comparison. \relax }}{20}{figure.caption.68}}
+\newlabel{figure-it2-validation }{{44}{20}{Validation Set Effects on P\&L \newline This tested the witholding of 10\% of the data from the SGD training versus witholding no data. Curiously, there doesn't seem to be a notable effect here, possibly speaking to the much larger general effect of the OGD training in comparison. \relax }{figure.caption.68}{}}
+\@writefile{toc}{\contentsline {paragraph}{Returns Analysis}{20}{section*.69}}
+\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces Histogram of P\&L from Predictive MMS \newline  The P\&L values seem to be rather low, with few losses. Could warrant a different trading strategy being used. \relax }}{20}{figure.caption.70}}
+\newlabel{figure-it2-profit-pdf }{{45}{20}{Histogram of P\&L from Predictive MMS \newline The P\&L values seem to be rather low, with few losses. Could warrant a different trading strategy being used. \relax }{figure.caption.70}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces Cumulative P\&L \newline  We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered. \relax }}{21}{figure.caption.71}}
+\newlabel{figure-it2-cumprof}{{46}{21}{Cumulative P\&L \newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered. \relax }{figure.caption.71}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Cumulative Rates \newline  We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered. \relax }}{21}{figure.caption.72}}
+\newlabel{figure-it2-cumrates}{{47}{21}{Cumulative Rates \newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered. \relax }{figure.caption.72}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Price Predictions \newline  This graphs displays the actual prices for the one stock, as well as the predictions made by the two best networks (chosen by MSE and Profit) \relax }}{21}{figure.caption.73}}
+\newlabel{figure-it2-pricepredfull}{{48}{21}{Price Predictions \newline This graphs displays the actual prices for the one stock, as well as the predictions made by the two best networks (chosen by MSE and Profit) \relax }{figure.caption.73}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Price Predictions (Zoomed) \newline  A closer zoom reveals that it looks like the predictions are very much a lagged time series \relax }}{22}{figure.caption.74}}
+\newlabel{figure-it2-pricepredzoom}{{49}{22}{Price Predictions (Zoomed) \newline A closer zoom reveals that it looks like the predictions are very much a lagged time series \relax }{figure.caption.74}{}}
+\@writefile{toc}{\contentsline {paragraph}{Scaling}{23}{section*.75}}
+\@writefile{lof}{\contentsline {figure}{\numberline {50}{\ignorespaces SAE MSE By Scaling\relax }}{23}{figure.caption.76}}
+\newlabel{figure-synthetic-prices}{{50}{23}{SAE MSE By Scaling\relax }{figure.caption.76}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {51}{\ignorespaces OGD MSE By Scaling\relax }}{23}{figure.caption.77}}
+\newlabel{figure-synthetic-prices}{{51}{23}{OGD MSE By Scaling\relax }{figure.caption.77}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {52}{\ignorespaces OGD Profits by Scaling\relax }}{24}{figure.caption.78}}
+\newlabel{figure-synthetic-prices}{{52}{24}{OGD Profits by Scaling\relax }{figure.caption.78}{}}
+\@writefile{toc}{\contentsline {paragraph}{General Configurations \& CV}{24}{section*.79}}
+\@writefile{lof}{\contentsline {figure}{\numberline {53}{\ignorespaces Price Plot\relax }}{25}{figure.caption.80}}
+\newlabel{figure-synthetic-prices}{{53}{25}{Price Plot\relax }{figure.caption.80}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {54}{\ignorespaces PDF of all Profits Generated\relax }}{25}{figure.caption.81}}
+\newlabel{figure-synthetic-prices}{{54}{25}{PDF of all Profits Generated\relax }{figure.caption.81}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {55}{\ignorespaces SAE Profits\relax }}{26}{figure.caption.82}}
+\newlabel{figure-synthetic-prices}{{55}{26}{SAE Profits\relax }{figure.caption.82}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {56}{\ignorespaces Network Structure Profits\relax }}{26}{figure.caption.83}}
+\newlabel{figure-synthetic-prices}{{56}{26}{Network Structure Profits\relax }{figure.caption.83}{}}
+\@writefile{toc}{\contentsline {paragraph}{Return Graphs}{26}{section*.84}}
+\@writefile{lof}{\contentsline {figure}{\numberline {57}{\ignorespaces Cumulative Profits\relax }}{27}{figure.caption.85}}
+\newlabel{figure-synthetic-prices}{{57}{27}{Cumulative Profits\relax }{figure.caption.85}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {58}{\ignorespaces Cumulative Return Rates\relax }}{27}{figure.caption.86}}
+\newlabel{figure-synthetic-prices}{{58}{27}{Cumulative Return Rates\relax }{figure.caption.86}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {59}{\ignorespaces Daily Rates\relax }}{28}{figure.caption.87}}
+\newlabel{figure-synthetic-prices}{{59}{28}{Daily Rates\relax }{figure.caption.87}{}}
+\@writefile{toc}{\contentsline {paragraph}{Price Predictions}{28}{section*.88}}
+\@writefile{lof}{\contentsline {figure}{\numberline {60}{\ignorespaces Stock 1\relax }}{28}{figure.caption.89}}
+\newlabel{figure-synthetic-prices}{{60}{28}{Stock 1\relax }{figure.caption.89}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {61}{\ignorespaces Stock 2\relax }}{29}{figure.caption.90}}
+\newlabel{figure-synthetic-prices}{{61}{29}{Stock 2\relax }{figure.caption.90}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {62}{\ignorespaces Stock 3\relax }}{29}{figure.caption.91}}
+\newlabel{figure-synthetic-prices}{{62}{29}{Stock 3\relax }{figure.caption.91}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {63}{\ignorespaces Stock 4\relax }}{30}{figure.caption.92}}
+\newlabel{figure-synthetic-prices}{{63}{30}{Stock 4\relax }{figure.caption.92}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {64}{\ignorespaces Stock 5\relax }}{30}{figure.caption.93}}
+\newlabel{figure-synthetic-prices}{{64}{30}{Stock 5\relax }{figure.caption.93}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {65}{\ignorespaces Stock 6\relax }}{31}{figure.caption.94}}
+\newlabel{figure-synthetic-prices}{{65}{31}{Stock 6\relax }{figure.caption.94}{}}
+\@writefile{toc}{\contentsline {paragraph}{Sigmoid Pre-training}{31}{section*.95}}
+\@writefile{lof}{\contentsline {figure}{\numberline {66}{\ignorespaces Stock 6\relax }}{31}{figure.caption.96}}
+\newlabel{Pre-training MSE performance}{{66}{31}{Stock 6\relax }{figure.caption.96}{}}
+\@writefile{toc}{\contentsline {paragraph}{Next Iteration}{32}{section*.97}}
+\@writefile{toc}{\contentsline {paragraph}{Iteration Output}{32}{section*.98}}
+\@writefile{toc}{\contentsline {paragraph}{Critical Decisions and Points of Concern}{32}{section*.99}}
+\@writefile{toc}{\contentsline {paragraph}{Dissertation to-do list}{32}{section*.100}}
+\@writefile{toc}{\contentsline {paragraph}{General Configuration}{33}{section*.101}}
+\@writefile{toc}{\contentsline {paragraph}{SAE Configurations (945)}{33}{section*.102}}
+\@writefile{toc}{\contentsline {paragraph}{FFN Configurations (2835)}{33}{section*.103}}
+\@writefile{toc}{\contentsline {paragraph}{16th June 2018}{36}{section*.105}}
+\@writefile{toc}{\contentsline {paragraph}{29th March 2019}{36}{section*.106}}
+\@writefile{toc}{\contentsline {paragraph}{12th April 2019}{37}{section*.107}}
+\@writefile{toc}{\contentsline {paragraph}{26th April 2019}{38}{section*.108}}
+\@writefile{toc}{\contentsline {paragraph}{17th May 2019}{39}{section*.109}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ this will need to be rewritten once everything is finalised}{1}{section*.110}}
 \pgfsyspdfmark {pgfid2}{29757314}{41226139}
 \pgfsyspdfmark {pgfid5}{39492954}{41238427}
 \pgfsyspdfmark {pgfid6}{41344346}{41014513}
@@ -184,19 +207,19 @@
 \citation{BailyPBO}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}{section.1}}
 \newlabel{Introduction}{{1}{3}{Introduction}{section.1}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ may need to add some appropriate in this section}{3}{section*.98}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ may need to add some appropriate in this section}{3}{section*.112}}
 \pgfsyspdfmark {pgfid7}{2237610}{50145408}
 \pgfsyspdfmark {pgfid10}{39492954}{50157696}
 \pgfsyspdfmark {pgfid11}{41344346}{49933782}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color  {red!25}o}}\ check this}{3}{section*.99}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color  {red!25}o}}\ check this}{3}{section*.113}}
 \pgfsyspdfmark {pgfid12}{31717939}{22882432}
 \pgfsyspdfmark {pgfid15}{39492954}{22894720}
 \pgfsyspdfmark {pgfid16}{41344346}{22670806}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add ref}{3}{section*.100}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add ref}{3}{section*.114}}
 \pgfsyspdfmark {pgfid17}{18424594}{18163840}
 \pgfsyspdfmark {pgfid20}{39492954}{18176128}
 \pgfsyspdfmark {pgfid21}{41344346}{17952214}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ this will need to be finished once results are known}{3}{section*.101}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ this will need to be finished once results are known}{3}{section*.115}}
 \pgfsyspdfmark {pgfid22}{25399160}{14231680}
 \pgfsyspdfmark {pgfid25}{39492954}{14243968}
 \pgfsyspdfmark {pgfid26}{41344346}{14020054}
@@ -279,8 +302,8 @@
 \citation{Hinton2}
 \citation{Hinton2}
 \citation{Vincent}
-\@writefile{lof}{\contentsline {figure}{\numberline {58}{\ignorespaces The Autoencoder training steps \cite  {Hinton2}\relax }}{7}{figure.caption.102}}
-\newlabel{figure-DBN-RBM}{{58}{7}{The Autoencoder training steps \cite {Hinton2}\relax }{figure.caption.102}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {67}{\ignorespaces The Autoencoder training steps \cite  {Hinton2}\relax }}{7}{figure.caption.116}}
+\newlabel{figure-DBN-RBM}{{67}{7}{The Autoencoder training steps \cite {Hinton2}\relax }{figure.caption.116}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Deep Belief Networks}{7}{subsubsection.2.3.2}}
 \newlabel{DBN}{{2.3.2}{7}{Deep Belief Networks}{subsubsection.2.3.2}{}}
 \citation{Vincent}
@@ -346,19 +369,19 @@
 \citation{BaileyBTL}
 \citation{BaileyBTL}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.2}Test Data Length}{12}{subsubsection.2.6.2}}
-\newlabel{SRAnnual}{{1}{12}{Test Data Length}{equation.2.1}{}}
-\newlabel{SRConvergence}{{2}{12}{Test Data Length}{equation.2.2}{}}
-\newlabel{MinBTL}{{3}{12}{Test Data Length}{equation.2.3}{}}
+\newlabel{SRAnnual}{{4}{12}{Test Data Length}{equation.2.4}{}}
+\newlabel{SRConvergence}{{5}{12}{Test Data Length}{equation.2.5}{}}
+\newlabel{MinBTL}{{6}{12}{Test Data Length}{equation.2.6}{}}
 \citation{BaileySharpe}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.3}Sharpe Ratio}{13}{subsubsection.2.6.3}}
-\newlabel{SR}{{4}{13}{Sharpe Ratio}{equation.2.4}{}}
-\newlabel{tratio}{{5}{13}{Sharpe Ratio}{equation.2.5}{}}
+\newlabel{SR}{{7}{13}{Sharpe Ratio}{equation.2.7}{}}
+\newlabel{tratio}{{8}{13}{Sharpe Ratio}{equation.2.8}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Data}{14}{section.3}}
 \newlabel{Data}{{3}{14}{Data}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Data Processing}{14}{subsection.3.1}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Log Difference Transformation and Aggregation}{14}{subsubsection.3.1.1}}
 \newlabel{ldata_og_difference}{{3.1.1}{14}{Log Difference Transformation and Aggregation}{subsubsection.3.1.1}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ Change to final windows decided on}{14}{section*.103}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ Change to final windows decided on}{14}{section*.117}}
 \pgfsyspdfmark {pgfid27}{22482800}{36772267}
 \pgfsyspdfmark {pgfid30}{39492954}{36784555}
 \pgfsyspdfmark {pgfid31}{41344346}{36560641}
@@ -372,13 +395,13 @@
 \newlabel{data_synthetic}{{3.2}{15}{Synthetic Data}{subsection.3.2}{}}
 \newlabel{algo_brownianmotion}{{1}{15}{Synthetic Data}{algocfline.1}{}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {1}{\ignorespaces Geometric Brownian Motion Simulation\relax }}{15}{algocf.1}}
-\@writefile{toc}{\contentsline {paragraph}{Simulated Dataset}{15}{section*.104}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ finish this}{15}{section*.105}}
+\@writefile{toc}{\contentsline {paragraph}{Simulated Dataset}{15}{section*.118}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ finish this}{15}{section*.119}}
 \pgfsyspdfmark {pgfid32}{8813071}{30566940}
 \pgfsyspdfmark {pgfid35}{39492954}{30579228}
 \pgfsyspdfmark {pgfid36}{41344346}{30355314}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Real Data}{15}{subsection.3.3}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ finish this}{15}{section*.106}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ finish this}{15}{section*.120}}
 \pgfsyspdfmark {pgfid37}{18845552}{26736274}
 \pgfsyspdfmark {pgfid40}{39492954}{26748562}
 \pgfsyspdfmark {pgfid41}{41344346}{26524648}
@@ -393,33 +416,33 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{16}{subsubsection.4.2.1}}
 \newlabel{imp_ffn_functions}{{4.2.1}{16}{Notation and Network Representation}{subsubsection.4.2.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{16}{subsubsection.4.2.2}}
-\@writefile{toc}{\contentsline {subparagraph}{Sigmoid}{16}{section*.107}}
-\newlabel{func_sigmoid}{{14}{16}{Sigmoid}{equation.4.14}{}}
-\@writefile{toc}{\contentsline {subparagraph}{ReLU}{17}{section*.108}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{blue}{}{blue!25}{\leavevmode {\color  {blue!25}o}}\ needs reference section}{17}{section*.109}}
+\@writefile{toc}{\contentsline {subparagraph}{Sigmoid}{16}{section*.121}}
+\newlabel{func_sigmoid}{{17}{16}{Sigmoid}{equation.4.17}{}}
+\@writefile{toc}{\contentsline {subparagraph}{ReLU}{17}{section*.122}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{blue}{}{blue!25}{\leavevmode {\color  {blue!25}o}}\ needs reference section}{17}{section*.123}}
 \pgfsyspdfmark {pgfid42}{21191135}{51580827}
 \pgfsyspdfmark {pgfid45}{39492954}{51593115}
 \pgfsyspdfmark {pgfid46}{41344346}{51369201}
-\newlabel{func_relu}{{15}{17}{ReLU}{equation.4.15}{}}
+\newlabel{func_relu}{{18}{17}{ReLU}{equation.4.18}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{17}{subsubsection.4.2.3}}
 \newlabel{imp_backprop}{{4.2.3}{17}{Backpropagation}{subsubsection.4.2.3}{}}
-\newlabel{function_MSE}{{16}{17}{Backpropagation}{equation.4.16}{}}
+\newlabel{function_MSE}{{19}{17}{Backpropagation}{equation.4.19}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{17}{subsubsection.4.2.4}}
 \newlabel{imp_sgd}{{4.2.4}{17}{Gradient Descent Algorithms}{subsubsection.4.2.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent Improvements}{18}{subsubsection.4.2.5}}
 \newlabel{imp_gradientimprovements}{{4.2.5}{18}{Gradient Descent Improvements}{subsubsection.4.2.5}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ write this section}{18}{section*.110}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ write this section}{18}{section*.124}}
 \pgfsyspdfmark {pgfid47}{4844489}{49584711}
 \pgfsyspdfmark {pgfid50}{39492954}{49596999}
 \pgfsyspdfmark {pgfid51}{41344346}{49373085}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{18}{subsection.4.3}}
 \newlabel{imp_rbm}{{4.3}{18}{Restricted Boltzmann Machines}{subsection.4.3}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add Hopfield 1982 ref}{18}{section*.111}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add Hopfield 1982 ref}{18}{section*.125}}
 \pgfsyspdfmark {pgfid52}{23960708}{39462589}
 \pgfsyspdfmark {pgfid55}{39492954}{39474877}
 \pgfsyspdfmark {pgfid56}{41344346}{39250963}
-\newlabel{func_rbmenergy}{{20}{18}{Restricted Boltzmann Machines}{equation.4.20}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add hinton reference TR guide}{18}{section*.112}}
+\newlabel{func_rbmenergy}{{23}{18}{Restricted Boltzmann Machines}{equation.4.23}{}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add hinton reference TR guide}{18}{section*.126}}
 \pgfsyspdfmark {pgfid57}{4247378}{35246438}
 \pgfsyspdfmark {pgfid60}{39492954}{35258726}
 \pgfsyspdfmark {pgfid61}{41344346}{35034812}
@@ -433,74 +456,74 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2}ReLU based SAE Training}{19}{subsubsection.4.4.2}}
 \newlabel{imp_relusae}{{4.4.2}{19}{ReLU based SAE Training}{subsubsection.4.4.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{20}{subsubsection.4.4.3}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ decide on this}{20}{section*.113}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ decide on this}{20}{section*.127}}
 \pgfsyspdfmark {pgfid62}{34294787}{50371143}
 \pgfsyspdfmark {pgfid65}{39492954}{50383431}
 \pgfsyspdfmark {pgfid66}{41344346}{50159517}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{20}{subsection.4.5}}
 \newlabel{imp_weights}{{4.5}{20}{Variance Based Weight Initializations}{subsection.4.5}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add LR reference here}{20}{section*.114}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add LR reference here}{20}{section*.128}}
 \pgfsyspdfmark {pgfid67}{10505521}{47326909}
 \pgfsyspdfmark {pgfid70}{39492954}{47339197}
 \pgfsyspdfmark {pgfid71}{41344346}{47115283}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add ref}{20}{section*.115}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add ref}{20}{section*.129}}
 \pgfsyspdfmark {pgfid72}{27987318}{42608317}
 \pgfsyspdfmark {pgfid75}{39492954}{42620605}
 \pgfsyspdfmark {pgfid76}{41344346}{42396691}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add ref}{20}{section*.116}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add ref}{20}{section*.130}}
 \pgfsyspdfmark {pgfid77}{33086068}{26557515}
 \pgfsyspdfmark {pgfid80}{39492954}{26569803}
 \pgfsyspdfmark {pgfid81}{41344346}{26345889}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add ref}{20}{section*.117}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ add ref}{20}{section*.131}}
 \pgfsyspdfmark {pgfid82}{25273545}{19293850}
 \pgfsyspdfmark {pgfid85}{39492954}{19306138}
 \pgfsyspdfmark {pgfid86}{41344346}{19082224}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Trading Algorithms}{20}{subsection.4.6}}
 \newlabel{imp_tradingstrat}{{4.6}{20}{Trading Algorithms}{subsection.4.6}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ }{20}{section*.118}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ }{20}{section*.132}}
 \pgfsyspdfmark {pgfid87}{5152146}{13317959}
 \pgfsyspdfmark {pgfid90}{39492954}{13330247}
 \pgfsyspdfmark {pgfid91}{41344346}{13106333}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.7}CSCV \& PBO}{20}{subsection.4.7}}
 \newlabel{imp_cscv}{{4.7}{20}{CSCV \& PBO}{subsection.4.7}{}}
-\newlabel{eq:PBO1}{{33}{20}{CSCV \& PBO}{equation.4.33}{}}
+\newlabel{eq:PBO1}{{36}{20}{CSCV \& PBO}{equation.4.36}{}}
 \citation{BailyPBO}
-\newlabel{eq:PBO2}{{34}{21}{CSCV \& PBO}{equation.4.34}{}}
+\newlabel{eq:PBO2}{{37}{21}{CSCV \& PBO}{equation.4.37}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Performance Assessment}{21}{subsection.4.8}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ }{21}{section*.119}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ }{21}{section*.133}}
 \pgfsyspdfmark {pgfid92}{7618854}{3940985}
 \pgfsyspdfmark {pgfid95}{39492954}{3953273}
 \pgfsyspdfmark {pgfid96}{41344346}{3729359}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Full Process Implementation}{22}{subsection.4.9}}
 \newlabel{imp_fullprocess}{{4.9}{22}{Full Process Implementation}{subsection.4.9}{}}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ update with decided windows}{22}{section*.120}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ update with decided windows}{22}{section*.134}}
 \pgfsyspdfmark {pgfid97}{32593572}{46570055}
 \pgfsyspdfmark {pgfid100}{39492954}{46582343}
 \pgfsyspdfmark {pgfid101}{41344346}{46358429}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ update with decided windows}{22}{section*.121}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ update with decided windows}{22}{section*.135}}
 \pgfsyspdfmark {pgfid102}{29709984}{45521479}
 \pgfsyspdfmark {pgfid105}{39492954}{45149655}
 \pgfsyspdfmark {pgfid106}{41344346}{44925741}
-\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ update with decided split}{22}{section*.122}}
+\@writefile{tdo}{\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color  {orange}o}}\ update with decided split}{22}{section*.136}}
 \pgfsyspdfmark {pgfid107}{35884944}{42113607}
 \pgfsyspdfmark {pgfid110}{39492954}{42125895}
 \pgfsyspdfmark {pgfid111}{41344346}{41901981}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Results}{23}{section.5}}
 \newlabel{Results}{{5}{23}{Results}{section.5}{}}
-\@writefile{toc}{\contentsline {paragraph}{Working Notes}{23}{section*.123}}
+\@writefile{toc}{\contentsline {paragraph}{Working Notes}{23}{section*.137}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Money Management Strategy and Returns}{23}{subsection.5.1}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Results for Synthetic Data}{24}{subsection.5.2}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Dataset Generation}{24}{subsubsection.5.2.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {59}{\ignorespaces Price Points\relax }}{25}{figure.caption.124}}
-\newlabel{figure-synthetic-prices}{{59}{25}{Price Points\relax }{figure.caption.124}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {68}{\ignorespaces Price Points\relax }}{25}{figure.caption.138}}
+\newlabel{figure-synthetic-prices}{{68}{25}{Price Points\relax }{figure.caption.138}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}SAE Network and Results}{25}{subsubsection.5.2.2}}
 \newlabel{results_synthetic_sae}{{5.2.2}{25}{SAE Network and Results}{subsubsection.5.2.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}Predictive FFN Network and Results}{25}{subsubsection.5.2.3}}
-\@writefile{toc}{\contentsline {paragraph}{SAE Results}{25}{section*.125}}
-\@writefile{toc}{\contentsline {paragraph}{Layer Size \& SGD Learning Rate Results}{25}{section*.126}}
-\@writefile{toc}{\contentsline {paragraph}{OGD Learning Rate Results}{25}{section*.127}}
-\@writefile{toc}{\contentsline {paragraph}{Prediction Plots}{25}{section*.128}}
-\@writefile{toc}{\contentsline {paragraph}{CSCV Plots}{25}{section*.129}}
+\@writefile{toc}{\contentsline {paragraph}{SAE Results}{25}{section*.139}}
+\@writefile{toc}{\contentsline {paragraph}{Layer Size \& SGD Learning Rate Results}{25}{section*.140}}
+\@writefile{toc}{\contentsline {paragraph}{OGD Learning Rate Results}{25}{section*.141}}
+\@writefile{toc}{\contentsline {paragraph}{Prediction Plots}{25}{section*.142}}
+\@writefile{toc}{\contentsline {paragraph}{CSCV Plots}{25}{section*.143}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Results for Real Data}{25}{subsection.5.3}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{26}{section.6}}
 \newlabel{Conclusion}{{6}{26}{Conclusions}{section.6}{}}

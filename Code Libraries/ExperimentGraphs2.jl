@@ -20,7 +20,7 @@ using MLBase
 using PlotlyJS
 
 
-export SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
+export OGD_L1Reg_BxProfit, OGD_NetworkSize_Profits_Bx, OGD_Init_Profits_Bx, SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -47,6 +47,7 @@ function UpdateTotalProfits(config_ids, over_ride)
 
     for c in needed_configs
         println(c)
+        tic()
         profits = GenerateTotalProfit(c, nothing)
 
         index = findin(TotalProfits[:,1], c)
@@ -55,6 +56,7 @@ function UpdateTotalProfits(config_ids, over_ride)
         else
             TotalProfits = cat(1, TotalProfits, [c profits])
         end
+        println(string(toc()))
     end
 
     profit_array = Array(TotalProfits)
@@ -330,6 +332,19 @@ function OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids)
     ProfitBoxplot(query, :networkconfig, " ", "Network Size Profits", String, NullTransform)
 end
 
+function OGD_NetworkSize_Profits_Bx(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select configuration_id,
+            'Layers' || '-' || (substr(layer_sizes, instr(layer_sizes, ',')+1, length(layer_sizes))) network_structure
+        from network_parameters
+        where configuration_id in ($ids)
+        order by network_structure"
+
+    ProfitBoxplot(query, :network_structure, " ", "Network Size Profits", String, NullTransform)
+end
+
 function OGD_DataVariances_Profits_Bx(config_ids)
 
     ids = TransformConfigIDs(config_ids)
@@ -352,6 +367,18 @@ function OGD_DataDeltas_Profits_Bx(config_ids)
             where configuration_id in($ids)"
 
     ProfitBoxplot(query, :deltas, " ", "Data Deltas Profits", String, NullTransform)
+end
+
+function OGD_Init_Profits_Bx(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select configuration_id,
+            initialization
+            from network_parameters
+            where configuration_id in($ids)"
+
+    ProfitBoxplot(query, :initialization, " ", "Init Profits", String, NullTransform)
 end
 
 function OGD_SAE_Selection_Profits_bx(config_ids)
@@ -613,11 +640,11 @@ function SAE_LayerSizes_MinMSE(config_ids, encoding_size = nothing)
             and training_cost is not null
         group by er.configuration_id
         having cost < 1000
-        order by cost desc"
+        order by layer_sizes"
 
     results = RunQuery(query)
 
-    results[:layers] = Array(map(t -> t[1:(findin(t, ",")[end]-1)], Array(results[:layer_sizes])))
+    results[:layers] = Array(map(t -> string("Layers - ", t[1:(findin(t, ",")[end]-1)]), Array(results[:layer_sizes])))
 
     filename = "SAE Layer Sizes Min MSE"
     groups = by(results, [:layers], df -> [df])
@@ -954,7 +981,8 @@ function FFN_LR_x_Layers_ProfitHeatmap(min_config)
                             where er.configuration_id >= $min_config
                             and er.category = \"FFN-SGD\"
                             and tp. category = \"FFN\"
-                            group by er.configuration_id, sae_config_id, tp.learning_rate")
+                            group by er.configuration_id, sae_config_id, tp.learning_rate
+                            ")
     layer_mseresults = RunQuery(layer_msequery)
 
     layer_mseresults[:,1] = Array{Int64,1}(layer_mseresults[:,1])
@@ -1116,7 +1144,6 @@ end
 
 function ConfigStrategyOutput(config_id, original_prices)
 
-    config_id = 17223
     original_prices = nothing
 
     results = RunQuery("select * from configuration_run where configuration_id = $config_id")
@@ -1142,10 +1169,11 @@ function ConfigStrategyOutput(config_id, original_prices)
     strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
 
     WriteStrategyGraphs(config_id, strategyreturns)
-    ConfusionMatrix(config_id, strategyreturns)
+    ConfusionMatrix(config_id, stockreturns)
+
 end
 
-function ConfusionMatrix(config_id, strategyreturns)
+function ConfusionMatrix(config_id, stockreturns)
     trades = mapreduce(i -> stockreturns[i,2][:,[:trade, :trade_benchmark]], vcat, 1:size(stockreturns,1))
 
     actual =   trades[:,2]
@@ -1175,6 +1203,7 @@ function Denoising_BxMSE(config_ids)
 end
 
 function BestStrategyGraphs(config_ids)
+
     mini = minimum(config_ids)
     maxi = maximum(config_ids)
     subset = TotalProfits[Array(TotalProfits[:configuration_id] .>= mini) & Array(TotalProfits[:configuration_id] .<= maxi), :]
@@ -1190,7 +1219,8 @@ end
 ##General Plots
 
 #config_ids = 17203:17362
-#UpdateTotalProfits(config_ids, true)
+#config_ids = 21736:23788
+#UpdateTotalProfits(config_ids, false)
 
 TotalProfits = ReadProfits()
 

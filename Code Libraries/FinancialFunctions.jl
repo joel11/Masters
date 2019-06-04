@@ -12,34 +12,39 @@ end
 
 function GenerateTotalProfit(config_id, original_prices)
 
+    println("G1")
+
     configresults = RunQuery("select * from configuration_run where configuration_id = $config_id")
     sae_id = get(configresults[1, :sae_config_id])
     data_config = ReadSAE(sae_id)[2]
     timestep = data_config.prediction_steps[1]
+
+    println("G2")
 
     if original_prices == nothing
         processed_data = PrepareData(data_config, nothing)
         original_prices = processed_data[2].original_prices
     end
 
-
+    println("G3")
     results = RunQuery("select * from prediction_results where configuration_id = $config_id and predicted is not null")
-
+    println("G4")
     if (size(results, 1) == 0 || get(maximum(results[:time_step])) == timestep)
         return 0
     end
 
+    println("G5")
 
     num_predictions = get(maximum(results[:time_step]))
     finish_t = size(original_prices, 1)
     start_t = finish_t - num_predictions + 1
 
-    println("A")
+    println("G6")
 
     stockreturns = GenerateStockReturns(results, start_t, finish_t, timestep, original_prices)
     strategyreturns = GenerateStrategyReturns(stockreturns, timestep)
 
-    println("B")
+    println("G7")
 
     #all(round.(stockreturns[1,2][:observed_t],4) .== round.(Array(original_prices[601:996,1]),4))
     #all(round.(Array(stockreturns[1,2][:observed_t2]),4) .== round.(Array(original_prices[606:1001,1]),4))
