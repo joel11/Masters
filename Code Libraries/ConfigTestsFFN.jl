@@ -40,7 +40,7 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
         ffn_net_par = NetworkParameters("FFN",
             layers, #layer_sizes
             activations, #layer_activations
-            InitializationFunctions.XavierGlorotNormalInit, #Init
+            InitializationFunctions.HeUniformInit, #Init
             LinearActivation, #Output Activation
             nothing) #Encoding Activation
 
@@ -79,7 +79,8 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
     #push!(vps, (GetFFNTraining, ChangeMaxEpochs, (1, 5, 10, 50, 100)))
     push!(vps, (GetFFNTraining, ChangeL1Reg, (0, 0.1)))
     push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.01, 0.05, 0.1)))
-    push!(vps, (GetFFNNetwork, ChangeInit, (XavierGlorotUniformInit, DCUniformInit)))
+    #push!(vps, (GetFFNNetwork, ChangeInit, (XavierGlorotUniformInit, DCUniformInit)))
+    #push!(vps, (GetFFNNetwork, ChangeInit, (HeUniformInit)))
     push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.01, 0.05)))
 
     combos = []
@@ -109,4 +110,10 @@ sae_choices = (18140,18914,18259,18311,19481, 20662,18917,18260,18314,18766,1811
 
 #RunNLayerReLUFFNTest((120, 90, 60), sae_choices, LeakyReluActivation)
 #RunNLayerReLUFFNTest((120), sae_choices, LeakyReluActivation)
-RunNLayerReLUFFNTest((120, 60), sae_choices, LeakyReluActivation)
+
+#He
+#RunNLayerReLUFFNTest((120, 60), sae_choices, LeakyReluActivation)
+#RunNLayerReLUFFNTest((120), sae_choices, LeakyReluActivation)
+#RunNLayerReLUFFNTest((120, 90, 60), sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((120, 120, 120), sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((120, 120), sae_choices, LeakyReluActivation)

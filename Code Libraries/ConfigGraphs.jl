@@ -105,6 +105,7 @@ category_query = "select min(configuration_id) minid,
 
        when experiment_set_name like 'Iteration4_1 SAE Tests%' then 'Iteration4_1 SAE Tests'
        when experiment_set_name like 'Iteration4_2 FFN Tests%' then 'Iteration4_2 FFN Tests'
+       when experiment_set_name like 'Iteration4_3 SAE Epoch Tests%' then 'Iteration4_3 SAE Epoch Tests'
 
 
        else null end as esn
@@ -119,14 +120,34 @@ category_ids = RunQuery(category_query)
 
 
 
+#setnames = ["Iteration4_1 SAE Tests"]
+#config_ids = SelectConfigIDs(setnames)
 
-
+#minimum(config_ids)
+#maximum(config_ids)
+#17717:20982
 
 #By Init
 #by Deltas
 #By LR / LR Sched
 #By Encodings
 #By Structure
+
+function It4_sae_selected()
+    config_ids = [17953,17962,18313,18322,18673,18682,19033,19042,19393,19402,19753,19762,20113,20122,20499,20508,20859,20868]
+    SAE_LayerSizes_MinMSE(config_ids)
+
+    setnames = ["Iteration4_3 SAE Epoch Tests"]
+    config_ids2 = SelectConfigIDs(setnames)
+    SAE_LayerSizes_MinMSE(config_ids2)
+end
+
+function It4_ffn_he()
+    config_ids = 24149:25048
+    OGD_DataDeltas_Profits_Bx(config_ids)
+    OGD_Init_Profits_Bx(config_ids)
+    OGD_NetworkSize_Profits_Bx(config_ids)
+end
 
 function It4_FFN()
     setnames = ["Iteration4_2 FFN Tests"]

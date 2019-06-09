@@ -117,16 +117,16 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, primary_activation, l
         activations = map(x -> primary_activation, 1:(length(layers)-1))
 
         sae_net_par = NetworkParameters("SAE", layers, activations,
-                                        InitializationFunctions.XavierGlorotUniformInit,
+                                        InitializationFunctions.DCUniformInit,
                                         LinearActivation, #output
                                         LinearActivation) #encoding
 
         sae_sgd_par = TrainingParameters("SAE",
-                                        0.005,    #max learning rate
+                                        0.01,    #max learning rate
                                         0.0001,        #min learning rate
                                         100,        #epoch cycle max
                                         20,       #minibatch size
-                                        400,      #max epochs
+                                        2000,      #max epochs
                                         (0.0001, 100), #stopping parameters
                                         NonStopping,   #stopping function
                                         0.0,           #l1 lambda
@@ -148,13 +148,13 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, primary_activation, l
     #push!(vps, (GetSAETraining, ChangeDenoisingVariance, (0.1, 0.01, 0.001, 0.0001, 0.00000000001)))
     #push!(vps, (GetSAETraining, ChangeL1Reg, (0.0001, 0.001, 0.01, 0.1, 1.0)))
 
-    push!(vps, (GetSAETraining, ChangeMaxLearningRate, learning_rates))
+    #push!(vps, (GetSAETraining, ChangeMaxLearningRate, learning_rates))
     push!(vps, (GetSAETraining, ChangeLearningRateCycle, (100, 300)))
-    push!(vps, (GetDataConfig, ChangeDeltas, ([1,5,20], [5,20,60], [10,20,60])))
-    push!(vps, (GetSAENetwork, ChangeInit, (XavierGlorotUniformInit, HeUniformInit, DCUniformInit)))
+    #push!(vps, (GetDataConfig, ChangeDeltas, ([1,5,20], [5,20,60], [10,20,60])))
+    #push!(vps, (GetSAENetwork, ChangeInit, (XavierGlorotUniformInit, HeUniformInit, DCUniformInit)))
 
 
-    set_name = string("Iteration4_1 SAE Tests ", string(layer_sizes), "x", encoding_layer, " ", split(string(primary_activation), ".")[2])
+    set_name = string("Iteration4_3 SAE Epoch Tests ", string(layer_sizes), "x", encoding_layer, " ", split(string(primary_activation), ".")[2])
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Synthetic Set"))
 
     ################################################################################
@@ -181,11 +181,23 @@ end
 
 
 activation_function = LeakyReluActivation
-layer_sizes = (90, 90)
-learning_rates = (0.005, 0.01, 0.05, 0.1)
+#layer_sizes = (90, 90)
+#learning_rates = (0.005, 0.01, 0.05, 0.1)
+learning_rates = (0.01)
 
-RunNLayerReLUSAETest(25, layer_sizes, activation_function, learning_rates)
-RunNLayerReLUSAETest(20, layer_sizes, activation_function, learning_rates)
-RunNLayerReLUSAETest(15, layer_sizes, activation_function, learning_rates)
-RunNLayerReLUSAETest(10, layer_sizes, activation_function, learning_rates)
-RunNLayerReLUSAETest(5,  layer_sizes, activation_function, learning_rates)
+RunNLayerReLUSAETest(10, (120,60), activation_function, learning_rates)
+RunNLayerReLUSAETest(10, (120), activation_function, learning_rates)
+RunNLayerReLUSAETest(10, (120,120), activation_function, learning_rates)
+RunNLayerReLUSAETest(10, (120,90), activation_function, learning_rates)
+RunNLayerReLUSAETest(10, (90,60), activation_function, learning_rates)
+RunNLayerReLUSAETest(10, (90,60,30), activation_function, learning_rates)
+RunNLayerReLUSAETest(10, (120,60,30), activation_function, learning_rates)
+RunNLayerReLUSAETest(10, (90,90,90), activation_function, learning_rates)
+RunNLayerReLUSAETest(10, (90,90), activation_function, learning_rates)
+
+
+#RunNLayerReLUSAETest(25, layer_sizes, activation_function, learning_rates)
+#RunNLayerReLUSAETest(20, layer_sizes, activation_function, learning_rates)
+#RunNLayerReLUSAETest(15, layer_sizes, activation_function, learning_rates)
+#RunNLayerReLUSAETest(10, layer_sizes, activation_function, learning_rates)
+#RunNLayerReLUSAETest(5,  layer_sizes, activation_function, learning_rates)

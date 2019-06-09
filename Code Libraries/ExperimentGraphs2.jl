@@ -45,6 +45,8 @@ function UpdateTotalProfits(config_ids, over_ride)
         needed_configs = collect(setdiff(Set(config_ids), Set(current_configs)))
     end
 
+    println(length(needed_configs))
+
     for c in needed_configs
         println(c)
         tic()
@@ -1220,6 +1222,7 @@ end
 
 #config_ids = 17203:17362
 #config_ids = 21736:23788
+#config_ids = 24149:25048#25048
 #UpdateTotalProfits(config_ids, false)
 
 TotalProfits = ReadProfits()
