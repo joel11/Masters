@@ -1,6 +1,5 @@
 module CSCV
 
-
 #workspace()
 #push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 using Combinatorics
@@ -100,5 +99,7 @@ function ExperimentCSCVProcess(config_ids)
 
     return (pbo, mses)
 end
+
+#vals = ExperimentCSCVProcess(26363:27658)
 
 end

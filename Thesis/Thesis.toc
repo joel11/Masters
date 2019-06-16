@@ -42,70 +42,84 @@
 \contentsline {paragraph}{12th April 2019}{37}{section*.107}
 \contentsline {paragraph}{26th April 2019}{38}{section*.108}
 \contentsline {paragraph}{17th May 2019}{39}{section*.109}
-\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
-\contentsline {section}{\numberline {2}LiteratureReview}{4}{section.2}
-\contentsline {subsection}{\numberline {2.1}Technical Analysis}{4}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Neural Networks}{4}{subsection.2.2}
-\contentsline {subsubsection}{\numberline {2.2.1}Training and Backpropagation}{5}{subsubsection.2.2.1}
-\contentsline {subsubsection}{\numberline {2.2.2}Activation Functions}{5}{subsubsection.2.2.2}
-\contentsline {subsubsection}{\numberline {2.2.3}Deep Learning}{5}{subsubsection.2.2.3}
-\contentsline {subsubsection}{\numberline {2.2.4}Backpropagation Improvements}{6}{subsubsection.2.2.4}
-\contentsline {subsection}{\numberline {2.3}Stacked Autoencoders}{6}{subsection.2.3}
-\contentsline {subsubsection}{\numberline {2.3.1}High Dimensional Data Reduction}{6}{subsubsection.2.3.1}
-\contentsline {subsubsection}{\numberline {2.3.2}Deep Belief Networks}{7}{subsubsection.2.3.2}
-\contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising Autoencoders}{8}{subsubsection.2.3.3}
-\contentsline {subsubsection}{\numberline {2.3.4}Pre-training}{8}{subsubsection.2.3.4}
-\contentsline {subsubsection}{\numberline {2.3.5}Time Series Applications}{8}{subsubsection.2.3.5}
-\contentsline {subsubsection}{\numberline {2.3.6}Financial Applications}{8}{subsubsection.2.3.6}
-\contentsline {subsection}{\numberline {2.4}Data Segmentation}{9}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Online Learning Algorithms and Gradient Descent}{10}{subsection.2.5}
-\contentsline {subsection}{\numberline {2.6}Backtesting and Model Validation}{11}{subsection.2.6}
-\contentsline {subsubsection}{\numberline {2.6.1}Testing Methodologies}{11}{subsubsection.2.6.1}
-\contentsline {subsubsection}{\numberline {2.6.2}Test Data Length}{12}{subsubsection.2.6.2}
-\contentsline {subsubsection}{\numberline {2.6.3}Sharpe Ratio}{13}{subsubsection.2.6.3}
-\contentsline {section}{\numberline {3}Data}{14}{section.3}
-\contentsline {subsection}{\numberline {3.1}Data Processing}{14}{subsection.3.1}
-\contentsline {subsubsection}{\numberline {3.1.1}Log Difference Transformation and Aggregation}{14}{subsubsection.3.1.1}
-\contentsline {subsubsection}{\numberline {3.1.2}Data Scaling}{14}{subsubsection.3.1.2}
-\contentsline {subsubsection}{\numberline {3.1.3}Reverse Data Scaling}{14}{subsubsection.3.1.3}
-\contentsline {subsubsection}{\numberline {3.1.4}Price Reconstruction}{14}{subsubsection.3.1.4}
-\contentsline {subsection}{\numberline {3.2}Synthetic Data}{15}{subsection.3.2}
-\contentsline {paragraph}{Simulated Dataset}{15}{section*.118}
-\contentsline {subsection}{\numberline {3.3}Real Data}{15}{subsection.3.3}
-\contentsline {section}{\numberline {4}Implementation}{16}{section.4}
-\contentsline {subsection}{\numberline {4.1}Process Overview}{16}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Feedforward Neural Networks}{16}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{16}{subsubsection.4.2.1}
-\contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{16}{subsubsection.4.2.2}
-\contentsline {subparagraph}{Sigmoid}{16}{section*.121}
-\contentsline {subparagraph}{ReLU}{17}{section*.122}
-\contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{17}{subsubsection.4.2.3}
-\contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{17}{subsubsection.4.2.4}
-\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent Improvements}{18}{subsubsection.4.2.5}
-\contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{18}{subsection.4.3}
-\contentsline {subsubsection}{\numberline {4.3.1}Contrastive Divergence}{18}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{19}{subsubsection.4.3.2}
-\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{19}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Sigmoid based Greedy Layerwise SAE Training}{19}{subsubsection.4.4.1}
-\contentsline {subsubsection}{\numberline {4.4.2}ReLU based SAE Training}{19}{subsubsection.4.4.2}
-\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{20}{subsubsection.4.4.3}
-\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{20}{subsection.4.5}
-\contentsline {subsection}{\numberline {4.6}Trading Algorithms}{20}{subsection.4.6}
-\contentsline {subsection}{\numberline {4.7}CSCV \& PBO}{20}{subsection.4.7}
-\contentsline {subsection}{\numberline {4.8}Performance Assessment}{21}{subsection.4.8}
-\contentsline {subsection}{\numberline {4.9}Full Process Implementation}{22}{subsection.4.9}
-\contentsline {section}{\numberline {5}Results}{23}{section.5}
-\contentsline {paragraph}{Working Notes}{23}{section*.137}
-\contentsline {subsection}{\numberline {5.1}Money Management Strategy and Returns}{23}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Results for Synthetic Data}{24}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Dataset Generation}{24}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}SAE Network and Results}{25}{subsubsection.5.2.2}
-\contentsline {subsubsection}{\numberline {5.2.3}Predictive FFN Network and Results}{25}{subsubsection.5.2.3}
-\contentsline {paragraph}{SAE Results}{25}{section*.139}
-\contentsline {paragraph}{Layer Size \& SGD Learning Rate Results}{25}{section*.140}
-\contentsline {paragraph}{OGD Learning Rate Results}{25}{section*.141}
-\contentsline {paragraph}{Prediction Plots}{25}{section*.142}
-\contentsline {paragraph}{CSCV Plots}{25}{section*.143}
-\contentsline {subsection}{\numberline {5.3}Results for Real Data}{25}{subsection.5.3}
-\contentsline {section}{\numberline {6}Conclusions}{26}{section.6}
-\contentsline {section}{\numberline {7}References}{27}{section.7}
+\contentsline {section}{\numberline {1}Introduction}{4}{section.1}
+\contentsline {section}{\numberline {2}LiteratureReview}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Technical Analysis}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Neural Networks}{5}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Training and Backpropagation}{6}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Activation Functions}{6}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Deep Learning}{6}{subsubsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.4}Backpropagation Improvements}{7}{subsubsection.2.2.4}
+\contentsline {subsection}{\numberline {2.3}Stacked Autoencoders}{7}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}High Dimensional Data Reduction}{7}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}Deep Belief Networks}{8}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising Autoencoders}{9}{subsubsection.2.3.3}
+\contentsline {subsubsection}{\numberline {2.3.4}Pre-training}{9}{subsubsection.2.3.4}
+\contentsline {subsubsection}{\numberline {2.3.5}Time Series Applications}{9}{subsubsection.2.3.5}
+\contentsline {subsubsection}{\numberline {2.3.6}Financial Applications}{9}{subsubsection.2.3.6}
+\contentsline {subsection}{\numberline {2.4}Data Segmentation}{10}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Online Learning Algorithms and Gradient Descent}{11}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Backtesting and Model Validation}{12}{subsection.2.6}
+\contentsline {subsubsection}{\numberline {2.6.1}Testing Methodologies}{12}{subsubsection.2.6.1}
+\contentsline {subsubsection}{\numberline {2.6.2}Test Data Length}{13}{subsubsection.2.6.2}
+\contentsline {subsubsection}{\numberline {2.6.3}Sharpe Ratio}{14}{subsubsection.2.6.3}
+\contentsline {section}{\numberline {3}Data}{15}{section.3}
+\contentsline {subsection}{\numberline {3.1}Data Processing}{15}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Log Difference Transformation and Aggregation}{15}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}Data Scaling}{15}{subsubsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.3}Reverse Data Scaling}{15}{subsubsection.3.1.3}
+\contentsline {subsubsection}{\numberline {3.1.4}Price Reconstruction}{15}{subsubsection.3.1.4}
+\contentsline {subsection}{\numberline {3.2}Synthetic Data}{16}{subsection.3.2}
+\contentsline {paragraph}{Simulated Dataset}{16}{section*.118}
+\contentsline {subsection}{\numberline {3.3}Real Data}{16}{subsection.3.3}
+\contentsline {section}{\numberline {4}Implementation}{17}{section.4}
+\contentsline {subsection}{\numberline {4.1}Process Overview}{17}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Feedforward Neural Networks}{17}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{17}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{17}{subsubsection.4.2.2}
+\contentsline {subparagraph}{Sigmoid}{17}{section*.121}
+\contentsline {subparagraph}{ReLU}{18}{section*.122}
+\contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{18}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{18}{subsubsection.4.2.4}
+\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent Improvements}{19}{subsubsection.4.2.5}
+\contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{19}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Contrastive Divergence}{19}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{20}{subsubsection.4.3.2}
+\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{20}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Sigmoid based Greedy Layerwise SAE Training}{20}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}ReLU based SAE Training}{20}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{21}{subsubsection.4.4.3}
+\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{21}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Trading Algorithms}{21}{subsection.4.6}
+\contentsline {subsection}{\numberline {4.7}CSCV \& PBO}{21}{subsection.4.7}
+\contentsline {subsection}{\numberline {4.8}Performance Assessment}{22}{subsection.4.8}
+\contentsline {subsection}{\numberline {4.9}Money Management Strategy and Returns}{23}{subsection.4.9}
+\contentsline {subsection}{\numberline {4.10}Full Process Implementation}{24}{subsection.4.10}
+\contentsline {section}{\numberline {5}Results}{25}{section.5}
+\contentsline {subsection}{\numberline {5.1}Datasets Used}{25}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}Synthetic6}{25}{subsubsection.5.1.1}
+\contentsline {subsubsection}{\numberline {5.1.2}Synthetic10}{25}{subsubsection.5.1.2}
+\contentsline {subsubsection}{\numberline {5.1.3}AGL}{25}{subsubsection.5.1.3}
+\contentsline {subsubsection}{\numberline {5.1.4}Actual10}{25}{subsubsection.5.1.4}
+\contentsline {subsection}{\numberline {5.2}Linearity, Complexity and Structure of Data}{25}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}GBM Generated Data}{25}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{25}{subsubsection.5.2.2}
+\contentsline {paragraph}{SAE Activations and Scaling}{26}{section*.137}
+\contentsline {paragraph}{Predictive FFN Activations and Scaling}{26}{section*.140}
+\contentsline {paragraph}{Leaky ReLU vs ReLU}{27}{section*.142}
+\contentsline {subsubsection}{\numberline {5.2.3}Effects of Network Size}{27}{subsubsection.5.2.3}
+\contentsline {subsection}{\numberline {5.3}Feature Selection and Data Aggregation}{28}{subsection.5.3}
+\contentsline {paragraph}{Feature Selection}{28}{section*.147}
+\contentsline {paragraph}{Data Aggregation}{28}{section*.149}
+\contentsline {section}{\numberline {6}Conclusions}{30}{section.6}
+\contentsline {section}{\numberline {7}Appendix}{30}{section.7}
+\contentsline {subsection}{\numberline {7.1}Additional Results}{30}{subsection.7.1}
+\contentsline {subsubsection}{\numberline {7.1.1}Effects of Network Size on SAE and FFN for Synthetic Data}{30}{subsubsection.7.1.1}
+\contentsline {subsection}{\numberline {7.2}Configuration Sets Used}{30}{subsection.7.2}
+\contentsline {subsubsection}{\numberline {7.2.1}Configuration1 - SAE}{30}{subsubsection.7.2.1}
+\contentsline {subsubsection}{\numberline {7.2.2}Config2 - Predictive FFN}{31}{subsubsection.7.2.2}
+\contentsline {subsubsection}{\numberline {7.2.3}Configuration3 - SAE}{31}{subsubsection.7.2.3}
+\contentsline {subsubsection}{\numberline {7.2.4}Configuration4 - Predictive FFN}{31}{subsubsection.7.2.4}
+\contentsline {subsubsection}{\numberline {7.2.5}Configuration5 - SAE}{32}{subsubsection.7.2.5}
+\contentsline {subsubsection}{\numberline {7.2.6}Configuration6 - Predictive FFN}{32}{subsubsection.7.2.6}
+\contentsline {section}{\numberline {8}References}{33}{section.8}

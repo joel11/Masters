@@ -9,7 +9,6 @@ using TrainingStructures
 using SGD, CostFunctions, FunctionsStopping, FFN, OGD
 using DataGenerator, DataProcessor
 using DataFrames
-using CSCV
 using FinancialFunctions
 using DatabaseOps
 using ConfigGenerator
@@ -20,7 +19,7 @@ using MLBase
 using PlotlyJS
 
 
-export OGD_L1Reg_BxProfit, OGD_NetworkSize_Profits_Bx, OGD_Init_Profits_Bx, SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
+export OGD_EncodingSizes_Profits_Bx, OGD_L1Reg_BxProfit, OGD_NetworkSize_Profits_Bx, OGD_Init_Profits_Bx, SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -29,7 +28,7 @@ end
 ################################################################################
 ##Profit Records
 
-function UpdateTotalProfits(config_ids, over_ride)
+function UpdateTotalProfits(config_ids, over_ride, dataset)
 
     #Original Setup
     #TotalProfits = DataFrame()
@@ -50,7 +49,7 @@ function UpdateTotalProfits(config_ids, over_ride)
     for c in needed_configs
         println(c)
         tic()
-        profits = GenerateTotalProfit(c, nothing)
+        profits = GenerateTotalProfit(c, dataset)
 
         index = findin(TotalProfits[:,1], c)
         if length(index) > 0
@@ -345,6 +344,20 @@ function OGD_NetworkSize_Profits_Bx(config_ids)
         order by network_structure"
 
     ProfitBoxplot(query, :network_structure, " ", "Network Size Profits", String, NullTransform)
+end
+
+function OGD_EncodingSizes_Profits_Bx(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select configuration_id,
+                    substr(layer_sizes, 0, instr(layer_sizes, ',')) encoding
+            from network_parameters
+            where configuration_id in ($ids)
+            order by encoding"
+
+    ProfitBoxplot(query, :encoding, "Encoding ", "Encoding Size Profits", String, NullTransform)
+
 end
 
 function OGD_DataVariances_Profits_Bx(config_ids)
@@ -651,7 +664,6 @@ function SAE_LayerSizes_MinMSE(config_ids, encoding_size = nothing)
     filename = "SAE Layer Sizes Min MSE"
     groups = by(results, [:layers], df -> [df])
     general_boxplot2(groups, " ", filename, :cost)
-
 end
 
 function SAE_MaxLR_MinTest_BxMSE(config_ids)
@@ -1146,8 +1158,6 @@ end
 
 function ConfigStrategyOutput(config_id, original_prices)
 
-    original_prices = nothing
-
     results = RunQuery("select * from configuration_run where configuration_id = $config_id")
     sae_id = get(results[1, :sae_config_id])
     data_config = ReadSAE(sae_id)[2]
@@ -1204,7 +1214,7 @@ function Denoising_BxMSE(config_ids)
     MSEBoxplot(dn_mse_query, :denoising_variance, "DN Variance", "Denoising Variance Min MSE", Float64, NullTransform)
 end
 
-function BestStrategyGraphs(config_ids)
+function BestStrategyGraphs(config_ids, dataset)
 
     mini = minimum(config_ids)
     maxi = maximum(config_ids)
@@ -1212,7 +1222,7 @@ function BestStrategyGraphs(config_ids)
     maxp = maximum(subset[:profit])
     indices = Array{Bool}(subset[:profit] .== maxp)
     cid = subset[indices,:][:configuration_id][1]
-    ConfigStrategyOutput(cid, nothing)
+    ConfigStrategyOutput(cid, dataset)
     config_names = Dict(cid=>"best")
     RecreateStockPricesSingle(config_names)
 end
@@ -1222,8 +1232,11 @@ end
 
 #config_ids = 17203:17362
 #config_ids = 21736:23788
-#config_ids = 24149:25048#25048
-#UpdateTotalProfits(config_ids, false)
+
+#jsedata = ReadJSETop40Data()
+#agldataset = jsedata[:, [:AGL]]
+#config_ids = 26363:27658
+#UpdateTotalProfits(config_ids, false, agldataset)
 
 TotalProfits = ReadProfits()
 

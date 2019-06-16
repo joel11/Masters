@@ -3,7 +3,7 @@ push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 using ExperimentGraphs2
 using DatabaseOps
-
+using DataJSETop40
 
 #Iteration 1 <= 3703
 #Iteration 2
@@ -69,7 +69,6 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration3_2 SAE 3 Asset Combo%' then 'Iteration3_2 SAE 3 Asset Combo'
        when experiment_set_name like 'Iteration3_2 FFN 4 Asset Combo%' then 'Iteration3_2 FFN 4 Asset Combo'
        when experiment_set_name like 'Iteration3_2 SAE 4 Asset Combo%' then 'Iteration3_2 SAE 4 Asset Combo'
-
        when experiment_set_name like 'Iteration3_3 SAE Redo 2 Asset%' then 'Iteration3_3 SAE Redo 2 Asset'
        when experiment_set_name like 'Iteration3_3 FFN 2 Asset Combo%' then 'Iteration3_3 FFN 2 Asset Combo'
        when experiment_set_name like 'Iteration3_4 SAE Redo 2 Asset%' then 'Iteration3_4 SAE Redo 2 Asset'
@@ -78,7 +77,6 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration3_4 FFN 3 Asset Combo%' then 'Iteration3_4 FFN 3 Asset Combo'
        when experiment_set_name like 'Iteration3_4 SAE Redo 4 Asset%' then 'Iteration3_4 SAE Redo 4 Asset'
        when experiment_set_name like 'Iteration3_5 SAE Redo 4 Asset%' then 'Iteration3_5 SAE Redo 4 Asset'
-
        when experiment_set_name like 'Iteration3_12 SAE 1 Asset%' then 'Iteration3_12 SAE 1 Asset'
        when experiment_set_name like 'Iteration3_12 FFN 1 Asset%' then 'Iteration3_12 FFN 1 Asset'
        when experiment_set_name like 'Iteration3_12 SAE 2 Asset%' then 'Iteration3_12 SAE 2 Asset'
@@ -87,26 +85,24 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration3_12 FFN 3 Asset%' then 'Iteration3_12 FFN 3 Asset'
        when experiment_set_name like 'Iteration3_12 SAE 4 Asset%' then 'Iteration3_12 SAE 4 Asset'
        when experiment_set_name like 'Iteration3_12 FFN 4 Asset%' then 'Iteration3_12 FFN 4 Asset'
-
        when experiment_set_name like 'Iteration3_13 SAE 2 Asset%' then 'Iteration3_13 SAE 2 Asset'
        when experiment_set_name like 'Iteration3_13 FFN 2 Asset%' then 'Iteration3_13 FFN 2 Asset'
        when experiment_set_name like 'Iteration3_13 SAE 3 Asset%' then 'Iteration3_13 SAE 3 Asset'
        when experiment_set_name like 'Iteration3_13 FFN 3 Asset%' then 'Iteration3_13 FFN 3 Asset'
        when experiment_set_name like 'Iteration3_13 SAE 4 Asset%' then 'Iteration3_13 SAE 4 Asset'
        when experiment_set_name like 'Iteration3_13 FFN 4 Asset%' then 'Iteration3_13 FFN 4 Asset'
-
        when experiment_set_name like 'Iteration3_6 FFN 1 Asset%' then 'Iteration3_6 FFN 1 Asset'
-
        when experiment_set_name like 'Iteration3_13 FFN Validation Set Tests%' then 'Iteration3_13 FFN Validation Set Tests'
-
        when experiment_set_name like 'Iteration3_15 FFN Validation 3 Test%' then 'Iteration3_15 FFN Validation 3 Test'
-
        when experiment_set_name like 'Iteration3_15 SAE LR Real Data Test%' then 'Iteration3_15 SAE LR Real Data Test'
 
        when experiment_set_name like 'Iteration4_1 SAE Tests%' then 'Iteration4_1 SAE Tests'
        when experiment_set_name like 'Iteration4_2 FFN Tests%' then 'Iteration4_2 FFN Tests'
        when experiment_set_name like 'Iteration4_3 SAE Epoch Tests%' then 'Iteration4_3 SAE Epoch Tests'
 
+       when experiment_set_name like 'Iteration5_1 SAE AGL Test%' then 'Iteration5_1 SAE AGL Test'
+
+       when experiment_set_name like 'Iteration5_1 AGL FFN Tests%' then 'Iteration5_1 AGL FFN Tests'
 
        else null end as esn
     from configuration_run
@@ -116,9 +112,40 @@ category_query = "select min(configuration_id) minid,
 
 category_ids = RunQuery(category_query)
 
+#setnames = ["Iteration5_1 AGL FFN Tests"]
+#config_ids = SelectConfigIDs(setnames)
+#minimum(config_ids)
+#maximum(config_ids)
+#26363:27658
 
 
+function It5_FFN()
+    setnames = ["Iteration5_1 AGL FFN Tests"]
+    config_ids = SelectConfigIDs(setnames)
 
+    jsedata = ReadJSETop40Data()
+    agldataset = jsedata[:, [:AGL]]
+
+    OGD_DataDeltas_Profits_Bx(config_ids)
+    OGD_Init_Profits_Bx(config_ids)
+    OGD_NetworkSize_Profits_Bx(config_ids)
+    BestStrategyGraphs(config_ids, agldataset)
+
+    OGD_EncodingSizes_Profits_Bx(config_ids)
+    OGD_L1Reg_BxProfit(config_ids)
+end
+function It5_SAE()
+    setnames = ["Iteration5_1 SAE AGL Test"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Init_MinTest_MxMSE(config_ids)
+    SAE_Deltas_MinTest_MxMSE(config_ids)
+
+    SAE_MaxLR_MinTest_BxMSE(config_ids)
+    SAE_LREpochs_MinTest_BxMSE(config_ids)
+
+    SAE_EncodingSizes_MinMSE(config_ids)
+    SAE_LayerSizes_MinMSE(config_ids)
+end
 
 #setnames = ["Iteration4_1 SAE Tests"]
 #config_ids = SelectConfigIDs(setnames)
@@ -135,6 +162,8 @@ category_ids = RunQuery(category_query)
 
 function It4_sae_selected()
     config_ids = [17953,17962,18313,18322,18673,18682,19033,19042,19393,19402,19753,19762,20113,20122,20499,20508,20859,20868]
+    config_ids = [18313,18322,18673,18682,19033,19042,19393,19402,19753,19762,20113,20122,20499,20508,20859,20868]
+    config_ids = [18313,18322, 18673, 18682,20499, 20508, 20859, 20868]
     SAE_LayerSizes_MinMSE(config_ids)
 
     setnames = ["Iteration4_3 SAE Epoch Tests"]
@@ -158,6 +187,7 @@ function It4_FFN()
     OGD_NetworkSize_Profits_Bx(config_ids)
     BestStrategyGraphs(config_ids)
 
+    OGD_EncodingSizes_Profits_Bx(config_ids)
     OGD_L1Reg_BxProfit(config_ids)
 end
 
