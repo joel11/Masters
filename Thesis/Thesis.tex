@@ -2453,6 +2453,10 @@ To detail the synthetic 10 stock dataset
 
 To detail the AGL dataset
 
+\subsubsection{AGL\&ACL}\label{dataset_aglacl}
+
+To detail the AGL dataset
+
 \subsubsection{Actual10}\label{dataset_actual10}
 
 To detail the AGL dataset
@@ -2614,20 +2618,30 @@ Configurations 5 and 6 (\ref{config5}, \ref{config6}) were used to train SAE and
 
 \paragraph{Data Aggregation}
 
-Section detailing data aggregation choices, configuration and datasets and results thereof.
+Input data was scaled to 3 different configurations across a series of tests in order to assess the effect of shorter and longer configurations on both SAE MSE performance, as well as the predictive FFN P\&L results. The configurations tested (in trading day window periods) were:
+
+\begin{itemize}
+	\item 1, 5, 20
+	\item 5, 20, 60
+	\item 10, 20, 60
+\end{itemize}
+
+Results highlighted the differences between the synthetic and actual data in terms of stationarity, and the benefit of more real-time data when it comes to actual stocks. Configurations 3 and 4 were used for the AGL dataset, and Configurations 5 and 6 were used for the Synthetic10 dataset.
+
+\fcolorbox{red}{white}{The results for SAE MSE are not totally clear at the moment. It may be more apparent with a larger number of actual stocks.}
 
 \begin{figure}[H]
 	\centering
 	\begin{minipage}{0.45\textwidth}
 		\centering 
 		\includegraphics[scale=0.3]{images/iteration_four/it4_sae_deltas.png}
-		\caption{SAE Data Window Aggregations \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The MSE is lower for the higher aggregations, presumably due to reduced noise in the dataset, which may support longer windows in further training.}
+		\caption{SAE Data Window Aggregations \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.}
 		\label{figure-results_sae_deltas}
 	\end{minipage}\hfill
 	\begin{minipage}{0.45\textwidth}
 		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_delta_sae.png}
 		\caption{\textbf{SAE Deltas} 
-			\newline SAE deltas on AGL.}
+			\newline For the AGL dataset, the minimum MSE score was found in the '10,20,60' aggregated dataset, though this configuration also results in the worst MSE scores and highest median, suggesting that there is more difficult in a non-stationary dataset.}
 		\label{figure-it5_delta_sae}
 	\end{minipage}
 \end{figure}
@@ -2637,16 +2651,50 @@ Section detailing data aggregation choices, configuration and datasets and resul
 	\begin{minipage}{0.45\textwidth}
 		\centering 
 		\includegraphics[scale=0.3]{images/iteration_four/it4_ffn_deltas.png}
-		\caption{FFN Data Window Aggregations \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations once again supporting longer windows in further training.}
-		\label{figure-it4_ffn_deltas}
+		\caption{FFN Data Window Aggregations \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data}
+		\label{figure-it5_ffn_deltas}
 	\end{minipage}\hfill
 	\begin{minipage}{0.45\textwidth}
 		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_delta_ffn.png}
 		\caption{\textbf{FFN Deltas} 
-			\newline FFN deltas on AGL.}
+			\newline The figure here shows a notably higher performance for datasets with a 1 day aggregation, highlighting again the non-stationarity of the real data, and thus the benefit of more accurate recent data.}
 		\label{figure-it5_delta_ffn}
 	\end{minipage}
 \end{figure}
+
+
+\paragraph{Historical Data and SGD training}
+
+A full set of tests were run on the Synthetic6 dataset to determine the effect of excluding data from the SGD training of the predictive network. It should be noted that these predictive networks make use of SAEs that were trained on 80\% of the data regardless, which may prime the input of data to the predictive network despite the portion of data being excluded from SGD training. \newline
+
+The number of epochs run in the SGD training were not adjusted according to the amount of data used, so ultimately the smaller dataset configurations were trained on fewer samples. It would seem that the use of historical data or the more extensive training is very beneficial, but not the primary factor in determining P\$L, as decreases in profit were certainly not proportional to the decrease in the period of data.
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_validationset.png}
+	\caption{SAE Denoising - 6 Synthetic Assets \newline The plot above shows the P\&L for FFN predictive networks using Confirguation2, grouped by the percentage of data excluded from the SGD training. While there is a decrease in P\&L, it is much less than the decrease in data, and may only be a result of the reduced samples used to train (due to a constant number of SGD epochs)}
+	\label{figure-results_it3_validationset}
+\end{figure}
+
+
+\fcolorbox{red}{white}{The trainig for this also used the first X\% of data, rather than the last X\% in the SAE/SGD set, which is slightly counterintuitive.}
+\fcolorbox{red}{white}{The tests for this are quite extensive - not sure how to balance that with PBO for the actual data.}
+
+
+\subsection{Weight Initialization Techniques}
+
+\subsubsection{RBM Pretraining for Sigmoid Networks}
+
+While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2} had detrimental effects on network performance. Configuration7 \ref{config7} for dataset AGL\&ACL \ref{dataset_aglacl}.
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png}
+	\caption{Pre-training Effects on financial SAE \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.}
+	\label{figure-results-pretraining-effect}
+\end{figure}		
+
+
+
+
 
 
 \newpage
@@ -2765,7 +2813,17 @@ Section detailing data aggregation choices, configuration and datasets and resul
 	\item L1 Regularization: (0, 0.1)
 \end{itemize}
 
+\subsubsection{Configuration7 - SAE}\label{config7}
 
+\begin{itemize}
+	\item Data: Closing prices for AGL \& ACL
+	\item Processing: Time windows of 1, 5 and 20 (thus an input vector of size 6)
+	\item Encoding Layer Activations: Sigmoid and Linear
+	\item Encoding Layer Size: 5
+	\item Hidden Layer Size: 15
+	\item Number of Hidden Layers: 1, 2
+	\item Learning Rates: 0.0000001, 0.00001, 0.001, 0.1, 1.0, 2.0
+\end{itemize}
 
 \newpage
 \begin{thebibliography}{bibliography}

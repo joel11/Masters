@@ -111,15 +111,17 @@
 \contentsline {subsection}{\numberline {5.3}Feature Selection and Data Aggregation}{28}{subsection.5.3}
 \contentsline {paragraph}{Feature Selection}{28}{section*.147}
 \contentsline {paragraph}{Data Aggregation}{28}{section*.149}
-\contentsline {section}{\numberline {6}Conclusions}{30}{section.6}
-\contentsline {section}{\numberline {7}Appendix}{30}{section.7}
-\contentsline {subsection}{\numberline {7.1}Additional Results}{30}{subsection.7.1}
-\contentsline {subsubsection}{\numberline {7.1.1}Effects of Network Size on SAE and FFN for Synthetic Data}{30}{subsubsection.7.1.1}
-\contentsline {subsection}{\numberline {7.2}Configuration Sets Used}{30}{subsection.7.2}
-\contentsline {subsubsection}{\numberline {7.2.1}Configuration1 - SAE}{30}{subsubsection.7.2.1}
-\contentsline {subsubsection}{\numberline {7.2.2}Config2 - Predictive FFN}{31}{subsubsection.7.2.2}
-\contentsline {subsubsection}{\numberline {7.2.3}Configuration3 - SAE}{31}{subsubsection.7.2.3}
-\contentsline {subsubsection}{\numberline {7.2.4}Configuration4 - Predictive FFN}{31}{subsubsection.7.2.4}
-\contentsline {subsubsection}{\numberline {7.2.5}Configuration5 - SAE}{32}{subsubsection.7.2.5}
-\contentsline {subsubsection}{\numberline {7.2.6}Configuration6 - Predictive FFN}{32}{subsubsection.7.2.6}
-\contentsline {section}{\numberline {8}References}{33}{section.8}
+\contentsline {paragraph}{Historical Data and SGD training}{29}{section*.152}
+\contentsline {subsection}{\numberline {5.4}Weight Initialization Techniques}{30}{subsection.5.4}
+\contentsline {section}{\numberline {6}Conclusions}{31}{section.6}
+\contentsline {section}{\numberline {7}Appendix}{31}{section.7}
+\contentsline {subsection}{\numberline {7.1}Additional Results}{31}{subsection.7.1}
+\contentsline {subsubsection}{\numberline {7.1.1}Effects of Network Size on SAE and FFN for Synthetic Data}{31}{subsubsection.7.1.1}
+\contentsline {subsection}{\numberline {7.2}Configuration Sets Used}{31}{subsection.7.2}
+\contentsline {subsubsection}{\numberline {7.2.1}Configuration1 - SAE}{31}{subsubsection.7.2.1}
+\contentsline {subsubsection}{\numberline {7.2.2}Config2 - Predictive FFN}{32}{subsubsection.7.2.2}
+\contentsline {subsubsection}{\numberline {7.2.3}Configuration3 - SAE}{32}{subsubsection.7.2.3}
+\contentsline {subsubsection}{\numberline {7.2.4}Configuration4 - Predictive FFN}{32}{subsubsection.7.2.4}
+\contentsline {subsubsection}{\numberline {7.2.5}Configuration5 - SAE}{33}{subsubsection.7.2.5}
+\contentsline {subsubsection}{\numberline {7.2.6}Configuration6 - Predictive FFN}{33}{subsubsection.7.2.6}
+\contentsline {section}{\numberline {8}References}{34}{section.8}
