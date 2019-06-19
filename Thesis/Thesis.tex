@@ -2272,9 +2272,11 @@ w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
 \end{equation}
 
 
-\subsection{Trading Algorithms}\label{imp_tradingstrat}
+\subsection{Learning Optimizations}\label{imp_learningopt}
 
-Will need to detail the trading strategies  used here - currently just implementing  a niave representaton of prediction accuracy. \todo{}
+\subsubsection{Regularization}\label{imp_reg}
+
+\subsubsection{Learning Rate Schedule}\label{imp_lrsched}
 
 \subsection{CSCV \& PBO}\label{imp_cscv}
 
@@ -2744,30 +2746,61 @@ More recent research has focused on the use of weight initialization using varia
 
 
 
+\subsection{Learning Optimizations}
+
+\subsubsection{Learning Rate Schedules}
+
+Learning rate schedules were implemented such that the learning rate would rise and fall through a set of values during a set number of epochs, as discussed in \ref{imp_lrsched}.	Conceptually, this should allow a more effective traversal of the solution space, where larger learning rates are able to dislodge the configuration from saddle points, and smaller learning rates are able to optimize at a minima. The schedules presented here have a constant minimum learning rate of 0.00001, with an adjusted maximum learning rate as presented. \newline
+
+Configurations 3 and 4 were used for the AGL dataset. 
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.45\textwidth}
+		\centering 
+		\includegraphics[scale=0.3]{images/iteration_five/it5_lrsched_sae.png}
+		\caption{\textbf{Effects of Learning Rate Schedule on SAE MSE}
+			\newline The figure here shows the improvements in MSE scores gained from increasing the upper bound on the learning rate schedule for SAE configurations, with a notably better performance from the largest upper bound.}
+		\label{figure-it5_lrsched_sae}
+	\end{minipage}\hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_lrsched_ffn.png}
+		\caption{\textbf{Effects of Learning Rate Schedule on Predictive FFN P\&L} 
+			\newline Unlike the SAE configurations, the predictive FFN performance deteriorates as the upper bound is increased, with the largest upper bound having significantly worse P\&L results.}
+		\label{figure-it5_lrsched_ffn}
+	\end{minipage}
+\end{figure}
+
+The results here highlight the different nature of the SAE and predictive networks and the solution space they inhabit. The feature reduction performed by the SAE is expectedly complex, and so benefits from a more dynamic learning process. Conversely, the predictive network seems to take on martingale properties which would not require as complex searching through the solution space.
+
+\fcolorbox{red}{white}{Need to address the validity of this claim. Also, is there any need to include synthetic results here? (they would need to be processed first)}
+
+\subsubsection{Regularization}
 
 
+L1 Regularization was implemented and tested on a selection of 10 real assets, as per below.
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_l1reg_sae.png}
+	\caption{\textbf{SAE L1 Regularization - 10 Real Asset} 
+		\newline The plot above shows the MSE for 360 different SAE networks, grouped by L1 Lambda, showing notable degradation as regularization is increased. Synthetic data tests showed no performance changes below 0.01.}
+	\label{figure-results-it3_l1reg_sae}
+\end{figure}		
+
+\fcolorbox{red}{white}{This still contrasts with the learning rate schedule. It could perhaps be the nature of L1 vs L2 regularization though.}
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.3]{images/iteration_five/it5_reg_ffn.png}
+	\caption{\textbf{L1 Regularization - AGL Predictive FFN}
+			\newline Similarly, performance decreases for the AGL predictive FFN as regularization increases.}
+	\label{figure-results-it5_reg_ffn}
+\end{figure}		
 
 
+\subsubsection{Denoising}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\fcolorbox{red}{white}{Denoising tests so far don't seem worth including, though should be considered for future experiments.}
 
 
 

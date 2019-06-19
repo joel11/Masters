@@ -133,7 +133,9 @@ function It5_FFN()
 
     OGD_EncodingSizes_Profits_Bx(config_ids)
     OGD_L1Reg_BxProfit(config_ids)
+    FFN_LR_Sched_BxProfit(config_ids)
 end
+
 function It5_SAE()
     setnames = ["Iteration5_1 SAE AGL Test"]
     config_ids = SelectConfigIDs(setnames)
@@ -145,6 +147,7 @@ function It5_SAE()
 
     SAE_EncodingSizes_MinMSE(config_ids)
     SAE_LayerSizes_MinMSE(config_ids)
+    SAE_Lambda1_MinTest_BxMSE(config_ids)
 end
 
 #setnames = ["Iteration4_1 SAE Tests"]

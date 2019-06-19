@@ -19,7 +19,7 @@ using MLBase
 using PlotlyJS
 
 
-export OGD_EncodingSizes_Profits_Bx, OGD_L1Reg_BxProfit, OGD_NetworkSize_Profits_Bx, OGD_Init_Profits_Bx, SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
+export FFN_LR_Sched_BxProfit, OGD_EncodingSizes_Profits_Bx, OGD_L1Reg_BxProfit, OGD_NetworkSize_Profits_Bx, OGD_Init_Profits_Bx, SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -170,16 +170,6 @@ function Layer_BxProfit(min_config)
     ProfitBoxplot(layers_query, :layers, "layers", "Layers Profits", String, LayerTransform)
 end
 
-function FFN_LR_Sched_BxProfit(min_config)
-    lr_query = "select tp.configuration_id, (cast(learning_rate as text) || '-' ||  cast(min_learning_rate as text)) learning_rates
-                from training_parameters tp
-                inner join configuration_run cr on cr.configuration_id = tp.configuration_id
-                where tp.configuration_id >= $min_config and category = 'FFN'
-                order by tp.configuration_id desc"
-
-    ProfitBoxplot(lr_query, :learning_rates, "FFN Learning Rates Schedules", "FFN LR-Schedule Profits", String, NullTransform)
-end
-
 function OGD_ScalingOutputActivation_Profits_Bx(config_ids)
 
     minid = minimum(config_ids)
@@ -197,6 +187,19 @@ function OGD_ScalingOutputActivation_Profits_Bx(config_ids)
 end
 
 #config transform done
+
+function FFN_LR_Sched_BxProfit(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    lr_query = "select tp.configuration_id, (cast(learning_rate as text) || '-' ||  cast(min_learning_rate as text)) learning_rates
+                from training_parameters tp
+                inner join configuration_run cr on cr.configuration_id = tp.configuration_id
+                where tp.configuration_id in ($ids) and category = 'FFN'
+                order by tp.configuration_id desc"
+
+    ProfitBoxplot(lr_query, :learning_rates, "FFN Learning Rates Schedules", "FFN LR-Schedule Profits", String, NullTransform)
+end
 
 function SAEProfitBoxPlot(config_ids)
 
