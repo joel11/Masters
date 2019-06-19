@@ -171,6 +171,19 @@ function It4_sae_selected()
     SAE_LayerSizes_MinMSE(config_ids2)
 end
 
+function It4_ffn_both()
+    setnames = ["Iteration4_2 FFN Tests"]
+    config_ids = SelectConfigIDs(setnames)
+
+    for c in 24149:25048
+        push!(config_ids, c)
+    end
+
+    config_ids
+    OGD_Init_Profits_Bx(config_ids)
+end
+
+
 function It4_ffn_he()
     config_ids = 24149:25048
     OGD_DataDeltas_Profits_Bx(config_ids)

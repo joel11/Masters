@@ -2479,7 +2479,7 @@ In line with the characteristics of the synthetic data noted in \ref{results_gbm
 
 Configuration 1, as detailed in \ref{config1} and using the Actual10 dataset \ref{dataset_actual10}, was used to generate a comparison of Linear and ReLU activations for the SAE networks. It is typical to use a Linear Activation in the encoding layer of an SAE \cite{Hinton2}, and the linear output activation has been implemented here to assist with the shortcomings of the scaling methodology, as noted in \ref{data_scaling}.
 
-\paragraph{SAE Activations and Scaling}
+\paragraph{SAE Activations and Scaling}\label{results_sae_activations_scaling}
 
 In figures \ref{figure-results-scaling-and-relu} and \ref{figure-results-linear-act} below, the effects of different activations and scaling methods can be seen when applied to the SAE using actual stock data. The MSE results offer several takeaways: using standardizing scaling instead of normalizing results in far worse performance; Sigmoid activations are notbaly worse than the linear or ReLU activations and linear output layers offer better results than ReLU output layers. \newline
 
@@ -2635,7 +2635,7 @@ Results highlighted the differences between the synthetic and actual data in ter
 	\begin{minipage}{0.45\textwidth}
 		\centering 
 		\includegraphics[scale=0.3]{images/iteration_four/it4_sae_deltas.png}
-		\caption{SAE Data Window Aggregations \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.}
+		\caption{\textbf{SAE Data Window Aggregations} \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.}
 		\label{figure-results_sae_deltas}
 	\end{minipage}\hfill
 	\begin{minipage}{0.45\textwidth}
@@ -2651,7 +2651,7 @@ Results highlighted the differences between the synthetic and actual data in ter
 	\begin{minipage}{0.45\textwidth}
 		\centering 
 		\includegraphics[scale=0.3]{images/iteration_four/it4_ffn_deltas.png}
-		\caption{FFN Data Window Aggregations \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data}
+		\caption{\textbf{FFN Data Window Aggregations} \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data}
 		\label{figure-it5_ffn_deltas}
 	\end{minipage}\hfill
 	\begin{minipage}{0.45\textwidth}
@@ -2671,7 +2671,7 @@ The number of epochs run in the SGD training were not adjusted according to the 
 
 \begin{figure}[H]
 	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_validationset.png}
-	\caption{SAE Denoising - 6 Synthetic Assets \newline The plot above shows the P\&L for FFN predictive networks using Confirguation2, grouped by the percentage of data excluded from the SGD training. While there is a decrease in P\&L, it is much less than the decrease in data, and may only be a result of the reduced samples used to train (due to a constant number of SGD epochs)}
+	\caption{\textbf{SAE Denoising - 6 Synthetic Assets} \newline The plot above shows the P\&L for FFN predictive networks using Confirguation2, grouped by the percentage of data excluded from the SGD training. While there is a decrease in P\&L, it is much less than the decrease in data, and may only be a result of the reduced samples used to train (due to a constant number of SGD epochs)}
 	\label{figure-results_it3_validationset}
 \end{figure}
 
@@ -2684,13 +2684,95 @@ The number of epochs run in the SGD training were not adjusted according to the 
 
 \subsubsection{RBM Pretraining for Sigmoid Networks}
 
-While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2} had detrimental effects on network performance. Configuration7 \ref{config7} for dataset AGL\&ACL \ref{dataset_aglacl}.
+While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2}) had detrimental effects on network performance. Configuration7 (\ref{config7}) for dataset AGL\&ACL (\ref{dataset_aglacl}) was used to assess the effects of running the pre-training for 0, 1, 10 and 50 epochs. There is a clear decrease in performance as the number of epochs increase (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs). \newline
+
+The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset. 
+
+\fcolorbox{red}{white}{The CD vs Backprop differences don't appear to have a theoretical justification (that I could find). Not sure how much I need to discuss this.}
 
 \begin{figure}[H]
 	\centering \includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png}
-	\caption{Pre-training Effects on financial SAE \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.}
+	\caption{\textbf{Pre-training Effects on financial SAE MSE Scores} \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.}
 	\label{figure-results-pretraining-effect}
 \end{figure}		
+
+\paragraph{Sigmoid Activation Functions} 
+Due to the poor performance seen in Sigmoid function based SAE's here, as well as the poorer results when compared to ReLU activations (noted in \ref{results_sae_activations_scaling}), Sigmoid functions were largely excluded from further configuration testing.
+
+
+\subsubsection{Variance Based Weight Initialization Techniques}
+
+More recent research has focused on the use of weight initialization using variance base methodologies, as discussed fully in \ref{imp_weights}. Configurations 3 and 4 were used for the AGL dataset, and Configurations 5 and 6 were used for the Synthetic10 dataset. As suggested, the DC initialization for Leaky ReLU activations outperforms both Xavier and He when used for networks with varying layer sizes. When considering the predictive FFN networks, with more consistent layer sizes, the performance between He and DC becomes comparable, with both outperforming Xavier (as expected, with ReLU activations).
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.45\textwidth}
+		\centering 
+		\includegraphics[scale=0.3]{images/iteration_four/it4_sae_init.png}
+		\caption{\textbf{Weight Initialization for SAE MSE - Synthetic10}
+			\newline The box plots show the MSE for a series of SAE networks trained. As suggested in \ref{imp_weights}, the He initialization results in poorer fitting for networks with varying network layer sizes. The Xavier and DC initializations were largely on par, thought with DC resulting in better performance for smaller encoding layers.}
+		\label{figure-results_it4_sae_init}
+	\end{minipage}\hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_sae_init_agl.png}
+		\caption{\textbf{Weight Initialization for SAE MSE - AGL} 
+			\newline The configurations run for AGL show notably better performance using the DC based initialization in comparison to both He and Xavier. The emphasis seen here can be attributed to increased pressure on suitable weight initizliations with 1 and 2 node encoding layers used.}
+		\label{figure-results_it5_sae_init}
+	\end{minipage}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.45\textwidth}
+		\centering 
+		\includegraphics[scale=0.3]{images/iteration_five/init4_ffn_init.png}
+		\caption{\textbf{Weight Initialization for Predictive FFN P\&L- Synthetic10}
+			\newline The figure here shows the best network P\&L performance for DC and He being higher than Xavier, as to be expected with more balanced network layers and ReLU activations. The better performance in the lower end of the DC configurations when compared to He can be attributed to the inclusion of inconsistently sized layers in the configuration set, where DC would have performed better.}
+		\label{figure-init4_ffn_init}
+	\end{minipage}\hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering \includegraphics[scale=0.3]{images/iteration_five/init5_ffn_init.png}
+		\caption{\textbf{Weight Initialization for Predictive FFN P\&L- AGL} 
+			\newline The configurations run for AGL show notably better performance using the DC and He based initialization in comparison Xavier, thought with less of a difference between the 2 in comparison to the Synthetic set.}
+		\label{figure-init5_ffn_init}
+	\end{minipage}
+\end{figure}
+
+
+\fcolorbox{red}{white}{The DC init here is 'semi-novel' so to speak (afaik). I'm not sure how far this should be emphasised/addressed.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

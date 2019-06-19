@@ -54,22 +54,26 @@
 \BOOKMARK [3][-]{subsubsection.5.1.1}{Synthetic6}{subsection.5.1}% 54
 \BOOKMARK [3][-]{subsubsection.5.1.2}{Synthetic10}{subsection.5.1}% 55
 \BOOKMARK [3][-]{subsubsection.5.1.3}{AGL}{subsection.5.1}% 56
-\BOOKMARK [3][-]{subsubsection.5.1.4}{Actual10}{subsection.5.1}% 57
-\BOOKMARK [2][-]{subsection.5.2}{Linearity, Complexity and Structure of Data}{section.5}% 58
-\BOOKMARK [3][-]{subsubsection.5.2.1}{GBM Generated Data}{subsection.5.2}% 59
-\BOOKMARK [3][-]{subsubsection.5.2.2}{Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{subsection.5.2}% 60
-\BOOKMARK [3][-]{subsubsection.5.2.3}{Effects of Network Size}{subsection.5.2}% 61
-\BOOKMARK [2][-]{subsection.5.3}{Feature Selection and Data Aggregation}{section.5}% 62
-\BOOKMARK [2][-]{subsection.5.4}{Weight Initialization Techniques}{section.5}% 63
-\BOOKMARK [1][-]{section.6}{Conclusions}{}% 64
-\BOOKMARK [1][-]{section.7}{Appendix}{}% 65
-\BOOKMARK [2][-]{subsection.7.1}{Additional Results}{section.7}% 66
-\BOOKMARK [3][-]{subsubsection.7.1.1}{Effects of Network Size on SAE and FFN for Synthetic Data}{subsection.7.1}% 67
-\BOOKMARK [2][-]{subsection.7.2}{Configuration Sets Used}{section.7}% 68
-\BOOKMARK [3][-]{subsubsection.7.2.1}{Configuration1 - SAE}{subsection.7.2}% 69
-\BOOKMARK [3][-]{subsubsection.7.2.2}{Config2 - Predictive FFN}{subsection.7.2}% 70
-\BOOKMARK [3][-]{subsubsection.7.2.3}{Configuration3 - SAE}{subsection.7.2}% 71
-\BOOKMARK [3][-]{subsubsection.7.2.4}{Configuration4 - Predictive FFN}{subsection.7.2}% 72
-\BOOKMARK [3][-]{subsubsection.7.2.5}{Configuration5 - SAE}{subsection.7.2}% 73
-\BOOKMARK [3][-]{subsubsection.7.2.6}{Configuration6 - Predictive FFN}{subsection.7.2}% 74
-\BOOKMARK [1][-]{section.8}{References}{}% 75
+\BOOKMARK [3][-]{subsubsection.5.1.4}{AGL\046ACL}{subsection.5.1}% 57
+\BOOKMARK [3][-]{subsubsection.5.1.5}{Actual10}{subsection.5.1}% 58
+\BOOKMARK [2][-]{subsection.5.2}{Linearity, Complexity and Structure of Data}{section.5}% 59
+\BOOKMARK [3][-]{subsubsection.5.2.1}{GBM Generated Data}{subsection.5.2}% 60
+\BOOKMARK [3][-]{subsubsection.5.2.2}{Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{subsection.5.2}% 61
+\BOOKMARK [3][-]{subsubsection.5.2.3}{Effects of Network Size}{subsection.5.2}% 62
+\BOOKMARK [2][-]{subsection.5.3}{Feature Selection and Data Aggregation}{section.5}% 63
+\BOOKMARK [2][-]{subsection.5.4}{Weight Initialization Techniques}{section.5}% 64
+\BOOKMARK [3][-]{subsubsection.5.4.1}{RBM Pretraining for Sigmoid Networks}{subsection.5.4}% 65
+\BOOKMARK [3][-]{subsubsection.5.4.2}{Variance Based Weight Initialization Techniques}{subsection.5.4}% 66
+\BOOKMARK [1][-]{section.6}{Conclusions}{}% 67
+\BOOKMARK [1][-]{section.7}{Appendix}{}% 68
+\BOOKMARK [2][-]{subsection.7.1}{Additional Results}{section.7}% 69
+\BOOKMARK [3][-]{subsubsection.7.1.1}{Effects of Network Size on SAE and FFN for Synthetic Data}{subsection.7.1}% 70
+\BOOKMARK [2][-]{subsection.7.2}{Configuration Sets Used}{section.7}% 71
+\BOOKMARK [3][-]{subsubsection.7.2.1}{Configuration1 - SAE}{subsection.7.2}% 72
+\BOOKMARK [3][-]{subsubsection.7.2.2}{Config2 - Predictive FFN}{subsection.7.2}% 73
+\BOOKMARK [3][-]{subsubsection.7.2.3}{Configuration3 - SAE}{subsection.7.2}% 74
+\BOOKMARK [3][-]{subsubsection.7.2.4}{Configuration4 - Predictive FFN}{subsection.7.2}% 75
+\BOOKMARK [3][-]{subsubsection.7.2.5}{Configuration5 - SAE}{subsection.7.2}% 76
+\BOOKMARK [3][-]{subsubsection.7.2.6}{Configuration6 - Predictive FFN}{subsection.7.2}% 77
+\BOOKMARK [3][-]{subsubsection.7.2.7}{Configuration7 - SAE}{subsection.7.2}% 78
+\BOOKMARK [1][-]{section.8}{References}{}% 79

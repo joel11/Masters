@@ -520,12 +520,15 @@
 \newlabel{dataset_synthetic10}{{5.1.2}{25}{Synthetic10}{subsubsection.5.1.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}AGL}{25}{subsubsection.5.1.3}}
 \newlabel{dataset_agl}{{5.1.3}{25}{AGL}{subsubsection.5.1.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.4}Actual10}{25}{subsubsection.5.1.4}}
-\newlabel{dataset_actual10}{{5.1.4}{25}{Actual10}{subsubsection.5.1.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.4}AGL\&ACL}{25}{subsubsection.5.1.4}}
+\newlabel{dataset_aglacl}{{5.1.4}{25}{AGL\&ACL}{subsubsection.5.1.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.5}Actual10}{25}{subsubsection.5.1.5}}
+\newlabel{dataset_actual10}{{5.1.5}{25}{Actual10}{subsubsection.5.1.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Linearity, Complexity and Structure of Data}{25}{subsection.5.2}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}GBM Generated Data}{25}{subsubsection.5.2.1}}
 \newlabel{results_gbm_data}{{5.2.1}{25}{GBM Generated Data}{subsubsection.5.2.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{25}{subsubsection.5.2.2}}
+\newlabel{results_sae_activations_scaling}{{5.2.2}{26}{SAE Activations and Scaling}{section*.137}{}}
 \@writefile{toc}{\contentsline {paragraph}{SAE Activations and Scaling}{26}{section*.137}}
 \@writefile{lof}{\contentsline {figure}{\numberline {68}{\ignorespaces \textbf  {Effects of Scaling and Activation Functions on SAE MSE Score (Figure 1/2)} \newline  These boxplots show the MSE scores for the combinations in Configuration1 (\ref  {config1}). Each grouped is labelled in the following format: 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. The MSE scores show significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.\relax }}{26}{figure.caption.138}}
 \newlabel{figure-results-scaling-and-relu}{{68}{26}{\textbf {Effects of Scaling and Activation Functions on SAE MSE Score (Figure 1/2)} \newline These boxplots show the MSE scores for the combinations in Configuration1 (\ref {config1}). Each grouped is labelled in the following format: 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. The MSE scores show significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.\relax }{figure.caption.138}{}}
@@ -565,42 +568,58 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {79}{\ignorespaces \textbf  {Encoding Size Effects on P\&L for AGL Data} \newline  This figure shows the effecst of the difference encoding layer sizes on the P\&L when the relevant SAE is used for the predictive FFN, as for the AGL dataset (with an input of 3 features). Performance for both sizes are similar, though increasing the number of assets may result in a different effect being seen.\relax }}{28}{figure.caption.148}}
 \newlabel{figure-it5_encoding_size_agl}{{79}{28}{\textbf {Encoding Size Effects on P\&L for AGL Data} \newline This figure shows the effecst of the difference encoding layer sizes on the P\&L when the relevant SAE is used for the predictive FFN, as for the AGL dataset (with an input of 3 features). Performance for both sizes are similar, though increasing the number of assets may result in a different effect being seen.\relax }{figure.caption.148}{}}
 \@writefile{toc}{\contentsline {paragraph}{Data Aggregation}{28}{section*.149}}
-\@writefile{lof}{\contentsline {figure}{\numberline {80}{\ignorespaces SAE Data Window Aggregations \newline  The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.\relax }}{29}{figure.caption.150}}
-\newlabel{figure-results_sae_deltas}{{80}{29}{SAE Data Window Aggregations \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.\relax }{figure.caption.150}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {80}{\ignorespaces \textbf  {SAE Data Window Aggregations} \newline  The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.\relax }}{29}{figure.caption.150}}
+\newlabel{figure-results_sae_deltas}{{80}{29}{\textbf {SAE Data Window Aggregations} \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.\relax }{figure.caption.150}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {81}{\ignorespaces \textbf  {SAE Deltas} \newline  For the AGL dataset, the minimum MSE score was found in the '10,20,60' aggregated dataset, though this configuration also results in the worst MSE scores and highest median, suggesting that there is more difficult in a non-stationary dataset.\relax }}{29}{figure.caption.150}}
 \newlabel{figure-it5_delta_sae}{{81}{29}{\textbf {SAE Deltas} \newline For the AGL dataset, the minimum MSE score was found in the '10,20,60' aggregated dataset, though this configuration also results in the worst MSE scores and highest median, suggesting that there is more difficult in a non-stationary dataset.\relax }{figure.caption.150}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {82}{\ignorespaces FFN Data Window Aggregations \newline  The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data\relax }}{29}{figure.caption.151}}
-\newlabel{figure-it5_ffn_deltas}{{82}{29}{FFN Data Window Aggregations \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data\relax }{figure.caption.151}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {82}{\ignorespaces \textbf  {FFN Data Window Aggregations} \newline  The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data\relax }}{29}{figure.caption.151}}
+\newlabel{figure-it5_ffn_deltas}{{82}{29}{\textbf {FFN Data Window Aggregations} \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data\relax }{figure.caption.151}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {83}{\ignorespaces \textbf  {FFN Deltas} \newline  The figure here shows a notably higher performance for datasets with a 1 day aggregation, highlighting again the non-stationarity of the real data, and thus the benefit of more accurate recent data.\relax }}{29}{figure.caption.151}}
 \newlabel{figure-it5_delta_ffn}{{83}{29}{\textbf {FFN Deltas} \newline The figure here shows a notably higher performance for datasets with a 1 day aggregation, highlighting again the non-stationarity of the real data, and thus the benefit of more accurate recent data.\relax }{figure.caption.151}{}}
 \@writefile{toc}{\contentsline {paragraph}{Historical Data and SGD training}{29}{section*.152}}
-\@writefile{lof}{\contentsline {figure}{\numberline {84}{\ignorespaces SAE Denoising - 6 Synthetic Assets \newline  The plot above shows the P\&L for FFN predictive networks using Confirguation2, grouped by the percentage of data excluded from the SGD training. While there is a decrease in P\&L, it is much less than the decrease in data, and may only be a result of the reduced samples used to train (due to a constant number of SGD epochs)\relax }}{30}{figure.caption.153}}
-\newlabel{figure-results_it3_validationset}{{84}{30}{SAE Denoising - 6 Synthetic Assets \newline The plot above shows the P\&L for FFN predictive networks using Confirguation2, grouped by the percentage of data excluded from the SGD training. While there is a decrease in P\&L, it is much less than the decrease in data, and may only be a result of the reduced samples used to train (due to a constant number of SGD epochs)\relax }{figure.caption.153}{}}
+\citation{Hinton2}
+\@writefile{lof}{\contentsline {figure}{\numberline {84}{\ignorespaces \textbf  {SAE Denoising - 6 Synthetic Assets} \newline  The plot above shows the P\&L for FFN predictive networks using Confirguation2, grouped by the percentage of data excluded from the SGD training. While there is a decrease in P\&L, it is much less than the decrease in data, and may only be a result of the reduced samples used to train (due to a constant number of SGD epochs)\relax }}{30}{figure.caption.153}}
+\newlabel{figure-results_it3_validationset}{{84}{30}{\textbf {SAE Denoising - 6 Synthetic Assets} \newline The plot above shows the P\&L for FFN predictive networks using Confirguation2, grouped by the percentage of data excluded from the SGD training. While there is a decrease in P\&L, it is much less than the decrease in data, and may only be a result of the reduced samples used to train (due to a constant number of SGD epochs)\relax }{figure.caption.153}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Weight Initialization Techniques}{30}{subsection.5.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{31}{section.6}}
-\newlabel{Conclusion}{{6}{31}{Conclusions}{section.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Appendix}{31}{section.7}}
-\newlabel{Appendix}{{7}{31}{Appendix}{section.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Additional Results}{31}{subsection.7.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.1}Effects of Network Size on SAE and FFN for Synthetic Data}{31}{subsubsection.7.1.1}}
-\newlabel{appendix_sae_ffn_network_size}{{7.1.1}{31}{Effects of Network Size on SAE and FFN for Synthetic Data}{subsubsection.7.1.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {85}{\ignorespaces Network Sizes for SAE on the Synthetic10 dataset \newline  The box plots show the MSE for the series of SAE networks trained. The results show worse performance for the typical descending network sizes used for SAE, and show no improvement form increasing network size and complexity.\relax }}{31}{figure.caption.154}}
-\newlabel{figure-appendix-it4_sae_layers}{{85}{31}{Network Sizes for SAE on the Synthetic10 dataset \newline The box plots show the MSE for the series of SAE networks trained. The results show worse performance for the typical descending network sizes used for SAE, and show no improvement form increasing network size and complexity.\relax }{figure.caption.154}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {86}{\ignorespaces Network Sizes for Predictive FFN on the Synthetic10 dataset \newline  The box plots show the profits for the series of FFN networks trained, showing small improvments for network size increases.\relax }}{31}{figure.caption.155}}
-\newlabel{figure-appendix-it4_ffn_network_size}{{86}{31}{Network Sizes for Predictive FFN on the Synthetic10 dataset \newline The box plots show the profits for the series of FFN networks trained, showing small improvments for network size increases.\relax }{figure.caption.155}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Configuration Sets Used}{31}{subsection.7.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.1}Configuration1 - SAE}{31}{subsubsection.7.2.1}}
-\newlabel{config1}{{7.2.1}{31}{Configuration1 - SAE}{subsubsection.7.2.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.2}Config2 - Predictive FFN}{32}{subsubsection.7.2.2}}
-\newlabel{config2}{{7.2.2}{32}{Config2 - Predictive FFN}{subsubsection.7.2.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.3}Configuration3 - SAE}{32}{subsubsection.7.2.3}}
-\newlabel{config3}{{7.2.3}{32}{Configuration3 - SAE}{subsubsection.7.2.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.4}Configuration4 - Predictive FFN}{32}{subsubsection.7.2.4}}
-\newlabel{config4}{{7.2.4}{32}{Configuration4 - Predictive FFN}{subsubsection.7.2.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.5}Configuration5 - SAE}{33}{subsubsection.7.2.5}}
-\newlabel{config5}{{7.2.5}{33}{Configuration5 - SAE}{subsubsection.7.2.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.6}Configuration6 - Predictive FFN}{33}{subsubsection.7.2.6}}
-\newlabel{config6}{{7.2.6}{33}{Configuration6 - Predictive FFN}{subsubsection.7.2.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.1}RBM Pretraining for Sigmoid Networks}{30}{subsubsection.5.4.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {85}{\ignorespaces \textbf  {Pre-training Effects on financial SAE MSE Scores} \newline  The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.\relax }}{30}{figure.caption.154}}
+\newlabel{figure-results-pretraining-effect}{{85}{30}{\textbf {Pre-training Effects on financial SAE MSE Scores} \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.\relax }{figure.caption.154}{}}
+\@writefile{toc}{\contentsline {paragraph}{Sigmoid Activation Functions}{30}{section*.155}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.2}Variance Based Weight Initialization Techniques}{31}{subsubsection.5.4.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {86}{\ignorespaces \textbf  {Weight Initialization for SAE MSE - Synthetic10} \newline  The box plots show the MSE for a series of SAE networks trained. As suggested in \ref  {imp_weights}, the He initialization results in poorer fitting for networks with varying network layer sizes. The Xavier and DC initializations were largely on par, thought with DC resulting in better performance for smaller encoding layers.\relax }}{31}{figure.caption.156}}
+\newlabel{figure-results_it4_sae_init}{{86}{31}{\textbf {Weight Initialization for SAE MSE - Synthetic10} \newline The box plots show the MSE for a series of SAE networks trained. As suggested in \ref {imp_weights}, the He initialization results in poorer fitting for networks with varying network layer sizes. The Xavier and DC initializations were largely on par, thought with DC resulting in better performance for smaller encoding layers.\relax }{figure.caption.156}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {87}{\ignorespaces \textbf  {Weight Initialization for SAE MSE - AGL} \newline  The configurations run for AGL show notably better performance using the DC based initialization in comparison to both He and Xavier. The emphasis seen here can be attributed to increased pressure on suitable weight initizliations with 1 and 2 node encoding layers used.\relax }}{31}{figure.caption.156}}
+\newlabel{figure-results_it5_sae_init}{{87}{31}{\textbf {Weight Initialization for SAE MSE - AGL} \newline The configurations run for AGL show notably better performance using the DC based initialization in comparison to both He and Xavier. The emphasis seen here can be attributed to increased pressure on suitable weight initizliations with 1 and 2 node encoding layers used.\relax }{figure.caption.156}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {88}{\ignorespaces \textbf  {Weight Initialization for Predictive FFN P\&L- Synthetic10} \newline  The figure here shows the best network P\&L performance for DC and He being higher than Xavier, as to be expected with more balanced network layers and ReLU activations. The better performance in the lower end of the DC configurations when compared to He can be attributed to the inclusion of inconsistently sized layers in the configuration set, where DC would have performed better.\relax }}{32}{figure.caption.157}}
+\newlabel{figure-init4_ffn_init}{{88}{32}{\textbf {Weight Initialization for Predictive FFN P\&L- Synthetic10} \newline The figure here shows the best network P\&L performance for DC and He being higher than Xavier, as to be expected with more balanced network layers and ReLU activations. The better performance in the lower end of the DC configurations when compared to He can be attributed to the inclusion of inconsistently sized layers in the configuration set, where DC would have performed better.\relax }{figure.caption.157}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {89}{\ignorespaces \textbf  {Weight Initialization for Predictive FFN P\&L- AGL} \newline  The configurations run for AGL show notably better performance using the DC and He based initialization in comparison Xavier, thought with less of a difference between the 2 in comparison to the Synthetic set.\relax }}{32}{figure.caption.157}}
+\newlabel{figure-init5_ffn_init}{{89}{32}{\textbf {Weight Initialization for Predictive FFN P\&L- AGL} \newline The configurations run for AGL show notably better performance using the DC and He based initialization in comparison Xavier, thought with less of a difference between the 2 in comparison to the Synthetic set.\relax }{figure.caption.157}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{33}{section.6}}
+\newlabel{Conclusion}{{6}{33}{Conclusions}{section.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Appendix}{33}{section.7}}
+\newlabel{Appendix}{{7}{33}{Appendix}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Additional Results}{33}{subsection.7.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.1}Effects of Network Size on SAE and FFN for Synthetic Data}{33}{subsubsection.7.1.1}}
+\newlabel{appendix_sae_ffn_network_size}{{7.1.1}{33}{Effects of Network Size on SAE and FFN for Synthetic Data}{subsubsection.7.1.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {90}{\ignorespaces Network Sizes for SAE on the Synthetic10 dataset \newline  The box plots show the MSE for the series of SAE networks trained. The results show worse performance for the typical descending network sizes used for SAE, and show no improvement form increasing network size and complexity.\relax }}{33}{figure.caption.158}}
+\newlabel{figure-appendix-it4_sae_layers}{{90}{33}{Network Sizes for SAE on the Synthetic10 dataset \newline The box plots show the MSE for the series of SAE networks trained. The results show worse performance for the typical descending network sizes used for SAE, and show no improvement form increasing network size and complexity.\relax }{figure.caption.158}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {91}{\ignorespaces Network Sizes for Predictive FFN on the Synthetic10 dataset \newline  The box plots show the profits for the series of FFN networks trained, showing small improvments for network size increases.\relax }}{33}{figure.caption.159}}
+\newlabel{figure-appendix-it4_ffn_network_size}{{91}{33}{Network Sizes for Predictive FFN on the Synthetic10 dataset \newline The box plots show the profits for the series of FFN networks trained, showing small improvments for network size increases.\relax }{figure.caption.159}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Configuration Sets Used}{33}{subsection.7.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.1}Configuration1 - SAE}{33}{subsubsection.7.2.1}}
+\newlabel{config1}{{7.2.1}{33}{Configuration1 - SAE}{subsubsection.7.2.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.2}Config2 - Predictive FFN}{34}{subsubsection.7.2.2}}
+\newlabel{config2}{{7.2.2}{34}{Config2 - Predictive FFN}{subsubsection.7.2.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.3}Configuration3 - SAE}{34}{subsubsection.7.2.3}}
+\newlabel{config3}{{7.2.3}{34}{Configuration3 - SAE}{subsubsection.7.2.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.4}Configuration4 - Predictive FFN}{34}{subsubsection.7.2.4}}
+\newlabel{config4}{{7.2.4}{34}{Configuration4 - Predictive FFN}{subsubsection.7.2.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.5}Configuration5 - SAE}{35}{subsubsection.7.2.5}}
+\newlabel{config5}{{7.2.5}{35}{Configuration5 - SAE}{subsubsection.7.2.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.6}Configuration6 - Predictive FFN}{35}{subsubsection.7.2.6}}
+\newlabel{config6}{{7.2.6}{35}{Configuration6 - Predictive FFN}{subsubsection.7.2.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.7}Configuration7 - SAE}{35}{subsubsection.7.2.7}}
+\newlabel{config7}{{7.2.7}{35}{Configuration7 - SAE}{subsubsection.7.2.7}{}}
 \bibcite{Albers}{1}
 \bibcite{Aparicio}{2}
 \bibcite{Arthur}{3}
@@ -620,7 +639,7 @@
 \bibcite{Chung}{17}
 \bibcite{Crutchfield}{18}
 \bibcite{Dauphin}{19}
-\@writefile{toc}{\contentsline {section}{\numberline {8}References}{34}{section.8}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}References}{36}{section.8}}
 \bibcite{Devarakonda}{20}
 \bibcite{Donoho}{21}
 \bibcite{Duchi}{22}
