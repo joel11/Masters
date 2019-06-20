@@ -2272,6 +2272,12 @@ w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
 \end{equation}
 
 
+An adjusted initialization is presented here, dubbed 'DC', where the ReLU initialization uses a mean of the input and output layers in order to scale the weight variance. For networks with constant layer sizes, the intialization is the same as He, though for SAE networks which have layer size changes by definition, the DC initialization will result in more appropriately sized weights.
+
+\begin{equation}
+w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
+\end{equation}
+
 \subsection{Learning Optimizations}\label{imp_learningopt}
 
 \subsubsection{Regularization}\label{imp_reg}
@@ -2429,13 +2435,16 @@ The full process tested here, combining the techniques defined thus far in the p
 \newpage
 \section{Results}\label{Results}
 
-An introduction to the results, highlighting the important points and sections.
+An introduction to the results, highlighting the important findings and sections.
 
 \subsection{Datasets Used}
 
-\subsubsection{Synthetic6} \label{dataset_synthetic6}
+\subsubsection{Synthetic Datasets}
 
-Data was generated and scaled, as per the methods detail in \ref{data_synthetic} and \ref{data_scaling}. The set was generated with the following configurations:
+Data was generated and scaled, as per the methods detail in \ref{data_synthetic} and \ref{data_scaling}. The sets were generated with the following configurations, each for 5000 timesteps and with a 60/40 split on the SAE\&SGD/OGD training.
+
+\paragraph{Synthetic6} \label{dataset_synthetic6}
+
 \begin{itemize}
 	\item Upward Trend, High variance: $\mu$ = 0.9 and $\sigma$ = 0.5
 	\item Upward Trend, Low variance:  $\mu$ = 0.9 and $\sigma$ = 0.2
@@ -2445,23 +2454,42 @@ Data was generated and scaled, as per the methods detail in \ref{data_synthetic}
 	\item Sideways Trend, Low variance:  $\mu$ = 0.05 and $\sigma$ = 0.1			
 \end{itemize}
 
-The dataset was generated for 5000 steps, and had a 60/40 split for the SAE\&SGD/OGD training. The within dataset split for training and validation was 80/20. 
+\paragraph{Synthetic10}\label{dataset_synthetic10}
 
-\subsubsection{Synthetic10}\label{dataset_synthetic10}
+\begin{itemize}
+	\item ($\mu$ = 0.9, $\sigma$ = 0.5)
+	\item ($\mu$ = 0.7, $\sigma$ = 0.2)
+	\item ($\mu$ = 0.05, $\sigma$ = 0.4)
+	\item ($\mu$ = 0.05, $\sigma$ = 0.5)
+	\item ($\mu$ = 0.04, $\sigma$ = 0.1)
+	\item ($\mu$ = 0.02, $\sigma$ = 0.15)
+	\item ($\mu$ = 0.01, $\sigma$ = 0.05)
+	\item ($\mu$ = -0.8, $\sigma$ = 0.55)
+	\item ($\mu$ = -0.4, $\sigma$ = 0.15)
+	\item ($\mu$ = -0.1, $\sigma$ = 0.2)
+\end{itemize}
 
-To detail the synthetic 10 stock dataset
+\fcolorbox{red}{white}{This set was configured erroneously with the excessively high means.}
 
-\subsubsection{AGL}\label{dataset_agl}
+\subsubsection{Actual Datasets}
 
-To detail the AGL dataset
+Several datasets have been used using JSE closing price relative data for 2003-2018 \todo{add ref}. They were processed the same way as the Synthetic sets, following the steps set out in \ref{Data} and with a 60/40 split on the SAE\&SGD/OGD training.
 
-\subsubsection{AGL\&ACL}\label{dataset_aglacl}
+\paragraph{AGL}\label{dataset_agl}
 
-To detail the AGL dataset
+Using AGL data from JSE close price relatives.
 
-\subsubsection{Actual10}\label{dataset_actual10}
+\paragraph{AGL\&ACL}\label{dataset_aglacl}
 
-To detail the AGL dataset
+Using AGL and ACL data from JSE close price relatives.
+
+\paragraph{Actual10}\label{dataset_actual10}
+
+Using the following assets from JSE close price relatives:
+
+\begin{itemize}
+	\item ACL, AGL, AMS, AOD, BAW, BIL, BVT, CFR, CRH, DDT
+\end{itemize}
 
 \subsection{Linearity, Complexity and Structure of Data}
 
@@ -2477,15 +2505,17 @@ A general discussion around the following aspects of GBM data in comparison to a
 
 \subsubsection{Activations: Linear, Sigmoid, ReLU and Leaky ReLU}
 
-In line with the characteristics of the synthetic data noted in \ref{results_gbm_data}, results for networks using a Linear Activation often outperformed the networks using non-linear activations such as ReLU or Leaky ReLU (activation functions are detailed in \ref{imp_activation_functions}).
+In line with the characteristics of the synthetic data noted in \ref{results_gbm_data}, results for networks using a Linear Activation often outperformed the networks using non-linear activations such as ReLU or Leaky ReLU (activation functions are detailed in \ref{imp_activation_functions}). \newline
 
-Configuration 1, as detailed in \ref{config1} and using the Actual10 dataset \ref{dataset_actual10}, was used to generate a comparison of Linear and ReLU activations for the SAE networks. It is typical to use a Linear Activation in the encoding layer of an SAE \cite{Hinton2}, and the linear output activation has been implemented here to assist with the shortcomings of the scaling methodology, as noted in \ref{data_scaling}.
+While these configuration were run to generate a comparison of Linear and ReLU activations for the SAE networks, it is typical to use a Linear Activation in the encoding layer of an SAE \cite{Hinton2}, and the linear output activation has been implemented here to assist with the shortcomings of the scaling methodology, as noted in \ref{data_scaling}.\newline
 
 \paragraph{SAE Activations and Scaling}\label{results_sae_activations_scaling}
 
-In figures \ref{figure-results-scaling-and-relu} and \ref{figure-results-linear-act} below, the effects of different activations and scaling methods can be seen when applied to the SAE using actual stock data. The MSE results offer several takeaways: using standardizing scaling instead of normalizing results in far worse performance; Sigmoid activations are notbaly worse than the linear or ReLU activations and linear output layers offer better results than ReLU output layers. \newline
+In figures \ref{figure-results-scaling-and-relu} and \ref{figure-results-linear-act} below, the effects of different activations and scaling methods can be seen when applied to the SAE using actual stock data. The MSE results offer several takeaways: using standardizing scaling instead of normalizing results in far worse performance; Sigmoid activations are notably worse than the linear or ReLU activations and linear output layers offer better results than ReLU output layers. \newline
 
- Networks which use only linear activations show very competitive performance overall, though the ReLU activation shows much better performance than linear activations when the encoding layer size is decreased (\ref{figure-results-encoding25} and \ref{figure-results-encoding5} below), thus forcing the network to take advantage of non-linear effects.\newline
+ Networks which use only linear activations show very competitive performance overall, though the ReLU activation shows much better performance than linear activations when the encoding layer size is decreased (\ref{figure-results-encoding25} and \ref{figure-results-encoding5} below), thus forcing the network to take advantage of non-linear effects. Sigmoid acitvations, while also able to take advantage of non-linear effects, show much worse performance. Sigmoid activations are known to suffer from learning slow down and so increased sensitivity to vanishing gradients \todo{add ref}. SAE networks are deep by nature, and so it is not surprising that the Sigmoid activations are resulting in worse performance over the same training period. \newline
+
+Results were generated using Configuration1 (\ref{config1}) for the Actual10 dataset (\ref{dataset_actual10}).\newline
 
 \fcolorbox{red}{white}{There is not a clear reason why Standardizing results in such a massive performance decrease.}
 
@@ -2495,7 +2525,7 @@ In figures \ref{figure-results-scaling-and-relu} and \ref{figure-results-linear-
 		\centering 
 		\includegraphics[scale=0.2]{images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png}
 		\caption{\textbf{Effects of Scaling and Activation Functions on SAE MSE Score (Figure 1/2)}
-			\newline These boxplots show the MSE scores for the combinations in Configuration1 (\ref{config1}). Each grouped is labelled in the following format: 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. The MSE scores show significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.}
+			\newline These boxplots show the MSE scores for the Actual10 dataset (\ref{config1}). Each grouped is labelled in the following format: 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. The MSE scores show significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the next figure.}
 		\label{figure-results-scaling-and-relu}
 	\end{minipage}\hfill
 	\begin{minipage}{0.45\textwidth}
@@ -2525,7 +2555,9 @@ In figures \ref{figure-results-scaling-and-relu} and \ref{figure-results-linear-
 
 \paragraph{Predictive FFN Activations and Scaling}
 
-In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_linear_vs_relu}, a comparison of linear and relu activations are made for the Synthetic6 dataset in both smaller and larger sized networks. The linear activations result in notably better P\&L when compared to ReLU activations, though unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per \ref{results_gbm_data}, whereas the actual stock data benefits from a non-linear representation.\newline
+In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_linear_vs_relu}, a comparison of linear and ReLU activations are made for the Synthetic6 dataset in both smaller and larger sized networks. The linear activations result in notably better P\&L when compared to ReLU activations, though unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per \ref{results_gbm_data}, whereas the actual stock data benefits from a non-linear representation.\newline
+
+Results were generated using Configuration2 (\ref{config2}) for the Synthetic6 (\ref{dataset_synthetic6}) dataset. \todo{add sae ref}
 
 \fcolorbox{red}{white}{As yet, there's no plan to run linear activations for the actual data on the FFN network. Should this be included?}
 
@@ -2534,7 +2566,7 @@ In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_l
 	\begin{minipage}{0.45\textwidth}
 	\centering \includegraphics[scale=0.2]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
 	\caption{\textbf{Activations in Large FFN Predictive Networks}
-		\newline The above groupings show the P\&L generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN) using the Configuration2 combinations (\ref{config2}) and the Synthetic6 dataset (\ref{dataset_synthetic6}). For an input of 18, and network sizes of 40 and 80 with hidden layers of 1 an 3, we see the linear activations showing notably better performance than the Relu activations
+		\newline The above groupings show the P\&L generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). For an input of 18, and network sizes of 40 and 80 with hidden layers of 1 an 3, we see the linear activations showing notably better performance than the Relu activations.
 	}	
 	\label{figure-results-linear-ffn_activations}
 	\end{minipage}\hfill
@@ -2549,10 +2581,11 @@ In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_l
 
 \paragraph{Leaky ReLU vs ReLU}
 
-Leaky ReLU activations were implemented, and as can be expected, do show a small improvement on both the SAE and predictive FFN networks when compared to ReLU. These effects are show for the Synthetic6 dataset in in figures \ref{figure-results_leaky_relu_1} and \ref{figure-results_leaky_relu_3} below.
+Leaky ReLU activations were implemented, and as can be expected, do show a small improvement on both the SAE and predictive FFN networks when compared to ReLU. These effects are show for the Synthetic6 dataset in in figures \ref{figure-results_leaky_relu_1} and \ref{figure-results_leaky_relu_3} below. \todo{add configuration ref}
 
 \todo{add configuration references and details}
 \todo{Reorder encoding graph}
+
 \begin{figure}[H]
 	\centering
 	\begin{minipage}{0.45\textwidth}
@@ -2571,7 +2604,9 @@ Leaky ReLU activations were implemented, and as can be expected, do show a small
 
 \subsubsection{Effects of Network Size}
 
-The effects of networks size on SAE MSE performance and the P\&L predictive FFN performance are shown in figures \ref{figure-results_sae_size_agl} and \ref{figure-results_ffn_size_agl} below, using the AGL dataset (\ref{dataset_agl}) and configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively. They show a general increase in performance for both, with improvements from increases in the sizes and numbers of layers in the networks. The classical SAE structure of decreasing layer sizes results in worse performance - it's possible that the move away from greedy layerwise training nullifies the approach of iterative feature reduction, and that with the variance based weight initializations there is a more typical increase in performance with larger networks. Similar trends were seen in the results for the Synthetic10 dataset (\ref{dataset_synthetic10}), which can be seen in the appendix (\ref{appendix_sae_ffn_network_size}).
+The effects of networks size on SAE MSE performance and the P\&L predictive FFN performance are shown in figures \ref{figure-results_sae_size_agl} and \ref{figure-results_ffn_size_agl} below. They show a general increase in performance for both, with improvements from increases in the sizes and numbers of layers in the networks. The classical SAE structure of decreasing layer sizes results in worse performance - it's possible that the move away from greedy layerwise training nullifies the approach of iterative feature reduction, and that with the variance based weight initializations there is a more typical increase in performance with larger networks. Similar trends were seen in the results for the Synthetic10 dataset (\ref{dataset_synthetic10}), which can be seen in the appendix (\ref{appendix_sae_ffn_network_size}).\newline
+
+Results were generated using the AGL dataset (\ref{dataset_agl}) and Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively.
 
 \begin{figure}[H]
 	\centering
@@ -2595,7 +2630,10 @@ The effects of networks size on SAE MSE performance and the P\&L predictive FFN 
 \subsection{Feature Selection and Data Aggregation}
 
 \paragraph{Feature Selection}
-Configurations 5 and 6 (\ref{config5}, \ref{config6}) were used to train SAE and predictive FFN networks for the Synthetic10 dataset (\ref{dataset_synthetic10}), and configurations 3 and 4 (\ref{config3}, \ref{config4}) were used similarly for the AGL data set (\ref{dataset_agl}). The figures below show the efficacy of the different encoding layer sizes from the SAE and how they impact P\&L in the predictive FFN network. It's apparent in the synthetic dataset that feature selection is occuring, with the optimal size being 10, around the degrees of freedom (or number of assets). This pattern is less clear in the AGL results where there were only 2 encoding sizes that could be used appropriately.
+
+The figures below show the efficacy of the different encoding layer sizes from the SAE and how they impact P\&L in the predictive FFN network. It's apparent in the synthetic dataset that feature selection is occuring, with the optimal size being 10, around the degrees of freedom (or number of assets). This pattern is less clear in the AGL results where there were only 2 encoding sizes that could be used appropriately.\newline
+
+Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively, and the Synthetic10 dataset (\ref{dataset_synthetic10}) with Configurations 5 and 6 (\ref{config5}, \ref{config6}) for the  SAEs and predictive FFNs respectively.
 
 \begin{figure}[H]
 	\centering
@@ -2628,7 +2666,9 @@ Input data was scaled to 3 different configurations across a series of tests in 
 	\item 10, 20, 60
 \end{itemize}
 
-Results highlighted the differences between the synthetic and actual data in terms of stationarity, and the benefit of more real-time data when it comes to actual stocks. Configurations 3 and 4 were used for the AGL dataset, and Configurations 5 and 6 were used for the Synthetic10 dataset.
+Results highlighted the differences between the synthetic and actual data in terms of stationarity, and the benefit of more real-time data when it comes to actual stocks. \newline
+
+Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively, and the Synthetic10 dataset (\ref{dataset_synthetic10}) with Configurations 5 and 6 (\ref{config5}, \ref{config6}) for the  SAEs and predictive FFNs respectively.
 
 \fcolorbox{red}{white}{The results for SAE MSE are not totally clear at the moment. It may be more apparent with a larger number of actual stocks.}
 
@@ -2637,13 +2677,14 @@ Results highlighted the differences between the synthetic and actual data in ter
 	\begin{minipage}{0.45\textwidth}
 		\centering 
 		\includegraphics[scale=0.3]{images/iteration_four/it4_sae_deltas.png}
-		\caption{\textbf{SAE Data Window Aggregations} \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.}
+		\caption{\textbf{SAE Data Window Aggregations - Synthetic Data} 
+			\newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.}
 		\label{figure-results_sae_deltas}
 	\end{minipage}\hfill
 	\begin{minipage}{0.45\textwidth}
 		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_delta_sae.png}
-		\caption{\textbf{SAE Deltas} 
-			\newline For the AGL dataset, the minimum MSE score was found in the '10,20,60' aggregated dataset, though this configuration also results in the worst MSE scores and highest median, suggesting that there is more difficult in a non-stationary dataset.}
+		\caption{\textbf{SAE Data Window Aggregations - AGL Data} 
+			\newline For the AGL dataset, the minimum MSE score was found in the '10,20,60' aggregated dataset, though this configuration also results in the worst MSE scores and highest median, suggesting that there is more difficultly in a non-stationary dataset.}
 		\label{figure-it5_delta_sae}
 	\end{minipage}
 \end{figure}
@@ -2653,13 +2694,14 @@ Results highlighted the differences between the synthetic and actual data in ter
 	\begin{minipage}{0.45\textwidth}
 		\centering 
 		\includegraphics[scale=0.3]{images/iteration_four/it4_ffn_deltas.png}
-		\caption{\textbf{FFN Data Window Aggregations} \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data}
+		\caption{\textbf{FFN Data Window Aggregations - Synthetic Data} 
+			\newline The figure here shows the P\&L for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data.}
 		\label{figure-it5_ffn_deltas}
 	\end{minipage}\hfill
 	\begin{minipage}{0.45\textwidth}
 		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_delta_ffn.png}
-		\caption{\textbf{FFN Deltas} 
-			\newline The figure here shows a notably higher performance for datasets with a 1 day aggregation, highlighting again the non-stationarity of the real data, and thus the benefit of more accurate recent data.}
+		\caption{\textbf{FFN Data Window Aggregations - AGL Data} 
+			\newline The figure here shows a notably higher P\&L for datasets with a 1 day aggregation, highlighting again the non-stationarity of the real data, and thus the benefit of more accurate recent data.}
 		\label{figure-it5_delta_ffn}
 	\end{minipage}
 \end{figure}
@@ -2667,28 +2709,31 @@ Results highlighted the differences between the synthetic and actual data in ter
 
 \paragraph{Historical Data and SGD training}
 
-A full set of tests were run on the Synthetic6 dataset to determine the effect of excluding data from the SGD training of the predictive network. It should be noted that these predictive networks make use of SAEs that were trained on 80\% of the data regardless, which may prime the input of data to the predictive network despite the portion of data being excluded from SGD training. \newline
+Tests were run to determine the effect of excluding data from the SGD training of the predictive network. It should be noted that these predictive networks make use of SAEs that were trained on 80\% of the data regardless, which may prime the input of data to the predictive network despite the portion of data being excluded from SGD training. \newline
 
-The number of epochs run in the SGD training were not adjusted according to the amount of data used, so ultimately the smaller dataset configurations were trained on fewer samples. It would seem that the use of historical data or the more extensive training is very beneficial, but not the primary factor in determining P\$L, as decreases in profit were certainly not proportional to the decrease in the period of data.
+The number of epochs run in the SGD training were not adjusted according to the amount of data used, so ultimately the smaller dataset configurations were trained on fewer samples. It would seem that the use of historical data or the more extensive training is beneficial, but not the primary factor in determining P\&L, as decreases in profit were certainly not proportional to the decrease in the period of data.
 
 \begin{figure}[H]
 	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_validationset.png}
-	\caption{\textbf{SAE Denoising - 6 Synthetic Assets} \newline The plot above shows the P\&L for FFN predictive networks using Confirguation2, grouped by the percentage of data excluded from the SGD training. While there is a decrease in P\&L, it is much less than the decrease in data, and may only be a result of the reduced samples used to train (due to a constant number of SGD epochs)}
+	\caption{\textbf{SGD Training Dataset Size - 6 Synthetic Assets} \newline The plot above shows the P\&L for FFN predictive networks, grouped by the percentage of data excluded from the SGD training. While there is a decrease in P\&L, it is much less than the decrease in data, and may only be a result of the reduced samples used to train (due to a constant number of SGD epochs)}
 	\label{figure-results_it3_validationset}
 \end{figure}
 
+Results were generated using Configuration2 (\ref{config2}) for the Synthetic6 dataset (\ref{dataset_synthetic6}). \todo{add SAE config}
 
 \fcolorbox{red}{white}{The trainig for this also used the first X\% of data, rather than the last X\% in the SAE/SGD set, which is slightly counterintuitive.}
-\fcolorbox{red}{white}{The tests for this are quite extensive - not sure how to balance that with PBO for the actual data.}
-
+\fcolorbox{red}{white}{The tests for this are quite extensive - not sure how to balance that with PBO for the actual data.}\newline
+\fcolorbox{red}{white}{Data aggregation results could be down to martingale effect.}\newline
 
 \subsection{Weight Initialization Techniques}
 
 \subsubsection{RBM Pretraining for Sigmoid Networks}
 
-While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2}) had detrimental effects on network performance. Configuration7 (\ref{config7}) for dataset AGL\&ACL (\ref{dataset_aglacl}) was used to assess the effects of running the pre-training for 0, 1, 10 and 50 epochs. There is a clear decrease in performance as the number of epochs increase (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs). \newline
+While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2}) had detrimental effects on network performance. Experiments assessed the effects of running the pre-training for 0, 1, 10 and 50 epochs, where there is a clear decrease in performance as the number of epochs increase (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs). \newline
 
-The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset. 
+The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset. \newline
+
+Results were generated using Configuration7 (\ref{config7}) for the AGL\&ACL dataset (\ref{dataset_aglacl}).
 
 \fcolorbox{red}{white}{The CD vs Backprop differences don't appear to have a theoretical justification (that I could find). Not sure how much I need to discuss this.}
 
@@ -2704,7 +2749,10 @@ Due to the poor performance seen in Sigmoid function based SAE's here, as well a
 
 \subsubsection{Variance Based Weight Initialization Techniques}
 
-More recent research has focused on the use of weight initialization using variance base methodologies, as discussed fully in \ref{imp_weights}. Configurations 3 and 4 were used for the AGL dataset, and Configurations 5 and 6 were used for the Synthetic10 dataset. As suggested, the DC initialization for Leaky ReLU activations outperforms both Xavier and He when used for networks with varying layer sizes. When considering the predictive FFN networks, with more consistent layer sizes, the performance between He and DC becomes comparable, with both outperforming Xavier (as expected, with ReLU activations).
+More recent research has focused on the use of weight initialization using variance base methodologies, as discussed fully in \ref{imp_weights}. As suggested, the DC initialization for Leaky ReLU activations outperforms both Xavier and He when used for networks with varying layer sizes. When considering the predictive FFN networks, with more consistent layer sizes, the performance between He and DC becomes comparable, with both outperforming Xavier (as expected, with ReLU activations).\newline
+
+Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively, and using the Synthetic10 dataset (\ref{dataset_synthetic10}) with Configurations 5 and 6 (\ref{config5}, \ref{config6}) for the  SAEs and predictive FFNs respectively.
+
 
 \begin{figure}[H]
 	\centering
@@ -2752,7 +2800,7 @@ More recent research has focused on the use of weight initialization using varia
 
 Learning rate schedules were implemented such that the learning rate would rise and fall through a set of values during a set number of epochs, as discussed in \ref{imp_lrsched}.	Conceptually, this should allow a more effective traversal of the solution space, where larger learning rates are able to dislodge the configuration from saddle points, and smaller learning rates are able to optimize at a minima. The schedules presented here have a constant minimum learning rate of 0.00001, with an adjusted maximum learning rate as presented. \newline
 
-Configurations 3 and 4 were used for the AGL dataset. 
+Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively.
 
 \begin{figure}[H]
 	\centering
