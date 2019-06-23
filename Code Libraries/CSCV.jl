@@ -10,6 +10,30 @@ using DataFrames
 
 export RunCSCV, CalculatePBO
 
+function TransformConfigIDs(config_ids)
+    return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
+end
+
+function CalculateProfit(actual, predicted, current_actual)
+
+    prof = nothing
+
+    if predicted > current_actual
+        prof = actual - current_actual
+    else
+        prof = 0
+    end
+
+    return prof
+end
+
+function CalculateReturns(actuals, predicted, timestep)
+    ret =  mapreduce(r -> map(c -> CalculateProfit(actuals[r, c], predicted[r, c], actuals[r - timestep, c]), 1:size(actuals)[2]), hcat, (1+timestep):size(actuals)[1])'
+    return (ret)
+    #return map(r -> mapreduce(c -> CalculateProfit(predicted[r, c], actual[r, c]), +, 1:size(actual)[2]), 1:size(actual)[1])
+end
+
+
 function ProcessCombination(data, training_indices, testing_indices)
     ## 4
     ## a & b
@@ -66,14 +90,20 @@ end
 
 #config_ids = Array(RunQuery("select distinct(configuration_id) from prediction_results where configuration_id between 3704 and 4759")[:,1])
 
+
+
 function ExperimentCSCVProcess(config_ids)
     return_data = DataFrame()
     mses = []
 
+    ids = TransformConfigIDs(config_ids)
+    query = "select configuration_id, actual, predicted from prediction_results where configuration_id in ($ids)"
+    all_predictionvals = RunQuery(query)
+
     for c in config_ids
         println(c)
-        query = "select actual, predicted from prediction_results where configuration_id = $c"
-        predictionvals = RunQuery(query)
+
+        predictionvals = all_predictionvals[Array(all_predictionvals[:,:configuration_id]) .== c,:]
         pa = Array{Float64}(fill(NaN, size(predictionvals,1),2))
         pa[:,1] = Array(predictionvals[:predicted])
         pa[:,2] = Array(predictionvals[:actual])
@@ -82,24 +112,30 @@ function ExperimentCSCVProcess(config_ids)
         predicted = pa[:,1:1]
 
         mse = sum((actual - predicted).^2)/length(actual)
-        model_returns = CalculateReturns(actual, predicted)
+        model_returns = CalculateReturns(actual, predicted, 5)
         push!(mses, mse)
+
+        if size(model_returns, 1) != size(return_data, 1)
+            zeros = map(i -> 0, 1:(size(return_data, 1)-size(model_returns, 1)))
+            model_returns = vcat(model_returns ,zeros)
+        end
         return_data[:,parse(string("iteration_", c))] = Array(model_returns)[:,1]
     end
 
     distribution = RunCSCV(return_data, 16)
     pbo = CalculatePBO(distribution)
 
-    #using PlotlyJS
-    #x0 = map(i -> round(distribution[i][1],1), 1:size(distribution,1))
-    #y0 = map(i -> distribution[i][2], 1:size(distribution,1))
-    #trace = bar(;x=x0,y=y0, name="Logit Distribution", bargap=0.1)
-    #data = [trace]
-    #savefig(plot(data), string("/users/joeldacosta/desktop/CSCV Distribution.html"))
+    using PlotlyJS
+    x0 = map(i -> round(distribution[i][1],1), 1:size(distribution,1))
+    y0 = map(i -> distribution[i][2], 1:size(distribution,1))
+    trace = bar(;x=x0,y=y0, name="Logit Distribution", bargap=0.1)
+    data = [trace]
+    savefig(plot(data), string("/users/joeldacosta/desktop/CSCV Distribution.html"))
 
     return (pbo, mses)
 end
 
 #vals = ExperimentCSCVProcess(26363:27658)
+#config_ids = 26363:27658
 
 end

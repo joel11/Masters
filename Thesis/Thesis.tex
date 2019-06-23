@@ -821,43 +821,6 @@
 		\label{Pre-training MSE performance}
 	\end{figure}		
 	
-	
-	\newpage
-	
-	\bigskip\large\textbf{3. Future Status and Next Iteration}\bigskip\normalsize
-	
-	The results of the current set highlight that overfitting is the biggest problem at the moment. A set of features, as noted below, will be implemented prior to proceeding with tests.
-	
-	\paragraph{Next Iteration}
-
-	\paragraph{Iteration Output}
-
-	\begin{itemize} 
-		\item[$\bullet$] Split point decision
-		\item[$\bullet$] Result set for synthetic data
-		\item[$\bullet$] Dissertation skeleton structure
-		
-	\end{itemize}
-	
-	\paragraph{Critical Decisions and Points of Concern}
-
-	\begin{itemize} 
-		\item[$\bullet$] Price predictions appear to be a lagged time series/matringale
-		\item[$\bullet$] Decide on data splits and what should be used for CSCV - MinBTL method?
-	\end{itemize}
-
-
-
-	\paragraph{Dissertation to-do list}
-
-	\begin{itemize}
-		\item Literature Review: There are various inclusions and ammendments to be made here (particularly around data windows \& varance initializations)
-		\item Reformatting of Algorithms through document
-		\item Papers and references to add: Wilcox \& Debbie Hierarchical Paper; Crutchfield \& Farmer: Geometry of Time Series; F Takens: Detecting strange attractors in turbulence; Reference Riaz
-		\item General formatting changes necessary
-		\item Various to-do notes throughout paper
-	\end{itemize}	
-
 	\newpage
 	\bigskip\large\textbf{4. Synthetic Test Plan}\bigskip\normalsize
 
@@ -1185,6 +1148,93 @@
 	
 	\end{itemize}
 
+	\paragraph{21st June 2019}
+	
+	
+	\begin{itemize}
+		\item Formatting
+		\begin{itemize}
+			\item Numbers rather than bullets  for all lists
+			\item Figures: split out and format correctly
+		\end{itemize}
+	
+		\item GBM Generated Data
+		\begin{itemize}
+			\item Warning that financial time series, ergo all about the time series averages -> can’t trust ensemble based machine learning
+			\item Can just reference the Ergodic Economics paper 
+		\end{itemize}
+	
+		\item Datasets
+		\begin{itemize}
+			\item Synthetic Sets are fine			
+			\item Matrix with high to low volatility
+			\item Represent same was as Synthetic6 
+		\end{itemize}
+
+		\item Standardizing Results is probably down to outliers in the real data
+		\begin{itemize}
+			\item Discuss the outlier story
+			\item Read up on Winsorization 
+		\end{itemize}
+
+		\item Error Function  - will push into Gaussian distribution 
+		\begin{itemize}
+			\item Fits back into the Standardization issue
+			\item Good for algorithm which is prone to error maximisation
+			\item Can then invert back - map weights back
+			\item Regulariation won’t solve the outlier problem, just smoothes over it. Can find a gaussian mapping of the data with error function.
+			\item Discuss that error function could have been used in the data processing details 
+		\end{itemize}
+
+		\item Predictive FFN Activations and Scaling
+		\begin{itemize}
+			\item Not necessary to do the linear activation on FFN network - can just note it, can argue that it won’t add value 
+		\end{itemize}
+	
+		\item Summary Table: “This is better than that” summaries with referencing figures
+		\begin{itemize}
+			\item Table for surrogate and real
+			\item Frame the phenomenology that one gets from financial market data  
+		\end{itemize}
+	
+		\item SAE Effects
+		\begin{itemize}
+			\item Can reference the no SAE encoding in the technical doc \& just referenced
+			\item Note that it was done and what was learnt 
+		\end{itemize}
+	
+		\item SAE Data Window Aggregations - AGL Data
+		\begin{itemize}
+			\item Actual results are showing shrinkage in errors 
+			\item Patterns in features are compressing 
+			\item Don’t get caught up on the outliers (“Despite the outliers…”)
+			\item Ultimately - easier to learn the smoothed version of the graph
+			\item Can link this back to the outlier issue again
+		\end{itemize}
+	
+		\item FFN Data Window Aggregations - AGL Data
+		\begin{itemize}
+			\item Emphasise the first 5 days, not just the 1 day mean reversion so gives it traction
+		\end{itemize}
+	
+		\item Historical Data and SGD training
+		\begin{itemize}
+			\item Makes sense for GBM
+			\item Do it for real data: 0, 40, 90 percent intervals  
+		\end{itemize}
+	
+		\item If financial markets are ergodic, more data better -> sampling ensembles 
+		\item Assessing martingale: Take differences \& plot order correlation functions. Order correlation function / power spectrum - see how it peaks 
+		\item RBM Pretraining for Sigmoid Networks. Ties back to cross sectional data point as well , where older representations are not of value 
+		\item DC init - put paragraph in to emphasise 
+
+		\item Regularization, comes back to ergodicity etc. Ridge or Lasso Works well for IID etc. , not so much for the financial time series. Not moderating the generalization error, just impacting model fidelity.
+	
+	\end{itemize}
+	
+
+	
+	
 	
 \end{technicaldoc}
 
