@@ -103,6 +103,7 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration5_1 SAE AGL Test%' then 'Iteration5_1 SAE AGL Test'
 
        when experiment_set_name like 'Iteration5_1 AGL FFN Tests%' then 'Iteration5_1 AGL FFN Tests'
+       when experiment_set_name like 'Iteration5_2 AGL FFN Tests%' then 'Iteration5_2 AGL FFN Tests'
 
        else null end as esn
     from configuration_run
@@ -118,6 +119,17 @@ category_ids = RunQuery(category_query)
 #maximum(config_ids)
 #26363:27658
 
+function It5_2FFN()
+    setnames = ["Iteration5_2 AGL FFN Tests"]
+    config_ids = SelectConfigIDs(setnames)
+
+    #27659:28378
+
+    jsedata = ReadJSETop40Data()
+    agldataset = jsedata[:, [:AGL]]
+
+    OGD_ValidationSet_Profits_bx(config_ids)
+end
 
 function It5_FFN()
     setnames = ["Iteration5_1 AGL FFN Tests"]

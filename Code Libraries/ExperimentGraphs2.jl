@@ -1234,11 +1234,10 @@ end
 ##General Plots
 
 #config_ids = 17203:17362
-#config_ids = 21736:23788
 
 #jsedata = ReadJSETop40Data()
 #agldataset = jsedata[:, [:AGL]]
-#config_ids = 26363:27658
+#config_ids =27659:28378
 #UpdateTotalProfits(config_ids, false, agldataset)
 
 TotalProfits = ReadProfits()

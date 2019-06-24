@@ -40,7 +40,7 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
         ffn_net_par = NetworkParameters("FFN",
             layers, #layer_sizes
             activations, #layer_activations
-            InitializationFunctions.HeUniformInit, #Init
+            InitializationFunctions.DCUniformInit, #Init
             LinearActivation, #Output Activation
             nothing) #Encoding Activation
 
@@ -65,7 +65,7 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
 
     ################################################################################
     ##1. Configuration Variations
-    set_name = string("Iteration5_1 AGL FFN Tests ", string(layer_sizes))
+    set_name = string("Iteration5_2 AGL FFN Tests ", string(layer_sizes))
     jsedata = ReadJSETop40Data()
     dataset = jsedata[:, [:AGL]]
 
@@ -78,9 +78,12 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
     #push!(vps, (GetFFNTraining, ChangeTrainingSplits, (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)))
     #push!(vps, (GetFFNTraining, ChangeMaxEpochs, (1, 5, 10, 50, 100)))
 
-    push!(vps, (GetFFNTraining, ChangeL1Reg, (0, 0.1)))
-    push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.01, 0.05, 0.1)))
-    push!(vps, (GetFFNNetwork, ChangeInit, (HeUniformInit, XavierGlorotUniformInit, DCUniformInit)))
+    #push!(vps, (GetFFNTraining, ChangeL1Reg, (0, 0.1)))
+    #push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.01, 0.05, 0.1)))
+    push!(vps, (GetFFNTraining, ChangeTrainingSplits, (0.2, 0.4, 0.6, 0.8, 1.0)))
+    push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.05, 0.1)))
+    #push!(vps, (GetFFNNetwork, ChangeInit, (HeUniformInit, XavierGlorotUniformInit, DCUniformInit)))
+    #push!(vps, (GetFFNNetwork, ChangeInit, (DCUniformInit)))
     push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.01, 0.05)))
 
     combos = []
