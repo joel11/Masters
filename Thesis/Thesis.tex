@@ -32,6 +32,7 @@
 \usepackage{algorithm2e}
 
 
+
 \usepackage{xargs}                      % Use more than one optional parameter in a new commands
 %\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
 % 
@@ -2090,11 +2091,14 @@ node has an activation function, which acts on the weighted input from the previ
 
 \subsubsection{Notation and Network Representation}\label{imp_ffn_functions}
 
+For the purposes of this chapter, the following notation will be used:
+
 \begin{itemize}
+\item[$\cdot$] A network $N$ will be contructed with $L$ layers, each with $e$ nodes
 \item[$\cdot$] The weights from the $j^{th}$ node in the $l^{th}$ layer from the $k^{th}$ node in the $(l-1)^{th}$ layer are represented by $w^l_{jk}$
 \item[$\cdot$] The bias for the $j^{th}$ node in layer $l$ is represented by $w^l_0j$
-\item[$\cdot$] The output for the $j^{th}$ node is defined as $o(z_j)$, for an activation function $o$ and weighted input $z$
-\item[$\cdot$] The weighted input for the $j^{th}$ neuron in a layer is $z^l_j=\sum_{n=i}{a^{l-1}_iw_{ij}} + w_{0j}$
+\item[$\cdot$] The output for the $j^{th}$ node is defined as $a = o(z_j)$, for an activation function $o$ and weighted input $z$
+\item[$\cdot$] The weighted input for the $j^{th}$ neuron in a layer is $z^l_j=\sum_{i=1}^{e^{l-1}}{a^{l-1}_iw_{ij}} + w_{0j}$
 \end{itemize}
 ~\\
 These definitions allow an input into the network to be propagated through it, having the original values processed through the weights and activations functions, and have an output in the form of the network's last layer.
@@ -2120,60 +2124,132 @@ The Rectified Linuear Unit (ReLU) is, as discussed in \change{needs reference se
 f(x) = max(0, x)
 \end{equation}
 
-The function has the benefits of quick learning which doesn't saturate, as well as being computationally cheap. The downside is that the non-gradient for the negative range of the function can result in 'dead' nodes, which stop updating with the learning process (though 'Leaky ReLUs' can be used to help resolve this)
+The function has the benefits of quick learning which doesn't saturate, as well as being computationally cheap. The downside is that the non-gradient for the negative range of the function can result in 'dead' nodes, which stop updating with the learning process.
+
+\subparagraph{Leaky ReLU}
+
+The Leaky ReLU resolves the dying ReLU problem by adding a small gradient to the negative range of the function. This results in a slow learning being applied to 'dead' ReLU's, which may in turn result in them being used again if necessary.
+\begin{equation}\end{equation}\label{func_leaky_relu}
+\[
+f(x)= 
+\begin{cases}
+x,& \text{if } x\geq 0\\
+0.01x,              & \text{otherwise}
+\end{cases}
+\]
+
+
+\subparagraph{Linear Activation}
+
+Linear activations don't transform the input, and have a constant gradient, which can be useful for key layers where no loss in error signal is desired, such as the output or encoding layers.
+
+\begin{equation}\label{func_linear}
+f(x) = x
+\end{equation}
+
 
 \subsubsection{Backpropagation}\label{imp_backprop}
 
 The backpropagation algorithm, as discussed in \ref{lr_trainingbackprop}, has allowed for effective training of FNNs for given data. The algorithm relies on incremental improvements of the model, as defined by decreasing the cost function. A common choice for cost is Mean Squared Errors (MSE):
 
-\begin{equation}\label{function_MSE}
+\begin{equation}\label{func_MSE}
 C = \frac{1}{2} \rVert y - a^L \rVert^2
 \end{equation}
 ~\\
-This allows the backpropagation algorithm to implemented as follows:
 
-\begin{itemize}
-	\item[$\bullet$]  Let N be a neural network of weights \textit{w}, inputs \textit{x} and outputs \textit{y}, where the weights are (naively) initialized to random values
-	\item[$\bullet$] The algorithm then iterates through the following:
+A technical definition of the backpropagation algrithm is given in Algorithm \ref{algo_backprop}, though the three primary steps of the algorithm are:
+\subparagraph{Forward Pass} 
 	\begin{itemize}
-		\item[1] Select a set of $m$ samples $x_s$
-		\item[2]Forward Pass:
-		\begin{itemize}
-			\item[i] Propagate the samples through the network using the functions defined in \ref{imp_ffn_functions} to generate out output $y_s$
-			\item[ii] Calculate the error term (aka cost), as
-			\begin{equation}
-				\lambda^L_x = \nabla_a C \otimes o'(z^L) = (a^L - y) \otimes o'(z^L)
-			\end{equation}
-		\end{itemize}
-		\item[3]Backward Pass:
-		\begin{itemize}
-			\item[i] Propagate activation value back through the network to calculate the delta values (the difference between the network outputs and desired output values at each layer)
-			\begin{equation}
-			\lambda^l_x = ((w^{l+1})^T\lambda^{l+1})  \otimes o'(z^l)
-			\end{equation}
-			\item[ii] Each weights output delta and input activation are multiplied to find the weight’s gradient and this gradient is reduced by a factor of the ‘learning rate’ $\eta$, and the mean of this is subtracted from the network weights
-			\begin{equation}
-			w^l \rightarrow w^l - \frac{\eta}{m} \sum_{x} \lambda^{x, l} (a^{x, l - 1})^T
-			\end{equation}
-		\end{itemize}
-		\item[4] Repeat from step 1, unless a minima or other stopping criterion is reached
-		
+	\item The samples are propagated through the network, in order to generate the output $\hat{y}_s$
 	\end{itemize}
+\subparagraph{Calculate Cost}
+	\begin{itemize}
+	\item The cost between the training output $y_s$ and the model output $\hat{y}_s$ is calculated, as per \ref{func_MSE}
+	\end{itemize} 
+\subparagraph{Backward Pass}
+	\begin{itemize}
+	\item Propagate the activation values back through the network to calculate the delta values based on the cost value
+	\item Each weights output delta and input activation are multiplied to find the weight’s gradient and this gradient is reduced by a factor of the ‘learning rate’ $\eta$, which is then subtracted from the network weights to update them
 \end{itemize}
+
+\RestyleAlgo{algoruled}
+\begin{algorithm}[H]
+	\KwIn{Neural Network $N$, with randomly initialized weights $w$, $L$ layers, and activation functions $o$}
+	\KwData{Testing set with inputs $x$, and outputs $y$}
+	
+	\texttt{\\}
+
+	\Repeat{no new samples can be drawn from $x$}{
+			Select a sample $x_s$ from $x$\;
+		
+			\tcp{Perform the Forward Pass,  to calculate the network output, $y_s$, for input sample $x_s$}
+			$a_0$ =  $x_s$
+			\texttt{\\}
+			\ForEach{l in 1:L}
+			{
+				\ForEach{j in 1:$e^l$}
+				{
+					$z^{l}_j=\sum_{i=1}^{e^{l-1}}{a^{{l-1}}_iw_{ij}} + w_{0j}$
+					\newline
+					$a^{l}_j$ = $o(z^{l}_j)$
+				}
+			} 
+			\tcp{Calculate the error term (aka cost), as}
+				\begin{equation}
+				\lambda^L = \nabla_a C \otimes o'(z^L) = (a^L - y) \otimes o'(z^L)
+				\end{equation}
+			
+			\texttt{\\}
+			\tcp{Perform the Backward Pass, to propagate the errors back and update the network accordingly}
+			\ForEach{l in (L-1):1}
+			{
+				\tcp{Calculate the delta values}
+				\begin{equation}
+				\lambda^l = ((w^{l+1})^T\lambda^{l+1})  \otimes o'(z^l)
+				\end{equation}
+				
+				\tcp{Update the weights}
+				\begin{equation}
+				w^l \rightarrow w^l - {\eta}\lambda^{l} (a^{l - 1})^T
+				\end{equation}
+			}
+	}
+
+	\KwResult{Updated Network $N$}
+	\label{algo_backprop}
+	\caption{Backpropagation}
+\end{algorithm}
+
+
+
 
 \subsubsection{Gradient Descent Algorithms}\label{imp_sgd}
 
-Stochastic Gradient Descent (SGD), as discussed in \ref{OGD}, has been shown to increase the speed at which the backpropagation algorithm can converge a minima in terms of cost. The algorithm runs backpropagation over the entire dataset for a number of 'epochs', and updates the network incrementally through the epoch. The stopping condition for the algorithm is usually defined as either a particular number of epochs being reached, or cost no longer decreasing for some number of epochs (i.e. a minima has been reached).
+The backpropagation algorithm is defined at a single sample level, and the learning from a dataset is usually repeated for a number of 'epochs'. Implementation however is usually done using a vectorized version of the algorithm which either samples the entire dataset at once (batch), or a subset of samples (minibatch). The latter is the Stochastic Gradient Descent (SGD), as discussed in \ref{OGD}, which has been shown to increase the speed at which the backpropagation algorithm can converge a minima in terms of cost. The algorithm runs backpropagation over the entire dataset for the number of epochs, and updates the network incrementally through the epoch. The stopping condition for the algorithm is usually defined as either a particular number of epochs being reached, or cost no longer decreasing for some number of epochs (i.e. a minima has been reached).\newline
 
-\begin{itemize}
-	\item [$\cdot$] For each epoch:
-	\item [1] Select $k$ samples at random from the data which have not yet been sampled in this epoch
-	\item [2] Use backpropgation on the network using the $k$ samples to update the weights
-	\item [3] Repeat 1-2 until all samples from the dataset have been sampled
-	\item [4] Start a new epoch, or finish if a stopping condition has been reached
-\end{itemize}
+\begin{algorithm}[H]
+	\KwIn{Neural Network $N$, with randomly initialized weights $w$, $L$ layers, and activation functions $o$}
+	\KwData{Testing set with inputs $x$, and outputs $y$}
+	
+	\texttt{\\}
+	
+	
+	\Repeat{For each epoch, or until a stopping condition is reached}{
+	\Repeat{no new samples can be drawn from $x$}{
+		Select $m$ samples $x_s$ from $x$ which have not yet been sampled in this epoch\;
+		Use backpropgation on the network using the $m$ samples to update the weights, using the aggregated weight update:
+		\begin{equation}
+		w^l \rightarrow w^l - \frac{\eta}{m} \sum_{x} \lambda^{x, l} (a^{x, l - 1})^T
+		\end{equation}
+	}}
+	
+	\KwResult{Updated Network $N$}
+	\label{algo_sgd}
+	\caption{Stochastic Gradient Descent}
+\end{algorithm}
 
-Where SGD is appropriate and effective for scenarios where the entire dataset is available, Online Gradient Descent (OGD) is applicable for when the model is learning in an online fashion. In this case, the backpropagation is run as defined above, but for only one sample at a time (i.e. $m=1$)
+\paragraph{Online Gradient Descent}
+Where SGD is appropriate and effective for scenarios where the entire dataset is available, Online Gradient Descent (OGD) is applicable for when the model is learning in an online fashion. In this case, the backpropagation is run as defined above in Algorithm \ref{algo_backprop} but with no repetition (i.e. only 1 epoch).
 
 \subsubsection{Gradient Descent Improvements}\label{imp_gradientimprovements}
 
@@ -2249,7 +2325,9 @@ Stacked autoencoders follow a similar structure, but with multiple hidden layers
 
 \subsubsection{Sigmoid based Greedy Layerwise SAE Training}\label{imp_sigmoidsae}
 
-The algorithm for implementing the SAE training suggested by Hinton et al is as follows
+The algorithm for implementing the SAE training suggested by Hinton et al \cite{Hinton2} is as follows
+
+
 
 \begin{itemize}
 	\item [1] Define a network structure which conforms to the requirements of an SAE, with $L$ layers

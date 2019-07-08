@@ -43,7 +43,9 @@ function CreateDatabase(database_name)
             cost_function VARCHAR,
             stopping_function VARCHAR,
             min_learning_rate FLOAT,
-            epoch_cycle_max INTEGER)"
+            epoch_cycle_max INTEGER,
+            is_denoising BOOL,
+            denoising_variance FLOAT)"
 
     epoch_records_table = "
         CREATE TABLE IF NOT EXISTS epoch_records(
@@ -88,4 +90,4 @@ function CreateDatabase(database_name)
     SQLite.execute!(db, mape_table)
 end
 
-CreateDatabase("database_test.db")
+CreateDatabase("database_actual.db")

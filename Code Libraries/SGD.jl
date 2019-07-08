@@ -14,7 +14,7 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
     zero_activation_history = (fill(0, (length(network.layers),1)))
     total_weight_changes = Array{Float64,2}(fill(0.0, (length(network.layers), 1)))
 
-    epoch_records = Array{EpochRecord}(parameters.max_epochs)
+    epoch_records = Array{EpochRecord,1}(Int64(parameters.max_epochs/10 + 1))
     num_training_samples = Int64(floor(size(original_dataset.training_input)[1] * parameters.training_splits[1])) #size(dataset.training_input)[1]
     number_batches = Int64.(floor(num_training_samples/parameters.minibatch_size))
 
@@ -32,8 +32,8 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
     original_output = Array{Float64,2}(original_dataset.training_output)
     split_point = Int64(floor(size(original_input,1) * parameters.training_splits[1]))
 
+    tic()
     for i in 1:(parameters.max_epochs)
-        tic()
 
         indice_order = 1:(size(original_input, 1)) #randperm(size(original_input, 1))
         training_indices = indice_order[1:split_point]
@@ -63,21 +63,25 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
 
         end
 
-        mean_weight_changes = total_weight_changes[:,1] ./ number_batches
-        zero_perc =  (zero_activation_history ./ total_activations)'
+        if (i%10 == 0|| i == 1)
 
-        IS_error = parameters.cost_function.CalculateCost(training_output, Feedforward(network, training_input)[end])
-        test_recreation = Feedforward(network, testing_input)[end]
-        OOS_error = parameters.cost_function.CalculateCost(testing_output, test_recreation)
-        #OOS_error = PredictionAccuracy(network, testing_input, testing_output)
+            mean_weight_changes = total_weight_changes[:,1] ./ number_batches
+            zero_perc =  (zero_activation_history ./ total_activations)'
 
-        epoch_records[i] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc, CalculateLearningRate(i, parameters))
+            IS_error = parameters.cost_function.CalculateCost(training_output, Feedforward(network, training_input)[end])
+            test_recreation = Feedforward(network, testing_input)[end]
+            OOS_error = parameters.cost_function.CalculateCost(testing_output, test_recreation)
+            #OOS_error = PredictionAccuracy(network, testing_input, testing_output)
 
-        if true
-            PrintEpoch(epoch_records[i])
+            index = Int64((i - i%10)/10 + 1)
+            #println(config_id)
+            epoch_records[index] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc, CalculateLearningRate(i, parameters))
+            #push!(epoch_records, EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc, CalculateLearningRate(i, parameters)))
+            tic()
+            #epoch_records[i] = EpochRecord(i, category, IS_error, OOS_error, 0.0, 0.0, 0.0, toq(), deepcopy(network), nothing, Array{Array{Float64,2},1}(), mean_weight_changes, zero_perc, CalculateLearningRate(i, parameters))
+            PrintEpoch(epoch_records[index])
+            CreateEpochRecord(config_id, epoch_records[index])
         end
-
-        CreateEpochRecord(config_id, epoch_records[i])
 
         #if parameters.stopping_function(epoch_records)
         #    break
@@ -90,8 +94,11 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
 end
 
 function GetBestNetwork(epoch_records)
+    #println(epoch_records)
+    #println(size(epoch_records))
+    #println(findmin(map(x -> x.test_cost, epoch_records)))
     minindex = findmin(map(x -> x.test_cost, epoch_records))[2]
-    println(string(minindex, " ", epoch_records[minindex].test_cost))
+    #println(string(minindex, " ", epoch_records[minindex].test_cost))
     return epoch_records[minindex].network
 end
 

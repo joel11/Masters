@@ -76,62 +76,68 @@
 \contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{17}{subsubsection.4.2.2}
 \contentsline {subparagraph}{Sigmoid}{17}{section*.118}
 \contentsline {subparagraph}{ReLU}{18}{section*.119}
+\contentsline {subparagraph}{Leaky ReLU}{18}{section*.121}
+\contentsline {subparagraph}{Linear Activation}{18}{section*.122}
 \contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{18}{subsubsection.4.2.3}
-\contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{18}{subsubsection.4.2.4}
-\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent Improvements}{19}{subsubsection.4.2.5}
-\contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{19}{subsection.4.3}
-\contentsline {subsubsection}{\numberline {4.3.1}Contrastive Divergence}{19}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{20}{subsubsection.4.3.2}
-\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{20}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Sigmoid based Greedy Layerwise SAE Training}{20}{subsubsection.4.4.1}
-\contentsline {subsubsection}{\numberline {4.4.2}ReLU based SAE Training}{20}{subsubsection.4.4.2}
-\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{21}{subsubsection.4.4.3}
-\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{21}{subsection.4.5}
-\contentsline {subsection}{\numberline {4.6}Learning Optimizations}{21}{subsection.4.6}
-\contentsline {subsubsection}{\numberline {4.6.1}Regularization}{21}{subsubsection.4.6.1}
-\contentsline {subsubsection}{\numberline {4.6.2}Learning Rate Schedule}{21}{subsubsection.4.6.2}
-\contentsline {subsection}{\numberline {4.7}CSCV \& PBO}{21}{subsection.4.7}
-\contentsline {subsection}{\numberline {4.8}Performance Assessment}{23}{subsection.4.8}
-\contentsline {subsection}{\numberline {4.9}Money Management Strategy and Returns}{23}{subsection.4.9}
-\contentsline {subsection}{\numberline {4.10}Full Process Implementation}{24}{subsection.4.10}
-\contentsline {section}{\numberline {5}Results}{25}{section.5}
-\contentsline {subsection}{\numberline {5.1}Datasets Used}{25}{subsection.5.1}
-\contentsline {subsubsection}{\numberline {5.1.1}Synthetic Datasets}{25}{subsubsection.5.1.1}
-\contentsline {paragraph}{Synthetic6}{25}{section*.133}
-\contentsline {paragraph}{Synthetic10}{25}{section*.134}
-\contentsline {subsubsection}{\numberline {5.1.2}Actual Datasets}{25}{subsubsection.5.1.2}
-\contentsline {paragraph}{AGL}{25}{section*.136}
-\contentsline {paragraph}{AGL\&ACL}{25}{section*.137}
-\contentsline {paragraph}{Actual10}{25}{section*.138}
-\contentsline {subsection}{\numberline {5.2}Linearity, Complexity and Structure of Data}{26}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}GBM Generated Data}{26}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{26}{subsubsection.5.2.2}
-\contentsline {paragraph}{SAE Activations and Scaling}{26}{section*.139}
-\contentsline {paragraph}{Predictive FFN Activations and Scaling}{27}{section*.143}
-\contentsline {paragraph}{Leaky ReLU vs ReLU}{27}{section*.146}
-\contentsline {subsubsection}{\numberline {5.2.3}Effects of Network Size}{28}{subsubsection.5.2.3}
-\contentsline {subsection}{\numberline {5.3}Feature Selection and Data Aggregation}{28}{subsection.5.3}
-\contentsline {paragraph}{Feature Selection}{28}{section*.152}
-\contentsline {paragraph}{Data Aggregation}{29}{section*.154}
-\contentsline {paragraph}{Historical Data and SGD training}{30}{section*.157}
-\contentsline {subsection}{\numberline {5.4}Weight Initialization Techniques}{31}{subsection.5.4}
-\contentsline {subsubsection}{\numberline {5.4.1}RBM Pretraining for Sigmoid Networks}{31}{subsubsection.5.4.1}
-\contentsline {paragraph}{Sigmoid Activation Functions}{32}{section*.161}
-\contentsline {subsubsection}{\numberline {5.4.2}Variance Based Weight Initialization Techniques}{32}{subsubsection.5.4.2}
-\contentsline {subsection}{\numberline {5.5}Learning Optimizations}{33}{subsection.5.5}
-\contentsline {subsubsection}{\numberline {5.5.1}Learning Rate Schedules}{33}{subsubsection.5.5.1}
-\contentsline {subsubsection}{\numberline {5.5.2}Regularization}{34}{subsubsection.5.5.2}
-\contentsline {subsubsection}{\numberline {5.5.3}Denoising}{35}{subsubsection.5.5.3}
-\contentsline {section}{\numberline {6}Conclusions}{36}{section.6}
-\contentsline {section}{\numberline {7}Appendix}{36}{section.7}
-\contentsline {subsection}{\numberline {7.1}Additional Results}{36}{subsection.7.1}
-\contentsline {subsubsection}{\numberline {7.1.1}Effects of Network Size on SAE and FFN for Synthetic Data}{36}{subsubsection.7.1.1}
-\contentsline {subsection}{\numberline {7.2}Configuration Sets Used}{36}{subsection.7.2}
-\contentsline {subsubsection}{\numberline {7.2.1}Configuration1 - SAE}{36}{subsubsection.7.2.1}
-\contentsline {subsubsection}{\numberline {7.2.2}Config2 - Predictive FFN}{37}{subsubsection.7.2.2}
-\contentsline {subsubsection}{\numberline {7.2.3}Configuration3 - SAE}{37}{subsubsection.7.2.3}
-\contentsline {subsubsection}{\numberline {7.2.4}Configuration4 - Predictive FFN}{37}{subsubsection.7.2.4}
-\contentsline {subsubsection}{\numberline {7.2.5}Configuration5 - SAE}{38}{subsubsection.7.2.5}
-\contentsline {subsubsection}{\numberline {7.2.6}Configuration6 - Predictive FFN}{38}{subsubsection.7.2.6}
-\contentsline {subsubsection}{\numberline {7.2.7}Configuration7 - SAE}{38}{subsubsection.7.2.7}
-\contentsline {section}{\numberline {8}References}{39}{section.8}
+\contentsline {subparagraph}{Forward Pass}{18}{section*.123}
+\contentsline {subparagraph}{Calculate Cost}{18}{section*.124}
+\contentsline {subparagraph}{Backward Pass}{18}{section*.125}
+\contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{19}{subsubsection.4.2.4}
+\contentsline {paragraph}{Online Gradient Descent}{20}{section*.126}
+\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent Improvements}{20}{subsubsection.4.2.5}
+\contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{20}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Contrastive Divergence}{20}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{21}{subsubsection.4.3.2}
+\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{21}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Sigmoid based Greedy Layerwise SAE Training}{21}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}ReLU based SAE Training}{21}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{22}{subsubsection.4.4.3}
+\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{22}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Learning Optimizations}{22}{subsection.4.6}
+\contentsline {subsubsection}{\numberline {4.6.1}Regularization}{22}{subsubsection.4.6.1}
+\contentsline {subsubsection}{\numberline {4.6.2}Learning Rate Schedule}{22}{subsubsection.4.6.2}
+\contentsline {subsection}{\numberline {4.7}CSCV \& PBO}{22}{subsection.4.7}
+\contentsline {subsection}{\numberline {4.8}Performance Assessment}{24}{subsection.4.8}
+\contentsline {subsection}{\numberline {4.9}Money Management Strategy and Returns}{24}{subsection.4.9}
+\contentsline {subsection}{\numberline {4.10}Full Process Implementation}{25}{subsection.4.10}
+\contentsline {section}{\numberline {5}Results}{26}{section.5}
+\contentsline {subsection}{\numberline {5.1}Datasets Used}{26}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}Synthetic Datasets}{26}{subsubsection.5.1.1}
+\contentsline {paragraph}{Synthetic6}{26}{section*.139}
+\contentsline {paragraph}{Synthetic10}{26}{section*.140}
+\contentsline {subsubsection}{\numberline {5.1.2}Actual Datasets}{26}{subsubsection.5.1.2}
+\contentsline {paragraph}{AGL}{26}{section*.142}
+\contentsline {paragraph}{AGL\&ACL}{26}{section*.143}
+\contentsline {paragraph}{Actual10}{26}{section*.144}
+\contentsline {subsection}{\numberline {5.2}Linearity, Complexity and Structure of Data}{27}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}GBM Generated Data}{27}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{27}{subsubsection.5.2.2}
+\contentsline {paragraph}{SAE Activations and Scaling}{27}{section*.145}
+\contentsline {paragraph}{Predictive FFN Activations and Scaling}{28}{section*.149}
+\contentsline {paragraph}{Leaky ReLU vs ReLU}{28}{section*.152}
+\contentsline {subsubsection}{\numberline {5.2.3}Effects of Network Size}{29}{subsubsection.5.2.3}
+\contentsline {subsection}{\numberline {5.3}Feature Selection and Data Aggregation}{29}{subsection.5.3}
+\contentsline {paragraph}{Feature Selection}{29}{section*.158}
+\contentsline {paragraph}{Data Aggregation}{30}{section*.160}
+\contentsline {paragraph}{Historical Data and SGD training}{31}{section*.163}
+\contentsline {subsection}{\numberline {5.4}Weight Initialization Techniques}{32}{subsection.5.4}
+\contentsline {subsubsection}{\numberline {5.4.1}RBM Pretraining for Sigmoid Networks}{32}{subsubsection.5.4.1}
+\contentsline {paragraph}{Sigmoid Activation Functions}{33}{section*.167}
+\contentsline {subsubsection}{\numberline {5.4.2}Variance Based Weight Initialization Techniques}{33}{subsubsection.5.4.2}
+\contentsline {subsection}{\numberline {5.5}Learning Optimizations}{34}{subsection.5.5}
+\contentsline {subsubsection}{\numberline {5.5.1}Learning Rate Schedules}{34}{subsubsection.5.5.1}
+\contentsline {subsubsection}{\numberline {5.5.2}Regularization}{35}{subsubsection.5.5.2}
+\contentsline {subsubsection}{\numberline {5.5.3}Denoising}{36}{subsubsection.5.5.3}
+\contentsline {section}{\numberline {6}Conclusions}{37}{section.6}
+\contentsline {section}{\numberline {7}Appendix}{37}{section.7}
+\contentsline {subsection}{\numberline {7.1}Additional Results}{37}{subsection.7.1}
+\contentsline {subsubsection}{\numberline {7.1.1}Effects of Network Size on SAE and FFN for Synthetic Data}{37}{subsubsection.7.1.1}
+\contentsline {subsection}{\numberline {7.2}Configuration Sets Used}{37}{subsection.7.2}
+\contentsline {subsubsection}{\numberline {7.2.1}Configuration1 - SAE}{37}{subsubsection.7.2.1}
+\contentsline {subsubsection}{\numberline {7.2.2}Config2 - Predictive FFN}{38}{subsubsection.7.2.2}
+\contentsline {subsubsection}{\numberline {7.2.3}Configuration3 - SAE}{38}{subsubsection.7.2.3}
+\contentsline {subsubsection}{\numberline {7.2.4}Configuration4 - Predictive FFN}{38}{subsubsection.7.2.4}
+\contentsline {subsubsection}{\numberline {7.2.5}Configuration5 - SAE}{39}{subsubsection.7.2.5}
+\contentsline {subsubsection}{\numberline {7.2.6}Configuration6 - Predictive FFN}{39}{subsubsection.7.2.6}
+\contentsline {subsubsection}{\numberline {7.2.7}Configuration7 - SAE}{39}{subsubsection.7.2.7}
+\contentsline {section}{\numberline {8}References}{40}{section.8}

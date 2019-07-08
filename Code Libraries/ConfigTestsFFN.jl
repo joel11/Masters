@@ -48,8 +48,8 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
                                         0.001, #max_learning_rate
                                         0.0001, #min_learning_rate
                                         100,  #epoch_cycle_max
-                                        20, #minibatch_size
-                                        400, #max_epochs
+                                        32, #minibatch_size
+                                        2, #max_epochs
                                         (0.0001, 100), #stopping_parameters
                                         NonStopping, #stopping_function
                                         0.0, #l1_lambda
@@ -58,14 +58,15 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
                                         false, #is_denoising
                                         0.0) #denoising_variance
 
-        ogd_par = OGDTrainingParameters("FFN-OGD", 0.001, true, MeanSquaredError(), 0)
+                #TODO change the OGD learning rate back to 0.01
+        ogd_par = OGDTrainingParameters("FFN-OGD", 0.0, true, MeanSquaredError(), 0)
 
         return FFNExperimentConfig(seed, set_name, false, data_config, sae_config_id, encoder, ffn_net_par, ffn_sgd_par, ogd_par, nothing)
     end
 
     ################################################################################
     ##1. Configuration Variations
-    set_name = string("Iteration5_2 AGL FFN Tests ", string(layer_sizes))
+    set_name = string("Iteration5_7 AGL Test FFN Tests ", string(layer_sizes))
     jsedata = ReadJSETop40Data()
     dataset = jsedata[:, [:AGL]]
 
@@ -84,7 +85,7 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
     push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.05, 0.1)))
     #push!(vps, (GetFFNNetwork, ChangeInit, (HeUniformInit, XavierGlorotUniformInit, DCUniformInit)))
     #push!(vps, (GetFFNNetwork, ChangeInit, (DCUniformInit)))
-    push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.01, 0.05)))
+    #push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.01, 0.05)))
 
     combos = []
     for s in sae_configs
@@ -97,7 +98,7 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
 
     ffn_results = map(ep -> RunFFNConfigurationTest(ep, dataset), combos)
 
-    PlotEpochs(map(x -> x[1], ffn_results), string(set_name, " Epochs"))
+    #PlotEpochs(map(x -> x[1], ffn_results), string(set_name, " Epochs"))
     #PlotGradientChangesCombined(ffn_results, 5, string(set_name," Combined Gradients"))
     #PlotActivations(ffn_results, string(set_name, " Activations"))
     #PlotOGDResults(ffn_results, string(set_name, " OGD Results"))
@@ -106,8 +107,8 @@ end
 
 #
 sae_choices = (25339, 25778, 25684, 25846, 25640, 25767)
-RunNLayerReLUFFNTest((12, 6), sae_choices, LeakyReluActivation)
 
+RunNLayerReLUFFNTest((12, 6), sae_choices, LeakyReluActivation)
 RunNLayerReLUFFNTest((12, 12), sae_choices, LeakyReluActivation)
 RunNLayerReLUFFNTest((12, 12, 12), sae_choices, LeakyReluActivation)
 RunNLayerReLUFFNTest((12, 9, 9, 6), sae_choices, LeakyReluActivation)

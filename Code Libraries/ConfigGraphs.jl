@@ -95,15 +95,20 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration3_13 FFN Validation Set Tests%' then 'Iteration3_13 FFN Validation Set Tests'
        when experiment_set_name like 'Iteration3_15 FFN Validation 3 Test%' then 'Iteration3_15 FFN Validation 3 Test'
        when experiment_set_name like 'Iteration3_15 SAE LR Real Data Test%' then 'Iteration3_15 SAE LR Real Data Test'
-
        when experiment_set_name like 'Iteration4_1 SAE Tests%' then 'Iteration4_1 SAE Tests'
        when experiment_set_name like 'Iteration4_2 FFN Tests%' then 'Iteration4_2 FFN Tests'
        when experiment_set_name like 'Iteration4_3 SAE Epoch Tests%' then 'Iteration4_3 SAE Epoch Tests'
-
        when experiment_set_name like 'Iteration5_1 SAE AGL Test%' then 'Iteration5_1 SAE AGL Test'
-
        when experiment_set_name like 'Iteration5_1 AGL FFN Tests%' then 'Iteration5_1 AGL FFN Tests'
        when experiment_set_name like 'Iteration5_2 AGL FFN Tests%' then 'Iteration5_2 AGL FFN Tests'
+       when experiment_set_name like 'Iteration5_3 AGL Test FFN Tests%' then 'Iteration5_3 AGL Test FFN Tests'
+       when experiment_set_name like 'Iteration5_4 AGL Test FFN Tests%' then 'Iteration5_4 AGL Test FFN Tests'
+
+       when experiment_set_name like 'Iteration5_6 AGL Test FFN Tests%' then 'Iteration5_6 AGL Test FFN Tests'
+       when experiment_set_name like 'Iteration5_7 AGL Test FFN Tests%' then 'Iteration5_7 AGL Test FFN Tests'
+       when experiment_set_name like 'Iteration1_1 SAE Actual10 Test%' then 'Iteration1_1 SAE Actual10 Test'
+
+
 
        else null end as esn
     from configuration_run
@@ -113,11 +118,31 @@ category_query = "select min(configuration_id) minid,
 
 category_ids = RunQuery(category_query)
 
-#setnames = ["Iteration5_1 AGL FFN Tests"]
+#setnames = ["Iteration5_7 AGL Test FFN Tests"]
 #config_ids = SelectConfigIDs(setnames)
+
+#jsedata = ReadJSETop40Data()
+#agldataset = jsedata[:, [:AGL]]
+
+#OGD_ValidationSet_Profits_bx(config_ids)
+#BestStrategyGraphs(config_ids, agldataset)
 #minimum(config_ids)
 #maximum(config_ids)
-#26363:27658
+#28499:29218
+
+function It10_SAE()
+    setnames = ["Iteration1_1 SAE Actual10 Test"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Init_MinTest_MxMSE(config_ids)
+    SAE_Deltas_MinTest_MxMSE(config_ids)
+
+    SAE_MaxLR_MinTest_BxMSE(config_ids)
+    SAE_LREpochs_MinTest_BxMSE(config_ids)
+
+    SAE_EncodingSizes_MinMSE(config_ids)
+    SAE_LayerSizes_MinMSE(config_ids)
+end
+
 
 function It5_2FFN()
     setnames = ["Iteration5_2 AGL FFN Tests"]
@@ -129,6 +154,7 @@ function It5_2FFN()
     agldataset = jsedata[:, [:AGL]]
 
     OGD_ValidationSet_Profits_bx(config_ids)
+    BestStrategyGraphs(config_ids, agldataset)
 end
 
 function It5_FFN()
