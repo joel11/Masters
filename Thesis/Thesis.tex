@@ -1573,7 +1573,7 @@ effective than PCA or shallow autoencoders on multiple dataset types.
  \label{figure-DBN-RBM}
  \end{figure}
  
-\subsubsection {Stacked Denoising Autoencoders}\label{SDAE}
+\subsubsection {Stacked Denoising Autoencoders}\label{lr_SDAE}
 
  The second important piece of work was the development of a denoising autoencoder (DAE), by Vincent  et al. \cite{Vincent}. 
  One of the problems identified in the DBN model (and those similar), is that if the encoder dimensions were too high, 
@@ -1970,14 +1970,14 @@ The datasets used go through several transformations throughout the usage cycle,
 \subsubsection{Log Difference Transformation and Aggregation}\label{ldata_og_difference}
 All datasets were transformed into log feature fluctuation values, and were then expanded to include fluctuations over rolling window periods.
 \begin{equation}
-\textit{log\_diff}(x_t) = ln(x_t) - ln(x_{t-1})
+\texttt{log\_diff}(x_t) = ln(x_t) - ln(x_{t-1})
 \end{equation}
 This log feature fluctuation,  is processed for each OHLCV feature and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and symmetric in terms of gains and losses.
 \newline\newline
-The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. For example, at each data point $t$, the following time series are added:
+The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. For example, if the past data aggregation windows were 1, 5 and 20, and the future prediction point was 5 then at each data point $t$, the following time series are added:
 \begin{itemize}
 	\item [$\cdot$] Log feature fluctuations over the periods $(t-5, t)$ and $(t-20, t)$ (with $(t-1, t)$ already having been processed)
-	\item [$\cdot$] Log feature fluctuations for the period $(t, t + 2)$, to be predicted \todo{Change to final windows decided on}
+	\item [$\cdot$] Log feature fluctuations for the period $(t, t + 5)$, to be predicted
 \end{itemize}
 
 Only data points with a full set of features are used for training and prediction later on in the framework.
@@ -1985,21 +1985,21 @@ Only data points with a full set of features are used for training and predictio
 \subsubsection{Data Scaling}\label{data_scaling}
 Once the log difference data has been processed, the datasets are either standardized or normalized to allow for better learning. This is done in the typical ways:
 \begin{equation}
-\textit{standardize:  }x_s = \frac{(x_i - \bar{x}) }{\sigma_x}
+\texttt{standardize}(x_s) = \frac{(x_i - \bar{x}) }{\sigma_x}
 \end{equation}
 
 \begin{equation}
-\textit{normalize:  }x_n = \frac{x_i - min(x) }{max(x) - min(x)}
+\texttt{normalize}(x_n) = \frac{x_i - min(x) }{max(x) - min(x)}
 \end{equation}
 
 Two extensions of these are used later on, dubbed 'Limited Standardization' and 'Limited Normalization', which are used when the data is split up into the SAE training and OGD prediction sets. In this case all the data needs to be scaled, but the information should not be travelling from the OGD dataset to the SAE training set through the use of aggregated measures such as $\bar{x}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:
 
 \begin{equation}
-\textit{limited standardize:  } x_{ls} = \frac{(x_i - \bar{x_{1:t}}) }{\sigma_{x_{1:t}}} , \forall  i \in (1, n)
+\texttt{limited standardize} (x_{ls}) = \frac{(x_i - \bar{x_{1:t}}) }{\sigma_{x_{1:t}}} , \forall  i \in (1, n)
 \end{equation}
 
 \begin{equation}
-\textit{limited normalize:  } x_{ln} = \frac{x_i - min(x_{1:t}) }{max(x_{1:t}) - min(x_{1:t})} , \forall  i \in (1, n)
+\texttt{limited normalize} (x_{ln}) = \frac{x_i - min(x_{1:t}) }{max(x_{1:t}) - min(x_{1:t})} , \forall  i \in (1, n)
 \end{equation}
 
 
@@ -2010,11 +2010,11 @@ This log-differenced, aggregated and scaled data is then used as the input for t
 The predicted data points are transformed back into actual prices for returns analysis. The first step is to reverse the scaling that is done in \ref{data_scaling} in order to retrieve the log difference fluctuations.
 
 \begin{equation}
-\textit{reverse standardize:  }x_i = x_s * \sigma_x + \bar{x}
+\texttt{reverse standardize}(x_i) = x_s * \sigma_x + \bar{x}
 \end{equation}
 
 \begin{equation}
-\textit{reverse normalize:  } x_i = x_n * (max(x) - min(x)) + min(x)
+\texttt{reverse normalize}(x_i) = x_n * (max(x) - min(x)) + min(x)
 \end{equation}
 
 These are applied similarly for the limited variations.
@@ -2024,22 +2024,14 @@ These are applied similarly for the limited variations.
 The predicted log fluctuations produced in \ref{data_reverse_scaling} are used to reconstruct the predicted prices. For original prices $o$, stocks $s$, time window predicted $t$, predicted log fluctuation $p$ and time steps $i \in (0, n)$i:
 
 \begin{equation}
-\textit{reconstructed price}_{s,i} = o_{s,i-t} * e^{p_{s,i}}
+\texttt{reconstructed price}_{s,i} = o_{s,i-t} * e^{p_{s,i}}
 \end{equation}
 
 These reconstructed prices are then used to assess model returns later.
 
-\subsection{Synthetic Data}\label{data_synthetic}
+\subsection{Synthetic Data Generation}\label{data_synthetic}
 
-Synthetic datasets were generated to represent known trends with some variance in prices. Geometric Brownian motion was used to simulate stock price movements. Each dataset was generated with a random seed (using a Mersenne Twister pseudorandom number generator), and had a structure of 9 stocks:
-
-\begin{itemize}
-	\item [$\cdot$] 2 stocks with an upward trend, and high and low variance levels
-	\item [$\cdot$] 2 stocks with a downward trend, and high and low variance levels
-	\item [$\cdot$] 2 stocks with a sideways trend, and high and low variance levels
-\end{itemize}
-
-The steps for Geometric Brownian Motion are described in \ref{algo_brownianmotion}, which allows the stocks simulations to be implemented with a trend ($\sigma$) and variance ($\mu$) for each stock.\newline
+Synthetic data generation is implemented using Geometric Brownian Motion as described in \ref{algo_brownianmotion}, which allows the stocks simulations to be implemented with a trend ($\sigma$) and variance ($\mu$) for each stock. Each dataset was generated with a random seed (using a Mersenne Twister pseudorandom number generator). \newline
 
 \RestyleAlgo{algoruled}
 \begin{algorithm}[H]
@@ -2059,12 +2051,21 @@ The steps for Geometric Brownian Motion are described in \ref{algo_brownianmotio
 	\caption{Geometric Brownian Motion Simulation}
 \end{algorithm}
 
-\paragraph{Simulated Dataset}
-
-This section will detail the chosen $\sigma$ and $\mu$ values for the dataset, as well as the expected results from training on them.\todo{finish this}
 
 
-\subsection{Real Data}
+\subsection{Synthetic Dataset}
+
+This section will detail the chosen $\sigma$ and $\mu$ values for the dataset. \todo{finish this}
+
+Synthetic datasets were generated to represent known trends with some variance in prices. Geometric Brownian motion was used to simulate stock price movements, and had a structure of 6 stocks:
+
+\begin{itemize}
+	\item [$\cdot$] 2 stocks with an upward trend, and high and low variance levels
+	\item [$\cdot$] 2 stocks with a downward trend, and high and low variance levels
+	\item [$\cdot$] 2 stocks with a sideways trend, and high and low variance levels
+\end{itemize}
+
+\subsection{Real Dataset}
 
 This section will detail the use of real data - namely the JSE ALSI data collected, and the time periods collected for. Detail will be added once this dataset has been finalised. \todo{finish this}
 
@@ -2251,9 +2252,46 @@ The backpropagation algorithm is defined at a single sample level, and the learn
 \paragraph{Online Gradient Descent}
 Where SGD is appropriate and effective for scenarios where the entire dataset is available, Online Gradient Descent (OGD) is applicable for when the model is learning in an online fashion. In this case, the backpropagation is run as defined above in Algorithm \ref{algo_backprop} but with no repetition (i.e. only 1 epoch).
 
-\subsubsection{Gradient Descent Improvements}\label{imp_gradientimprovements}
+\subsubsection{Regularization}\label{imp_regularization}
 
-This section will detail and improvements that are used in the project - i.e. L1 and L2 regularization, or the learning rate schedule \todo{write this section}
+Regularization is a commonly used technique in machin learning used to reduce a model's capacity to overfit to the data, and and so doing reduces the variance in the model results. One of the typical methods, $L2$ (or "weight decay"), is implemented by adding an extra term to the cost function which is itself a function of the weights in the model. This extra term forces the learning process to favour smaller weights, and only allows large weights to occur if they are able to offer an appropriate increase in performance. The modified cost function is displayed below in \ref{func_l2reg}.
+
+\begin{equation}\label{func_l2reg}
+C=\frac{1}{2 n} \sum_{x}\left\|y-a^{L}\right\|^{2}+\frac{\lambda}{2 n} \sum_{w} w^{2}
+\end{equation}
+
+The additional term is scaled by the configurable regularization parameter, $\lambda$, which if small approximates the original cost function or if large will increase the degree of regularization used. \newline
+
+In order to implement this in backpropagation, the weight update rule is changed to the following (while biases remain the same):
+
+\begin{equation}\label{func_l2_weight_update}
+w \rightarrow w-\eta \frac{\partial C_{0}}{\partial w}-\frac{\eta \lambda}{n} w
+\end{equation}
+
+For SGD, this can be simplified to the following: 
+
+\begin{equation}\label{func_sgd_l2}
+w \rightarrow\left(1-\frac{\eta \lambda}{n}\right) w-\frac{\eta}{m} \sum_{x} \frac{\partial C_{x}}{\partial w}
+\end{equation}
+
+
+\subsubsection{Learning Rate Schedule}\label{imp_learning_rate_schedule}
+
+Learning rates schedules are implemented to allow for a more dynamic exploration of the possible solution space, and allow fine tuning around an optima. With a constant learning rate implementation, one has to choose between a larger learning rate which allows faster progress but less optimisation, or a smaller learning rate which learns slower but is more effective at optimising (but avoiding the learning algorihtm from bouncing around a minima valley). Learning rate schedules aim to get the best of both scenarios by cycling through a minimum and maximum range across epochs.\newline
+
+The learning rate is specified to run schedule is specified to cycle through from min to max every $i$ epochs, from $\eta_{\min}$ to $\eta_{\max}$. Thus for the current epoch $T$, the learning rate is calculated using \ref{func_learning_rate_sched} below:
+
+\begin{equation}\label{func_learning_rate_sched}
+\eta_{t}=\eta_{\min }^{i}+\frac{1}{2}\left(\eta_{\max }^{i}-\eta_{\min }^{i}\right)\left(1+\cos \left(\frac{T_{\text {current}}}{T_{i}} \pi\right)\right)
+\end{equation}
+
+This approach is known as Stochastic Gradient Descent with Warm Restarts (SGDR) \cite{Loshchilov}. For a minimum learning rate of 0.1, a maximum of 1.0 and a epoch cycle of 100, it will produce learning rates as displayed in \ref{figure-SGDRLearningRates} below.
+
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/implementation/SGDRLearningRates.png}
+	\caption{Learning rates calculated over 1000 epochs with $\eta_{\min} = 0.1$ to $\eta_{\max} = 1.0$ and $i=100$}
+	\label{figure-SGDRLearningRates}
+\end{figure}		
 
 \subsection{Restricted Boltzmann Machines}\label{imp_rbm}
 
@@ -2261,13 +2299,13 @@ Restricted Boltzmann Machines (RBM) are generative networks which can be trained
 
 One of the primary differences from an FFN lies in the stochastic unit determination - the values in a hidden layer will typically be implemented such that the take on a binary value with a probablistic likelihood. Thus, the input and output have the same structure, and the processing from the hidden layer creates the generative process learned by the RBM. 
 ~\\
-The joint configuration $(v,h)$ of the visible and hidden units has an energy \todo{add Hopfield 1982 ref} given by:
+The joint configuration $(v,h)$ of the visible and hidden units has an energy given by:
 
 \begin{equation}\label{func_rbmenergy}
 E(v,h) = - \sum_{i \in visible} a_iv_i - \sum_{j \in hidden} b_jh_j - \sum_{i,j}v_ih_jw_ij
 \end{equation}
 
-where $v,h$ correspond to the binary states of the visible and hidden units, with biases $a,b$, and weights $w$. It can be shown \todo{add hinton reference TR guide}, that network weights can be adjusted to change the probabilities assigned to a particular training sample. The derivations of \ref{func_rbmenergy} show that performing a stochastic asent for the log probability of the data can be implemented through the following weight adjustment:
+where $v,h$ correspond to the binary states of the visible and hidden units, with biases $a,b$, and weights $w$ \cite{Hinton5}. It can be shown, that network weights can be adjusted to change the probabilities assigned to a particular training sample \cite{Hinton5}. The derivations of \ref{func_rbmenergy} show that performing a stochastic asent for the log probability of the data can be implemented through the following weight adjustment:
 
 \begin{equation}
 \Delta w_{ij} = \eta (\langle v_ih_j\rangle_{data} - \langle v_ih_j\rangle_{model})
@@ -2296,19 +2334,31 @@ While it's important for the hidden units to take on a binary value (and so avoi
 
 \subsubsection{Contrastive Divergence}\label{imp_CD}
 
-The process of sampling and resampling may be run for many iterations between the two layers before finishing on an output - this potentially long running and stochastic process results in the generative aspect of the network, and constitutes a Gibbs sampling chain. Multiple sampling steps in this chain is known as Contrastive Divergence, or CD-n, where $n$ represents the number of steps, and which allows for effective parameter estimation. Thus, CD-1 is the following:
+The process of sampling and resampling may be run for many iterations between the two layers before finishing on an output - this potentially long running and stochastic process results in the generative aspect of the network, and constitutes a Gibbs sampling chain. Multiple sampling steps in this chain is known as Contrastive Divergence, or CD-n, where $n$ represents the number of steps, and which allows for effective parameter estimation. Thus, CD-1 is the following:\newline
 
-\begin{itemize}
-	\item [$\cdot$] For a random training sample $V'$, sample $H'$ from $P(V|H)$
-	\item [$\cdot$] Sample $V$ from $P(V|H')$
-	\item [$\cdot$] Sample H from $P(H|V)$
-	\item [$\cdot$] Return $(V,H) \sim R $, where R is the reconstructed distribution for $\langle vh \rangle$
-\end{itemize}
 
-Using the reconstructed distribution $R(V,H)$, the weight update for CD-1 is, as above, then 
-\begin{equation}
-\Delta CD(W) = \eta( E_{P(H|V)D(V)}[VH^T] - E_{R(V,H)}[VH^T])
-\end{equation}
+\begin{algorithm}[H]
+	\KwIn{RBM Network $N$, with visible nodes $N$ and hidden nodes $H$ and distribution $\langle vh \rangle$}
+	\KwData{Training sample dataset $V'$}
+	
+	\texttt{\\}
+	
+	For a random training sample $V'$, sample $H'$ from $P(V|H)$;\newline
+	Sample $V$ from $P(V|H')$;\newline
+	Sample H from $P(H|V)$;\newline
+	Return $(V,H) \sim R $, where R is the reconstructed distribution for $\langle vh \rangle$;\newline
+	
+	Using the reconstructed distribution $R(V,H)$, the weight update for CD-1 is, as above, then 
+	\begin{equation}
+	\Delta CD(W) = \eta( E_{P(H|V)D(V)}[VH^T] - E_{R(V,H)}[VH^T])
+	\end{equation}
+	
+	
+	\KwResult{Reconstructed distribution for $\langle vh \rangle$}
+	
+	\label{algo_cd1}
+	\caption{CD-1}
+\end{algorithm}
 
 There's no upper bound on the iterations used for CD, and running for many can prove more effective for certain purposes. In this case however, where RBMs are used for the purposes of weight initialization, CD-1 is usually deemed sufficient.
 
@@ -2325,9 +2375,7 @@ Stacked autoencoders follow a similar structure, but with multiple hidden layers
 
 \subsubsection{Sigmoid based Greedy Layerwise SAE Training}\label{imp_sigmoidsae}
 
-The algorithm for implementing the SAE training suggested by Hinton et al \cite{Hinton2} is as follows
-
-
+The steps for implementing the SAE training suggested by Hinton et al \cite{Hinton2} is as follows
 
 \begin{itemize}
 	\item [1] Define a network structure which conforms to the requirements of an SAE, with $L$ layers
@@ -2357,16 +2405,32 @@ ReLU activations differ from Sigmoid in that they are not fitting for probabilit
 
 \subsubsection{Denoising Autoencoders}
 
-If denoising is implemented (presumably Gaussian denoising), then this section will detail the implementation. \todo{decide on this}
+As noted in \ref{lr_SDAE}, denoising can be used as an optimization technique for autoencoders in order to improve general performance and reconstruction. The methdology works by corrupting the input data for training, but using the non-corrupted data as the expected output sample. In doing so, this forces the autoencoder to learn more fundamental representations of the data rather then fitting to sample noise, hence "denoising". Two of the more typical techniques for achieving this have been implemented, as detailed below. In both cases, the noise is reapplied each time training samples are chosen.
+
+\paragraph{Additive Gaussian Noise}
+
+With Gaussian noise, samples are corrupted such that a degree of variance is added to the input according to a parameterized Gaussian distribution. In this case, the distribution variance is a configurable training parameter.
+
+\begin{equation}
+\tilde{{x}} | {x} \sim \mathcal{N}\left({x}, \sigma^{2} I\right)
+\end{equation}
+
+\paragraph{Masking Noise}
+
+With masking noise, a fraction of the features in the data are set to 0, thus masking them for that sample. The percentage of features chosen is a configurable training parameter.
 
 \subsection{Variance Based Weight Initializations}\label{imp_weights}
 
-Recent research, as noted in \todo{add LR reference here}, has shown that weights can be initialized to maintain expected variance between the input and output layers. These methodologies have the immediate advantages of simpler implementation, as well as faster computation (as no pre-training is required). The also allow for effective weight initialization of non-probabilistic activation functions, such as ReLU. Whether they result in better reconstructions or predictions is less clear (especially as the linearity assumption would prove faulty), and so the methods are tested here as well. 
+Recent research, as noted in \cite{He}, has shown that weights can be initialized to maintain expected variance between the input and output layers. These methodologies have the immediate advantages of simpler implementation, as well as faster computation (as no pre-training is required). The also allow for effective weight initialization of non-probabilistic activation functions, such as ReLU. Whether they result in better reconstructions or predictions is less clear (especially as the linearity assumption would prove faulty), and so the methods are tested here as well. 
 \newline\newline
-A typical initialization would be uniform, and layer component agnostic, such as the \todo{add ref} Hinton initialization suggested as
-\begin{equation}
-w_{ij} \sim N(0, 0.01)
+A common initialization heuristic is to use a uniform, and but not layer agnostic, initialization such as \ref{func_uniform_init} below. While simple enough, it's been shown that this does not always lead to the best training results, and can be outperformed by variance based initializations \cite{Glorot}.
+
+\begin{equation}\label{func_uniform_init}
+W_{i j} \sim U\left[-\frac{1}{\sqrt{n}}, \frac{1}{\sqrt{n}}\right]
 \end{equation}
+
+\subsubsection{Initialization Rationale}
+
 The variance balancing methodology is based on balancing the variance of a linear network. For input $X$, with $n$ components and linear neurons with weights $W$, and output $Y$,
 \begin{equation}
 Y = W_1X_1 + W_2X_2 + ... + X_nW_n
@@ -2385,32 +2449,40 @@ In the instance where there are not an equal number of nodes in the two layers, 
 Var(W_i) = \frac{2}{n_{in} + n_{out}}
 \end{equation}
 
+\subsubsection{Initializations}
 
-Using this as the weight values expectation function provides us with the Xavier Glorot initialization \todo{add ref} which can be used for Sigmoid activations, and is defined as follows
+\paragraph{Xavier} Using this as the weight values expectation function provides us with the Xavier Glorot initialization \cite{Glorot} which can be used for Sigmoid activations, and is defined as follows
 \begin{equation}
 w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}}
 \end{equation}
 
 where $n$ is the number of nodes in the $i^{th}$ or $j^{th}$ layer.
 \newline\newline
-The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He \todo{add ref} initialization is used
+\paragraph{He} The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He \cite{He} initialization is used
 
 \begin{equation}
 w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
 \end{equation}
 
 
-An adjusted initialization is presented here, dubbed 'DC', where the ReLU initialization uses a mean of the input and output layers in order to scale the weight variance. For networks with constant layer sizes, the intialization is the same as He, though for SAE networks which have layer size changes by definition, the DC initialization will result in more appropriately sized weights.
+\paragraph{He-Adjusted} An adjusted initialization is presented here, dubbed 'He-Adjusted', where the ReLU initialization uses a mean of the input and output layers in order to scale the weight variance. For networks with constant layer sizes, the intialization is the same as He, though for SAE networks which have layer size changes by definition, the He-Adjusted initialization will result in more appropriately sized weights.
 
 \begin{equation}
 w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
 \end{equation}
 
-\subsection{Learning Optimizations}\label{imp_learningopt}
 
-\subsubsection{Regularization}\label{imp_reg}
 
-\subsubsection{Learning Rate Schedule}\label{imp_lrsched}
+
+
+
+
+
+
+
+
+
+
 
 \subsection{CSCV \& PBO}\label{imp_cscv}
 
@@ -2432,32 +2504,43 @@ models calibration (e.g. the full IS dataset, rather than, by was of example, th
 This allows the model-free and non-parametric nature of the definition. 
 \hfill \break 
 
-They further developed the CSCV framework as a methodology to reliably estimate the probability used in PBO, which allows a concrete application of the concept. The CSCV framework does not require using the typical ‘hold-out’ strategy (and thus avoids credibility issues), and is ultimately able to provide a bootstrapped distribution of OOS performance. 
+They further developed the CSCV framework as a methodology to reliably estimate the probability used in PBO, which allows a concrete application of the concept. The CSCV framework does not require using the typical ‘hold-out’ strategy (and thus avoids credibility issues), and is ultimately able to provide a bootstrapped distribution of OOS performance. The full methodology is shown in \ref{algo_cscv} below \cite{BailyPBO}.
 \hfill \break 
 
-The full methodology is as follows \cite{BailyPBO}:
-\begin{itemize}
-	\item[1]Generate a TxN performance series matrix, $M$, representing the profits and losses by the $N$ configuration trials over $T$ time periods
-	\item[2]Partition the $M$ matrix by rows into $S$ submatrices, each of even size ($T/S x N$)
-	\item[3]Generate the combinations $C_S$ of $M_S$, in groups of size $S/2$, for total $\binom{S}{S/2}$ of combinations
-	\item[4]For each combination in $c \in C_S$:
+\begin{algorithm}[H]
+	\KwIn{$N$ configuration trials over $T$ time periods with P\&L}
+	\texttt{\\}
+		
 	\begin{itemize}
-		\item [a] Form a training set $J$ by joinined $S/2$ $M_S$ submatrices, in their original order. $J$ is a matrix of order $(T/S)(S/2)*N $
-		\item [b] Form the test set $\bar{J}$ as the complement of $J$ in $M$, once again in the original order
-		\item [c] Form a vector of $R^c$ of performance statistics of order $N$, where the $N$th component $R_n^c$ of $R^c$ reports the performance associated with the $n$th column of $J$
-		\item [d] Repeat [c] for $\bar{J}$ to derive $\bar{R}^c$ and $\bar{r}^c$
-		\item [e] Determine the element $n^*$ such that $R^c_n \in \Omega^*_n$ - i.e. $n^*$ is the best performing strategy IS
-		\item [f] Define the relative rank of $\bar{r}^c_{n^*}$ by $\bar{\omega}_c := \bar{r}^c_{n^*} / (N +1) \in (0,1)$. This is the relative rank of the OOS performance associated with the strategy chosen IS, which should systematically outperform OOS if no backtest overfitting has taken place
-		\item[g] Define the logit $\lambda_c = ln \frac{\bar{\omega}_c}{(1-\bar{\omega}_c)}$. High values here indicate consistency between IS and OOS performances (and so low ovefitting)
-	\end{itemize}
-	\item [5] The logit values can now be used to compute the distribution ranks of OOS, by collecting all $\lambda_c$ for $c \in C_S$. The relative frequency for $\lambda$ occurring across all $C_S$ is 
-	\begin{equation}
-	f(\lambda) = \sum_{c \in C_S}\frac{\chi_{\lambda}(\lambda_c)}{\#(C_S)}
-	\end{equation}
-	where $\chi$ is the characterization function and $\#(C_S)$ is the number of elements in $C_S$, and so $\int_{-\infty}^{\infty} f (\lambda) d \lambda = 1$
-\end{itemize}
+			\item[1]Generate a TxN performance series matrix, $M$, representing the profits and losses by the $N$ configuration trials over $T$ time periods
+			\item[2]Partition the $M$ matrix by rows into $S$ submatrices, each of even size ($T/S x N$)
+			\item[3]Generate the combinations $C_S$ of $M_S$, in groups of size $S/2$, for total $\binom{S}{S/2}$ of combinations
+			\item[4]For each combination in $c \in C_S$:
+			\begin{itemize}
+				\item [a] Form a training set $J$ by joinined $S/2$ $M_S$ submatrices, in their original order. $J$ is a matrix of order $(T/S)(S/2)*N $
+				\item [b] Form the test set $\bar{J}$ as the complement of $J$ in $M$, once again in the original order
+				\item [c] Form a vector of $R^c$ of performance statistics of order $N$, where the $N$th component $R_n^c$ of $R^c$ reports the performance associated with the $n$th column of $J$
+				\item [d] Repeat [c] for $\bar{J}$ to derive $\bar{R}^c$ and $\bar{r}^c$
+				\item [e] Determine the element $n^*$ such that $R^c_n \in \Omega^*_n$ - i.e. $n^*$ is the best performing strategy IS
+				\item [f] Define the relative rank of $\bar{r}^c_{n^*}$ by $\bar{\omega}_c := \bar{r}^c_{n^*} / (N +1) \in (0,1)$. This is the relative rank of the OOS performance associated with the strategy chosen IS, which should systematically outperform OOS if no backtest overfitting has taken place
+				\item[g] Define the logit $\lambda_c = ln \frac{\bar{\omega}_c}{(1-\bar{\omega}_c)}$. High values here indicate consistency between IS and OOS performances (and so low ovefitting)
+			\end{itemize}
+			\item [5] The logit values can now be used to compute the distribution ranks of OOS, by collecting all $\lambda_c$ for $c \in C_S$. The relative frequency for $\lambda$ occurring across all $C_S$ is 
+			\begin{equation}
+			f(\lambda) = \sum_{c \in C_S}\frac{\chi_{\lambda}(\lambda_c)}{\#(C_S)}
+			\end{equation}
+			where $\chi$ is the characterization function and $\#(C_S)$ is the number of elements in $C_S$, and so $\int_{-\infty}^{\infty} f (\lambda) d \lambda = 1$
+		\end{itemize}
+	
+	\KwResult{Reconstructed distribution for $\langle vh \rangle$}
+	\label{algo_cscv}
+	\caption{CSCV}
+\end{algorithm}
 
-The CSCV framework and results thus allows the consideration of several notable statistics. First and foremost, 
+
+
+\texttt{\\}
+\newline The CSCV framework and results thus allows the consideration of several notable statistics. First and foremost, 
 the PBO may now be estimated using the CSCV method and using an integral over the $f(\lambda)$ function 
 as defined above which offers a rate at which the best IS strategies underperform the median of OOS trials. The PBO is estimated using
 \begin{equation}
@@ -2479,47 +2562,47 @@ This section may detail any choices and implementation of the performance assess
 
 \subsection{Money Management Strategy and Returns}
 
-In line with the general approach here, the Money Management Strategy (MMS) has been designed to be relatively simple, such that the results are more indicative of the underlying modelling rather than intricate trading strategies. The MMS follows an arithmetic long strategy of buying any stock for which the predicted ${t+5}$ price is above the current price, and selling the stock at ${t+5}$. Trading costs have been included at 10\% capital costs per annum for borrowing to purchase, and 0.45\% for transaction costs. Results are compared to a "perfect" model which has exact knowledge of the price in 5 days, which represents an upper bound on performance.
+In line with the general approach here, the Money Management Strategy (MMS) has been designed to be relatively simple, such that the results are more indicative of the underlying modelling rather than intricate trading strategies. The MMS follows an arithmetic long strategy of buying any stock for which the predicted ${t+D}$ price is above the current price, and selling the stock at ${t+D}$. Trading costs have been included at 10\% capital costs per annum for borrowing to purchase, and 0.45\% for transaction costs. Results are compared to a "perfect" model which has exact knowledge of the price in $D$ days, which represents an upper bound on performance.
 \hfill\break
-Thus, for each stock at time $t$, the following values are stored or calculated:
+Thus, for each stock at time $t$ and prediction point $X$, the following values are stored or calculated:
+
+
 
 \begin{itemize}
-	\item $y_t$, the closing price for $t$
-	\item $y_{t+5}$, the closing price in 5 days
-	\item $\hat{y}_{t+5}$, the predicted closing price in 2 days
-	\item $trade\_long_t = bool(\hat{y}_{t+5} > y_t) \in (0, 1)$, a flag indicating whether a trade will take place on $t$
-	\item $trade\_long_{p,t} = bool({y}_{t+5} > y_t) \in (0, 1)$, a flag indicating whether a trade will take place on $t$ in the perfect model
-	\newline
-	\item $r_{o, t + 5} = y_{t+5} * trade\_long_t$, the observed return at $t+5$
-	\item $r_{e, t + 5} = \hat{y}_{t+5} * trade\_long_t$, the expected return at $t+5$
-	\item $r_{p, t + 5} = y_{t+5} * trade\_long_{p,t}$, the perfect return at $t+5$
-	\newline
-	\item $cost_t = y_t * trade\_long_t$, the cost incurred in buying the stock at time $t$
-	\item $cost_{p,t} = y_t * trade\_long_{p,t}$, the cost incurred in the perfect model at $t$
-	\newline
-	\item $trading\_cost= y_t * (0.1 / 365 * 2) + y_t * (0.45 / 100) $, the possible capital and transaction costs
-	\item $fullcost_t = (y_t + trading\_cost_t) * trade\_long_t$, the full cost of trading the stock at $t$ in the predictive model
-	\item $fullcost_{p,t} = (y_t + trading\_cost_t) * trade\_long_{p, t}$, the full cost of trading the stock at $t$ in the perfect model
+	\item [1] {$\texttt{y}_t$}, the closing price for $t$
+	\item [2] $\texttt{y}_{t+D}$, the closing price in $D$ days
+	\item [3] $\hat{\texttt{y}}_{t+D}$, the predicted closing price in $D$ days
+	\item [4] $\texttt{trade\_long}_t = bool(\hat{y}_{t+5} > y_t) \in (0, 1)$, a flag indicating whether a trade will take place on $t$
+	\item [5] $\texttt{trade\_long}_{p,t} = bool({y}_{t+5} > y_t) \in (0, 1)$, a flag indicating whether a trade will take place on $t$ in the perfect model
+	\item [6] $\texttt{r}_{o, t + D} = y_{t+D} * trade\_long_t$, the observed return at $t+D$
+	\item [7] $\texttt{r}_{e, t + D} = \hat{y}_{t+D} * trade\_long_t$, the expected return at $t+D$
+	\item [8] $\texttt{r}_{p, t + D} = y_{t+D} * trade\_long_{p,t}$, the perfect return at $t+D$
+	\item [9] $\texttt{cost}_t = y_t * trade\_long_t$, the cost incurred in buying the stock at time $t$
+	\item [10] $\texttt{cost}_{p,t} = y_t * trade\_long_{p,t}$, the cost incurred in the perfect model at $t$
+	\item [11] $\texttt{trading\_cost}= y_t * (0.1 / 365 * 2) + y_t * (0.45 / 100) $, the possible capital and transaction costs
+	\item [12] $\texttt{fullcost}_t = (y_t + trading\_cost_t) * trade\_long_t$, the full cost of trading the stock at $t$ in the predictive model
+	\item [13] $\texttt{fullcost}_{p,t} = (y_t + trading\_cost_t) * trade\_long_{p, t}$, the full cost of trading the stock at $t$ in the perfect model
 \end{itemize}
 
 \hfill\break
 The MMS  is then implemented using these calculated values which are aggregated at each time point $t$ for all stocks, $s$, as follows:
 
 \begin{itemize}
-	\item $R_{e, {t+5}} = \sum_{s \in stocks} r_{s, e, {t+5}}$, the expected return for $t+5$ from all stocks traded at $t$
-	\item $R_{o, {t+5}} = \sum_{s \in stocks} r_{s, o, {t+5}}$, the observed return for $t+5$ from all stocks traded at $t$
-	\item $R_{p, {t+5}} = \sum_{s \in stocks} r_{s, p, {t+5}}$, the perfect return for $t+5$ from all stocks traded at $t$	
-	\item $C_t = \sum_{s \in stocks} cost_{s,t}$ the cost of all trades at $t$
-	\item $C_{p,t} = \sum_{s \in stocks} cost_{s, p ,t}$ the cost of all trades at $t$ in the perfect model
-	\item $FC_t = \sum_{s \in stocks} fullcost_{s,t}$ the cost of all trades at $t$ including transaction costs
-	\item $FC_{p,t} = \sum_{s \in stocks} fullcost_{s, p ,t}$ the cost of all trades at $t$, including transation costs, in the perfect model	
+	\item [14] $\texttt{R}_{e, {t+D}} = \sum_{s \in stocks} r_{s, e, {t+D}}$, the expected return for $t+D$ from all stocks traded at $t$
+	\item [15]  $\texttt{R}_{o, {t+D}} = \sum_{s \in stocks} r_{s, o, {t+D}}$, the observed return for $t+D$ from all stocks traded at $t$
+	\item [16]  $\texttt{R}_{p, {t+D}} = \sum_{s \in stocks} r_{s, p, {t+D}}$, the perfect return for $t+D$ from all stocks traded at $t$	
+	\item [17]  $\texttt{C}_t = \sum_{s \in stocks} cost_{s,t}$ the cost of all trades at $t$
+	\item [18]  $\texttt{C}_{p,t} = \sum_{s \in stocks} cost_{s, p ,t}$ the cost of all trades at $t$ in the perfect model
+	\item [19]  $\texttt{FC}_t = \sum_{s \in stocks} fullcost_{s,t}$ the cost of all trades at $t$ including transaction costs
+	\item [20]  $\texttt{FC}_{p,t} = \sum_{s \in stocks} fullcost_{s, p ,t}$ the cost of all trades at $t$, including transation costs, in the perfect model	
 \end{itemize}
 \hfill\break
 The final model return is thus established as $\sum_t{R_t} / \sum_t{C_t} $, for any variations of observed, expected or perfect returns as well as base and full costs. These model returns are used to establish the performance of the different predictive models which were trained.\newline
 \hfill\break
-An additional consideration of the MMS is the daily rates generated by the strategy, which incorporate the costs of any trades incurred, as well as any returns seen at $t$, such that $dailyrate_t = R_{t-5} - C_t$.
+An additional consideration of the MMS is the daily rates generated by the strategy, which incorporate the costs of any trades incurred, as well as any returns seen at $t$, such that $\texttt{dailyrate}_t = R_{t-D} - C_t$.
 
-\subsection{Full Process Implementation}\label{imp_fullprocess}
+\newpage
+\section{Process Implementation}\label{imp_fullprocess}
 
 The full process tested here, combining the techniques defined thus far in the paper, is defined  below:
 
@@ -3243,6 +3326,9 @@ Harvey, Campbell R. and Liu, Yan, Backtesting (July 28, 2015). Available at SSRN
 \bibitem{Hawkins}
 Hawkins, Douglas. (2004). The Problem of Overfitting. Journal of chemical information and computer sciences. 44. 1-12. 10.1021/ci0342472. 
 
+\bibitem{He}
+Kaiming He,  Xiangyu Zhang,  Shaoqing Ren,  Jian Sun. Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification. Available at: https://arxiv.org/pdf/1502.01852.pdf
+
 \bibitem{Hinton1}
 Geoffrey E. Hinton, Simon Osindero, and Yee Whye Teh. A fast learning algorithm for deep belief nets. Neural Computation, 18:1527–1554, 2006. 
 Available at: https://www.mitpressjournals.org/doi/abs/10.1162/neco.2006.18.7.1527
@@ -3259,6 +3345,9 @@ Volume 14 | Issue 8 | August 2002  p.1771-1800 . Available at: https://www.mitpr
 \bibitem{Hinton4}
 Hinton, Geoffrey E., et al. "Improving neural networks by preventing co-adaptation of feature detectors." arXiv preprint arXiv:1207.0580 (2012).
 Available at: https://arxiv.org/pdf/1207.0580.pdf
+
+\bibitem{Hinton5}
+Geoffrey E. Hinton, A Practical Guide to Training Restricted Boltzmann Machines, August 2, 2010. Available at: http://learning.cs.toronto.edu
 
 \bibitem{HLZ}
 Campbell R. Harvey \& Yan Liu \& Heqing Zhu, 2016. "… and the Cross-Section of Expected Returns," Review of Financial Studies, vol 29(1), pages 5-68.
@@ -3334,6 +3423,10 @@ Liu X., Lin Z., Wang H. Novel Online Methods for Time Series Segmentation.  IEEE
 
 \bibitem{Lo}
 Lo, Andrew W., The Statistics of Sharpe Ratios. Financial Analysts Journal, Vol. 58, No. 4, July/August 2002. Available at SSRN: https://ssrn.com/abstract=377260
+
+\bibitem{Loshchilov}
+Ilya Loshchilov, Frank Hutter, SGDR: Stochastic Gradient Descent with Warm Restarts, ICLR 2017 conference paper. Available at: https://arxiv.org/abs/1608.03983
+
 
 \bibitem{Lv}
 Yisheng Lv, Yanjie Duan, Wenwen Kang, Zhengxi Li, and Fei-Yue Wang. Traffic Flow Prediction With Big Data:

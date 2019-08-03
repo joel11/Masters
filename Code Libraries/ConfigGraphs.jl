@@ -107,6 +107,7 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration5_6 AGL Test FFN Tests%' then 'Iteration5_6 AGL Test FFN Tests'
        when experiment_set_name like 'Iteration5_7 AGL Test FFN Tests%' then 'Iteration5_7 AGL Test FFN Tests'
        when experiment_set_name like 'Iteration1_1 SAE Actual10 Test%' then 'Iteration1_1 SAE Actual10 Test'
+       when experiment_set_name like 'Iteration1 SAE Actual10 Test%' then 'Iteration1 SAE Actual10 Test'
 
 
 
@@ -129,6 +130,19 @@ category_ids = RunQuery(category_query)
 #minimum(config_ids)
 #maximum(config_ids)
 #28499:29218
+
+function It10_SAE()
+    setnames = ["Iteration1 SAE Actual10 Test"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Init_MinTest_MxMSE(config_ids)
+    SAE_Deltas_MinTest_MxMSE(config_ids)
+
+    SAE_MaxLR_MinTest_BxMSE(config_ids)
+    SAE_LREpochs_MinTest_BxMSE(config_ids)
+
+    SAE_EncodingSizes_MinMSE(config_ids)
+    SAE_LayerSizes_MinMSE(config_ids)
+end
 
 function It10_SAE()
     setnames = ["Iteration1_1 SAE Actual10 Test"]
