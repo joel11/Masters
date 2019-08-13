@@ -2053,21 +2053,6 @@ Synthetic data generation is implemented using Geometric Brownian Motion as desc
 
 
 
-\subsection{Synthetic Dataset}
-
-This section will detail the chosen $\sigma$ and $\mu$ values for the dataset. \todo{finish this}
-
-Synthetic datasets were generated to represent known trends with some variance in prices. Geometric Brownian motion was used to simulate stock price movements, and had a structure of 6 stocks:
-
-\begin{itemize}
-	\item [$\cdot$] 2 stocks with an upward trend, and high and low variance levels
-	\item [$\cdot$] 2 stocks with a downward trend, and high and low variance levels
-	\item [$\cdot$] 2 stocks with a sideways trend, and high and low variance levels
-\end{itemize}
-
-\subsection{Real Dataset}
-
-This section will detail the use of real data - namely the JSE ALSI data collected, and the time periods collected for. Detail will be added once this dataset has been finalised. \todo{finish this}
 
 \newpage
 \section{Implementation}\label{Implementation}
@@ -2560,7 +2545,7 @@ where seeking increased IS performance is detrimental to the goal of improving O
 
 This section may detail any choices and implementation of the performance assessment to be used in CSCV if it's not just the Sharpe Ratio. \todo{}
 
-\subsection{Money Management Strategy and Returns}
+\subsection{Money Management Strategy and Returns}\label{imp_mms}
 
 In line with the general approach here, the Money Management Strategy (MMS) has been designed to be relatively simple, such that the results are more indicative of the underlying modelling rather than intricate trading strategies. The MMS follows an arithmetic long strategy of buying any stock for which the predicted ${t+D}$ price is above the current price, and selling the stock at ${t+D}$. Trading costs have been included at 10\% capital costs per annum for borrowing to purchase, and 0.45\% for transaction costs. Results are compared to a "perfect" model which has exact knowledge of the price in $D$ days, which represents an upper bound on performance.
 \hfill\break
@@ -2652,17 +2637,16 @@ Once the predictive network is trained, the OGD process is run through the encod
 
 \subsection{Money Management Strategy}\label{proc_mms}
 
-\begin{itemize}
-	\item [6] Returns generations
-	\begin{itemize}
-		\item[$\bullet$] The trading strategy, as per \ref{imp_tradingstrat}, will be used to generate returns from the predicted and actual prices in the OGD dataset. These returns for each time period and each configuration of the model defined by steps 3-5 will form the $M$ matrix for the CSCV process.
-	\end{itemize}	
-	\item [7] CSCV \& PBO
-	\begin{itemize}
-		\item[$\bullet$] Using the $M$ matrix from 6, the CSCV process will be run which will then allow a calculation of PBO.
-	\end{itemize}		
-\end{itemize}
+The MMS, as described in \ref{imp_mms}, takes a proof of concept approach to the system being investigated. It is a simple long strategy with a set liquidation point, and no notable refinement. The naive approach is taken purposefully here, so as not to bias the perspective of the system as a whole by the effects of an impactful trading strategy. A more effective trading strategy would incorporate a shorting side as well, though ultimately this isn't necessary in order to obtain a necessary indication of efficacy for the system (and conceptually, a consistently losing long strategy would be of interest in any case).  \newline
 
+It is important, in the interest of effective optimization and development, that the pattern recognition in the prediction portion of the system is not tightly coupled with making it profitable. With this in mind, the modularity of the system is continued, with a distinct separation between the prediction signal and the MMS implementation which relies only on the predicted prices of each stock for a time point. The comparisons for the MMS are made against a benchmark of the same MMS, but with perfect information. This allows an indication for how effective the prediction system is (and need be) in order to generate comporable returns. \newline \todo{Can we learn to beat best stock paper ? Paper}
+
+An effective, production trading strategy would be likely to include stop losses or pyramiding stop losses for effective P\$L optimization. An ideal implementation, and possible area for further work, would include an MMS strategy where the bands for this are defined using a machine learning technique (rather than being chosen from domain knowledge or heuristics).\newline
+
+
+\subsection{CSCV \& PBO}\label{proc_cscv}
+
+The CSCV and PBO parts of the system are the most straightforward, in the sense that they are mostly just an implementation of the algorithm detailed in \ref{imp_cscv}. The CSCV process uses the returns from the MMS, which in turn used the prices from the predictions network. Conceptually, the whole system comes into place here, as the results from the CSCV process are now indicative of not only backtest overfitting in the trading strategy, but also in the prediction network and without having to consider the impact of many configuration tests for feature extraction.
 
 
 
@@ -2696,39 +2680,57 @@ Once the predictive network is trained, the OGD process is run through the encod
 \newpage
 \section{Results}\label{Results}
 
-An introduction to the results, highlighting the important findings and sections.
+An introduction to the results, highlighting the important findings and sections. \todo{}
 
 \subsection{Datasets Used}
 
 \subsubsection{Synthetic Datasets}
 
-Data was generated and scaled, as per the methods detail in \ref{data_synthetic} and \ref{data_scaling}. The sets were generated with the following configurations, each for 5000 timesteps and with a 60/40 split on the SAE\&SGD/OGD training.
+Data was generated and scaled, as per the methods detail in \ref{data_synthetic} and \ref{data_scaling}. The sets were generated with the following configurations, each for 5000 timesteps and with a 60/40 split on the Training and Prediction sets \ref{proc_dataprep} .
 
 \paragraph{Synthetic6} \label{dataset_synthetic6}
 
-\begin{itemize}
-	\item Upward Trend, High variance: $\mu$ = 0.9 and $\sigma$ = 0.5
-	\item Upward Trend, Low variance:  $\mu$ = 0.9 and $\sigma$ = 0.2
-	\item Downward Trend, High variance:  $\mu$ = -0.8 and $\sigma$ = 0.55
-	\item Downward Trend, Low variance:  $\mu$ = -0.8 and $\sigma$ = 0.15
-	\item Sideways Trend, High variance:  $\mu$ = 0.05 and $\sigma$ = 0.4
-	\item Sideways Trend, Low variance:  $\mu$ = 0.05 and $\sigma$ = 0.1			
-\end{itemize}
+The Synthetic6 dataset was configured to represent a combination of upwards, downwards and sideways Trends, each with high and low variance variations.
+
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\textbf{Trend Category} &\textbf{Variance Category} & \textbf{Trend Mean} & \textbf{Variance}\\\hline	
+			{Strong Upward} & {High} & {0.9} & {0.5} \\\hline
+			{Strong Upward} & {Low} & {0.9} & {0.2} \\\hline
+			{Upward} & {High} & {0.05} & {0.4} \\\hline
+			{Upward} & {Low} & {0.05} & {0.1} \\\hline
+			{Strong Downward} & {High} & {-0.8} & {0.55} \\\hline
+			{Strong Downward} & {Low} & {-0.8} & {0.15} \\\hline
+		\end{tabular}
+		\newline\newline
+		\caption{Sytnetic 6 Dataset Configuration}\label{tab_synth6}
+	\end{table}
 
 \paragraph{Synthetic10}\label{dataset_synthetic10}
 
-\begin{itemize}
-	\item ($\mu$ = 0.9, $\sigma$ = 0.5)
-	\item ($\mu$ = 0.7, $\sigma$ = 0.2)
-	\item ($\mu$ = 0.05, $\sigma$ = 0.4)
-	\item ($\mu$ = 0.05, $\sigma$ = 0.5)
-	\item ($\mu$ = 0.04, $\sigma$ = 0.1)
-	\item ($\mu$ = 0.02, $\sigma$ = 0.15)
-	\item ($\mu$ = 0.01, $\sigma$ = 0.05)
-	\item ($\mu$ = -0.8, $\sigma$ = 0.55)
-	\item ($\mu$ = -0.4, $\sigma$ = 0.15)
-	\item ($\mu$ = -0.1, $\sigma$ = 0.2)
-\end{itemize}
+The Synthetic10 dataset was configured to represent a wide array of behaviours, including very high (positive and negative) mean stocks, as well as much lower mean stocks (which may be more representative of typical behaviour). These were chosen to make sure the network learning is able to differentiate and correctly learn across different asset categories.
+
+	\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{Trend Category} &\textbf{Variance Category} & \textbf{Trend Mean} & \textbf{Variance}\\\hline	
+		{Strong Upward} 		& {High} & {0.9} & {0.5} \\\hline
+		{Strong Upward} 		& {Low} & {0.7} & {0.2} \\\hline
+		{Upward} 					& {High} & {0.05} & {0.5} \\\hline
+		{Upward} 					& {High} & {0.05} & {0.4} \\\hline
+		{Upward} 					& {Low} & {0.04} & {0.1} \\\hline
+		{Sideways} 					& {Low} & {0.02} & {0.15} \\\hline
+		{Sideways}					& {Low} & {0.01} & {0.05} \\\hline
+		{Downwards}				& {Low} & {-0.1} & {0.2} \\\hline
+		{Strong Downward} 	& {Low} & {-0.4} & {0.15} \\\hline
+		{Strong Downward}	& {High} & {-0.8} & {0.55} \\\hline
+	\end{tabular}
+	\newline\newline
+	\caption{Sytnetic 10 Dataset Configuration}\label{tab_synth10}
+\end{table}
 
 \fcolorbox{red}{white}{This set was configured erroneously with the excessively high means.}
 
