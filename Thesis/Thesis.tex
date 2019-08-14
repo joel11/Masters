@@ -53,1192 +53,6 @@
 \begin{document} 
 	\sectionfont{\large\sf\bfseries\color{black!70!blue}} 
 
-\begin{technicaldoc}
-	
-	\Huge\textbf{Technical document}
-	
-	\bigskip\large\textbf{1. Current Implementation Status}\bigskip\normalsize
-
-	The library implementations are at a point such that an end-to-end process can be run: data with training parameters are specified, and a CSCV based PBO is output.
-
-	\bigskip A full list of implementations is as follows:
-	
-	\begin{itemize}
-		\item[$\bullet$] Network Types
-		\begin{itemize}
-			\item[$\cdot$] Feedforward Network
-			\item[$\cdot$] Restricted Boltzmann Machine
-			\item[$\cdot$] Stacked Auto Encoder
-		\end{itemize}
-		\item[$\bullet$] Learning Algorithms
-		\begin{itemize}
-			\item[$\cdot$] Contrastive Divergence-1 for RBM pre-training
-			\item[$\cdot$] Online Gradient Descent
-			\item[$\cdot$] Stochastic Gradient Descent
-		\end{itemize}
-		\item[$\bullet$] Validation Algorithms
-		\begin{itemize}
-			\item[$\cdot$] CSCV
-			\item[$\cdot$] PBO
-		\end{itemize}
-		\item[$\bullet$] Data Processes
-		\begin{itemize}
-			\item[$\cdot$] Log fluctuation implementation to format dataset with rolling windows
-			\item[$\cdot$] Library to generate synthetic data
-		\end{itemize}	
-		\item[$\bullet$] Optimizations
-		\begin{itemize}
-			\item[$\cdot$] SGD: L1 Regularizations
-			\item[$\cdot$] Learning Schedule Epochs
-			\item[$\cdot$] Denoising: Gaussian Noise \& Feature On-Off Switching			
-		\end{itemize}
-		\item[$\bullet$] Neural Network Configurations
-		\begin{itemize}
-			\item[$\cdot$] Activations: Sigmoid, ReLU, Softmax
-			\item[$\cdot$] Initialisations: Normal, Hinton, Xavier, He (Normal \& Uniform variations)
-			\item[$\cdot$] Cost Functions: MSE, CE, Loglikehood
-		\end{itemize}
-		\item[$\bullet$] Output Library
-		\begin{itemize}
-			\item[$\cdot$] Effective graphing of training logs (epoch based performance, weight update rates, output reconstructions etc.)
-		\end{itemize}
-		\item[$\bullet$] Technical Testing
-		\begin{itemize}
-			\item[$\cdot$] Basic hyperparameter search method \& outputs
-			\item[$\cdot$] Automated Unit Tests for CD1, OGD and
-		\end{itemize}	
-		\item[$\bullet$] Database Implementation
-		\begin{itemize}
-			\item[$\cdot$] Recording results and configurations in SQL Lite database
-			\item[$\cdot$] Recording networks (SAE) in bson files
-	\end{itemize}	
-	\end{itemize}
-	
-
-	\newpage
-	
-	\bigskip\large\textbf{2. Iteration Results}\bigskip\normalsize
-
-	\bigskip\large\textbf{Iteration 4: 3rd June}
-
-	\paragraph{Weight Initializations}
-
-	Weight initializations for SAE were tested using the typical Xavier \& He intialization techniques, as well as a customed ("DC") initialization.
-	
-	Xavier:
-	\begin{equation}
-	w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}}
-	\end{equation}
-	
-	The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He initialization is used
-	
-	\begin{equation}
-	w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
-	\end{equation}
-	
-	DC:
-	\begin{equation}
-	w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
-	\end{equation}
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_sae_init.png}
-		\caption{Weight Initialization for SAE \newline The box plots show the MSE for a series of SAE networks trained. Surprisingly, the generally used He initialization has the worst performance, whereas the Xavier and DC initializations largely better and on par.}
-		\label{figure-it4_sae_init}
-	\end{figure}
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_four/it4_ffn_init.png}
-	\caption{Weight Initialization for Predictive FFN \newline The box plots show the profits for a series of FFN networks trained, with the custom DC init showing better performance to Xavier.}
-	\label{figure-it4_ffn_init}
-	\end{figure}
-
-
-
-	\paragraph{Network Structures}
-
-	Networks were trained at various number of layers and layer sizes, as presented below.
-
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_sae_layers.png}
-		\caption{Network Sizes for SAE \newline The box plots show the MSE for the series of SAE networks trained. The results show worse performance for the typical descending network sizes used for SAE, and show no improvement form increasing network size and complexity.}
-		\label{figure-it4_sae_layers}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_ffn_network_size.png}
-		\caption{Network Sizes for Predictive FFN \newline The box plots show the profits for the series of FFN networks trained, showing small improvments for network size increases.}
-		\label{figure-it4_ffn_network_size}
-	\end{figure}
-
-
-	\paragraph{Data Windows}
-
-	All configurations were tested using data windows of 
-	\begin{itemize}
-		\item (1, 5, 20)
-		\item(5, 20, 60)
-		\item (10, 20, 60)
-	\end{itemize}
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_four/it4_sae_deltas.png}
-	\caption{SAE Data Window Aggregations \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The MSE is lower for the higher aggregations, presumably due to reduced noise in the dataset, which may support longer windows in further training.}
-	\label{figure-it4_sae_deltas}
-	\end{figure}
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_four/it4_ffn_deltas.png}
-	\caption{FFN Data Window Aggregations \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations once again supporting longer windows in further training.}
-	\label{figure-it4_ffn_deltas}
-	\end{figure}
-
-	\paragraph{Best network performance}
-
-	The stock data generated for this iteration had 10 assets with the following stocks and variances
-	\begin{itemize}
-		\item (0.9, 0.5)
-		\item (0.7, 0.2)
-		\item (0.05, 0.4)
-		\item (0.05, 0.5)
-		\item (0.04, 0.1)
-		\item (0.02, 0.15)
-		\item (0.01, 0.05)
-		\item (-0.8, 0.55)
-		\item (-0.4, 0.15)
-		\item (-0.1, 0.2)
-	\end{itemize}
-
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_best_profit.png}
-		\caption{Best Network Cumulative Profits \newline The graph here shows cumulative profits for the best network and benchmark, both producing profits with costs attached.}
-		\label{figure-it4_best_profit}
-	\end{figure}
-	
-
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_confusion.png}
-		\caption{Best Network Confusion Matrix \newline A confusion matrix showing the match up of trades and no trades on all assets for the best model and benchmark.}
-		\label{figure-it4_confusion}
-	\end{figure}
-
-
-
-
-	\paragraph{Regularization}
-
-	Once again, the regularization shows notable worse performance, now on the predictive network as well. This still stands in contrast to the increased performance from the learning rates schedule.
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_four/it4_reg.png}
-	\caption{Predictive Network Regularization \newline Effects of L1 regularization on predictive network profits.}
-	\label{figure-it4_reg}
-	\end{figure}
-
-	\newpage\bigskip\large\textbf{Iteration 3: 17th May}
-
-	\paragraph{Linear vs ReLU: Smaller Network}
-
-	Synthetic assets (6) were used on smaller prediction networks to test the performance of Linear vs. ReLU activations, once again showing the higher performance of Linear activations.
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_linear_vs_relu.png}
-	\caption{Linear vs ReLU activation on smaller networks \newline The boxplots here show the summary of P\&L at networks with smaller layer sizes than previously. The networks were trained on 6 synthetic assets with a total of 18 inputs, and box groupings reflect different sized autoencoders and learning rates (720 configurations in total). We once again see the outperformance of ReLU by the linear activations.}
-	\label{figure-it3_linear_vs_relu}
-	\end{figure}		
-
-	\paragraph{Leaky ReLU vs ReLU}
-
-	Leaky ReLU activations were implemented and tested using synthetic data, showing negligible differences on SAE but slighly better performance on the predictive FFN networks. The differences seem to range from none to a marginal gain, which makes sense.
-
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_leaky_relu_1.png}
-		\caption{SAE: Leaky ReLU vs ReLU \newline The plot above shows the MSE for 120 different SAEs, grouped by encoding size and activations.}
-		\label{figure-it3_leaky_relu_1}
-	\end{figure}		
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_leaky_relu_3.png}
-	\caption{FFN: Leaky ReLU vs ReLU \newline The plot above shows the P\&L for 80 different predictive networks, grouped by activation, showing some improvements from the Leaky ReLU.}
-	\label{figure-it3_leaky_relu_3}
-	\end{figure}		
-	
-	\paragraph{SAE Selection: MSE vs MAPE}
-
-	The P\$L was compared for SAEs chosen using MAPE rather than MSE. The performance are fairly similar, with MSE being the better.
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_mse_vs_mape.png}
-	\caption{MSE vs MAPE \newline The plot above shows the P\&L for 1920 different predictive networks, grouped by SAE selection method, showing little difference, but some improvement from MSE.}
-	\label{figure-it3_mse_vs_mape}
-	\end{figure}		
-
-	\paragraph{L1 Regularization}
-
-	L1 Regularization was implemented and tested on a selection of 10 real assets, as per below.
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_l1reg_sae.png}
-		\caption{SAE L1 Regularization - 10 Real Assets \newline The plot above shows the MSE for 360 different SAE networks, grouped by L1 Lambda, showing notable degradation as regularization is increased. Synthetic data tests showed no performance changes below 0.01.}
-		\label{figure-it3_l1reg_sae}
-	\end{figure}		
-	
-	\paragraph{Learning Rate Schedule Implementation}
-	
-	A learning rate schedule, where the learning rate cycles through a sine-like curve every 100/200 epochs was implemented and tested on real asset SAEs as below.
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_lr_schedule.png}
-		\caption{SAE Learning Rate Schedule - 10 Real Assets \newline The plot above shows the MSE for 120 different SAE networks, grouped by the maximum learning rate, where all minimum learning rates were 0.00001. The scheduling with high rates shows a clearly better performance and exploration of solution space.}
-		\label{figure-	it3_lr_schedule}
-	\end{figure}		
-
-
-	\paragraph{Denoising - On/Off Feature Selection}
-	
-	Denoising where random features are switched on or off for each epoch was implemented.
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_denoising_onoff.png}
-		\caption{SAE Denoising - 10 Real Assets \newline The plot above shows the MSE for 72 different SAE networks, grouped by the percentage of features switch off at random.}
-		\label{figure-it3_denoising_onoff}
-	\end{figure}
-	
-	
-	
-	\paragraph{Validation Set Percentage}
-	
-	A full set of tests were run on synthetic data to determine the effect of excluding data from the SGD training of the predictive network (through the mechanism of the validation set). It should be noted that these predictive networks make use of SAEs that were trained on 80\% of the data regardless, which may prime the input of data to the predictive network despite the portion of data being excluded. It would seem that the use of historical data is very beneficial, but not the primary factor in determining P\$L. It may even just be the equivalent of pre-training weight initialisation for the OGD phase.
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_validationset.png}
-		\caption{SAE Denoising - 6 Synthetic Assets \newline The plot above shows the P\&L for 160 different FFN predictive networks, grouped by the percentage of data excluded from the SGD training.}
-		\label{figure-it3_validationset}
-	\end{figure}
-	
-	
-	\subsection{Limited Synthetic Asset Tests}
-	
-	Tests were run on 1, 2, 3 and 4 synthetic asset datasets using the same mean / same variance approach suggested to determine how well the model is able to learn in a limited (simpler) context.
-	
-	Tests were run on a 5 day prediction point in order to aim for a profitable strategy, and different past window inputs of [1, 10, 20 ] days or [10, 20, 60] days to see if the removal of the 1 day price change would change the martingale effect being presented. SAEs were also trained with varying encoding layer sizes to test if the number of assets is typically the optimal number.
-	
-	\paragraph{1 Asset}
-	
-	High Mean, Low Variance test (0.6, 0.04)
-	32 Predictive Networks trained
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_1asset_encoding.png}
-	\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 1 asset according to the different encoding size in the P\&L. Maximum P\$L is the same for both 1 and 2 encoding.}
-	\label{figure-it3_1asset_encoding}
-	\end{figure}	
-	
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_1asset_bestffn.png}
-	\caption{Cumulative P\&L for best 1 Asset network \newline The plot above shows the P\&L for  the best 1 asset network.}
-	\label{figure-it3_1asset_bestffn}
-	\end{figure}
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_1asset_pricerec.png}
-	\caption{Price Recreation for best 1 Asset network \newline The plot above shows the predicted prices for the best 1 asset network.}
-	\label{figure-it3_1asset_pricerec}
-	\end{figure}
-	
-	
-	\paragraph{2 Asset}
-
-	Means = (0.05, 0.6)
-	Variances = (0.02, 0.4)
-
-	128 Predictive Networks trained
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_variations.png}
-	\caption{Variations P\&L \newline The plot above shows the P\&L for 2 asset according to the different mean \& variance combinations. }
-	\label{figure-it3_2asset_variations}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_encoding.png}
-		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 2 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.}
-		\label{figure-it3_2asset_encoding}
-	\end{figure}	
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_bestffn.png}
-		\caption{Cumulative P\&L for best 2 Asset network \newline The plot above shows the P\&L for  the best 2 asset network.}
-		\label{figure-it3_2asset_bestffn}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_pricerec.png}
-		\caption{Price Recreation for best 2 Asset network \newline The plot above shows one of the predicted prices for the best 2 asset network.}
-		\label{figure-it3_2asset_pricerec}
-	\end{figure}
-	
-	
-	\paragraph{3 Asset}
-	
-    Means = (0.05, 0.2, 0.6)
-	Variances = (0.02, 0.1, 0.4)
-
-	240 Predictive Networks trained
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_3asset_variations.png}
-		\caption{Variations P\&L \newline The plot above shows the P\&L for 3 asset according to the different mean \& variance combinations. }
-		\label{figure-it3_3asset_variations}
-	\end{figure}
-
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_3asset_encoding.png}
-		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 3 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.}
-		\label{figure-it3_3asset_encoding}
-	\end{figure}	
-
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_3asset_bestffn.png}
-		\caption{Cumulative P\&L for best 3 Asset network \newline The plot above shows the P\&L for  the best 3 asset network.}
-		\label{figure-it3_3asset_bestffn}
-	\end{figure}
-	
-	\paragraph{4 Asset}
-	
-	 Means = (0.05, 0.2, 0.4, 0.8)
-	 Variances = (0.02, 0.1, 0.3, 0.6)
-	
-	 384 Predictive Networks trained
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_4asset_variations.png}
-		\caption{Variations P\&L \newline The plot above shows the P\&L for 4 asset according to the different mean \& variance combinations. }
-		\label{figure-it3_4asset_variations}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_4asset_encodings.png}
-		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 4 asset according to the different encoding size in the P\&L. This supports the idea of the number of assets being the best encoding.}
-		\label{figure-it3_4asset_encoding}
-	\end{figure}	
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_4asset_bestffn.png}
-		\caption{Cumulative P\&L for best 4 Asset network \newline The plot above shows the P\&L for the best 4 asset network.}
-		\label{figure-it3_4asset_bestffn}
-	\end{figure}
-	
-	
-	\paragraph{Effect of Rolling Window Sizes}
-
-	The effects of the [1, 10, 20] and [10, 20, 60] window sizes
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_all_deltas.png}
-		\caption{Effect of Rolling Window Sizes on P\$L for 1, 2, 3 and 4 Assets}
-		\label{figure-it3_all_deltas}
-	\end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	\newpage
-	\bigskip\large\textbf{Iteration 2: 26th April}
-
-	\paragraph{Sigmoid Pre-training Efficacy}
-		
-	The pre-training implementation was tested using the MNIST dataset using 2 validations: the first was RBM training to generate variations of the MNIST data which was inspected manually and considered to be working correctly, the second of which was to use pre-training on a classification network and assess the benefit, as in the graph below.
-		
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/pt/rbm_pretraining.png}
-	\caption{SAE MSE By Scaling \newline The three series above show the classification accuracy scores (percentage) by epoch on an AutoEncoder which was used to classify MNIST images. The series were trained with 0, 1 and 5 pre-training epochs, and show a clear improvment in having an epoch of pre-training in the SAE formation (though not much for more than 1).}
-	\label{figure-pretraining-effect}
-	\end{figure}		
-		
-	Having considered the implementation to be correct and effective in the classic use case, it was then trialled on the following SAE configuration, with the results in the graphs below.
-	\begin{itemize}
-		\item Data: Closing prices for AGL \& ACL
-		\item Processing: Time windows of 1, 5 and 20 (thus an input vector of size 6)
-		\item Encoding Layer Activations: Sigmoid and Linear
-		\item Encoding Layer Size: 5
-		\item Hidden Layer Size: 15
-		\item Number of Hidden Layers: 1, 2
-		\item Learning Rates: 0.0000001, 0.00001, 0.001, 0.1, 1.0, 2.0
-	\end{itemize}
-		
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png}
-	\caption{Pre-training Effects on financial SAE \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.}
-	\label{figure-it2-pretraining-effect}
-	\end{figure}		
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_Learning_Rates_epochs_Min_Test_MSE.png}
-	\caption{Pre-training Effects on financial SAE, by learning rate \newline These boxplots show the same as above, but further grouped by learning rate. We can see the few samples that appears to be benefiting from having 1 epoch of pre-training are simply a result of the learning rate being small enough so as not to have much effect.}
-	\label{figure-it2-pretraining-effect2}
-	\end{figure}		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	\paragraph{SAE Linear Activation Tests}		
-	
-	In consideration of the previous iterations results, numerous tests were run to assess the efficacy of Linear Activations in the encoding and output layers of the SAE networks. The list of configuration combinations are below.
-	\begin{itemize}
-		\item Data: Closing Prices for ACL, AGL, AMS, AOD, BAW, BIL, BVT, CFR, CRH, DDT
-		\item Data Windows: 1, 5, 20 (thus input of 30)
-		\item Data Scaling: Normalize, Standardize
-		\item Weight Init,: Xavier Glorot Uniform
-		\item All Layer Encodings: Sigmoid, ReLU, Linear (split by hidden, encoding and output)
-		\item Encoding Layer Size: 5, 15, 25
-		\item Hidden Layer Size: 60, 120
-		\item Number of Hidden Layers: 1, 2, 3
-		\item Learning Rates: Various for each different activation type (chosen by hidden activation used)
-	\end{itemize}
-		
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png}
-	\caption{Effects of Standardizing \& ReLU Output \newline These boxplots show the MSE scores for the combinations run grouped by 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. There is significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.}
-	\label{figure-it2-scaling-and-relu}
-	\end{figure}				
-		
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/1Activation_Combos-Min_MSE.png}
-	\caption{Effects of Linear Activation \newline This is the same data as in Figure 4, focusing on the more effective configurations. We can see Sigmoid has largely poor performance unless there is a Linear encoding layer (a widely experienced behaviour), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.}
-	\label{figure-it2-linear-act}
-	\end{figure}				
-		
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png}
-	\caption{Encoding Size 25 \newline These plots show the performance for all configurations with an encoding layer size of 25 (input 30). There is once again a surprisingly high performance in the fully linear network.}
-	\label{figure-it2-encoding25}
-	\end{figure}				
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png}
-	\caption{Encoding Size 5 \newline These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we finally see the benefit of non-linear activations in the ReLU based newtorks, which the fully linear is not able to outperform.}
-	\label{figure-it2-encoding5}
-	\end{figure}				
-		
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/linear/5Network_Size_Activation_Combos_for_Encoding_5_Min_MSE.png}
-	\caption{Performance by Network Size 
-		\newline We can further break these down by network size, and see performance is as one would hope, with the best ReLU configurations corresponding with more layers and of larger sizes.}
-	\label{figure-it2-networksize-effect}
-	\end{figure}				
-		
-		
-	\paragraph{Denoising SAEs}
-	
-	Using the same data and general set up as above, a series of tests were run for DSAE using the best ReLU configurations and a gaussian noise process such that $\tilde{x} = \mathcal{N}(x, \sigma) $
-		
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/denoise/denoising.png}
-	\caption{Performance by Denoising Variation
-		\newline The above groupings show the decreasing SAE performance as the level of denoising is increased. The grouping with variance 1.0e-11 essentially represents no denoising.}
-	\label{figure-it2-denoise}
-	\end{figure}						
-		
-		
-	\paragraph{Linear Activations in FFN}
-	
-	A series of predictive FFN networks were run, with the following combinations
-	
-	\begin{itemize}
-		\item SAEs: Best performance (lowest MSE) of encoding sizes 3, 6, 9, 12, 15 (input 18), of both Limited Scaling and typical Scaling methods
-		\item Output Activations: ReLU, Linear
-		\item Hidden Activations: ReLU, Linear
-		\item Layer Sizes: 40, 80
-		\item Number of Layers: 1, 3
-		\item Various Learning rates for SGD \& OGD training
-	\end{itemize}
-		
-		\begin{figure}[H]
-			\centering \includegraphics[scale=0.3]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
-			\caption{Linear Activations in FFN 
-				\newline The above groupings show the profits generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). There are several takeaways:
-				\newline 1. Higher performance of Linear networks (may be down to network size and amount of input data)
-				\newline 2. The limited scaling technique is having a noticeable impact on profits
-				\newline 3. The decrease in performance with ReLU output persists
-				}	
-			\label{figure-it2-linear-ffn_activations}
-		\end{figure}						
-		
-		\paragraph{SAE Effects}
-		
-		The graph below shows an aggregation of the above configuratios by SAE sizes.
-		
-		\begin{figure}[H]
-			\centering \includegraphics[scale=0.3]{images/iteration_two/networks/SAE_Profit_Boxplots.png}
-			\caption{SAE Effects on P\&L
-				\newline The above groupings show the profits generated for different SAE encoding layers. The results are encouraging, showing that no SAE (encoding 0) has the worst results, and that the best results are found in one of the lower encoding layers (6).}	
-			\label{figure-it2-sae-effects}
-		\end{figure}			
-		
-		
-		\paragraph{Predictive Network Sizes}
-
-		Similarly, the below graph shows profits for the predictive networks sizes.
-		
-		\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_two/networks/Network_Size_Profits.png}
-		\caption{Network Size Effects on P\&L
-			\newline We can see the effects are largely as expected here, with networks of more layers and larger layer sizes having a better effect on profits.
-		}	
-		\label{figure-it2-network-size-effects}
-		\end{figure}					
-		
-		\paragraph{Cross Validation Effects}
-		
-		The same set of configuration were run with a Cross Validation set of 0\% and 10\%.
-		
-		\begin{figure}[H]
-			\centering \includegraphics[scale=0.3]{images/iteration_two/validation/Validation_Set_Effects_on_Profits.png}
-			\caption{Validation Set Effects on P\&L
-			\newline This tested the witholding of 10\% of the data from the SGD training versus witholding no data. Curiously, there doesn't seem to be a notable effect here, possibly speaking to the much larger general effect of the OGD training in comparison.
-			}	
-			\label{figure-it2-validation	}
-		\end{figure}	
-		
-		
-		\paragraph{Returns Analysis}
-		
-		This section will look at the aggregate returns, and the predictions of the best networks by profit and OGD MSE.
-		
-		\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/profits_pdf.png}
-		\caption{Histogram of P\&L from Predictive MMS
-			\newline The P\&L values seem to be rather low, with few losses. Could warrant a different trading strategy being used.
-			}	
-		\label{figure-it2-profit-pdf	}
-		\end{figure}	
-		
-		The returns below are for the best P\&L network with Relu hidden activations. This network had an SAE encoding layer of size 3, 3 hidden layers with ReLU activations and a linear output layer, which produced a profit of 150.128
-		
-		\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/cumulative_profits.png}
-		\caption{Cumulative P\&L
-		\newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered.
-		}	
-		\label{figure-it2-cumprof}
-		\end{figure}	
-
-		\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/cumulative_rates.png}
-		\caption{Cumulative Rates
-			\newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered.
-		}	
-		\label{figure-it2-cumrates}
-		\end{figure}	
-		
-		\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/stock5_full.png}
-		\caption{Price Predictions
-		\newline This graphs displays the actual prices for the one stock, as well as the predictions made by the two best networks (chosen by MSE and Profit)
-		}	
-		\label{figure-it2-pricepredfull}
-		\end{figure}			
-		
-
-		\begin{figure}[H]
-		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/stock5_zoom.png}
-		\caption{Price Predictions (Zoomed)
-			\newline A closer zoom reveals that it looks like the predictions are very much a lagged time series
-		}	
-		\label{figure-it2-pricepredzoom}
-	\end{figure}			
-		
-	\newpage\large\textbf{Iteration 1: 12th April}
-	
-	\paragraph{Scaling}
-	
-	Unfortunately a bug resulted in the predictive networks not having a linear activation layer implemented (despite the naming). Current results suggest the limited scaling approach is resulting in worse MSE scores for both SAE and OGD. The OGD profits are also looking potentially worse (a linear activation implementation would need to be tested though).
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.5]{images/iteration_one/sae_mse_by_scaling.png}
-		\caption{SAE MSE By Scaling}
-		\label{figure-synthetic-prices}
-	\end{figure}
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/ogd_mse_by_scaling.png}
-	\caption{OGD MSE By Scaling}
-	\label{figure-synthetic-prices}
-	\end{figure}	
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/ogd_profits_by_scaling.png}
-	\caption{OGD Profits by Scaling}
-	\label{figure-synthetic-prices}
-	\end{figure}
-	
-	
-	\paragraph{General Configurations \& CV}
-	
-	A larger set of configuration were run to test several concepts, as well as the removal of the CV step. The CV methodology needs to be kept for SAE in order to select a best set of SAEs, but is not strictly necessary for the SGD predictive training. In this case the trade off is that without CV a set number of epochs must be chosen (rather than monitoring the changes in OOS errors). All results below are run without CV in the SGD training.
-	
-	
-	\begin{itemize}
-		\item SAE Configurations:
-		\begin{itemize}
-			\item Encoding layers: 3, 6, 9, 12, 15 (input of 18)
-			\item Layer sizes: 40x1, 40X2, 80X1, 80X2
-			\item Various learning rates
-			\item Different scaling functions \& output layers
-		\end{itemize}
-		\item FFN Configurations:
-		\begin{itemize}
-			\item Encoding Layers: 3, 9, 12
-			\item Different scaling functions \& output layers  
-			\item Various learning rates
-			\item Layer sizes: 40x1, 40X2, 40x3, 80x1, 80x2, 80x3
-		\end{itemize}
-		\item Dataset Configurations:
-		\begin{itemize}
-			\item Synthetic Data
-			\item 5000 timesteps
-			\item Aggregation of 1, 7 and 30 to predict 2
-			\item 60/40 split between SSGD and OGD
-		\end{itemize}
-	\end{itemize}
-
-	The set of prices tested are shown below
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.5]{images/iteration_one/price_plot.png}
-		\caption{Price Plot}
-		\label{figure-synthetic-prices}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.5]{images/iteration_one/profit_pdf.png}
-		\caption{PDF of all Profits Generated}
-		\label{figure-synthetic-prices}
-	\end{figure}
-	
-	Profits by the SAEs chosen are below, suggesting that there is some level of feature selection being performed by the SAEs.
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.5]{images/iteration_one/profits_sae.png}
-		\caption{SAE Profits}
-		\label{figure-synthetic-prices}
-	\end{figure}
-
-	Profits by network structure are below, suggesting that simpler networks are performing better. This may point to some leve of overfitting occuring in the larger networks.
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/profits_networks.png}
-	\caption{Network Structure Profits}
-	\label{figure-synthetic-prices}
-	\end{figure}	
-	
-	
-	\paragraph{Return Graphs}
-	
-	The graphs below show the cumulative return rates, profits and daily rates of the best network. The best network was chosen by MSE rather than profit, for reasons discussed below.
-	
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/results_cumulative_profits.png}
-	\caption{Cumulative Profits}
-	\label{figure-synthetic-prices}
-	\end{figure}		
-	
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/results_cumulative_rates.png}
-	\caption{Cumulative Return Rates}
-	\label{figure-synthetic-prices}
-	\end{figure}		
-	
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/results_daily_rates.png}
-	\caption{Daily Rates}
-	\label{figure-synthetic-prices}
-	\end{figure}		
-	
-	
-	\paragraph{Price Predictions}
-	
-	The price predictions are showing 2 problems: heaving oscillations occuring at most points, and the most profitable configuration having a relatively poor level of prediction.
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.5]{images/iteration_one/stock1.png}
-		\caption{Stock 1}
-		\label{figure-synthetic-prices}
-	\end{figure}		
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/stock2.png}
-	\caption{Stock 2}
-	\label{figure-synthetic-prices}
-	\end{figure}		
-	
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/stock3.png}
-	\caption{Stock 3}
-	\label{figure-synthetic-prices}
-	\end{figure}		
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/stock4.png}
-	\caption{Stock 4}
-	\label{figure-synthetic-prices}
-	\end{figure}		
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/stock5.png}
-	\caption{Stock 5}
-	\label{figure-synthetic-prices}
-	\end{figure}		
-
-	\begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/iteration_one/stock6.png}
-	\caption{Stock 6}
-	\label{figure-synthetic-prices}
-	\end{figure}		
-	
-	\paragraph{Sigmoid Pre-training}	
-	
-	The pre-training for weight initialization in the Sigmoid networks, which is supposed to improve performance, seems to be having an adverse effect:
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.5]{images/iteration_one/pretraining.png}
-		\caption{Stock 6}
-		\label{Pre-training MSE performance}
-	\end{figure}		
-	
-	\newpage
-	\bigskip\large\textbf{4. Synthetic Test Plan}\bigskip\normalsize
-
-	Expected Time: 1 Week
-
-	\paragraph{General Configuration}
-
-	\begin{itemize}
-		\item Data: 10 Synthetic Assets
-		\item Rolling Windows: [1, 5, 20] / [5, 20 60] / [10, 20, 60]
-		\item Initializations: Xavier, He
-		\item Activations: Leaky Relu With Linear Encodings and Output
-	\end{itemize}
-
-	\paragraph{SAE Configurations (945)}
-	
-	\begin{itemize}
-		\item Learning Rate Schedules: 0.005 to (0.01, 0.05, 0.1) by (100) epochs
-		\item Network Structures:
-		\begin{itemize}
-			\item 120, 60, 30	
-			\item 90, 60, 30	
-			\item 90, 90, 90	
-			\item 90, 90	
-			\item 120, 90	
-			\item 120,60	
-			\item 120
-		\end{itemize}
-		\item Encoding: 25;20;15;10;5
-	\end{itemize}
-
-	\paragraph{FFN Configurations (2835)}
-
-	\begin{itemize}
-		\item Best SAEs by encoding size and window aggregations (15 total)
-		\item Learning Rate Schedules: 0.005 to (0.01, 0.05, 0.1) by (100) epochs
-		\item Network Structures:
-		\begin{itemize}
-			\item 120;120;120;120
-			\item 120;90;90;60
-			\item 120;90;60
-			\item 120;120;120
-			\item 120;120
-			\item 120;60
-			\item 120
-		\end{itemize}
-		\item L1 Lambda: 0; 2 values
-		\item OGD Learning Rates: 0.01; 0.005; 0.05
-	\end{itemize}
-
-	\newpage
-	\newpage\bigskip\large\textbf{5. Milestones \& Deliverables}\normalsize
-	
-	
-
-	\begin{table}[h]
-		\begin{tcolorbox}[tabularx*={\arrayrulewidth0.6mm}{X||X},fontupper=\normalsize\sffamily,colback=white!10!white,colframe=black!40!]
-			
-			\centerline{\textbf{Finish Date}} &\centerline{\textbf{Item}} \\\hline
-			\centerline {Requires Corrections} & {1 Literature Review}\\\hline
-			\centerline {In Progress} & {2 Data Collection}  \\\hline
-			\centerline {\cellcolor{gray!25}  Done}  & {\cellcolor{gray!25}  3 Data Log Fluctuation Processing}  \\\hline
-			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  4 SAE Implementation}  \\\hline
-			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  5 Online FFN/LSTM Implementation} \\\hline
-			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  6 CSCV Implementation} \\\hline		
-			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  7 Synthetic Data Generation} \\\hline					
-			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  8 Finalise Implementation Process} \\\hline
-			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  9 Database Implementation} \\\hline
-			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}10 Learning Optimizations} \\\hline			
-			\centerline {} & {11 Test full implementation on synthetic data} \\\hline
-			\vspace{0.1mm}  \centerline {} &\vspace{0.1mm}   {12 Test full implementation on actual dataset} \\\hline
-			\vspace{0.1mm}  \centerline {} &\vspace{0.1mm}   {13 Statistical Analysis (incl. profitability of trading strategy)} \\\hline
-			\vspace{0.1mm}  \centerline {} &\vspace{0.1mm}   {14 Write up \& Revisions} \\\hline
-									
-		\end{tcolorbox}
-	\end{table}
-	\FloatBarrier
-
-	\newpage\bigskip\large\textbf{6. Process Implementation}\bigskip\normalsize
-
-	The steps below indicate how everything is expected to fit together at a high level perspective:
-	
-	\begin{itemize}
-		\item [1] Data preparation
-		\begin{itemize}
-			\item[$\bullet$] The data is processed into day to day log fluctuations
-			\item[$\bullet$] At each time point, rolling historic summations are calculated (e.g. the past 1, 7 and 30 days)
-			\item[$\bullet$] At each time point, rolling future summations are calculated (e.g. the next 2 days)
-		\end{itemize}
-		\item [2] Data Segregation
-		\begin{itemize}
-			\item[$\bullet$] The processed dataset is split into 2 parts, to be used for the following processes: SAE/SGD training and OGD training (e.g. 60\%, 40\%)
-			\item[$\bullet$] Bailey's MinBTL method should be considered to determine this split length
-		\end{itemize}	
-		\item [3] SAE Training
-		\begin{itemize}
-			\item[$\bullet$] The dataset defined for SAE/SGD is used to train the auto-encoder networks (using either RBM pretraining/weight initialization algorithms + SGD)
-			\item[$\bullet$] Notably, this SAE/SGD dataset will itself be split into training \& testing portions in order to train and validate the SAE network
-			\item[$\bullet$] The SAE training does not suffer from the same backtesting concerns as for the predictive network. A full set of models for difference encoding layers can be trained to sufficient performance, and then used as a configuration aspect for the predictive training.
-		\end{itemize}		
-		\item [4] FFN/SGD Training
-		\begin{itemize}
-			\item[$\bullet$] The same SAE/SGD portion of the data will then be used to train the FFN network to predict future prices, using the implemented SGD algorithm \& optimizations.
-		\end{itemize}			
-		\item [5] OGD Training
-		\begin{itemize}
-			\item[$\bullet$] The second portion of data will be used to train and optimize the FNN from 4 for OGD. The purpose of this will be to optimize to train the network and produce returns.	
-		\end{itemize}			
-		\item [6] Returns generations
-		\begin{itemize}
-			\item[$\bullet$] A basic trading strategy will be used to generate returns from the predicted and actual prices in the holdout dataset. These returns for each time period and each configuration of the model defined by steps 3-5 will form the M matrix for the CSCV process.
-		\end{itemize}	
-		\item [7] CSCV \& PBO
-		\begin{itemize}
-			\item[$\bullet$] Using the M matrix from 6, the CSCV process will be run which will then allow a calculation of PBO.
-		\end{itemize}		
-	\end{itemize}
-
-	\newpage\bigskip\large\textbf{7. Meeting Minutes}\bigskip\normalsize	
-	\paragraph{16th June 2018}
-	\begin{itemize}
-		\item[$\bullet$] Literature Review
-		Include: Wilcox \& Debbie Hierarchical Paper; Crutchfield \& Farmer: Geometry of Time Series; F Takens: Detecting strange attractors in turbulence; Reference Riaz
-		\item[$\bullet$] Implementation
-		\begin{itemize}
-			\item[$\bullet$] Key implementation point was the data segmentation choices
-			\item[$\bullet$] LSTM network would resolve this point for us (CNN convolution could also potentially
-			work)
-			\item[$\bullet$] Non LSTM will run risk of correlating times with stocks
-			\item[$\bullet$] Representation needs a mixture of time scales as well as the features
-			\item[$\bullet$] Will be considering data for the entire index at any time point t
-			\item[$\bullet$] Will need to consider how to address the changing constituents
-			\item[$\bullet$] Aspect of how often the feature selection is updated (e.g. SDAE in online model)
-			\item[$\bullet$] Does it get updated in the online model ?
-			\item[$\bullet$] SDAE result should be similar to edge detection which will give set of predictions essentially
-			\item[$\bullet$] Use known test cases for CSCV method development
-		\end{itemize}
-		\item[$\bullet$] Data
-		\begin{itemize}
-			\item[$\bullet$] Use simple noise with Gaussian distribution \& long trends to develop network models (6
-			variations of increasing, decreasing and flat with low or high variability)
-			\item[$\bullet$] Build backdated tests module with surrogate data afterwards
-			\item[$\bullet$] Not going to try intraday data due to different nature of problem
-			\item[$\bullet$] Implementation of either a flat file or MongoDB
-			\item[$\bullet$] Important to include Volume datav
-			\item[$\bullet$] Volume time -> might be far more predictable; volume and variance linked
-		\end{itemize}
-		\item[$\bullet$] Other
-		\begin{itemize}
-		\item[$\bullet$] Admin:Single document - table of contents (nice to have) with authors; sections etc. ; full doc with
-		versioning; PDF + latex (always send both)
-		\item[$\bullet$] 	Further Correspondence:
-		* Iterate over FFN/LSTM implementations rather than starting with LSTM
-		* For the meantime, assume the models do not differ fundamentally enough to be considered as
-		separate for the PBO calculations
-		\end{itemize}
-	\end{itemize}		
-
-	\paragraph{29th March 2019}
-	
-	\begin{itemize}
-		\item Dissertation
-		\begin{itemize}
-			\item Generally frame the idea as a simplest high complexity framework in rational testing framework
-			\item Need to highlight and sell the SAE separation in terms of reasoning and value
-			\item SAE training updates: just make comment that not updating 
-			\item Include discussion around decoupling of model components
-		\end{itemize}
-	
-		\item Data Considerations
-		\begin{itemize}
-			\item 80/20\% split for SGD: Should this be used? May not be necessary in full process. Could also consider using all the data for OGD rather than SGD/OGD split.
-			\item Split for SAE\&SGD/OGD split: Baileys MinBTL should at least be discussed, and possibly used.
-			\item Prediction goal
-			\begin{itemize}
-				\item [1]: A 3/5 days average at end. Buy / sell according to above / below.
-				\item [2]: 1-30 days distribution with error variances at each point. Consider how far ahead highest possible forecast is and what the spread on that is.—> outside scope but need to address to show it’s been thought carefully about Money management strategy for model (out of scope) but should have some consideration in terms of such a distribution
-			\end{itemize}
-		
-			\item Scaling
-			\begin{itemize}
-				\item Paragraph or 2 showing this is a technical problem, and point out that want this learning to be ind. of normalisation 
-				\item Currently choosing to normalise correctly in training set  
-				\item Mention iterative normalisation which will converge: Can benchmark large covariance matrix against noise model for matrix and use PCA and plot eigen values for noise distribution. Would still be removing some level of signal -> and signal chosen should be as far outside noise model as possible.
-			\end{itemize}
-		
-			\item Datasets
-			\begin{itemize}
-				\item Continue to use surrogate data for testing, and then use close \& intraday sets for actual results
-				\item Daily data have enough to submit 
-				\item Intraday: trade every 5 minutes? 
-				\item Intraday will make a good inclusion and extension
-			\end{itemize}
-		\end{itemize}
-	
-		\item Results Reporting
-		\begin{itemize}
-			\item Nyquest frequency and breakdown on aliasing: need to discuss this to validate the [2] choice, and note that naive prediction could expose us to aliasing and fitting to the band ripple rather than underlying signal in prices
-			\item Continue with and clearly state how the arithmetic money management strategy is working 
-			\item Processing signals but generating P\&L based on the MMS
-			\item The performance measure is based on these P\&L returns
-			\item Generate daily P\&L (same sampling rate as data): includes both trades which are running
-			\item Split up reporting into the expected and actualised returns for each time point
-			\item Return calculations need to include costs
-			\begin{itemize}
-				\item Capital Costs: 10\% p.a. borrowing rate to fund MMS. Payed back every 2 days.
-				\item Transaction costs: 45bp (as appropriate for Top 40 category shares)
-				\item Generate results with and without these costs. Can then inform decision making on before and after costs.
-				\item Articulate: Ideal world would have the MMS inform the learning choices in the model 
-			\end{itemize}				
-		\end{itemize}
-	\end{itemize}
-	
-	\paragraph{12th April 2019}
-	
-	\begin{itemize}
-		\item Implementation Choices
-		\begin{itemize}
-			\item Scaling Methods: Just expose the decision and impact of using a scaling technique that can’t account for future data
-			\item Cross Validation: Demonstrate payoff either way and make decision from there 
-			\item Denoising Stacked Autoencoders: Try gaussian noise approach and assess results
-		\end{itemize}
-	
-		\item Time Window Aggregation
-		\begin{itemize}
-			\item Should be 5 for week same for month (should be 1, 5, 20, 60)
-			\item Should be using a simulation of horizons to create distribution and choose time windows that way
-			\item Defend through domain knowledge, pose and suggest that it should be learnt - not going to be with primary scope
-			\item Calendars because that’s how traders work - defend this way 
-			\item Know system is hierarchical in feature space and time (articulate this and look at Tims paper)
-			\item One day: non-tradeable mean reversion, weekend activity for week, mutual funds rebalance monthly 
-			\item Consider inclusion of 90 days 
-		\end{itemize}
-
-		\item MMS
-		\begin{itemize}
-			\item Highlight the separation of MMS and signal
-			\item Long only is fine: If there’s a strategy / method that consistently loses money - would be a great finding. Right side of MMS, wrong side of pattern recognition.
-			\item Point out that learning the patterns should not be coupled with making it profitable. Articulate that RL should not be used in the sense that choosing features etc. : highlight modularisation.
-			\item Daily rates: need to separate pattern recognition signal and MMS in text 
-			\item Benchmark is perfect information world, so correct. Check “Can we learn to beat best stock paper ?” Paper
-			\item Shorts: Discuss stop losses and pyramiding stop losses training - way of making MMS more effective (bands implementation). Should be machine learned ideally but don’t have that.							
-		\end{itemize}
-
-		\item Price Predictions
-		\begin{itemize}
-			\item Oscillating predictions: potentially aliasing feedback?
-			\item Otherwise, MSE vs. Profits finding is interesting: understand why the differences are seen and what the model differences are 
-		\end{itemize}
-
-		\item Pre-training Findings
-		\begin{itemize}
-			\item Training in a lot of noise may be jumping to pathological corner cases in solution space
-			\item Should be useful to constrain solution space
-			\item Data is pathological though, reduced data that can be used for actual algorithm 
-			\item Result is optimising in a subspace - throwing data away in a sense
-			\item Check IID aspects and requirements for pre-training
-			\item Important story: dynamic nature of financial market is not the same as some IID distribution 
-			\item Odds are changing through time
-			\item Ringfence and add diagnostics 
-		\end{itemize}
-	
-		\item Generally (Dissertation notes)
-		\begin{itemize}
-			\item Focus on the modularisation of the framework and how it enables exploring of components and algorithms rather than an explicit solution
-			\item “Perfect” ->  “Benchmark”
-			\item Return should be “P\&L”, return is \%
-			\item Text: Times roman not italics for functions and have equation numbers
-			\item Enumerate rather than bullets
-			\item Table of tables, figures, variables used \& definitions and page number introduced 
-			\item Y tilde :measurement, y U feedback process error, y hat projection, y theoretical 
-			\item Notations: Look at process control by G
-			\item “Trade Long” should be teletype 
-		\end{itemize}	
-	
-	\end{itemize}
-	
-	\paragraph{26th April 2019}
-
-	\begin{itemize}
-	\item General Notes around results
-	\begin{itemize}
-		\item SAE encoding results: degrees of freedom argument. Make it clear that it was on synthetic data and same seed etc. 
-		\item Day on day with real data is almost perfectly predictable, but you can’t trade it (“1 day momentum”). Can’t trade from the closing auction, but no volume and can’t get positions in it. 2 day onwards you get the martingale effect .
-		\item Prices are nonlinear in breadth, but not in depth of time series 
-		\item Highlight that it is cross sectional depth of data that will give advantage of these models rather than breadth of history - ML is possible, but have to load up with every single current data feed. Patterns are nonlinear but adaptive because of feedback - tech not mature enough to leverage that yet 
-		\item Profit- log scale on graph 
-		\item Network sizes: order by layers and layer size to see pattern
-		\item Speaks to argument that it’s cross section of information now rather than temporal dynamics
-	\end{itemize}
-	
-	\item Synthetic Tests
-	\begin{itemize}
-		\item P\&L Found: High means and low means. Do edge case testing
-		\item 2 stocks: same means, different variances
-		\item 2 stocks: same variances, different means
-		\item Then up to 4 and 6 assets and check results for P\&L 
-		\item High low medium means etc. Log axes.
-		\item 2 assets: 0 on means, 4 and 6 after with the different variances. Will pinpoint whether it’s working or not. Cases with high variance and low means -> expect to lose money.
-		\item Consider test framework on HMM to assess linear activation results 
-	\end{itemize}
-	
-	\end{itemize}
-
-	\paragraph{17th May 2019}
-
-	\begin{itemize}
-		\item General Dissertation \& Project Notes
-		\begin{itemize}
-			\item Highlight value of framework built, including graphs and diagnostics. Have built a tool that allows exploration of complexity in data.
-			\item Reason why we have a story is the focus on process that the project has gone through
-			\item Cumulative Graphs P\&L: Highlights markets are predictable but not profitable with costs. Show as table rather than graph: matrix of data, year 1 data, year 2 data
-		\end{itemize}
-		\item Results \& Synthetic Data
-		\begin{itemize}
-			\item Martingale: relief -> can’t make model any more complicated. 
-			\item In finance: actually data starved due to lack of cross sectional data. Time series effect in comparison to other data. 
-			\begin{itemize}
-				\item Financial Time Series: Cannot know the probabilities in financial markets. We have evidence in favour of that view
-				\item They are not organic and stationary - findings argue in that favour
-				\item Can’t predict rare events in finance, and so cannot hedge in finance. Innovation vs hedging. Can’t risk manage properly in finance due to lack of predictability of events.
-			\end{itemize}
-			\item L1 Reg is regularising something that isn’t overfitting in the first place. If it does help then there’s nonlinear signal in the data -> ergo framework is fitting relatively simple linear data. Contrasts with the Learning rate schedule results -> warrants further testing on different (real) data.
-		\end{itemize}
-	
-	\end{itemize}
-
-	\paragraph{21st June 2019}
-	
-	
-	\begin{itemize}
-		\item Formatting
-		\begin{itemize}
-			\item Numbers rather than bullets  for all lists
-			\item Figures: split out and format correctly
-		\end{itemize}
-	
-		\item GBM Generated Data
-		\begin{itemize}
-			\item Warning that financial time series, ergo all about the time series averages -> can’t trust ensemble based machine learning
-			\item Can just reference the Ergodic Economics paper 
-		\end{itemize}
-	
-		\item Datasets
-		\begin{itemize}
-			\item Synthetic Sets are fine			
-			\item Matrix with high to low volatility
-			\item Represent same was as Synthetic6 
-		\end{itemize}
-
-		\item Standardizing Results is probably down to outliers in the real data
-		\begin{itemize}
-			\item Discuss the outlier story
-			\item Read up on Winsorization 
-		\end{itemize}
-
-		\item Error Function  - will push into Gaussian distribution 
-		\begin{itemize}
-			\item Fits back into the Standardization issue
-			\item Good for algorithm which is prone to error maximisation
-			\item Can then invert back - map weights back
-			\item Regulariation won’t solve the outlier problem, just smoothes over it. Can find a gaussian mapping of the data with error function.
-			\item Discuss that error function could have been used in the data processing details 
-		\end{itemize}
-
-		\item Predictive FFN Activations and Scaling
-		\begin{itemize}
-			\item Not necessary to do the linear activation on FFN network - can just note it, can argue that it won’t add value 
-		\end{itemize}
-	
-		\item Summary Table: “This is better than that” summaries with referencing figures
-		\begin{itemize}
-			\item Table for surrogate and real
-			\item Frame the phenomenology that one gets from financial market data  
-		\end{itemize}
-	
-		\item SAE Effects
-		\begin{itemize}
-			\item Can reference the no SAE encoding in the technical doc \& just referenced
-			\item Note that it was done and what was learnt 
-		\end{itemize}
-	
-		\item SAE Data Window Aggregations - AGL Data
-		\begin{itemize}
-			\item Actual results are showing shrinkage in errors 
-			\item Patterns in features are compressing 
-			\item Don’t get caught up on the outliers (“Despite the outliers…”)
-			\item Ultimately - easier to learn the smoothed version of the graph
-			\item Can link this back to the outlier issue again
-		\end{itemize}
-	
-		\item FFN Data Window Aggregations - AGL Data
-		\begin{itemize}
-			\item Emphasise the first 5 days, not just the 1 day mean reversion so gives it traction
-		\end{itemize}
-	
-		\item Historical Data and SGD training
-		\begin{itemize}
-			\item Makes sense for GBM
-			\item Do it for real data: 0, 40, 90 percent intervals  
-		\end{itemize}
-	
-		\item If financial markets are ergodic, more data better -> sampling ensembles 
-		\item Assessing martingale: Take differences \& plot order correlation functions. Order correlation function / power spectrum - see how it peaks 
-		\item RBM Pretraining for Sigmoid Networks. Ties back to cross sectional data point as well , where older representations are not of value 
-		\item DC init - put paragraph in to emphasise 
-
-		\item Regularization, comes back to ergodicity etc. Ridge or Lasso Works well for IID etc. , not so much for the financial time series. Not moderating the generalization error, just impacting model fidelity.
-	
-	\end{itemize}
-	
-
-	
-	
-	
-\end{technicaldoc}
-
 
 \begin{titlepage}
 	\begin{center}
@@ -1272,6 +86,10 @@ We consider pattern prediction of financial time-series data. The algorithm fram
 Keywords: online learning, feedforward neural network, restricted boltzmann machine, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting
 \newpage
 \tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
 \newpage
 
 \section{Introduction}\label{Introduction}
@@ -2064,7 +882,7 @@ The implementation focuses on bringing together several ideas: data reduction, d
 \begin{itemize}
 	\item [1] The dataset is split into 2 subsets: the Training portion, and the Prediction portion.
 	\item [2] The Training set is used to train the SAE and deep FFN using the SGD algorithm. These networks are implemented with pre-training or weight initialization techniques.
-	\item [3] The Prediction sett of data is used to continue training the network in an online manner using OGD.
+	\item [3] The Prediction set of data is used to continue training the network in an online manner using OGD.
 	\item [4] The returns generated from OGD can then be used in the CSCV process, to estimate the probability of backtest overfitting.
 \end{itemize}
 ~\\
@@ -2080,11 +898,14 @@ node has an activation function, which acts on the weighted input from the previ
 For the purposes of this chapter, the following notation will be used:
 
 \begin{itemize}
-\item[$\cdot$] A network $N$ will be contructed with $L$ layers, each with $e$ nodes
-\item[$\cdot$] The weights from the $j^{th}$ node in the $l^{th}$ layer from the $k^{th}$ node in the $(l-1)^{th}$ layer are represented by $w^l_{jk}$
-\item[$\cdot$] The bias for the $j^{th}$ node in layer $l$ is represented by $w^l_0j$
-\item[$\cdot$] The output for the $j^{th}$ node is defined as $a = o(z_j)$, for an activation function $o$ and weighted input $z$
-\item[$\cdot$] The weighted input for the $j^{th}$ neuron in a layer is $z^l_j=\sum_{i=1}^{e^{l-1}}{a^{l-1}_iw_{ij}} + w_{0j}$
+\item[1] A network $N$ will be contructed with $L$ layers, each with $e$ nodes
+\item[2] The weights from the $j^{th}$ node in the $l^{th}$ layer from the $k^{th}$ node in the $(l-1)^{th}$ layer are represented by $w^l_{jk}$
+\item[3] The bias for the $j^{th}$ node in layer $l$ is represented by $w^l_0j$
+\item[4] The output for the $j^{th}$ node is defined as $a = o(z_j)$, for an activation function $o$ and weighted input $z$
+\item[5] The weighted input for the $j^{th}$ neuron in a layer is 
+\begin{equation}
+	z^l_j=\sum_{i=1}^{e^{l-1}}{a^{l-1}_iw_{ij}} + w_{0j}
+\end{equation}
 \end{itemize}
 ~\\
 These definitions allow an input into the network to be propagated through it, having the original values processed through the weights and activations functions, and have an output in the form of the network's last layer.
@@ -2097,7 +918,7 @@ As noted in \ref{lr_activationfunctions}, there are 3 primary characteristics of
 
 The sigmoid, or logistic, function is one of the most popular and widely used activation functions historically, and is defined as 
 \begin{equation}\label{func_sigmoid}
-f(x) = \frac{1}{1 + e^{-x}}
+\texttt{f}(x) = \frac{1}{1 + e^{-x}}
 \end{equation}
 
 The Sigmoid function is in the range [0,1], making it a suitable choice for problems requiring a probabilistic output. The slope of the function curve is both a boon and a drawback: it allows for fast learning initially, but results in learning slowdown later (often casuing what is referred to as node 'saturation'). The exponent calculation is also computationally expensive, relatively speaking.
@@ -2107,7 +928,7 @@ The Sigmoid function is in the range [0,1], making it a suitable choice for prob
 The Rectified Linuear Unit (ReLU) is, as discussed in \change{needs reference section}, a newer activation function which has been shown to be effective in deep learning networks. It is defined as
 
 \begin{equation}\label{func_relu}
-f(x) = max(0, x)
+\texttt{f}(x) = \texttt{max}(0, x)
 \end{equation}
 
 The function has the benefits of quick learning which doesn't saturate, as well as being computationally cheap. The downside is that the non-gradient for the negative range of the function can result in 'dead' nodes, which stop updating with the learning process.
@@ -2117,7 +938,7 @@ The function has the benefits of quick learning which doesn't saturate, as well 
 The Leaky ReLU resolves the dying ReLU problem by adding a small gradient to the negative range of the function. This results in a slow learning being applied to 'dead' ReLU's, which may in turn result in them being used again if necessary.
 \begin{equation}\end{equation}\label{func_leaky_relu}
 \[
-f(x)= 
+\texttt{f}(x)= 
 \begin{cases}
 x,& \text{if } x\geq 0\\
 0.01x,              & \text{otherwise}
@@ -2130,7 +951,7 @@ x,& \text{if } x\geq 0\\
 Linear activations don't transform the input, and have a constant gradient, which can be useful for key layers where no loss in error signal is desired, such as the output or encoding layers.
 
 \begin{equation}\label{func_linear}
-f(x) = x
+\texttt{f}(x) = x
 \end{equation}
 
 
@@ -2540,51 +1361,109 @@ degradation of a strategy. It becomes clear that with models overfitting to back
 where seeking increased IS performance is detrimental to the goal of improving OOS performance.  
 \hfill \break 
 
-\subsection{Performance Assessment}
-
-
-This section may detail any choices and implementation of the performance assessment to be used in CSCV if it's not just the Sharpe Ratio. \todo{}
 
 \subsection{Money Management Strategy and Returns}\label{imp_mms}
 
 In line with the general approach here, the Money Management Strategy (MMS) has been designed to be relatively simple, such that the results are more indicative of the underlying modelling rather than intricate trading strategies. The MMS follows an arithmetic long strategy of buying any stock for which the predicted ${t+D}$ price is above the current price, and selling the stock at ${t+D}$. Trading costs have been included at 10\% capital costs per annum for borrowing to purchase, and 0.45\% for transaction costs. Results are compared to a "perfect" model which has exact knowledge of the price in $D$ days, which represents an upper bound on performance.
 \hfill\break
-Thus, for each stock at time $t$ and prediction point $X$, the following values are stored or calculated:
 
+\paragraph{Input Variables}
 
-
+The MMS takes the following values as input for each time point $t$  and prediciton point $D$
 \begin{itemize}
 	\item [1] {$\texttt{y}_t$}, the closing price for $t$
 	\item [2] $\texttt{y}_{t+D}$, the closing price in $D$ days
 	\item [3] $\hat{\texttt{y}}_{t+D}$, the predicted closing price in $D$ days
-	\item [4] $\texttt{trade\_long}_t = bool(\hat{y}_{t+5} > y_t) \in (0, 1)$, a flag indicating whether a trade will take place on $t$
-	\item [5] $\texttt{trade\_long}_{p,t} = bool({y}_{t+5} > y_t) \in (0, 1)$, a flag indicating whether a trade will take place on $t$ in the perfect model
-	\item [6] $\texttt{r}_{o, t + D} = y_{t+D} * trade\_long_t$, the observed return at $t+D$
-	\item [7] $\texttt{r}_{e, t + D} = \hat{y}_{t+D} * trade\_long_t$, the expected return at $t+D$
-	\item [8] $\texttt{r}_{p, t + D} = y_{t+D} * trade\_long_{p,t}$, the perfect return at $t+D$
-	\item [9] $\texttt{cost}_t = y_t * trade\_long_t$, the cost incurred in buying the stock at time $t$
-	\item [10] $\texttt{cost}_{p,t} = y_t * trade\_long_{p,t}$, the cost incurred in the perfect model at $t$
-	\item [11] $\texttt{trading\_cost}= y_t * (0.1 / 365 * 2) + y_t * (0.45 / 100) $, the possible capital and transaction costs
-	\item [12] $\texttt{fullcost}_t = (y_t + trading\_cost_t) * trade\_long_t$, the full cost of trading the stock at $t$ in the predictive model
-	\item [13] $\texttt{fullcost}_{p,t} = (y_t + trading\_cost_t) * trade\_long_{p, t}$, the full cost of trading the stock at $t$ in the perfect model
+\end{itemize}
+
+\paragraph{Calculated Stock Variables}
+
+Using these, the MMS calculates and uses the following:
+
+\begin{itemize}
+	\item [1] A flag indicating whether a trade will take place on $t$
+				\begin{equation}
+				\texttt{trade\_long}_t = bool(\hat{y}_{t+5} > y_t) \in (0, 1), 
+				\end{equation}
+	\item [2] A flag indicating whether a trade will take place on $t$ in the perfect model
+				\begin{equation}
+				\texttt{trade\_long}_{p,t} = bool({y}_{t+5} > y_t) \in (0, 1)
+				\end{equation}
+	\item [3] The observed return at $t+D$
+				\begin{equation}
+				\texttt{r}_{o, t + D} = y_{t+D} * trade\_long_t
+				\end{equation}	
+	\item [4] The expected return at $t+D$
+				\begin{equation}
+				\texttt{r}_{e, t + D} = \hat{y}_{t+D} * trade\_long_t 
+				\end{equation}
+	\item [5] The perfect return at $t+D$
+				\begin{equation}
+				\texttt{r}_{p, t + D} = y_{t+D} * trade\_long_{p,t}
+				\end{equation}
+	\item [6] The cost incurred in buying the stock at time $t$
+				\begin{equation}
+				\texttt{cost}_t = y_t * trade\_long_t
+				\end{equation}
+	\item [7] The cost incurred in the perfect model at $t$
+				\begin{equation}
+				\texttt{cost}_{p,t} = y_t * trade\_long_{p,t}
+				\end{equation}
+	\item [8] The possible capital and transaction costs
+				\begin{equation}
+				\texttt{trading\_cost}= y_t * (0.1 / 365 * 2) + y_t * (0.45 / 100)
+				\end{equation}
+	\item [9] The full cost of trading the stock at $t$ in the predictive model
+				\begin{equation}
+				\texttt{fullcost}_t = (y_t + trading\_cost_t) * trade\_long_t
+				\end{equation}	
+	\item [10] The full cost of trading the stock at $t$ in the perfect model
+				\begin{equation}
+				\texttt{fullcost}_{p,t} = (y_t + trading\_cost_t) * trade\_long_{p, t}
+				\end{equation}
 \end{itemize}
 
 \hfill\break
-The MMS  is then implemented using these calculated values which are aggregated at each time point $t$ for all stocks, $s$, as follows:
+
+\paragraph{Calculated Strategy Variables} The MMS  is then implemented using these calculated values which are aggregated at each time point $t$ for all stocks, $s$, as follows:
 
 \begin{itemize}
-	\item [14] $\texttt{R}_{e, {t+D}} = \sum_{s \in stocks} r_{s, e, {t+D}}$, the expected return for $t+D$ from all stocks traded at $t$
-	\item [15]  $\texttt{R}_{o, {t+D}} = \sum_{s \in stocks} r_{s, o, {t+D}}$, the observed return for $t+D$ from all stocks traded at $t$
-	\item [16]  $\texttt{R}_{p, {t+D}} = \sum_{s \in stocks} r_{s, p, {t+D}}$, the perfect return for $t+D$ from all stocks traded at $t$	
-	\item [17]  $\texttt{C}_t = \sum_{s \in stocks} cost_{s,t}$ the cost of all trades at $t$
-	\item [18]  $\texttt{C}_{p,t} = \sum_{s \in stocks} cost_{s, p ,t}$ the cost of all trades at $t$ in the perfect model
-	\item [19]  $\texttt{FC}_t = \sum_{s \in stocks} fullcost_{s,t}$ the cost of all trades at $t$ including transaction costs
-	\item [20]  $\texttt{FC}_{p,t} = \sum_{s \in stocks} fullcost_{s, p ,t}$ the cost of all trades at $t$, including transation costs, in the perfect model	
+	\item [1] The expected return for $t+D$ from all stocks traded at $t$
+					\begin{equation}
+					\texttt{R}_{e, {t+D}} = \sum_{s \in stocks} r_{s, e, {t+D}}
+					\end{equation}
+	\item [2] The observed return for $t+D$ from all stocks traded at $t$
+					\begin{equation}
+					\texttt{R}_{o, {t+D}} = \sum_{s \in stocks} r_{s, o, {t+D}}
+					\end{equation}
+	\item [3] The perfect return for $t+D$ from all stocks traded at $t$
+					\begin{equation}
+					\texttt{R}_{p, {t+D}} = \sum_{s \in stocks} r_{s, p, {t+D}}
+					\end{equation}
+	\item [4] The cost of all trades at $t$
+					\begin{equation}
+					\texttt{C}_t = \sum_{s \in stocks} cost_{s,t}
+					\end{equation}
+	\item [5] The cost of all trades at $t$ in the perfect model
+					\begin{equation}
+					\texttt{C}_{p,t} = \sum_{s \in stocks} cost_{s, p ,t}
+					\end{equation}
+	\item [6] The cost of all trades at $t$ including transaction costs
+					\begin{equation}
+					\texttt{FC}_t = \sum_{s \in stocks} fullcost_{s,t}
+					\end{equation}
+	\item [7] The cost of all trades at $t$, including transation costs, in the perfect model	
+					\begin{equation}
+					\texttt{FC}_{p,t} = \sum_{s \in stocks} fullcost_{s, p ,t}
+					\end{equation}	
 \end{itemize}
 \hfill\break
 The final model return is thus established as $\sum_t{R_t} / \sum_t{C_t} $, for any variations of observed, expected or perfect returns as well as base and full costs. These model returns are used to establish the performance of the different predictive models which were trained.\newline
 \hfill\break
-An additional consideration of the MMS is the daily rates generated by the strategy, which incorporate the costs of any trades incurred, as well as any returns seen at $t$, such that $\texttt{dailyrate}_t = R_{t-D} - C_t$.
+An additional consideration of the MMS is the daily rates generated by the strategy, which incorporate the costs of any trades incurred, as well as any returns seen at $t$, such that 
+\begin{equation}
+\texttt{dailyrate}_t = R_{t-D} - C_t
+\end{equation}
 
 \newpage
 \section{Process Implementation}\label{imp_proc}
@@ -2605,7 +1484,7 @@ The fulldataset goes through several steps of pre-processing - these are covered
 
 Various configurations were tested in terms of the historic summations used, while the fluctuation predictions were either of 2 or 5 days. These are detailed more extensively in \todo{add reference}. It's worth noting that the prediction horizon is configurable, and in the case of implementing a more complex trading strategy, one would likely choose to predict multiple points across the horizon in order to to develop a distribution. In this case, the MMS was kept purposefully simple, and so didn't warrant the more intensive implementation. \newline
 
-The time aggregations were chosen according to domain knowledge - it's expected that prices may move in daily, weekly, fortnightly, monthly and quarterly patterns as trading is actioned by day traders to institutional investors \todo{add hierarchical space note}. Taking this into account, variations of 1, 5, 10, 20 and 60 working days were considered throughout the configuration tests, in the following cominations:  
+The time aggregations were chosen according to domain knowledge - it's expected that prices may move in daily, weekly, fortnightly, monthly and quarterly patterns as trading is actioned by day traders such as speculators to institutional investors such as mutual funds. Indeed, it can be shown that markets can be modelled such that they are hierarchical in space and time, with actors at different heirarchical levels within the market interacting under different causitive structures \cite{Wilcox}. The effect is such that price trends and patterns can be expected to exist in time at multiple levels, with price being set as an emergent property of these heirarchies. Taking this into account, variations of 1, 5, 10, 20 and 60 working days were considered throughout the configuration tests, in the following combinations:  
 \begin{itemize}
 	\item[1] 1,5,20 
 	\item[2] 5,20,60
@@ -3579,6 +2458,9 @@ Available at: http://proceedings.mlr.press/v28/wang13a.pdf
 Van Den Oord, Aaron, et al. "Wavenet: A generative model for raw audio." arXiv preprint arXiv:1609.03499 (2016).
 Available at: https://arxiv.org/abs/1609.03499
 
+\bibitem{Wilcox}
+Wilcox, Diane and Gebbie, Timothy John, Hierarchical Causality in Financial Economics (August 24, 2014). Available at SSRN: https://ssrn.com/abstract=2544327 or http://dx.doi.org/10.2139/ssrn.2544327
+
 \bibitem{Weiss}
 Weiss, S. M, \& Kulikowski, C. A. (1991). Computer systems that learn : classification and prediction methods from statistics, neural nets, machine learning, and expert systems. San Mateo (Calif.): Kaufmann.
 
@@ -3619,6 +2501,1194 @@ Zhou B., Hu J. A Dynamic Pattern Recognition Approach Based on Neural Network fo
 2009). Available at:\url{ https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5393674}
 
 \end{thebibliography}
+
+\begin{technicaldoc}
+
+	\newpage	
+	\Huge\textbf{Technical document}
+	
+	\bigskip\large\textbf{1. Current Implementation Status}\bigskip\normalsize
+	
+	The library implementations are at a point such that an end-to-end process can be run: data with training parameters are specified, and a CSCV based PBO is output.
+	
+	\bigskip A full list of implementations is as follows:
+	
+	\begin{itemize}
+		\item[$\bullet$] Network Types
+		\begin{itemize}
+			\item[$\cdot$] Feedforward Network
+			\item[$\cdot$] Restricted Boltzmann Machine
+			\item[$\cdot$] Stacked Auto Encoder
+		\end{itemize}
+		\item[$\bullet$] Learning Algorithms
+		\begin{itemize}
+			\item[$\cdot$] Contrastive Divergence-1 for RBM pre-training
+			\item[$\cdot$] Online Gradient Descent
+			\item[$\cdot$] Stochastic Gradient Descent
+		\end{itemize}
+		\item[$\bullet$] Validation Algorithms
+		\begin{itemize}
+			\item[$\cdot$] CSCV
+			\item[$\cdot$] PBO
+		\end{itemize}
+		\item[$\bullet$] Data Processes
+		\begin{itemize}
+			\item[$\cdot$] Log fluctuation implementation to format dataset with rolling windows
+			\item[$\cdot$] Library to generate synthetic data
+		\end{itemize}	
+		\item[$\bullet$] Optimizations
+		\begin{itemize}
+			\item[$\cdot$] SGD: L1 Regularizations
+			\item[$\cdot$] Learning Schedule Epochs
+			\item[$\cdot$] Denoising: Gaussian Noise \& Feature On-Off Switching			
+		\end{itemize}
+		\item[$\bullet$] Neural Network Configurations
+		\begin{itemize}
+			\item[$\cdot$] Activations: Sigmoid, ReLU, Softmax
+			\item[$\cdot$] Initialisations: Normal, Hinton, Xavier, He (Normal \& Uniform variations)
+			\item[$\cdot$] Cost Functions: MSE, CE, Loglikehood
+		\end{itemize}
+		\item[$\bullet$] Output Library
+		\begin{itemize}
+			\item[$\cdot$] Effective graphing of training logs (epoch based performance, weight update rates, output reconstructions etc.)
+		\end{itemize}
+		\item[$\bullet$] Technical Testing
+		\begin{itemize}
+			\item[$\cdot$] Basic hyperparameter search method \& outputs
+			\item[$\cdot$] Automated Unit Tests for CD1, OGD and
+		\end{itemize}	
+		\item[$\bullet$] Database Implementation
+		\begin{itemize}
+			\item[$\cdot$] Recording results and configurations in SQL Lite database
+			\item[$\cdot$] Recording networks (SAE) in bson files
+		\end{itemize}	
+	\end{itemize}
+	
+	
+	\newpage
+	
+	\bigskip\large\textbf{2. Iteration Results}\bigskip\normalsize
+	
+	\bigskip\large\textbf{Iteration 4: 3rd June}
+	
+	\paragraph{Weight Initializations}
+	
+	Weight initializations for SAE were tested using the typical Xavier \& He intialization techniques, as well as a customed ("DC") initialization.
+	
+	Xavier:
+	\begin{equation}
+	w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}}
+	\end{equation}
+	
+	The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He initialization is used
+	
+	\begin{equation}
+	w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
+	\end{equation}
+	
+	DC:
+	\begin{equation}
+	w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
+	\end{equation}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_sae_init.png}
+		\caption{Weight Initialization for SAE \newline The box plots show the MSE for a series of SAE networks trained. Surprisingly, the generally used He initialization has the worst performance, whereas the Xavier and DC initializations largely better and on par.}
+		\label{figure-it4_sae_init}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_ffn_init.png}
+		\caption{Weight Initialization for Predictive FFN \newline The box plots show the profits for a series of FFN networks trained, with the custom DC init showing better performance to Xavier.}
+		\label{figure-it4_ffn_init}
+	\end{figure}
+	
+	
+	
+	\paragraph{Network Structures}
+	
+	Networks were trained at various number of layers and layer sizes, as presented below.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_sae_layers.png}
+		\caption{Network Sizes for SAE \newline The box plots show the MSE for the series of SAE networks trained. The results show worse performance for the typical descending network sizes used for SAE, and show no improvement form increasing network size and complexity.}
+		\label{figure-it4_sae_layers}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_ffn_network_size.png}
+		\caption{Network Sizes for Predictive FFN \newline The box plots show the profits for the series of FFN networks trained, showing small improvments for network size increases.}
+		\label{figure-it4_ffn_network_size}
+	\end{figure}
+	
+	
+	\paragraph{Data Windows}
+	
+	All configurations were tested using data windows of 
+	\begin{itemize}
+		\item (1, 5, 20)
+		\item(5, 20, 60)
+		\item (10, 20, 60)
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_sae_deltas.png}
+		\caption{SAE Data Window Aggregations \newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The MSE is lower for the higher aggregations, presumably due to reduced noise in the dataset, which may support longer windows in further training.}
+		\label{figure-it4_sae_deltas}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_ffn_deltas.png}
+		\caption{FFN Data Window Aggregations \newline The box plots show the profits for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations once again supporting longer windows in further training.}
+		\label{figure-it4_ffn_deltas}
+	\end{figure}
+	
+	\paragraph{Best network performance}
+	
+	The stock data generated for this iteration had 10 assets with the following stocks and variances
+	\begin{itemize}
+		\item (0.9, 0.5)
+		\item (0.7, 0.2)
+		\item (0.05, 0.4)
+		\item (0.05, 0.5)
+		\item (0.04, 0.1)
+		\item (0.02, 0.15)
+		\item (0.01, 0.05)
+		\item (-0.8, 0.55)
+		\item (-0.4, 0.15)
+		\item (-0.1, 0.2)
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_best_profit.png}
+		\caption{Best Network Cumulative Profits \newline The graph here shows cumulative profits for the best network and benchmark, both producing profits with costs attached.}
+		\label{figure-it4_best_profit}
+	\end{figure}
+	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_confusion.png}
+		\caption{Best Network Confusion Matrix \newline A confusion matrix showing the match up of trades and no trades on all assets for the best model and benchmark.}
+		\label{figure-it4_confusion}
+	\end{figure}
+	
+	
+	
+	
+	\paragraph{Regularization}
+	
+	Once again, the regularization shows notable worse performance, now on the predictive network as well. This still stands in contrast to the increased performance from the learning rates schedule.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_four/it4_reg.png}
+		\caption{Predictive Network Regularization \newline Effects of L1 regularization on predictive network profits.}
+		\label{figure-it4_reg}
+	\end{figure}
+	
+	\newpage\bigskip\large\textbf{Iteration 3: 17th May}
+	
+	\paragraph{Linear vs ReLU: Smaller Network}
+	
+	Synthetic assets (6) were used on smaller prediction networks to test the performance of Linear vs. ReLU activations, once again showing the higher performance of Linear activations.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_linear_vs_relu.png}
+		\caption{Linear vs ReLU activation on smaller networks \newline The boxplots here show the summary of P\&L at networks with smaller layer sizes than previously. The networks were trained on 6 synthetic assets with a total of 18 inputs, and box groupings reflect different sized autoencoders and learning rates (720 configurations in total). We once again see the outperformance of ReLU by the linear activations.}
+		\label{figure-it3_linear_vs_relu}
+	\end{figure}		
+	
+	\paragraph{Leaky ReLU vs ReLU}
+	
+	Leaky ReLU activations were implemented and tested using synthetic data, showing negligible differences on SAE but slighly better performance on the predictive FFN networks. The differences seem to range from none to a marginal gain, which makes sense.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_leaky_relu_1.png}
+		\caption{SAE: Leaky ReLU vs ReLU \newline The plot above shows the MSE for 120 different SAEs, grouped by encoding size and activations.}
+		\label{figure-it3_leaky_relu_1}
+	\end{figure}		
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_leaky_relu_3.png}
+		\caption{FFN: Leaky ReLU vs ReLU \newline The plot above shows the P\&L for 80 different predictive networks, grouped by activation, showing some improvements from the Leaky ReLU.}
+		\label{figure-it3_leaky_relu_3}
+	\end{figure}		
+	
+	\paragraph{SAE Selection: MSE vs MAPE}
+	
+	The P\$L was compared for SAEs chosen using MAPE rather than MSE. The performance are fairly similar, with MSE being the better.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_mse_vs_mape.png}
+		\caption{MSE vs MAPE \newline The plot above shows the P\&L for 1920 different predictive networks, grouped by SAE selection method, showing little difference, but some improvement from MSE.}
+		\label{figure-it3_mse_vs_mape}
+	\end{figure}		
+	
+	\paragraph{L1 Regularization}
+	
+	L1 Regularization was implemented and tested on a selection of 10 real assets, as per below.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_l1reg_sae.png}
+		\caption{SAE L1 Regularization - 10 Real Assets \newline The plot above shows the MSE for 360 different SAE networks, grouped by L1 Lambda, showing notable degradation as regularization is increased. Synthetic data tests showed no performance changes below 0.01.}
+		\label{figure-it3_l1reg_sae}
+	\end{figure}		
+	
+	\paragraph{Learning Rate Schedule Implementation}
+	
+	A learning rate schedule, where the learning rate cycles through a sine-like curve every 100/200 epochs was implemented and tested on real asset SAEs as below.
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_lr_schedule.png}
+		\caption{SAE Learning Rate Schedule - 10 Real Assets \newline The plot above shows the MSE for 120 different SAE networks, grouped by the maximum learning rate, where all minimum learning rates were 0.00001. The scheduling with high rates shows a clearly better performance and exploration of solution space.}
+		\label{figure-	it3_lr_schedule}
+	\end{figure}		
+	
+	
+	\paragraph{Denoising - On/Off Feature Selection}
+	
+	Denoising where random features are switched on or off for each epoch was implemented.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_denoising_onoff.png}
+		\caption{SAE Denoising - 10 Real Assets \newline The plot above shows the MSE for 72 different SAE networks, grouped by the percentage of features switch off at random.}
+		\label{figure-it3_denoising_onoff}
+	\end{figure}
+	
+	
+	
+	\paragraph{Validation Set Percentage}
+	
+	A full set of tests were run on synthetic data to determine the effect of excluding data from the SGD training of the predictive network (through the mechanism of the validation set). It should be noted that these predictive networks make use of SAEs that were trained on 80\% of the data regardless, which may prime the input of data to the predictive network despite the portion of data being excluded. It would seem that the use of historical data is very beneficial, but not the primary factor in determining P\$L. It may even just be the equivalent of pre-training weight initialisation for the OGD phase.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_validationset.png}
+		\caption{SAE Denoising - 6 Synthetic Assets \newline The plot above shows the P\&L for 160 different FFN predictive networks, grouped by the percentage of data excluded from the SGD training.}
+		\label{figure-it3_validationset}
+	\end{figure}
+	
+	
+	\paragraph{Limited Synthetic Asset Tests}
+	
+	Tests were run on 1, 2, 3 and 4 synthetic asset datasets using the same mean / same variance approach suggested to determine how well the model is able to learn in a limited (simpler) context.
+	
+	Tests were run on a 5 day prediction point in order to aim for a profitable strategy, and different past window inputs of [1, 10, 20 ] days or [10, 20, 60] days to see if the removal of the 1 day price change would change the martingale effect being presented. SAEs were also trained with varying encoding layer sizes to test if the number of assets is typically the optimal number.
+	
+	\paragraph{1 Asset}
+	
+	High Mean, Low Variance test (0.6, 0.04)
+	32 Predictive Networks trained
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_1asset_encoding.png}
+		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 1 asset according to the different encoding size in the P\&L. Maximum P\$L is the same for both 1 and 2 encoding.}
+		\label{figure-it3_1asset_encoding}
+	\end{figure}	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_1asset_bestffn.png}
+		\caption{Cumulative P\&L for best 1 Asset network \newline The plot above shows the P\&L for  the best 1 asset network.}
+		\label{figure-it3_1asset_bestffn}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_1asset_pricerec.png}
+		\caption{Price Recreation for best 1 Asset network \newline The plot above shows the predicted prices for the best 1 asset network.}
+		\label{figure-it3_1asset_pricerec}
+	\end{figure}
+	
+	
+	\paragraph{2 Asset}
+	
+	Means = (0.05, 0.6)
+	Variances = (0.02, 0.4)
+	
+	128 Predictive Networks trained
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_variations.png}
+		\caption{Variations P\&L \newline The plot above shows the P\&L for 2 asset according to the different mean \& variance combinations. }
+		\label{figure-it3_2asset_variations}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_encoding.png}
+		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 2 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.}
+		\label{figure-it3_2asset_encoding}
+	\end{figure}	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_bestffn.png}
+		\caption{Cumulative P\&L for best 2 Asset network \newline The plot above shows the P\&L for  the best 2 asset network.}
+		\label{figure-it3_2asset_bestffn}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_2asset_pricerec.png}
+		\caption{Price Recreation for best 2 Asset network \newline The plot above shows one of the predicted prices for the best 2 asset network.}
+		\label{figure-it3_2asset_pricerec}
+	\end{figure}
+	
+	
+	\paragraph{3 Asset}
+	
+	Means = (0.05, 0.2, 0.6)
+	Variances = (0.02, 0.1, 0.4)
+	
+	240 Predictive Networks trained
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_3asset_variations.png}
+		\caption{Variations P\&L \newline The plot above shows the P\&L for 3 asset according to the different mean \& variance combinations. }
+		\label{figure-it3_3asset_variations}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_3asset_encoding.png}
+		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 3 asset according to the different encoding size in the P\&L. This goes against the idea of the number of assets being the best encoding.}
+		\label{figure-it3_3asset_encoding}
+	\end{figure}	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_3asset_bestffn.png}
+		\caption{Cumulative P\&L for best 3 Asset network \newline The plot above shows the P\&L for  the best 3 asset network.}
+		\label{figure-it3_3asset_bestffn}
+	\end{figure}
+	
+	\paragraph{4 Asset}
+	
+	Means = (0.05, 0.2, 0.4, 0.8)
+	Variances = (0.02, 0.1, 0.3, 0.6)
+	
+	384 Predictive Networks trained
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_4asset_variations.png}
+		\caption{Variations P\&L \newline The plot above shows the P\&L for 4 asset according to the different mean \& variance combinations. }
+		\label{figure-it3_4asset_variations}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_4asset_encodings.png}
+		\caption{SAE Encoding Size P\&L \newline The plot above shows the P\&L for 4 asset according to the different encoding size in the P\&L. This supports the idea of the number of assets being the best encoding.}
+		\label{figure-it3_4asset_encoding}
+	\end{figure}	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_4asset_bestffn.png}
+		\caption{Cumulative P\&L for best 4 Asset network \newline The plot above shows the P\&L for the best 4 asset network.}
+		\label{figure-it3_4asset_bestffn}
+	\end{figure}
+	
+	
+	\paragraph{Effect of Rolling Window Sizes}
+	
+	The effects of the [1, 10, 20] and [10, 20, 60] window sizes
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_three/it3_all_deltas.png}
+		\caption{Effect of Rolling Window Sizes on P\$L for 1, 2, 3 and 4 Assets}
+		\label{figure-it3_all_deltas}
+	\end{figure}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\newpage
+	\bigskip\large\textbf{Iteration 2: 26th April}
+	
+	\paragraph{Sigmoid Pre-training Efficacy}
+	
+	The pre-training implementation was tested using the MNIST dataset using 2 validations: the first was RBM training to generate variations of the MNIST data which was inspected manually and considered to be working correctly, the second of which was to use pre-training on a classification network and assess the benefit, as in the graph below.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/pt/rbm_pretraining.png}
+		\caption{SAE MSE By Scaling \newline The three series above show the classification accuracy scores (percentage) by epoch on an AutoEncoder which was used to classify MNIST images. The series were trained with 0, 1 and 5 pre-training epochs, and show a clear improvment in having an epoch of pre-training in the SAE formation (though not much for more than 1).}
+		\label{figure-pretraining-effect}
+	\end{figure}		
+	
+	Having considered the implementation to be correct and effective in the classic use case, it was then trialled on the following SAE configuration, with the results in the graphs below.
+	\begin{itemize}
+		\item Data: Closing prices for AGL \& ACL
+		\item Processing: Time windows of 1, 5 and 20 (thus an input vector of size 6)
+		\item Encoding Layer Activations: Sigmoid and Linear
+		\item Encoding Layer Size: 5
+		\item Hidden Layer Size: 15
+		\item Number of Hidden Layers: 1, 2
+		\item Learning Rates: 0.0000001, 0.00001, 0.001, 0.1, 1.0, 2.0
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png}
+		\caption{Pre-training Effects on financial SAE \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.}
+		\label{figure-it2-pretraining-effect}
+	\end{figure}		
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_Learning_Rates_epochs_Min_Test_MSE.png}
+		\caption{Pre-training Effects on financial SAE, by learning rate \newline These boxplots show the same as above, but further grouped by learning rate. We can see the few samples that appears to be benefiting from having 1 epoch of pre-training are simply a result of the learning rate being small enough so as not to have much effect.}
+		\label{figure-it2-pretraining-effect2}
+	\end{figure}		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\paragraph{SAE Linear Activation Tests}		
+	
+	In consideration of the previous iterations results, numerous tests were run to assess the efficacy of Linear Activations in the encoding and output layers of the SAE networks. The list of configuration combinations are below.
+	\begin{itemize}
+		\item Data: Closing Prices for ACL, AGL, AMS, AOD, BAW, BIL, BVT, CFR, CRH, DDT
+		\item Data Windows: 1, 5, 20 (thus input of 30)
+		\item Data Scaling: Normalize, Standardize
+		\item Weight Init,: Xavier Glorot Uniform
+		\item All Layer Encodings: Sigmoid, ReLU, Linear (split by hidden, encoding and output)
+		\item Encoding Layer Size: 5, 15, 25
+		\item Hidden Layer Size: 60, 120
+		\item Number of Hidden Layers: 1, 2, 3
+		\item Learning Rates: Various for each different activation type (chosen by hidden activation used)
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png}
+		\caption{Effects of Standardizing \& ReLU Output \newline These boxplots show the MSE scores for the combinations run grouped by 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. There is significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the graphs below.}
+		\label{figure-it2-scaling-and-relu}
+	\end{figure}				
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/linear/1Activation_Combos-Min_MSE.png}
+		\caption{Effects of Linear Activation \newline This is the same data as in Figure 4, focusing on the more effective configurations. We can see Sigmoid has largely poor performance unless there is a Linear encoding layer (a widely experienced behaviour), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.}
+		\label{figure-it2-linear-act}
+	\end{figure}				
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png}
+		\caption{Encoding Size 25 \newline These plots show the performance for all configurations with an encoding layer size of 25 (input 30). There is once again a surprisingly high performance in the fully linear network.}
+		\label{figure-it2-encoding25}
+	\end{figure}				
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png}
+		\caption{Encoding Size 5 \newline These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we finally see the benefit of non-linear activations in the ReLU based newtorks, which the fully linear is not able to outperform.}
+		\label{figure-it2-encoding5}
+	\end{figure}				
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/linear/5Network_Size_Activation_Combos_for_Encoding_5_Min_MSE.png}
+		\caption{Performance by Network Size 
+			\newline We can further break these down by network size, and see performance is as one would hope, with the best ReLU configurations corresponding with more layers and of larger sizes.}
+		\label{figure-it2-networksize-effect}
+	\end{figure}				
+	
+	
+	\paragraph{Denoising SAEs}
+	
+	Using the same data and general set up as above, a series of tests were run for DSAE using the best ReLU configurations and a gaussian noise process such that $\tilde{x} = \mathcal{N}(x, \sigma) $
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/denoise/denoising.png}
+		\caption{Performance by Denoising Variation
+			\newline The above groupings show the decreasing SAE performance as the level of denoising is increased. The grouping with variance 1.0e-11 essentially represents no denoising.}
+		\label{figure-it2-denoise}
+	\end{figure}						
+	
+	
+	\paragraph{Linear Activations in FFN}
+	
+	A series of predictive FFN networks were run, with the following combinations
+	
+	\begin{itemize}
+		\item SAEs: Best performance (lowest MSE) of encoding sizes 3, 6, 9, 12, 15 (input 18), of both Limited Scaling and typical Scaling methods
+		\item Output Activations: ReLU, Linear
+		\item Hidden Activations: ReLU, Linear
+		\item Layer Sizes: 40, 80
+		\item Number of Layers: 1, 3
+		\item Various Learning rates for SGD \& OGD training
+	\end{itemize}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
+		\caption{Linear Activations in FFN 
+			\newline The above groupings show the profits generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). There are several takeaways:
+			\newline 1. Higher performance of Linear networks (may be down to network size and amount of input data)
+			\newline 2. The limited scaling technique is having a noticeable impact on profits
+			\newline 3. The decrease in performance with ReLU output persists
+		}	
+		\label{figure-it2-linear-ffn_activations}
+	\end{figure}						
+	
+	\paragraph{SAE Effects}
+	
+	The graph below shows an aggregation of the above configuratios by SAE sizes.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/networks/SAE_Profit_Boxplots.png}
+		\caption{SAE Effects on P\&L
+			\newline The above groupings show the profits generated for different SAE encoding layers. The results are encouraging, showing that no SAE (encoding 0) has the worst results, and that the best results are found in one of the lower encoding layers (6).}	
+		\label{figure-it2-sae-effects}
+	\end{figure}			
+	
+	
+	\paragraph{Predictive Network Sizes}
+	
+	Similarly, the below graph shows profits for the predictive networks sizes.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/networks/Network_Size_Profits.png}
+		\caption{Network Size Effects on P\&L
+			\newline We can see the effects are largely as expected here, with networks of more layers and larger layer sizes having a better effect on profits.
+		}	
+		\label{figure-it2-network-size-effects}
+	\end{figure}					
+	
+	\paragraph{Cross Validation Effects}
+	
+	The same set of configuration were run with a Cross Validation set of 0\% and 10\%.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/validation/Validation_Set_Effects_on_Profits.png}
+		\caption{Validation Set Effects on P\&L
+			\newline This tested the witholding of 10\% of the data from the SGD training versus witholding no data. Curiously, there doesn't seem to be a notable effect here, possibly speaking to the much larger general effect of the OGD training in comparison.
+		}	
+		\label{figure-it2-validation	}
+	\end{figure}	
+	
+	
+	\paragraph{Returns Analysis}
+	
+	This section will look at the aggregate returns, and the predictions of the best networks by profit and OGD MSE.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/profits_pdf.png}
+		\caption{Histogram of P\&L from Predictive MMS
+			\newline The P\&L values seem to be rather low, with few losses. Could warrant a different trading strategy being used.
+		}	
+		\label{figure-it2-profit-pdf	}
+	\end{figure}	
+	
+	The returns below are for the best P\&L network with Relu hidden activations. This network had an SAE encoding layer of size 3, 3 hidden layers with ReLU activations and a linear output layer, which produced a profit of 150.128
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/cumulative_profits.png}
+		\caption{Cumulative P\&L
+			\newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered.
+		}	
+		\label{figure-it2-cumprof}
+	\end{figure}	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/cumulative_rates.png}
+		\caption{Cumulative Rates
+			\newline We can see even the best configuration seems to be delivering very poor results relative to the benchmark, with negative P\$L with costs considered.
+		}	
+		\label{figure-it2-cumrates}
+	\end{figure}	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/stock5_full.png}
+		\caption{Price Predictions
+			\newline This graphs displays the actual prices for the one stock, as well as the predictions made by the two best networks (chosen by MSE and Profit)
+		}	
+		\label{figure-it2-pricepredfull}
+	\end{figure}			
+	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.3]{images/iteration_two/returns/stock5_zoom.png}
+		\caption{Price Predictions (Zoomed)
+			\newline A closer zoom reveals that it looks like the predictions are very much a lagged time series
+		}	
+		\label{figure-it2-pricepredzoom}
+	\end{figure}			
+	
+	\newpage\large\textbf{Iteration 1: 12th April}
+	
+	\paragraph{Scaling}
+	
+	Unfortunately a bug resulted in the predictive networks not having a linear activation layer implemented (despite the naming). Current results suggest the limited scaling approach is resulting in worse MSE scores for both SAE and OGD. The OGD profits are also looking potentially worse (a linear activation implementation would need to be tested though).
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/sae_mse_by_scaling.png}
+		\caption{SAE MSE By Scaling}
+		\label{figure-synthetic-prices}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/ogd_mse_by_scaling.png}
+		\caption{OGD MSE By Scaling}
+		\label{figure-synthetic-prices}
+	\end{figure}	
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/ogd_profits_by_scaling.png}
+		\caption{OGD Profits by Scaling}
+		\label{figure-synthetic-prices}
+	\end{figure}
+	
+	
+	\paragraph{General Configurations \& CV}
+	
+	A larger set of configuration were run to test several concepts, as well as the removal of the CV step. The CV methodology needs to be kept for SAE in order to select a best set of SAEs, but is not strictly necessary for the SGD predictive training. In this case the trade off is that without CV a set number of epochs must be chosen (rather than monitoring the changes in OOS errors). All results below are run without CV in the SGD training.
+	
+	
+	\begin{itemize}
+		\item SAE Configurations:
+		\begin{itemize}
+			\item Encoding layers: 3, 6, 9, 12, 15 (input of 18)
+			\item Layer sizes: 40x1, 40X2, 80X1, 80X2
+			\item Various learning rates
+			\item Different scaling functions \& output layers
+		\end{itemize}
+		\item FFN Configurations:
+		\begin{itemize}
+			\item Encoding Layers: 3, 9, 12
+			\item Different scaling functions \& output layers  
+			\item Various learning rates
+			\item Layer sizes: 40x1, 40X2, 40x3, 80x1, 80x2, 80x3
+		\end{itemize}
+		\item Dataset Configurations:
+		\begin{itemize}
+			\item Synthetic Data
+			\item 5000 timesteps
+			\item Aggregation of 1, 7 and 30 to predict 2
+			\item 60/40 split between SSGD and OGD
+		\end{itemize}
+	\end{itemize}
+	
+	The set of prices tested are shown below
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/price_plot.png}
+		\caption{Price Plot}
+		\label{figure-synthetic-prices}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/profit_pdf.png}
+		\caption{PDF of all Profits Generated}
+		\label{figure-synthetic-prices}
+	\end{figure}
+	
+	Profits by the SAEs chosen are below, suggesting that there is some level of feature selection being performed by the SAEs.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/profits_sae.png}
+		\caption{SAE Profits}
+		\label{figure-synthetic-prices}
+	\end{figure}
+	
+	Profits by network structure are below, suggesting that simpler networks are performing better. This may point to some leve of overfitting occuring in the larger networks.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/profits_networks.png}
+		\caption{Network Structure Profits}
+		\label{figure-synthetic-prices}
+	\end{figure}	
+	
+	
+	\paragraph{Return Graphs}
+	
+	The graphs below show the cumulative return rates, profits and daily rates of the best network. The best network was chosen by MSE rather than profit, for reasons discussed below.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/results_cumulative_profits.png}
+		\caption{Cumulative Profits}
+		\label{figure-synthetic-prices}
+	\end{figure}		
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/results_cumulative_rates.png}
+		\caption{Cumulative Return Rates}
+		\label{figure-synthetic-prices}
+	\end{figure}		
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/results_daily_rates.png}
+		\caption{Daily Rates}
+		\label{figure-synthetic-prices}
+	\end{figure}		
+	
+	
+	\paragraph{Price Predictions}
+	
+	The price predictions are showing 2 problems: heaving oscillations occuring at most points, and the most profitable configuration having a relatively poor level of prediction.
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/stock1.png}
+		\caption{Stock 1}
+		\label{figure-synthetic-prices}
+	\end{figure}		
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/stock2.png}
+		\caption{Stock 2}
+		\label{figure-synthetic-prices}
+	\end{figure}		
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/stock3.png}
+		\caption{Stock 3}
+		\label{figure-synthetic-prices}
+	\end{figure}		
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/stock4.png}
+		\caption{Stock 4}
+		\label{figure-synthetic-prices}
+	\end{figure}		
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/stock5.png}
+		\caption{Stock 5}
+		\label{figure-synthetic-prices}
+	\end{figure}		
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/stock6.png}
+		\caption{Stock 6}
+		\label{figure-synthetic-prices}
+	\end{figure}		
+	
+	\paragraph{Sigmoid Pre-training}	
+	
+	The pre-training for weight initialization in the Sigmoid networks, which is supposed to improve performance, seems to be having an adverse effect:
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.5]{images/iteration_one/pretraining.png}
+		\caption{Stock 6}
+		\label{Pre-training MSE performance}
+	\end{figure}		
+	
+	\newpage
+	\bigskip\large\textbf{4. Synthetic Test Plan}\bigskip\normalsize
+	
+	Expected Time: 1 Week
+	
+	\paragraph{General Configuration}
+	
+	\begin{itemize}
+		\item Data: 10 Synthetic Assets
+		\item Rolling Windows: [1, 5, 20] / [5, 20 60] / [10, 20, 60]
+		\item Initializations: Xavier, He
+		\item Activations: Leaky Relu With Linear Encodings and Output
+	\end{itemize}
+	
+	\paragraph{SAE Configurations (945)}
+	
+	\begin{itemize}
+		\item Learning Rate Schedules: 0.005 to (0.01, 0.05, 0.1) by (100) epochs
+		\item Network Structures:
+		\begin{itemize}
+			\item 120, 60, 30	
+			\item 90, 60, 30	
+			\item 90, 90, 90	
+			\item 90, 90	
+			\item 120, 90	
+			\item 120,60	
+			\item 120
+		\end{itemize}
+		\item Encoding: 25;20;15;10;5
+	\end{itemize}
+	
+	\paragraph{FFN Configurations (2835)}
+	
+	\begin{itemize}
+		\item Best SAEs by encoding size and window aggregations (15 total)
+		\item Learning Rate Schedules: 0.005 to (0.01, 0.05, 0.1) by (100) epochs
+		\item Network Structures:
+		\begin{itemize}
+			\item 120;120;120;120
+			\item 120;90;90;60
+			\item 120;90;60
+			\item 120;120;120
+			\item 120;120
+			\item 120;60
+			\item 120
+		\end{itemize}
+		\item L1 Lambda: 0; 2 values
+		\item OGD Learning Rates: 0.01; 0.005; 0.05
+	\end{itemize}
+	
+	\newpage
+	\newpage\bigskip\large\textbf{5. Milestones \& Deliverables}\normalsize
+	
+	
+	
+	\begin{table}[h]
+		\begin{tcolorbox}[tabularx*={\arrayrulewidth0.6mm}{X||X},fontupper=\normalsize\sffamily,colback=white!10!white,colframe=black!40!]
+			
+			\centerline{\textbf{Finish Date}} &\centerline{\textbf{Item}} \\\hline
+			\centerline {Requires Corrections} & {1 Literature Review}\\\hline
+			\centerline {In Progress} & {2 Data Collection}  \\\hline
+			\centerline {\cellcolor{gray!25}  Done}  & {\cellcolor{gray!25}  3 Data Log Fluctuation Processing}  \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  4 SAE Implementation}  \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  5 Online FFN/LSTM Implementation} \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  6 CSCV Implementation} \\\hline		
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  7 Synthetic Data Generation} \\\hline					
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  8 Finalise Implementation Process} \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}  9 Database Implementation} \\\hline
+			\centerline {\cellcolor{gray!25}  Done} & {\cellcolor{gray!25}10 Learning Optimizations} \\\hline			
+			\centerline {} & {11 Test full implementation on synthetic data} \\\hline
+			\vspace{0.1mm}  \centerline {} &\vspace{0.1mm}   {12 Test full implementation on actual dataset} \\\hline
+			\vspace{0.1mm}  \centerline {} &\vspace{0.1mm}   {13 Statistical Analysis (incl. profitability of trading strategy)} \\\hline
+			\vspace{0.1mm}  \centerline {} &\vspace{0.1mm}   {14 Write up \& Revisions} \\\hline
+			
+		\end{tcolorbox}
+	\end{table}
+	\FloatBarrier
+	
+	\newpage\bigskip\large\textbf{6. Process Implementation}\bigskip\normalsize
+	
+	The steps below indicate how everything is expected to fit together at a high level perspective:
+	
+	\begin{itemize}
+		\item [1] Data preparation
+		\begin{itemize}
+			\item[$\bullet$] The data is processed into day to day log fluctuations
+			\item[$\bullet$] At each time point, rolling historic summations are calculated (e.g. the past 1, 7 and 30 days)
+			\item[$\bullet$] At each time point, rolling future summations are calculated (e.g. the next 2 days)
+		\end{itemize}
+		\item [2] Data Segregation
+		\begin{itemize}
+			\item[$\bullet$] The processed dataset is split into 2 parts, to be used for the following processes: SAE/SGD training and OGD training (e.g. 60\%, 40\%)
+			\item[$\bullet$] Bailey's MinBTL method should be considered to determine this split length
+		\end{itemize}	
+		\item [3] SAE Training
+		\begin{itemize}
+			\item[$\bullet$] The dataset defined for SAE/SGD is used to train the auto-encoder networks (using either RBM pretraining/weight initialization algorithms + SGD)
+			\item[$\bullet$] Notably, this SAE/SGD dataset will itself be split into training \& testing portions in order to train and validate the SAE network
+			\item[$\bullet$] The SAE training does not suffer from the same backtesting concerns as for the predictive network. A full set of models for difference encoding layers can be trained to sufficient performance, and then used as a configuration aspect for the predictive training.
+		\end{itemize}		
+		\item [4] FFN/SGD Training
+		\begin{itemize}
+			\item[$\bullet$] The same SAE/SGD portion of the data will then be used to train the FFN network to predict future prices, using the implemented SGD algorithm \& optimizations.
+		\end{itemize}			
+		\item [5] OGD Training
+		\begin{itemize}
+			\item[$\bullet$] The second portion of data will be used to train and optimize the FNN from 4 for OGD. The purpose of this will be to optimize to train the network and produce returns.	
+		\end{itemize}			
+		\item [6] Returns generations
+		\begin{itemize}
+			\item[$\bullet$] A basic trading strategy will be used to generate returns from the predicted and actual prices in the holdout dataset. These returns for each time period and each configuration of the model defined by steps 3-5 will form the M matrix for the CSCV process.
+		\end{itemize}	
+		\item [7] CSCV \& PBO
+		\begin{itemize}
+			\item[$\bullet$] Using the M matrix from 6, the CSCV process will be run which will then allow a calculation of PBO.
+		\end{itemize}		
+	\end{itemize}
+	
+	\newpage\bigskip\large\textbf{7. Meeting Minutes}\bigskip\normalsize	
+	\paragraph{16th June 2018}
+	\begin{itemize}
+		\item[$\bullet$] Literature Review
+		Include: Wilcox \& Debbie Hierarchical Paper; Crutchfield \& Farmer: Geometry of Time Series; F Takens: Detecting strange attractors in turbulence; Reference Riaz
+		\item[$\bullet$] Implementation
+		\begin{itemize}
+			\item[$\bullet$] Key implementation point was the data segmentation choices
+			\item[$\bullet$] LSTM network would resolve this point for us (CNN convolution could also potentially
+			work)
+			\item[$\bullet$] Non LSTM will run risk of correlating times with stocks
+			\item[$\bullet$] Representation needs a mixture of time scales as well as the features
+			\item[$\bullet$] Will be considering data for the entire index at any time point t
+			\item[$\bullet$] Will need to consider how to address the changing constituents
+			\item[$\bullet$] Aspect of how often the feature selection is updated (e.g. SDAE in online model)
+			\item[$\bullet$] Does it get updated in the online model ?
+			\item[$\bullet$] SDAE result should be similar to edge detection which will give set of predictions essentially
+			\item[$\bullet$] Use known test cases for CSCV method development
+		\end{itemize}
+		\item[$\bullet$] Data
+		\begin{itemize}
+			\item[$\bullet$] Use simple noise with Gaussian distribution \& long trends to develop network models (6
+			variations of increasing, decreasing and flat with low or high variability)
+			\item[$\bullet$] Build backdated tests module with surrogate data afterwards
+			\item[$\bullet$] Not going to try intraday data due to different nature of problem
+			\item[$\bullet$] Implementation of either a flat file or MongoDB
+			\item[$\bullet$] Important to include Volume datav
+			\item[$\bullet$] Volume time -> might be far more predictable; volume and variance linked
+		\end{itemize}
+		\item[$\bullet$] Other
+		\begin{itemize}
+			\item[$\bullet$] Admin:Single document - table of contents (nice to have) with authors; sections etc. ; full doc with
+			versioning; PDF + latex (always send both)
+			\item[$\bullet$] 	Further Correspondence:
+			* Iterate over FFN/LSTM implementations rather than starting with LSTM
+			* For the meantime, assume the models do not differ fundamentally enough to be considered as
+			separate for the PBO calculations
+		\end{itemize}
+	\end{itemize}		
+	
+	\paragraph{29th March 2019}
+	
+	\begin{itemize}
+		\item Dissertation
+		\begin{itemize}
+			\item Generally frame the idea as a simplest high complexity framework in rational testing framework
+			\item Need to highlight and sell the SAE separation in terms of reasoning and value
+			\item SAE training updates: just make comment that not updating 
+			\item Include discussion around decoupling of model components
+		\end{itemize}
+		
+		\item Data Considerations
+		\begin{itemize}
+			\item 80/20\% split for SGD: Should this be used? May not be necessary in full process. Could also consider using all the data for OGD rather than SGD/OGD split.
+			\item Split for SAE\&SGD/OGD split: Baileys MinBTL should at least be discussed, and possibly used.
+			\item Prediction goal
+			\begin{itemize}
+				\item [1]: A 3/5 days average at end. Buy / sell according to above / below.
+				\item [2]: 1-30 days distribution with error variances at each point. Consider how far ahead highest possible forecast is and what the spread on that is.—> outside scope but need to address to show it’s been thought carefully about Money management strategy for model (out of scope) but should have some consideration in terms of such a distribution
+			\end{itemize}
+			
+			\item Scaling
+			\begin{itemize}
+				\item Paragraph or 2 showing this is a technical problem, and point out that want this learning to be ind. of normalisation 
+				\item Currently choosing to normalise correctly in training set  
+				\item Mention iterative normalisation which will converge: Can benchmark large covariance matrix against noise model for matrix and use PCA and plot eigen values for noise distribution. Would still be removing some level of signal -> and signal chosen should be as far outside noise model as possible.
+			\end{itemize}
+			
+			\item Datasets
+			\begin{itemize}
+				\item Continue to use surrogate data for testing, and then use close \& intraday sets for actual results
+				\item Daily data have enough to submit 
+				\item Intraday: trade every 5 minutes? 
+				\item Intraday will make a good inclusion and extension
+			\end{itemize}
+		\end{itemize}
+		
+		\item Results Reporting
+		\begin{itemize}
+			\item Nyquest frequency and breakdown on aliasing: need to discuss this to validate the [2] choice, and note that naive prediction could expose us to aliasing and fitting to the band ripple rather than underlying signal in prices
+			\item Continue with and clearly state how the arithmetic money management strategy is working 
+			\item Processing signals but generating P\&L based on the MMS
+			\item The performance measure is based on these P\&L returns
+			\item Generate daily P\&L (same sampling rate as data): includes both trades which are running
+			\item Split up reporting into the expected and actualised returns for each time point
+			\item Return calculations need to include costs
+			\begin{itemize}
+				\item Capital Costs: 10\% p.a. borrowing rate to fund MMS. Payed back every 2 days.
+				\item Transaction costs: 45bp (as appropriate for Top 40 category shares)
+				\item Generate results with and without these costs. Can then inform decision making on before and after costs.
+				\item Articulate: Ideal world would have the MMS inform the learning choices in the model 
+			\end{itemize}				
+		\end{itemize}
+	\end{itemize}
+	
+	\paragraph{12th April 2019}
+	
+	\begin{itemize}
+		\item Implementation Choices
+		\begin{itemize}
+			\item Scaling Methods: Just expose the decision and impact of using a scaling technique that can’t account for future data
+			\item Cross Validation: Demonstrate payoff either way and make decision from there 
+			\item Denoising Stacked Autoencoders: Try gaussian noise approach and assess results
+		\end{itemize}
+		
+		\item Time Window Aggregation
+		\begin{itemize}
+			\item Should be 5 for week same for month (should be 1, 5, 20, 60)
+			\item Should be using a simulation of horizons to create distribution and choose time windows that way
+			\item Defend through domain knowledge, pose and suggest that it should be learnt - not going to be with primary scope
+			\item Calendars because that’s how traders work - defend this way 
+			\item Know system is hierarchical in feature space and time (articulate this and look at Tims paper)
+			\item One day: non-tradeable mean reversion, weekend activity for week, mutual funds rebalance monthly 
+			\item Consider inclusion of 90 days 
+		\end{itemize}
+		
+		\item MMS
+		\begin{itemize}
+			\item Highlight the separation of MMS and signal
+			\item Long only is fine: If there’s a strategy / method that consistently loses money - would be a great finding. Right side of MMS, wrong side of pattern recognition.
+			\item Point out that learning the patterns should not be coupled with making it profitable. Articulate that RL should not be used in the sense that choosing features etc. : highlight modularisation.
+			\item Daily rates: need to separate pattern recognition signal and MMS in text 
+			\item Benchmark is perfect information world, so correct. Check “Can we learn to beat best stock paper ?” Paper
+			\item Shorts: Discuss stop losses and pyramiding stop losses training - way of making MMS more effective (bands implementation). Should be machine learned ideally but don’t have that.							
+		\end{itemize}
+		
+		\item Price Predictions
+		\begin{itemize}
+			\item Oscillating predictions: potentially aliasing feedback?
+			\item Otherwise, MSE vs. Profits finding is interesting: understand why the differences are seen and what the model differences are 
+		\end{itemize}
+		
+		\item Pre-training Findings
+		\begin{itemize}
+			\item Training in a lot of noise may be jumping to pathological corner cases in solution space
+			\item Should be useful to constrain solution space
+			\item Data is pathological though, reduced data that can be used for actual algorithm 
+			\item Result is optimising in a subspace - throwing data away in a sense
+			\item Check IID aspects and requirements for pre-training
+			\item Important story: dynamic nature of financial market is not the same as some IID distribution 
+			\item Odds are changing through time
+			\item Ringfence and add diagnostics 
+		\end{itemize}
+		
+		\item Generally (Dissertation notes)
+		\begin{itemize}
+			\item Focus on the modularisation of the framework and how it enables exploring of components and algorithms rather than an explicit solution
+			\item “Perfect” ->  “Benchmark”
+			\item Return should be “P\&L”, return is \%
+			\item Text: Times roman not italics for functions and have equation numbers
+			\item Enumerate rather than bullets
+			\item Table of tables, figures, variables used \& definitions and page number introduced 
+			\item Y tilde :measurement, y U feedback process error, y hat projection, y theoretical 
+			\item Notations: Look at process control by G
+			\item “Trade Long” should be teletype 
+		\end{itemize}	
+		
+	\end{itemize}
+	
+	\paragraph{26th April 2019}
+	
+	\begin{itemize}
+		\item General Notes around results
+		\begin{itemize}
+			\item SAE encoding results: degrees of freedom argument. Make it clear that it was on synthetic data and same seed etc. 
+			\item Day on day with real data is almost perfectly predictable, but you can’t trade it (“1 day momentum”). Can’t trade from the closing auction, but no volume and can’t get positions in it. 2 day onwards you get the martingale effect .
+			\item Prices are nonlinear in breadth, but not in depth of time series 
+			\item Highlight that it is cross sectional depth of data that will give advantage of these models rather than breadth of history - ML is possible, but have to load up with every single current data feed. Patterns are nonlinear but adaptive because of feedback - tech not mature enough to leverage that yet 
+			\item Profit- log scale on graph 
+			\item Network sizes: order by layers and layer size to see pattern
+			\item Speaks to argument that it’s cross section of information now rather than temporal dynamics
+		\end{itemize}
+		
+		\item Synthetic Tests
+		\begin{itemize}
+			\item P\&L Found: High means and low means. Do edge case testing
+			\item 2 stocks: same means, different variances
+			\item 2 stocks: same variances, different means
+			\item Then up to 4 and 6 assets and check results for P\&L 
+			\item High low medium means etc. Log axes.
+			\item 2 assets: 0 on means, 4 and 6 after with the different variances. Will pinpoint whether it’s working or not. Cases with high variance and low means -> expect to lose money.
+			\item Consider test framework on HMM to assess linear activation results 
+		\end{itemize}
+		
+	\end{itemize}
+	
+	\paragraph{17th May 2019}
+	
+	\begin{itemize}
+		\item General Dissertation \& Project Notes
+		\begin{itemize}
+			\item Highlight value of framework built, including graphs and diagnostics. Have built a tool that allows exploration of complexity in data.
+			\item Reason why we have a story is the focus on process that the project has gone through
+			\item Cumulative Graphs P\&L: Highlights markets are predictable but not profitable with costs. Show as table rather than graph: matrix of data, year 1 data, year 2 data
+		\end{itemize}
+		\item Results \& Synthetic Data
+		\begin{itemize}
+			\item Martingale: relief -> can’t make model any more complicated. 
+			\item In finance: actually data starved due to lack of cross sectional data. Time series effect in comparison to other data. 
+			\begin{itemize}
+				\item Financial Time Series: Cannot know the probabilities in financial markets. We have evidence in favour of that view
+				\item They are not organic and stationary - findings argue in that favour
+				\item Can’t predict rare events in finance, and so cannot hedge in finance. Innovation vs hedging. Can’t risk manage properly in finance due to lack of predictability of events.
+			\end{itemize}
+			\item L1 Reg is regularising something that isn’t overfitting in the first place. If it does help then there’s nonlinear signal in the data -> ergo framework is fitting relatively simple linear data. Contrasts with the Learning rate schedule results -> warrants further testing on different (real) data.
+		\end{itemize}
+		
+	\end{itemize}
+	
+	\paragraph{21st June 2019}
+	
+	
+	\begin{itemize}
+		\item Formatting
+		\begin{itemize}
+			\item Numbers rather than bullets  for all lists
+			\item Figures: split out and format correctly
+		\end{itemize}
+		
+		\item GBM Generated Data
+		\begin{itemize}
+			\item Warning that financial time series, ergo all about the time series averages -> can’t trust ensemble based machine learning
+			\item Can just reference the Ergodic Economics paper 
+		\end{itemize}
+		
+		\item Datasets
+		\begin{itemize}
+			\item Synthetic Sets are fine			
+			\item Matrix with high to low volatility
+			\item Represent same was as Synthetic6 
+		\end{itemize}
+		
+		\item Standardizing Results is probably down to outliers in the real data
+		\begin{itemize}
+			\item Discuss the outlier story
+			\item Read up on Winsorization 
+		\end{itemize}
+		
+		\item Error Function  - will push into Gaussian distribution 
+		\begin{itemize}
+			\item Fits back into the Standardization issue
+			\item Good for algorithm which is prone to error maximisation
+			\item Can then invert back - map weights back
+			\item Regulariation won’t solve the outlier problem, just smoothes over it. Can find a gaussian mapping of the data with error function.
+			\item Discuss that error function could have been used in the data processing details 
+		\end{itemize}
+		
+		\item Predictive FFN Activations and Scaling
+		\begin{itemize}
+			\item Not necessary to do the linear activation on FFN network - can just note it, can argue that it won’t add value 
+		\end{itemize}
+		
+		\item Summary Table: “This is better than that” summaries with referencing figures
+		\begin{itemize}
+			\item Table for surrogate and real
+			\item Frame the phenomenology that one gets from financial market data  
+		\end{itemize}
+		
+		\item SAE Effects
+		\begin{itemize}
+			\item Can reference the no SAE encoding in the technical doc \& just referenced
+			\item Note that it was done and what was learnt 
+		\end{itemize}
+		
+		\item SAE Data Window Aggregations - AGL Data
+		\begin{itemize}
+			\item Actual results are showing shrinkage in errors 
+			\item Patterns in features are compressing 
+			\item Don’t get caught up on the outliers (“Despite the outliers…”)
+			\item Ultimately - easier to learn the smoothed version of the graph
+			\item Can link this back to the outlier issue again
+		\end{itemize}
+		
+		\item FFN Data Window Aggregations - AGL Data
+		\begin{itemize}
+			\item Emphasise the first 5 days, not just the 1 day mean reversion so gives it traction
+		\end{itemize}
+		
+		\item Historical Data and SGD training
+		\begin{itemize}
+			\item Makes sense for GBM
+			\item Do it for real data: 0, 40, 90 percent intervals  
+		\end{itemize}
+		
+		\item If financial markets are ergodic, more data better -> sampling ensembles 
+		\item Assessing martingale: Take differences \& plot order correlation functions. Order correlation function / power spectrum - see how it peaks 
+		\item RBM Pretraining for Sigmoid Networks. Ties back to cross sectional data point as well , where older representations are not of value 
+		\item DC init - put paragraph in to emphasise 
+		
+		\item Regularization, comes back to ergodicity etc. Ridge or Lasso Works well for IID etc. , not so much for the financial time series. Not moderating the generalization error, just impacting model fidelity.
+		
+	\end{itemize}
+	
+	
+	
+	
+	
+\end{technicaldoc}
+
 \end {document}
 
 
