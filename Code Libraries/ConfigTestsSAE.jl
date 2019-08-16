@@ -57,7 +57,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, primary_activation)
 
         sae_sgd_par = TrainingParameters("SAE",
                                         0.01,    #max learning rate
-                                        0.00001,        #min learning rate
+                                        0.0001,        #min learning rate
                                         200,        #epoch cycle max
                                         32,       #minibatch size
                                         20000,      #max epochs
@@ -87,7 +87,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, primary_activation)
     push!(vps, (GetDataConfig, ChangeDeltas, ([1,5,20], [5,20,60], [10,20,60])))
 
 
-    set_name = string("Iteration4 SAE Actual10 Test", string(layer_sizes), "x", encoding_layer, " ", split(string(primary_activation), ".")[2])
+    set_name = string("Iteration5 SAE Actual10 Test", string(layer_sizes), "x", encoding_layer, " ", split(string(primary_activation), ".")[2])
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Actual10 Set"))
 
     ################################################################################
@@ -113,9 +113,16 @@ end
 
 activation_function = LeakyReluActivation
 
-layers = (240, 240, 240)
+#layers = (240, 240, 240)
 #RunNLayerReLUSAETest(25, layers, activation_function)
 #RunNLayerReLUSAETest(20, layers, activation_function)
+#RunNLayerReLUSAETest(15, layers, activation_function)
+#RunNLayerReLUSAETest(10, layers, activation_function)
+#RunNLayerReLUSAETest(5, layers, activation_function)
+
+layers = (120, 120, 120)
+RunNLayerReLUSAETest(25, layers, activation_function)
+RunNLayerReLUSAETest(20, layers, activation_function)
 RunNLayerReLUSAETest(15, layers, activation_function)
 RunNLayerReLUSAETest(10, layers, activation_function)
 RunNLayerReLUSAETest(5, layers, activation_function)
@@ -124,10 +131,6 @@ RunNLayerReLUSAETest(5, layers, activation_function)
 
 
 #layers = (240, 240, 240)
-
-
-#TODO
-#
 
 #layers = (120, 90, 60)
 #layers = (240)

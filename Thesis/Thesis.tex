@@ -881,9 +881,11 @@ The implementation focuses on bringing together several ideas: data reduction, d
 
 \begin{itemize}
 	\item [1] The dataset is split into 2 subsets: the Training portion, and the Prediction portion.
-	\item [2] The Training set is used to train the SAE and deep FFN using the SGD algorithm. These networks are implemented with pre-training or weight initialization techniques.
+	\item [2] The Training set is used to train the SAE and deep FFN using the SGD algorithm. These networks are constructed with pre-training or weight initialization techniques.
 	\item [3] The Prediction set of data is used to continue training the network in an online manner using OGD.
-	\item [4] The returns generated from OGD can then be used in the CSCV process, to estimate the probability of backtest overfitting.
+	\item [4] The predictions made during the OGD process are descaled and prices are reconstructed.
+	\item [5] These reconstructed price predictions are used by the MMS to calculate returns and P\&L.
+	\item [6] The returns and P\&L calculated by the MMS are used by the CSCV process, to estimate the probability of backtest overfitting.
 \end{itemize}
 ~\\
 The rest of this chapter will detail the algorithms used to train the relevant FFN, RBM and SAE networks, as well as the trading strategy and CSCV \& PBO testing procedures.
@@ -903,7 +905,7 @@ For the purposes of this chapter, the following notation will be used:
 \item[3] The bias for the $j^{th}$ node in layer $l$ is represented by $w^l_0j$
 \item[4] The output for the $j^{th}$ node is defined as $a = o(z_j)$, for an activation function $o$ and weighted input $z$
 \item[5] The weighted input for the $j^{th}$ neuron in a layer is 
-\begin{equation}
+\begin{equation}\label{eq_weighted_input}
 	z^l_j=\sum_{i=1}^{e^{l-1}}{a^{l-1}_iw_{ij}} + w_{0j}
 \end{equation}
 \end{itemize}
@@ -912,7 +914,7 @@ These definitions allow an input into the network to be propagated through it, h
 
 \subsubsection{Activation Functions}\label{imp_activation_functions}
 ~\\
-As noted in \ref{lr_activationfunctions}, there are 3 primary characteristics of concern for activation functions: non-linearity, continuous differentiability and monotonicity. While many different functions have been suggested and used, 2 of the most used were implemented here.
+As noted in \ref{lr_activationfunctions}, there are 3 primary characteristics of concern for activation functions: non-linearity, continuous differentiability and monotonicity. While many different functions have been suggested and used, several of the most used were implemented here.
 
 \subparagraph{Sigmoid}
 
@@ -964,24 +966,42 @@ C = \frac{1}{2} \rVert y - a^L \rVert^2
 \end{equation}
 ~\\
 
-A technical definition of the backpropagation algrithm is given in Algorithm \ref{algo_backprop}, though the three primary steps of the algorithm are:
-\subparagraph{Forward Pass} 
-	\begin{itemize}
-	\item The samples are propagated through the network, in order to generate the output $\hat{y}_s$
+A technical definition of the backpropagation algrithm is given in Algorithm \ref{algo_backprop}, though the three primary steps of the algorithm are:\newline
+\begin{itemize}
+	\item [1] \textbf{Forward Pass}: The samples are propagated through the network, in order to generate the output $\hat{y}_s$. Vectorization is typically used to calculate the results for multiple samples at once, though conceptually each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input, using equation \eqref{eq_weighted_input} for the weighted output and equations \ref{imp_activation_functions} for the activation functions.
+	
+	\item [2] \textbf{Calculate Cost}: The cost between the training output $y_s$ and the model output $\hat{y}_s$ is calculated. Using this cost function, the rate of change for the error in the output layer by the rate of change in the activation function in the last layer. This is captured in equation \eqref{eq_lambda1}:	
+		\begin{equation}\label{eq_lambda1}
+		\delta_{j}^{L}=\frac{\partial C}{\partial a_{j}^{L}} \sigma^{\prime}\left(z_{j}^{L}\right)
+		\end{equation}
+	The vectorized version of this is often used, and expressed in \eqref{eq_lambda2}, where $\nabla_a C$ represents a vector of components which represent the partial derivatieves, such that they represent the rate of change of C relative to the activation functions' outputs.
+		\begin{equation}\label{eq_lambda2}
+		\delta_{j}^{L}=\nabla_a C \otimes o'(z^L)
+		\end{equation}
+	If using quadractive cost, as per \ref{func_MSE}, then the term $\frac{\partial C}{\partial a_{j}^{L}}$ can be reduced to $(a^L - y)$, such that the equation for the output layer error is
+	\begin{equation}\label{eq_lambda3}
+				\lambda^L = (a^L - y) \otimes o'(z^L)
+	\end{equation}
+		
+	\item [3] \textbf{Backwards Pass}: The backwards pass consists of 2 steps, where the errors for each previous layer are calculated, and the weights for that layers are then adjusted accordingly:
+		\begin{itemize}
+		\item [3.1] The activation values are propagated back through the network to calculate the delta values based on the cost value. This uses the same rationale as \eqref{eq_lambda1}, but rather uses $(w^{l+1})^T$ by the next layers error in order to get an indication of how the error rate and how it moves backwards through the network.
+						\begin{equation}\label{eq_lambda4}
+						\lambda^l = ((w^{l+1})^T\lambda^{l+1})  \otimes o'(z^l)
+						\end{equation}
+		\item [3.2] In order to update the network, each weights output error and input activation are multiplied to find the weight’s gradient and this gradient is reduced by a factor of the ‘learning rate’ $\eta$, which is then subtracted from the network weights to update them proportionately to the error observed and chosen learning rate.
+						\begin{equation}\label{eq_bp_weightupdate}
+						w^l \rightarrow w^l - {\eta}\lambda^{l} (a^{l - 1})^T
+						\end{equation}
 	\end{itemize}
-\subparagraph{Calculate Cost}
-	\begin{itemize}
-	\item The cost between the training output $y_s$ and the model output $\hat{y}_s$ is calculated, as per \ref{func_MSE}
-	\end{itemize} 
-\subparagraph{Backward Pass}
-	\begin{itemize}
-	\item Propagate the activation values back through the network to calculate the delta values based on the cost value
-	\item Each weights output delta and input activation are multiplied to find the weight’s gradient and this gradient is reduced by a factor of the ‘learning rate’ $\eta$, which is then subtracted from the network weights to update them
+		
 \end{itemize}
+
+Choices regarding the learning rates are discussed in \ref{imp_learning_rate_schedule} and the full algorithm is present below in Algorithm \ref{algo_backprop}.\newline
 
 \RestyleAlgo{algoruled}
 \begin{algorithm}[H]
-	\KwIn{Neural Network $N$, with randomly initialized weights $w$, $L$ layers, and activation functions $o$}
+	\KwIn{Neural Network $N$, with randomly initialized weights $w$, $L$ layers, and activation functions $o$ and learning rate $\eta$}
 	\KwData{Testing set with inputs $x$, and outputs $y$}
 	
 	\texttt{\\}
@@ -990,35 +1010,29 @@ A technical definition of the backpropagation algrithm is given in Algorithm \re
 			Select a sample $x_s$ from $x$\;
 		
 			\tcp{Perform the Forward Pass,  to calculate the network output, $y_s$, for input sample $x_s$}
-			$a_0$ =  $x_s$
+			$a_0$ =  $x_s$;
 			\texttt{\\}
 			\ForEach{l in 1:L}
 			{
 				\ForEach{j in 1:$e^l$}
 				{
-					$z^{l}_j=\sum_{i=1}^{e^{l-1}}{a^{{l-1}}_iw_{ij}} + w_{0j}$
+					$z^{l}_j=\sum_{i=1}^{e^{l-1}}{a^{{l-1}}_iw_{ij}} + w_{0j}$;
 					\newline
-					$a^{l}_j$ = $o(z^{l}_j)$
+					$a^{l}_j$ = $o(z^{l}_j)$;
 				}
 			} 
 			\tcp{Calculate the error term (aka cost), as}
-				\begin{equation}
-				\lambda^L = \nabla_a C \otimes o'(z^L) = (a^L - y) \otimes o'(z^L)
-				\end{equation}
+			$\lambda^L = (a^L - y) \otimes o'(z^L)$;
 			
 			\texttt{\\}
 			\tcp{Perform the Backward Pass, to propagate the errors back and update the network accordingly}
 			\ForEach{l in (L-1):1}
 			{
 				\tcp{Calculate the delta values}
-				\begin{equation}
-				\lambda^l = ((w^{l+1})^T\lambda^{l+1})  \otimes o'(z^l)
-				\end{equation}
+				$\lambda^l = ((w^{l+1})^T\lambda^{l+1})  \otimes o'(z^l)$;
 				
 				\tcp{Update the weights}
-				\begin{equation}
-				w^l \rightarrow w^l - {\eta}\lambda^{l} (a^{l - 1})^T
-				\end{equation}
+				$w^l \rightarrow w^l - {\eta}\lambda^{l} (a^{l - 1})^T$;
 			}
 	}
 
@@ -1032,28 +1046,18 @@ A technical definition of the backpropagation algrithm is given in Algorithm \re
 
 \subsubsection{Gradient Descent Algorithms}\label{imp_sgd}
 
-The backpropagation algorithm is defined at a single sample level, and the learning from a dataset is usually repeated for a number of 'epochs'. Implementation however is usually done using a vectorized version of the algorithm which either samples the entire dataset at once (batch), or a subset of samples (minibatch). The latter is the Stochastic Gradient Descent (SGD), as discussed in \ref{OGD}, which has been shown to increase the speed at which the backpropagation algorithm can converge a minima in terms of cost. The algorithm runs backpropagation over the entire dataset for the number of epochs, and updates the network incrementally through the epoch. The stopping condition for the algorithm is usually defined as either a particular number of epochs being reached, or cost no longer decreasing for some number of epochs (i.e. a minima has been reached).\newline
+The backpropagation algorithm is defined at a single sample level, and the learning from a dataset is usually repeated for a number of 'epochs'. As noted though, implementation is often implemented using a vectorized version of the algorithm which either samples the entire dataset at once (batch), or a subset of samples (minibatch). The latter is the Stochastic Gradient Descent (SGD), as discussed in \ref{lr_OGD}, which has been shown to increase the speed and stability at which the backpropagation algorithm can converge to a minima in terms of cost. The algorithm runs backpropagation over the entire dataset for the number of epochs, and updates the network incrementally through the epoch. The stopping condition for the algorithm is usually defined as either a particular number of epochs being reached, or cost no longer decreasing for some number of epochs (i.e. a minima has been reached).\newline
 
-\begin{algorithm}[H]
-	\KwIn{Neural Network $N$, with randomly initialized weights $w$, $L$ layers, and activation functions $o$}
-	\KwData{Testing set with inputs $x$, and outputs $y$}
-	
-	\texttt{\\}
-	
-	
-	\Repeat{For each epoch, or until a stopping condition is reached}{
-	\Repeat{no new samples can be drawn from $x$}{
-		Select $m$ samples $x_s$ from $x$ which have not yet been sampled in this epoch\;
-		Use backpropgation on the network using the $m$ samples to update the weights, using the aggregated weight update:
-		\begin{equation}
-		w^l \rightarrow w^l - \frac{\eta}{m} \sum_{x} \lambda^{x, l} (a^{x, l - 1})^T
-		\end{equation}
-	}}
-	
-	\KwResult{Updated Network $N$}
-	\label{algo_sgd}
-	\caption{Stochastic Gradient Descent}
-\end{algorithm}
+The changes to the initial backprop algorithm, detailed in \ref{algo_backprop}, are relatively minor:
+\begin{itemize}
+	\item [1] Selection is now performed such that at each epoch $m$ samples $x_s$ are selected from $x$ which have not yet been sampled.
+	\item [2] The weight update is now performed such that it represents an aggregate update according the $m$ samples that were selected:
+			\begin{equation}\label{eq_backprop_weightupdate_sgd}
+			w^l \rightarrow w^l - \frac{\eta}{m} \sum_{x} \lambda^{x, l} (a^{x, l - 1})^T
+			\end{equation}
+\end{itemize}
+
+\texttt{}\newline 
 
 \paragraph{Online Gradient Descent}
 Where SGD is appropriate and effective for scenarios where the entire dataset is available, Online Gradient Descent (OGD) is applicable for when the model is learning in an online fashion. In this case, the backpropagation is run as defined above in Algorithm \ref{algo_backprop} but with no repetition (i.e. only 1 epoch).
@@ -1147,7 +1151,7 @@ The process of sampling and resampling may be run for many iterations between th
 	\KwIn{RBM Network $N$, with visible nodes $N$ and hidden nodes $H$ and distribution $\langle vh \rangle$}
 	\KwData{Training sample dataset $V'$}
 	
-	\texttt{\\}
+	\texttt{}\newline
 	
 	For a random training sample $V'$, sample $H'$ from $P(V|H)$;\newline
 	Sample $V$ from $P(V|H')$;\newline
@@ -1204,7 +1208,7 @@ ReLU activations differ from Sigmoid in that they are not fitting for probabilit
 
 \begin{itemize}
 	\item [1] Define a network structure which conforms to the requirements of an SAE, with $L$ layers
-	\item [2] Use an effective weight initialization, such as Xavier or He
+	\item [2] Use an effective weight initialization, such as Xavier or He (discussed fully in \ref{imp_weights})
 	\item [3] This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised
 	\item [4] Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE
 \end{itemize}
@@ -1482,16 +1486,20 @@ The fulldataset goes through several steps of pre-processing - these are covered
 	\item[5] The dataset undergoes scaling - the different functions are detailed in \ref{data_scaling}, though \texttt{limited normalize} was used for most of the results produced
 \end{itemize}
 
-Various configurations were tested in terms of the historic summations used, while the fluctuation predictions were either of 2 or 5 days. These are detailed more extensively in \todo{add reference}. It's worth noting that the prediction horizon is configurable, and in the case of implementing a more complex trading strategy, one would likely choose to predict multiple points across the horizon in order to to develop a distribution. In this case, the MMS was kept purposefully simple, and so didn't warrant the more intensive implementation. \newline
-
-The time aggregations were chosen according to domain knowledge - it's expected that prices may move in daily, weekly, fortnightly, monthly and quarterly patterns as trading is actioned by day traders such as speculators to institutional investors such as mutual funds. Indeed, it can be shown that markets can be modelled such that they are hierarchical in space and time, with actors at different heirarchical levels within the market interacting under different causitive structures \cite{Wilcox}. The effect is such that price trends and patterns can be expected to exist in time at multiple levels, with price being set as an emergent property of these heirarchies. Taking this into account, variations of 1, 5, 10, 20 and 60 working days were considered throughout the configuration tests, in the following combinations:  
+\paragraph{Data Window Aggregations} The time aggregations were chosen according to domain knowledge - it's expected that prices may move in daily, weekly, fortnightly, monthly and quarterly patterns as trading is actioned by day traders such as speculators to institutional investors such as mutual funds. Indeed, it can be shown that markets can be modelled such that they are hierarchical in space and time, with actors at different heirarchical levels within the market interacting under different causitive structures \cite{Wilcox}. The effect is such that price trends and patterns can be expected to exist in time at multiple levels, with price being set as an emergent property of these heirarchies. Taking this into account, variations of 1, 5, 10, 20 and 60 working days were considered throughout the configuration tests, in the following combinations:  
 \begin{itemize}
 	\item[1] 1,5,20 
 	\item[2] 5,20,60
 	\item[3] 10,20,60
 \end{itemize}
 
-When testing the two limited scaling methodologies, standardization and normalization, it was found that the results for standardizing tended to be notably worse than normalization. It's possible that outliers in price fluctuations and changing variance through time (which is not captured effectively through the limited variation) resulted in a less informative representation and worse performance of the FNN models which can be prone to error maximisation. As a result of this, the limited normalization process was used for most of the tests run. It's worth noting that an implementation which incorporates processing the data through the Error Function in order to reduce the impact of outliers would likely prove a worthwhile endevour, and could be easily swapped in due to the systems modularity.\newline
+\paragraph {Point Predictions} Various configurations were tested in terms of the historic summations used, while the fluctuation predictions were either of 2 or 5 days. These are detailed more extensively in \todo{add reference}. It's worth noting that the prediction horizon is configurable, and in the case of implementing a more complex trading strategy, one would likely choose to predict multiple points across the horizon in order to to develop a distribution. In this case, the MMS was kept purposefully simple, and so didn't warrant the more intensive implementation. \newline
+
+One point of concern, is that point predictions at 2 or 5 days in advance could open the process up to aliasing error, as it is unlikely to be predicitng at the Nyquist frequency, and may end up fitting to the band ripple rather than the underlying signal. Conversely, 1 day predictions for closing price might offer a high degree of accuracy, but are not practical for trading due to market auction and bidding structures. The system implementation veered on the side of pracitcality in this case, and was configured for longer term predictions despite the risk of aliasing. While some of the configurations were run with 2 day predictions, it was seen that once costs were considered it was difficult for even the benchmark to product desired P\&L figures and so a 5 day prediction was generally implemented in subsequent tests. \todo{add references}
+
+
+
+\paragraph {Scaling} When testing the two limited scaling methodologies, standardization and normalization, it was found that the results for standardizing tended to be notably worse than normalization. It's possible that outliers in price fluctuations and changing variance through time (which is not captured effectively through the limited variation) resulted in a less informative representation and worse performance of the FNN models which can be prone to error maximisation. As a result of this, the limited normalization process was used for most of the tests run. It's worth noting that an implementation which incorporates processing the data through the Error Function in order to reduce the impact of outliers would likely prove a worthwhile endevour, and could be easily swapped in due to the systems modularity.\newline
 
 
 \subsection{Data Segregation}\label{proc_dataseg}
@@ -1506,13 +1514,17 @@ The Training dataset is used to train the auto-encoder network using either RBM 
 
 Once the SAE networks have been defined and chosen, they can be used to reprocess both the Training and Prediction datasets such that the input is encoded, and the output is as before. These encoded datasets can then be used for the following steps in the process. \newline
 
-In a productionized system, where data is updated daily, there would be a set period after which the SAE network would be retrained to reflect more recent data. While the system detailed here aims to emulate as much, it wasn't necessary to incorporate this step with the static dataset.\newline
+In a productionized system, where data is updated daily, there would be a set period after which the SAE network would be retrained to reflect more recent data. While the system detailed here aims to emulate as much, it wasn't necessary to incorporate this step with the static dataset. \newline
 
 \subsection{Prediction Network Training}\label{proc_predictionnetwork}
 
 Typically, the SAE and predictive network might be presented as one and the same, however in the process presented we are able to separate the 2 and optimise for feature extraction prior to training for predictions. Having done so, the datasets can have their input encoded, but retain the same output. The predictive network is then trained using the Training set, as detailed in \ref{imp_backprop}. There's no requirement to validate this part of the training, so the dataset is not split into subportions as it was for SAE training. \newline
 
 Once the predictive network is trained, the OGD process is run through the encoded Prediction dataset in order to generate the predictions for the assets prices that the model produces - thus emulating what would have occured in a live environment. \newline
+
+\subsection{Price Reconstruction}\label{proc_precerecon}
+
+In the interest of more intepretable results for figures such as P\&L, the prices are fluctuations are re-scaled back to their original price fluctuation predictions using the reverse scaling detailed in \ref{data_reverse_scaling}. These prices are then recostructed using \ref{data_price_recon}, such that they represent a predicted future price of the asset which can then be used by the MMS. It's worth nothing that the price reconstruction applies the predicted fluctuation to the known original price, such that it would represent a system that is run daily, rather then a system that is making rolling predictions over a period of time.
 
 \subsection{Money Management Strategy}\label{proc_mms}
 
@@ -3695,3 +3707,4 @@ Zhou B., Hu J. A Dynamic Pattern Recognition Approach Based on Neural Network fo
 
 
 
+ 
