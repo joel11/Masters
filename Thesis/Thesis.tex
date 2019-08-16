@@ -1539,9 +1539,15 @@ An effective, production trading strategy would be likely to include stop losses
 
 The CSCV and PBO parts of the system are the most straightforward, in the sense that they are mostly just an implementation of the algorithm detailed in \ref{imp_cscv}. The CSCV process uses the returns from the MMS, which in turn used the prices from the predictions network. Conceptually, the whole system comes into place here, as the results from the CSCV process are now indicative of not only backtest overfitting in the trading strategy, but also in the prediction network and without having to consider the impact of many configuration tests for feature extraction.
 
+\subsection{Process Diagram}\label{proc_diagram}
 
+The flow diagram below provides a graphical representation of this process from the raw market data up until the price prediction points (the MMS calculations and CSCV process are not included). The process may be repeated accordingly in terms of SAE structures that are desired for test, such that the "Best SAE Network" is different for different encoding layer sizes, or data aggregations used (as was the case in many of the experiments which will be discussed).
 
-
+\begin{figure}[H]
+	\centering \includegraphics[scale=0.5]{images/process_implementation/process_flow.png}
+	\caption{Overall Process Flow}
+	\label{figure-proc_diagram}
+\end{figure}
 
 
 
