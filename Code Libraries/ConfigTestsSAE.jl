@@ -51,7 +51,8 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, primary_activation)
         activations = map(x -> primary_activation, 1:(length(layers)-1))
 
         sae_net_par = NetworkParameters("SAE", layers, activations,
-                                        InitializationFunctions.DCUniformInit,
+                                        #InitializationFunctions.DCUniformInit,
+                                        InitializationFunctions.XavierGlorotUniformInit,
                                         LinearActivation, #output
                                         LinearActivation) #encoding
 
@@ -60,7 +61,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, primary_activation)
                                         0.0001,        #min learning rate
                                         200,        #epoch cycle max
                                         32,       #minibatch size
-                                        20000,      #max epochs
+                                        10000,      #max epochs
                                         (0.0001, 100), #stopping parameters
                                         NonStopping,   #stopping function
                                         0.0,           #l1 lambda
@@ -83,11 +84,12 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, primary_activation)
     #push!(vps, (GetSAETraining, ChangeL1Reg, (0.5, 0.0)))
 
     #push!(vps, (GetSAETraining, ChangeL1Reg, (0.1, 0.0)))
-    push!(vps, (GetSAETraining, ChangeL1Reg, (0.0)))
+    push!(vps, (GetSAENetwork, ChangeInit, (XavierGlorotUniformInit, DCUniformInit)))
+    push!(vps, (GetSAETraining, ChangeL1Reg, (0.1, 0.5, 1.0)))
     push!(vps, (GetDataConfig, ChangeDeltas, ([1,5,20], [5,20,60], [10,20,60])))
 
 
-    set_name = string("Iteration5 SAE Actual10 Test", string(layer_sizes), "x", encoding_layer, " ", split(string(primary_activation), ".")[2])
+    set_name = string("Iteration6 SAE Actual10 Test", string(layer_sizes), "x", encoding_layer, " ", split(string(primary_activation), ".")[2])
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, "Actual10 Set"))
 
     ################################################################################

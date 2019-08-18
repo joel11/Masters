@@ -1577,6 +1577,7 @@ The flow diagram below provides a graphical representation of this process from 
 \newpage
 \section{Results}\label{Results}
 
+
 An introduction to the results, highlighting the important findings and sections. \todo{}
 
 \subsection{Datasets Used}
@@ -1643,7 +1644,7 @@ Using AGL data from JSE close price relatives.
 
 Using AGL and ACL data from JSE close price relatives.
 
-\paragraph{Actual10}\label{dataset_actual10}
+\paragraph{Scaling10}\label{dataset_scaling10}
 
 Using the following assets from JSE close price relatives:
 
@@ -1651,117 +1652,208 @@ Using the following assets from JSE close price relatives:
 	\item ACL, AGL, AMS, AOD, BAW, BIL, BVT, CFR, CRH, DDT
 \end{itemize}
 
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Linearity, Complexity and Structure of Data}
 
 \subsubsection{GBM Generated Data}\label{results_gbm_data}
 
-A general discussion around the following aspects of GBM data in comparison to actual stock data, and how it has affected the test results which follow. Notably, 
-\begin{itemize}
-	\item Stationarity of GBM data
-	\item Ergodicity and Lognormality 
-\end{itemize}
-
-\fcolorbox{red}{white}{I'm not entirely sure what should be included here, and to what extent it needs to be discussed.}
+Geometric Brownian Motion (GBM), as discussed in \ref{data_synthetic}, has been used to simulate synthetic datasets for the purposes of testing implementations and configurations. GBM is a popular choice for synthetic financial data as it is a Markov process, thus following a random walk and is generally consistent with the efficient market hypothesis in that the next price movements is conditionally independent of past movements. In line with this though, the series will exhibit a constant drift with price shocks according to it's stationary configuration, and changes in price that are not independent. The effect seen, and discussed more below, is that reconstruction of aggregated GBM data was able to performend quite effectively through linear activations, so long as the network (and encoding layers) were large enough to allow for sufficient transformations. Linear activations weren't tested further on actual data, as there is no reason to believe the time series would continue to exhibit the constant drift with non-independent price jumps over time. Futher to this point, it is worth pointing out that as GBM are non ergodic series, one should be wary of considering ensemble based predictions with much confidence \cite{Peters}. So while the GBM data was used for assessment of some prediction networks, these results should be considered contextually.
 
 \subsubsection{Activations: Linear, Sigmoid, ReLU and Leaky ReLU}
 
 In line with the characteristics of the synthetic data noted in \ref{results_gbm_data}, results for networks using a Linear Activation often outperformed the networks using non-linear activations such as ReLU or Leaky ReLU (activation functions are detailed in \ref{imp_activation_functions}). \newline
 
-While these configuration were run to generate a comparison of Linear and ReLU activations for the SAE networks, it is typical to use a Linear Activation in the encoding layer of an SAE \cite{Hinton2}, and the linear output activation has been implemented here to assist with the shortcomings of the scaling methodology, as noted in \ref{data_scaling}.\newline
+While these configurations were run to generate a comparison of Linear and ReLU activations for the SAE networks, it is typical to use a Linear Activation in the encoding layer of an SAE \cite{Hinton2}, and the linear output activation has been implemented here to assist with the shortcomings of the scaling methodology, as noted in \ref{data_scaling}.\newline
 
 \paragraph{SAE Activations and Scaling}\label{results_sae_activations_scaling}
 
 In figures \ref{figure-results-scaling-and-relu} and \ref{figure-results-linear-act} below, the effects of different activations and scaling methods can be seen when applied to the SAE using actual stock data. The MSE results offer several takeaways: using standardizing scaling instead of normalizing results in far worse performance; Sigmoid activations are notably worse than the linear or ReLU activations and linear output layers offer better results than ReLU output layers. \newline
 
- Networks which use only linear activations show very competitive performance overall, though the ReLU activation shows much better performance than linear activations when the encoding layer size is decreased (\ref{figure-results-encoding25} and \ref{figure-results-encoding5} below), thus forcing the network to take advantage of non-linear effects. Sigmoid acitvations, while also able to take advantage of non-linear effects, show much worse performance. Sigmoid activations are known to suffer from learning slow down and so increased sensitivity to vanishing gradients \todo{add ref}. SAE networks are deep by nature, and so it is not surprising that the Sigmoid activations are resulting in worse performance over the same training period. \newline
+ Networks which use only linear activations show very competitive performance overall, though the ReLU activation shows much better performance than linear activations when the encoding layer size is decreased (figures \ref{figure-results-encoding25} and \ref{figure-results-encoding5} below), thus forcing the network to take advantage of non-linear effects. Sigmoid activations, while also able to take advantage of non-linear effects, show much worse performance. Sigmoid activations are known to suffer from learning slow down and so increased sensitivity to vanishing gradients \todo{add ref}. SAE networks are deep by nature, and so it is not surprising that the Sigmoid activations are resulting in worse performance over the same training period. \newline
 
-Results were generated using Configuration1 (\ref{config1}) for the Actual10 dataset (\ref{dataset_actual10}).\newline
+As discussed more fully in \ref{proc_dataprep}, the use of standardization for scaling the data doesn't allow for effective outlier treatments, resultsing in worse performance. Again, this could be better treated with use of the Error function. \newline
 
-\fcolorbox{red}{white}{There is not a clear reason why Standardizing results in such a massive performance decrease.}
+\todo{add config sizes}
 
 \begin{figure}[H]
 	\centering
-	\begin{minipage}{0.45\textwidth}
-		\centering 
-		\includegraphics[scale=0.2]{images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png}
-		\caption{\textbf{Effects of Scaling and Activation Functions on SAE MSE Score (Figure 1/2)}
-			\newline These boxplots show the MSE scores for the Actual10 dataset (\ref{config1}). Each grouped is labelled in the following format: 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. The MSE scores show significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the next figure.}
+		\textbf{Effects of Scaling and Activation Functions on SAE MSE Score (Figure 1/2)}
+		\includegraphics[scale=0.35]{images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png}
+		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1})
+			\newline \newline Each configuration group is labelled in the following format: 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. The MSE scores show significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the next figure.}
 		\label{figure-results-scaling-and-relu}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering 
-		\includegraphics[scale=0.2]{images/iteration_two/linear/1Activation_Combos-Min_MSE.png}
-		\caption{\textbf{Effects of Scaling and Activation Functions on SAE MSE Score (Figure 2/2)} 
-			\newline Excluding the Standardizing scaling combinations, we can now see that Sigmoid has largely poor performance unless there is a Linear encoding layer (a widely experienced behaviour), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.}
-		\label{figure-results-linear-act}
-	\end{minipage}
 \end{figure}
 
 \begin{figure}[H]
-	\centering
-	\begin{minipage}{0.45\textwidth}
-	\centering \includegraphics[scale=0.2]{images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png}
-	\caption{\textbf{Non-linear Benefit in Encoding Layer (Figure 1/2)}
-		\newline These plots show the performance for all configurations with an encoding layer size of 25 (input 30). The fully linear networks show good performance here, where there is greater scope for linear representation in the encoding.}
-	\label{figure-results-encoding25}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-	\centering \includegraphics[scale=0.2]{images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png}
-	\caption{\textbf{Non-linear Benefit in Encoding Layer (Figure 2/2)}
-		\newline These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we now see the benefit of non-linear activations in the ReLU based networks, which the fully linear is not able to outperform.}
+		\centering 
+		\textbf{Effects of Scaling and Activation Functions on SAE MSE Score (Figure 2/2)}
+		\includegraphics[scale=0.35]{images/iteration_two/linear/1Activation_Combos-Min_MSE.png}
+		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1})
+			\newline \newline Excluding the Standardizing scaling combinations, we can now see that Sigmoid has largely poor performance unless there is a Linear encoding layer (a commonly experienced behaviour \cite{Hinton2}]), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.}
+		\label{figure-results-linear-act}
+\end{figure}
+
+\begin{figure}[H]
+		\centering 
+		\textbf{Non-linear Benefit in Encoding Layer (Figure 1/2)}
+		\includegraphics[scale=0.35]{images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png}
+		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1})
+			\newline \newline These plots show the performance for all configurations with an encoding layer size of 25 (input 30). The fully linear networks show good performance here, where there is greater scope for linear representation in the encoding.}
+		\label{figure-results-encoding25}
+\end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{Non-linear Benefit in Encoding Layer (Figure 2/2)}
+	\includegraphics[scale=0.35]{images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png}
+	\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1})
+		\newline \newline These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we now see the benefit of non-linear activations in the ReLU based networks, which the fully linear is not able to outperform.}
 	\label{figure-results-encoding5}
-	\end{minipage}
 \end{figure}
 
 \paragraph{Predictive FFN Activations and Scaling}
 
-In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_linear_vs_relu}, a comparison of linear and ReLU activations are made for the Synthetic6 dataset in both smaller and larger sized networks. The linear activations result in notably better P\&L when compared to ReLU activations, though unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per \ref{results_gbm_data}, whereas the actual stock data benefits from a non-linear representation.\newline
-
-Results were generated using Configuration2 (\ref{config2}) for the Synthetic6 (\ref{dataset_synthetic6}) dataset. \todo{add sae ref}
-
-\fcolorbox{red}{white}{As yet, there's no plan to run linear activations for the actual data on the FFN network. Should this be included?}
+In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_linear_vs_relu}, a comparison of linear and ReLU activations are made for synthetic data in both smaller and larger sized networks. The linear activations result in notably better P\&L when compared to ReLU activations, though unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per \ref{results_gbm_data}, whereas we would see actual stock data to benefit from a non-linear representation. Linear configurations for actual data were not run, as real stock data is not expected to follow patterns that are linear through time, thus offering little value. \newline
 
 \begin{figure}[H]
-	\centering
-	\begin{minipage}{0.45\textwidth}
-	\centering \includegraphics[scale=0.2]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
-	\caption{\textbf{Activations in Large FFN Predictive Networks}
-		\newline The above groupings show the P\&L generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). For an input of 18, and network sizes of 40 and 80 with hidden layers of 1 an 3, we see the linear activations showing notably better performance than the Relu activations.
-	}	
-	\label{figure-results-linear-ffn_activations}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-	\centering \includegraphics[scale=0.2]{images/iteration_three/it3_linear_vs_relu.png}
-	\caption{\textbf{Activations in Smaller FFN Predictive Networks}
-		 \newline The boxplots here show the P\&L generated for networks with smaller layer sizes, as indicated by the group naming (each number represents a hidden layer and its node size). The networks were trained on the Synthetic6 dataset with 18 inputs, different sized autoencoders and learning rates (720 configurations in total). We once again see the outperformance of ReLU by the linear activations.}
+	\centering 
+	\textbf{Activations in Large FFN Predictive Networks}
+	\includegraphics[scale=0.35]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
+		\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration2 (\ref{config2}) - 720 Configurations
+			\newline \newline The above groupings show the P\&L generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). For an input of 18, and network sizes of 40 and 80 with hidden layers of 1 an 3, we see the linear activations showing notably better performance than the ReLU activations.
+		}	
+		\label{figure-results-linear-ffn_activations}
+\end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{Activations in Smaller FFN Predictive Networks}
+	\includegraphics[scale=0.35]{images/iteration_three/it3_linear_vs_relu.png}
+	\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration2 (\ref{config2}) - 720 Configurations
+		\newline \newline The boxplots here show the P\&L generated for networks with smaller layer sizes, as indicated by the group naming (each number represents a hidden layer and its node size). The networks were trained on the Synthetic6 dataset with 18 inputs, different sized autoencoders and learning rates. We once again see the outperformance of ReLU by the linear activations.}
 	\label{figure-results_linear_vs_relu}
-	\end{minipage}
 \end{figure}
 
 
 \paragraph{Leaky ReLU vs ReLU}
 
-Leaky ReLU activations were implemented, and as can be expected, do show a small improvement on both the SAE and predictive FFN networks when compared to ReLU. These effects are show for the Synthetic6 dataset in in figures \ref{figure-results_leaky_relu_1} and \ref{figure-results_leaky_relu_3} below. \todo{add configuration ref}
+Leaky ReLU activations were implemented, and as can be expected, do show a small improvement on both the SAE and predictive FFN networks when compared to ReLU. These effects are show for the Synthetic6 dataset in in figures \ref{figure-results_leaky_relu_1} and \ref{figure-results_leaky_relu_3} below. 
 
 \todo{add configuration references and details}
-\todo{Reorder encoding graph}
+\todo{Reorder encoding}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{SAE: Leaky ReLU vs ReLU} 
+	\includegraphics[scale=0.35]{images/iteration_three/it3_leaky_relu_1.png}
+	\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration  - 120 configurations
+		\newline \newline The plot above shows the SAE MSE, grouped by encoding size and activations, showing a marginal increase in performance for Leaky ReLU activations. }
+	\label{figure-results_leaky_relu_1}
+\end{figure}
+
+\begin{figure}[H]
+	\textbf{FFN: Leaky ReLU vs ReLU}
+	\centering
+	\includegraphics[scale=0.35]{images/iteration_three/it3_leaky_relu_3.png}
+	\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration - 80 configurations
+		\newline \newline The plot shows the FFN P\&, grouped by activation, showing some improvements from the Leaky ReLU activation.}
+	\label{figure-results_leaky_relu_3}
+\end{figure}
+
+
+\subsection{Weight Initialization Techniques}
+
+\subsubsection{RBM Pretraining for Sigmoid Networks}
+
+While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2}) had detrimental effects on network performance. Experiments assessed the effects of running the pre-training for 0, 1, 10 and 50 epochs, where there is a clear decrease in performance as the number of epochs increase (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs). \newline
+
+The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset, and that ultimately the financial time series data is pathological for RBM pre-training. It may also emphasise the value of mroe recent data over historical data usage, as discussed more fully in \todo{add ref}. \newline
 
 \begin{figure}[H]
 	\centering
-	\begin{minipage}{0.45\textwidth}
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_leaky_relu_1.png}
-	\caption{\textbf{SAE: Leaky ReLU vs ReLU} 
-		\newline The plot above shows the MSE for 120 different SAEs, grouped by encoding size and activations.  }
-	\label{figure-results_leaky_relu_1}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_leaky_relu_3.png}
-	\caption{\textbf{FFN: Leaky ReLU vs ReLU} 
-		\newline The plot above shows the P\&L for 80 different predictive networks, grouped by activation, showing some improvements from the Leaky ReLU.}
-	\label{figure-results_leaky_relu_3}
-	\end{minipage}
+	\textbf{Pre-training Effects on financial SAE MSE Scores} 
+	\includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png}
+	\caption{Dataset AGL\&ACL (\ref{dataset_aglacl}); Configuration7 (\ref{config7})
+		\newline \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.}
+	\label{figure-results-pretraining-effect}
+\end{figure}		
+
+\paragraph{Sigmoid Activation Functions} 
+Due to the poor performance seen in Sigmoid function based SAE's here, as well as the poorer results when compared to ReLU activations (noted in \ref{results_sae_activations_scaling}), Sigmoid functions were largely excluded from further configuration testing.
+
+
+\subsubsection{Variance Based Weight Initialization Techniques}
+
+More recent research has focused on the use of weight initialization using variance base methodologies, as discussed fully in \ref{imp_weights}. As suggested, the DC initialization for Leaky ReLU activations outperforms both Xavier and He when used for networks with varying layer sizes. When considering the predictive FFN networks, with more consistent layer sizes, the performance between He and DC becomes comparable, with both outperforming Xavier (as expected, with ReLU activations).\newline
+
+Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively, and using the Synthetic10 dataset (\ref{dataset_synthetic10}) with Configurations 5 and 6 (\ref{config5}, \ref{config6}) for the  SAEs and predictive FFNs respectively.
+
+\begin{figure}[H]
+	\centering
+	\textbf{Weight Initialization for SAE MSE - Synthetic10} 
+	\includegraphics[scale=0.35]{images/iteration_four/it4_sae_init.png}
+	\caption{
+		\newline The box plots show the MSE for a series of SAE networks trained. As suggested in \ref{imp_weights}, the He initialization results in poorer fitting for networks with varying network layer sizes. The Xavier and DC initializations were largely on par, thought with DC resulting in better performance for smaller encoding layers.}
+	\label{figure-results_it4_sae_init}
 \end{figure}
 
+\begin{figure}[H]
+	\centering 
+	\textbf{Weight Initialization for SAE MSE - AGL} 
+	\includegraphics[scale=0.35]{images/iteration_five/it5_sae_init_agl.png}
+	\caption{
+		\newline The configurations run for AGL show notably better performance using the DC based initialization in comparison to both He and Xavier. The emphasis seen here can be attributed to increased pressure on suitable weight initizliations with 1 and 2 node encoding layers used.}
+	\label{figure-results_it5_sae_init}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\textbf{Weight Initialization for Predictive FFN P\&L- Synthetic10}
+	\includegraphics[scale=0.35]{images/iteration_five/init4_ffn_init.png}
+	\caption{
+		\newline The figure here shows the best network P\&L performance for DC and He being higher than Xavier, as to be expected with more balanced network layers and ReLU activations. The better performance in the lower end of the DC configurations when compared to He can be attributed to the inclusion of inconsistently sized layers in the configuration set, where DC would have performed better.}
+	\label{figure-init4_ffn_init}
+\end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{Weight Initialization for Predictive FFN P\&L- AGL} 
+	\includegraphics[scale=0.35]{images/iteration_five/init5_ffn_init.png}
+	\caption{
+		\newline The configurations run for AGL show notably better performance using the DC and He based initialization in comparison Xavier, thought with less of a difference between the 2 in comparison to the Synthetic set.}
+	\label{figure-init5_ffn_init}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
 \subsubsection{Effects of Network Size}
 
 The effects of networks size on SAE MSE performance and the P\&L predictive FFN performance are shown in figures \ref{figure-results_sae_size_agl} and \ref{figure-results_ffn_size_agl} below. They show a general increase in performance for both, with improvements from increases in the sizes and numbers of layers in the networks. The classical SAE structure of decreasing layer sizes results in worse performance - it's possible that the move away from greedy layerwise training nullifies the approach of iterative feature reduction, and that with the variance based weight initializations there is a more typical increase in performance with larger networks. Similar trends were seen in the results for the Synthetic10 dataset (\ref{dataset_synthetic10}), which can be seen in the appendix (\ref{appendix_sae_ffn_network_size}).\newline
@@ -1885,72 +1977,7 @@ Results were generated using Configuration2 (\ref{config2}) for the Synthetic6 d
 \fcolorbox{red}{white}{The tests for this are quite extensive - not sure how to balance that with PBO for the actual data.}\newline
 \fcolorbox{red}{white}{Data aggregation results could be down to martingale effect.}\newline
 
-\subsection{Weight Initialization Techniques}
 
-\subsubsection{RBM Pretraining for Sigmoid Networks}
-
-While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2}) had detrimental effects on network performance. Experiments assessed the effects of running the pre-training for 0, 1, 10 and 50 epochs, where there is a clear decrease in performance as the number of epochs increase (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs). \newline
-
-The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset. \newline
-
-Results were generated using Configuration7 (\ref{config7}) for the AGL\&ACL dataset (\ref{dataset_aglacl}).
-
-\fcolorbox{red}{white}{The CD vs Backprop differences don't appear to have a theoretical justification (that I could find). Not sure how much I need to discuss this.}
-
-\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png}
-	\caption{\textbf{Pre-training Effects on financial SAE MSE Scores} \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.}
-	\label{figure-results-pretraining-effect}
-\end{figure}		
-
-\paragraph{Sigmoid Activation Functions} 
-Due to the poor performance seen in Sigmoid function based SAE's here, as well as the poorer results when compared to ReLU activations (noted in \ref{results_sae_activations_scaling}), Sigmoid functions were largely excluded from further configuration testing.
-
-
-\subsubsection{Variance Based Weight Initialization Techniques}
-
-More recent research has focused on the use of weight initialization using variance base methodologies, as discussed fully in \ref{imp_weights}. As suggested, the DC initialization for Leaky ReLU activations outperforms both Xavier and He when used for networks with varying layer sizes. When considering the predictive FFN networks, with more consistent layer sizes, the performance between He and DC becomes comparable, with both outperforming Xavier (as expected, with ReLU activations).\newline
-
-Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively, and using the Synthetic10 dataset (\ref{dataset_synthetic10}) with Configurations 5 and 6 (\ref{config5}, \ref{config6}) for the  SAEs and predictive FFNs respectively.
-
-
-\begin{figure}[H]
-	\centering
-	\begin{minipage}{0.45\textwidth}
-		\centering 
-		\includegraphics[scale=0.3]{images/iteration_four/it4_sae_init.png}
-		\caption{\textbf{Weight Initialization for SAE MSE - Synthetic10}
-			\newline The box plots show the MSE for a series of SAE networks trained. As suggested in \ref{imp_weights}, the He initialization results in poorer fitting for networks with varying network layer sizes. The Xavier and DC initializations were largely on par, thought with DC resulting in better performance for smaller encoding layers.}
-		\label{figure-results_it4_sae_init}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_sae_init_agl.png}
-		\caption{\textbf{Weight Initialization for SAE MSE - AGL} 
-			\newline The configurations run for AGL show notably better performance using the DC based initialization in comparison to both He and Xavier. The emphasis seen here can be attributed to increased pressure on suitable weight initizliations with 1 and 2 node encoding layers used.}
-		\label{figure-results_it5_sae_init}
-	\end{minipage}
-\end{figure}
-
-
-\begin{figure}[H]
-	\centering
-	\begin{minipage}{0.45\textwidth}
-		\centering 
-		\includegraphics[scale=0.3]{images/iteration_five/init4_ffn_init.png}
-		\caption{\textbf{Weight Initialization for Predictive FFN P\&L- Synthetic10}
-			\newline The figure here shows the best network P\&L performance for DC and He being higher than Xavier, as to be expected with more balanced network layers and ReLU activations. The better performance in the lower end of the DC configurations when compared to He can be attributed to the inclusion of inconsistently sized layers in the configuration set, where DC would have performed better.}
-		\label{figure-init4_ffn_init}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering \includegraphics[scale=0.3]{images/iteration_five/init5_ffn_init.png}
-		\caption{\textbf{Weight Initialization for Predictive FFN P\&L- AGL} 
-			\newline The configurations run for AGL show notably better performance using the DC and He based initialization in comparison Xavier, thought with less of a difference between the 2 in comparison to the Synthetic set.}
-		\label{figure-init5_ffn_init}
-	\end{minipage}
-\end{figure}
-
-
-\fcolorbox{red}{white}{The DC init here is 'semi-novel' so to speak (afaik). I'm not sure how far this should be emphasised/addressed.}
 
 
 
@@ -2398,6 +2425,9 @@ Murphy, John J. Technical analysis of the financial markets: A comprehensive gui
 \bibitem{Pascanu}
 Pascanu, Razvan, Tomas Mikolov, and Yoshua Bengio. "On the difficulty of training recurrent neural networks." International Conference on Machine Learning. 2013.
 Available at: http://proceedings.mlr.press/v28/pascanu13.pdf
+
+\bibitem{Peters}
+Ole Peters, Alexander Adamou. "Ergodicity Economics". London Mathematical Laboratory, 2018/06/30. Available at: \url{https://ergodicityeconomics.files.wordpress.com/2018/06/ergodicity_economics.pdf}
 
 \bibitem{Prado}
 Lopez de Prado, Marcos, The Future of Empirical Finance (May 31, 2015). Journal of Portfolio Management, 41(4). Summer 2015. Forthcoming.. Available at SSRN: https://ssrn.com/abstract=2609734 or http://dx.doi.org/10.2139/ssrn.2609734
