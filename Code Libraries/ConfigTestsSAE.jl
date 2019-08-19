@@ -123,8 +123,8 @@ activation_function = LeakyReluActivation
 #RunNLayerReLUSAETest(5, layers, activation_function)
 
 layers = (120, 120, 120)
-RunNLayerReLUSAETest(25, layers, activation_function)
-RunNLayerReLUSAETest(20, layers, activation_function)
+#RunNLayerReLUSAETest(25, layers, activation_function)
+#RunNLayerReLUSAETest(20, layers, activation_function)
 RunNLayerReLUSAETest(15, layers, activation_function)
 RunNLayerReLUSAETest(10, layers, activation_function)
 RunNLayerReLUSAETest(5, layers, activation_function)

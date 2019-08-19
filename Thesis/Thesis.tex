@@ -1,4 +1,5 @@
 \documentclass[a4paper,latin]{paper} 
+
 \usepackage[greek,english]{babel}
 \usepackage{textgreek}
 \usepackage[textwidth=3cm,margin=1.2cm,columnsep=1cm,bottom=2cm, top=1.8cm]{geometry}
@@ -6,11 +7,6 @@
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{tcolorbox}
-%\usepackage{tabular}
-
-%\setlength\textwidth{\dimexpr (3in -1in/16)*2 + 3in/8\relax}
-%\setlength\columnsep{\dimexpr 3in/8\relax}
-
 \usepackage{color}
 \usepackage[linktocpage,colorlinks=true,linkcolor= {red!50!black}, urlcolor=black, citecolor=blue!90, pdfborder={2 1 0}]{hyperref}
 \usepackage{hyperref}
@@ -19,7 +15,6 @@
 \usepackage{fancyhdr}
 \usepackage{refcount}
 \usepackage{longtable}
-%\usepackage{fancyvrb}
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{colortbl} 
@@ -34,22 +29,18 @@
 
 
 \usepackage{xargs}                      % Use more than one optional parameter in a new commands
-%\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
-% 
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
 \newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
 \newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
 \newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
-%
 
 \newcommand{\myol}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
 \newenvironment{technicaldoc}
 
 
 
-%\renewcommand\keywordname{Clavem verborum}
 \begin{document} 
 	\sectionfont{\large\sf\bfseries\color{black!70!blue}} 
 
@@ -1544,7 +1535,7 @@ The CSCV and PBO parts of the system are the most straightforward, in the sense 
 The flow diagram below provides a graphical representation of this process from the raw market data up until the price prediction points (the MMS calculations and CSCV process are not included). The process may be repeated accordingly in terms of SAE structures that are desired for test, such that the "Best SAE Network" is different for different encoding layer sizes, or data aggregations used (as was the case in many of the experiments which will be discussed).
 
 \begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/process_implementation/process_flow.png}
+	\centering \includegraphics[scale=0.6]{images/process_implementation/process_flow.png}
 	\caption{Overall Process Flow}
 	\label{figure-proc_diagram}
 \end{figure}
