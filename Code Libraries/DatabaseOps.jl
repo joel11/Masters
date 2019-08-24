@@ -7,8 +7,8 @@ using BSON
 #using JLD
 export CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
-#db = SQLite.DB("/users/joeldacosta/Masters/Backup/database_test.db")
-db = SQLite.DB("/users/joeldacosta/Masters/Code Libraries/database_actual.db")
+db = SQLite.DB("/users/joeldacosta/Masters/Backup/database_test.db")
+#db = SQLite.DB("/users/joeldacosta/Masters/Code Libraries/database_actual.db")
 
 function WriteSAE(config_id, experiment_config, net)
     file_name = string("/users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson")

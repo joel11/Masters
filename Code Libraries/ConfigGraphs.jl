@@ -109,7 +109,13 @@ old_category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration5_4 AGL Test FFN Tests%' then 'Iteration5_4 AGL Test FFN Tests'
 
        when experiment_set_name like 'Iteration5_6 AGL Test FFN Tests%' then 'Iteration5_6 AGL Test FFN Tests'
-       when experiment_set_name like 'Iteration5_7 AGL Test FFN Tests%' then 'Iteration5_7 AGL Test FFN Tests'"
+       when experiment_set_name like 'Iteration5_7 AGL Test FFN Tests%' then 'Iteration5_7 AGL Test FFN Tests'
+
+           else null end as esn
+        from configuration_run
+        group by esn
+        having esn is not null
+        order by maxid desc"
 
 category_query = "select min(configuration_id) minid,
        max(configuration_id) maxid,
@@ -131,7 +137,7 @@ category_query = "select min(configuration_id) minid,
     having esn is not null
     order by maxid desc"
 
-category_ids = RunQuery(category_query)
+category_ids = RunQuery(old_category_query)
 
 #setnames = ["Iteration5_7 AGL Test FFN Tests"]
 #config_ids = SelectConfigIDs(setnames)

@@ -1796,8 +1796,6 @@ In figures \ref{figure-results-scaling-and-relu} and \ref{figure-results-linear-
 
 As discussed more fully in \ref{proc_dataprep}, the use of standardization for scaling the data doesn't allow for effective outlier treatments, resultsing in worse performance. Again, this could be better treated with use of the Error function. \newline
 
-\todo{add config sizes}
-
 \begin{figure}[H]
 	\centering
 		\textbf{Effects of Scaling and Activation Functions on SAE MSE Score (Figure 1/2)}
@@ -1841,7 +1839,7 @@ In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_l
 \begin{figure}[H]
 	\centering 
 	\textbf{Activations in Large FFN Predictive Networks}
-	\includegraphics[scale=0.35]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
+	\includegraphics[scale=0.4]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
 		\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration2 (\ref{config2}) - 720 Configurations
 			\newline \newline The above groupings show the P\&L generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). For an input of 18, and network sizes of 40 and 80 with hidden layers of 1 an 3, we see the linear activations showing notably better performance than the ReLU activations.
 		}	
@@ -1851,7 +1849,7 @@ In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_l
 \begin{figure}[H]
 	\centering 
 	\textbf{Activations in Smaller FFN Predictive Networks}
-	\includegraphics[scale=0.35]{images/iteration_three/it3_linear_vs_relu.png}
+	\includegraphics[scale=0.4]{images/iteration_three/it3_linear_vs_relu.png}
 	\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration2 (\ref{config2}) - 720 Configurations
 		\newline \newline The boxplots here show the P\&L generated for networks with smaller layer sizes, as indicated by the group naming (each number represents a hidden layer and its node size). The networks were trained on the Synthetic6 dataset with 18 inputs, different sized autoencoders and learning rates. We once again see the outperformance of ReLU by the linear activations.}
 	\label{figure-results_linear_vs_relu}
@@ -1862,13 +1860,10 @@ In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_l
 
 Leaky ReLU activations were implemented, and as can be expected, do show a small improvement on both the SAE and predictive FFN networks when compared to ReLU. These effects are show for the Synthetic6 dataset in in figures \ref{figure-results_leaky_relu_1} and \ref{figure-results_leaky_relu_3} below. 
 
-\todo{add configuration references and details}
-\todo{Reorder encoding}
-
 \begin{figure}[H]
 	\centering 
 	\textbf{SAE: Leaky ReLU vs ReLU} 
-	\includegraphics[scale=0.35]{images/iteration_three/it3_leaky_relu_1.png}
+	\includegraphics[scale=0.28]{images/results/activation/relu_leaky-relu.png}
 	\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration  - 120 configurations
 		\newline \newline The plot above shows the SAE MSE, grouped by encoding size and activations, showing a marginal increase in performance for Leaky ReLU activations. }
 	\label{figure-results_leaky_relu_1}

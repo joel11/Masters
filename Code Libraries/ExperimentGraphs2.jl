@@ -506,11 +506,12 @@ function SAE_ActivationsEncodingSizes_MinMSE(config_ids, encoding_size = nothing
 
     function general_boxplot2(layer_groups, prefix, fn, variable_name)
 
-        y_vals = layer_groups[1,2][:,variable_name]
-        trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[1,1]))
+        y_vals = layer_groups[5,2][:,variable_name]
+        trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[5,1]))
         data = [trace]
 
-        for i in 2:size(layer_groups,1)
+        #for i in 2:size(layer_groups,1)
+        for i in (6, 7, 8, 9, 10, 1, 2, 3, 4)
             y_vals = layer_groups[i,2][:,variable_name]
             trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[i,1]))
             push!(data, trace)
@@ -579,8 +580,6 @@ function SAE_ActivationsEncodingSizes_MinMSE(config_ids, encoding_size = nothing
     end
 
     groups = by(filtered_results, [:config_group], df -> [df])
-
-
 
     general_boxplot2(groups, " ", filename, :cost)
 end
