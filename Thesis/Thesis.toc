@@ -1,158 +1,159 @@
 \select@language {english}
-\contentsline {section}{List of Figures}{4}{section*.3}
-\contentsline {section}{List of Tables}{9}{section*.4}
-\contentsline {section}{\numberline {1}Introduction}{10}{section.1}
-\contentsline {section}{\numberline {2}LiteratureReview}{11}{section.2}
-\contentsline {subsection}{\numberline {2.1}Technical Analysis}{11}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Neural Networks}{11}{subsection.2.2}
-\contentsline {subsubsection}{\numberline {2.2.1}Training and Backpropagation}{12}{subsubsection.2.2.1}
-\contentsline {subsubsection}{\numberline {2.2.2}Activation Functions}{12}{subsubsection.2.2.2}
-\contentsline {subsubsection}{\numberline {2.2.3}Deep Learning}{12}{subsubsection.2.2.3}
-\contentsline {subsubsection}{\numberline {2.2.4}Backpropagation Improvements}{13}{subsubsection.2.2.4}
-\contentsline {subsection}{\numberline {2.3}Stacked Autoencoders}{13}{subsection.2.3}
-\contentsline {subsubsection}{\numberline {2.3.1}High Dimensional Data Reduction}{13}{subsubsection.2.3.1}
-\contentsline {subsubsection}{\numberline {2.3.2}Deep Belief Networks}{14}{subsubsection.2.3.2}
-\contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising Autoencoders}{15}{subsubsection.2.3.3}
-\contentsline {subsubsection}{\numberline {2.3.4}Pre-training}{15}{subsubsection.2.3.4}
-\contentsline {subsubsection}{\numberline {2.3.5}Time Series Applications}{15}{subsubsection.2.3.5}
-\contentsline {subsubsection}{\numberline {2.3.6}Financial Applications}{15}{subsubsection.2.3.6}
-\contentsline {subsection}{\numberline {2.4}Data Segmentation}{16}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Online Learning Algorithms and Gradient Descent}{17}{subsection.2.5}
-\contentsline {subsection}{\numberline {2.6}Backtesting and Model Validation}{18}{subsection.2.6}
-\contentsline {subsubsection}{\numberline {2.6.1}Testing Methodologies}{18}{subsubsection.2.6.1}
-\contentsline {subsubsection}{\numberline {2.6.2}Test Data Length}{19}{subsubsection.2.6.2}
-\contentsline {subsubsection}{\numberline {2.6.3}Sharpe Ratio}{20}{subsubsection.2.6.3}
-\contentsline {section}{\numberline {3}Data}{21}{section.3}
-\contentsline {subsection}{\numberline {3.1}Data Processing}{21}{subsection.3.1}
-\contentsline {subsubsection}{\numberline {3.1.1}Log Difference Transformation and Aggregation}{21}{subsubsection.3.1.1}
-\contentsline {subsubsection}{\numberline {3.1.2}Data Scaling}{21}{subsubsection.3.1.2}
-\contentsline {subsubsection}{\numberline {3.1.3}Reverse Data Scaling}{21}{subsubsection.3.1.3}
-\contentsline {subsubsection}{\numberline {3.1.4}Price Reconstruction}{21}{subsubsection.3.1.4}
-\contentsline {subsection}{\numberline {3.2}Synthetic Data Generation}{22}{subsection.3.2}
-\contentsline {section}{\numberline {4}Implementation}{23}{section.4}
-\contentsline {subsection}{\numberline {4.1}Process Overview}{23}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Feedforward Neural Networks}{23}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{23}{subsubsection.4.2.1}
-\contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{23}{subsubsection.4.2.2}
-\contentsline {subparagraph}{Sigmoid}{24}{section*.10}
-\contentsline {subparagraph}{ReLU}{24}{section*.11}
-\contentsline {subparagraph}{Leaky ReLU}{24}{section*.13}
-\contentsline {subparagraph}{Linear Activation}{24}{section*.14}
-\contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{24}{subsubsection.4.2.3}
-\contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{25}{subsubsection.4.2.4}
-\contentsline {paragraph}{Online Gradient Descent}{26}{section*.15}
-\contentsline {subsubsection}{\numberline {4.2.5}Regularization}{26}{subsubsection.4.2.5}
-\contentsline {subsubsection}{\numberline {4.2.6}Learning Rate Schedule}{26}{subsubsection.4.2.6}
-\contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{27}{subsection.4.3}
-\contentsline {subsubsection}{\numberline {4.3.1}Contrastive Divergence}{28}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{28}{subsubsection.4.3.2}
-\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{28}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Sigmoid based Greedy Layerwise SAE Training}{28}{subsubsection.4.4.1}
-\contentsline {subsubsection}{\numberline {4.4.2}ReLU based SAE Training}{29}{subsubsection.4.4.2}
-\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{29}{subsubsection.4.4.3}
-\contentsline {paragraph}{Additive Gaussian Noise}{29}{section*.17}
-\contentsline {paragraph}{Masking Noise}{29}{section*.18}
-\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{29}{subsection.4.5}
-\contentsline {subsubsection}{\numberline {4.5.1}Initialization Rationale}{30}{subsubsection.4.5.1}
-\contentsline {subsubsection}{\numberline {4.5.2}Initializations}{30}{subsubsection.4.5.2}
-\contentsline {paragraph}{Xavier}{30}{section*.19}
-\contentsline {paragraph}{He}{30}{section*.20}
-\contentsline {paragraph}{He-Adjusted}{30}{section*.21}
-\contentsline {subsection}{\numberline {4.6}CSCV \& PBO}{30}{subsection.4.6}
-\contentsline {subsection}{\numberline {4.7}Money Management Strategy and Returns}{31}{subsection.4.7}
-\contentsline {paragraph}{Input Variables}{32}{section*.22}
-\contentsline {paragraph}{Calculated Stock Variables}{32}{section*.23}
-\contentsline {paragraph}{Calculated Strategy Variables}{33}{section*.24}
-\contentsline {section}{\numberline {5}Process Implementation}{34}{section.5}
-\contentsline {subsection}{\numberline {5.1}Data Preparation}{34}{subsection.5.1}
-\contentsline {paragraph}{Data Window Aggregations}{34}{section*.25}
-\contentsline {paragraph}{Point Predictions}{34}{section*.26}
-\contentsline {paragraph}{Scaling}{34}{section*.29}
-\contentsline {subsection}{\numberline {5.2}Data Segregation}{35}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}SAE Training}{35}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Prediction Network Training}{35}{subsection.5.4}
-\contentsline {subsection}{\numberline {5.5}Price Reconstruction}{35}{subsection.5.5}
-\contentsline {subsection}{\numberline {5.6}Money Management Strategy}{35}{subsection.5.6}
-\contentsline {subsection}{\numberline {5.7}CSCV \& PBO}{36}{subsection.5.7}
-\contentsline {subsection}{\numberline {5.8}Process Diagram}{36}{subsection.5.8}
-\contentsline {section}{\numberline {6}Results}{38}{section.6}
-\contentsline {subsection}{\numberline {6.1}Datasets Used}{38}{subsection.6.1}
-\contentsline {subsubsection}{\numberline {6.1.1}Synthetic Datasets}{38}{subsubsection.6.1.1}
-\contentsline {paragraph}{Synthetic6}{38}{section*.33}
-\contentsline {paragraph}{Synthetic10}{38}{section*.35}
-\contentsline {subsubsection}{\numberline {6.1.2}Actual Datasets}{38}{subsubsection.6.1.2}
-\contentsline {paragraph}{AGL}{38}{section*.38}
-\contentsline {paragraph}{AGL\&ACL}{38}{section*.39}
-\contentsline {paragraph}{Scaling10}{38}{section*.40}
-\contentsline {subsection}{\numberline {6.2}Linearity, Complexity and Structure of Data}{39}{subsection.6.2}
-\contentsline {subsubsection}{\numberline {6.2.1}GBM Generated Data}{39}{subsubsection.6.2.1}
-\contentsline {subsubsection}{\numberline {6.2.2}Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{39}{subsubsection.6.2.2}
-\contentsline {paragraph}{SAE Activations and Scaling}{39}{section*.41}
-\contentsline {paragraph}{Predictive FFN Activations and Scaling}{41}{section*.48}
-\contentsline {paragraph}{Leaky ReLU vs ReLU}{42}{section*.51}
-\contentsline {subsection}{\numberline {6.3}Weight Initialization Techniques}{43}{subsection.6.3}
-\contentsline {subsubsection}{\numberline {6.3.1}RBM Pretraining for Sigmoid Networks}{43}{subsubsection.6.3.1}
-\contentsline {paragraph}{Sigmoid Activation Functions}{44}{section*.58}
-\contentsline {subsubsection}{\numberline {6.3.2}Variance Based Weight Initialization Techniques}{44}{subsubsection.6.3.2}
-\contentsline {subsubsection}{\numberline {6.3.3}Effects of Network Size}{47}{subsubsection.6.3.3}
-\contentsline {subsection}{\numberline {6.4}Feature Selection and Data Aggregation}{47}{subsection.6.4}
-\contentsline {paragraph}{Feature Selection}{47}{section*.64}
-\contentsline {paragraph}{Data Aggregation}{48}{section*.66}
-\contentsline {paragraph}{Historical Data and SGD training}{49}{section*.69}
-\contentsline {subsection}{\numberline {6.5}Learning Optimizations}{50}{subsection.6.5}
-\contentsline {subsubsection}{\numberline {6.5.1}Learning Rate Schedules}{50}{subsubsection.6.5.1}
-\contentsline {subsubsection}{\numberline {6.5.2}Regularization}{51}{subsubsection.6.5.2}
-\contentsline {subsubsection}{\numberline {6.5.3}Denoising}{52}{subsubsection.6.5.3}
-\contentsline {section}{\numberline {7}Conclusions}{53}{section.7}
-\contentsline {section}{\numberline {8}Appendix}{53}{section.8}
-\contentsline {subsection}{\numberline {8.1}Additional Results}{53}{subsection.8.1}
-\contentsline {subsubsection}{\numberline {8.1.1}Effects of Network Size on SAE and FFN for Synthetic Data}{53}{subsubsection.8.1.1}
-\contentsline {subsection}{\numberline {8.2}Configuration Sets Used}{53}{subsection.8.2}
-\contentsline {subsubsection}{\numberline {8.2.1}Configuration1 - SAE}{53}{subsubsection.8.2.1}
-\contentsline {subsubsection}{\numberline {8.2.2}Config2 - Predictive FFN}{54}{subsubsection.8.2.2}
-\contentsline {subsubsection}{\numberline {8.2.3}Configuration3 - SAE}{54}{subsubsection.8.2.3}
-\contentsline {subsubsection}{\numberline {8.2.4}Configuration4 - Predictive FFN}{54}{subsubsection.8.2.4}
-\contentsline {subsubsection}{\numberline {8.2.5}Configuration5 - SAE}{55}{subsubsection.8.2.5}
-\contentsline {subsubsection}{\numberline {8.2.6}Configuration6 - Predictive FFN}{55}{subsubsection.8.2.6}
-\contentsline {subsubsection}{\numberline {8.2.7}Configuration7 - SAE}{55}{subsubsection.8.2.7}
-\contentsline {section}{\numberline {9}References}{56}{section.9}
-\contentsline {paragraph}{Weight Initializations}{63}{section*.77}
-\contentsline {paragraph}{Network Structures}{64}{section*.80}
-\contentsline {paragraph}{Data Windows}{64}{section*.83}
-\contentsline {paragraph}{Best network performance}{65}{section*.86}
-\contentsline {paragraph}{Regularization}{66}{section*.89}
-\contentsline {paragraph}{Linear vs ReLU: Smaller Network}{67}{section*.91}
-\contentsline {paragraph}{Leaky ReLU vs ReLU}{67}{section*.93}
-\contentsline {paragraph}{SAE Selection: MSE vs MAPE}{68}{section*.96}
-\contentsline {paragraph}{L1 Regularization}{68}{section*.98}
-\contentsline {paragraph}{Learning Rate Schedule Implementation}{69}{section*.100}
-\contentsline {paragraph}{Denoising - On/Off Feature Selection}{69}{section*.102}
-\contentsline {paragraph}{Validation Set Percentage}{70}{section*.104}
-\contentsline {paragraph}{Limited Synthetic Asset Tests}{70}{section*.106}
-\contentsline {paragraph}{1 Asset}{70}{section*.107}
-\contentsline {paragraph}{2 Asset}{71}{section*.111}
-\contentsline {paragraph}{3 Asset}{73}{section*.116}
-\contentsline {paragraph}{4 Asset}{74}{section*.120}
-\contentsline {paragraph}{Effect of Rolling Window Sizes}{75}{section*.124}
-\contentsline {paragraph}{Sigmoid Pre-training Efficacy}{76}{section*.126}
-\contentsline {paragraph}{SAE Linear Activation Tests}{77}{section*.130}
-\contentsline {paragraph}{Denoising SAEs}{79}{section*.136}
-\contentsline {paragraph}{Linear Activations in FFN}{79}{section*.138}
-\contentsline {paragraph}{SAE Effects}{80}{section*.140}
-\contentsline {paragraph}{Predictive Network Sizes}{80}{section*.142}
-\contentsline {paragraph}{Cross Validation Effects}{81}{section*.144}
-\contentsline {paragraph}{Returns Analysis}{81}{section*.146}
-\contentsline {paragraph}{Scaling}{84}{section*.152}
-\contentsline {paragraph}{General Configurations \& CV}{85}{section*.156}
-\contentsline {paragraph}{Return Graphs}{87}{section*.161}
-\contentsline {paragraph}{Price Predictions}{89}{section*.165}
-\contentsline {paragraph}{Sigmoid Pre-training}{92}{section*.172}
-\contentsline {paragraph}{General Configuration}{93}{section*.174}
-\contentsline {paragraph}{SAE Configurations (945)}{93}{section*.175}
-\contentsline {paragraph}{FFN Configurations (2835)}{93}{section*.176}
-\contentsline {paragraph}{16th June 2018}{96}{section*.178}
-\contentsline {paragraph}{29th March 2019}{96}{section*.179}
-\contentsline {paragraph}{12th April 2019}{97}{section*.180}
-\contentsline {paragraph}{26th April 2019}{98}{section*.181}
-\contentsline {paragraph}{17th May 2019}{99}{section*.182}
-\contentsline {paragraph}{21st June 2019}{99}{section*.183}
+\contentsline {section}{List of Figures}{6}{section*.1}
+\contentsline {section}{List of Tables}{13}{section*.1}
+\contentsline {part}{{\fontencoding {OT1}\selectfont I}\hspace {1em}\relax \fontsize {12}{14}\selectfont {Online non-linear prediction of {\@@par }financial time-series patterns}}{14}{part.1}
+\contentsline {section}{\numberline {1}Introduction}{14}{section.1}
+\contentsline {section}{\numberline {2}Literature Review}{16}{section.2}
+\contentsline {subsection}{\numberline {2.1}Technical Analysis}{16}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Neural Networks}{17}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Training and Backpropagation}{17}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Activation Functions}{18}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Deep Learning}{19}{subsubsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.4}Backpropagation Improvements}{19}{subsubsection.2.2.4}
+\contentsline {subsection}{\numberline {2.3}Stacked Autoencoders}{20}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}High Dimensional Data Reduction}{20}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}Deep Belief Networks}{21}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising Autoencoders}{22}{subsubsection.2.3.3}
+\contentsline {subsubsection}{\numberline {2.3.4}Pre-training}{22}{subsubsection.2.3.4}
+\contentsline {subsubsection}{\numberline {2.3.5}Time Series Applications}{22}{subsubsection.2.3.5}
+\contentsline {subsubsection}{\numberline {2.3.6}Financial Applications}{23}{subsubsection.2.3.6}
+\contentsline {subsection}{\numberline {2.4}Data Segmentation}{24}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Online Learning Algorithms and Gradient Descent}{25}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Backtesting and Model Validation}{27}{subsection.2.6}
+\contentsline {subsubsection}{\numberline {2.6.1}Testing Methodologies}{27}{subsubsection.2.6.1}
+\contentsline {subsubsection}{\numberline {2.6.2}Test Data Length}{28}{subsubsection.2.6.2}
+\contentsline {subsubsection}{\numberline {2.6.3}Sharpe Ratio}{29}{subsubsection.2.6.3}
+\contentsline {section}{\numberline {3}Data}{31}{section.3}
+\contentsline {subsection}{\numberline {3.1}Data Processing}{31}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Log Difference Transformation and Aggregation}{31}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}Data Scaling}{31}{subsubsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.3}Reverse Data Scaling}{32}{subsubsection.3.1.3}
+\contentsline {subsubsection}{\numberline {3.1.4}Price Reconstruction}{32}{subsubsection.3.1.4}
+\contentsline {subsection}{\numberline {3.2}Synthetic Data Generation}{32}{subsection.3.2}
+\contentsline {section}{\numberline {4}Implementation}{33}{section.4}
+\contentsline {subsection}{\numberline {4.1}Process Overview}{33}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Feedforward Neural Networks}{33}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{33}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{34}{subsubsection.4.2.2}
+\contentsline {subparagraph}{Sigmoid}{34}{subsubsection.4.2.2}
+\contentsline {subparagraph}{ReLU}{34}{equation.4.15}
+\contentsline {subparagraph}{Leaky ReLU}{34}{equation.4.16}
+\contentsline {subparagraph}{Linear Activation}{35}{equation.4.17}
+\contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{35}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{36}{subsubsection.4.2.4}
+\contentsline {paragraph}{\numberline {4.2.4.1}Online Gradient Descent}{37}{paragraph.4.2.4.1}
+\contentsline {subsubsection}{\numberline {4.2.5}Regularization}{37}{subsubsection.4.2.5}
+\contentsline {subsubsection}{\numberline {4.2.6}Learning Rate Schedule}{38}{subsubsection.4.2.6}
+\contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{38}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Contrastive Divergence}{39}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{40}{subsubsection.4.3.2}
+\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{40}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Sigmoid based Greedy Layerwise SAE Training}{40}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}ReLU based SAE Training}{41}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{41}{subsubsection.4.4.3}
+\contentsline {paragraph}{\numberline {4.4.3.1}Additive Gaussian Noise}{42}{paragraph.4.4.3.1}
+\contentsline {paragraph}{\numberline {4.4.3.2}Masking Noise}{42}{paragraph.4.4.3.2}
+\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{42}{subsection.4.5}
+\contentsline {subsubsection}{\numberline {4.5.1}Initialization Rationale}{42}{subsubsection.4.5.1}
+\contentsline {subsubsection}{\numberline {4.5.2}Initializations}{43}{subsubsection.4.5.2}
+\contentsline {paragraph}{\numberline {4.5.2.1}Xavier}{43}{paragraph.4.5.2.1}
+\contentsline {paragraph}{\numberline {4.5.2.2}He}{43}{paragraph.4.5.2.2}
+\contentsline {paragraph}{\numberline {4.5.2.3}He-Adjusted}{43}{paragraph.4.5.2.3}
+\contentsline {subsection}{\numberline {4.6}CSCV \& PBO}{43}{subsection.4.6}
+\contentsline {subsection}{\numberline {4.7}Money Management Strategy and Returns}{45}{subsection.4.7}
+\contentsline {paragraph}{\numberline {4.7.0.1}Input Variables}{45}{paragraph.4.7.0.1}
+\contentsline {paragraph}{\numberline {4.7.0.2}Calculated Stock Variables}{45}{paragraph.4.7.0.2}
+\contentsline {paragraph}{\numberline {4.7.0.3}Calculated Strategy Variables}{46}{paragraph.4.7.0.3}
+\contentsline {section}{\numberline {5}Process Implementation}{48}{section.5}
+\contentsline {subsection}{\numberline {5.1}Data Preparation}{48}{subsection.5.1}
+\contentsline {paragraph}{\numberline {5.1.0.1}Data Window Aggregations}{48}{paragraph.5.1.0.1}
+\contentsline {paragraph}{\numberline {5.1.0.2}Point Predictions}{48}{paragraph.5.1.0.2}
+\contentsline {paragraph}{\numberline {5.1.0.3}Scaling}{49}{paragraph.5.1.0.3}
+\contentsline {subsection}{\numberline {5.2}Data Segregation}{49}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}SAE Training}{49}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Prediction Network Training}{50}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Price Reconstruction}{50}{subsection.5.5}
+\contentsline {subsection}{\numberline {5.6}Money Management Strategy}{50}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.7}CSCV \& PBO}{51}{subsection.5.7}
+\contentsline {subsection}{\numberline {5.8}Process Diagram}{51}{subsection.5.8}
+\contentsline {section}{\numberline {6}Results}{53}{section.6}
+\contentsline {subsection}{\numberline {6.1}Datasets Used}{53}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}Synthetic Datasets}{53}{subsubsection.6.1.1}
+\contentsline {paragraph}{\numberline {6.1.1.1}Synthetic6}{53}{paragraph.6.1.1.1}
+\contentsline {paragraph}{\numberline {6.1.1.2}Synthetic10}{53}{paragraph.6.1.1.2}
+\contentsline {subsubsection}{\numberline {6.1.2}Actual Datasets}{53}{subsubsection.6.1.2}
+\contentsline {paragraph}{\numberline {6.1.2.1}AGL}{54}{paragraph.6.1.2.1}
+\contentsline {paragraph}{\numberline {6.1.2.2}AGL\&ACL}{54}{paragraph.6.1.2.2}
+\contentsline {paragraph}{\numberline {6.1.2.3}Scaling10}{54}{paragraph.6.1.2.3}
+\contentsline {subsection}{\numberline {6.2}Linearity, Complexity and Structure of Data}{55}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {6.2.1}GBM Generated Data}{55}{subsubsection.6.2.1}
+\contentsline {subsubsection}{\numberline {6.2.2}Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{55}{subsubsection.6.2.2}
+\contentsline {paragraph}{\numberline {6.2.2.1}SAE Activations and Scaling}{55}{paragraph.6.2.2.1}
+\contentsline {paragraph}{\numberline {6.2.2.2}Predictive FFN Activations and Scaling}{57}{paragraph.6.2.2.2}
+\contentsline {paragraph}{\numberline {6.2.2.3}Leaky ReLU vs ReLU}{59}{paragraph.6.2.2.3}
+\contentsline {subsection}{\numberline {6.3}Weight Initialization Techniques}{60}{subsection.6.3}
+\contentsline {subsubsection}{\numberline {6.3.1}RBM Pretraining for Sigmoid Networks}{60}{subsubsection.6.3.1}
+\contentsline {paragraph}{\numberline {6.3.1.1}Sigmoid Activation Functions}{61}{paragraph.6.3.1.1}
+\contentsline {subsubsection}{\numberline {6.3.2}Variance Based Weight Initialization Techniques}{61}{subsubsection.6.3.2}
+\contentsline {subsubsection}{\numberline {6.3.3}Effects of Network Size}{64}{subsubsection.6.3.3}
+\contentsline {subsection}{\numberline {6.4}Feature Selection and Data Aggregation}{64}{subsection.6.4}
+\contentsline {paragraph}{\numberline {6.4.0.1}Feature Selection}{64}{paragraph.6.4.0.1}
+\contentsline {paragraph}{\numberline {6.4.0.2}Data Aggregation}{65}{paragraph.6.4.0.2}
+\contentsline {paragraph}{\numberline {6.4.0.3}Historical Data and SGD training}{66}{paragraph.6.4.0.3}
+\contentsline {subsection}{\numberline {6.5}Learning Optimizations}{67}{subsection.6.5}
+\contentsline {subsubsection}{\numberline {6.5.1}Learning Rate Schedules}{67}{subsubsection.6.5.1}
+\contentsline {subsubsection}{\numberline {6.5.2}Regularization}{68}{subsubsection.6.5.2}
+\contentsline {subsubsection}{\numberline {6.5.3}Denoising}{69}{subsubsection.6.5.3}
+\contentsline {section}{\numberline {7}Conclusions}{70}{section.7}
+\contentsline {section}{\numberline {8}Appendix}{70}{section.8}
+\contentsline {subsection}{\numberline {8.1}Additional Results}{70}{subsection.8.1}
+\contentsline {subsubsection}{\numberline {8.1.1}Effects of Network Size on SAE and FFN for Synthetic Data}{70}{subsubsection.8.1.1}
+\contentsline {subsection}{\numberline {8.2}Configuration Sets Used}{71}{subsection.8.2}
+\contentsline {subsubsection}{\numberline {8.2.1}Configuration1 - SAE}{71}{subsubsection.8.2.1}
+\contentsline {subsubsection}{\numberline {8.2.2}Config2 - Predictive FFN}{71}{subsubsection.8.2.2}
+\contentsline {subsubsection}{\numberline {8.2.3}Configuration3 - SAE}{71}{subsubsection.8.2.3}
+\contentsline {subsubsection}{\numberline {8.2.4}Configuration4 - Predictive FFN}{72}{subsubsection.8.2.4}
+\contentsline {subsubsection}{\numberline {8.2.5}Configuration5 - SAE}{72}{subsubsection.8.2.5}
+\contentsline {subsubsection}{\numberline {8.2.6}Configuration6 - Predictive FFN}{72}{subsubsection.8.2.6}
+\contentsline {subsubsection}{\numberline {8.2.7}Configuration7 - SAE}{73}{subsubsection.8.2.7}
+\contentsline {section}{\numberline {9}References}{74}{section.9}
+\contentsline {paragraph}{\numberline {9.0.0.1}Weight Initializations}{83}{paragraph.9.0.0.1}
+\contentsline {paragraph}{\numberline {9.0.0.2}Network Structures}{84}{paragraph.9.0.0.2}
+\contentsline {paragraph}{\numberline {9.0.0.3}Data Windows}{85}{paragraph.9.0.0.3}
+\contentsline {paragraph}{\numberline {9.0.0.4}Best network performance}{86}{paragraph.9.0.0.4}
+\contentsline {paragraph}{\numberline {9.0.0.5}Regularization}{87}{paragraph.9.0.0.5}
+\contentsline {paragraph}{\numberline {9.0.0.6}Linear vs ReLU: Smaller Network}{88}{paragraph.9.0.0.6}
+\contentsline {paragraph}{\numberline {9.0.0.7}Leaky ReLU vs ReLU}{88}{paragraph.9.0.0.7}
+\contentsline {paragraph}{\numberline {9.0.0.8}SAE Selection: MSE vs MAPE}{89}{paragraph.9.0.0.8}
+\contentsline {paragraph}{\numberline {9.0.0.9}L1 Regularization}{90}{paragraph.9.0.0.9}
+\contentsline {paragraph}{\numberline {9.0.0.10}Learning Rate Schedule Implementation}{90}{paragraph.9.0.0.10}
+\contentsline {paragraph}{\numberline {9.0.0.11}Denoising - On/Off Feature Selection}{91}{paragraph.9.0.0.11}
+\contentsline {paragraph}{\numberline {9.0.0.12}Validation Set Percentage}{91}{paragraph.9.0.0.12}
+\contentsline {paragraph}{\numberline {9.0.0.13}Limited Synthetic Asset Tests}{92}{paragraph.9.0.0.13}
+\contentsline {paragraph}{\numberline {9.0.0.14}1 Asset}{92}{paragraph.9.0.0.14}
+\contentsline {paragraph}{\numberline {9.0.0.15}2 Asset}{93}{paragraph.9.0.0.15}
+\contentsline {paragraph}{\numberline {9.0.0.16}3 Asset}{95}{paragraph.9.0.0.16}
+\contentsline {paragraph}{\numberline {9.0.0.17}4 Asset}{96}{paragraph.9.0.0.17}
+\contentsline {paragraph}{\numberline {9.0.0.18}Effect of Rolling Window Sizes}{97}{paragraph.9.0.0.18}
+\contentsline {paragraph}{\numberline {9.0.0.19}Sigmoid Pre-training Efficacy}{99}{paragraph.9.0.0.19}
+\contentsline {paragraph}{\numberline {9.0.0.20}SAE Linear Activation Tests}{100}{paragraph.9.0.0.20}
+\contentsline {paragraph}{\numberline {9.0.0.21}Denoising SAEs}{103}{paragraph.9.0.0.21}
+\contentsline {paragraph}{\numberline {9.0.0.22}Linear Activations in FFN}{103}{paragraph.9.0.0.22}
+\contentsline {paragraph}{\numberline {9.0.0.23}SAE Effects}{104}{paragraph.9.0.0.23}
+\contentsline {paragraph}{\numberline {9.0.0.24}Predictive Network Sizes}{105}{paragraph.9.0.0.24}
+\contentsline {paragraph}{\numberline {9.0.0.25}Cross Validation Effects}{105}{paragraph.9.0.0.25}
+\contentsline {paragraph}{\numberline {9.0.0.26}Returns Analysis}{105}{paragraph.9.0.0.26}
+\contentsline {paragraph}{\numberline {9.0.0.27}Scaling}{108}{paragraph.9.0.0.27}
+\contentsline {paragraph}{\numberline {9.0.0.28}General Configurations \& CV}{109}{paragraph.9.0.0.28}
+\contentsline {paragraph}{\numberline {9.0.0.29}Return Graphs}{112}{paragraph.9.0.0.29}
+\contentsline {paragraph}{\numberline {9.0.0.30}Price Predictions}{113}{paragraph.9.0.0.30}
+\contentsline {paragraph}{\numberline {9.0.0.31}Sigmoid Pre-training}{116}{paragraph.9.0.0.31}
+\contentsline {paragraph}{\numberline {9.0.0.32}General Configuration}{118}{paragraph.9.0.0.32}
+\contentsline {paragraph}{\numberline {9.0.0.33}SAE Configurations (945)}{118}{paragraph.9.0.0.33}
+\contentsline {paragraph}{\numberline {9.0.0.34}FFN Configurations (2835)}{118}{paragraph.9.0.0.34}
+\contentsline {paragraph}{\numberline {9.0.0.35}16th June 2018}{122}{paragraph.9.0.0.35}
+\contentsline {paragraph}{\numberline {9.0.0.36}29th March 2019}{123}{paragraph.9.0.0.36}
+\contentsline {paragraph}{\numberline {9.0.0.37}12th April 2019}{124}{paragraph.9.0.0.37}
+\contentsline {paragraph}{\numberline {9.0.0.38}26th April 2019}{126}{paragraph.9.0.0.38}
+\contentsline {paragraph}{\numberline {9.0.0.39}17th May 2019}{126}{paragraph.9.0.0.39}
+\contentsline {paragraph}{\numberline {9.0.0.40}21st June 2019}{127}{paragraph.9.0.0.40}

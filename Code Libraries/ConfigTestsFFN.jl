@@ -45,47 +45,37 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
             nothing) #Encoding Activation
 
         ffn_sgd_par = TrainingParameters("FFN",
-                                        0.001, #max_learning_rate
+                                        0.01, #max_learning_rate
                                         0.0001, #min_learning_rate
                                         100,  #epoch_cycle_max
                                         32, #minibatch_size
-                                        2, #max_epochs
+                                        2000, #max_epochs
                                         (0.0001, 100), #stopping_parameters
                                         NonStopping, #stopping_function
                                         0.0, #l1_lambda
                                         MeanSquaredError(), #cost_function
                                         [1.0], #training_splits
-                                        false, #is_denoising
+                                        true, #is_denoising
                                         0.0) #denoising_variance
 
-                #TODO change the OGD learning rate back to 0.01
-        ogd_par = OGDTrainingParameters("FFN-OGD", 0.0, true, MeanSquaredError(), 0)
+        ogd_par = OGDTrainingParameters("FFN-OGD", 0.01, true, MeanSquaredError(), 0)
 
         return FFNExperimentConfig(seed, set_name, false, data_config, sae_config_id, encoder, ffn_net_par, ffn_sgd_par, ogd_par, nothing)
     end
 
     ################################################################################
     ##1. Configuration Variations
-    set_name = string("Iteration5_7 AGL Test FFN Tests ", string(layer_sizes))
+    set_name = string("Iteration1 FFN Actual10 Tests ", string(layer_sizes))
     jsedata = ReadJSETop40Data()
-    dataset = jsedata[:, [:AGL]]
+    dataset = jsedata[:, [:AGL,:BIL,:IMP,:FSR,:SBK,:REM,:INP,:SNH,:MTN,:DDT]]
 
     vps = []
 
-    #push!(vps, (GetFFNNetwork, ChangeOutputActivation, (LinearActivation, LeakyReluActivation)))
-    #push!(vps, (GetFFNNetwork, ChangeInit, (XavierGlorotUniformInit, HeUniformInit)))
-    #push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.00001, 0.0001, 0.001, 0.01)))
-    #push!(vps, (GetFFNTraining, ChangeTrainingSplits, (0.8, 1.0)))
-    #push!(vps, (GetFFNTraining, ChangeTrainingSplits, (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)))
-    #push!(vps, (GetFFNTraining, ChangeMaxEpochs, (1, 5, 10, 50, 100)))
-
-    #push!(vps, (GetFFNTraining, ChangeL1Reg, (0, 0.1)))
-    #push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.01, 0.05, 0.1)))
-    push!(vps, (GetFFNTraining, ChangeTrainingSplits, (0.2, 0.4, 0.6, 0.8, 1.0)))
-    push!(vps, (GetFFNTraining, ChangeMaxLearningRate, (0.05, 0.1)))
-    #push!(vps, (GetFFNNetwork, ChangeInit, (HeUniformInit, XavierGlorotUniformInit, DCUniformInit)))
-    #push!(vps, (GetFFNNetwork, ChangeInit, (DCUniformInit)))
-    #push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.01, 0.05)))
+    #push!(vps, (GetFFNTraining, ChangeTrainingSplits, (0.2, 0.4, 0.6, 0.8, 1.0)))
+    push!(vps, (GetFFNTraining, ChangeMinLearningRate, (0.0001, 0.00001)))
+    push!(vps, (GetFFNTraining, ChangeL1Reg, (0, 0.1, 0.5)))
+    push!(vps, (GetFFNTraining, ChangeDenoisingVariance, (0, 0.1)))
+    push!(vps, (GetOGDTraining, ChangeMaxLearningRate, (0.005, 0.01, 0.05)))
 
     combos = []
     for s in sae_configs
@@ -105,30 +95,14 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_configs, primary_activation)
     return ffn_results
 end
 
-#
-sae_choices = (25339, 25778, 25684, 25846, 25640, 25767)
 
-RunNLayerReLUFFNTest((12, 6), sae_choices, LeakyReluActivation)
-RunNLayerReLUFFNTest((12, 12), sae_choices, LeakyReluActivation)
-RunNLayerReLUFFNTest((12, 12, 12), sae_choices, LeakyReluActivation)
-RunNLayerReLUFFNTest((12, 9, 9, 6), sae_choices, LeakyReluActivation)
-RunNLayerReLUFFNTest((12, 9, 6), sae_choices, LeakyReluActivation)
-RunNLayerReLUFFNTest((12), sae_choices, LeakyReluActivation)
+sae_choices = (1533, 1497, 1554, 1639, 147, 1534, 1468, 1501, 318, 1284, 1535, 1553, 1059, 1508, 333)
 
-
-
-#sae_choices = (18140,18914,18259,18311,19481, 20662,18917,18260,18314,18766,18119,18191,19343,18344,18751)
-#RunNLayerReLUFFNTest((120, 60), sae_choices, LeakyReluActivation)
-#RunNLayerReLUFFNTest((120, 120), sae_choices, LeakyReluActivation)
-#RunNLayerReLUFFNTest((120, 120, 120), sae_choices, LeakyReluActivation)
-#RunNLayerReLUFFNTest((120, 90, 90, 60), sae_choices, LeakyReluActivation)
-
-#RunNLayerReLUFFNTest((120, 90, 60), sae_choices, LeakyReluActivation)
-#RunNLayerReLUFFNTest((120), sae_choices, LeakyReluActivation)
-
-#He
-#RunNLayerReLUFFNTest((120, 60), sae_choices, LeakyReluActivation)
-#RunNLayerReLUFFNTest((120), sae_choices, LeakyReluActivation)
-#RunNLayerReLUFFNTest((120, 90, 60), sae_choices, LeakyReluActivation)
-#RunNLayerReLUFFNTest((120, 120, 120), sae_choices, LeakyReluActivation)
-#RunNLayerReLUFFNTest((120, 120), sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((120),                 sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((120, 120),            sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((120, 120, 120),       sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((120, 120, 120, 120),  sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((240),                 sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((240, 240),            sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((240, 240, 240),       sae_choices, LeakyReluActivation)
+RunNLayerReLUFFNTest((240, 240, 240, 240),  sae_choices, LeakyReluActivation)

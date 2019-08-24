@@ -19,7 +19,7 @@ using MLBase
 using PlotlyJS
 
 
-export FFN_LR_Sched_BxProfit, OGD_EncodingSizes_Profits_Bx, OGD_L1Reg_BxProfit, OGD_NetworkSize_Profits_Bx, OGD_Init_Profits_Bx, SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
+export SAE_ActivationScaling_BxMSE, FFN_LR_Sched_BxProfit, OGD_EncodingSizes_Profits_Bx, OGD_L1Reg_BxProfit, OGD_NetworkSize_Profits_Bx, OGD_Init_Profits_Bx, SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -669,9 +669,11 @@ function SAE_LayerSizes_MinMSE(config_ids, encoding_size = nothing)
     general_boxplot2(groups, " ", filename, :cost)
 end
 
-function SAE_MaxLR_MinTest_BxMSE(config_ids)
+function SAE_MaxLR_MinTest_BxMSE(config_ids, init)
 
     ids = TransformConfigIDs(config_ids)
+
+    init_clause = init == nothing ? "" : " and initialization like '%$init%'"
 
     lr_msequery = "select
                     tp.configuration_id,
@@ -683,6 +685,7 @@ function SAE_MaxLR_MinTest_BxMSE(config_ids)
                 where tp.configuration_id in ($ids)
                     and tp.category like \"SAE%\"
                     and er.category like \"SAE%\"
+                $init_clause
                 group by tp.configuration_id, tp.learning_rate
                 having min(testing_cost) is not null"
 
@@ -766,14 +769,17 @@ function SAE_MinLR_MinTest_BxMSE(config_ids)
     MSEBoxplot(lr_msequery, :min_learning_rate, "SAE Min LR", "SAE Min Learning Rate Min Test MSE", Float64, NullTransform)
 end
 
-function SAE_Init_MinTest_MxMSE(config_ids)
+function SAE_Init_MinTest_MxMSE(config_ids, encoding_size)
     ids = TransformConfigIDs(config_ids)
+
+    encoding_clause = encoding_size == nothing? "" : " and layer_sizes like '%,$encoding_size'"
 
     init_query = string("select er.configuration_id, min(testing_cost) cost, initialization init
                         from epoch_records er
                         inner join network_parameters np on np.configuration_id = er.configuration_id
                         where np.category = \"SAE\"
-                            and er.configuration_id in ($ids)
+                        and er.configuration_id in ($ids)
+                        $encoding_clause
                         group by er.configuration_id, init
                         having cost not null")
 
@@ -796,6 +802,65 @@ function SAE_Deltas_MinTest_MxMSE(config_ids)
     MSEBoxplot(delta_query, :deltas, "Delta", "SAE Delta MSE", String, NullTransform)
 end
 
+function SAE_ScalingOutput_BxMSE(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select er.configuration_id, min(training_cost) cost,
+        min((dc.scaling_function || '-' ||
+        case when cr.experiment_set_name like '%LinearActivation%' then 'LinearActivation'
+        when cr.experiment_set_name like '%SigmoidActivation%' then 'SigmoidActivation'
+        else 'ReluActivation'
+        end)) scaling_method
+    from epoch_records er
+    inner join configuration_run cr on cr.configuration_id = er.configuration_id
+    inner join dataset_config dc on dc.configuration_id = er.configuration_id
+    where er.configuration_id in ($ids)
+    and er.category = \"SAE-SGD-Init\"
+    and training_cost is not null
+    group by er.configuration_id"
+
+    results = RunQuery(query)
+
+    p = MSEBoxplot(query, :scaling_method, "Scaling Method ", "SAE ScalingOutput Min MSE", String, NullTransform)
+end
+
+function SAE_ActivationScaling_BxMSE(config_ids, includeStandardize, maxCost, excludeReluOutput, layerSize)
+
+    ids = TransformConfigIDs(config_ids)
+
+    andClause = includeStandardize ? " and true " : " and scaling_function not like 'Standardize%' "
+    andReluClause = excludeReluOutput ? " and output_activation not like 'Relu%' " : " and true "
+    andSizeClause = layerSize == nothing ? " and true " : " and layer_sizes like '%,$layerSize'"
+
+    query = "select er.configuration_id,
+                    min(training_cost) cost,
+                    replace((substr(layer_activations, 0, instr(layer_activations, ',')) || '-' ||
+                            np.encoding_activation || '-' ||
+                            np.output_activation || '-' ||
+                            dc.scaling_function
+                    ), 'Activation', '') act_scaling
+            from epoch_records er
+            inner join configuration_run cr on cr.configuration_id = er.configuration_id
+            inner join dataset_config dc on dc.configuration_id = er.configuration_id
+            inner join network_parameters np on np.configuration_id = er.configuration_id
+            where er.configuration_id in ($ids)
+            and er.category = \"SAE-SGD-Init\"
+            and training_cost is not null
+            $andClause
+            $andReluClause
+            $andSizeClause
+            group by er.category,er.configuration_id, act_scaling
+            having cost < $maxCost
+            "
+
+    results = RunQuery(query)
+
+    print(size(results))
+
+    p = MSEBoxplot(query, :act_scaling, "", "SAE ScalingOutput Min MSE", String, NullTransform)
+
+end
 
 #####
 

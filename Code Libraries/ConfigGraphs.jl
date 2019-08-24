@@ -21,8 +21,7 @@ function SelectConfigIDs(setnames)
     return ids
 end
 
-
-category_query = "select min(configuration_id) minid,
+old_category_query = "select min(configuration_id) minid,
        max(configuration_id) maxid,
        count(distinct configuration_id) total_configs,
        case
@@ -35,6 +34,7 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration2_1 Linear Tests FFN%' then 'Iteration2_1 Linear Tests FFN'
        when experiment_set_name like 'Iteration2_1 Tests FFN%' then 'Iteration2_1 Tests FFN'
        when experiment_set_name like 'Test Iteration2 Tests FFN%' then 'Test Iteration2 Tests FFN'
+
        when experiment_set_name like 'Iteration2 LTD SAE%' then 'Iteration2 LTD SAE'
        when experiment_set_name like 'Iteration2 SAE%' then 'Iteration2 SAE'
        when experiment_set_name like 'Denoising 2%' then 'Denoising 2'
@@ -44,8 +44,12 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'PT 3%' then 'Pretraining 3'
        when experiment_set_name like 'PT 2%' then 'Pretraining 2'
        when experiment_set_name like 'Linear Tests 2 Std%' then 'Linear Tests 2 Std'
-       when experiment_set_name like 'Linear Tests%' then 'Linear Tests'
-       when experiment_set_name like 'Linear Tests%' then 'Linear Tests'
+
+       when experiment_set_name like 'Linear Tests 1%' then 'Linear Tests 1'
+       when experiment_set_name like 'Linear Tests 2%' then 'Linear Tests 2'
+       when experiment_set_name like 'Linear Tests 3%' then 'Linear Tests 3'
+
+
        when experiment_set_name like 'Iteration3 SAE LeakyRelu v2%' then 'Iteration3 SAE LeakyRelu v2'
        when experiment_set_name like 'Iteration3 SAE LeakyRelu Implementation2v1%' then 'Iteration3 SAE LeakyRelu Implementation2v1'
        when experiment_set_name like 'Iteration3 FFN Leaky ReLU Tests v2%' then 'Iteration3 FFN Leaky ReLU Tests v2'
@@ -105,10 +109,20 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration5_4 AGL Test FFN Tests%' then 'Iteration5_4 AGL Test FFN Tests'
 
        when experiment_set_name like 'Iteration5_6 AGL Test FFN Tests%' then 'Iteration5_6 AGL Test FFN Tests'
-       when experiment_set_name like 'Iteration5_7 AGL Test FFN Tests%' then 'Iteration5_7 AGL Test FFN Tests'
-       when experiment_set_name like 'Iteration1_1 SAE Actual10 Test%' then 'Iteration1_1 SAE Actual10 Test'
-       when experiment_set_name like 'Iteration1 SAE Actual10 Test%' then 'Iteration1 SAE Actual10 Test'
+       when experiment_set_name like 'Iteration5_7 AGL Test FFN Tests%' then 'Iteration5_7 AGL Test FFN Tests'"
 
+category_query = "select min(configuration_id) minid,
+       max(configuration_id) maxid,
+       count(distinct configuration_id) total_configs,
+       case
+       --when experiment_set_name like 'Iteration1_1 SAE Actual10 Test%' then 'Iteration1_1 SAE Actual10 Test'
+
+       when experiment_set_name like 'Iteration1 SAE Actual10 Test%' then 'Iteration1 SAE Actual10 Test'
+       when experiment_set_name like 'Iteration2 SAE Actual10 Test%' then 'Iteration2 SAE Actual10 Test'
+       when experiment_set_name like 'Iteration3 SAE Actual10 Test%' then 'Iteration3 SAE Actual10 Test'
+       when experiment_set_name like 'Iteration4 SAE Actual10 Test%' then 'Iteration4 SAE Actual10 Test'
+       when experiment_set_name like 'Iteration5 SAE Actual10 Test%' then 'Iteration5 SAE Actual10 Test'
+       when experiment_set_name like 'Iteration6 SAE Actual10 Test%' then 'Iteration6 SAE Actual10 Test'
 
 
        else null end as esn
@@ -130,6 +144,26 @@ category_ids = RunQuery(category_query)
 #minimum(config_ids)
 #maximum(config_ids)
 #28499:29218
+
+function ItActual_SAE()
+    setnames = ["Iteration1 SAE Actual10 Test",
+                "Iteration2 SAE Actual10 Test",
+                "Iteration3 SAE Actual10 Test",
+                "Iteration4 SAE Actual10 Test",
+                "Iteration5 SAE Actual10 Test",
+                "Iteration6 SAE Actual10 Test"
+                ]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Init_MinTest_MxMSE(config_ids, nothing)
+    SAE_Deltas_MinTest_MxMSE(config_ids)
+
+    SAE_MaxLR_MinTest_BxMSE(config_ids, "Xavier")
+    SAE_LREpochs_MinTest_BxMSE(config_ids)
+
+    SAE_EncodingSizes_MinMSE(config_ids)
+    SAE_LayerSizes_MinMSE(config_ids)
+end
+
 
 function It10_SAE()
     setnames = ["Iteration1 SAE Actual10 Test"]
@@ -410,6 +444,21 @@ end
 #Fig 4 & 5: SAE Standardizing &  ReLU Output; Effects of Linear Activations  (SAE MSE on 10 stocks)
 #Fig 9: Denoising SAEs (SAE MSE on 10 stocks)
 #Fig 10: Effects of Limited Scaling (on Synthetic P&L)
+
+
+
+function Results_Linearity_1()
+
+    setnames = ["Linear Tests 1", "Linear Tests 3", "Linear Tests 2 Std"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_ActivationScaling_BxMSE(config_ids, true, 1000, false, nothing)
+
+    setnames = ["Linear Tests 1"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_ActivationScaling_BxMSE(config_ids, false, 1000, true, nothing)
+    SAE_ActivationScaling_BxMSE(config_ids, false, 1000, true, 25)
+    SAE_ActivationScaling_BxMSE(config_ids, false, 1000, true, 5)
+end
 
 #Carry Into Written Iteration 3:
 # SAE Encoding Size Effects on SAE MSE

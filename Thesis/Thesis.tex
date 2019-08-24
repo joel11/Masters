@@ -1,4 +1,4 @@
-\documentclass[a4paper,latin]{paper} 
+\documentclass[a4paper,11pt,oneside]{article}
 
 \usepackage[greek,english]{babel}
 \usepackage{textgreek}
@@ -20,13 +20,46 @@
 \usepackage{colortbl} 
 \usepackage{subcaption}
 \usepackage{caption}
-\usepackage{hyperref}
 \usepackage[numbib,nottoc]{tocbibind}
 \usepackage{fancyhdr}
 \usepackage{placeins}
 \usepackage{algorithm2e}
+%TIMS ----------------------------------------------
+\usepackage[bottom]{footmisc}
+\usepackage{rotating}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+\usepackage{pdfpages}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{colortbl} 
+\usepackage{tcolorbox}
+\usepackage{etoolbox}
+\patchcmd{\thebibliography}{*}{}{}{}
+\usepackage{multicol}
+%\usepackage{algorithm}
+\usepackage{makecell}
+\usepackage{algpseudocode}
+%\usepackage{program} 
+\usepackage[titletoc,title]{appendix}
+\usepackage{color}
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{titlesec}
+%\usepackage[linktocpage,colorlinks=true,linkcolor= {red!50!black}, urlcolor=grey, citecolor=blue!90, pdfborder={2 1 0}]{hyperref}
+\usepackage[capitalize]{cleveref} 
 
-
+%MINE ----------------------------------------------
 
 \usepackage{xargs}                      % Use more than one optional parameter in a new commands
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
@@ -39,51 +72,140 @@
 \newcommand{\myol}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
 \newenvironment{technicaldoc}
 
+%TIMS ----------------------------------------------
 
+
+
+\tcbset{tab2/.style={fonttitle=\bfseries,fontupper=\normalsize\sffamily}}
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
+
+
+
+% GRAPHICS HANDLING ----------------------------------------------
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
+\titleformat*{\section}{\LARGE\bfseries}
+\titleformat*{\subsection}{\Large\bfseries}
+\titleformat*{\subsubsection}{\large\bfseries}
+\titleformat*{\paragraph}{\large\bfseries}
+\titleformat*{\subparagraph}{\large\bfseries}
+
+
+\colorlet{linkequation}{blue!90!}%
+\makeatletter
+\creflabelformat{equation}{%
+	\textup{%
+		\hypersetup{
+			linkcolor=linkequation,
+			linkbordercolor=linkequation,
+		}%
+		(#2#1#3)%
+	}%
+}
+
+
+% OTHER SET-UP ---------------------------------------------------
+
+\pagestyle{fancy}
+\lhead{\rightmark}
+\chead{}
+\rhead{\thepage}
+\cfoot{}
+
+\setlength{\topmargin}{0.1cm}
+\setlength{\headsep}{1cm}
+\setlength{\textwidth}{15.0cm}
+\setlength{\headwidth}{15.0cm}
+\setlength{\headheight}{14pt}
+\setlength{\textheight}{22cm}
+\setlength{\oddsidemargin}{0.55cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\parindent}{0pt}
+\setlength{\extrarowheight}{10pt}
+
+\newcommand{\setlinespacing}[1]
+{\renewcommand{\baselinestretch}{#1}\small\normalsize}
+
+\allowdisplaybreaks[1]
+
+% THEOREM STYLES -------------------------------------------------
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}%[chapter]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{con}[thm]{Conjecture}
+\newtheorem{lem}[thm]{Lemma}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{ass}[thm]{Assumption}
+\newtheorem{exam}[thm]{Example}
+\usepackage[font=small,labelfont=bf]{caption}
+\DeclareCaptionFont{tiny}{\tiny}
+\usepackage{caption}
+\captionsetup{font=footnotesize}
+%\renewcommand{\thesection}{\Roman{section}} 
+%\renewcommand{\thesubsection}{\Roman{section}. \Roman{subsection}}
+\usepackage{listings}
+\usepackage{blindtext}
+\lstset{basicstyle=\small\ttfamily,
+	columns=flexible,
+	breaklines=true}
+
+
+% MACRO DEFINITIONS ----------------------------------------------
+\setcounter{tocdepth}{4}
+% Place your personal macro definitions here.
+
+%\usepackage{hyperref}
+
+%\usepackage[landscape]{geometry}
+
+
+% PREAMBLE -------------------------------------------------------
+\title{Master of Science in Statistics\\ Dissertation: Draft \#1\\[2mm] \textbf{Title \\[0.6cm]}
+\includegraphics[scale=1]{UCT-logo.pdf}}
+\author{\textbf{Joel da Costa}\\[0.18cm] Supervisor: A/Prof. T. Gebbie \\[0.3cm]
+Statistics,\\
+Department of Statistical Sciences,\\
+University of Cape Town, Rondebosch}%\\[0.25cm]
+%\\} %width=2.7cm
+\date{2017}
 
 \begin{document} 
-	\sectionfont{\large\sf\bfseries\color{black!70!blue}} 
-
-
-\begin{titlepage}
-	\begin{center}
-		\vspace*{1cm}
-
-		\Huge
-		\textbf{Online non-linear prediction of financial time-series patterns}
-		\vspace{0.5cm}
-		\LARGE
-		%Thesis Subtitle
-		
-		\vspace{1.5cm}
-		
-		\textbf{Joel da Costa}
-		\vfill
-		\vspace{0.8cm}
-		\Large
-		University of Cape Town\\
-		
-	\end{center}
-\end{titlepage}
-\newpage
-\vspace{0.5cm}
-\LARGE
-Abstract
-\normalsize
-\newline\newline
-We consider pattern prediction of financial time-series data. The algorithm framework and workflow is developed and proved on daily sampled OHLCV (open-high-low-close-volume) time-series data for JSE equity markets. The input patterns are based on input data vectors are equal size data windows pre-processed into a sequence of daily, weekly and monthly sampled feature measurement changes (here log feature fluctuations). The data processing is split into at online batch processed step where data is compressed using a stacked autoencoder (SAE) via unsupervised learning, and then batch supervised learning is carried out using the data-compression algorithm with the output being a pattern sequence of measured time-series feature fluctuations (log differenced data) in the future (ex-post) from the training and validation data. Weight initializations for these networks are implemented with Restricted Boltzmann Machine (RBM) pre-training, and variance based initializations. The historical simulation is then run using an online feedforward neutral network (FNN) initialised with the weights from the online training and validation step. The validity of results is considered under a rigorous assessment of backtest overfitting (Combinatorially Symmetrical Cross Validation), and the results are then considered in terms of test for statistical arbitrage with simple correction for transaction costs.
+\vspace{-7cm}
+\maketitle \setlinespacing{1}
+\abstract{We consider pattern prediction of financial time-series data. The algorithm framework and workflow is developed and proved on daily sampled OHLCV (open-high-low-close-volume) time-series data for JSE equity markets. The input patterns are based on input data vectors are equal size data windows pre-processed into a sequence of daily, weekly and monthly sampled feature measurement changes (here log feature fluctuations). The data processing is split into at online batch processed step where data is compressed using a stacked autoencoder (SAE) via unsupervised learning, and then batch supervised learning is carried out using the data-compression algorithm with the output being a pattern sequence of measured time-series feature fluctuations (log differenced data) in the future (ex-post) from the training and validation data. Weight initializations for these networks are implemented with Restricted Boltzmann Machine (RBM) pre-training, and variance based initializations. The historical simulation is then run using an online feedforward neutral network (FNN) initialised with the weights from the online training and validation step. The validity of results is considered under a rigorous assessment of backtest overfitting (Combinatorially Symmetrical Cross Validation), and the results are then considered in terms of test for statistical arbitrage with simple correction for transaction costs.}\\
 \todo{this will need to be rewritten once everything is finalised}
-\newline\newline
-Keywords: online learning, feedforward neural network, restricted boltzmann machine, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting
+
+\noindent\textbf{Keywords:} online learning, feedforward neural network, restricted boltzmann machine, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting
+
+
 \newpage
+
+%--------------------------------------------------------------------------------------------------------------------------------------
+% CONTENT --------------------------------------------------------
 \tableofcontents
-\newpage
+
 \listoffigures
-\newpage
+
 \listoftables
+
 \newpage
+
+%____________________________________________________________________
+\part[\large{Online non-linear prediction of financial time-series patterns}]{\Huge\selectfont{Online non-linear prediction of financial time-series patterns}}
+
+
 
 \section{Introduction}\label{Introduction}
+
 \todo{may need to add some appropriate in this section}
 
 
@@ -105,7 +227,7 @@ Chapter \ref{Implementation} provides more indepth details on the algorithms and
 ~\\\newline
 Chapter \ref{Results} is the final chapter, and discusses the results found from the process. \todo{this will need to be finished once results are known}
 \newpage
-\section{LiteratureReview}\label{lr_LiteratureReview}
+\section{Literature Review}\label{lr_LiteratureReview}
 \subsection{Technical Analysis}\label{lr_TechnicalAnalysis}
 
 Technical analysis is a financial analysis practice that makes use of past price data in order to identify market 
@@ -1535,7 +1657,7 @@ The CSCV and PBO parts of the system are the most straightforward, in the sense 
 The flow diagram below provides a graphical representation of this process from the raw market data up until the price prediction points (the MMS calculations and CSCV process are not included). The process may be repeated accordingly in terms of SAE structures that are desired for test, such that the "Best SAE Network" is different for different encoding layer sizes, or data aggregations used (as was the case in many of the experiments which will be discussed).
 
 \begin{figure}[H]
-	\centering \includegraphics[scale=0.6]{images/process_implementation/process_flow.png}
+	\centering \includegraphics[scale=0.5]{images/process_implementation/process_flow.png}
 	\caption{Overall Process Flow}
 	\label{figure-proc_diagram}
 \end{figure}
@@ -1653,7 +1775,7 @@ Using the following assets from JSE close price relatives:
 
 
 
-
+\newpage
 \subsection{Linearity, Complexity and Structure of Data}
 
 \subsubsection{GBM Generated Data}\label{results_gbm_data}
@@ -1679,8 +1801,8 @@ As discussed more fully in \ref{proc_dataprep}, the use of standardization for s
 \begin{figure}[H]
 	\centering
 		\textbf{Effects of Scaling and Activation Functions on SAE MSE Score (Figure 1/2)}
-		\includegraphics[scale=0.35]{images/iteration_two/linear/0Scaling_and_Activation_Combos_Min_MSE.png}
-		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1})
+		\includegraphics[scale=0.4]{images/results/linearity/0Scaling_and_Activation_Combos_Min_MSE.png}
+		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1}) - 1316 Samples
 			\newline \newline Each configuration group is labelled in the following format: 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. The MSE scores show significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the next figure.}
 		\label{figure-results-scaling-and-relu}
 \end{figure}
@@ -1688,8 +1810,8 @@ As discussed more fully in \ref{proc_dataprep}, the use of standardization for s
 \begin{figure}[H]
 		\centering 
 		\textbf{Effects of Scaling and Activation Functions on SAE MSE Score (Figure 2/2)}
-		\includegraphics[scale=0.35]{images/iteration_two/linear/1Activation_Combos-Min_MSE.png}
-		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1})
+		\includegraphics[scale=0.4]{images/results/linearity/1Activation_Combos-Min_MSE.png}
+		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1}) - 504 Samples
 			\newline \newline Excluding the Standardizing scaling combinations, we can now see that Sigmoid has largely poor performance unless there is a Linear encoding layer (a commonly experienced behaviour \cite{Hinton2}]), and seems mostly unable to outperform a fully linear network. The best configuration is Relu Hidden layers, with Linear encoding and Output - this makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers.}
 		\label{figure-results-linear-act}
 \end{figure}
@@ -1697,8 +1819,8 @@ As discussed more fully in \ref{proc_dataprep}, the use of standardization for s
 \begin{figure}[H]
 		\centering 
 		\textbf{Non-linear Benefit in Encoding Layer (Figure 1/2)}
-		\includegraphics[scale=0.35]{images/iteration_two/linear/3Encoding_25_Activation_Combos_Min_MSE.png}
-		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1})
+		\includegraphics[scale=0.4]{images/results/linearity/3Encoding_25_Activation_Combos_Min_MSE.png}
+		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1}) - 168 Samples
 			\newline \newline These plots show the performance for all configurations with an encoding layer size of 25 (input 30). The fully linear networks show good performance here, where there is greater scope for linear representation in the encoding.}
 		\label{figure-results-encoding25}
 \end{figure}
@@ -1706,8 +1828,8 @@ As discussed more fully in \ref{proc_dataprep}, the use of standardization for s
 \begin{figure}[H]
 	\centering 
 	\textbf{Non-linear Benefit in Encoding Layer (Figure 2/2)}
-	\includegraphics[scale=0.35]{images/iteration_two/linear/4Encoding_5_Activation_Combos_Min_MSE.png}
-	\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1})
+	\includegraphics[scale=0.4]{images/results/linearity/4Encoding_5_Activation_Combos_Min_MSE.png}
+	\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1}) - 168 Samples
 		\newline \newline These plots show the performance for all configurations with an encoding layer size of 5 (input 30). Here we now see the benefit of non-linear activations in the ReLU based networks, which the fully linear is not able to outperform.}
 	\label{figure-results-encoding5}
 \end{figure}

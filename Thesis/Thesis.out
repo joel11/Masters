@@ -1,89 +1,154 @@
-\BOOKMARK [1][-]{section*.3}{List of Figures}{}% 1
-\BOOKMARK [1][-]{section*.4}{List of Tables}{}% 2
-\BOOKMARK [1][-]{section.1}{Introduction}{}% 3
-\BOOKMARK [1][-]{section.2}{LiteratureReview}{}% 4
-\BOOKMARK [2][-]{subsection.2.1}{Technical Analysis}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.2}{Neural Networks}{section.2}% 6
-\BOOKMARK [3][-]{subsubsection.2.2.1}{Training and Backpropagation}{subsection.2.2}% 7
-\BOOKMARK [3][-]{subsubsection.2.2.2}{Activation Functions}{subsection.2.2}% 8
-\BOOKMARK [3][-]{subsubsection.2.2.3}{Deep Learning}{subsection.2.2}% 9
-\BOOKMARK [3][-]{subsubsection.2.2.4}{Backpropagation Improvements}{subsection.2.2}% 10
-\BOOKMARK [2][-]{subsection.2.3}{Stacked Autoencoders}{section.2}% 11
-\BOOKMARK [3][-]{subsubsection.2.3.1}{High Dimensional Data Reduction}{subsection.2.3}% 12
-\BOOKMARK [3][-]{subsubsection.2.3.2}{Deep Belief Networks}{subsection.2.3}% 13
-\BOOKMARK [3][-]{subsubsection.2.3.3}{Stacked Denoising Autoencoders}{subsection.2.3}% 14
-\BOOKMARK [3][-]{subsubsection.2.3.4}{Pre-training}{subsection.2.3}% 15
-\BOOKMARK [3][-]{subsubsection.2.3.5}{Time Series Applications}{subsection.2.3}% 16
-\BOOKMARK [3][-]{subsubsection.2.3.6}{Financial Applications}{subsection.2.3}% 17
-\BOOKMARK [2][-]{subsection.2.4}{Data Segmentation}{section.2}% 18
-\BOOKMARK [2][-]{subsection.2.5}{Online Learning Algorithms and Gradient Descent}{section.2}% 19
-\BOOKMARK [2][-]{subsection.2.6}{Backtesting and Model Validation}{section.2}% 20
-\BOOKMARK [3][-]{subsubsection.2.6.1}{Testing Methodologies}{subsection.2.6}% 21
-\BOOKMARK [3][-]{subsubsection.2.6.2}{Test Data Length}{subsection.2.6}% 22
-\BOOKMARK [3][-]{subsubsection.2.6.3}{Sharpe Ratio}{subsection.2.6}% 23
-\BOOKMARK [1][-]{section.3}{Data}{}% 24
-\BOOKMARK [2][-]{subsection.3.1}{Data Processing}{section.3}% 25
-\BOOKMARK [3][-]{subsubsection.3.1.1}{Log Difference Transformation and Aggregation}{subsection.3.1}% 26
-\BOOKMARK [3][-]{subsubsection.3.1.2}{Data Scaling}{subsection.3.1}% 27
-\BOOKMARK [3][-]{subsubsection.3.1.3}{Reverse Data Scaling}{subsection.3.1}% 28
-\BOOKMARK [3][-]{subsubsection.3.1.4}{Price Reconstruction}{subsection.3.1}% 29
-\BOOKMARK [2][-]{subsection.3.2}{Synthetic Data Generation}{section.3}% 30
-\BOOKMARK [1][-]{section.4}{Implementation}{}% 31
-\BOOKMARK [2][-]{subsection.4.1}{Process Overview}{section.4}% 32
-\BOOKMARK [2][-]{subsection.4.2}{Feedforward Neural Networks}{section.4}% 33
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Notation and Network Representation}{subsection.4.2}% 34
-\BOOKMARK [3][-]{subsubsection.4.2.2}{Activation Functions}{subsection.4.2}% 35
-\BOOKMARK [3][-]{subsubsection.4.2.3}{Backpropagation}{subsection.4.2}% 36
-\BOOKMARK [3][-]{subsubsection.4.2.4}{Gradient Descent Algorithms}{subsection.4.2}% 37
-\BOOKMARK [3][-]{subsubsection.4.2.5}{Regularization}{subsection.4.2}% 38
-\BOOKMARK [3][-]{subsubsection.4.2.6}{Learning Rate Schedule}{subsection.4.2}% 39
-\BOOKMARK [2][-]{subsection.4.3}{Restricted Boltzmann Machines}{section.4}% 40
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Contrastive Divergence}{subsection.4.3}% 41
-\BOOKMARK [3][-]{subsubsection.4.3.2}{CD-1 and SGD}{subsection.4.3}% 42
-\BOOKMARK [2][-]{subsection.4.4}{Stacked Autoencoders}{section.4}% 43
-\BOOKMARK [3][-]{subsubsection.4.4.1}{Sigmoid based Greedy Layerwise SAE Training}{subsection.4.4}% 44
-\BOOKMARK [3][-]{subsubsection.4.4.2}{ReLU based SAE Training}{subsection.4.4}% 45
-\BOOKMARK [3][-]{subsubsection.4.4.3}{Denoising Autoencoders}{subsection.4.4}% 46
-\BOOKMARK [2][-]{subsection.4.5}{Variance Based Weight Initializations}{section.4}% 47
-\BOOKMARK [3][-]{subsubsection.4.5.1}{Initialization Rationale}{subsection.4.5}% 48
-\BOOKMARK [3][-]{subsubsection.4.5.2}{Initializations}{subsection.4.5}% 49
-\BOOKMARK [2][-]{subsection.4.6}{CSCV \046 PBO}{section.4}% 50
-\BOOKMARK [2][-]{subsection.4.7}{Money Management Strategy and Returns}{section.4}% 51
-\BOOKMARK [1][-]{section.5}{Process Implementation}{}% 52
-\BOOKMARK [2][-]{subsection.5.1}{Data Preparation}{section.5}% 53
-\BOOKMARK [2][-]{subsection.5.2}{Data Segregation}{section.5}% 54
-\BOOKMARK [2][-]{subsection.5.3}{SAE Training}{section.5}% 55
-\BOOKMARK [2][-]{subsection.5.4}{Prediction Network Training}{section.5}% 56
-\BOOKMARK [2][-]{subsection.5.5}{Price Reconstruction}{section.5}% 57
-\BOOKMARK [2][-]{subsection.5.6}{Money Management Strategy}{section.5}% 58
-\BOOKMARK [2][-]{subsection.5.7}{CSCV \046 PBO}{section.5}% 59
-\BOOKMARK [2][-]{subsection.5.8}{Process Diagram}{section.5}% 60
-\BOOKMARK [1][-]{section.6}{Results}{}% 61
-\BOOKMARK [2][-]{subsection.6.1}{Datasets Used}{section.6}% 62
-\BOOKMARK [3][-]{subsubsection.6.1.1}{Synthetic Datasets}{subsection.6.1}% 63
-\BOOKMARK [3][-]{subsubsection.6.1.2}{Actual Datasets}{subsection.6.1}% 64
-\BOOKMARK [2][-]{subsection.6.2}{Linearity, Complexity and Structure of Data}{section.6}% 65
-\BOOKMARK [3][-]{subsubsection.6.2.1}{GBM Generated Data}{subsection.6.2}% 66
-\BOOKMARK [3][-]{subsubsection.6.2.2}{Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{subsection.6.2}% 67
-\BOOKMARK [2][-]{subsection.6.3}{Weight Initialization Techniques}{section.6}% 68
-\BOOKMARK [3][-]{subsubsection.6.3.1}{RBM Pretraining for Sigmoid Networks}{subsection.6.3}% 69
-\BOOKMARK [3][-]{subsubsection.6.3.2}{Variance Based Weight Initialization Techniques}{subsection.6.3}% 70
-\BOOKMARK [3][-]{subsubsection.6.3.3}{Effects of Network Size}{subsection.6.3}% 71
-\BOOKMARK [2][-]{subsection.6.4}{Feature Selection and Data Aggregation}{section.6}% 72
-\BOOKMARK [2][-]{subsection.6.5}{Learning Optimizations}{section.6}% 73
-\BOOKMARK [3][-]{subsubsection.6.5.1}{Learning Rate Schedules}{subsection.6.5}% 74
-\BOOKMARK [3][-]{subsubsection.6.5.2}{Regularization}{subsection.6.5}% 75
-\BOOKMARK [3][-]{subsubsection.6.5.3}{Denoising}{subsection.6.5}% 76
-\BOOKMARK [1][-]{section.7}{Conclusions}{}% 77
-\BOOKMARK [1][-]{section.8}{Appendix}{}% 78
-\BOOKMARK [2][-]{subsection.8.1}{Additional Results}{section.8}% 79
-\BOOKMARK [3][-]{subsubsection.8.1.1}{Effects of Network Size on SAE and FFN for Synthetic Data}{subsection.8.1}% 80
-\BOOKMARK [2][-]{subsection.8.2}{Configuration Sets Used}{section.8}% 81
-\BOOKMARK [3][-]{subsubsection.8.2.1}{Configuration1 - SAE}{subsection.8.2}% 82
-\BOOKMARK [3][-]{subsubsection.8.2.2}{Config2 - Predictive FFN}{subsection.8.2}% 83
-\BOOKMARK [3][-]{subsubsection.8.2.3}{Configuration3 - SAE}{subsection.8.2}% 84
-\BOOKMARK [3][-]{subsubsection.8.2.4}{Configuration4 - Predictive FFN}{subsection.8.2}% 85
-\BOOKMARK [3][-]{subsubsection.8.2.5}{Configuration5 - SAE}{subsection.8.2}% 86
-\BOOKMARK [3][-]{subsubsection.8.2.6}{Configuration6 - Predictive FFN}{subsection.8.2}% 87
-\BOOKMARK [3][-]{subsubsection.8.2.7}{Configuration7 - SAE}{subsection.8.2}% 88
-\BOOKMARK [1][-]{section.9}{References}{}% 89
+\BOOKMARK [1][-]{section*.1}{List of Figures}{}% 1
+\BOOKMARK [1][-]{section*.1}{List of Tables}{}% 2
+\BOOKMARK [0][-]{part.1}{I Online non-linear prediction of financial time-series patterns}{}% 3
+\BOOKMARK [1][-]{section.1}{Introduction}{part.1}% 4
+\BOOKMARK [1][-]{section.2}{Literature Review}{part.1}% 5
+\BOOKMARK [2][-]{subsection.2.1}{Technical Analysis}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.2}{Neural Networks}{section.2}% 7
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Training and Backpropagation}{subsection.2.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Activation Functions}{subsection.2.2}% 9
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Deep Learning}{subsection.2.2}% 10
+\BOOKMARK [3][-]{subsubsection.2.2.4}{Backpropagation Improvements}{subsection.2.2}% 11
+\BOOKMARK [2][-]{subsection.2.3}{Stacked Autoencoders}{section.2}% 12
+\BOOKMARK [3][-]{subsubsection.2.3.1}{High Dimensional Data Reduction}{subsection.2.3}% 13
+\BOOKMARK [3][-]{subsubsection.2.3.2}{Deep Belief Networks}{subsection.2.3}% 14
+\BOOKMARK [3][-]{subsubsection.2.3.3}{Stacked Denoising Autoencoders}{subsection.2.3}% 15
+\BOOKMARK [3][-]{subsubsection.2.3.4}{Pre-training}{subsection.2.3}% 16
+\BOOKMARK [3][-]{subsubsection.2.3.5}{Time Series Applications}{subsection.2.3}% 17
+\BOOKMARK [3][-]{subsubsection.2.3.6}{Financial Applications}{subsection.2.3}% 18
+\BOOKMARK [2][-]{subsection.2.4}{Data Segmentation}{section.2}% 19
+\BOOKMARK [2][-]{subsection.2.5}{Online Learning Algorithms and Gradient Descent}{section.2}% 20
+\BOOKMARK [2][-]{subsection.2.6}{Backtesting and Model Validation}{section.2}% 21
+\BOOKMARK [3][-]{subsubsection.2.6.1}{Testing Methodologies}{subsection.2.6}% 22
+\BOOKMARK [3][-]{subsubsection.2.6.2}{Test Data Length}{subsection.2.6}% 23
+\BOOKMARK [3][-]{subsubsection.2.6.3}{Sharpe Ratio}{subsection.2.6}% 24
+\BOOKMARK [1][-]{section.3}{Data}{part.1}% 25
+\BOOKMARK [2][-]{subsection.3.1}{Data Processing}{section.3}% 26
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Log Difference Transformation and Aggregation}{subsection.3.1}% 27
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Data Scaling}{subsection.3.1}% 28
+\BOOKMARK [3][-]{subsubsection.3.1.3}{Reverse Data Scaling}{subsection.3.1}% 29
+\BOOKMARK [3][-]{subsubsection.3.1.4}{Price Reconstruction}{subsection.3.1}% 30
+\BOOKMARK [2][-]{subsection.3.2}{Synthetic Data Generation}{section.3}% 31
+\BOOKMARK [1][-]{section.4}{Implementation}{part.1}% 32
+\BOOKMARK [2][-]{subsection.4.1}{Process Overview}{section.4}% 33
+\BOOKMARK [2][-]{subsection.4.2}{Feedforward Neural Networks}{section.4}% 34
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Notation and Network Representation}{subsection.4.2}% 35
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Activation Functions}{subsection.4.2}% 36
+\BOOKMARK [3][-]{subsubsection.4.2.3}{Backpropagation}{subsection.4.2}% 37
+\BOOKMARK [3][-]{subsubsection.4.2.4}{Gradient Descent Algorithms}{subsection.4.2}% 38
+\BOOKMARK [4][-]{paragraph.4.2.4.1}{Online Gradient Descent}{subsubsection.4.2.4}% 39
+\BOOKMARK [3][-]{subsubsection.4.2.5}{Regularization}{subsection.4.2}% 40
+\BOOKMARK [3][-]{subsubsection.4.2.6}{Learning Rate Schedule}{subsection.4.2}% 41
+\BOOKMARK [2][-]{subsection.4.3}{Restricted Boltzmann Machines}{section.4}% 42
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Contrastive Divergence}{subsection.4.3}% 43
+\BOOKMARK [3][-]{subsubsection.4.3.2}{CD-1 and SGD}{subsection.4.3}% 44
+\BOOKMARK [2][-]{subsection.4.4}{Stacked Autoencoders}{section.4}% 45
+\BOOKMARK [3][-]{subsubsection.4.4.1}{Sigmoid based Greedy Layerwise SAE Training}{subsection.4.4}% 46
+\BOOKMARK [3][-]{subsubsection.4.4.2}{ReLU based SAE Training}{subsection.4.4}% 47
+\BOOKMARK [3][-]{subsubsection.4.4.3}{Denoising Autoencoders}{subsection.4.4}% 48
+\BOOKMARK [4][-]{paragraph.4.4.3.1}{Additive Gaussian Noise}{subsubsection.4.4.3}% 49
+\BOOKMARK [4][-]{paragraph.4.4.3.2}{Masking Noise}{subsubsection.4.4.3}% 50
+\BOOKMARK [2][-]{subsection.4.5}{Variance Based Weight Initializations}{section.4}% 51
+\BOOKMARK [3][-]{subsubsection.4.5.1}{Initialization Rationale}{subsection.4.5}% 52
+\BOOKMARK [3][-]{subsubsection.4.5.2}{Initializations}{subsection.4.5}% 53
+\BOOKMARK [4][-]{paragraph.4.5.2.1}{Xavier}{subsubsection.4.5.2}% 54
+\BOOKMARK [4][-]{paragraph.4.5.2.2}{He}{subsubsection.4.5.2}% 55
+\BOOKMARK [4][-]{paragraph.4.5.2.3}{He-Adjusted}{subsubsection.4.5.2}% 56
+\BOOKMARK [2][-]{subsection.4.6}{CSCV \046 PBO}{section.4}% 57
+\BOOKMARK [2][-]{subsection.4.7}{Money Management Strategy and Returns}{section.4}% 58
+\BOOKMARK [3][-]{paragraph.4.7.0.1}{Input Variables}{subsection.4.7}% 59
+\BOOKMARK [4][-]{paragraph.4.7.0.2}{Calculated Stock Variables}{paragraph.4.7.0.1}% 60
+\BOOKMARK [4][-]{paragraph.4.7.0.3}{Calculated Strategy Variables}{paragraph.4.7.0.1}% 61
+\BOOKMARK [1][-]{section.5}{Process Implementation}{part.1}% 62
+\BOOKMARK [2][-]{subsection.5.1}{Data Preparation}{section.5}% 63
+\BOOKMARK [3][-]{paragraph.5.1.0.1}{Data Window Aggregations}{subsection.5.1}% 64
+\BOOKMARK [4][-]{paragraph.5.1.0.2}{Point Predictions}{paragraph.5.1.0.1}% 65
+\BOOKMARK [4][-]{paragraph.5.1.0.3}{Scaling}{paragraph.5.1.0.1}% 66
+\BOOKMARK [2][-]{subsection.5.2}{Data Segregation}{section.5}% 67
+\BOOKMARK [2][-]{subsection.5.3}{SAE Training}{section.5}% 68
+\BOOKMARK [2][-]{subsection.5.4}{Prediction Network Training}{section.5}% 69
+\BOOKMARK [2][-]{subsection.5.5}{Price Reconstruction}{section.5}% 70
+\BOOKMARK [2][-]{subsection.5.6}{Money Management Strategy}{section.5}% 71
+\BOOKMARK [2][-]{subsection.5.7}{CSCV \046 PBO}{section.5}% 72
+\BOOKMARK [2][-]{subsection.5.8}{Process Diagram}{section.5}% 73
+\BOOKMARK [1][-]{section.6}{Results}{part.1}% 74
+\BOOKMARK [2][-]{subsection.6.1}{Datasets Used}{section.6}% 75
+\BOOKMARK [3][-]{subsubsection.6.1.1}{Synthetic Datasets}{subsection.6.1}% 76
+\BOOKMARK [4][-]{paragraph.6.1.1.1}{Synthetic6}{subsubsection.6.1.1}% 77
+\BOOKMARK [4][-]{paragraph.6.1.1.2}{Synthetic10}{subsubsection.6.1.1}% 78
+\BOOKMARK [3][-]{subsubsection.6.1.2}{Actual Datasets}{subsection.6.1}% 79
+\BOOKMARK [4][-]{paragraph.6.1.2.1}{AGL}{subsubsection.6.1.2}% 80
+\BOOKMARK [4][-]{paragraph.6.1.2.2}{AGL\046ACL}{subsubsection.6.1.2}% 81
+\BOOKMARK [4][-]{paragraph.6.1.2.3}{Scaling10}{subsubsection.6.1.2}% 82
+\BOOKMARK [2][-]{subsection.6.2}{Linearity, Complexity and Structure of Data}{section.6}% 83
+\BOOKMARK [3][-]{subsubsection.6.2.1}{GBM Generated Data}{subsection.6.2}% 84
+\BOOKMARK [3][-]{subsubsection.6.2.2}{Activations: Linear, Sigmoid, ReLU and Leaky ReLU}{subsection.6.2}% 85
+\BOOKMARK [4][-]{paragraph.6.2.2.1}{SAE Activations and Scaling}{subsubsection.6.2.2}% 86
+\BOOKMARK [4][-]{paragraph.6.2.2.2}{Predictive FFN Activations and Scaling}{subsubsection.6.2.2}% 87
+\BOOKMARK [4][-]{paragraph.6.2.2.3}{Leaky ReLU vs ReLU}{subsubsection.6.2.2}% 88
+\BOOKMARK [2][-]{subsection.6.3}{Weight Initialization Techniques}{section.6}% 89
+\BOOKMARK [3][-]{subsubsection.6.3.1}{RBM Pretraining for Sigmoid Networks}{subsection.6.3}% 90
+\BOOKMARK [4][-]{paragraph.6.3.1.1}{Sigmoid Activation Functions}{subsubsection.6.3.1}% 91
+\BOOKMARK [3][-]{subsubsection.6.3.2}{Variance Based Weight Initialization Techniques}{subsection.6.3}% 92
+\BOOKMARK [3][-]{subsubsection.6.3.3}{Effects of Network Size}{subsection.6.3}% 93
+\BOOKMARK [2][-]{subsection.6.4}{Feature Selection and Data Aggregation}{section.6}% 94
+\BOOKMARK [3][-]{paragraph.6.4.0.1}{Feature Selection}{subsection.6.4}% 95
+\BOOKMARK [4][-]{paragraph.6.4.0.2}{Data Aggregation}{paragraph.6.4.0.1}% 96
+\BOOKMARK [4][-]{paragraph.6.4.0.3}{Historical Data and SGD training}{paragraph.6.4.0.1}% 97
+\BOOKMARK [2][-]{subsection.6.5}{Learning Optimizations}{section.6}% 98
+\BOOKMARK [3][-]{subsubsection.6.5.1}{Learning Rate Schedules}{subsection.6.5}% 99
+\BOOKMARK [3][-]{subsubsection.6.5.2}{Regularization}{subsection.6.5}% 100
+\BOOKMARK [3][-]{subsubsection.6.5.3}{Denoising}{subsection.6.5}% 101
+\BOOKMARK [1][-]{section.7}{Conclusions}{part.1}% 102
+\BOOKMARK [1][-]{section.8}{Appendix}{part.1}% 103
+\BOOKMARK [2][-]{subsection.8.1}{Additional Results}{section.8}% 104
+\BOOKMARK [3][-]{subsubsection.8.1.1}{Effects of Network Size on SAE and FFN for Synthetic Data}{subsection.8.1}% 105
+\BOOKMARK [2][-]{subsection.8.2}{Configuration Sets Used}{section.8}% 106
+\BOOKMARK [3][-]{subsubsection.8.2.1}{Configuration1 - SAE}{subsection.8.2}% 107
+\BOOKMARK [3][-]{subsubsection.8.2.2}{Config2 - Predictive FFN}{subsection.8.2}% 108
+\BOOKMARK [3][-]{subsubsection.8.2.3}{Configuration3 - SAE}{subsection.8.2}% 109
+\BOOKMARK [3][-]{subsubsection.8.2.4}{Configuration4 - Predictive FFN}{subsection.8.2}% 110
+\BOOKMARK [3][-]{subsubsection.8.2.5}{Configuration5 - SAE}{subsection.8.2}% 111
+\BOOKMARK [3][-]{subsubsection.8.2.6}{Configuration6 - Predictive FFN}{subsection.8.2}% 112
+\BOOKMARK [3][-]{subsubsection.8.2.7}{Configuration7 - SAE}{subsection.8.2}% 113
+\BOOKMARK [1][-]{section.9}{References}{part.1}% 114
+\BOOKMARK [2][-]{paragraph.9.0.0.1}{Weight Initializations}{section.9}% 115
+\BOOKMARK [3][-]{paragraph.9.0.0.2}{Network Structures}{paragraph.9.0.0.1}% 116
+\BOOKMARK [4][-]{paragraph.9.0.0.3}{Data Windows}{paragraph.9.0.0.2}% 117
+\BOOKMARK [4][-]{paragraph.9.0.0.4}{Best network performance}{paragraph.9.0.0.2}% 118
+\BOOKMARK [4][-]{paragraph.9.0.0.5}{Regularization}{paragraph.9.0.0.2}% 119
+\BOOKMARK [4][-]{paragraph.9.0.0.6}{Linear vs ReLU: Smaller Network}{paragraph.9.0.0.2}% 120
+\BOOKMARK [4][-]{paragraph.9.0.0.7}{Leaky ReLU vs ReLU}{paragraph.9.0.0.2}% 121
+\BOOKMARK [4][-]{paragraph.9.0.0.8}{SAE Selection: MSE vs MAPE}{paragraph.9.0.0.2}% 122
+\BOOKMARK [4][-]{paragraph.9.0.0.9}{L1 Regularization}{paragraph.9.0.0.2}% 123
+\BOOKMARK [4][-]{paragraph.9.0.0.10}{Learning Rate Schedule Implementation}{paragraph.9.0.0.2}% 124
+\BOOKMARK [4][-]{paragraph.9.0.0.11}{Denoising - On/Off Feature Selection}{paragraph.9.0.0.2}% 125
+\BOOKMARK [4][-]{paragraph.9.0.0.12}{Validation Set Percentage}{paragraph.9.0.0.2}% 126
+\BOOKMARK [4][-]{paragraph.9.0.0.13}{Limited Synthetic Asset Tests}{paragraph.9.0.0.2}% 127
+\BOOKMARK [4][-]{paragraph.9.0.0.14}{1 Asset}{paragraph.9.0.0.2}% 128
+\BOOKMARK [4][-]{paragraph.9.0.0.15}{2 Asset}{paragraph.9.0.0.2}% 129
+\BOOKMARK [4][-]{paragraph.9.0.0.16}{3 Asset}{paragraph.9.0.0.2}% 130
+\BOOKMARK [4][-]{paragraph.9.0.0.17}{4 Asset}{paragraph.9.0.0.2}% 131
+\BOOKMARK [4][-]{paragraph.9.0.0.18}{Effect of Rolling Window Sizes}{paragraph.9.0.0.2}% 132
+\BOOKMARK [4][-]{paragraph.9.0.0.19}{Sigmoid Pre-training Efficacy}{paragraph.9.0.0.2}% 133
+\BOOKMARK [4][-]{paragraph.9.0.0.20}{SAE Linear Activation Tests}{paragraph.9.0.0.2}% 134
+\BOOKMARK [4][-]{paragraph.9.0.0.21}{Denoising SAEs}{paragraph.9.0.0.2}% 135
+\BOOKMARK [4][-]{paragraph.9.0.0.22}{Linear Activations in FFN}{paragraph.9.0.0.2}% 136
+\BOOKMARK [4][-]{paragraph.9.0.0.23}{SAE Effects}{paragraph.9.0.0.2}% 137
+\BOOKMARK [4][-]{paragraph.9.0.0.24}{Predictive Network Sizes}{paragraph.9.0.0.2}% 138
+\BOOKMARK [4][-]{paragraph.9.0.0.25}{Cross Validation Effects}{paragraph.9.0.0.2}% 139
+\BOOKMARK [4][-]{paragraph.9.0.0.26}{Returns Analysis}{paragraph.9.0.0.2}% 140
+\BOOKMARK [4][-]{paragraph.9.0.0.27}{Scaling}{paragraph.9.0.0.2}% 141
+\BOOKMARK [4][-]{paragraph.9.0.0.28}{General Configurations \046 CV}{paragraph.9.0.0.2}% 142
+\BOOKMARK [4][-]{paragraph.9.0.0.29}{Return Graphs}{paragraph.9.0.0.2}% 143
+\BOOKMARK [4][-]{paragraph.9.0.0.30}{Price Predictions}{paragraph.9.0.0.2}% 144
+\BOOKMARK [4][-]{paragraph.9.0.0.31}{Sigmoid Pre-training}{paragraph.9.0.0.2}% 145
+\BOOKMARK [4][-]{paragraph.9.0.0.32}{General Configuration}{paragraph.9.0.0.2}% 146
+\BOOKMARK [4][-]{paragraph.9.0.0.33}{SAE Configurations \(945\)}{paragraph.9.0.0.2}% 147
+\BOOKMARK [4][-]{paragraph.9.0.0.34}{FFN Configurations \(2835\)}{paragraph.9.0.0.2}% 148
+\BOOKMARK [4][-]{paragraph.9.0.0.35}{16th June 2018}{paragraph.9.0.0.2}% 149
+\BOOKMARK [4][-]{paragraph.9.0.0.36}{29th March 2019}{paragraph.9.0.0.2}% 150
+\BOOKMARK [4][-]{paragraph.9.0.0.37}{12th April 2019}{paragraph.9.0.0.2}% 151
+\BOOKMARK [4][-]{paragraph.9.0.0.38}{26th April 2019}{paragraph.9.0.0.2}% 152
+\BOOKMARK [4][-]{paragraph.9.0.0.39}{17th May 2019}{paragraph.9.0.0.2}% 153
+\BOOKMARK [4][-]{paragraph.9.0.0.40}{21st June 2019}{paragraph.9.0.0.2}% 154
