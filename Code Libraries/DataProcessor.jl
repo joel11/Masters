@@ -2,7 +2,7 @@ module DataProcessor
 
 using DataGenerator, FFN, DataFrames, TrainingStructures, Distributions
 
-export DataframeDenoiseOnOff, AddNoiseToArray, AddNoiseToDataFrame, NullScaling, RerevseNull, GenerateNonRandomisedDataset, ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions, PrepareData
+export ReconstructSGDPrices, DataframeDenoiseOnOff, AddNoiseToArray, AddNoiseToDataFrame, NullScaling, RerevseNull, GenerateNonRandomisedDataset, ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions, PrepareData
 
 function PrepareData(data_config, dataset)
     data_raw = dataset == nothing ? GenerateDataset(data_config.data_seed, data_config.steps, data_config.variation_values) : dataset
@@ -53,8 +53,56 @@ function AddNoiseToDataFrame(df, variance)
     return newdf
 end
 
+function ReconstructSGDPrices(output_values, data_config, original_prices)
+
+    price_index = maximum(data_config.deltas)# - 1
+
+    prices = fill(0.0, (size(output_values)))
+
+    multipliers = (e).^Array(output_values)
+
+    #println("SGD")
+    #println("Output Size: ", size(output_values, 1))
+    #println("Original Prices Size: ", size(original_prices,1))
+    #println("Price Index: ", price_index)
+
+    for i in 1:size(output_values,1)
+        for c in 1:size(prices, 2)
+            #prices[(i+init_price_length),c] = prices[(i),c] * multipliers[i,c]
+            prices[(i),c] = original_prices[(price_index + i),c] * multipliers[i,c]
+        end
+    end
+
+    prices
+end
 
 function ReconstructPrices(output_values, data_config, original_prices)
+
+    output_ahead = data_config.prediction_steps[1]
+    price_index = (size(original_prices,1) - size(output_values,1) - output_ahead )
+
+    prices = fill(0.0, (size(output_values)))
+
+    multipliers = (e).^Array(output_values)
+
+    #println("OGD")
+    #println("Output Size: ", size(output_values, 1))
+    #println("Original Prices Size: ", size(original_prices,1))
+    #println("Price Index: ", price_index)
+
+
+    for i in 1:size(output_values,1)
+        for c in 1:size(prices, 2)
+            #prices[(i+init_price_length),c] = prices[(i),c] * multipliers[i,c]
+            prices[(i),c] = original_prices[(price_index + i),c] * multipliers[i,c]
+        end
+    end
+
+    prices
+end
+
+#=
+function ReconstructPricesOld(output_values, data_config, original_prices)
 
     output_ahead = data_config.prediction_steps[1]
     price_index = (size(original_prices,1) - size(output_values,1) - output_ahead)
@@ -74,6 +122,7 @@ function ReconstructPrices(output_values, data_config, original_prices)
 
     prices
 end
+=#
 
 function LimitedStandardizeData(data, parameters)
 

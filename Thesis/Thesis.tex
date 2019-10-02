@@ -59,6 +59,9 @@
 %\usepackage[linktocpage,colorlinks=true,linkcolor= {red!50!black}, urlcolor=grey, citecolor=blue!90, pdfborder={2 1 0}]{hyperref}
 \usepackage[capitalize]{cleveref} 
 
+\usepackage{svg}
+
+
 %MINE ----------------------------------------------
 
 \usepackage{xargs}                      % Use more than one optional parameter in a new commands
@@ -230,7 +233,7 @@ Chapter \ref{Results} is the final chapter, and discusses the results found from
 \section{Literature Review}\label{lr_LiteratureReview}
 \subsection{Technical Analysis}\label{lr_TechnicalAnalysis}
 
-Technical analysis is a financial analysis practice that makes use of past price data in order to identify market 
+Technical analysis is a financial analytical practice that makes use of past price data in order to identify market 
 structures, as well as forecast future price movements. The techniques are typically objective methodologies 
 which rely solely on past market data (price and volume). They stand in contrast to fundamental analysis, where 
 experts will consider a companies operations, management and future prospects in order to arrive at an evaluation. 
@@ -262,7 +265,9 @@ Financial markets have been shown to be complex and adaptive systems, where the 
 between participants can be highly non-linear \cite {Arthur}. Complex and dynamic systems such as these may 
 often exist at the 'order-disorder border' - they will generate certain non-random patterned and internal organisation, 
 which can be assessed and identified, however they will also exhibit a certain amount of randomness in their behaviours, 
-or 'chaos' \cite {Crutchfield}. As a result, trying to identify these patterns and structures is a simultaneously 
+or 'chaos' \cite {Crutchfield}. Further, it's been shown that there is enough signal to reconstruct 
+the phase space of chaotic systems from singular observations, encouraging that we might be able to perform 
+effective technical analysis in the context of financial markets \cite{Packard, Takens}. As a result, trying to identify these patterns and structures is a simultaneously 
 reasonable and notoriously difficult goal. While it is often clear in hindsight that the patterns exist, the amount of 
 noise and nonlinearity in the system can make prediction challenging.
 Fittingly then, neural networks have become a popular choice for modelling within the financial markets. Due to 
@@ -327,16 +332,17 @@ Shortly after, LeCun et al. applied the BP algorithm to CNNs with adaptive conne
 impressive performance for the time in classifying handwritten images, with the images as a direct input (rather than a feature vector) \cite{LeCun3}.
 \hfill \break 
 
-While many improvements were made during this time via gradient descent modifications (as expanded on in section \ref{OGD}), the 
+While many improvements were made during this time via gradient descent modifications, the 
 models were typically of a shallow nature due to problems encountered trying to train deeper networks. 
 Early experiments with deep networks resulted in poor performance due to what is now widely known as the problem 
 of either vanishing or exploding gradients \cite{Pascanu}. Essentially, as more layers are added to the network, the backpropagation 
 algorithm (with typical activation function neurons), results in error signals that either shrink or grow out of bounds at an 
-exponential rate. One of first suggested and primary solutions to the problem is to perform pre-training on the 
-network through unsupervised learning  \cite{Schmidhuber}, which is discussed more fully in \ref{DBN}.
+exponential rate. One of the first suggested and primary solutions to the problem is to perform pre-training on the 
+network through unsupervised learning  \cite{Schmidhuber}, which is discussed more fully in \ref{DBN}. Variance based 
+weight initialization techniques have grown in popularity in recent years, as discussed in \ref{lr_weight_init}.
 \hfill \break 
 
-There were also initial concern that the BP algorithm as applied to high dimensional neural networks would result 
+There were also initial concerns that the BP algorithm as applied to high dimensional neural networks would result 
 in the network weights being trapped in local minima if a simple gradient descent was used (e.g. where no small 
 changes to the configuration would reduce the average error rate) \cite{LeCun4}. 
 However, empirically, this tends not to so problematic, and large networks usually reach solutions of equitable 
@@ -392,43 +398,28 @@ occasions with record breaking model performances in recognition, notably in Ima
 \hfill \break 
 
 As more research into deep networks was conducted, it became apparent that with large enough datasets, the
- layerwise pretraining of networks was not actually necessary to achieve high performance standards 
+ layerwise pre-training of networks was not actually necessary to achieve high performance standards 
  \cite{ImageNet, Glorot2, Ciresan}. When training for long enough, it was reported that the pre-training offered little to no 
  benefit, though these models were typically using datasets far larger than were attempted before (as a result of
-  hardware improvements enabling as much). While these results did require certain attention was paid to the 
+  hardware improvements enabling as much). While these results did require that certain attention was paid to the 
   initialization, as well as the use of nonlinear activation units, it did suggest that pre-training largely acted as a prior 
   which may not be necessary if large enough labelled datasets are available \cite{Bengio3}. Naturally, pre-training was still 
   implemented to prevent overfitting in smaller datasets.
 \hfill \break 
 
-\subsubsection{Backpropagation Improvements}
+\subsubsection{Weight Initialization Improvements}\label{lr_weight_init}
 
-One of the instrumental improvements which aided the above achievements, was to modify the backpropagation 
-algorithm using the ‘dropout’ technique, as suggested by Hinton et al \cite{Hinton4}. When training of large networks is 
-attempted on small datasets, it often results in overfitting and poor results on out of sample data. Dropout helps 
-resolve this by randomly excluding a certain percentage (usually 0.5) of feature detectors on each training iteration. 
-The effect is to stop co-adaptations of feature detectors, and by rather training each neuron in a wide variety of 
-internal configurations, it forces them to take on more usefully generalizable characteristics (it was noted that this
-is not a dissimilar technique to ensemble methods, or bagging). The authors were able to show that the method
-resulting in significant improvements on benchmark data sets (e.g. MNIST, CIFAR-10), and that a simpler model 
-using dropout was able to achieve near comparable performance for the ImageNet dataset.
-\hfill \break 
+One of the more critical innovations to allow effective training of deep networks without using pre-training was the development of more sophisticated techniques for weight initialization. One of the first and most popular of these was presented by Glorot and Bengio for use in Sigmoid based networks, 
+and is commonly referred to as Xavier/Glorot initialization \cite{Glorot}. The technique is layer specific and based on a linear activation
+hypothesis, such that the initial weights would maintain the same variance for input for information that is passed backwards as in 
+accordance with the nature of the activation function. While the assumption of linearity is not entirely correct, they point out that as the 
+start of the learning process, it is typically the area of the activations where the gradient is close to 1 which is being explore, thus intially approximating 
+a linear effect. The effect is a technique that increases learning efficacy and optima found \cite{Glorot}. \newline
 
-Goodfellow et al. used the dropout technique as the basis for their ‘maxout’ activation function technique, which 
-leverages and improves on dropout’s fast optimisation and accuracy through averaging characteristics. The 
-maxout model was shown to achieve state of the art performance on benchmark datasets, as well as have a 
-strong theoretical grounding \cite{Goodfellow}. Further work was done by Wang et al., which improved on the dropout 
-(and potentially maxout) techniques through fast sampling, resulting in an order of magnitude speedup in
-training \cite{Wang2}.
-\hfill \break 
-
-
-
-
-
-
-
-
+This same methodology was extended for the ReLU activation by He et. al, once again based on the linearity hypothesis around the 
+relevant activation function, (Parametric Rectified Linear Units in this case). The combination of ReLU activations, which are computationally inexpensive and do not suffer from learning slowdown, as well as an effective weight initialization technique such that pretraining was not necessary produced a seminal FNN training framework. He et al. were able to 
+achieve state of the art performance and produced the best known error rate at the time on the ImageNet dataset \cite{He}. The efficacy of these techniques has established 
+them as norms in the training of deep neural networks.
 
 
 \subsection{Stacked Autoencoders}\label{lr_SAE}
@@ -488,7 +479,7 @@ lower dimension, and a symmetrical decoder network to recover the data from the 
 neural networks, the gradient weights can be trained through the feedforward and backpropagation algorithms.  
 \hfill \break 
 
-The primary challenge presented here is the initial weighting of the networks - with large initial weights the 
+The primary challenge presented here was the initial weighting of the networks - with large initial weights the 
 autoencoder will often find a poor local minima, and with small initial weights the gradients are too small to 
 effectively train deep layered networks. The critical suggestion by Hinton et al. was to used layered Restricted 
 Boltzmann Machines (RBM) in order to initialise the weights. For each layer of the desired autoencoder, a RBM is 
@@ -504,7 +495,7 @@ effective than PCA or shallow autoencoders on multiple dataset types.
  \label{figure-DBN-RBM}
  \end{figure}
  
-\subsubsection {Stacked Denoising Autoencoders}\label{lr_SDAE}
+\subsubsection{Stacked Denoising Autoencoders}\label{lr_SDAE}
 
  The second important piece of work was the development of a denoising autoencoder (DAE), by Vincent  et al. \cite{Vincent}. 
  One of the problems identified in the DBN model (and those similar), is that if the encoder dimensions were too high, 
@@ -528,11 +519,11 @@ in the Stacked Denoising Autoencoder (SDAE) formation, only the initial input is
 input from layer to layer). It was shown that the SDAE model outperformed previous AE and DBN networks on 
 numerous benchmark datasets \cite{Vincent} . 
 
-\subsubsection {Pre-training}
+\subsubsection{Pre-training}
 
 The methods described above follow a similar approach: greedy layer-wise unsupervised pre-training in order to 
 determine initial weights, followed by supervised fine tuning to arrive at the final model. It is shown numerous times, 
-that the pretraining process results in significant performance gains \cite{Vincent}. However it is not immediately apparent, 
+that the pretraining process can result in significant performance gains \cite{Vincent}. However it is not immediately apparent, 
 given the nature of backpropagation algorithms and the like, why this is the case. Erhan et al. performed 
 extensive empirical simulations in order to suggest an explanation to the mechanism of pre-training \cite{Erhan}.
  \hfill \break 
@@ -542,7 +533,7 @@ the unsupervised pre-training results in a form of regularization on the model -
 bias introduced acts as a prior to direct the model configuration towards a sample space that is effective for the unsupervised 
 learning generalization optimisations.
 
-\subsubsection {Time Series Applications}
+\subsubsection{Time Series Applications}
 
 The autoencoder papers reviewed so far in this section derive their results primarily from classification problems, 
 and so do not necessarily account for the problems involved with time series as described in \ref{HDDR}. Due to 
@@ -552,7 +543,7 @@ it is worth pointing out that Stacked Autoencoder (SAE) implementations have bee
  time series systems.  
  \hfill \break 
 
-Lv et al.  implemented a deep learning SAE model using the methods described in \ref{SDAE} in order to 
+Lv et al.  implemented a deep learning SAE model using the methods described in \ref{lr_SDAE} in order to 
 predict traffic flow at various time intervals (15, 30, 45 and 60 minutes) - a problem not so structurally dissimilar 
 from what will be presented in this paper \cite{Lv}. They were able to show that the deep SAE was able to offer prediction 
 results which were both objectively good and also persistently outperformed the comparison models used 
@@ -604,52 +595,6 @@ Recurrent Autoencoder for multidimensional time series prediction \cite{Hsu}. Th
 that the use of AEs and SAEs both by themselves and when used as an assisting technique result in more accurate 
 prediction results and less computationally expensive training.
 
-\subsection{Data Segmentation}
-\hfill
-
-One of the aspects of time series not yet discussed is how the data might be segmented for analysis. 
-Financial pattern matching, as discussed in \ref{TechnicalAnalysis}, requires methodologies to decide the length of data to 
-consider when determining whether a subset of data matches a pattern or not. 
-\hfill\break
-
-There are numerous classical approaches to this problem, which were widely applied in machine learning prior to 
-the resurgence in deep learning. One of the earliest and more common approaches was the ‘Sliding Window’, 
-where each the model input for each observation is ‘padded’ by a predetermined number of observations that 
-occurred both prior and after the one in question. This has the advantage of being fairly model agnostic, but fails 
-to capture any correlations in the dependent variable values \cite{Chu}. The Recurrent Sliding Window method 
-aims to resolve this by including the same number of prior predictions made as part of the input. In this case, input 
-would be ${<x_{t-d},...x_{t},…,x_{t+d}> and <y_{t-d},...,y_t>}$. This was shown to be significantly more effective than the plain 
-sliding window method \cite{Bakiri}. Notably, the sliding window approach can only be implemented in an offline 
-model.
-\hfill\break
-
-These methods can be adapted to take on online formats, as well as incorporate data reduction benefits 
-through algorithms such as Piecewise Linear Approximation (PLA), which adapts a linear representation to the 
-leading portion of the window. Some novel approaches (Feasible Space Window and it’s stepwise adaption) were 
-suggested by Liu et al. in order to compensate for the computational requirements of reprocessing the entire 
-window at each step for online models \cite{Liu}.
-\hfill \break 
-
-Window based methods represent a fairly static and unsophisticated approach to data segmentation. 
-A suggested solution to this is to segment the data by dynamically identifying significant partition points, 
-known as perceptual important points (PIP) \cite{Chung}. The computational cost of identifying PIPs was initially 
-rather large, making them unsuitable for quickly changing and dynamic environments such as finance. 
-However, Zhou et al. suggested a novel approach which reduced computational costs through intelligent binary 
-tree traversal. They were able to show this approach was effective in identifying traditional financial stock patterns 
-with the use of a layered neural network \cite{Zhou}. In a similar fashion, input data turning points (TP) were shown to 
-potentially offer lower error rates than PIPs by Yin et al. \cite{Yin}.
-\hfill \break 
-
-More recently, Wan et al. conducted a review on the effect of segmentation on financial time series pattern 
-matching, comparing perceptual important points, piecewise aggregate approximations, piecewise linear 
-approximations and turning point based methods \cite{Wan}. They use several pattern matching algorithms 
-(template-based, rule-based, hybrid, decision tree, and symbolic aggregate approximation) for each of the 
-segmentation methods in order to determine their effect on a broader level. The analysis was performed on real 
-stock market data, as well as synthetic data generated to display common patterns such as positive/negative 
-head and shoulders (H\&S). Measuring accuracy, precision and recall, they showed that PIP based segmentation 
-generally offered superior results to the others (though it is worth noting that there were various performance 
-differences within the segmentation methods depending on the matching algorithm used).
-
 \subsection{Online Learning Algorithms and Gradient Descent} \label{lr_OGD}
 \hfill
 
@@ -674,7 +619,7 @@ that ‘final’ phase convergence tended to fluctuate around the optima due to 
 gradients \cite{LeCun, Bottou2}. Bottou and Cun showed in fact, that it is more practical to consider the convergence towards
  the parameters of the optima, rather than the optima itself (as defined by the cost function) - the difference 
  between the learning speed and optimization speed, respectively \cite{Bottou}. Theoretical and empirical findings were 
- presented to show that a stochastic online gradient descent (SGD) algorithm \textbf{[referenceappendix] }was able to 
+ presented to show that a stochastic online gradient descent algorithm was able to 
  outperform the batch model for parameter estimation, and was able to asymptotically outperform in the number of 
  samples processed in a time period. The stochastic aspect of the algorithm is related to random observations 
  from batch sample groups being used as the gradient basis. Theoretically, this slows down the convergence, but 
@@ -682,19 +627,22 @@ gradients \cite{LeCun, Bottou2}. Bottou and Cun showed in fact, that it is more 
  successful \cite{Shalev, Zhang}. 
  \hfill\break
  
- The SGD algorithm has resulted in a fair amount of further research due to its applicability to machine learning 
- and the online benefit, which can largely be group into two categories: improvements affecting gradient learning 
- and convergence rates, and processing improvements through parallelization.
-\hfill\break
- 
- One of the earlier improvements to convergence rates was the Momentum algorithm, as developed by Tseng \cite{Tseng}. 
- As noted, stochastic descent often introduces significant oscillation around an optima, which slows down 
- convergence. Momentum reduces this by decreasing movement in directions of high curvature, and increasing 
- increasing movement towards directions consistent with previous gradients (this is achieved through combining 
- gradient movements in opposite directions) .
+Stochastic gradient descent algorithms have resulted in a fair amount of further research due to their applicability to machine learning 
+ and the online benefit, especially in relation to their usage in neural networks.
 \hfill\break
 
-There have also been several attempts to introduce effective regularization into the SGD process. Bartlett et al. 
+\subsection{Gradient Learning Improvements}\label{lr_grad_improv}
+
+\subsubsection{Gradient Adjustments and Regularization}
+
+One of the earlier improvements to convergence rates was the Momentum algorithm, as developed by Tseng \cite{Tseng}. 
+As noted, stochastic descent often introduces significant oscillation around an optima, which slows down 
+convergence. Momentum reduces this by decreasing movement in directions of high curvature, and  
+increasing movement towards directions consistent with previous gradients (this is achieved through combining 
+gradient movements in opposite directions).
+\hfill\break
+
+There have been several attempts to introduce effective regularization into the SGD process. Bartlett et al. 
 presented Adaptive Online Gradient Descent, which implements an adaptive step size through a $\lambda$ 
 penalty on the learning rate, which was shown to be nearly optimal in a strong sense \cite{Bartlett}. Langford et al. 
 demonstrated a variation named Truncated Gradient, which introduced an enforced weight sparsity parameter. 
@@ -705,32 +653,52 @@ adjusting the updates to parameters according to frequency - e.g. larger updates
 smaller updates to frequent parameters \cite{Duchi, Zeiler}. 
 \hfill\break
 
-A parallel implementation of SGD largely rests on the idea of splitting up data to be processed in individual runs 
-of the gradient descent. The results are periodically aggregated, and the new model parameters are distributed 
-to processing nodes for further training \cite{Zinkevich}. Depending on the configuration, the variance within results can 
-result in poor convergence rates \cite{Mahajan}. Mahajan et al. suggest a novel implementation which improves the 
-distribution impacts through the use of better approximating functions in the processing nodes, which in turn 
-improves the efficacy of the algorithms convergence \cite{Mahajan}. Povey et al. presented a Natural Gradient SGD, 
-which improves the learning rates through the use of a factor matrix used on the new gradients. They were able 
-to show empirical evidence of this improving performance issues introduced from the parameter averaging 
-typically used in parallelization \cite{Povey}.
-\hfill\break
+\subsubsection{Dropout}
 
-There have been some more recent improvements focusing on making the SGD algorithm more dynamic, 
-including the Inconsistent SGD (ISGD) and AdaBatch adaptations. The idea behind ISGD is to treat the training 
-on a particular batch as a stochastic process, and adjust it according to the expected loss identified. Gradient 
-updates from small loss batches are relatively small compared to large loss batches, and so by focusing efforts 
-here ISGD is able to optimize performance. Wang et al. performed careful testing of SGD vs. ISGD and found 
-inconsistent training to consistently outperform in terms of convergence speed and results \cite{Wang}. It is worth 
-noting that due to its nature, ISGD can be effectively combined with other SGD improvements (e.g. Momentum, 
-as per the authors’ experiments). AdaBatch, as presented by Devarakonda et al., introduces dynamism through 
-the adjustment of batch sizes. Small batch sizes in SGD offer the benefit of faster convergence in fewer training 
-epochs, however larger batch sizes are more computationally efficient due to their applicability to parallelization. 
-The algorithm uses a monotonically increasing batch size, which is started small to gain traction in convergence, 
-and later increased to allow the benefits of data parallelism. The effect, as shown, is to offer improvements in 
-training performance of up to 6x, with less than 1\% of accuracy when compared to the fixed batch baselines \cite{Devarakonda}. 
-Both of these algorithms have been shown to be effective and applicable in the context of online neural network training.
-\hfill\break
+One of the instrumental improvements in further achievements, was to modify the backpropagation 
+algorithm using the ‘dropout’ technique, as suggested by Hinton et al \cite{Hinton4}. When training of large networks is 
+attempted on small datasets, it often results in overfitting and poor results on out of sample data. Dropout helps 
+resolve this by randomly excluding a certain percentage (usually 0.5) of feature detectors on each training iteration. 
+The effect is to stop co-adaptations of feature detectors, and by rather training each neuron in a wide variety of 
+internal configurations, it forces them to take on more usefully generalizable characteristics (it was noted that this
+is not a dissimilar technique to ensemble methods, or bagging). The authors were able to show that the method
+resulting in significant improvements on benchmark data sets (e.g. MNIST, CIFAR-10), and that a simpler model 
+using dropout was able to achieve near comparable performance for the ImageNet dataset.
+\hfill \break 
+
+Goodfellow et al. used the dropout technique as the basis for their ‘maxout’ activation function technique, which 
+leverages and improves on dropout’s fast optimisation and accuracy through averaging characteristics. The 
+maxout model was shown to achieve state of the art performance on benchmark datasets, as well as have a 
+strong theoretical grounding \cite{Goodfellow}. Further work was done by Wang et al., which improved on the dropout 
+(and potentially maxout) techniques through fast sampling, resulting in an order of magnitude speedup in
+training \cite{Wang2}.
+\hfill \break 
+
+
+
+\subsubsection{Learning Rate Schedules}
+
+Several more recent approaches look towards learning rate adjustment schedules rather than strategies to alter the 
+weight update, as with momentum and the like. A constant learning rate often suffers from one of two problems - 
+if set too high, it can cause divergent behaviour in the loss function, though if set too low, it can result in slow 
+learning or an inability to escape saddle points effectively. Finding an optimal learning rate requires some degree
+of testing, though even then a singular value may fail to achieve the same degree of efficacy as a range of values 
+explored throughou the solution space. \newline
+
+Learning rate scheduling has been proposed as a solution to this problem. These methods implement an repetitive cycle 
+for the learning rate, such that it is set through a range of values between a mimima and maxima, being adjusted slightly 
+with each new epoch. Smith suggests using the Cyclical Learning Rate to achieve this, and points out that part of the benefit 
+in learning rate schedules is the ability to jump out of sharp optima points which may not generalise well to unseen data \cite{Smith}. 
+It's shown that this implementation can have significant performance effects in reaching either the same optima in fewer epochs or a better 
+overall optima, including when used in conjunction with other learning optimizations noted in \ref{lr_grad_improv}. These results were 
+shown against standard datasets such as CIFAR-10, CIFAR-100 and Imagent \cite{Smith}. \newline
+
+Similarly, Loshchilov and Hutter, expand on this and present Stochastic Gradient Descent with Warm Restarts \cite{Loshchilov}. The approach is 
+implemented similarly, but rather follows an asymmetric cycle from a maximum to a minimum, and then starting once again at the maximum once the set number 
+of epochs has passed. They too note the increased performance on CIFAR-10 and CIFAR-100 datasets in reaching optima far quicker, as well as noting the efficacy of the 
+learning rate schedule even without implementing the restarts \cite{Loshchilov}.
+
+
 
 \subsection{Backtesting and Model Validation} \label{lr_backtesting}
 \hfill
@@ -802,6 +770,7 @@ of a strategy, they should not be the function on which strategy selection relie
 \hfill \break 
 
 \subsubsection{Test Data Length}
+\todo{shorten section?}
 
 The CSCV methodology offers an important but highly generalised framework to assess models and backtest 
 overfitting. It doesn’t however indicate which metrics should be used to assess the IS and OOS performance, nor 
@@ -887,50 +856,60 @@ numerous variations and methodologies offered \cite{BaileySharpe}. However, the 
 in whether an online neural network is able to make effective enough predictions that a strategy might use the 
 predictions to be profitable. The subtlety here is that we will consider the usage of such forecasting \textit{within} a strategy,
  rather than \textit{as} a strategy itself. In line with this, statistics such as the Sharpe ratio will be used, but not form a critical 
- consideration of the research here as the comparison of strategies used will be a secondary concern.
+ consideration of the research here as the comparison of strategies will not be the focus.
 \hfill \break 
 
 \newpage
 
 
-\section{Data}\label{Data}
+\section{Implementation: Data Processing and Generation }\label{Data}
 \subsection{Data Processing}\label{data_processing}
 
-The datasets used go through several transformations throughout the usage cycle, each of which are captured below.
+The datasets used go through several transformations throughout the training and prediction process:
+
+\begin{itemize}
+	\item [1] The raw data is log differenced and aggregated to rolling windows
+	\item [2] The transformed data is split into Training and Prediction subsets
+	\item [3] The predicted outputs have the scaling and log differencing reversed in order to reconstruct the actual price points
+\end{itemize}
 
 \subsubsection{Log Difference Transformation and Aggregation}\label{ldata_og_difference}
-All datasets were transformed into log feature fluctuation values, and were then expanded to include fluctuations over rolling window periods.
-\begin{equation}
-\texttt{log\_diff}(x_t) = ln(x_t) - ln(x_{t-1})
+All datasets are transformed into log feature fluctuation values, and were then aggregated to include fluctuations over rolling window periods. The log feature fluctuation for timepoint $t$ is calculated using \eqref{eq_logdiff}:
+\begin{equation}\label{eq_logdiff}
+\texttt{log\_diff\_x}_t = ln(x_t) - ln(x_{t-1})
 \end{equation}
-This log feature fluctuation,  is processed for each OHLCV feature and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and symmetric in terms of gains and losses.
+This log feature fluctuation,  is processed for each asset's closing price and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and are symmetric in terms of gains and losses.
 \newline\newline
-The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. For example, if the past data aggregation windows were 1, 5 and 20, and the future prediction point was 5 then at each data point $t$, the following time series are added:
-\begin{itemize}
-	\item [$\cdot$] Log feature fluctuations over the periods $(t-5, t)$ and $(t-20, t)$ (with $(t-1, t)$ already having been processed)
-	\item [$\cdot$] Log feature fluctuations for the period $(t, t + 5)$, to be predicted
-\end{itemize}
+The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. A typical example would be past data aggregation windows of 1, 5 and 20, and a future prediction point of 5. These are calculated as summations of the log differences, such that for $d$ days:
+
+\begin{equation}
+\texttt{past\_agg\_x}_{(t,d)} = \sum_{i = t-d}^{t} \texttt{log\_diff\_x}_i
+\end{equation}
+
+\begin{equation}
+\texttt{future\_agg\_x}_{(t,d)} = \sum_{i = t+1}^{t+d} \texttt{log\_diff\_x}_i
+\end{equation}
 
 Only data points with a full set of features are used for training and prediction later on in the framework.
 
 \subsubsection{Data Scaling}\label{data_scaling}
 Once the log difference data has been processed, the datasets are either standardized or normalized to allow for better learning. This is done in the typical ways:
 \begin{equation}
-\texttt{standardize}(x_s) = \frac{(x_i - \bar{x}) }{\sigma_x}
+\texttt{standardized\_x}_i = \frac{(x_i - \bar{x}) }{\sigma_x}
 \end{equation}
 
 \begin{equation}
-\texttt{normalize}(x_n) = \frac{x_i - min(x) }{max(x) - min(x)}
+\texttt{normalized\_x}_i = \frac{x_i - min(x) }{max(x) - min(x)}
 \end{equation}
 
-Two extensions of these are used later on, dubbed 'Limited Standardization' and 'Limited Normalization', which are used when the data is split up into the SAE training and OGD prediction sets. In this case all the data needs to be scaled, but the information should not be travelling from the OGD dataset to the SAE training set through the use of aggregated measures such as $\bar{x}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:
+Two extensions of these are used later on, dubbed 'Limited Standardization' and 'Limited Normalization', which are used when the data is split up into the Training and Prediction sets. In this case all the data needs to be scaled, but the variance or range should not be travelling from the Prediction set to the Training set through the use of aggregated measures such as $\bar{x}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:
 
 \begin{equation}
-\texttt{limited standardize} (x_{ls}) = \frac{(x_i - \bar{x_{1:t}}) }{\sigma_{x_{1:t}}} , \forall  i \in (1, n)
+\texttt{limited\_standardized\_x}_i = \frac{(x_i - \bar{x_{1:t}}) }{\sigma_{x_{1:t}}} , \forall  i \in (1, n)
 \end{equation}
 
 \begin{equation}
-\texttt{limited normalize} (x_{ln}) = \frac{x_i - min(x_{1:t}) }{max(x_{1:t}) - min(x_{1:t})} , \forall  i \in (1, n)
+\texttt{limited\_normalized\_x}_i = \frac{x_i - min(x_{1:t}) }{max(x_{1:t}) - min(x_{1:t})} , \forall  i \in (1, n)
 \end{equation}
 
 
@@ -941,28 +920,37 @@ This log-differenced, aggregated and scaled data is then used as the input for t
 The predicted data points are transformed back into actual prices for returns analysis. The first step is to reverse the scaling that is done in \ref{data_scaling} in order to retrieve the log difference fluctuations.
 
 \begin{equation}
-\texttt{reverse standardize}(x_i) = x_s * \sigma_x + \bar{x}
+\texttt{reverse\_standardized\_x}_i = \texttt{standardized\_x}_i * \sigma_x + \bar{x}
 \end{equation}
 
 \begin{equation}
-\texttt{reverse normalize}(x_i) = x_n * (max(x) - min(x)) + min(x)
+\texttt{reverse\_normalized\_x}_i = \texttt{normalized\_x}_i * (max(x) - min(x)) + min(x)
 \end{equation}
 
 These are applied similarly for the limited variations.
 
 \subsubsection{Price Reconstruction}\label{data_price_recon}
 
-The predicted log fluctuations produced in \ref{data_reverse_scaling} are used to reconstruct the predicted prices. For original prices $o$, stocks $s$, time window predicted $t$, predicted log fluctuation $p$ and time steps $i \in (0, n)$i:
+The predicted log fluctuations produced in \ref{data_reverse_scaling} are used to reconstruct the predicted prices. 
 
 \begin{equation}
 \texttt{reconstructed price}_{s,i} = o_{s,i-t} * e^{p_{s,i}}
 \end{equation}
-
-These reconstructed prices are then used to assess model returns later.
+where:
+\begin{itemize}
+	\item [] $o$ = original asset prices
+	\item [] $s$ = asset selected
+	\item [] $i$ = timepoint predicted from
+	\item [] $d$ = timepoint predicted to
+	\item [] $p$ = predicted log fluctuation 
+ 
+\end{itemize}
+\texttt{}\newline
+These reconstructed prices are then used to assess model returns later in the Money Management Strategy (\ref{imp_mms}).
 
 \subsection{Synthetic Data Generation}\label{data_synthetic}
 
-Synthetic data generation is implemented using Geometric Brownian Motion as described in \ref{algo_brownianmotion}, which allows the stocks simulations to be implemented with a trend ($\sigma$) and variance ($\mu$) for each stock. Each dataset was generated with a random seed (using a Mersenne Twister pseudorandom number generator). \newline
+Synthetic data generation is implemented using Geometric Brownian Motion (GBM) as described in Algorithm \ref{algo_brownianmotion}, which allows the stocks simulations to be implemented with a drift ($\sigma$) and variance ($\mu$) for each stock. The GBM simulation has the benefit of generating prices in a random walk, such that future movements are independent of past prices and so suitable for emulating an efficient financial market. The implications of using such data are discussed more fully in \ref{results_linearity}. Each dataset was generated with a random seed (using a Mersenne Twister pseudorandom number generator). \newline
 
 \RestyleAlgo{algoruled}
 \begin{algorithm}[H]
@@ -986,7 +974,7 @@ Synthetic data generation is implemented using Geometric Brownian Motion as desc
 
 
 \newpage
-\section{Implementation}\label{Implementation}
+\section{Implementation: Models and Algorithms}\label{Implementation}
 \subsection{Process Overview}\label{ProcessOverview}\label{imp_overview}
 
 
@@ -1005,8 +993,15 @@ The rest of this chapter will detail the algorithms used to train the relevant F
 
 \subsection{Feedforward Neural Networks}\label{imp_ffn}
 ~\\
-Feedforward Neural Networks (FFN) in the form of multilayer perceptrons is a well established network technique, providing effective nonlinear representations for both shallow and deep structures \cite{Schmidhuber}. Specifically, a FFN is made up of several non-cyclical layers: the first and last are the input and output layers, respectively, and any inbetween are referred to as 'hidden' layers. Each layer is made up of nodes which are fully connected to the nodes in the previous and following layers, but does not have connections to nodes within the layer - information only travels forward. Each 
+Constructing Feedforward Neural Networks (FFN) in the form of multilayer perceptrons is a well established network technique, providing effective nonlinear representations for both shallow and deep structures \cite{Schmidhuber}. Specifically, a FFN is made up of several non-cyclical layers: the first and last are the input and output layers, respectively, and any inbetween are referred to as 'hidden' layers. Each layer is made up of nodes which are fully connected to the nodes in the previous and following layers, but does not have connections to nodes within the layer - information only travels forward. Each 
 node has an activation function, which acts on the weighted input from the previous layers' nodes.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.5]{images/implementation/neural_network_diagram.png}
+	\caption{An example diagram of a Feedforwrd Neural Network with 1 hidden layer}
+	\label{figure-neural_network_diagram}
+\end{figure}		
 
 \subsubsection{Notation and Network Representation}\label{imp_ffn_functions}
 
@@ -1016,7 +1011,7 @@ For the purposes of this chapter, the following notation will be used:
 \item[1] A network $N$ will be contructed with $L$ layers, each with $e$ nodes
 \item[2] The weights from the $j^{th}$ node in the $l^{th}$ layer from the $k^{th}$ node in the $(l-1)^{th}$ layer are represented by $w^l_{jk}$
 \item[3] The bias for the $j^{th}$ node in layer $l$ is represented by $w^l_0j$
-\item[4] The output for the $j^{th}$ node is defined as $a = o(z_j)$, for an activation function $o$ and weighted input $z$
+\item[4] The output for the $j^{th}$ node is defined as $a = o(z_j)$, for an activation function $o$ (with inverse $o^{\prime}$) and weighted input $z$
 \item[5] The weighted input for the $j^{th}$ neuron in a layer is 
 \begin{equation}\label{eq_weighted_input}
 	z^l_j=\sum_{i=1}^{e^{l-1}}{a^{l-1}_iw_{ij}} + w_{0j}
@@ -1027,24 +1022,37 @@ These definitions allow an input into the network to be propagated through it, h
 
 \subsubsection{Activation Functions}\label{imp_activation_functions}
 ~\\
-As noted in \ref{lr_activationfunctions}, there are 3 primary characteristics of concern for activation functions: non-linearity, continuous differentiability and monotonicity. While many different functions have been suggested and used, several of the most used were implemented here.
+As noted in \ref{lr_activationfunctions}, there are 3 primary characteristics of concern for activation functions: non-linearity, continuous differentiability and monotonicity. While many different functions have been suggested and used, several of the more popular were implemented here.
 
 \subparagraph{Sigmoid}
 
 The sigmoid, or logistic, function is one of the most popular and widely used activation functions historically, and is defined as 
 \begin{equation}\label{func_sigmoid}
-\texttt{f}(x) = \frac{1}{1 + e^{-x}}
+\texttt{o}(x) = \frac{1}{1 + e^{-x}}
+\end{equation}
+
+\begin{equation}\label{func_sigmoidprime}
+\texttt{o}^\prime(x) = \texttt{o}(x)(1-\texttt{o}(x))
 \end{equation}
 
 The Sigmoid function is in the range [0,1], making it a suitable choice for problems requiring a probabilistic output. The slope of the function curve is both a boon and a drawback: it allows for fast learning initially, but results in learning slowdown later (often casuing what is referred to as node 'saturation'). The exponent calculation is also computationally expensive, relatively speaking.
 
 \subparagraph{ReLU}
 
-The Rectified Linuear Unit (ReLU) is, as discussed in \change{needs reference section}, a newer activation function which has been shown to be effective in deep learning networks. It is defined as
+The Rectified Linuear Unit (ReLU) is a newer activation function which has been shown to be effective in deep learning networks. It is defined as
 
 \begin{equation}\label{func_relu}
-\texttt{f}(x) = \texttt{max}(0, x)
+\texttt{o}(x) = \texttt{max}(0, x)
 \end{equation}
+
+\begin{equation}\end{equation}\label{func_relu_prime}
+\[
+\texttt{o}^\prime(x)= 
+\begin{cases}
+1,& \text{if } x\geq 0\\
+0,              & \text{otherwise}
+\end{cases}
+\]
 
 The function has the benefits of quick learning which doesn't saturate, as well as being computationally cheap. The downside is that the non-gradient for the negative range of the function can result in 'dead' nodes, which stop updating with the learning process.
 
@@ -1053,22 +1061,33 @@ The function has the benefits of quick learning which doesn't saturate, as well 
 The Leaky ReLU resolves the dying ReLU problem by adding a small gradient to the negative range of the function. This results in a slow learning being applied to 'dead' ReLU's, which may in turn result in them being used again if necessary.
 \begin{equation}\end{equation}\label{func_leaky_relu}
 \[
-\texttt{f}(x)= 
+\texttt{o}(x)= 
 \begin{cases}
 x,& \text{if } x\geq 0\\
 0.01x,              & \text{otherwise}
 \end{cases}
 \]
 
+\begin{equation}\end{equation}\label{func_leaky_relu_prime}
+\[
+\texttt{o}^\prime(x)= 
+\begin{cases}
+1,& \text{if } x\geq 0\\
+0.01,              & \text{otherwise}
+\end{cases}
+\]
 
 \subparagraph{Linear Activation}
 
 Linear activations don't transform the input, and have a constant gradient, which can be useful for key layers where no loss in error signal is desired, such as the output or encoding layers.
 
 \begin{equation}\label{func_linear}
-\texttt{f}(x) = x
+\texttt{o}(x) = x
 \end{equation}
 
+\begin{equation}\label{func_linear_prime}
+\texttt{o}^\prime(x) = 1
+\end{equation}
 
 \subsubsection{Backpropagation}\label{imp_backprop}
 
@@ -1081,26 +1100,26 @@ C = \frac{1}{2} \rVert y - a^L \rVert^2
 
 A technical definition of the backpropagation algrithm is given in Algorithm \ref{algo_backprop}, though the three primary steps of the algorithm are:\newline
 \begin{itemize}
-	\item [1] \textbf{Forward Pass}: The samples are propagated through the network, in order to generate the output $\hat{y}_s$. Vectorization is typically used to calculate the results for multiple samples at once, though conceptually each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input, using equation \eqref{eq_weighted_input} for the weighted output and equations \ref{imp_activation_functions} for the activation functions.
-	
+	\item [1] \textbf{Forward Pass}: The samples are propagated through the network, in order to generate the output $\hat{y}_s$. Vectorization is typically used to calculate the results for multiple samples at once, though conceptually each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input, using equation \eqref{eq_weighted_input} for the weighted output and the equations defined in \ref{imp_activation_functions} for the activation functions.
+	\newline
 	\item [2] \textbf{Calculate Cost}: The cost between the training output $y_s$ and the model output $\hat{y}_s$ is calculated. Using this cost function, the rate of change for the error in the output layer by the rate of change in the activation function in the last layer. This is captured in equation \eqref{eq_lambda1}:	
 		\begin{equation}\label{eq_lambda1}
-		\delta_{j}^{L}=\frac{\partial C}{\partial a_{j}^{L}} \sigma^{\prime}\left(z_{j}^{L}\right)
+		\delta_{j}^{L}=\frac{\partial C}{\partial a_{j}^{L}} o^{\prime}\left(z_{j}^{L}\right)
 		\end{equation}
 	The vectorized version of this is often used, and expressed in \eqref{eq_lambda2}, where $\nabla_a C$ represents a vector of components which represent the partial derivatieves, such that they represent the rate of change of C relative to the activation functions' outputs.
 		\begin{equation}\label{eq_lambda2}
-		\delta_{j}^{L}=\nabla_a C \otimes o'(z^L)
+		\delta_{j}^{L}=\nabla_a C \otimes o^{\prime}(z^L)
 		\end{equation}
 	If using quadractive cost, as per \ref{func_MSE}, then the term $\frac{\partial C}{\partial a_{j}^{L}}$ can be reduced to $(a^L - y)$, such that the equation for the output layer error is
 	\begin{equation}\label{eq_lambda3}
-				\lambda^L = (a^L - y) \otimes o'(z^L)
+				\lambda^L = (a^L - y) \otimes o^{\prime}(z^L)
 	\end{equation}
-		
+	\newline		
 	\item [3] \textbf{Backwards Pass}: The backwards pass consists of 2 steps, where the errors for each previous layer are calculated, and the weights for that layers are then adjusted accordingly:
 		\begin{itemize}
 		\item [3.1] The activation values are propagated back through the network to calculate the delta values based on the cost value. This uses the same rationale as \eqref{eq_lambda1}, but rather uses $(w^{l+1})^T$ by the next layers error in order to get an indication of how the error rate and how it moves backwards through the network.
 						\begin{equation}\label{eq_lambda4}
-						\lambda^l = ((w^{l+1})^T\lambda^{l+1})  \otimes o'(z^l)
+						\lambda^l = ((w^{l+1})^T\lambda^{l+1})  \otimes o^{\prime}(z^l)
 						\end{equation}
 		\item [3.2] In order to update the network, each weights output error and input activation are multiplied to find the weight’s gradient and this gradient is reduced by a factor of the ‘learning rate’ $\eta$, which is then subtracted from the network weights to update them proportionately to the error observed and chosen learning rate.
 						\begin{equation}\label{eq_bp_weightupdate}
@@ -1110,7 +1129,7 @@ A technical definition of the backpropagation algrithm is given in Algorithm \re
 		
 \end{itemize}
 
-Choices regarding the learning rates are discussed in \ref{imp_learning_rate_schedule} and the full algorithm is present below in Algorithm \ref{algo_backprop}.\newline
+Choices regarding the learning rates are discussed in \ref{imp_learning_rate_schedule} and the full algorithm is presented below in Algorithm \ref{algo_backprop}.\newline
 
 \RestyleAlgo{algoruled}
 \begin{algorithm}[H]
@@ -1172,12 +1191,12 @@ The changes to the initial backprop algorithm, detailed in \ref{algo_backprop}, 
 
 \texttt{}\newline 
 
-\paragraph{Online Gradient Descent}
+\subparagraph{Online Gradient Descent}
 Where SGD is appropriate and effective for scenarios where the entire dataset is available, Online Gradient Descent (OGD) is applicable for when the model is learning in an online fashion. In this case, the backpropagation is run as defined above in Algorithm \ref{algo_backprop} but with no repetition (i.e. only 1 epoch).
 
 \subsubsection{Regularization}\label{imp_regularization}
 
-Regularization is a commonly used technique in machin learning used to reduce a model's capacity to overfit to the data, and and so doing reduces the variance in the model results. One of the typical methods, $L2$ (or "weight decay"), is implemented by adding an extra term to the cost function which is itself a function of the weights in the model. This extra term forces the learning process to favour smaller weights, and only allows large weights to occur if they are able to offer an appropriate increase in performance. The modified cost function is displayed below in \ref{func_l2reg}.
+Regularization is a commonly used technique in machine learning used to reduce a model's capacity to overfit to the data, and in so doing reduces the variance in the model results. One of the typical methods, $L2$ (or "weight decay"), is implemented by adding an extra term to the cost function which is itself a function of the weights in the model. This extra term forces the learning process to favour smaller weights, and only allows large weights to occur if they are able to offer an appropriate increase in performance. The modified cost function is displayed below in \ref{func_l2reg}.
 
 \begin{equation}\label{func_l2reg}
 C=\frac{1}{2 n} \sum_{x}\left\|y-a^{L}\right\|^{2}+\frac{\lambda}{2 n} \sum_{w} w^{2}
@@ -1200,41 +1219,53 @@ w \rightarrow\left(1-\frac{\eta \lambda}{n}\right) w-\frac{\eta}{m} \sum_{x} \fr
 
 \subsubsection{Learning Rate Schedule}\label{imp_learning_rate_schedule}
 
-Learning rates schedules are implemented to allow for a more dynamic exploration of the possible solution space, and allow fine tuning around an optima. With a constant learning rate implementation, one has to choose between a larger learning rate which allows faster progress but less optimisation, or a smaller learning rate which learns slower but is more effective at optimising (but avoiding the learning algorihtm from bouncing around a minima valley). Learning rate schedules aim to get the best of both scenarios by cycling through a minimum and maximum range across epochs.\newline
+Learning rates schedules are implemented to allow for a more dynamic exploration of the possible solution space, and allow fine tuning around an optima. With a constant learning rate implementation, one has to choose between a larger learning rate which allows faster progress but less optimisation, or a smaller learning rate which learns slower but is more effective at optimising (by avoiding the learning algorithm from bouncing around a minima valley). Learning rate schedules aim to get the best of both scenarios by cycling through a minimum and maximum range across epochs.\newline
 
-The learning rate is specified to run schedule is specified to cycle through from min to max every $i$ epochs, from $\eta_{\min}$ to $\eta_{\max}$. Thus for the current epoch $T$, the learning rate is calculated using \ref{func_learning_rate_sched} below:
+The learning rate schedule is specified to cycle through from min to max every $i$ epochs, from $\eta_{\min}$ to $\eta_{\max}$. Thus for the current epoch $T$, the learning rate is calculated using \ref{func_learning_rate_sched} below:
 
 \begin{equation}\label{func_learning_rate_sched}
 \eta_{t}=\eta_{\min }^{i}+\frac{1}{2}\left(\eta_{\max }^{i}-\eta_{\min }^{i}\right)\left(1+\cos \left(\frac{T_{\text {current}}}{T_{i}} \pi\right)\right)
 \end{equation}
 
-This approach is known as Stochastic Gradient Descent with Warm Restarts (SGDR) \cite{Loshchilov}. For a minimum learning rate of 0.1, a maximum of 1.0 and a epoch cycle of 100, it will produce learning rates as displayed in \ref{figure-SGDRLearningRates} below.
+This is the Cyclical Learning Rates approach, though using sinusoidal form rather than linear \cite{Smith}. For a minimum learning rate of 0.1, a maximum of 1.0 and an epoch cycle of 100, it will produce learning rates as displayed in figure \ref{figure-SGDRLearningRates} below.
 
 \begin{figure}[H]
-	\centering \includegraphics[scale=0.5]{images/implementation/SGDRLearningRates.png}
+	\centering
+	\includegraphics[scale=0.2]{images/implementation/CyclicalLearningRates.png}
 	\caption{Learning rates calculated over 1000 epochs with $\eta_{\min} = 0.1$ to $\eta_{\max} = 1.0$ and $i=100$}
 	\label{figure-SGDRLearningRates}
-\end{figure}		
+\end{figure}
+
+\subsubsection{Dropout}
+
+Input layer dropout has been implemented in order to perform regularization on the data features. The methodology used will set a percentage of the features for each sample to 0 during the SGD training process. While the percentage stays the same throughout the testing process, the features selected for each sample are rechosen every time it is used (i.e. for subsequent epochs). Conceptually, the dropout as applied to the input layer may result in the network learning relations between assets and possible patterns that would improve predictive efficacy.
 
 \subsection{Restricted Boltzmann Machines}\label{imp_rbm}
 
-Restricted Boltzmann Machines (RBM) are generative networks which can be trained to learn probability distributions over a dataset. They are structurally different from a FFN in that they have a recurrent weight function - a typical RBM has one visible layer (input/output), and one hidden layer. A sample will be processed from the input layer to the hidden layer, and the activation values from the hidden layer will be used by the input layer to provide a recontruction. The hidden units thus correspond to feature detection of the visible unit data structures, and the learning process of the network results in effetive parameter estimation. 
+Restricted Boltzmann Machines (RBM) are generative networks which can be trained to learn probability distributions over a dataset. They are structurally different from a FFN in that they have a recurrent weight function - a typical RBM has one visible layer (input/output), and one hidden layer. A sample will be processed from the input layer to the hidden layer, and the activation values from the hidden layer will be used by the input layer to provide a recontruction. The hidden units thus correspond to feature detection of the visible unit data structures, and the learning process of the network results in effective parameter estimation. \newline
 
-One of the primary differences from an FFN lies in the stochastic unit determination - the values in a hidden layer will typically be implemented such that the take on a binary value with a probablistic likelihood. Thus, the input and output have the same structure, and the processing from the hidden layer creates the generative process learned by the RBM. 
-~\\
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.5]{images/implementation/rbm_network_diagram.png}
+	\caption{An example diagram of a Restricted Boltzmann Machine network}
+	\label{figure-rbm_network_diagram}
+\end{figure}		
+
+One of the primary differences from a FFN lies in the stochastic unit determination - the values in a hidden layer will typically be implemented such that the take on a binary value with a probablistic likelihood. Thus, the input and output have the same structure, and the processing from the hidden layer creates the generative process learned by the RBM. \newline
+
 The joint configuration $(v,h)$ of the visible and hidden units has an energy given by:
 
 \begin{equation}\label{func_rbmenergy}
 E(v,h) = - \sum_{i \in visible} a_iv_i - \sum_{j \in hidden} b_jh_j - \sum_{i,j}v_ih_jw_ij
 \end{equation}
 
-where $v,h$ correspond to the binary states of the visible and hidden units, with biases $a,b$, and weights $w$ \cite{Hinton5}. It can be shown, that network weights can be adjusted to change the probabilities assigned to a particular training sample \cite{Hinton5}. The derivations of \ref{func_rbmenergy} show that performing a stochastic asent for the log probability of the data can be implemented through the following weight adjustment:
+where $v,h$ correspond to the binary states of the visible and hidden units, with biases $a,b$, and weights $w$ \cite{Hinton5}. It can be shown, that network weights can be adjusted to change the probabilities assigned to a particular training sample \cite{Hinton5}. The derivations of \ref{func_rbmenergy} show that performing a stochastic descent for the log probability of the data can be implemented through the following weight adjustment:
 
 \begin{equation}
 \Delta w_{ij} = \eta (\langle v_ih_j\rangle_{data} - \langle v_ih_j\rangle_{model})
 \end{equation}
 
-The angular brackets here indicate expectations under the distribution specified by the following subscript. Due to the probabilistic nature of RBMs, the [0,1] ranged Sigmoid activation function is typically used. Thus, for hidden nodes and a data sample $v$, the it is easy to get unbiased sampling of $\langle v_ih_j \rangle_{data}$
+The angular brackets here indicate expectations under the distribution specified by the following subscript. Due to the probabilistic nature of RBMs, the [0,1] ranged Sigmoid activation function is typically used. Thus, for hidden nodes and a data sample $v$, it is easy to get unbiased sampling of $\langle v_ih_j \rangle_{data}$
 
 \begin{equation}
 p(h_j=1) = \sigma(w_{0j} +  \sum_{i=1}v_iw_{ij})
@@ -1247,7 +1278,7 @@ p(v_i=1) = \sigma(w_{0i} + \sum_{j=1}h_jw_{ij})
 \end{equation}
 
 
-Getting an unbiased sample of $\langle v_i h_j \rangle$ proves more problematic, and so the model reconstructioms via Gibbs sampling are used instead (this is explained below), resulting in the weight updates of
+Getting an unbiased sample of $\langle v_i h_j \rangle$ proves more problematic, and so the model reconstructions via Gibbs sampling are used instead (this is explained below), resulting in the weight updates of
 
 \begin{equation}
 \Delta w_{ij} = \eta (\langle v_ih_j\rangle_{data} - \langle v_ih_j\rangle_{reconstruction})
@@ -1271,7 +1302,8 @@ The process of sampling and resampling may be run for many iterations between th
 	Sample H from $P(H|V)$;\newline
 	Return $(V,H) \sim R $, where R is the reconstructed distribution for $\langle vh \rangle$;\newline
 	
-	Using the reconstructed distribution $R(V,H)$, the weight update for CD-1 is, as above, then 
+	\tcp{Using the reconstructed distribution $R(V,H)$, the weight update for CD-1 is, as above, then}
+	 
 	\begin{equation}
 	\Delta CD(W) = \eta( E_{P(H|V)D(V)}[VH^T] - E_{R(V,H)}[VH^T])
 	\end{equation}
@@ -1292,7 +1324,7 @@ In the same way that the backpropagation learning algorithm in \ref{imp_backprop
 
 \subsection{Stacked Autoencoders}\label{imp_SAE}
 
-As noted in \ref{lr_SAE}, the use of Stacked Autoencoders (SAE) have resulted in significant improvements in deep learning networks, and allowed effective reduction of high dimensional data. A single autoencoder is a specialized type of FNN with 3 layers: one input, one hidden, and one output. The network is trained (using backpropagation as per \ref{imp_backprop}) to reconstruct the input, so the input and output layers have the same structure, and the hidden layer needs to have fewer nodes than the input. This forces the hidden layer to learn effective features of the data, and reduce the dimenstional representation. 
+As noted in \ref{lr_SAE}, the use of Stacked Autoencoders (SAE) have resulted in significant improvements in deep learning networks, and allowed effective reduction of high dimensional data. A single layer autoencoder is a specialized type of FNN with 3 layers: one input, one hidden, and one output. The network is trained (using backpropagation as per \ref{imp_backprop}) to reconstruct the input, so the input and output layers have the same structure, and the hidden layer needs to have fewer nodes than the input. This forces the hidden layer to learn effective features of the data, and reduce the dimensional representation. 
 \newline\newline
 Stacked autoencoders follow a similar structure, but with multiple hidden layers. The only strict requirement of the hidden layers is that the middle one, which will be used as the encoder layer, still has fewer nodes than the input. This structure can still be trained using backpropagation, but with more layers, it is likely to begin suffering from the vanishing or exploding gradient problem. As noted, the work by Hinton et al. for initialization of weights helps resolve this.
 
@@ -1305,8 +1337,8 @@ The steps for implementing the SAE training suggested by Hinton et al \cite{Hint
 	\item [2] For the first hidden layer, train as you would for an RBM with 2 layers - with the input layer, and the first layer as the hidden layer, using CD-1 and SGD
 	\item [3] For each layer $l$ in $(2, L/2)$:
 	\begin{itemize}
-		\item [$\cdot$] Process the data through the previously trained layers using the forward propagation as defined in \ref{imp_ffn_functions}
-		\item [$\cdot$] This processed data then forms the input to the $l^th$ layer, which can be trained once again using CD-1 and SGD as if it were two layers
+		\item [3.1] Process the data through the previously trained layers using the forward propagation as defined in \ref{imp_ffn_functions}
+		\item [3.2] This processed data then forms the input to the $l^{th}$ layer, which can be trained once again using CD-1 and SGD as if it were two layers
 	\end{itemize}
 	\item[4] Once all the layers up until the encoder layer have been trained in this greedy layerwise fashion, mirror the weights and layers structures after the encoder to create a fully $L$ layered FFN with pre-trained weights
 	\item [5] This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised
@@ -1328,9 +1360,9 @@ ReLU activations differ from Sigmoid in that they are not fitting for probabilit
 
 \subsubsection{Denoising Autoencoders}
 
-As noted in \ref{lr_SDAE}, denoising can be used as an optimization technique for autoencoders in order to improve general performance and reconstruction. The methdology works by corrupting the input data for training, but using the non-corrupted data as the expected output sample. In doing so, this forces the autoencoder to learn more fundamental representations of the data rather then fitting to sample noise, hence "denoising". Two of the more typical techniques for achieving this have been implemented, as detailed below. In both cases, the noise is reapplied each time training samples are chosen.
+As noted in \ref{lr_SDAE}, denoising can be used as an optimization technique for autoencoders in order to improve general performance and reconstruction. The methodology works by corrupting the input data for training, but using the non-corrupted data as the expected output sample. In doing so, this forces the autoencoder to learn more fundamental representations of the data rather then fitting to sample noise, hence "denoising". Two of the more typical techniques for achieving this have been implemented, as detailed below. In both cases, the noise is reapplied each time training samples are chosen.
 
-\paragraph{Additive Gaussian Noise}
+\subparagraph{Additive Gaussian Noise}
 
 With Gaussian noise, samples are corrupted such that a degree of variance is added to the input according to a parameterized Gaussian distribution. In this case, the distribution variance is a configurable training parameter.
 
@@ -1338,7 +1370,7 @@ With Gaussian noise, samples are corrupted such that a degree of variance is add
 \tilde{{x}} | {x} \sim \mathcal{N}\left({x}, \sigma^{2} I\right)
 \end{equation}
 
-\paragraph{Masking Noise}
+\subparagraph{Masking Noise}
 
 With masking noise, a fraction of the features in the data are set to 0, thus masking them for that sample. The percentage of features chosen is a configurable training parameter.
 
@@ -1349,7 +1381,7 @@ Recent research, as noted in \cite{He}, has shown that weights can be initialize
 A common initialization heuristic is to use a uniform, and but not layer agnostic, initialization such as \ref{func_uniform_init} below. While simple enough, it's been shown that this does not always lead to the best training results, and can be outperformed by variance based initializations \cite{Glorot}.
 
 \begin{equation}\label{func_uniform_init}
-W_{i j} \sim U\left[-\frac{1}{\sqrt{n}}, \frac{1}{\sqrt{n}}\right]
+\text{weights} \sim U\left[-\frac{1}{\sqrt{n}}, \frac{1}{\sqrt{n}}\right] \textit{ , for a layer with n nodes}
 \end{equation}
 
 \subsubsection{Initialization Rationale}
@@ -1368,27 +1400,27 @@ Var(W_i) = \frac{1}{n_{in}}= \frac{1}{n_{out}}
 \end{equation}
 
 In the instance where there are not an equal number of nodes in the two layers, the average can be taken, such that
- \begin{equation}
+ \begin{equation}\label{eq_init_var}
 Var(W_i) = \frac{2}{n_{in} + n_{out}}
 \end{equation}
 
 \subsubsection{Initializations}
 
-\paragraph{Xavier} Using this as the weight values expectation function provides us with the Xavier Glorot initialization \cite{Glorot} which can be used for Sigmoid activations, and is defined as follows
+\subparagraph{Xavier} Considering that  $Var(U(-a, a)) = a^2/3$, then ensuring balance variance for weights as per equation \eqref{eq_init_var} provides us with the Xavier Glorot initialization \cite{Glorot} which can be used for Sigmoid activations, and is defined as follows
 \begin{equation}
 w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}}
 \end{equation}
 
 where $n$ is the number of nodes in the $i^{th}$ or $j^{th}$ layer.
 \newline\newline
-\paragraph{He} The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He \cite{He} initialization is used
+\subparagraph{He} The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He \cite{He} initialization is used
 
 \begin{equation}
 w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
 \end{equation}
 
 
-\paragraph{He-Adjusted} An adjusted initialization is presented here, dubbed 'He-Adjusted', where the ReLU initialization uses a mean of the input and output layers in order to scale the weight variance. For networks with constant layer sizes, the intialization is the same as He, though for SAE networks which have layer size changes by definition, the He-Adjusted initialization will result in more appropriately sized weights.
+\subparagraph{He-Adjusted} An adjusted initialization is presented here, dubbed 'He-Adjusted', where the ReLU initialization uses a mean of the input and output layers in order to scale the weight variance. For networks with constant layer sizes, the intialization is the same as He, though for SAE networks which have layer size changes by definition, the He-Adjusted initialization will result in more appropriately sized weights.
 
 \begin{equation}
 w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
@@ -1416,7 +1448,7 @@ The  combinatorially symmetric cross-validation (CSCV) method developed by Baily
 \end{equation}
 
 Where the search space {\textOmega} consists of the N ranked strategies, and their ranked IS performance \textit{r} and OOS performance
-\textit{\={r}}. This allows the PBO, using the bayesian formula, to be defined as 
+\textit{\={r}}. This allows the PBO, using the Bayesian formula, to be defined as 
 
 \begin{equation}\label{eq:PBO2}
 PBO = \sum_{n=1}^{N}Prob[\overline{r} < {N/2}|r\in\Omega_{n}^{*}]Prob[r\in\Omega_{n}^{*}]
@@ -1427,7 +1459,7 @@ models calibration (e.g. the full IS dataset, rather than, by was of example, th
 This allows the model-free and non-parametric nature of the definition. 
 \hfill \break 
 
-They further developed the CSCV framework as a methodology to reliably estimate the probability used in PBO, which allows a concrete application of the concept. The CSCV framework does not require using the typical ‘hold-out’ strategy (and thus avoids credibility issues), and is ultimately able to provide a bootstrapped distribution of OOS performance. The full methodology is shown in \ref{algo_cscv} below \cite{BailyPBO}.
+They further developed the CSCV framework as a methodology to reliably estimate the probability used in PBO, which allows a concrete application of the concept. The CSCV framework does not require using the typical ‘hold-out’ strategy (and thus avoids credibility issues), and is ultimately able to provide a bootstrapped distribution of OOS performance. The full methodology is shown in algorithm \ref{algo_cscv} below \cite{BailyPBO}.
 \hfill \break 
 
 \begin{algorithm}[H]
@@ -1436,13 +1468,13 @@ They further developed the CSCV framework as a methodology to reliably estimate 
 		
 	\begin{itemize}
 			\item[1]Generate a TxN performance series matrix, $M$, representing the profits and losses by the $N$ configuration trials over $T$ time periods
-			\item[2]Partition the $M$ matrix by rows into $S$ submatrices, each of even size ($T/S x N$)
+			\item[2]Partition the $M$ matrix by rows into $S$ submatrices, each of even size ($T/S * N$)
 			\item[3]Generate the combinations $C_S$ of $M_S$, in groups of size $S/2$, for total $\binom{S}{S/2}$ of combinations
 			\item[4]For each combination in $c \in C_S$:
 			\begin{itemize}
 				\item [a] Form a training set $J$ by joinined $S/2$ $M_S$ submatrices, in their original order. $J$ is a matrix of order $(T/S)(S/2)*N $
 				\item [b] Form the test set $\bar{J}$ as the complement of $J$ in $M$, once again in the original order
-				\item [c] Form a vector of $R^c$ of performance statistics of order $N$, where the $N$th component $R_n^c$ of $R^c$ reports the performance associated with the $n$th column of $J$
+				\item [c] Form a vector of $R^c$ of performance statistics of order $N$, where the $N$th component $R_n^c$ of $R^c$ reports the performance associated with the $n^{th}$ column of $J$
 				\item [d] Repeat [c] for $\bar{J}$ to derive $\bar{R}^c$ and $\bar{r}^c$
 				\item [e] Determine the element $n^*$ such that $R^c_n \in \Omega^*_n$ - i.e. $n^*$ is the best performing strategy IS
 				\item [f] Define the relative rank of $\bar{r}^c_{n^*}$ by $\bar{\omega}_c := \bar{r}^c_{n^*} / (N +1) \in (0,1)$. This is the relative rank of the OOS performance associated with the strategy chosen IS, which should systematically outperform OOS if no backtest overfitting has taken place
@@ -1484,23 +1516,23 @@ where seeking increased IS performance is detrimental to the goal of improving O
 In line with the general approach here, the Money Management Strategy (MMS) has been designed to be relatively simple, such that the results are more indicative of the underlying modelling rather than intricate trading strategies. The MMS follows an arithmetic long strategy of buying any stock for which the predicted ${t+D}$ price is above the current price, and selling the stock at ${t+D}$. Trading costs have been included at 10\% capital costs per annum for borrowing to purchase, and 0.45\% for transaction costs. Results are compared to a "perfect" model which has exact knowledge of the price in $D$ days, which represents an upper bound on performance.
 \hfill\break
 
-\paragraph{Input Variables}
+\subparagraph{Input Variables}
 
-The MMS takes the following values as input for each time point $t$  and prediciton point $D$
+The MMS takes the following values as input for each time point $t$  and prediction point $D$
 \begin{itemize}
 	\item [1] {$\texttt{y}_t$}, the closing price for $t$
 	\item [2] $\texttt{y}_{t+D}$, the closing price in $D$ days
 	\item [3] $\hat{\texttt{y}}_{t+D}$, the predicted closing price in $D$ days
 \end{itemize}
 
-\paragraph{Calculated Stock Variables}
+\subparagraph{Calculated Stock Variables}
 
 Using these, the MMS calculates and uses the following:
 
 \begin{itemize}
 	\item [1] A flag indicating whether a trade will take place on $t$
 				\begin{equation}
-				\texttt{trade\_long}_t = bool(\hat{y}_{t+5} > y_t) \in (0, 1), 
+				\texttt{trade\_long}_t = bool(\hat{y}_{t+5} > y_t) \in (0, 1)
 				\end{equation}
 	\item [2] A flag indicating whether a trade will take place on $t$ in the perfect model
 				\begin{equation}
@@ -1542,7 +1574,7 @@ Using these, the MMS calculates and uses the following:
 
 \hfill\break
 
-\paragraph{Calculated Strategy Variables} The MMS  is then implemented using these calculated values which are aggregated at each time point $t$ for all stocks, $s$, as follows:
+\subparagraph{Calculated Strategy Variables} The MMS  is then implemented using these calculated values which are aggregated at each time point $t$ for all stocks, $s$, as follows:
 
 \begin{itemize}
 	\item [1] The expected return for $t+D$ from all stocks traded at $t$
@@ -1583,9 +1615,9 @@ An additional consideration of the MMS is the daily rates generated by the strat
 \end{equation}
 
 \newpage
-\section{Process Implementation}\label{imp_proc}
+\section{Implementation: Process}\label{imp_proc}
 
-Having covered the technical implementations in Chapters \ref{Data} and \ref{Implementation}, a higher level overview of the end to end experimental process can be detailed. The process here rests on two key principals: implementing a generalised version of a system which could offer exploration of more complex techniques, and ensuring an effective modularisation of steps such that the process can be reconfigured accordingly while maintaining its integrity. In doing so, a separable system is created which brings together data reduction, deep learning with pre-training/weight initialization, online learning and back test overfitting validation.
+Having covered the technical implementations in Chapters \ref{Data} and \ref{Implementation}, a higher level overview of the end to end experimental process can be detailed. The process here rests on two key principles: implementing a generalised version of a system which could offer exploration of more complex techniques, and ensuring an effective modularisation of steps such that the process can be reconfigured accordingly while maintaining its integrity. In doing so, a separable system is created which brings together data reduction, deep learning with pre-training/weight initialization, online learning and back test overfitting validation.
 
 \subsection{Data Preparation}\label{proc_dataprep}
 
@@ -1599,20 +1631,20 @@ The fulldataset goes through several steps of pre-processing - these are covered
 	\item[5] The dataset undergoes scaling - the different functions are detailed in \ref{data_scaling}, though \texttt{limited normalize} was used for most of the results produced
 \end{itemize}
 
-\paragraph{Data Window Aggregations} The time aggregations were chosen according to domain knowledge - it's expected that prices may move in daily, weekly, fortnightly, monthly and quarterly patterns as trading is actioned by day traders such as speculators to institutional investors such as mutual funds. Indeed, it can be shown that markets can be modelled such that they are hierarchical in space and time, with actors at different heirarchical levels within the market interacting under different causitive structures \cite{Wilcox}. The effect is such that price trends and patterns can be expected to exist in time at multiple levels, with price being set as an emergent property of these heirarchies. Taking this into account, variations of 1, 5, 10, 20 and 60 working days were considered throughout the configuration tests, in the following combinations:  
+\subsubsection{Data Window Aggregations} The time aggregations were chosen according to domain knowledge - it's expected that prices may move in daily, weekly, fortnightly, monthly and quarterly patterns as trading is actioned by day traders such as speculators to institutional investors such as mutual funds. Indeed, it can be shown that markets can be modelled such that they are hierarchical in space and time, with actors at different heirarchical levels within the market interacting under different causitive structures \cite{Wilcox}. The effect is such that price trends and patterns can be expected to exist in time at multiple levels, with price being set as an emergent property of these hierarchies. Taking this into account, variations of 1, 5, 10, 20 and 60 working days were considered throughout the configuration tests, in the following combinations:  
 \begin{itemize}
-	\item[1] 1,5,20 
-	\item[2] 5,20,60
-	\item[3] 10,20,60
+	\item[1.] 1,5,20 
+	\item[2.] 5,20,60
+	\item[3.] 10,20,60
 \end{itemize}
 
-\paragraph {Point Predictions} Various configurations were tested in terms of the historic summations used, while the fluctuation predictions were either of 2 or 5 days. These are detailed more extensively in \todo{add reference}. It's worth noting that the prediction horizon is configurable, and in the case of implementing a more complex trading strategy, one would likely choose to predict multiple points across the horizon in order to to develop a distribution. In this case, the MMS was kept purposefully simple, and so didn't warrant the more intensive implementation. \newline
+\subsubsection {Point Predictions} Various configurations were tested in terms of the historic summations used, while the fluctuation predictions were either of 2 or 5 days. These are detailed more extensively in \todo{add result reference}. It's worth noting that the prediction horizon is configurable, and in the case of implementing a more complex trading strategy, one would likely choose to predict multiple points across the horizon in order to to develop a distribution. In this case, the MMS was kept purposefully simple, and so didn't warrant the more intensive implementation. \newline
 
-One point of concern, is that point predictions at 2 or 5 days in advance could open the process up to aliasing error, as it is unlikely to be predicitng at the Nyquist frequency, and may end up fitting to the band ripple rather than the underlying signal. Conversely, 1 day predictions for closing price might offer a high degree of accuracy, but are not practical for trading due to market auction and bidding structures. The system implementation veered on the side of pracitcality in this case, and was configured for longer term predictions despite the risk of aliasing. While some of the configurations were run with 2 day predictions, it was seen that once costs were considered it was difficult for even the benchmark to product desired P\&L figures and so a 5 day prediction was generally implemented in subsequent tests. \todo{add references}
+One point of concern, is that point predictions at 2 or 5 days in advance could open the process up to aliasing error, as it is unlikely to be predicting at the Nyquist frequency, and may end up fitting to the band ripple rather than the underlying signal. Conversely, 1 day predictions for closing price might offer a high degree of accuracy, but are not practical for trading due to market auction and bidding structures. The system implementation veered on the side of practicality in this case, and was configured for longer term predictions despite the risk of aliasing. While some of the configurations were run with 2 day predictions, it was seen that once costs were considered it was difficult for even the benchmark to produce desired P\&L figures and so a 5 day prediction was generally implemented in subsequent tests. \todo{add result references}
 
 
 
-\paragraph {Scaling} When testing the two limited scaling methodologies, standardization and normalization, it was found that the results for standardizing tended to be notably worse than normalization. It's possible that outliers in price fluctuations and changing variance through time (which is not captured effectively through the limited variation) resulted in a less informative representation and worse performance of the FNN models which can be prone to error maximisation. As a result of this, the limited normalization process was used for most of the tests run. It's worth noting that an implementation which incorporates processing the data through the Error Function in order to reduce the impact of outliers would likely prove a worthwhile endevour, and could be easily swapped in due to the systems modularity.\newline
+\subsubsection {Scaling} When testing the two limited scaling methodologies, standardization and normalization, it was found that the results for standardizing tended to be notably worse than normalization (discussed in \ref{results_linearity}). It's possible that outliers in price fluctuations and changing variance through time (which is not captured effectively through the limited variation) resulted in a less informative representation and worse performance of the FNN models which can be prone to error maximisation. As a result of this, the limited normalization process was used for most of the tests run. It's worth noting that an implementation which incorporates processing the data through the Error Function in order to reduce the impact of outliers would likely prove a worthwhile endevour, and could be easily swapped in due to the systems modularity.\newline
 
 
 \subsection{Data Segregation}\label{proc_dataseg}
@@ -1623,7 +1655,7 @@ In this case, a simple split point of 60\%/40\% was chosen for the Training and 
 
 \subsection{SAE Training}\label{proc_sae}
 
-The Training dataset is used to train the auto-encoder network using either RBM pretraining or weight initialization algorithms and SGD training, as defined in \ref{imp_SAE}. The Training portion of the dataset, as noted in \ref{proc_dataseg}, is itself split up into a training and validation set for the SAE. The efficacy of the SAE on the validation set is required in order to determine which networks to choose for subsequent steps in the process. The full testing process here will rely on a generated set of best SAE networks at each encoding layer size, to be used for FFN training and prediction (chosen by a minimum MSE score). The benefit of the modularised system is emphasised here, as the SAE training will not suffer from limitations due to backtesting considerations: any amount of configurations or processes can be tested for feature extraction without concern. \newline
+The Training dataset is used to train the autoencoder network using either RBM pretraining or weight initialization algorithms and SGD training, as defined in \ref{imp_SAE}. The Training portion of the dataset, as noted in \ref{proc_dataseg}, is itself split up into a training and validation set for the SAE. The efficacy of the SAE on the validation set is required in order to determine which networks to choose for subsequent steps in the process. The full testing process here will rely on a generated set of best SAE networks at each encoding layer size, to be used for FFN training and prediction (chosen by a minimum MSE score). The benefit of the modularised system is emphasised here, as the SAE training will not suffer from limitations due to backtesting considerations: any amount of configurations or processes can be tested for feature extraction without concern. \newline
 
 Once the SAE networks have been defined and chosen, they can be used to reprocess both the Training and Prediction datasets such that the input is encoded, and the output is as before. These encoded datasets can then be used for the following steps in the process. \newline
 
@@ -1631,7 +1663,7 @@ In a productionized system, where data is updated daily, there would be a set pe
 
 \subsection{Prediction Network Training}\label{proc_predictionnetwork}
 
-Typically, the SAE and predictive network might be presented as one and the same, however in the process presented we are able to separate the 2 and optimise for feature extraction prior to training for predictions. Having done so, the datasets can have their input encoded, but retain the same output. The predictive network is then trained using the Training set, as detailed in \ref{imp_backprop}. There's no requirement to validate this part of the training, so the dataset is not split into subportions as it was for SAE training. \newline
+Typically, the SAE and predictive network might be presented as one and the same, however in the process presented we are able to separate the two and optimise for feature extraction prior to training for predictions. Having done so, the datasets can have their input encoded, but retain the same output. The predictive network is then trained using the Training set, as detailed in \ref{imp_backprop}. There's no requirement to validate this part of the training, so the dataset is not split into subportions as it was for SAE training. \newline
 
 Once the predictive network is trained, the OGD process is run through the encoded Prediction dataset in order to generate the predictions for the assets prices that the model produces - thus emulating what would have occured in a live environment. \newline
 
@@ -1643,9 +1675,9 @@ In the interest of more intepretable results for figures such as P\&L, the price
 
 The MMS, as described in \ref{imp_mms}, takes a proof of concept approach to the system being investigated. It is a simple long strategy with a set liquidation point, and no notable refinement. The naive approach is taken purposefully here, so as not to bias the perspective of the system as a whole by the effects of an impactful trading strategy. A more effective trading strategy would incorporate a shorting side as well, though ultimately this isn't necessary in order to obtain a necessary indication of efficacy for the system (and conceptually, a consistently losing long strategy would be of interest in any case).  \newline
 
-It is important, in the interest of effective optimization and development, that the pattern recognition in the prediction portion of the system is not tightly coupled with making it profitable. With this in mind, the modularity of the system is continued, with a distinct separation between the prediction signal and the MMS implementation which relies only on the predicted prices of each stock for a time point. The comparisons for the MMS are made against a benchmark of the same MMS, but with perfect information. This allows an indication for how effective the prediction system is (and need be) in order to generate comporable returns. \newline \todo{Can we learn to beat best stock paper ? Paper}
+It is important, in the interest of effective optimization and development, that the pattern recognition in the prediction portion of the system is not tightly coupled with making it profitable. With this in mind, the modularity of the system is continued, with a distinct separation between the prediction signal and the MMS implementation which relies only on the predicted prices of each stock for a time point. The comparisons for the MMS are made against a benchmark of the same MMS, but with perfect information. This allows an indication for how effective the prediction system is (and need be) in order to generate comparable returns. \newline \todo{Can we learn to beat best stock paper ? Paper}
 
-An effective, production trading strategy would be likely to include stop losses or pyramiding stop losses for effective P\$L optimization. An ideal implementation, and possible area for further work, would include an MMS strategy where the bands for this are defined using a machine learning technique (rather than being chosen from domain knowledge or heuristics).\newline
+An effective production trading strategy would be likely to include stop losses or pyramiding stop losses for effective P\&L optimization. An ideal implementation, and possible area for further work, would include an MMS strategy where the bands for this are defined using a machine learning technique (rather than being chosen from domain knowledge or heuristics).\newline
 
 
 \subsection{CSCV \& PBO}\label{proc_cscv}
@@ -1654,7 +1686,7 @@ The CSCV and PBO parts of the system are the most straightforward, in the sense 
 
 \subsection{Process Diagram}\label{proc_diagram}
 
-The flow diagram below provides a graphical representation of this process from the raw market data up until the price prediction points (the MMS calculations and CSCV process are not included). The process may be repeated accordingly in terms of SAE structures that are desired for test, such that the "Best SAE Network" is different for different encoding layer sizes, or data aggregations used (as was the case in many of the experiments which will be discussed).
+The flow diagram below provides a graphical representation of this process from the raw market data up until the price prediction points (the MMS calculations and CSCV process are not included). The process may be repeated accordingly in terms of SAE structures that are desired for testing, such that the "Best SAE Network" is different for different encoding layer sizes, or data aggregations used (as was the case in many of the experiments which will be discussed in \ref{Results}).
 
 \begin{figure}[H]
 	\centering \includegraphics[scale=0.5]{images/process_implementation/process_flow.png}
@@ -1683,47 +1715,38 @@ The flow diagram below provides a graphical representation of this process from 
 
 
 
-
-
-
-
 \newpage
-\section{Results}\label{Results}
+\section{Datasets Used}\label{Datasets}
 
+\subsection{Synthetic Datasets}
 
-An introduction to the results, highlighting the important findings and sections. \todo{}
+Data was generated and scaled, as per the methods detail in \ref{data_synthetic} and \ref{data_scaling}. The sets were generated with the following configurations, each for 5000 timesteps and with a 60/40 split on the Training and Prediction sets.
 
-\subsection{Datasets Used}
-
-\subsubsection{Synthetic Datasets}
-
-Data was generated and scaled, as per the methods detail in \ref{data_synthetic} and \ref{data_scaling}. The sets were generated with the following configurations, each for 5000 timesteps and with a 60/40 split on the Training and Prediction sets \ref{proc_dataprep} .
-
-\paragraph{Synthetic6} \label{dataset_synthetic6}
+\subsubsection{Synthetic6} \label{dataset_synthetic6}
 
 The Synthetic6 dataset was configured to represent a combination of upwards, downwards and sideways Trends, each with high and low variance variations.
 
-	\begin{table}[h]
-		\centering
-		\begin{tabular}{|c|c|c|c|}
-			\hline
-			\textbf{Trend Category} &\textbf{Variance Category} & \textbf{Trend Mean} & \textbf{Variance}\\\hline	
-			{Strong Upward} & {High} & {0.9} & {0.5} \\\hline
-			{Strong Upward} & {Low} & {0.9} & {0.2} \\\hline
-			{Upward} & {High} & {0.05} & {0.4} \\\hline
-			{Upward} & {Low} & {0.05} & {0.1} \\\hline
-			{Strong Downward} & {High} & {-0.8} & {0.55} \\\hline
-			{Strong Downward} & {Low} & {-0.8} & {0.15} \\\hline
-		\end{tabular}
-		\newline\newline
-		\caption{Sytnetic 6 Dataset Configuration}\label{tab_synth6}
-	\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{Trend Category} &\textbf{Variance Category} & \textbf{Trend Mean} & \textbf{Variance}\\\hline	
+		{Strong Upward} & {High} & {0.9} & {0.5} \\\hline
+		{Strong Upward} & {Low} & {0.9} & {0.2} \\\hline
+		{Upward} & {High} & {0.05} & {0.4} \\\hline
+		{Upward} & {Low} & {0.05} & {0.1} \\\hline
+		{Strong Downward} & {High} & {-0.8} & {0.55} \\\hline
+		{Strong Downward} & {Low} & {-0.8} & {0.15} \\\hline
+	\end{tabular}
+	\newline\newline
+	\caption{Synthetic 6 Dataset Configuration}\label{tab_synth6}
+\end{table}
 
-\paragraph{Synthetic10}\label{dataset_synthetic10}
+\subsubsection{Synthetic10}\label{dataset_synthetic10}
 
 The Synthetic10 dataset was configured to represent a wide array of behaviours, including very high (positive and negative) mean stocks, as well as much lower mean stocks (which may be more representative of typical behaviour). These were chosen to make sure the network learning is able to differentiate and correctly learn across different asset categories.
 
-	\begin{table}[h]
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|c|c|c|c|}
 		\hline
@@ -1740,24 +1763,49 @@ The Synthetic10 dataset was configured to represent a wide array of behaviours, 
 		{Strong Downward}	& {High} & {-0.8} & {0.55} \\\hline
 	\end{tabular}
 	\newline\newline
-	\caption{Sytnetic 10 Dataset Configuration}\label{tab_synth10}
+	\caption{Synthetic 10 Dataset Configuration}\label{tab_synth10}
 \end{table}
 
 \fcolorbox{red}{white}{This set was configured erroneously with the excessively high means.}
 
-\subsubsection{Actual Datasets}
+\subsection{Actual Datasets}
 
-Several datasets have been used using JSE closing price relative data for 2003-2018 \todo{add ref}. They were processed the same way as the Synthetic sets, following the steps set out in \ref{Data} and with a 60/40 split on the SAE\&SGD/OGD training.
+Several datasets have been used using JSE closing price relative data for 2003-2018 \todo{add ref}. They were processed the same way as the Synthetic sets, following the steps set out in \ref{Data} and with a 60/40 split on the Training/Prediction datasets.
 
-\paragraph{AGL}\label{dataset_agl}
+\subsubsection{Actual10}\label{dataset_actual10}
+
+This is the primary closing price dataset that has been used through out the experiment process, which focused on choosing more prominent stocks from multiple sectors.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textbf{Code} &\textbf{Company} & \textbf{Sector} \\\hline	
+		{AGL} & {Anglo American} & {Resources}  \\\hline
+		{BIL} & {BHP Billigton} & {Resources}  \\\hline
+		{IMP} & {Impala Platinum Holdings} & {Resources}  \\\hline
+		{FSR} & {FirstRand Limited} & {Finance}  \\\hline
+		{SBK} & {Standard Bank} & {Finance}  \\\hline
+		{REM} & {Remgro Limited} & {Finance}  \\\hline
+		{INP} & {Investec} & {Finance}  \\\hline
+		{SNH} & {Steinhoff International Holdings} & {Retail}    \\\hline
+		{MTN} & {MTN} & {Communication Services}  \\\hline
+		{DDT} & {Dimension Data} & {Tech} \\\hline
+	\end{tabular}
+	\newline\newline
+	\caption{Sytnetic 10 Dataset Configuration}\label{tab_actual10}
+\end{table}
+
+
+\subsubsection{AGL}\label{dataset_agl}
 
 Using AGL data from JSE close price relatives.
 
-\paragraph{AGL\&ACL}\label{dataset_aglacl}
+\subsubsection{AGL\&ACL}\label{dataset_aglacl}
 
 Using AGL and ACL data from JSE close price relatives.
 
-\paragraph{Scaling10}\label{dataset_scaling10}
+\subsubsection{Scaling10}\label{dataset_scaling10}
 
 Using the following assets from JSE close price relatives:
 
@@ -1776,32 +1824,38 @@ Using the following assets from JSE close price relatives:
 
 
 \newpage
-\subsection{Linearity, Complexity and Structure of Data}
+\section{Results}\label{Results}
+
+
+An introduction to the results, highlighting the important findings and sections. \todo{}
+
+
+\subsection{Linearity, Complexity and Structure of Data}\label{results_linearity}
 
 \subsubsection{GBM Generated Data}\label{results_gbm_data}
 
-Geometric Brownian Motion (GBM), as discussed in \ref{data_synthetic}, has been used to simulate synthetic datasets for the purposes of testing implementations and configurations. GBM is a popular choice for synthetic financial data as it is a Markov process, thus following a random walk and is generally consistent with the efficient market hypothesis in that the next price movements is conditionally independent of past movements. In line with this though, the series will exhibit a constant drift with price shocks according to it's stationary configuration, and changes in price that are not independent. The effect seen, and discussed more below, is that reconstruction of aggregated GBM data was able to performend quite effectively through linear activations, so long as the network (and encoding layers) were large enough to allow for sufficient transformations. Linear activations weren't tested further on actual data, as there is no reason to believe the time series would continue to exhibit the constant drift with non-independent price jumps over time. Futher to this point, it is worth pointing out that as GBM are non ergodic series, one should be wary of considering ensemble based predictions with much confidence \cite{Peters}. So while the GBM data was used for assessment of some prediction networks, these results should be considered contextually.
+Geometric Brownian Motion (GBM), as discussed in \ref{data_synthetic}, has been used to simulate synthetic datasets for the purposes of testing implementations and configurations. GBM is a popular choice for synthetic financial data as it is a Markov process, thus following a random walk and is generally consistent with the efficient market hypothesis in that the next price movements is conditionally independent of past movements. In line with this though, the series will exhibit a constant drift with price shocks according to it's stationary configuration, and changes in price that are not independent. The effect seen, and discussed more below, is that reconstruction of aggregated GBM data was able to performend quite effectively through linear activations, so long as the network (and encoding layers) were large enough to allow for sufficient transformations. Linear activations weren't tested further on actual data, as there is no reason to believe the time series would continue to exhibit the constant drift with non-independent price jumps over time. Further to this point, it is worth pointing out that as GBM are non ergodic series, one should be wary of considering ensemble based predictions with much confidence \cite{Peters}. So while the GBM data was used for assessment of some prediction networks, these results should be considered contextually.
 
 \subsubsection{Activations: Linear, Sigmoid, ReLU and Leaky ReLU}
 
 In line with the characteristics of the synthetic data noted in \ref{results_gbm_data}, results for networks using a Linear Activation often outperformed the networks using non-linear activations such as ReLU or Leaky ReLU (activation functions are detailed in \ref{imp_activation_functions}). \newline
 
-While these configurations were run to generate a comparison of Linear and ReLU activations for the SAE networks, it is typical to use a Linear Activation in the encoding layer of an SAE \cite{Hinton2}, and the linear output activation has been implemented here to assist with the shortcomings of the scaling methodology, as noted in \ref{data_scaling}.\newline
+While these configurations were run to generate a comparison of Linear and ReLU activations for the SAE networks, it is typical to use a Linear Activation in the encoding layer of an SAE \cite{Hinton2}, and the linear output activation has mostly been implemented here to assist with the shortcomings of the scaling methodology, as noted in \ref{data_scaling}.\newline
 
-\paragraph{SAE Activations and Scaling}\label{results_sae_activations_scaling}
+\subparagraph{SAE Activations and Scaling}\label{results_sae_activations_scaling}
 
 In figures \ref{figure-results-scaling-and-relu} and \ref{figure-results-linear-act} below, the effects of different activations and scaling methods can be seen when applied to the SAE using actual stock data. The MSE results offer several takeaways: using standardizing scaling instead of normalizing results in far worse performance; Sigmoid activations are notably worse than the linear or ReLU activations and linear output layers offer better results than ReLU output layers. \newline
 
- Networks which use only linear activations show very competitive performance overall, though the ReLU activation shows much better performance than linear activations when the encoding layer size is decreased (figures \ref{figure-results-encoding25} and \ref{figure-results-encoding5} below), thus forcing the network to take advantage of non-linear effects. Sigmoid activations, while also able to take advantage of non-linear effects, show much worse performance. Sigmoid activations are known to suffer from learning slow down and so increased sensitivity to vanishing gradients \todo{add ref}. SAE networks are deep by nature, and so it is not surprising that the Sigmoid activations are resulting in worse performance over the same training period. \newline
+ Networks which use only linear activations show very competitive performance overall, though the ReLU activation shows much better performance than linear activations when the encoding layer size is decreased (figures \ref{figure-results-encoding25} and \ref{figure-results-encoding5} below), thus forcing the network to take advantage of non-linear effects. Sigmoid activations, while also able to take advantage of non-linear effects, show much worse performance. Sigmoid activations are known to suffer from learning slow down as a result of saturation and so have increased sensitivity to vanishing gradients \cite{Glorot2}. SAE networks are deep by nature, and so it is not surprising that the Sigmoid activations are resulting in worse performance over the same training period. \newline
 
-As discussed more fully in \ref{proc_dataprep}, the use of standardization for scaling the data doesn't allow for effective outlier treatments, resultsing in worse performance. Again, this could be better treated with use of the Error function. \newline
+As discussed more fully in \ref{proc_dataprep}, the use of standardization for scaling the data doesn't allow for effective outlier treatments, resulting in worse performance. Again, this could be better treated with use of the Error function. \newline
 
 \begin{figure}[H]
 	\centering
 		\textbf{Effects of Scaling and Activation Functions on SAE MSE Score (Figure 1/2)}
 		\includegraphics[scale=0.4]{images/results/linearity/0Scaling_and_Activation_Combos_Min_MSE.png}
 		\caption{Scaling10 dataset (\ref{dataset_scaling10}) ; Configuration1 (\ref{config1}) - 1316 Samples
-			\newline \newline Each configuration group is labelled in the following format: 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. The MSE scores show significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from the next figure.}
+			\newline \newline Each configuration group is labelled in the following format: 'Hidden Activation-Encoding Activation-Output Activation-Scaling Technique. The MSE scores show significantly poorer performance when Standardizing is used instead of Normalizing or when there is a ReLU output activation. These configurations are excluded from figure \ref{figure-results-linear-act}.}
 		\label{figure-results-scaling-and-relu}
 \end{figure}
 
@@ -1832,38 +1886,43 @@ As discussed more fully in \ref{proc_dataprep}, the use of standardization for s
 	\label{figure-results-encoding5}
 \end{figure}
 
-\paragraph{Predictive FFN Activations and Scaling}
+\subparagraph{Predictive FFN Activations and Scaling}
 
 In figures \ref{figure-results-linear-ffn_activations} and \ref{figure-results_linear_vs_relu}, a comparison of linear and ReLU activations are made for synthetic data in both smaller and larger sized networks. The linear activations result in notably better P\&L when compared to ReLU activations, though unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per \ref{results_gbm_data}, whereas we would see actual stock data to benefit from a non-linear representation. Linear configurations for actual data were not run, as real stock data is not expected to follow patterns that are linear through time, thus offering little value. \newline
 
 \begin{figure}[H]
 	\centering 
 	\textbf{Activations in Large FFN Predictive Networks}
-	\includegraphics[scale=0.4]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
+	\includegraphics[scale=0.4]{images/results/linearity/5Linear_Scaling_Profits.png}
+%	\includegraphics[scale=0.4]{images/iteration_two/linear-ffn/Scaling_Methodolgy_Profits.png}
 		\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration2 (\ref{config2}) - 720 Configurations
 			\newline \newline The above groupings show the P\&L generated for different combinations of Hidden Activation - Output Activation - Scaling Method (which is for both SAE and FFN). For an input of 18, and network sizes of 40 and 80 with hidden layers of 1 an 3, we see the linear activations showing notably better performance than the ReLU activations.
 		}	
 		\label{figure-results-linear-ffn_activations}
 \end{figure}
 
+\todo{format properly}
+
 \begin{figure}[H]
 	\centering 
 	\textbf{Activations in Smaller FFN Predictive Networks}
-	\includegraphics[scale=0.4]{images/iteration_three/it3_linear_vs_relu.png}
+	\includegraphics[scale=0.4]{images/results/linearity/6Small_Network_Scaling_Profits.png}
+	%\includegraphics[scale=0.4]{images/iteration_three/it3_linear_vs_relu.png}
 	\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration2 (\ref{config2}) - 720 Configurations
 		\newline \newline The boxplots here show the P\&L generated for networks with smaller layer sizes, as indicated by the group naming (each number represents a hidden layer and its node size). The networks were trained on the Synthetic6 dataset with 18 inputs, different sized autoencoders and learning rates. We once again see the outperformance of ReLU by the linear activations.}
 	\label{figure-results_linear_vs_relu}
 \end{figure}
 
 
-\paragraph{Leaky ReLU vs ReLU}
+\subparagraph{Leaky ReLU vs ReLU}
 
 Leaky ReLU activations were implemented, and as can be expected, do show a small improvement on both the SAE and predictive FFN networks when compared to ReLU. These effects are show for the Synthetic6 dataset in in figures \ref{figure-results_leaky_relu_1} and \ref{figure-results_leaky_relu_3} below. 
 
 \begin{figure}[H]
 	\centering 
 	\textbf{SAE: Leaky ReLU vs ReLU} 
-	\includegraphics[scale=0.28]{images/results/activation/relu_leaky-relu.png}
+	\includegraphics[scale=0.28]{images/results/linearity/relu_leaky_relu.png}
+	%\includegraphics[scale=0.28]{images/results/activation/relu_leaky_relu.png}
 	\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration  - 120 configurations
 		\newline \newline The plot above shows the SAE MSE, grouped by encoding size and activations, showing a marginal increase in performance for Leaky ReLU activations. }
 	\label{figure-results_leaky_relu_1}
@@ -1872,76 +1931,130 @@ Leaky ReLU activations were implemented, and as can be expected, do show a small
 \begin{figure}[H]
 	\textbf{FFN: Leaky ReLU vs ReLU}
 	\centering
-	\includegraphics[scale=0.35]{images/iteration_three/it3_leaky_relu_3.png}
+	\includegraphics[scale=0.35]{images/results/linearity/leaky_relu_ffn.png}
+	%\includegraphics[scale=0.35]{images/iteration_three/it3_leaky_relu_3.png}
 	\caption{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration - 80 configurations
-		\newline \newline The plot shows the FFN P\&, grouped by activation, showing some improvements from the Leaky ReLU activation.}
+		\newline \newline The plot shows the FFN P\&L, grouped by activation, showing some improvements from the Leaky ReLU activation.}
 	\label{figure-results_leaky_relu_3}
 \end{figure}
 
-
+\newpage
 \subsection{Weight Initialization Techniques}
 
 \subsubsection{RBM Pretraining for Sigmoid Networks}
 
 While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2}) had detrimental effects on network performance. Experiments assessed the effects of running the pre-training for 0, 1, 10 and 50 epochs, where there is a clear decrease in performance as the number of epochs increase (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs). \newline
 
-The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset, and that ultimately the financial time series data is pathological for RBM pre-training. It may also emphasise the value of mroe recent data over historical data usage, as discussed more fully in \todo{add ref}. \newline
+The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset, and that ultimately the financial time series data is pathological for RBM pre-training. It may also emphasise the value of more recent data over historical data usage, as discussed more fully in \todo{add result ref}. \newline
 
 \begin{figure}[H]
 	\centering
-	\textbf{Pre-training Effects on financial SAE MSE Scores} 
-	\includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png}
+	\textbf{Pre-training Effects on SAE MSE Scores} 
+	%\includegraphics[scale=0.3]{images/iteration_two/pt/SAE_Pre-training_epochs_Min_Test_MSE.png}
+	\includegraphics[scale=0.35]{images/results/init/Pretraining.png}
 	\caption{Dataset AGL\&ACL (\ref{dataset_aglacl}); Configuration7 (\ref{config7})
 		\newline \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is a clear favour to having no pre-training in this scenario.}
 	\label{figure-results-pretraining-effect}
 \end{figure}		
 
-\paragraph{Sigmoid Activation Functions} 
+\subparagraph{Sigmoid Activation Functions} 
 Due to the poor performance seen in Sigmoid function based SAE's here, as well as the poorer results when compared to ReLU activations (noted in \ref{results_sae_activations_scaling}), Sigmoid functions were largely excluded from further configuration testing.
 
 
 \subsubsection{Variance Based Weight Initialization Techniques}
 
-More recent research has focused on the use of weight initialization using variance base methodologies, as discussed fully in \ref{imp_weights}. As suggested, the DC initialization for Leaky ReLU activations outperforms both Xavier and He when used for networks with varying layer sizes. When considering the predictive FFN networks, with more consistent layer sizes, the performance between He and DC becomes comparable, with both outperforming Xavier (as expected, with ReLU activations).\newline
+More recent research has focused on the use of weight initialization using variance based methodologies, as discussed fully in \ref{imp_weights}. Our expectation, theoretically, is that the He initialization will generally outperform Xavier due to it being more appropriate for the ReLU activations being used. Additionally, in networks with varying layer sizes, we expect He-Adj and possibly Xavier to outperform He which is subject to imbalanced initializations. Ultimately, He-Adj as presented in \ref{imp_weights}, should present the best of both for an initialization that is suited to Leaky ReLU activations and the varying layer sizes found in SAE networks.\newline
 
-Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively, and using the Synthetic10 dataset (\ref{dataset_synthetic10}) with Configurations 5 and 6 (\ref{config5}, \ref{config6}) for the  SAEs and predictive FFNs respectively.
+Training SAE networks across the Synthetic10 (\ref{dataset_synthetic10}), Actual10 (\ref{dataset_actual10}) and AGL (\ref{dataset_agl}) datasets, we mostly see the expected patterns emerge. He-Adj consistently outperforms He due to being better suited to the network structures, as seen in figures \ref{figure-results_it4_sae_init}, \ref{figure-results_init_actual10_all} and \ref{figure-results_init_agl_all} below. We also see that He-Adj clearly outperforms Xavier for actual data in figures \ref{figure-results_init_actual10_all} and \ref{figure-results_init_agl_all}, but has performance that is mostly the same (or even marginally worse) than Xavier for the synthetic dataset in figure \ref{figure-results_it4_sae_init}. \newline
+
+As discussed more fully in \ref{results_linearity}, the GBM data in synthetic datasets will have assets that are configured to certain mean and variances. As these movements are aggregated over time through the data processing, the movements will generally be more similar and less complex than those of actual stock data which will show greater variance over time. The learning process then is not required to be able to pass through error signals that change as dynamically over time, and so there is less pressure on the initial starting weights. Additionally, He and He-Adj have a higher upper bound in the values used for Uniform distribution initialization than Xavier, and so are less likely to result in dying ReLU nodes from early learnings that are less representative of longer term patterns and so become damaging to final network performance. Further, some of the assumptions of these techniques, such as data being IID may not apply in the first place, making their results less predictable. These effects result in the outperformance of He-Adj in the networks trained on actual datasets, but similar performance of He-Adj and Xavier in the networks trained on synthetic data. \newline
 
 \begin{figure}[H]
 	\centering
 	\textbf{Weight Initialization for SAE MSE - Synthetic10} 
-	\includegraphics[scale=0.35]{images/iteration_four/it4_sae_init.png}
-	\caption{
-		\newline The box plots show the MSE for a series of SAE networks trained. As suggested in \ref{imp_weights}, the He initialization results in poorer fitting for networks with varying network layer sizes. The Xavier and DC initializations were largely on par, thought with DC resulting in better performance for smaller encoding layers.}
+	\includegraphics[scale=0.35]{images/results/init/Synthetic10_all.png}
+	%\includegraphics[scale=0.35]{images/iteration_four/it4_sae_init.png}
+	\caption{Dataset: Synthetic10 (\ref{dataset_synthetic10}); Configuration 5 (\ref{config5})
+		\newline The box plots show the MSE for a series of SAE networks trained, showing the outperformance of He-Adj compared to He in networks with changing layer sizes, and the similar performance of He-Adj and Xavier on synthetic datasets.}
 	\label{figure-results_it4_sae_init}
 \end{figure}
 
 \begin{figure}[H]
 	\centering 
-	\textbf{Weight Initialization for SAE MSE - AGL} 
-	\includegraphics[scale=0.35]{images/iteration_five/it5_sae_init_agl.png}
-	\caption{
-		\newline The configurations run for AGL show notably better performance using the DC based initialization in comparison to both He and Xavier. The emphasis seen here can be attributed to increased pressure on suitable weight initizliations with 1 and 2 node encoding layers used.}
-	\label{figure-results_it5_sae_init}
+	\textbf{Weight Initialization for SAE MSE - Actual10}
+	\includegraphics[scale=0.35]{images/results/init/Actual10_all.png} 
+	%\includegraphics[scale=0.35]{images/iteration_five/it5_sae_init_agl.png}
+	\caption{Dataset Actual10
+		\newline The box plots show the MSE for a series of SAE networks trained, showing the outperformance of He-Adj compared to He in networks with changing layer sizes, and the  outperformance of He-Adj to Xavier on actual datasets.}
+	\label{figure-results_init_actual10_all}
 \end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{Weight Initialization for SAE MSE - AGL}
+	\includegraphics[scale=0.35]{images/results/init/AGL_all.png} 
+	%\includegraphics[scale=0.35]{images/iteration_five/it5_sae_init_agl.png}
+	\caption{Dataset: AGL (\ref{dataset_agl}); Configuration 3 (\ref{config3})
+		\newline The configurations run for AGL show notably better performance using the He-Adj based initialization in comparison to both He and Xavier. The emphasis seen here can be attributed to increased pressure on suitable weight initizliations as 1 and 2 node encoding layers were used.}
+	\label{figure-results_init_agl_all}
+\end{figure}
+
+
+When considering the predictive FFN networks, with more consistent layer sizes, the performance between He and He-Adj becomes comparable, with both outperforming Xavier (as expected, with ReLU activations). Due to the generally better or comparable performance of He-Adj, it was the only initialization chosen for the Actual10 dataset, and so only AGL is presented for the predictive networks below.
 
 
 \begin{figure}[H]
 	\centering
 	\textbf{Weight Initialization for Predictive FFN P\&L- Synthetic10}
-	\includegraphics[scale=0.35]{images/iteration_five/init4_ffn_init.png}
-	\caption{
-		\newline The figure here shows the best network P\&L performance for DC and He being higher than Xavier, as to be expected with more balanced network layers and ReLU activations. The better performance in the lower end of the DC configurations when compared to He can be attributed to the inclusion of inconsistently sized layers in the configuration set, where DC would have performed better.}
+	\includegraphics[scale=0.35]{images/results/init/Synthetic10_pl.png}
+	%\includegraphics[scale=0.35]{images/iteration_five/init4_ffn_init.png}
+	\caption{Dataset: Synthetic10 (\ref{dataset_synthetic10}); Configurations 5 and 6 (\ref{config5}, \ref{config6})
+		\newline The figure here shows the P\&L performance for He-Adj and He being higher than Xavier, as to be expected with more balanced network layers and ReLU activations. The better performance in the lower end of the He-Adj and configurations when compared to He can be attributed to the inclusion of inconsistently sized layers in the configuration set, where He-Adj and would have performed better.}
 	\label{figure-init4_ffn_init}
 \end{figure}
 
 \begin{figure}[H]
 	\centering 
 	\textbf{Weight Initialization for Predictive FFN P\&L- AGL} 
-	\includegraphics[scale=0.35]{images/iteration_five/init5_ffn_init.png}
-	\caption{
-		\newline The configurations run for AGL show notably better performance using the DC and He based initialization in comparison Xavier, thought with less of a difference between the 2 in comparison to the Synthetic set.}
+		\includegraphics[scale=0.35]{images/results/init/AGL_pl.png}
+	%\includegraphics[scale=0.35]{images/iteration_five/init5_ffn_init.png}
+	\caption{Dataset: AGL (\ref{dataset_agl}); Configuration 4 (\ref{config4})
+		\newline The configurations run for AGL show notably better performance using the He-Adj and and He based initialization in comparison Xavier when using actual data, as per the differences explained above.}
 	\label{figure-init5_ffn_init}
 \end{figure}
+
+
+\newpage
+\subsection{Feature Selection}
+
+The figures below show the efficacy of the different feature selection sizes from the SAE and how they impact P\&L in the predictive FFN networks (i.e. the size of the SAE encoding layer). It's apparent in the results for the real data show in Figure \ref{figure-results_encoding_actual} that feature selection is occuring, with the optimal size being 10, around the degrees of freedom (or number of assets). Notably, this has the highest mean P\&L and is significantly above the '0' group which represents no encoding being performed (i.e. no SAE process prior to the predictive network). This pattern is less clear in the synthetic results shown in Figure \ref{figure-results_encoding_synthetic}, where the mean mostly trends upwards as the feature selection size increases, though the gradient of increase decreases notably after 10.\newline
+
+\fcolorbox{red}{white}{I'm unsure of the synthetic data explanation for this}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{P\&L By Feature Selection Size: Actual Data}
+	\includegraphics[scale=0.35]{images/results/feature_selection/actual_encoding_profits.png} 
+	%\includegraphics[scale=0.35]{images/iteration_five/it5_sae_init_agl.png}
+	\caption{Dataset: ; Configuration 
+		\newline Actual P\&L grouped according to feature selection size (where 0 is no encoding), showing increased performance the closer feature selection is to the number of assets (in this case, 10).}
+	\label{figure-results_encoding_actual}
+\end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{P\&L By Feature Selection Size: Synthetic Data}
+	\includegraphics[scale=0.35]{images/results/feature_selection/synthetic_encoding_profits.png} 
+	%\includegraphics[scale=0.35]{images/iteration_five/it5_sae_init_agl.png}
+	\caption{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configurations 5 \& 6 (\ref{config5}, \ref{config6})
+		\newline Synthetic P\&L grouped according to feature selection size.}
+	\label{figure-results_encoding_synthetic}
+\end{figure}
+
+
+
+
+
 
 
 
@@ -1962,61 +2075,94 @@ Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurat
 
 
 \newpage
+\fcolorbox{red}{white}{Demarcation}
+\newpage
+
+\subsection{Network Structure and Training}
+
 \subsubsection{Effects of Network Size}
 
 The effects of networks size on SAE MSE performance and the P\&L predictive FFN performance are shown in figures \ref{figure-results_sae_size_agl} and \ref{figure-results_ffn_size_agl} below. They show a general increase in performance for both, with improvements from increases in the sizes and numbers of layers in the networks. The classical SAE structure of decreasing layer sizes results in worse performance - it's possible that the move away from greedy layerwise training nullifies the approach of iterative feature reduction, and that with the variance based weight initializations there is a more typical increase in performance with larger networks. Similar trends were seen in the results for the Synthetic10 dataset (\ref{dataset_synthetic10}), which can be seen in the appendix (\ref{appendix_sae_ffn_network_size}).\newline
 
-Results were generated using the AGL dataset (\ref{dataset_agl}) and Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively.
+\begin{figure}[H]
+	\centering 
+	\textbf{SAE MSE By Network Size}
+	\includegraphics[scale=0.35]{images/results/network/sae_mse_network_size.png} 
+	\caption{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\newline Actual SAE MSE by network size.}
+	\label{figure-results_sae_size_agl}
+\end{figure}
 
 \begin{figure}[H]
-	\centering
-	\begin{minipage}{0.45\textwidth}
-		\centering 
-		\includegraphics[scale=0.2]{images/iteration_five/it5_sae_size.png}
-		\caption{\textbf{Performance of AGL SAE networks by size} \newline 
-			This figure shows the MSE performance of the SAE networks for AGL. The scores show improved results for larger networks (i.e. the '9,9,9' and '12,12' sized networks have the lowest scores). The results also show much worse results for the networks in the networks with gradually decreasing layer sizes.}
-		\label{figure-results_sae_size_agl}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering 
-		\includegraphics[scale=0.2]{images/iteration_five/it_5_ffn_size.png}
-		\caption{\textbf{Performance of AGL predictive FFN networks by size} \newline
-			 The plot above shows the P\&L for AGL predictive FFN networks. Similarly, there is increased preformance for networks of larger sizes, and no notable benefits of a decreasing layer size structure.}
-		\label{figure-results_ffn_size_agl}
-	\end{minipage}
+	\centering 
+	\textbf{Predictive P\&L By Network Size}
+	\includegraphics[scale=0.35]{images/results/network/ffn_pl_network_size.png} 
+	\caption{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\newline Actual P\&L by network size.}
+	\label{figure-results_ffn_size_agl}
+\end{figure}
+
+\subsubsection{Learning Rate Schedules}
+
+Learning rate schedules were implemented such that the learning rate would rise and fall through a set of values during a set number of epochs, as discussed in \ref{imp_lrsched}.	Conceptually, this should allow a more effective traversal of the solution space, where larger learning rates are able to dislodge the configuration from saddle points, and smaller learning rates are able to optimize at a minima. \newline
+
+\begin{figure}[H]
+	\centering 
+	\textbf{Predictive P\&L By SGD Learning Rate}
+	\includegraphics[scale=0.35]{images/results/network/sgd_lr_pl.png} 
+	\caption{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\newline Actual P\&L by SGD Learning rates.}
+	\label{figure-sgd_lr}
+\end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{Predictive P\&L By OGD Learning Rate}
+	\includegraphics[scale=0.35]{images/results/network/ogd_lr_pl.png} 
+	\caption{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\newline Actual P\&L by OGD Learning rates.}
+	\label{figure-ogd_lr}
+\end{figure}
+
+\subsubsection{Regularization}
+
+
+L1 Regularization was implemented and tested on a selection of 10 real assets, as per below.
+
+\begin{figure}[H]
+	\centering 
+	\textbf{SAE MSE By Regularization}
+	\includegraphics[scale=0.35]{images/results/network/sae_l1_reg.png} 
+	\caption{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\newline Actual P\&L by  L1 Regularization rates.}
+	\label{figure-sgd_reg}
+\end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{Predictive P\&L By Regularization}
+	\includegraphics[scale=0.35]{images/results/network/ffn_l1_reg.png} 
+	\caption{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\newline Actual P\&L by L1 Regularization rates.}
+	\label{figure-ogd_reg}
 \end{figure}
 
 
-\subsection{Feature Selection and Data Aggregation}
-
-\paragraph{Feature Selection}
-
-The figures below show the efficacy of the different encoding layer sizes from the SAE and how they impact P\&L in the predictive FFN network. It's apparent in the synthetic dataset that feature selection is occuring, with the optimal size being 10, around the degrees of freedom (or number of assets). This pattern is less clear in the AGL results where there were only 2 encoding sizes that could be used appropriately.\newline
-
-Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively, and the Synthetic10 dataset (\ref{dataset_synthetic10}) with Configurations 5 and 6 (\ref{config5}, \ref{config6}) for the  SAEs and predictive FFNs respectively.
+\subsubsection{Dropout}
 
 \begin{figure}[H]
-	\centering
-	\begin{minipage}{0.45\textwidth}
-		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_encoding_size_synthetic10.png}
-		\caption{\textbf{Encoding Size Effects on P\&L for Synthetic Data} 
-			\newline This figure shows the effecst of the difference encoding layer sizes on the P\&L when the relevant SAE is used for the predictive FFN, as for the Synthetic10 dataset (with an input of 30 features - 3 per asset). There is a clear effect of the SAE being able to perform effective feature reduction, with the best performance being at encoding layer size 10.}
-		\label{figure-it5_encoding_size_synthetic10}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_encoding_size_agl.png}
-		\caption{\textbf{Encoding Size Effects on P\&L for AGL Data} 
-			\newline This figure shows the effecst of the difference encoding layer sizes on the P\&L when the relevant SAE is used for the predictive FFN, as for the AGL dataset (with an input of 3 features). Performance for both sizes are similar, though increasing the number of assets may result in a different effect being seen.}
-		\label{figure-it5_encoding_size_agl}
-	\end{minipage}
+	\centering 
+	\textbf{Predictive P\&L By Dropout}
+	\includegraphics[scale=0.35]{images/results/network/ffn_dropout.png} 
+	\caption{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\newline Actual P\&L by dropout rates.}
+	\label{figure-ogd_dropout}
 \end{figure}
 
+\newpage
+\subsection{Data Aggregation and Selection}
 
-\fcolorbox{red}{white}{Would it be worthwhile to go back and run the configurations with no SAE to see the effect? This was done in a previous iteration and created an encouraging perspective}
-
-
-
-\paragraph{Data Aggregation}
+\subsubsection{Data Aggregation}
 
 Input data was scaled to 3 different configurations across a series of tests in order to assess the effect of shorter and longer configurations on both SAE MSE performance, as well as the predictive FFN P\&L results. The configurations tested (in trading day window periods) were:
 
@@ -2026,52 +2172,57 @@ Input data was scaled to 3 different configurations across a series of tests in 
 	\item 10, 20, 60
 \end{itemize}
 
-Results highlighted the differences between the synthetic and actual data in terms of stationarity, and the benefit of more real-time data when it comes to actual stocks. \newline
-
-Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively, and the Synthetic10 dataset (\ref{dataset_synthetic10}) with Configurations 5 and 6 (\ref{config5}, \ref{config6}) for the  SAEs and predictive FFNs respectively.
-
-\fcolorbox{red}{white}{The results for SAE MSE are not totally clear at the moment. It may be more apparent with a larger number of actual stocks.}
-
 \begin{figure}[H]
-	\centering
-	\begin{minipage}{0.45\textwidth}
 		\centering 
 		\includegraphics[scale=0.3]{images/iteration_four/it4_sae_deltas.png}
-		\caption{\textbf{SAE Data Window Aggregations - Synthetic Data} 
-			\newline The box plots show the MSE for a series of SAE networks trained, grouped by different data window aggregations. The minimum and median MSE is lower for the higher aggregations, suggesting that the reduced noise in the stationary feature set may support longer windows in further training.}
-		\label{figure-results_sae_deltas}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_delta_sae.png}
-		\caption{\textbf{SAE Data Window Aggregations - AGL Data} 
-			\newline For the AGL dataset, the minimum MSE score was found in the '10,20,60' aggregated dataset, though this configuration also results in the worst MSE scores and highest median, suggesting that there is more difficultly in a non-stationary dataset.}
-		\label{figure-it5_delta_sae}
-	\end{minipage}
+		\caption{\textbf{Synthtic SAE Data Window Aggregations} 
+			\newline }
+		\label{figure-results_sae_deltas_synth}
 \end{figure}
 
 \begin{figure}[H]
-	\centering
-	\begin{minipage}{0.45\textwidth}
-		\centering 
-		\includegraphics[scale=0.3]{images/iteration_four/it4_ffn_deltas.png}
-		\caption{\textbf{FFN Data Window Aggregations - Synthetic Data} 
-			\newline The figure here shows the P\&L for the series of FFN networks trained, grouped by different data window aggregations. The profit is higher for the longer aggregations, which is in line with expectations, where the network is able to learn a mean for the synthetic GBM data.}
-		\label{figure-it5_ffn_deltas}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_delta_ffn.png}
-		\caption{\textbf{FFN Data Window Aggregations - AGL Data} 
-			\newline The figure here shows a notably higher P\&L for datasets with a 1 day aggregation, highlighting again the non-stationarity of the real data, and thus the benefit of more accurate recent data.}
-		\label{figure-it5_delta_ffn}
-	\end{minipage}
+	\centering 
+	\includegraphics[scale=0.3]{images/results/data/sae_mse_actual.png}
+	\caption{\textbf{Actual SAE Data Window Aggregations} 
+		\newline }
+	\label{figure-results_sae_deltas_actual}
 \end{figure}
 
 
-\paragraph{Historical Data and SGD training}
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.3]{images/iteration_four/it4_ffn_deltas.png}
+	\caption{\textbf{Synthetic Predictive P\&L Data Window Aggregations} 
+		\newline }
+	\label{figure-it5_ffn_deltas}
+\end{figure}
 
-Tests were run to determine the effect of excluding data from the SGD training of the predictive network. It should be noted that these predictive networks make use of SAEs that were trained on 80\% of the data regardless, which may prime the input of data to the predictive network despite the portion of data being excluded from SGD training. \newline
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.3]{images/results/data/ffn_pl_actual.png}
+	\caption{\textbf{Actual Predictive P\&L Data Window Aggregations} 
+		\newline }
+	\label{figure-results_pl_deltas_actual}
+\end{figure}
 
-The number of epochs run in the SGD training were not adjusted according to the amount of data used, so ultimately the smaller dataset configurations were trained on fewer samples. It would seem that the use of historical data or the more extensive training is beneficial, but not the primary factor in determining P\&L, as decreases in profit were certainly not proportional to the decrease in the period of data.
+
+
+
+\subsubsection{Historical Data and SGD training}
+
+
+%Tests were run to determine the effect of excluding data from the SGD training of the predictive network. It should be noted that these predictive networks make use of SAEs that were trained on 80\% of the data regardless, which may prime the input of data to the predictive network despite the portion of data being excluded from SGD training. \newline
+
+%The number of epochs run in the SGD training were not adjusted according to the amount of data used, so ultimately the smaller dataset configurations were trained on fewer samples. It would seem that the use of historical data or the more extensive training is beneficial, but not the primary factor in determining P\&L, as decreases in profit were certainly not proportional to the decrease in the period of data.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.3]{images/results/data/max_epochs_actual.png}
+	\caption{\textbf{Actual Predictive P\&L by SGD Max Epochs} 
+		\newline }
+	\label{figure-results_pl_max_epochs}
+\end{figure}
+
 
 \begin{figure}[H]
 	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_validationset.png}
@@ -2079,73 +2230,38 @@ The number of epochs run in the SGD training were not adjusted according to the 
 	\label{figure-results_it3_validationset}
 \end{figure}
 
-Results were generated using Configuration2 (\ref{config2}) for the Synthetic6 dataset (\ref{dataset_synthetic6}). \todo{add SAE config}
+%Results were generated using Configuration2 (\ref{config2}) for the Synthetic6 dataset (\ref{dataset_synthetic6}). \todo{add SAE config}
 
-\fcolorbox{red}{white}{The trainig for this also used the first X\% of data, rather than the last X\% in the SAE/SGD set, which is slightly counterintuitive.}
-\fcolorbox{red}{white}{The tests for this are quite extensive - not sure how to balance that with PBO for the actual data.}\newline
-\fcolorbox{red}{white}{Data aggregation results could be down to martingale effect.}\newline
+%\fcolorbox{red}{white}{The trainig for this also used the first X\% of data, rather than the last X\% in the SAE/SGD set, which is slightly counterintuitive.}
+%\fcolorbox{red}{white}{Data aggregation results could be down to martingale effect.}\newline
 
+\subsection{PBO Results}
 
+\newpage
+\subsection{MMS Results}
 
-
-
-\subsection{Learning Optimizations}
-
-\subsubsection{Learning Rate Schedules}
-
-Learning rate schedules were implemented such that the learning rate would rise and fall through a set of values during a set number of epochs, as discussed in \ref{imp_lrsched}.	Conceptually, this should allow a more effective traversal of the solution space, where larger learning rates are able to dislodge the configuration from saddle points, and smaller learning rates are able to optimize at a minima. The schedules presented here have a constant minimum learning rate of 0.00001, with an adjusted maximum learning rate as presented. \newline
-
-Results were generated using the AGL dataset (\ref{dataset_agl}) with Configurations 3 and 4 (\ref{config3}, \ref{config4}) for the SAEs and predictive FFNs respectively.
 
 \begin{figure}[H]
-	\centering
-	\begin{minipage}{0.45\textwidth}
-		\centering 
-		\includegraphics[scale=0.3]{images/iteration_five/it5_lrsched_sae.png}
-		\caption{\textbf{Effects of Learning Rate Schedule on SAE MSE}
-			\newline The figure here shows the improvements in MSE scores gained from increasing the upper bound on the learning rate schedule for SAE configurations, with a notably better performance from the largest upper bound.}
-		\label{figure-it5_lrsched_sae}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering \includegraphics[scale=0.3]{images/iteration_five/it5_lrsched_ffn.png}
-		\caption{\textbf{Effects of Learning Rate Schedule on Predictive FFN P\&L} 
-			\newline Unlike the SAE configurations, the predictive FFN performance deteriorates as the upper bound is increased, with the largest upper bound having significantly worse P\&L results.}
-		\label{figure-it5_lrsched_ffn}
-	\end{minipage}
+	\centering 
+	\textbf{OOS P\&L PDF With Benchmark}
+	\includegraphics[scale=0.35]{images/results/mms/pl_pdf.png} 
+	\caption{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\newline The PDF of all OOS P\&L values, with the benchmark P\&L indicated in orange.}
+	\label{figure-results_pl_pdf}
 \end{figure}
 
-The results here highlight the different nature of the SAE and predictive networks and the solution space they inhabit. The feature reduction performed by the SAE is expectedly complex, and so benefits from a more dynamic learning process. Conversely, the predictive network seems to take on martingale properties which would not require as complex searching through the solution space.
-
-\fcolorbox{red}{white}{Need to address the validity of this claim. Also, is there any need to include synthetic results here? (they would need to be processed first)}
-
-\subsubsection{Regularization}
-
-
-L1 Regularization was implemented and tested on a selection of 10 real assets, as per below.
 
 \begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_three/it3_l1reg_sae.png}
-	\caption{\textbf{SAE L1 Regularization - 10 Real Asset} 
-		\newline The plot above shows the MSE for 360 different SAE networks, grouped by L1 Lambda, showing notable degradation as regularization is increased. Synthetic data tests showed no performance changes below 0.01.}
-	\label{figure-results-it3_l1reg_sae}
-\end{figure}		
+	\centering 
+	\textbf{Best Network Confusion Matrix on Trading Decisions}
+	\includegraphics[scale=0.9]{images/results/mms/best_network_confusion.png} 
+	\caption{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\newline The confusion matrix for the network with the highest OOS P\&L.}
+	\label{figure-results_confusion}
+\end{figure}
 
-\fcolorbox{red}{white}{This still contrasts with the learning rate schedule. It could perhaps be the nature of L1 vs L2 regularization though.}
-
-\begin{figure}[H]
-	\centering \includegraphics[scale=0.3]{images/iteration_five/it5_reg_ffn.png}
-	\caption{\textbf{L1 Regularization - AGL Predictive FFN}
-			\newline Similarly, performance decreases for the AGL predictive FFN as regularization increases.}
-	\label{figure-results-it5_reg_ffn}
-\end{figure}		
-
-
-\subsubsection{Denoising}
-
-
-\fcolorbox{red}{white}{Denoising tests so far don't seem worth including, though should be considered for future experiments.}
-
-
+\newpage
+\subsection{Results Summary}
 
 
 
@@ -2159,9 +2275,42 @@ L1 Regularization was implemented and tested on a selection of 10 real assets, a
 \section{Conclusions}\label{Conclusion}
 
 
+\newpage
 \section{Appendix}\label{Appendix}
 
 \subsection{Additional Results}
+
+\subsubsection{AGLEncoding Layer Results}
+
+\begin{figure}[H]
+	\centering 
+	\textbf{P\&L By Feature Reduction Encoding Layer Size: AGL}
+	\includegraphics[scale=0.35]{images/iteration_five/it5_encoding_size_agl.png} 
+	%\includegraphics[scale=0.35]{images/iteration_five/it5_sae_init_agl.png}
+	\caption{Dataset: AGL (\ref{dataset_agl}) ; Configurations 3 \& 4 (\ref{config3}, \ref{config4}) 
+		\newline This figure shows the effects of the difference encoding layer sizes on the P\&L when the relevant SAE is used for the predictive FFN, as for the AGL dataset (with an input of 3 features). Performance for both sizes are similar, though increasing the number of assets may result in a different effect being seen.}
+	\label{figure-results_encoding_agl}
+\end{figure}
+
+\subsubsection{Effects of Network Size on SAE and FFN for Synthetic Data}\label{appendix_sae_init}
+
+\begin{figure}[H]
+	\centering
+	\textbf{Weight Initialization for SAE MSE - Synthetic10, Encoding Size 5} 
+	\includegraphics[scale=0.35]{images/results/init/Synthetic10_5.png}
+	%\includegraphics[scale=0.35]{images/iteration_four/it4_sae_init.png}
+	\caption{Dataset: Synthetic10 (\ref{dataset_synthetic10}); Configuration 5 (\ref{config5})}
+	\label{figure-results_init_synthetic10_25}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\textbf{Weight Initialization for SAE MSE - Synthetic10, Encoding Size 25} 
+	\includegraphics[scale=0.35]{images/results/init/Synthetic10_25.png}
+	%\includegraphics[scale=0.35]{images/iteration_four/it4_sae_init.png}
+	\caption{Dataset: Synthetic10 (\ref{dataset_synthetic10}); Configuration 5 (\ref{config5})}
+	\label{figure-results_init_synthetic10_5}
+\end{figure}
 
 \subsubsection{Effects of Network Size on SAE and FFN for Synthetic Data}\label{appendix_sae_ffn_network_size}
 
@@ -2530,6 +2679,9 @@ M Minsky, SA Papert, L Bottou (1988). Perceptrons: An introduction to computatio
 \bibitem{Murphy}
 Murphy, John J. Technical analysis of the financial markets: A comprehensive guide to trading methods and applications. Penguin, 1999.
 
+\bibitem{Packard}
+Geometry from a Time Series, N. H. Packard, J. P. Crutchfield, J. D. Farmer, and R. S. Shaw. Available at: \url{https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.45.712}
+
 \bibitem{Pascanu}
 Pascanu, Razvan, Tomas Mikolov, and Yoshua Bengio. "On the difficulty of training recurrent neural networks." International Conference on Machine Learning. 2013.
 Available at: http://proceedings.mlr.press/v28/pascanu13.pdf
@@ -2574,12 +2726,19 @@ Shai Shalev-Shwartz, Yoram Singer, and Nathan Srebro. Pegasos: Primal Estimated 
 \bibitem{Siegelmann}
 Siegelmann, H. (1992). Theoretical foundations of recurrent neural networks (Ph.D. thesis), New Brunswick Rutgers, The State of New Jersey: Rutgers. Available at: \url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.38.920&rep=rep1&type=pdf}
 
+\bibitem{Smith}
+
+Smith, Leslie. Cyclical Learning Rates for Training Neural Networks. Available at: \url{https://arxiv.org/abs/1506.01186}
+
 \bibitem {Skabar}
  Skabar, Cloete, Networks, Financial Trading and the Efficient Markets Hypothesis (http://crpit.com/confpapers/CRPITV4Skabar.pdf)
 
 \bibitem{Takeuchi}
 Takeuchi L, Lee Y. Applying Deep Learning to Enhance Momentum Trading Strategies in 
 Stocks. Technical Report, 2013. Available at: http://www.smallake.kr/wp-content/uploads/2017/04/TakeuchiLee-ApplyingDeepLearningToEnhanceMomentumTradingStrategiesInStocks.pdf
+
+\bibitem{Takens}
+Floris Takens, Detecting strange attractors in turbulence. Available at: \url{https://link.springer.com/chapter/10.1007/BFb0091924}
 
 \bibitem{Troiano}
 Troiano L., Mejuto E., Kriplani P.On Feature Reduction using Deep Learning
@@ -2657,6 +2816,9 @@ Zhou B., Hu J. A Dynamic Pattern Recognition Approach Based on Neural Network fo
 2009). Available at:\url{ https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5393674}
 
 \end{thebibliography}
+
+
+\end {document}
 
 \begin{technicaldoc}
 
@@ -3839,13 +4001,88 @@ Zhou B., Hu J. A Dynamic Pattern Recognition Approach Based on Neural Network fo
 		
 	\end{itemize}
 	
+	\newpage
+	\paragraph{Removed from Lit Review}
 	
+	\subsection{Data Segmentation}
+	\hfill
 	
+	One of the aspects of time series not yet discussed is how the data might be segmented for analysis. 
+	Financial pattern matching, as discussed in \ref{TechnicalAnalysis}, requires methodologies to decide the length of data to 
+	consider when determining whether a subset of data matches a pattern or not. 
+	\hfill\break
+	
+	There are numerous classical approaches to this problem, which were widely applied in machine learning prior to 
+	the resurgence in deep learning. One of the earliest and more common approaches was the ‘Sliding Window’, 
+	where each the model input for each observation is ‘padded’ by a predetermined number of observations that 
+	occurred both prior and after the one in question. This has the advantage of being fairly model agnostic, but fails 
+	to capture any correlations in the dependent variable values \cite{Chu}. The Recurrent Sliding Window method 
+	aims to resolve this by including the same number of prior predictions made as part of the input. In this case, input 
+	would be ${<x_{t-d},...x_{t},…,x_{t+d}> and <y_{t-d},...,y_t>}$. This was shown to be significantly more effective than the plain 
+	sliding window method \cite{Bakiri}. Notably, the sliding window approach can only be implemented in an offline 
+	model.
+	\hfill\break
+	
+	These methods can be adapted to take on online formats, as well as incorporate data reduction benefits 
+	through algorithms such as Piecewise Linear Approximation (PLA), which adapts a linear representation to the 
+	leading portion of the window. Some novel approaches (Feasible Space Window and it’s stepwise adaption) were 
+	suggested by Liu et al. in order to compensate for the computational requirements of reprocessing the entire 
+	window at each step for online models \cite{Liu}.
+	\hfill \break 
+	
+	Window based methods represent a fairly static and unsophisticated approach to data segmentation. 
+	A suggested solution to this is to segment the data by dynamically identifying significant partition points, 
+	known as perceptual important points (PIP) \cite{Chung}. The computational cost of identifying PIPs was initially 
+	rather large, making them unsuitable for quickly changing and dynamic environments such as finance. 
+	However, Zhou et al. suggested a novel approach which reduced computational costs through intelligent binary 
+	tree traversal. They were able to show this approach was effective in identifying traditional financial stock patterns 
+	with the use of a layered neural network \cite{Zhou}. In a similar fashion, input data turning points (TP) were shown to 
+	potentially offer lower error rates than PIPs by Yin et al. \cite{Yin}.
+	\hfill \break 
+	
+	More recently, Wan et al. conducted a review on the effect of segmentation on financial time series pattern 
+	matching, comparing perceptual important points, piecewise aggregate approximations, piecewise linear 
+	approximations and turning point based methods \cite{Wan}. They use several pattern matching algorithms 
+	(template-based, rule-based, hybrid, decision tree, and symbolic aggregate approximation) for each of the 
+	segmentation methods in order to determine their effect on a broader level. The analysis was performed on real 
+	stock market data, as well as synthetic data generated to display common patterns such as positive/negative 
+	head and shoulders (H\&S). Measuring accuracy, precision and recall, they showed that PIP based segmentation 
+	generally offered superior results to the others (though it is worth noting that there were various performance 
+	differences within the segmentation methods depending on the matching algorithm used).
+	
+	\subsubsection{Gradient Descent Parallelization}\label{lr_grad_parallel}
+	
+	A parallel implementation of SGD largely rests on the idea of splitting up data to be processed in individual runs 
+	of the gradient descent. The results are periodically aggregated, and the new model parameters are distributed 
+	to processing nodes for further training \cite{Zinkevich}. Depending on the configuration, the variance within results can 
+	result in poor convergence rates \cite{Mahajan}. Mahajan et al. suggest a novel implementation which improves the 
+	distribution impacts through the use of better approximating functions in the processing nodes, which in turn 
+	improves the efficacy of the algorithms convergence \cite{Mahajan}. Povey et al. presented a Natural Gradient SGD, 
+	which improves the learning rates through the use of a factor matrix used on the new gradients. They were able 
+	to show empirical evidence of this improving performance issues introduced from the parameter averaging 
+	typically used in parallelization \cite{Povey}.
+	\hfill\break
+	
+	There have been some more recent improvements focusing on making the SGD algorithm more dynamic, 
+	including the Inconsistent SGD (ISGD) and AdaBatch adaptations. The idea behind ISGD is to treat the training 
+	on a particular batch as a stochastic process, and adjust it according to the expected loss identified. Gradient 
+	updates from small loss batches are relatively small compared to large loss batches, and so by focusing efforts 
+	here ISGD is able to optimize performance. Wang et al. performed careful testing of SGD vs. ISGD and found 
+	inconsistent training to consistently outperform in terms of convergence speed and results \cite{Wang}. It is worth 
+	noting that due to its nature, ISGD can be effectively combined with other SGD improvements (e.g. Momentum, 
+	as per the authors’ experiments). AdaBatch, as presented by Devarakonda et al., introduces dynamism through 
+	the adjustment of batch sizes. Small batch sizes in SGD offer the benefit of faster convergence in fewer training 
+	epochs, however larger batch sizes are more computationally efficient due to their applicability to parallelization. 
+	The algorithm uses a monotonically increasing batch size, which is started small to gain traction in convergence, 
+	and later increased to allow the benefits of data parallelism. The effect, as shown, is to offer improvements in 
+	training performance of up to 6x, with less than 1\% of accuracy when compared to the fixed batch baselines \cite{Devarakonda}. 
+	Both of these algorithms have been shown to be effective and applicable in the context of online neural network training.
+	\hfill\break
 	
 	
 \end{technicaldoc}
 
-\end {document}
+
 
 
 

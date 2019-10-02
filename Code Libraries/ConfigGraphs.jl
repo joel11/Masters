@@ -43,8 +43,8 @@ old_category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Mape tests%' then 'Mape tests'
        when experiment_set_name like 'PT 3%' then 'Pretraining 3'
        when experiment_set_name like 'PT 2%' then 'Pretraining 2'
-       when experiment_set_name like 'Linear Tests 2 Std%' then 'Linear Tests 2 Std'
 
+       when experiment_set_name like 'Linear Tests 2 Std%' then 'Linear Tests 2 Std'
        when experiment_set_name like 'Linear Tests 1%' then 'Linear Tests 1'
        when experiment_set_name like 'Linear Tests 2%' then 'Linear Tests 2'
        when experiment_set_name like 'Linear Tests 3%' then 'Linear Tests 3'
@@ -129,7 +129,9 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration4 SAE Actual10 Test%' then 'Iteration4 SAE Actual10 Test'
        when experiment_set_name like 'Iteration5 SAE Actual10 Test%' then 'Iteration5 SAE Actual10 Test'
        when experiment_set_name like 'Iteration6 SAE Actual10 Test%' then 'Iteration6 SAE Actual10 Test'
-
+       when experiment_set_name like 'Iteration1 FFN Actual10 Tests No SAE%' then 'Iteration1 FFN Actual10 Tests No SAE'
+       when experiment_set_name like 'Iteration1 FFN Actual10 Tests%' then 'Iteration1 FFN Actual10 Tests'
+       when experiment_set_name like 'Iteration2 FFN Actual10 Tests%' then 'Iteration2 FFN Actual10 Tests'
 
        else null end as esn
     from configuration_run
@@ -137,7 +139,7 @@ category_query = "select min(configuration_id) minid,
     having esn is not null
     order by maxid desc"
 
-category_ids = RunQuery(old_category_query)
+category_ids = RunQuery(category_query)
 
 #setnames = ["Iteration5_7 AGL Test FFN Tests"]
 #config_ids = SelectConfigIDs(setnames)
@@ -286,6 +288,28 @@ function It4_ffn_he()
     OGD_NetworkSize_Profits_Bx(config_ids)
 end
 
+function SyntheticEncodings()
+    #10,120,10
+    #10,120,120,10
+    #10,120,120,120,10
+    #10,120,60,10
+    #10,120,90,60,10
+    #10,120,90,90,60,10
+
+    query = "select cr.configuration_id
+            from configuration_run cr
+            inner join network_parameters np on cr.configuration_id = np.configuration_id
+            where experiment_set_name like 'Iteration4_2 FFN Tests%'
+            "
+
+            #and initialization in ('DCUniformInit','XavierGlorotUniformInit')"
+
+    config_ids = Array(RunQuery(query)[:,1])
+
+    OGD_EncodingSizes_Profits_Bx(config_ids)
+end
+
+
 function It4_FFN()
     setnames = ["Iteration4_2 FFN Tests"]
     config_ids = SelectConfigIDs(setnames)
@@ -302,7 +326,7 @@ end
 function It4_SAE()
     setnames = ["Iteration4_1 SAE Tests"]
     config_ids = SelectConfigIDs(setnames)
-    SAE_Init_MinTest_MxMSE(config_ids)
+    SAE_Init_MinTest_MxMSE(config_ids, 25)
     SAE_Deltas_MinTest_MxMSE(config_ids)
 
     SAE_MaxLR_MinTest_BxMSE(config_ids)
@@ -451,20 +475,210 @@ end
 #Fig 9: Denoising SAEs (SAE MSE on 10 stocks)
 #Fig 10: Effects of Limited Scaling (on Synthetic P&L)
 
-
-
 function Results_Linearity_1()
 
-    setnames = ["Linear Tests 1", "Linear Tests 3", "Linear Tests 2 Std"]
-    config_ids = SelectConfigIDs(setnames)
-    SAE_ActivationScaling_BxMSE(config_ids, true, 1000, false, nothing)
+    setnames = ["Linear Tests 1", "Linear Tests 2 Std"]
+    config_ids = SelectConfigIDs(setnames) #1050 samples
+    SAE_ActivationScaling_BxMSE(config_ids, true, 1000, false, nothing, "Linear Scaling ")
 
     setnames = ["Linear Tests 1"]
     config_ids = SelectConfigIDs(setnames)
-    SAE_ActivationScaling_BxMSE(config_ids, false, 1000, true, nothing)
-    SAE_ActivationScaling_BxMSE(config_ids, false, 1000, true, 25)
-    SAE_ActivationScaling_BxMSE(config_ids, false, 1000, true, 5)
+    SAE_ActivationScaling_BxMSE(config_ids, false, 1000, true, nothing, "Linear Normalize All ")
+    SAE_ActivationScaling_BxMSE(config_ids, false, 1000, true, 25, "Linear Normalize 25 ")
+    SAE_ActivationScaling_BxMSE(config_ids, false, 1000, true, 5, "Linear Normalize 5 ")
+
+    setnames = ["Iteration2_1 Tests FFN", "Iteration2_1 Linear Tests FFN"]#, "Iteration2_1 MAPE Tests FFN"]
+    config_ids = SelectConfigIDs(setnames)
+    OGD_ScalingOutputActivation_Profits_Bx(config_ids, "Linear ")
+
+    setnames = ["Iteration2_1 Smaller Linear Tests"]
+    config_ids = SelectConfigIDs(setnames)
+    OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids, "Linear Small ")
+
+    setnames = ["Iteration3_2 SAE LeakyRelu vs Relu"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_ActivationsEncodingSizes_MinMSE(config_ids, nothing, "Leaky Relu v Relu ")
+
+    setnames = ["Iteration3_2 FFN LeakyRelu vs Relu"]
+    config_ids = SelectConfigIDs(setnames)
+    OGD_Activations_Profits_Bx(config_ids, "Leaky Relu v Relu ")
 end
+
+function Results_2_Init()
+
+    setnames = ["Pretraining 3"]#, "Pretraining 3"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Pretraining_MinTest_BxMSE(config_ids)
+
+    setnames = ["Iteration4_1 SAE Tests"] #3266 configurations
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Init_MinTest_MxMSE(config_ids, nothing, "Synthetic 10 ")
+    SAE_Init_MinTest_MxMSE(config_ids, 5, "Synthetic10 5 ")
+    SAE_Init_MinTest_MxMSE(config_ids, 25, "Synthetic10 25 ")
+
+    setnames = ["Iteration5_1 SAE AGL Test"]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Init_MinTest_MxMSE(config_ids, nothing, "AGL all ")
+    SAE_Init_MinTest_MxMSE(config_ids, 1, "AGL 1 ")
+    SAE_Init_MinTest_MxMSE(config_ids, 2, "AGL 2 ")
+
+    setnames = ["Iteration4_2 FFN Tests"]
+    config_ids = SelectConfigIDs(setnames)
+    OGD_Init_Profits_Bx(config_ids, "Synthetic 10 ")
+
+    setnames = ["Iteration5_1 AGL FFN Tests"]
+    config_ids = SelectConfigIDs(setnames)
+    OGD_Init_Profits_Bx(config_ids, "AGL All ")
+
+    setnames = ["Iteration1 SAE Actual10 Test",
+                "Iteration2 SAE Actual10 Test",
+                "Iteration3 SAE Actual10 Test",
+                "Iteration4 SAE Actual10 Test",
+                "Iteration5 SAE Actual10 Test",
+                "Iteration6 SAE Actual10 Test"
+                ]
+    config_ids = SelectConfigIDs(setnames)
+    SAE_Init_MinTest_MxMSE(config_ids, nothing, "Actual10 All ")
+    SAE_Init_MinTest_MxMSE(config_ids, 5, "Actual10 5 ")
+    SAE_Init_MinTest_MxMSE(config_ids, 10, "Actual10 10 ")
+    SAE_Init_MinTest_MxMSE(config_ids, 15, "Actual10 15 ")
+    SAE_Init_MinTest_MxMSE(config_ids, 25, "Actual10 25 ")
+
+end
+
+function PL_Generation()
+    setnames = ["Iteration1 FFN Actual10 Tests No SAE", "Iteration1 FFN Actual10 Tests"]
+    config_ids = SelectConfigIDs(setnames)
+
+    min = minimum(config_ids)#1713
+    max = maximum(config_ids)#26863
+
+    config_ids = 1713:26863
+
+    #total_configs = max - min
+    #TotalProfitsCurr = ReadProfits("ActualTotalProfits")
+
+    jsedata = ReadJSETop40Data()
+    dataset = jsedata[:, [:AGL,:BIL,:IMP,:FSR,:SBK,:REM,:INP,:SNH,:MTN,:DDT]]
+
+    starting_ids = map(i -> i, 1713:200:26862)
+    ecs = (10516,10519,11593,11596,11599,13204,13216,13219,14284,14293,14299,16996,16999,18076,18079,24130, 24136, 24142, 25033, 25045)
+    rerun_configs = collect(setdiff(Set(1713:26862), Set(ecs)))
+
+    rerun_configs = (26863)
+    UpdateTotalProfits(rerun_configs, false, dataset, "ActualTotalProfits")
+
+    for i in starting_ids
+        ids = i:(i+199)
+        println(ids)
+        UpdateTotalProfits(ids, false, dataset, "ActualTotalProfits")
+    end
+
+    #Will need to rerun for entire Set, but excluding the erroeneous ones, as the profits leading up to these won't have been recorded
+    #Erroneous: 10516; 10519; 11593; 11596; 11599;13204;13216;13219;14284
+    #14293;14299;16996;16999;18076;18079; 24130; 24136; 24142; 25033; 25045
+
+end
+
+function Large_Pl_Generation()
+
+    setnames = ["Iteration2 FFN Actual10 Tests"]
+    config_ids = SelectConfigIDs(setnames)
+
+    min = minimum(config_ids)#1713
+    max = maximum(config_ids)#26863
+
+    #config_ids = min:max
+    jsedata = ReadJSETop40Data()
+    dataset = jsedata[:, [:AGL,:BIL,:IMP,:FSR,:SBK,:REM,:INP,:SNH,:MTN,:DDT]]
+
+    starting_ids = map(i -> i, min:200:(max+199))
+    #rerun_configs = collect(setdiff(Set(1713:26862), Set(ecs)))
+    #UpdateTotalProfits(rerun_configs, false, dataset, "ActualTotalProfits")
+
+    for i in starting_ids
+        ids = i:(i+199)
+        println(ids)
+        UpdateTotalProfits(ids, false, dataset, "ActualTotalProfits")
+    end
+end
+
+function Results_3_FeatureSelection()
+
+    setnames = ["Iteration1 FFN Actual10 Tests", "Iteration1 FFN Actual10 Tests No SAE"]
+    #setnames = ["Iteration1 FFN Actual10 Tests No SAE"]
+    config_ids = SelectConfigIDs(setnames)
+
+    OGD_EncodingSizes_Profits_Bx(config_ids, 30)
+
+end
+
+function Results_4_NetworkStructureTraining()
+    sae_setnames = ["Iteration1 SAE Actual10 Test",
+                "Iteration2 SAE Actual10 Test",
+                "Iteration3 SAE Actual10 Test",
+                "Iteration4 SAE Actual10 Test",
+                "Iteration5 SAE Actual10 Test",
+                "Iteration6 SAE Actual10 Test"]
+    sae_config_ids = SelectConfigIDs(sae_setnames)
+
+    encoding_ffn_config_ids = SelectConfigIDs(["Iteration1 FFN Actual10 Tests"])
+    ffn_setnames = ["Iteration1 FFN Actual10 Tests", "Iteration1 FFN Actual10 Tests No SAE"]
+    #setnames = ["Iteration1 FFN Actual10 Tests No SAE"]
+    ffn_config_ids = SelectConfigIDs(ffn_setnames)
+
+
+    #Network Sizes
+    SAE_LayerSizes_MinMSE(sae_config_ids)
+    OGD_NetworkSize_Profits_Bx(config_ids)
+
+    #Learning Rates & Schedules
+    SAE_MaxLR_MinTest_BxMSE(sae_config_ids, nothing)
+    FFN_LR_Sched_BxProfit(encoding_ffn_config_ids)
+    OGD_LR_BxProfit(ffn_config_ids)
+
+    #Regularization
+    SAE_Lambda1_MinTest_BxMSE(sae_config_ids)
+    OGD_L1Reg_BxProfit(ffn_config_ids)
+
+    #Denoising
+    Denoising_BxMSE(sae_config_ids)
+    OGD_Denoising_BxProfit(ffn_config_ids)
+end
+
+function Results_5_DataAggregation()
+    sae_setnames = ["Iteration1 SAE Actual10 Test",
+                "Iteration2 SAE Actual10 Test",
+                "Iteration3 SAE Actual10 Test",
+                "Iteration4 SAE Actual10 Test",
+                "Iteration5 SAE Actual10 Test",
+                "Iteration6 SAE Actual10 Test"]
+    sae_config_ids = SelectConfigIDs(sae_setnames)
+
+    encoding_ffn_config_ids = SelectConfigIDs(["Iteration1 FFN Actual10 Tests"])
+    ffn_setnames = ["Iteration1 FFN Actual10 Tests", "Iteration1 FFN Actual10 Tests No SAE"]
+    #setnames = ["Iteration1 FFN Actual10 Tests No SAE"]
+    ffn_config_ids = SelectConfigIDs(ffn_setnames)
+
+    SAE_Deltas_MinTest_MxMSE(sae_config_ids)
+    OGD_DataDeltas_Profits_Bx(ffn_config_ids)
+
+    OGD_MaxEpochs_BxProfit(ffn_config_ids)
+end
+
+
+function Results_7_FinancialResults()
+
+    TotalProfits = ReadProfits("ActualTotalProfits")
+    maxprof = maximum(TotalProfits[:profit])
+    best_config = Int64.(TotalProfits[Bool.(Array(TotalProfits[:profit] .== maxprof)),:][:configuration_id][1])
+
+    jsedata = ReadJSETop40Data()
+    dataset = jsedata[:, [:AGL,:BIL,:IMP,:FSR,:SBK,:REM,:INP,:SNH,:MTN,:DDT]]
+
+    ConfigStrategyOutput(best_config ,dataset)
+end
+
 
 #Carry Into Written Iteration 3:
 # SAE Encoding Size Effects on SAE MSE

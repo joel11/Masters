@@ -15,6 +15,14 @@ function CreateDatabase(database_name)
         start_time DATETIME NOT NULL)
         "
 
+    cscv_return_table =
+        " CREATE TABLE IF NOT EXISTS cscv_returns(
+            configuration_id INTEGER,
+            time_step INTEGER,
+            total_profit_observed FLOAT,
+            total_profit_rate_observed FLOAT)
+            "
+
     mape_table =
         " CREATE TABLE IF NOT EXISTS mape_scores(
             configuration_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -81,13 +89,24 @@ function CreateDatabase(database_name)
             actual FLOAT,
             predicted FLOAT)"
 
+    backtest_results_table = "
+        CREATE TABLE IF NOT EXISTS backtest_results(
+            configuration_id INTEGER,
+            time_step INTEGER,
+            stock VARCHAR,
+            actual FLOAT,
+            predicted FLOAT)"
+
+
     SQLite.execute!(db, configuration_run_table)
     SQLite.execute!(db, training_parameters_table)
     SQLite.execute!(db, network_parameters_table)
     SQLite.execute!(db, epoch_records_table)
     SQLite.execute!(db, epoch_dataconfig_table)
     SQLite.execute!(db, prediction_results_table)
+    SQLite.execute!(db, backtest_results_table)
     SQLite.execute!(db, mape_table)
+    SQLite.execute!(db, cscv_return_table)
 end
 
-CreateDatabase("database_actual.db")
+#CreateDatabase("database_actual.db")

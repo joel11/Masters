@@ -91,7 +91,7 @@ end
 
 function CalculateLearningRate(epoch, training_parameters)
 
-    if split(string(typeof(training_parameters)), ".")[end] == "OGDTrainingParameters"
+    if (split(string(typeof(training_parameters)), ".")[end] == "OGDTrainingParameters" || training_parameters.epoch_cycle_max < 0)
         return training_parameters.max_learning_rate
     end
 

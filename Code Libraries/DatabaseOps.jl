@@ -5,20 +5,30 @@ using TrainingStructures
 using BSON
 #using HDF5
 #using JLD
-export CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
+export WriteFFN, CreateBacktestRecords, CreateCSCVRecords, CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
-db = SQLite.DB("/users/joeldacosta/Masters/Backup/database_test.db")
-#db = SQLite.DB("/users/joeldacosta/Masters/Code Libraries/database_actual.db")
+db = SQLite.DB("/Users/joeldacosta/Masters/Code Libraries/database_actual.db")
 
 function WriteSAE(config_id, experiment_config, net)
-    file_name = string("/users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson")
+    file_name = string("/Users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson")
     values = Dict(:config_id => config_id, :data_configuration => experiment_config.data_config, :sae => net)
     bson(file_name, values)
 end
 
+function WriteFFN(config_id, experiment_config, net)
+    file_name = string("/Users/joeldacosta/Masters/Code Libraries/FFNRepo/FFN_", config_id, ".bson")
+    values = Dict(:config_id => config_id, :data_configuration => experiment_config.data_config, :ffn => net)
+    bson(file_name, values)
+end
+
 function ReadSAE(config_id)
-    ln = BSON.load(string("/users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson"))
+    ln = BSON.load(string("/Users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson"))
     return (ln[:sae], ln[:data_configuration])
+end
+
+function ReadFFN(config_id)
+    ln = BSON.load(string("/Users/joeldacosta/Masters/Code Libraries/FFNRepo/FFN_", config_id, ".bson"))
+    return (ln[:ffn], ln[:data_configuration])
 end
 
 function CreateMapeRecord(configuration_id, mape_score)
@@ -131,6 +141,50 @@ function CreatePredictionRecords(config_id, actual, predictions)
     prediction_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
     prediction_cmd = "insert into prediction_results (configuration_id, time_step, stock, actual, predicted) values $(prediction_values)"
     SQLite.execute!(db, prediction_cmd)
+end
+
+function CreateBacktestRecords(config_id, actual, predictions)
+    records = []
+
+    function NanRemover(x)
+        if (isnan(x) || isinf(x))
+            return "null"
+        end
+        return x
+    end
+
+
+    for c in 1:size(actual)[2]
+        for r in 1:size(actual)[1]
+            push!(records, (string("(", config_id,",", r, ",'", names(actual)[c],"',", NanRemover(actual[r, c]),",", NanRemover(predictions[r,c]), ")")))
+        end
+    end
+
+    prediction_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    prediction_cmd = "insert into backtest_results (configuration_id, time_step, stock, actual, predicted) values $(prediction_values)"
+    SQLite.execute!(db, prediction_cmd)
+end
+
+
+
+function CreateCSCVRecords(cscv_returns)
+
+    records = []
+
+    function NanRemover(x)
+        if (isnan(x) || isinf(x))
+            return "null"
+        end
+        return x
+    end
+
+    for r in 1:size(cscv_returns)[1]
+        push!(records, (string("(", cscv_returns[r,1],",", cscv_returns[r,2], ",", cscv_returns[r,3], ",", NanRemover(cscv_returns[r,4]), ")")))
+    end
+
+    cscv_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    cscv_cmd = "insert into cscv_returns (configuration_id, time_step, total_profit_observed, total_profit_rate_observed) values $(cscv_values)"
+    SQLite.execute!(db, cscv_cmd)
 end
 
 function RunQuery(query)

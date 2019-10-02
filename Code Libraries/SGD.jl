@@ -14,7 +14,12 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
     zero_activation_history = (fill(0, (length(network.layers),1)))
     total_weight_changes = Array{Float64,2}(fill(0.0, (length(network.layers), 1)))
 
-    epoch_records = Array{EpochRecord,1}(Int64(parameters.max_epochs/10 + 1))
+    if parameters.max_epochs > 1
+        epoch_records = Array{EpochRecord,1}(Int64(ceil(Int, parameters.max_epochs/10) + 1))
+    else
+        epoch_records = Array{EpochRecord,1}(1)
+    end
+
     num_training_samples = Int64(floor(size(original_dataset.training_input)[1] * parameters.training_splits[1])) #size(dataset.training_input)[1]
     number_batches = Int64.(floor(num_training_samples/parameters.minibatch_size))
 
@@ -96,6 +101,7 @@ end
 function GetBestNetwork(epoch_records)
     #println(epoch_records)
     #println(size(epoch_records))
+    #println(map(x -> x.test_cost, epoch_records))
     #println(findmin(map(x -> x.test_cost, epoch_records)))
     minindex = findmin(map(x -> x.test_cost, epoch_records))[2]
     #println(string(minindex, " ", epoch_records[minindex].test_cost))

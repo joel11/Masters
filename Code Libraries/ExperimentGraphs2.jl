@@ -16,10 +16,12 @@ using DataJSETop40
 using BSON
 using MLBase
 
+#using Rsvg
 using PlotlyJS
 
+export ConfigStrategyOutput, OGD_MaxEpochs_BxProfit, OGD_Denoising_BxProfit, ReadProfits, UpdateTotalProfits, SAE_Pretraining_MinTest_BxMSE, OGD_ScalingOutputActivation_Profits_Bx, SAE_ActivationScaling_BxMSE, FFN_LR_Sched_BxProfit, OGD_EncodingSizes_Profits_Bx, OGD_L1Reg_BxProfit, OGD_NetworkSize_Profits_Bx, OGD_Init_Profits_Bx, SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
 
-export SAE_ActivationScaling_BxMSE, FFN_LR_Sched_BxProfit, OGD_EncodingSizes_Profits_Bx, OGD_L1Reg_BxProfit, OGD_NetworkSize_Profits_Bx, OGD_Init_Profits_Bx, SAE_LayerSizes_MinMSE, SAE_EncodingSizes_MinMSE, SAE_Deltas_MinTest_MxMSE, SAE_Init_MinTest_MxMSE, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, OGD_DataDeltas_Profits_Bx, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,SAE_Lambda1_MinTest_BxMSE, Denoising_BxMSE, OGD_ValidationSet_Profits_bx, SAE_MaxLR_MinTest_BxMSE, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, OGD_LR_BxProfit, OGD_Activations_Profits_Bx, OGD_SAE_Selection_Profits_bx, OGD_NetworkSizeOutputActivation_Profits_Bx, SAE_ActivationsNetworkSizes_MinMSE, SAE_ActivationsEncodingSizes_MinMSE
+export_ext = ".html"
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -28,14 +30,26 @@ end
 ################################################################################
 ##Profit Records
 
-function UpdateTotalProfits(config_ids, over_ride, dataset)
+function CreateProfitsFile(filename)
+    #Original Setup
+    TotalProfits = DataFrame()
+    TotalProfits[:configuration_id] = []
+    TotalProfits[:profit] = []
+
+    #profit_array = Array(TotalProfits)
+    #file_name = string("ActualTotalProfits", ".bson")
+    #values = Dict(:profits => profit_array)
+    #bson(file_name, values)
+end
+
+function UpdateTotalProfits(config_ids, over_ride, dataset, filename)
 
     #Original Setup
     #TotalProfits = DataFrame()
     #TotalProfits[:configuration_id] = []
     #TotalProfits[:profit] = []
 
-    TotalProfits = BSON.load("ProfitVals.bson")[:profits]
+    TotalProfits = BSON.load(string(filename, ".bson"))[:profits]
 
     current_configs = TotalProfits[:,1]
     if over_ride
@@ -46,28 +60,44 @@ function UpdateTotalProfits(config_ids, over_ride, dataset)
 
     println(length(needed_configs))
 
-    for c in needed_configs
+    ids = mapreduce(c -> string(c, ","), (x, y) -> string(x, y), needed_configs)[1:(end-1)]
+    tic()
+    println("Datapull")
+    results = RunQuery("select * from prediction_results where configuration_id in ($ids) and predicted is not null")
+
+    prediction_ids = get.(unique(results[:configuration_id]))
+
+    println(string(toc()))
+
+    for c in prediction_ids
         println(c)
         tic()
-        profits = GenerateTotalProfit(c, dataset)
 
-        index = findin(TotalProfits[:,1], c)
-        if length(index) > 0
-            TotalProfits[index[1],2] = profits
-        else
-            TotalProfits = cat(1, TotalProfits, [c profits])
+        config_results = results[(Array(results[:configuration_id]) .== c),:]
+        try
+            profits = GenerateTotalProfit(c, dataset, config_results)
+            index = findin(TotalProfits[:,1], c)
+            if length(index) > 0
+                TotalProfits[index[1],2] = profits
+            else
+                TotalProfits = cat(1, TotalProfits, [c profits])
+            end
+        catch y
+            println(string("Error on: ", c))
+            continue
         end
+
         println(string(toc()))
     end
 
     profit_array = Array(TotalProfits)
-    file_name = string("ProfitVals.bson")
+    file_name = string(filename, ".bson")
     values = Dict(:profits => profit_array)
     bson(file_name, values)
 end
 
-function ReadProfits()
-    pa = BSON.load("ProfitVals.bson")
+function ReadProfits(filename)
+    pa = BSON.load(string(filename,".bson"))
 
     TotalProfits = DataFrame()
     TotalProfits[:configuration_id] = pa[:profits][:,1]
@@ -83,20 +113,26 @@ function getlayerstruc(set_name)
     return ascii(filter(l -> contains(l, "x"), split(set_name, " "))[1])
 end
 
-function general_boxplot(layer_groups, prefix, filename, variable_name)
+function general_boxplot(layer_groups, xaxis_label, filename, variable_name, yaxis_label, xlabels_show)
 
     y_vals = layer_groups[1,2][:,variable_name]
-    trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[1,1]))
+    trace = box(;y=y_vals, name = string(layer_groups[1,1]))
     data = [trace]
 
     for i in 2:size(layer_groups,1)
         y_vals = layer_groups[i,2][:,variable_name]
-        trace = box(;y=y_vals, name = string(prefix, " ", layer_groups[i,1]))
+        trace = box(;y=y_vals, name = string(layer_groups[i,1]))
         push!(data, trace)
     end
-    l = Layout(width = 1000, height = 600, margin = Dict(:b => 150))
-    plot(data,l)
-    savefig(plot(data,l), string("/users/joeldacosta/desktop/", filename, ".html"))
+    l = Layout(width = 1000, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b>", yaxis_label, "<br> </b>"))
+        , xaxis = Dict(:title => string("<b>", xaxis_label, "<br> </b>"), :showticklabels => xlabels_show ))
+
+    savefig(plot(data,l), string("/users/joeldacosta/desktop/", filename, export_ext))
+
+    #plot(data,l)
+    #savefig(plot(data,l), string("/users/joeldacosta/desktop/", filename, ".html"))
+    #savefig(plot(data,l), string("/users/joeldacosta/desktop/", filename))
 end
 
 function sae_boxplot(sae_groups, filename, variable_name)
@@ -126,10 +162,10 @@ function sae_boxplot(sae_groups, filename, variable_name)
 
     data = map(i -> d[i], sort(map(i -> Int(i), keys(d))))
 
-    savefig(plot(data), string("/users/joeldacosta/desktop/", filename, ".html"))
+    savefig(plot(data), string("/users/joeldacosta/desktop/", filename, export_ext))
 end
 
-function ProfitBoxplot(query, group_column, prefix, filename, secondary_type, transform_function)
+function ProfitBoxplot(query, group_column, xaxis_label, filename, secondary_type, transform_function, xlabels_show = true)
     results = RunQuery(query)
 
     results = transform_function(results)
@@ -138,10 +174,10 @@ function ProfitBoxplot(query, group_column, prefix, filename, secondary_type, tr
     layer_returns = join(TotalProfits, results, on = :configuration_id)
     groups = by(layer_returns, [group_column], df -> [df])
 
-    general_boxplot(groups, prefix, filename, :profit)
+    general_boxplot(groups, xaxis_label, filename, :profit, "P&L", xlabels_show)
 end
 
-function MSEBoxplot(query, group_column, prefix, filename, secondary_type, transform_function)
+function MSEBoxplot(query, group_column, xaxis_label, filename, secondary_type, transform_function, xlabels_show = true)
     results = RunQuery(query)
 
     results = transform_function(results)
@@ -151,7 +187,7 @@ function MSEBoxplot(query, group_column, prefix, filename, secondary_type, trans
     #layer_returns = join(TotalProfits, results, on = :configuration_id)
     groups = by(results, [group_column], df -> [df])
 
-    general_boxplot(groups, prefix, filename, :cost)
+    general_boxplot(groups, xaxis_label, filename, :cost, "MSE", xlabels_show)
 end
 
 function NullTransform(dataset)
@@ -170,20 +206,19 @@ function Layer_BxProfit(min_config)
     ProfitBoxplot(layers_query, :layers, "layers", "Layers Profits", String, LayerTransform)
 end
 
-function OGD_ScalingOutputActivation_Profits_Bx(config_ids)
+function OGD_ScalingOutputActivation_Profits_Bx(config_ids, file_prefix = "")
 
-    minid = minimum(config_ids)
-    maxid = maximum(config_ids)
+    ids = TransformConfigIDs(config_ids)
 
     query = "select cr.configuration_id,
                     (substr(layer_activations, 1,  instr(layer_activations, ',')-11) || '-' || output_activation || '-' || scaling_function) scaling_methodology
             from configuration_run cr
             inner join dataset_config dc on cr.configuration_id = dc.configuration_id
             inner join network_parameters np on np.configuration_id = cr.configuration_id
-            where cr.configuration_id between $minid and $maxid
+            where cr.configuration_id in ($ids)
             order by cr.configuration_id desc"
 
-    ProfitBoxplot(query, :scaling_methodology, " ", "Scaling Methodolgy Profits", String, NullTransform)
+    ProfitBoxplot(query, :scaling_methodology, " ", string(file_prefix, "Scaling Methodolgy Profits"), String, NullTransform, false)
 end
 
 #config transform done
@@ -196,6 +231,7 @@ function FFN_LR_Sched_BxProfit(config_ids)
                 from training_parameters tp
                 inner join configuration_run cr on cr.configuration_id = tp.configuration_id
                 where tp.configuration_id in ($ids) and category = 'FFN'
+                    and learning_rate != min_learning_rate
                 order by tp.configuration_id desc"
 
     ProfitBoxplot(lr_query, :learning_rates, "FFN Learning Rates Schedules", "FFN LR-Schedule Profits", String, NullTransform)
@@ -288,6 +324,30 @@ function OGD_LR_BxProfit(config_ids)
     ProfitBoxplot(lr_query, :activation_learningrate, "OGD Learning Rate", "OGD LR Profits", String, NullTransform)
 end
 
+
+function OGD_Denoising_BxProfit(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+    lr_query = "select tp.configuration_id,
+                    tp.denoising_variance
+                from training_parameters tp
+                where tp.configuration_id in ($ids)
+                    and tp.category = \"FFN\""
+    ProfitBoxplot(lr_query, :denoising_variance, "OGD Denoising Variance", "OGD Denoising Variance Profits", Float64, NullTransform)
+end
+
+function OGD_MaxEpochs_BxProfit(config_ids)
+
+    ids = TransformConfigIDs(config_ids)
+    lr_query = "select tp.configuration_id,
+                    (cast(tp.max_epochs as string) || ' Epochs') max_epochs
+                from training_parameters tp
+                where tp.configuration_id in ($ids)
+                    and tp.category = \"FFN\""
+    ProfitBoxplot(lr_query, :max_epochs, "PL Max Epochs", "PL Max Epochs", String, NullTransform)
+end
+
+
 function FFN_LR_BxProfit(config_ids)
     ids = TransformConfigIDs(config_ids)
     lr_query = "select
@@ -300,7 +360,7 @@ function FFN_LR_BxProfit(config_ids)
     ProfitBoxplot(lr_query, :activation_learningrate, "FFN Learning Rate", "FFN LR Profits", String, NullTransform)
 end
 
-function OGD_Activations_Profits_Bx(config_ids)
+function OGD_Activations_Profits_Bx(config_ids, file_prefix = "")
 
     ids = TransformConfigIDs(config_ids)
 
@@ -314,10 +374,10 @@ function OGD_Activations_Profits_Bx(config_ids)
             where cr.configuration_id in ($ids)
             order by cr.configuration_id desc"
 
-    ProfitBoxplot(query, :networkconfig, " ", "Network Activations Profits", String, NullTransform)
+    ProfitBoxplot(query, :networkconfig, "Hidden-Output", string(file_prefix, "Network Activations Profits"), String, NullTransform)
 end
 
-function OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids)
+function OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids, file_prefix)
 
     ids = TransformConfigIDs(config_ids)
 
@@ -326,14 +386,14 @@ function OGD_NetworkSizeOutputActivation_Profits_Bx(config_ids)
             substr(layer_activations, 1,  instr(layer_activations, ',')-11)
             --|| '-' || output_activation
             || '-' ||
-            substr(layer_sizes, instr(layer_sizes, ','), length(layer_sizes))
+            substr(layer_sizes, instr(layer_sizes, ',') + 1, length(layer_sizes))
             ) networkconfig
             from configuration_run cr
             inner join  network_parameters np on cr.configuration_id = np.configuration_id
             where cr.configuration_id in($ids)
             order by cr.configuration_id desc"
 
-    ProfitBoxplot(query, :networkconfig, " ", "Network Size Profits", String, NullTransform)
+    ProfitBoxplot(query, :networkconfig, "", string(file_prefix, "Network Size Profits"), String, NullTransform, false)
 end
 
 function OGD_NetworkSize_Profits_Bx(config_ids)
@@ -349,17 +409,18 @@ function OGD_NetworkSize_Profits_Bx(config_ids)
     ProfitBoxplot(query, :network_structure, " ", "Network Size Profits", String, NullTransform)
 end
 
-function OGD_EncodingSizes_Profits_Bx(config_ids)
+function OGD_EncodingSizes_Profits_Bx(config_ids, noneSize = -1)
 
     ids = TransformConfigIDs(config_ids)
 
     query = "select configuration_id,
-                    substr(layer_sizes, 0, instr(layer_sizes, ',')) encoding
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding
             from network_parameters
             where configuration_id in ($ids)
-            order by encoding"
+            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
 
-    ProfitBoxplot(query, :encoding, "Encoding ", "Encoding Size Profits", String, NullTransform)
+    ProfitBoxplot(query, :encoding, "Encoding ", "Encoding Size Profits", Int64, NullTransform)
 
 end
 
@@ -387,16 +448,19 @@ function OGD_DataDeltas_Profits_Bx(config_ids)
     ProfitBoxplot(query, :deltas, " ", "Data Deltas Profits", String, NullTransform)
 end
 
-function OGD_Init_Profits_Bx(config_ids)
+function OGD_Init_Profits_Bx(config_ids, file_prefix)
 
     ids = TransformConfigIDs(config_ids)
 
     query = "select configuration_id,
-            initialization
+                case when initialization like '%Xavier%' then 'Xavier'
+                when initialization like '%He%' then 'He'
+                when initialization like '%DC%' then 'He-Adj'
+                else null end initialization
             from network_parameters
             where configuration_id in($ids)"
 
-    ProfitBoxplot(query, :initialization, " ", "Init Profits", String, NullTransform)
+    ProfitBoxplot(query, :initialization, "Initialization", string(file_prefix, "Init Profits"), String, NullTransform)
 end
 
 function OGD_SAE_Selection_Profits_bx(config_ids)
@@ -434,7 +498,7 @@ function SAE_ActivationsNetworkSizes_MinMSE(config_ids, encoding_size = nothing)
         end
         plot(data)
         l = Layout(width = 1500, height = 500, margin = Dict(:b => 120))
-        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
+        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn,  export_ext))
     end
 
     ids = TransformConfigIDs(config_ids)
@@ -502,7 +566,7 @@ function SAE_ActivationsNetworkSizes_MinMSE(config_ids, encoding_size = nothing)
     general_boxplot2(groups, " ", filename, :cost)
 end
 
-function SAE_ActivationsEncodingSizes_MinMSE(config_ids, encoding_size = nothing)
+function SAE_ActivationsEncodingSizes_MinMSE(config_ids, encoding_size = nothing, file_prefix = "")
 
     function general_boxplot2(layer_groups, prefix, fn, variable_name)
 
@@ -517,8 +581,11 @@ function SAE_ActivationsEncodingSizes_MinMSE(config_ids, encoding_size = nothing
             push!(data, trace)
         end
         plot(data)
-        l = Layout(width = 1500, height = 500, margin = Dict(:b => 120))
-        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
+        l = Layout(width = 1500, height = 500, margin = Dict(:b => 120, :l => 100)
+            , yaxis = Dict(:title => string("<b>", "MSE", "<br> </b>"))
+            , xaxis = Dict(:title => string("<b>", "Encoding-Activation", "<br> </b>")))
+
+        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, export_ext))
     end
 
     ids = TransformConfigIDs(config_ids)
@@ -569,7 +636,7 @@ function SAE_ActivationsEncodingSizes_MinMSE(config_ids, encoding_size = nothing
 
     #filtered_indices = Array(results[:primary_activation] .!= "SigmoidActivation") & Array(results[:encoding_size] .== "5")
 
-    filename = "SAE Activations And Encoding Sizes Min MSE"
+    filename = string(file_prefix, "SAE Activations And Encoding Sizes Min MSE")
 
     if encoding_size != nothing
         filtered_indices = Array(results[:encoding_size] .== string(encoding_size))
@@ -599,7 +666,7 @@ function SAE_EncodingSizes_MinMSE(config_ids, encoding_size = nothing)
         end
         plot(data)
         l = Layout(width = 1500, height = 500, margin = Dict(:b => 120))
-        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
+        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, export_ext))
     end
 
     ids = TransformConfigIDs(config_ids)
@@ -640,7 +707,7 @@ function SAE_LayerSizes_MinMSE(config_ids, encoding_size = nothing)
         end
         plot(data)
         l = Layout(width = 1500, height = 500, margin = Dict(:b => 120))
-        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
+        savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, export_ext))
     end
 
     ids = TransformConfigIDs(config_ids)
@@ -768,21 +835,26 @@ function SAE_MinLR_MinTest_BxMSE(config_ids)
     MSEBoxplot(lr_msequery, :min_learning_rate, "SAE Min LR", "SAE Min Learning Rate Min Test MSE", Float64, NullTransform)
 end
 
-function SAE_Init_MinTest_MxMSE(config_ids, encoding_size)
+function SAE_Init_MinTest_MxMSE(config_ids, encoding_size, file_prefix)
     ids = TransformConfigIDs(config_ids)
 
-    encoding_clause = encoding_size == nothing? "" : " and layer_sizes like '%,$encoding_size'"
+    encoding_clause = encoding_size == nothing ? "" : " and layer_sizes like '%,$encoding_size'"
 
-    init_query = string("select er.configuration_id, min(testing_cost) cost, initialization init
-                        from epoch_records er
-                        inner join network_parameters np on np.configuration_id = er.configuration_id
-                        where np.category = \"SAE\"
-                        and er.configuration_id in ($ids)
-                        $encoding_clause
-                        group by er.configuration_id, init
-                        having cost not null")
+    init_query = string("select er.configuration_id,
+                                min(testing_cost) cost,
+                                case when initialization like '%Xavier%' then 'Xavier'
+                                when initialization like '%He%' then 'He'
+                                when initialization like '%DC%' then 'He-Adj'
+                                else null end init
+                            from epoch_records er
+                            inner join network_parameters np on np.configuration_id = er.configuration_id
+                            where np.category = \"SAE\"
+                            and er.configuration_id in ($ids)
+                            $encoding_clause
+                            group by er.configuration_id, init
+                            having cost not null")
 
-    MSEBoxplot(init_query, :init, "Init", "SAE Inits Min Test MSE", String, NullTransform)
+    MSEBoxplot(init_query, :init, "Initialization", string(file_prefix, " SAE Inits Min Test MSE"), String, NullTransform)
 end
 
 function SAE_Deltas_MinTest_MxMSE(config_ids)
@@ -824,7 +896,7 @@ function SAE_ScalingOutput_BxMSE(config_ids)
     p = MSEBoxplot(query, :scaling_method, "Scaling Method ", "SAE ScalingOutput Min MSE", String, NullTransform)
 end
 
-function SAE_ActivationScaling_BxMSE(config_ids, includeStandardize, maxCost, excludeReluOutput, layerSize)
+function SAE_ActivationScaling_BxMSE(config_ids, includeStandardize, maxCost, excludeReluOutput, layerSize, file_prefix = "")
 
     ids = TransformConfigIDs(config_ids)
 
@@ -857,7 +929,7 @@ function SAE_ActivationScaling_BxMSE(config_ids, includeStandardize, maxCost, ex
 
     print(size(results))
 
-    p = MSEBoxplot(query, :act_scaling, "", "SAE ScalingOutput Min MSE", String, NullTransform)
+    p = MSEBoxplot(query, :act_scaling, "", string(file_prefix, "SAE ScalingOutput Min MSE"), String, NullTransform, false)
 
 end
 
@@ -944,19 +1016,20 @@ end
 
 function SAE_Pretraining_MinTest_BxMSE(config_ids)
 
-    mc = minimum(config_ids)
-    xc = maximum(config_ids)
+    ids = TransformConfigIDs(config_ids)
+
 
     #ifnull(max(er2.epoch_number), 0) pre_training_epochs
+#|| '-' || cast(tp.learning_rate as string)
 
     query = "select er.configuration_id, min(er.testing_cost) cost,
-                (cast(ifnull(max(er2.epoch_number), 0) as string) || '-' || cast(tp.learning_rate as string)) pre_training_epochs
+                (cast(ifnull(max(er2.epoch_number), 0) as string) || ' ' || 'Epochs' ) pre_training_epochs
 
             from epoch_records er
             left join epoch_records er2 on er.configuration_id = er2.configuration_id and er2.category = 'RBM-CD'
             inner join training_parameters tp on tp.configuration_id = er.configuration_id and tp.category = 'RBM-CD'
             where er.category like \"SAE-SGD%\"
-                and er.configuration_id between $mc and $xc
+                and er.configuration_id in ($ids)
             group by er.configuration_id
             having cost not null"
 
@@ -1104,7 +1177,7 @@ function StockPricePlot(dataseed)
     ds = GenerateDataset(dataseed, 5000, var_pairs)
 
     price_plot = plot(Array(ds), name = ["stock 1" "stock 2" "stock 3" "stock 4" "stock 5" "stock 6"])
-    savefig(price_plot, "/users/joeldacosta/desktop/PriceGraphs.html")
+    savefig(price_plot, "/users/joeldacosta/desktop/PriceGraphs", export_ext)
 end
 
 function RecreateStockPrices(config_names)
@@ -1133,7 +1206,7 @@ function RecreateStockPrices(config_names)
 
         recreation_plots = [t0, t1, t2]
         filename = string("recreation_", stock_name, "_", collect(keys(config_names))[1])
-        savefig(plot(recreation_plots), string("/users/joeldacosta/desktop/", filename, ".html"))
+        savefig(plot(recreation_plots), string("/users/joeldacosta/desktop/", filename, export_ext))
 
     end
 end
@@ -1158,7 +1231,7 @@ function RecreateStockPricesSingle(config_names)
 
         recreation_plots = [t0, t1]
         filename = string("recreation_", stock_name, "_", collect(keys(config_names))[1])
-        savefig(plot(recreation_plots), string("/users/joeldacosta/desktop/", filename, ".html"))
+        savefig(plot(recreation_plots), string("/users/joeldacosta/desktop/", filename, export_ext))
 
     end
 end
@@ -1188,7 +1261,7 @@ function RecreateStockPricesMany(config_names)
         push!(traces, t0)
         #recreation_plots = [t0, traces]
         filename = string("recreation_", stock_name)
-        savefig(plot(traces), string("/users/joeldacosta/desktop/", filename, ".html"))
+        savefig(plot(traces), string("/users/joeldacosta/desktop/", filename, export_ext))
 
     end
 end
@@ -1202,13 +1275,13 @@ function AllProfitsPDF(min_config)
     x0 = Array(TotalProfits[indexes,:profit])
     trace = histogram(;x=x0, name="Configuration Profits")
     data = [trace]
-    savefig(plot(data), string("/users/joeldacosta/desktop/Profits PDF.html"))
+    savefig(plot(data), string("/users/joeldacosta/desktop/Profits PDF" , export_ext))
 end
 
 function GenericStrategyResultPlot(strategyreturns, columns, filename)
     timesteps = size(strategyreturns, 1)
     traceplots = map(c -> scatter(;y=strategyreturns[c], x = timesteps, name=string(c), mode ="lines"), columns)
-    savefig(plot(traceplots), string("/users/joeldacosta/desktop/", filename, ".html"))
+    savefig(plot(traceplots), string("/users/joeldacosta/desktop/", filename, export_ext))
 end
 
 function WriteStrategyGraphs(config_id, strategyreturns)
@@ -1302,8 +1375,8 @@ end
 #config_ids = 30059:30418
 #UpdateTotalProfits(config_ids, false, agldataset)
 
-#TotalProfits = ReadProfits()
-
+TotalProfits = ReadProfits("ActualTotalProfits")
+#TotalProfits = ReadProfits("/users/joeldacosta/Masters/Backup/ProfitVals")
 
 #AllProfitsPDF(3704)
 

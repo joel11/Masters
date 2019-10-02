@@ -9,7 +9,7 @@ using TrainingStructures
 using SGD, CostFunctions, FunctionsStopping, FFN, OGD
 using DataGenerator, DataProcessor
 using DataFrames
-using CSCV
+#using CSCV
 using FinancialFunctions
 using DatabaseOps
 using ConfigGenerator
@@ -73,30 +73,66 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
 
     ffn_sgd_records, ffn_network = TrainInitFFN(config_id, "FFN-SGD", encoded_dataset, ep.ffn_network, ep.ffn_sgd)
 
+    println("SGD Done")
+
+    actual = encoded_dataset.training_output
+    predicted =  Feedforward(ffn_network, encoded_dataset.training_input)[end]
+    sgd_reconstructed_actual, sgd_reconstructed_predicted = ReconstructSGDPredictions(ep.data_config, actual, predicted, saesgd_data, encoded_dataset)
+    CreateBacktestRecords(config_id, sgd_reconstructed_actual, sgd_reconstructed_predicted)
+
+    WriteFFN(config_id, ep, ffn_network)
+
     ## OGD Training
     ogd_records, comparisons = RunOGD(config_id, "OGD", encoded_ogd_dataset, ffn_network, ep.ogd)
+
+    println("OGD Done")
 
     ## Record Predictions vs Actual
     actual = DataFrame(comparisons[1])
     predicted = DataFrame(comparisons[2])
+    ogd_reconstructed_actual, ogd_reconstructed_predicted = ReconstructPredictions(ep.data_config, actual, predicted, ogd_data, encoded_ogd_dataset)
+    CreatePredictionRecords(config_id, ogd_reconstructed_actual, ogd_reconstructed_predicted)
 
-    reverse_function = ReverseFunctions[ep.data_config.scaling_function]
-    deprocessed_actual = reverse_function(actual, ogd_data.output_processingvar1, ogd_data.output_processingvar2)
-    deprocessed_predicted = reverse_function(predicted, ogd_data.output_processingvar1, ogd_data.output_processingvar2)
-    reconstructed_actual = ReconstructPrices(deprocessed_actual, ep.data_config, ogd_data.original_prices)
-    reconstructed_predicted = ReconstructPrices(deprocessed_predicted, ep.data_config, ogd_data.original_prices)
+
+    return (config_id, actual, predicted, ffn_sgd_records, ffn_network)
+end
+
+function ReconstructSGDPredictions(data_config, actual, predicted, prepared_dataset, encoded_dataset)
+
+    reverse_function = ReverseFunctions[data_config.scaling_function]
+
+    deprocessed_actual = reverse_function(actual, prepared_dataset.output_processingvar1, prepared_dataset.output_processingvar2)
+    deprocessed_predicted = reverse_function(predicted, prepared_dataset.output_processingvar1, prepared_dataset.output_processingvar2)
+
+    reconstructed_actual = ReconstructSGDPrices(deprocessed_actual, data_config, prepared_dataset.original_prices)
+    reconstructed_predicted = ReconstructSGDPrices(deprocessed_predicted, data_config, prepared_dataset.original_prices)
 
     reconstructed_actual = DataFrame(reconstructed_actual)
     reconstructed_predicted = DataFrame(reconstructed_predicted)
 
-    #reconstructed_actual = DataFrame(deprocessed_actual)
-    #reconstructed_predicted = DataFrame(deprocessed_predicted)
+    names!(reconstructed_actual, names(encoded_dataset.training_output))
+    names!(reconstructed_predicted, names(encoded_dataset.training_output))
 
-    names!(reconstructed_actual, names(encoded_ogd_dataset.training_output))
-    names!(reconstructed_predicted, names(encoded_ogd_dataset.training_output))
+    return (reconstructed_actual, reconstructed_predicted)
+end
 
-    CreatePredictionRecords(config_id, reconstructed_actual, reconstructed_predicted)
-    return (config_id, actual, predicted, ffn_sgd_records, ffn_network)
+function ReconstructPredictions(data_config, actual, predicted, prepared_dataset, encoded_dataset)
+
+    reverse_function = ReverseFunctions[data_config.scaling_function]
+
+    deprocessed_actual = reverse_function(actual, prepared_dataset.output_processingvar1, prepared_dataset.output_processingvar2)
+    deprocessed_predicted = reverse_function(predicted, prepared_dataset.output_processingvar1, prepared_dataset.output_processingvar2)
+
+    reconstructed_actual = ReconstructPrices(deprocessed_actual, data_config, prepared_dataset.original_prices)
+    reconstructed_predicted = ReconstructPrices(deprocessed_predicted, data_config, prepared_dataset.original_prices)
+
+    reconstructed_actual = DataFrame(reconstructed_actual)
+    reconstructed_predicted = DataFrame(reconstructed_predicted)
+
+    names!(reconstructed_actual, names(encoded_dataset.training_output))
+    names!(reconstructed_predicted, names(encoded_dataset.training_output))
+
+    return (reconstructed_actual, reconstructed_predicted)
 end
 
 end

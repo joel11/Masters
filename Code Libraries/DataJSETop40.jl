@@ -34,8 +34,4 @@ function ReadJSETop40Data()
 end
 
 
-data = ReadJSETop40Data()
-
-
-print(names(data))
 end
