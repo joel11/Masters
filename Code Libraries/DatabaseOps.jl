@@ -5,9 +5,10 @@ using TrainingStructures
 using BSON
 #using HDF5
 #using JLD
-export WriteFFN, CreateBacktestRecords, CreateCSCVRecords, CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
+export CreateConfusionRecords, CreateSRRecords, CreateCSCVCostRecords, WriteFFN, CreateBacktestRecords, CreateCSCVRecords, CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
 db = SQLite.DB("/Users/joeldacosta/Masters/Code Libraries/database_actual.db")
+db_test  = SQLite.DB("/Users/joeldacosta/Masters/Code Libraries/database_test.db")
 
 function WriteSAE(config_id, experiment_config, net)
     file_name = string("/Users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson")
@@ -187,8 +188,33 @@ function CreateCSCVRecords(cscv_returns)
     SQLite.execute!(db, cscv_cmd)
 end
 
-function RunQuery(query)
-    return(SQLite.query(db, query))
+function CreateCSCVCostRecords(cscv_returns)
+
+    records = []
+
+    function NanRemover(x)
+        if (isnan(x) || isinf(x))
+            return "null"
+        end
+        return x
+    end
+
+    for r in 1:size(cscv_returns)[1]
+        push!(records, (string("(", cscv_returns[r,1],",", cscv_returns[r,2], ",", cscv_returns[r,3], ",", NanRemover(cscv_returns[r,4]), ")")))
+    end
+
+    cscv_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    cscv_cmd = "insert into cscv_cost_returns (configuration_id, time_step, total_profit_observed, total_profit_rate_observed) values $(cscv_values)"
+    SQLite.execute!(db, cscv_cmd)
+end
+
+function RunQuery(query, testDB = false)
+
+    if testDB == false
+        return(SQLite.query(db, query))
+    else
+        return(SQLite.query(db_test, query))
+    end
 end
 
 function RecordSAEExperimentConfig(exp_config)
@@ -214,6 +240,39 @@ function RecordFFNExperimentConfig(exp_config)
     #CreateTrainingRecord(config_id, exp_config.ogd_ho)
 
     return config_id
+end
+
+function CreateSRRecords(sharpe_ratios)
+
+    records = []
+
+    function NanRemover(x)
+        if (isnan(x) || isinf(x))
+            return "null"
+        end
+        return x
+    end
+
+    for r in 1:size(sharpe_ratios)[1]
+        push!(records, (string("(", sharpe_ratios[r,1],",", NanRemover(sharpe_ratios[r,2]), ")")))
+    end
+
+    sr_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    sr_cmd = "insert into config_oos_sharpe_ratio (configuration_id, sharpe_ratio) values $(sr_values)"
+    SQLite.execute!(db, sr_cmd)
+end
+
+function CreateConfusionRecords(confusion_df)
+
+    records = []
+
+    for r in 1:size(confusion_df)[1]
+        push!(records, (string("(", confusion_df[r,1],",", confusion_df[r,2], ",", confusion_df[r,3], ",", confusion_df[r,4], ")")))
+    end
+
+    confusion_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    confusion_cmd = "insert into config_confusion (configuration_id, trades_percentage, no_trades_percentage, all_trades_percentage) values $(confusion_values)"
+    SQLite.execute!(db, confusion_cmd)
 end
 
 end

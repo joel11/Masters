@@ -4,14 +4,18 @@ using DataGenerator, FFN, DataFrames, TrainingStructures, Distributions
 
 export ReconstructSGDPrices, DataframeDenoiseOnOff, AddNoiseToArray, AddNoiseToDataFrame, NullScaling, RerevseNull, GenerateNonRandomisedDataset, ReconstructPrices,LimitedNormalizeData, LimitedStandardizeData, ReverseStandardization, ReverseNormalization, SplitData, CreateDataset, ProcessData, GenerateEncodedSGDDataset, GenerateEncodedOGDDataset, StandardizeData, NormalizeData, ReverseFunctions, PrepareData
 
-function PrepareData(data_config, dataset)
+function PrepareData(data_config, dataset, ffn_sgd)
+
+    split_point = ffn_sgd == nothing ? [1.0] : ffn_sgd.training_splits
+
     data_raw = dataset == nothing ? GenerateDataset(data_config.data_seed, data_config.steps, data_config.variation_values) : dataset
+
     processed_data = ProcessData(data_raw, data_config.deltas, data_config.prediction_steps)
     standardized_data = map(x -> data_config.scaling_function(x, data_config), processed_data)
     data_splits = map(df -> SplitData(df[1], data_config.process_splits), standardized_data)
 
-    saesgd_data = CreateDataset(data_raw,data_splits[1][1], data_splits[2][1], [1.0], standardized_data[1][2], standardized_data[1][3], standardized_data[2][2], standardized_data[2][3])
-    ogd_data = CreateDataset(data_raw,data_splits[1][2], data_splits[2][2], [1.0], standardized_data[1][2], standardized_data[1][3], standardized_data[2][2], standardized_data[2][3])
+    saesgd_data = CreateDataset(data_raw, data_splits[1][1], data_splits[2][1], split_point, standardized_data[1][2], standardized_data[1][3], standardized_data[2][2], standardized_data[2][3])
+    ogd_data = CreateDataset(data_raw, data_splits[1][2], data_splits[2][2], [1.0], standardized_data[1][2], standardized_data[1][3], standardized_data[2][2], standardized_data[2][3])
 
     return(saesgd_data, ogd_data)
 end
