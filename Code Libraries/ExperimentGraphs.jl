@@ -1339,7 +1339,7 @@ function PlotSynthetic10(dataseed)
 end
 
 function PlotJSEPlots()
-    PlotJSEPrices([:AGL,:BIL,:IMP,:FSR,:SBK,:REM,:INP,:SNH,:MTN,:DDT], "Scaling10")
+    PlotJSEPrices([:ACL, :AGL, :AMS, :AOD, :BAW, :BIL, :BVT, :CFR, :CRH, :DDT], "Scaling10")
     PlotJSEPrices([:AGL,:BIL,:IMP,:FSR,:SBK,:REM,:INP,:SNH,:MTN,:DDT], "Actual10")
     PlotJSEPrices([:AGL, :ACL], "AGLACL")
     PlotJSEPrices([:AGL], "AGL")

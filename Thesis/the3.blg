@@ -31,45 +31,45 @@ Warning--empty booktitle in Smith
 Warning--empty booktitle in Loshchilov
 
 Done.
-You've used 86 entries,
+You've used 87 entries,
             4087 wiz_defined-function locations,
-            1360 strings with 20235 characters,
-and the built_in function-call counts, 52836 in all, are:
-= -- 4258
-> -- 1176
-< -- 355
-+ -- 644
-- -- 216
-* -- 2477
-:= -- 8353
-add.period$ -- 170
-call.type$ -- 86
-change.case$ -- 81
-chr.to.int$ -- 768
-cite$ -- 104
-duplicate$ -- 4093
-empty$ -- 4394
-format.name$ -- 272
-if$ -- 12234
+            1366 strings with 20320 characters,
+and the built_in function-call counts, 53613 in all, are:
+= -- 4326
+> -- 1187
+< -- 364
++ -- 652
+- -- 217
+* -- 2511
+:= -- 8472
+add.period$ -- 172
+call.type$ -- 87
+change.case$ -- 82
+chr.to.int$ -- 789
+cite$ -- 105
+duplicate$ -- 4148
+empty$ -- 4452
+format.name$ -- 273
+if$ -- 12418
 int.to.chr$ -- 0
-int.to.str$ -- 86
-missing$ -- 678
-newline$ -- 297
-num.names$ -- 88
-pop$ -- 1551
+int.to.str$ -- 87
+missing$ -- 685
+newline$ -- 300
+num.names$ -- 89
+pop$ -- 1563
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 4070
+skip$ -- 4133
 stack$ -- 0
-substring$ -- 1881
-swap$ -- 3188
-text.length$ -- 99
+substring$ -- 1931
+swap$ -- 3236
+text.length$ -- 101
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 86
+type$ -- 87
 warning$ -- 18
-while$ -- 205
-width$ -- 88
-write$ -- 812
+while$ -- 209
+width$ -- 89
+write$ -- 822
 (There were 18 warnings)

@@ -416,8 +416,8 @@ As more research into deep networks was conducted, it became apparent that with 
 One of the more critical innovations to allow effective training of deep networks without using pre-training was the development of more sophisticated techniques for weight initialization. One of the first and most popular of these was presented by Glorot and Bengio for use in Sigmoid based networks, 
 and is commonly referred to as Xavier/Glorot initialization \cite{Glorot}. The technique is layer specific and based on a linear activation
 hypothesis, such that the initial weights would maintain the same variance for input for information that is passed backwards as in 
-accordance with the nature of the activation function. While the assumption of linearity is not entirely correct, they point out that as the 
-start of the learning process, it is typically the area of the activations where the gradient is close to 1 which is being explore, thus intially approximating 
+accordance with the nature of the activation function. While the assumption of linearity is not entirely applicable, they point out that as the 
+start of the learning process, it is typically the area of the activations where the gradient is close to 1 which is being explored, thus intially approximating 
 a linear effect. The effect is a technique that increases learning efficacy and optima found \cite{Glorot}. \newline
 
 This same methodology was extended for the ReLU activation by He et. al, once again based on the linearity hypothesis around the 
@@ -728,9 +728,12 @@ The standard way of implementing backtests is to split the data into two portion
 Overfitting is not a novel issue, and has of course been tackled in various literature areas, including machine learning. 
 However, in that context, the frameworks are often not suited to the buy/sell with random frequency structure of 
 investment strategies. They also do not account for overfitting outside of the output parameters, or take into 
-consideration the number of trials attempted. Other methods, such as ‘hold-out’, are arguably still faulty due to researcher 
-knowledge while constructing models \cite{Schorfheide}. One of the downfalls of the typical IS-OOS set up in the 
-financial context is also that the most recent (and relevant) data will not be able to be used for the model training. 
+consideration the number of trials attempted. One of the common approaches to avoid backtest overfitting is the ‘hold-out’ strategy, where a certain portion of 
+the dataset is reserved for testing true OOS performance. Numerous problems have been pointed out with this 
+approach, including that the data is often used regardless, or that awareness of the movements in the data may, 
+consciously or otherwise, influence strategy and test design by the researchers \cite{Schorfheide}. For small samples, 
+a hold-out strategy may be too short to be conclusive \cite{Weiss}, and even for large samples it results in the 
+most recent data (which is arguably the most pertinent) not being used for model selection \cite{Hawkins, BailyPBO}.
 \hfill \break 
 
 There have been some suggestions to resolve the problem that is occuring in the literature as a result of this - some 
@@ -739,16 +742,32 @@ how data and replication procedures are made available \cite{Prado}. While the p
 and so on are certainly important, they don't aid with more effective model training for the researcher up front, and 
 so will not be covered here.
 
-\subsubsection{Testing Methodologies}\label{lr_cscv}
+\subsubsection{Assessment Methodologies}\label{lr_cscv}
 
-Considering the issues laid out above, there has been much work to develop alternative approaches to backtesting. 
-One of the common approaches to avoid backtest overfitting is the ‘hold-out’ strategy, where a certain portion of 
-the dataset is reserved for testing true OOS performance. Numerous problems have been pointed out with this 
-approach, including that the data is often used regardless, or that awareness of the movements in the data may, 
-consciously or otherwise, influence strategy and test design by the researchers \cite{Schorfheide}. For small samples, 
-a hold-out strategy may be too short to be conclusive \cite{Weiss}, and even for large samples it results in the 
-most recent data (which is arguably the most pertinent) not being used for model selection \cite{Hawkins, BailyPBO}.
+
+The Sharpe Ratio (SR), as introducd by William Sharpe in earlier literature \todo{refs}, has become the favoured choice as a widely usable
+investment portfolio performance measure \todo{ref}. The measure, indicating the amount of return relative to risk that a portfolio offers, makes for 
+a sensible choice in that any portfolio which maximizes this can be shown to lie on Markowitz's efficient frontier \todo{ref}. In line with its popularity, there has been 
+extensive research around its disitributional properties. The estimated SR of a portfolios returns has been shown to follow a normal distribution, regardless
+of whether the underlying returns are themselves normally distributed or not \todo{ref}. Further work by Christie derived a limiting distribution, assuming only stationary and ergodic returns \todo{ref}. This prior work lead to Bailey and Lopez deriving a probability for whether a true SR measure exceeds the given benchmark \todo{ref}.
 \hfill \break 
+
+The Sharpe Ratio, and indeed most standard performance measures, are based on the assumption that the returns used are the result of a single trial. In consideration of the issues laid out above, it then becomes a misreprentative performance measure. The Probabilistic Sharpe Ratio (PSR) was developed in order to estimate the likelihood that an observed $\widehat{SR}$ exceeds a provided benchmark $SR^*$ \todo{ref bailey and prado 2010}. Further work by Bailey et al. developed the False Strategy Theorem, allowing the assessment of whether a presented strategy is a false positive or not \todo{cite Bailey 2014}. This allowed the development of the Deflated Sharpe Ratio (DSR) which calculates the likelihood that the true SR is positive under consideration of numerous trials being tested \todo{cite Bailey 2014}. The DSR can be estimate using the PSR methodology as $\widehat{PSR}[SR^*]$ where the benchmark $SR^{*}$ (SR) is no longer user defined. The crux of the DSR assessment lies on the acknowledgement that a given set of SR estimates will have a greater maximum than zero, even if the true SR is zero, i.e testing the null hypothesis of $H_0:SR=0$. In order to reject this, the observed SR must exceed the expected SR after controlling for the number of trials.
+\hfill \break 
+
+\begin{equation}
+SR^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right)
+\end{equation}
+where:
+\begin{itemize}
+	\item [] $\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]$ is the variance across trials' estimated SR
+	\item [] $K$ is the number of independent trials
+	\item [] $Z[.]$ is the CDF of the standard Normal Distribution 
+	\item [] $\gamma$ is the Euler-Mascheroni constant
+\end{itemize}
+
+The calculation of $SR^*$ requires $\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]$ and  $K$, which are usually unknown on accounts of being meta-research variables which cannot be estimated from the selected strategy. It is not typical for researchers to track and report on these variables, and even if they were to, the trials would not typically be independent thus further complicating the practical realities around calculating $SR^*$ as defined above. 
+
 
 There has been work by several authors to try and lay out techniques to try and avert backtest overfitting. 
 The Model Confidence Set (MCS), as developed by Hansen et al. \cite{Hansen}, starts with a 
@@ -767,7 +786,7 @@ selection might be avoided, called Combinatorially Symmetric Cross-validation (C
 The CSCV methodology provides several important benefits over traditional testing 
 frameworks, including the usual K-fold cross validation used in machine learning. By recombining the slices of 
 available data, both the training and testing sets are of equal size, which is particularly advantageous when comparing 
-financial statistics such as the Sharpe Ratio (SR), which are susceptible to sample size. Additionally, the symmetry 
+financial statistics such as the Sharpe Ratio, which are susceptible to sample size. Additionally, the symmetry 
 of the set combinations in CSCV ensure that performance degradation is only as a result of overfitting, and not 
 arbitrary differences in data sets. It is pointed out that while CSCV and PBO should be used to evaluate the quality 
 of a strategy, they should not be the function on which strategy selection relies, which in itself would result in overfitting.
@@ -865,121 +884,7 @@ predictions to be profitable. The subtlety here is that we will consider the usa
 
 \newpage
 
-\section{Software Libraries and Development}\label{Software}
 
-A significant aspect of this dissertation was the implementation of software libraries that fulfilled the criteria of generalised training of neural networks, an implementation of the full process as described later in Chapter \ref{ProcessOverview}, the creation and management of database records for analysis and an extensive set of diagnostic tools in order to assess performance. This Chapter details the implementation choices as well as the final libraries which were produced.
-
-
-\subsection{Programming Languages}
-
-The libraries developed were primarily written in Julia, a relatively new scientific computing language (initially developd in 2009). The main motivation, both for Julia as a language as well as choosing it for this task, is its efficiency and speed. Julia was created with high performance tasks in mind, and with it's use of a Just-In-Time compiler, can approach similar benchmarks to C. This stands in stark contrast to some of the more popular analytical languages used, such as R or Python, which often suffer from performance issues. In the context of a project which required extensive processing time, it was natural to prioritize this computational efficiency. \newline
-
-Julia's focus on technical computing is emphasised with it's built in support for mathematical and statistical work, composable functional base and dyamic and optional typing schemes. It's ability to fulfil general purpose programming, familiar syntax (which also works effectively for mathematical commands) and it's interactive (REPL) command line also make it a practical choice for the task at hand.\newline
-
-SQLite was chosen as the database management language. Relational schemas were a fitting choice for the nature of the data being captured, and SQLite offers a fast, effective and free implementation of SQL.\newline
-
-
-\subsection{Data Generation \& Processing}
-
-Data processing libraries were implemented to offer configurable processing for the steps outline in Chapter \ref{Data}. The Data Generator module implemented Geometric Brownian Motion (GBM) generation for a set number of steps and assets with their mean and variances specified \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataGenerator.jl}}. \newline
-	
-The Data Processor module \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataProcessor.jl}} offers a more extensive set of operations:
-\begin{itemize}
-	\item[1] Dataset scaling. Available implementations: Normalize, Standardize, Limited-Normalize, Limited-Standardize	
-	\item[2] Log Differencing with rolling windows for past and future time point aggregations
-	\item[3] Partitioning and creating datasets for training processes
-	\item[4] Encoding datasets using Stacked Autoencoders
-	\item[5] Reverse scaling and price reconstruction (i.e. reversing the log differencing from 2) to process predictions into the original format
-	\item[6] Add noise to datasets for denoising training
-\end{itemize}
-
-\subsection{Network Training}
-
-Neural networks were implemented with highly configurable training, such that the parameters are easily specified within Julia types \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/TrainingStructures.jl}} and then passed onto the training functions. The parameters are grouped accordingly to the different aspects of the training that they pertain to.
-
-\subsubsection{Network Parameters}
-\begin{itemize}
-	\item[1] Network Structure: Number of layers, and size of each layer
-	\item[2] Activations: Activation functions for each layer. Available implementations: Linear, Sigmoid, ReLU, LeakyReLU, Softmax, Tanh\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ActivationFunctions.jl}}
-	\item[3] Network Initialization: The initialization method for the weights. Available implementations: Normal Random, Xavier, He, He-Adj \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/InitializationFunctions.jl}}
-\end{itemize}
-
-\subsubsection{SGD \& CD-1 Training Parameters}
-\begin{itemize}
-	\item[1] Maximum learning rate, minimum learning rate and learning rate epoch cycles
-	\item[2] Minibatch size
-	\item[3] Maximum training epochs, or stopping function
-	\item[4] L1 regularization lambda
-	\item[5] Cost function. Avaialable Implementations: Mean Squared Error, Cross Entropy Error, Log Likelihood Error \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/CostFunctions.jl}}
-	\item[6] Denoising variance
-	\item[7] Training / Testing data split
-\end{itemize}	
-
-\subsubsection{OGD Training Parameters}
-\begin{itemize}
-	\item[1] Maximum learning rate
-	\item[2] Cost function. Avaialable Implementations: Mean Squared Error, Cross Entropy Error, Log Likelihood Error \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/CostFunctions.jl}}
-\end{itemize}	
-
-\subsubsection{Network Trainer Module}
-
-The Network Trainer \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/NetworkTrainer.jl}} module then offers 3 primary methods, given the relevant parameter configurations and dataset:
-
-\begin{itemize}
-	\item[1] Train a Feedforward Neural Network, using variance based weight initializations 
-	\item[2] Train an SAE, using variance based weight initializations
-	\item[3] Train an SAE, using RBM based pre-training for weight initialization
-\end{itemize}
-
-These functions are supported by the following modules: SGD\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/SGD.jl}}, RBM\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/RBM.jl}} and Gradient Functions\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/GradientFunctions.jl}}
-
-\subsection{Process Implementation}
-
-The process implementation, as described in Chapter \ref{ProcessOverview}, is largely implemented in the Experiment Process module \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ExperimentProcess.jl}}.
-
-The RunSAEConfigurationTest method uses the SAEExperimentConfig Type to wrap up all necessary configurations and with a passed dataset runs through the following steps:
-\begin{itemize}
-	\item[1] Either generate or process the raw dataset, according to the specified configuration
-	\item[2] Train the SAE, either by RBM or variance based weight initializations
-	\item[3] Passes back the SAE with original and reconstructed testing datasets
-	\item[4] Store the SAE as a bson object to be used later
-\end{itemize}
-
-The RunFFNConfigurationTest method similarly uses the FFNExperimentConfig Type and a passed dataset to run through the following steps:
-\begin{itemize}
-	\item[1] Either generate or process the raw dataset, according to the specified configuration
-	\item[2] Encodes the datasets for the different steps of the process using the specified SAE
-	\item[3] Train the FFN using variance based weight initialization and SGD
-	\item[4] Use the FFN to generate predictions for IS data, reconstruct them and record them in the database
-	\item[5] Train the FFN using OGD on OOS data
-	\item[6] Use the FFN to generate predictions for OOS data, reconstruct them and record them in the database
-\end{itemize}
-
-Two further modules allow the exploration of the configuration space, such that diagnostics can be performed on different aspects of the training. 	The ConfigTestsFFN\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsFFN.jl}} and ConfigTestsSAE\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsSAE.jl}} modules make use of the Config Generator\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/Generator.jl}} module in order to generate a full grid configuration space for a given range of values for any chosen parameters. Each of these combination configuration sets is then run as per the procsses detailed above, with the various results recorded as usual. 
-
-\subsection{Database Implementation}
-
-As noted, the database platform chosen was SQLite, with Julia modules handling the creation and management. The Database Creator module \footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/DatabaseCreator.jl}} creates the database with the following schemas:
-
-\begin{itemize}
-	\item[1] configuration\_run, as the primary record for any experiment process
-	\item[2] dataset\_config: the dataset configuration that may relate to an experiment
-	\item[3] network\_parameters: the network configuration for an experiment
-	\item[4] training\_parameters: the SGD/RBM/CD training configuration for an experiment
-	\item[5] epoch\_records: details relating to ongoing training performance for the duration of an experiment
-	\item[6] backtest\_results: predictions for IS data
-	\item[7] prediction\_results: predictions for OOS data
-	\item[8] cscv\_returns: MMS level returns by timestep for an experiment
-	\item[9] cscv\_cost\_returns: MMS level returns by timestep for an experiment with cost accounted for 
-	\item[10] config\_oos\_pl: the total OOS profit \& loss for an experiment
-	\item[11] config\_oos\_pl\_cost: the total OOS profit \& loss for an experiment, with cost accounted for
-	\item[12] config\_oos\_sharpe\_ratio: the OOS sharpe ratio for an experiment
-	\item[13] config\_confusion: the percentages of correct trades made for an experiment
-\end{itemize}
-	
-The DatabaseOps \footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/DatabaseOps.jl}} module handles the creation of records for these schemas, as well as the writing and reading of bson files which are used to store actual networks.
-
-\newpage
 \section{Data Processing and Generation }\label{Data}
 \subsection{Data Processing}\label{data_processing}
 
@@ -992,42 +897,51 @@ The datasets used go through several transformations throughout the training and
 \end{itemize}
 
 \subsubsection{Log Difference Transformation and Aggregation}\label{ldata_og_difference}
-All datasets are transformed into log feature fluctuation values, and were then aggregated to include fluctuations over rolling window periods. The log feature fluctuation for timepoint $t$ is calculated using \eqref{eq_logdiff}:
+All datasets are transformed into log feature fluctuation values, and were then aggregated to include fluctuations over rolling window periods. The log feature fluctuation for measured prices $\tilde{p}$ at timepoint $t$ is calculated using \eqref{eq_logdiff}:
 \begin{equation}\label{eq_logdiff}
-\texttt{log\_diff\_x}_t = ln(x_t) - ln(x_{t-1})
+\mathbf{p}_i = \mathrm{ln(\tilde{p}_i) - \mathrm{ln}(\tilde{p}_{i-1})}
 \end{equation}
 This log feature fluctuation,  is processed for each asset's closing price and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and are symmetric in terms of gains and losses.
 \newline\newline
 The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. A typical example would be past data aggregation windows of 1, 5 and 20, and a future prediction point of 5. These are calculated as summations of the log differences, such that for $d$ days:
 
 \begin{equation}
-\texttt{past\_agg\_x}_{(t,d)} = \sum_{i = t-d}^{t} \texttt{log\_diff\_x}_i
+\Delta \mathbf{p^{-}_{(d,t)}} = \sum_{i = t-d}^{t} \mathbf{p}_i
 \end{equation}
 
 \begin{equation}
-\texttt{future\_agg\_x}_{(t,d)} = \sum_{i = t+1}^{t+d} \texttt{log\_diff\_x}_i
+\Delta \mathbf{p^{+}_{(t,d)}} = \sum_{i = t+1}^{t+d} \mathbf{p}_i
 \end{equation}
 
 Only data points with a full set of features are used for training and prediction later on in the framework.
 
 \subsubsection{Data Scaling}\label{data_scaling}
-Once the log difference data has been processed, the datasets are either standardized or normalized to allow for better learning. This is done in the typical ways:
+Once the log difference data has been processed, the datasets are either standardized or normalized to allow for better learning. This is implemented typically, as detaild below.
+
+\paragraph{Standardization}
 \begin{equation}
-\texttt{standardized\_x}_i = \frac{(x_i - \bar{x}) }{\sigma_x}
+\mathbf{z_i}= \mathrm{\frac{(\mathbf{p}_i - \mathbf{\bar{p}}) }{\sigma_p}}
 \end{equation}
+
+\paragraph{Normalization}
 
 \begin{equation}\label{eq_ltd_normalization}
-\texttt{normalized\_x}_i = \frac{x_i - min(x) }{max(x) - min(x)}
+\mathbf{n_i}= \frac{\mathrm{\mathbf{p}_i - min(\mathbf{p}) }}{\mathrm{max(\mathbf{p}) -{min}(\mathbf{p})}}
 \end{equation}
 
-Two extensions of these are used later on, dubbed 'Limited Standardization' and 'Limited Normalization', which are used when the data is split up into the Training and Prediction sets. In this case all the data needs to be scaled, but the variance or range should not be travelling from the Prediction set to the Training set through the use of aggregated measures such as $\bar{x}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:
+~\\
+Two extensions of these are used later on, dubbed ``Limited Standardization'' and ``Limited Normalization'', which are used when the data is split up into the Training and Prediction sets. In this case all the data needs to be scaled, but the variance or range should not be travelling from the Prediction set to the Training set through the use of aggregated measures such as $\bar{x}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:
+
+\paragraph{Limited Standardization}
 
 \begin{equation}
-\texttt{limited\_standardized\_x}_i = \frac{(x_i - \bar{x_{1:t}}) }{\sigma_{x_{1:t}}} , \forall  i \in (1, n)
+\mathbf{q_{(i, t)}} =\mathrm{ \frac{(\mathbf{p}_i - \bar{\mathbf{p}_{1:t}}) }{\sigma_{p_{1:t}}} , \forall  i \in (1, n)}
 \end{equation}
 
+\paragraph{Limited Normalization}
+
 \begin{equation}
-\texttt{limited\_normalized\_x}_i = \frac{x_i - min(x_{1:t}) }{max(x_{1:t}) - min(x_{1:t})} , \forall  i \in (1, n)
+\mathbf{v_{(i, t)}}  = \mathrm{ \frac{\mathbf{p}_i - min(\mathbf{p}_{1:t}) }{max(\mathbf{p}_{1:t}) - min(\mathbf{p}_{1:t})} , \forall  i \in (1, n)}
 \end{equation}
 
 
@@ -1037,12 +951,16 @@ This log-differenced, aggregated and scaled data is then used as the input for t
 
 The predicted data points are transformed back into actual prices for returns analysis. The first step is to reverse the scaling that is done in \ref{data_scaling} in order to retrieve the log difference fluctuations.
 
-\begin{equation}
-\texttt{reverse\_standardized\_x}_i = \texttt{standardized\_x}_i * \sigma_x + \bar{x}
-\end{equation}
+\paragraph{Reverse Standardization}
 
 \begin{equation}
-\texttt{reverse\_normalized\_x}_i = \texttt{normalized\_x}_i * (max(x) - min(x)) + min(x)
+\mathbf{z^{*}_i} = \mathrm{{\mathbf{z}_i} * \sigma_p + \mathbf{\bar{p}}}
+\end{equation}
+
+\paragraph{Reverse Normalization}
+
+\begin{equation}
+\mathbf{n^{*}_i} = \mathrm{\mathbf{n}_i * (max(\mathbf{p}) - min(\mathbf{p})) + min(\mathbf{p})}
 \end{equation}
 
 These are applied similarly for the limited variations.
@@ -1052,16 +970,15 @@ These are applied similarly for the limited variations.
 The predicted log fluctuations produced in \ref{data_reverse_scaling} are used to reconstruct the predicted prices. 
 
 \begin{equation}
-\texttt{reconstructed price}_{s,i} = o_{s,i-t} * e^{p_{s,i}}
+\mathbf{p^*}_{i} = \mathrm{\tilde{p}_{i-d} * e^{\hat{p}_{i}}}
 \end{equation}
 where:
 \begin{itemize}
-	\item [] $o$ = original asset prices
-	\item [] $s$ = asset selected
-	\item [] $i$ = timepoint predicted from
-	\item [] $d$ = timepoint predicted to
-	\item [] $p$ = predicted log fluctuation 
- 
+	\item [] $\mathrm{\tilde{p}}$ = original asset prices
+	\item [] $\mathrm{\hat{p}}$ = predicted log fluctuation 
+	\item [] $\mathrm{i}$ = price timepoint 
+	\item [] $\mathrm{d}$ = price fluctuation prediction horizon
+
 \end{itemize}
 \texttt{}\newline
 These reconstructed prices are then used to assess model returns later in the Money Management Strategy (\ref{imp_mms}).
@@ -1133,12 +1050,12 @@ For the purposes of this chapter, the following notation will be used:
 
 \begin{itemize}
 \item[1] A network $N$ will be contructed with $L$ layers, each with $e$ nodes
-\item[2] The weights from the $j^{th}$ node in the $l^{th}$ layer from the $k^{th}$ node in the $(l-1)^{th}$ layer are represented by $w^l_{jk}$
-\item[3] The bias for the $j^{th}$ node in layer $l$ is represented by $w^l_0j$
-\item[4] The output for the $j^{th}$ node is defined as $a = o(z_j)$, for an activation function $o$ (with inverse $o^{\prime}$) and weighted input $z$
+\item[2] The weights from the $j^{th}$ node in the $l^{th}$ layer from the $k^{th}$ node in the $(l-1)^{th}$ layer are represented by $\mathbf{w}^l_{jk}$
+\item[3] The bias for the $j^{th}$ node in layer $l$ is represented by $\mathbf{w}^l_0j$
+\item[4] The output for the $j^{th}$ node is defined as $\mathbf{a} = \mathrm{o}(\mathbf{z}_j)$, for an activation function $o$ (with inverse $\mathrm{o^{\prime}}$) and weighted input $z$
 \item[5] The weighted input for the $j^{th}$ neuron in a layer is 
 \begin{equation}\label{eq_weighted_input}
-	z^l_j=\sum_{i=1}^{e^{l-1}}{a^{l-1}_iw_{ij}} + w_{0j}
+	\mathbf{z^l_j}=\sum_{i=1}^{e^{l-1}}{\mathbf{a}^{l-1}_i\mathbf{w}_{ij}} + \mathbf{w}_{0j}
 \end{equation}
 \end{itemize}
 ~\\
@@ -1148,30 +1065,30 @@ These definitions allow an input into the network to be propagated through it, h
 ~\\
 As noted in \ref{lr_activationfunctions}, there are 3 primary characteristics of concern for activation functions: non-linearity, continuous differentiability and monotonicity. While many different functions have been suggested and used, several of the more popular were implemented here.
 
-\subparagraph{Sigmoid}
+\paragraph{Sigmoid}
 
 The sigmoid, or logistic, function is one of the most popular and widely used activation functions historically, and is defined as 
 \begin{equation}\label{func_sigmoid}
-\texttt{o}(x) = \frac{1}{1 + e^{-x}}
+\mathrm{o}(x) = \frac{1}{1 + e^{-x}}
 \end{equation}
 
 \begin{equation}\label{func_sigmoidprime}
-\texttt{o}^\prime(x) = \texttt{o}(x)(1-\texttt{o}(x))
+\mathrm{o}^\prime(x) = \mathrm{o}(x)(1-\mathrm{o}(x))
 \end{equation}
 
 The Sigmoid function is in the range [0,1], making it a suitable choice for problems requiring a probabilistic output. The slope of the function curve is both a boon and a drawback: it allows for fast learning initially, but results in learning slowdown later (often casuing what is referred to as node 'saturation'). The exponent calculation is also computationally expensive, relatively speaking.
 
-\subparagraph{ReLU}
+\paragraph{ReLU}
 
 The Rectified Linuear Unit (ReLU) is a newer activation function which has been shown to be effective in deep learning networks. It is defined as
 
 \begin{equation}\label{func_relu}
-\texttt{o}(x) = \texttt{max}(0, x)
+\mathrm{o}(x) = \texttt{max}(0, x)
 \end{equation}
 
 \begin{equation}\end{equation}\label{func_relu_prime}
 \[
-\texttt{o}^\prime(x)= 
+\mathrm{o}^\prime(x)= 
 \begin{cases}
 1,& \text{if } x\geq 0\\
 0,              & \text{otherwise}
@@ -1180,12 +1097,12 @@ The Rectified Linuear Unit (ReLU) is a newer activation function which has been 
 
 The function has the benefits of quick learning which doesn't saturate, as well as being computationally cheap. The downside is that the non-gradient for the negative range of the function can result in 'dead' nodes, which stop updating with the learning process.
 
-\subparagraph{Leaky ReLU}
+\paragraph{Leaky ReLU}
 
 The Leaky ReLU resolves the dying ReLU problem by adding a small gradient to the negative range of the function. This results in a slow learning being applied to 'dead' ReLU's, which may in turn result in them being used again if necessary.
 \begin{equation}\end{equation}\label{func_leaky_relu}
 \[
-\texttt{o}(x)= 
+\mathrm{o}(x)= 
 \begin{cases}
 x,& \text{if } x\geq 0\\
 0.01x,              & \text{otherwise}
@@ -1194,23 +1111,23 @@ x,& \text{if } x\geq 0\\
 
 \begin{equation}\end{equation}\label{func_leaky_relu_prime}
 \[
-\texttt{o}^\prime(x)= 
+\mathrm{o}^\prime(x)= 
 \begin{cases}
 1,& \text{if } x\geq 0\\
 0.01,              & \text{otherwise}
 \end{cases}
 \]
 
-\subparagraph{Linear Activation}
+\paragraph{Linear Activation}
 
 Linear activations don't transform the input, and have a constant gradient, which can be useful for key layers where no loss in error signal is desired, such as the output or encoding layers.
 
 \begin{equation}\label{func_linear}
-\texttt{o}(x) = x
+\mathrm{o}(x) = x
 \end{equation}
 
 \begin{equation}\label{func_linear_prime}
-\texttt{o}^\prime(x) = 1
+\mathrm{o}^\prime(x) = 1
 \end{equation}
 
 \subsubsection{Backpropagation}\label{imp_backprop}
@@ -1218,7 +1135,7 @@ Linear activations don't transform the input, and have a constant gradient, whic
 The backpropagation algorithm, as discussed in \ref{lr_trainingbackprop}, has allowed for effective training of FNNs for given data. The algorithm relies on incremental improvements of the model, as defined by decreasing the cost function. A common choice for cost is Mean Squared Errors (MSE):
 
 \begin{equation}\label{func_MSE}
-C = \frac{1}{2} \rVert y - a^L \rVert^2
+\mathbf{C} = \frac{1}{2} \rVert \mathbf{y} - \mathbf{a}^L \rVert^2
 \end{equation}
 ~\\
 
@@ -1227,27 +1144,29 @@ A technical definition of the backpropagation algrithm is given in Algorithm \re
 	\item [1] \textbf{Forward Pass}: The samples are propagated through the network, in order to generate the output $\hat{y}_s$. Vectorization is typically used to calculate the results for multiple samples at once, though conceptually each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input, using equation \eqref{eq_weighted_input} for the weighted output and the equations defined in \ref{imp_activation_functions} for the activation functions.
 	\newline
 	\item [2] \textbf{Calculate Cost}: The cost between the training output $y_s$ and the model output $\hat{y}_s$ is calculated. Using this cost function, the rate of change for the error in the output layer by the rate of change in the activation function in the last layer. This is captured in equation \eqref{eq_lambda1}:	
+	
 		\begin{equation}\label{eq_lambda1}
-		\delta_{j}^{L}=\frac{\partial C}{\partial a_{j}^{L}} o^{\prime}\left(z_{j}^{L}\right)
+		\mathbf{\delta}_{j}^{L}=\frac{\partial \mathbf{C}}{\partial \mathbf{a}_{j}^{L}} \mathrm{o}^{\prime}\left(\mathbf{z}_{j}^{L}\right)
 		\end{equation}
+		
 	The vectorized version of this is often used, and expressed in \eqref{eq_lambda2}, where $\nabla_a C$ represents a vector of components which represent the partial derivatieves, such that they represent the rate of change of C relative to the activation functions' outputs.
 		\begin{equation}\label{eq_lambda2}
-		\delta_{j}^{L}=\nabla_a C \otimes o^{\prime}(z^L)
+		\mathbf{\delta}_{j}^{L}=\nabla_a \mathbf{C} \otimes \mathrm{o}^{\prime}(\mathbf{z}^L)
 		\end{equation}
 	If using quadractive cost, as per \ref{func_MSE}, then the term $\frac{\partial C}{\partial a_{j}^{L}}$ can be reduced to $(a^L - y)$, such that the equation for the output layer error is
 	\begin{equation}\label{eq_lambda3}
-				\lambda^L = (a^L - y) \otimes o^{\prime}(z^L)
+				\mathbf{\lambda}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \mathrm{o}^{\prime}(\mathbf{z}^L)
 	\end{equation}
 	\newline		
 	\item [3] \textbf{Backwards Pass}: The backwards pass consists of 2 steps, where the errors for each previous layer are calculated, and the weights for that layers are then adjusted accordingly:
 		\begin{itemize}
 		\item [3.1] The activation values are propagated back through the network to calculate the delta values based on the cost value. This uses the same rationale as \eqref{eq_lambda1}, but rather uses $(w^{l+1})^T$ by the next layers error in order to get an indication of how the error rate and how it moves backwards through the network.
 						\begin{equation}\label{eq_lambda4}
-						\lambda^l = ((w^{l+1})^T\lambda^{l+1})  \otimes o^{\prime}(z^l)
+						\mathbf{\lambda}^l = ((\mathbf{w}^{l+1})^T\mathbf{\lambda}^{l+1})  \otimes \mathrm{o}^{\prime}(\mathbf{z}^l)
 						\end{equation}
 		\item [3.2] In order to update the network, each weights output error and input activation are multiplied to find the weight’s gradient and this gradient is reduced by a factor of the ‘learning rate’ $\eta$, which is then subtracted from the network weights to update them proportionately to the error observed and chosen learning rate.
 						\begin{equation}\label{eq_bp_weightupdate}
-						w^l \rightarrow w^l - {\eta}\lambda^{l} (a^{l - 1})^T
+						\mathbf{w}^l \rightarrow \mathbf{w}^l - {\eta}\mathbf{\lambda}^{l} (\mathbf{a}^{l - 1})^T
 						\end{equation}
 	\end{itemize}
 		
@@ -1257,8 +1176,8 @@ Choices regarding the learning rates are discussed in \ref{imp_learning_rate_sch
 
 \RestyleAlgo{algoruled}
 \begin{algorithm}[H]
-	\KwIn{Neural Network $N$, with randomly initialized weights $w$, $L$ layers, and activation functions $o$ and learning rate $\eta$}
-	\KwData{Testing set with inputs $x$, and outputs $y$}
+	\KwIn{Neural Network $N$, with randomly initialized weights $\mathbf{w}$, $L$ layers, and activation functions $o$ and learning rate $\eta$}
+	\KwData{Testing set with inputs $\mathbf{x}$, and outputs $\mathbf{y}$}
 	
 	\texttt{\\}
 
@@ -1272,23 +1191,23 @@ Choices regarding the learning rates are discussed in \ref{imp_learning_rate_sch
 			{
 				\ForEach{j in 1:$e^l$}
 				{
-					$z^{l}_j=\sum_{i=1}^{e^{l-1}}{a^{{l-1}}_iw_{ij}} + w_{0j}$;
+					$\mathbf{z}^{l}_j=\sum_{i=1}^{e^{l-1}}{\mathbf{a}^{{l-1}}_i\mathbf{w}_{ij}} + \mathbf{w}_{0j}$;
 					\newline
-					$a^{l}_j$ = $o(z^{l}_j)$;
+					$\mathbf{a}^{l}_j$ = $\mathrm{o}(\mathbf{z}^{l}_j)$;
 				}
 			} 
 			\tcp{Calculate the error term (aka cost), as}
-			$\lambda^L = (a^L - y) \otimes o'(z^L)$;
+			$\mathbf{\lambda}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \mathrm{o'}(\mathbf{z}^L)$;
 			
 			\texttt{\\}
 			\tcp{Perform the Backward Pass, to propagate the errors back and update the network accordingly}
 			\ForEach{l in (L-1):1}
 			{
 				\tcp{Calculate the delta values}
-				$\lambda^l = ((w^{l+1})^T\lambda^{l+1})  \otimes o'(z^l)$;
+				$\mathbf{\lambda}^l = ((\mathbf{w}^{l+1})^T\mathbf{\lambda}^{l+1})  \otimes \mathrm{o'}(\mathbf{z}^l)$;
 				
 				\tcp{Update the weights}
-				$w^l \rightarrow w^l - {\eta}\lambda^{l} (a^{l - 1})^T$;
+				$\mathbf{w}^l \rightarrow \mathbf{w}^l - {\eta}\mathbf{\lambda}^{l} (\mathbf{a}^{l - 1})^T$;
 			}
 	}
 
@@ -1309,7 +1228,7 @@ The changes to the initial backprop algorithm, detailed in \ref{algo_backprop}, 
 	\item [1] Selection is now performed such that at each epoch $m$ samples $x_s$ are selected from $x$ which have not yet been sampled.
 	\item [2] The weight update is now performed such that it represents an aggregate update according the $m$ samples that were selected:
 			\begin{equation}\label{eq_backprop_weightupdate_sgd}
-			w^l \rightarrow w^l - \frac{\eta}{m} \sum_{x} \lambda^{x, l} (a^{x, l - 1})^T
+			\mathbf{w}^l \rightarrow \mathbf{w}^l - \frac{\eta}{m} \sum_{x} \mathbf{\lambda}^{x, l} (\mathbf{a}^{x, l - 1})^T
 			\end{equation}
 \end{itemize}
 
@@ -1323,7 +1242,7 @@ Where SGD is appropriate and effective for scenarios where the entire dataset is
 Regularization is a commonly used technique in machine learning used to reduce a model's capacity to overfit to the data, and in so doing reduces the variance in the model results. One of the typical methods, $L2$ (or "weight decay"), is implemented by adding an extra term to the cost function which is itself a function of the weights in the model. This extra term forces the learning process to favour smaller weights, and only allows large weights to occur if they are able to offer an appropriate increase in performance. The modified cost function is displayed below in \ref{func_l2reg}.
 
 \begin{equation}\label{func_l2reg}
-C=\frac{1}{2 n} \sum_{x}\left\|y-a^{L}\right\|^{2}+\frac{\lambda}{2 n} \sum_{w} w^{2}
+\mathbf{C}=\frac{1}{2 n} \sum_{x}\left\|\mathbf{y}-\mathbf{a}^{L}\right\|^{2}+\frac{\mathbf{\lambda}}{2 n} \sum_{w} \mathbf{w}^{2}
 \end{equation}
 
 The additional term is scaled by the configurable regularization parameter, $\lambda$, which if small approximates the original cost function or if large will increase the degree of regularization used. \newline
@@ -1331,13 +1250,13 @@ The additional term is scaled by the configurable regularization parameter, $\la
 In order to implement this in backpropagation, the weight update rule is changed to the following (while biases remain the same):
 
 \begin{equation}\label{func_l2_weight_update}
-w \rightarrow w-\eta \frac{\partial C_{0}}{\partial w}-\frac{\eta \lambda}{n} w
+\mathbf{w} \rightarrow \mathbf{w}-\eta \frac{\partial \mathbf{C}_{0}}{\partial \mathbf{w}}-\frac{\eta \mathbf{\lambda}}{n} \mathbf{w}
 \end{equation}
 
 For SGD, this can be simplified to the following: 
 
 \begin{equation}\label{func_sgd_l2}
-w \rightarrow\left(1-\frac{\eta \lambda}{n}\right) w-\frac{\eta}{m} \sum_{x} \frac{\partial C_{x}}{\partial w}
+\mathbf{w} \rightarrow\left(1-\frac{\eta \mathbf{\lambda}}{n}\right) \mathbf{w}-\frac{\eta}{m} \sum_{x} \frac{\partial \mathbf{C}_{x}}{\partial \mathbf{w}}
 \end{equation}
 
 
@@ -1380,32 +1299,32 @@ One of the primary differences from a FFN lies in the stochastic unit determinat
 The joint configuration $(v,h)$ of the visible and hidden units has an energy given by:
 
 \begin{equation}\label{func_rbmenergy}
-E(v,h) = - \sum_{i \in visible} a_iv_i - \sum_{j \in hidden} b_jh_j - \sum_{i,j}v_ih_jw_ij
+E(\mathbf{v},\mathbf{h}) = - \sum_{i \in visible} \mathbf{a}_i\mathbf{v}_i - \sum_{j \in hidden} \mathbf{b}_j\mathbf{h}_j - \sum_{i,j}\mathbf{v}_i\mathbf{h}_j\mathbf{w}_ij
 \end{equation}
 
 where $v,h$ correspond to the binary states of the visible and hidden units, with biases $a,b$, and weights $w$ \cite{Hinton5}. It can be shown, that network weights can be adjusted to change the probabilities assigned to a particular training sample \cite{Hinton5}. The derivations of \ref{func_rbmenergy} show that performing a stochastic descent for the log probability of the data can be implemented through the following weight adjustment:
 
 \begin{equation}
-\Delta w_{ij} = \eta (\langle v_ih_j\rangle_{data} - \langle v_ih_j\rangle_{model})
+\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{data} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{model})
 \end{equation}
 
 The angular brackets here indicate expectations under the distribution specified by the following subscript. Due to the probabilistic nature of RBMs, the [0,1] ranged Sigmoid activation function is typically used. Thus, for hidden nodes and a data sample $v$, it is easy to get unbiased sampling of $\langle v_ih_j \rangle_{data}$
 
 \begin{equation}
-p(h_j=1) = \sigma(w_{0j} +  \sum_{i=1}v_iw_{ij})
+p(\mathbf{h}_j=1) = \sigma(\mathbf{w}_{0j} +  \sum_{i=1}\mathbf{v}_i\mathbf{w}_{ij})
 \end{equation}
 
 Similarly, the visible states (or reconstruction), can then be calculated as 
 
 \begin{equation}
-p(v_i=1) = \sigma(w_{0i} + \sum_{j=1}h_jw_{ij})
+p(\mathbf{v}_i=1) = \sigma(\mathbf{w}_{0i} + \sum_{j=1}\mathbf{h}_j\mathbf{w}_{ij})
 \end{equation}
 
 
 Getting an unbiased sample of $\langle v_i h_j \rangle$ proves more problematic, and so the model reconstructions via Gibbs sampling are used instead (this is explained below), resulting in the weight updates of
 
 \begin{equation}
-\Delta w_{ij} = \eta (\langle v_ih_j\rangle_{data} - \langle v_ih_j\rangle_{reconstruction})
+\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{data} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{reconstruction})
 \end{equation}
 
 While it's important for the hidden units to take on a binary value (and so avoid communicating real values rather than learning structure), the visible units may be chosen to take on the probability values, rather than the stochastic samples, particularly if real valued output is necessary. 
@@ -1486,7 +1405,7 @@ ReLU activations differ from Sigmoid in that they are not fitting for probabilit
 
 As noted in \ref{lr_SDAE}, denoising can be used as an optimization technique for autoencoders in order to improve general performance and reconstruction. The methodology works by corrupting the input data for training, but using the non-corrupted data as the expected output sample. In doing so, this forces the autoencoder to learn more fundamental representations of the data rather then fitting to sample noise, hence "denoising". Two of the more typical techniques for achieving this have been implemented, as detailed below. In both cases, the noise is reapplied each time training samples are chosen.
 
-\subparagraph{Additive Gaussian Noise}
+\paragraph{Additive Gaussian Noise}
 
 With Gaussian noise, samples are corrupted such that a degree of variance is added to the input according to a parameterized Gaussian distribution. In this case, the distribution variance is a configurable training parameter.
 
@@ -1494,7 +1413,7 @@ With Gaussian noise, samples are corrupted such that a degree of variance is add
 \tilde{{x}} | {x} \sim \mathcal{N}\left({x}, \sigma^{2} I\right)
 \end{equation}
 
-\subparagraph{Masking Noise}
+\paragraph{Masking Noise}
 
 With masking noise, a fraction of the features in the data are set to 0, thus masking them for that sample. The percentage of features chosen is a configurable training parameter.
 
@@ -1505,51 +1424,50 @@ Recent research, as noted in \cite{He}, has shown that weights can be initialize
 A common initialization heuristic is to use a uniform, and but not layer agnostic, initialization such as \ref{func_uniform_init} below. While simple enough, it's been shown that this does not always lead to the best training results, and can be outperformed by variance based initializations \cite{Glorot}.
 
 \begin{equation}\label{func_uniform_init}
-\text{weights} \sim U\left[-\frac{1}{\sqrt{n}}, \frac{1}{\sqrt{n}}\right] \textit{ , for a layer with n nodes}
+\mathbf{w} \sim U\left[-\frac{1}{\sqrt{n}}, \frac{1}{\sqrt{n}}\right] \textit{ , for a layer with n nodes}
 \end{equation}
 
 \subsubsection{Initialization Rationale}
 
 The variance balancing methodology is based on balancing the variance of a linear network. For input $X$, with $n$ components and linear neurons with weights $W$, and output $Y$,
 \begin{equation}
-Y = W_1X_1 + W_2X_2 + ... + X_nW_n
+\mathbf{Y} = \mathbf{W}_1\mathbf{X}_1 + \mathbf{W}_2\mathbf{X}_2 + ... + \mathbf{X}_n\mathbf{W}_n
 \end{equation}
 It can thus be shown, that for $i.i.id$ samples with mean $0$, then
 \begin{equation}
-Var(Y) = nVar(W_i)Var(X_i)
+\mathbf{Var(Y)} = n\mathbf{Var}(\mathbf{W}_i)\mathbf{Var}(\mathbf{X}_i)
 \end{equation}
 For the variance of both input $X$ and output $Y$ to be balanced on the forward and backward propagation, then it is necessary for
 \begin{equation}
-Var(W_i) = \frac{1}{n_{in}}= \frac{1}{n_{out}}
+\mathbf{Var}(\mathbf{W}_i) = \frac{1}{n_{in}}= \frac{1}{n_{out}}
 \end{equation}
 
 In the instance where there are not an equal number of nodes in the two layers, the average can be taken, such that
  \begin{equation}\label{eq_init_var}
-Var(W_i) = \frac{2}{n_{in} + n_{out}}
+\mathbf{Var}(\mathbf{W}_i) = \frac{2}{n_{in} + n_{out}}
 \end{equation}
 
 \subsubsection{Initializations}
 
-\subparagraph{Xavier} Considering that  $Var(U(-a, a)) = a^2/3$, then ensuring balance variance for weights as per equation \eqref{eq_init_var} provides us with the Xavier Glorot initialization \cite{Glorot} which can be used for Sigmoid activations, and is defined as follows
+\paragraph{Xavier} Considering that  $Var(U(-a, a)) = a^2/3$, then ensuring balance variance for weights as per equation \eqref{eq_init_var} provides us with the Xavier Glorot initialization \cite{Glorot} which can be used for Sigmoid activations, and is defined as follows
 \begin{equation}
-w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}}
+\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}}
 \end{equation}
 
 where $n$ is the number of nodes in the $i^{th}$ or $j^{th}$ layer.
 \newline\newline
-\subparagraph{He} The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He \cite{He} initialization is used
+\paragraph{He} The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He \cite{He} initialization is used
 
 \begin{equation}
-w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
+\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
 \end{equation}
 
 
-\subparagraph{He-Adjusted} An adjusted initialization is presented here, dubbed 'He-Adjusted', where the ReLU initialization uses a mean of the input and output layers in order to scale the weight variance. For networks with constant layer sizes, the intialization is the same as He, though for SAE networks which have layer size changes by definition, the He-Adjusted initialization will result in more appropriately sized weights.
+\paragraph{He-Adjusted} An adjusted initialization is presented here, dubbed ``He-Adjusted'', where the ReLU initialization uses a mean of the input and output layers in order to scale the weight variance. For networks with constant layer sizes, the intialization is the same as He, though for SAE networks which have layer size changes by definition, the He-Adjusted initialization will result in more appropriately sized weights.
 
 \begin{equation}
-w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
+\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
 \end{equation}
-
 
 
 
@@ -1565,17 +1483,20 @@ w_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
 
 \subsection{CSCV \& PBO}\label{imp_cscv}
 
-The  combinatorially symmetric cross-validation (CSCV) method developed by Baily et al., as discussed in \ref{lr_cscv}, can be used to assess the likelihood of backtest overfitting through comparison of IS and OOS return metrics. Formulaically, the definition of backtest overfitting is given by
+The  combinatorially symmetric cross-validation (CSCV) method developed by Bailey et al., as discussed in \ref{lr_cscv}, can be used to assess the likelihood of backtest overfitting through comparison of IS and OOS return metrics. As discussed more extensively in section \ref{lr_cscv}, their research defines backtest overfitting as having
+occurred when the strategy selection which maximizes IS performance systematically underperforms median OOS in comparison to the remaining configurations. The $N$  configurations are assessed according to a fixed performance measure, such that $\mathbf{R} = (R_1, R_2, ..., R_N)$ and $\mathbf{\bar{R}} = (\bar{R_1}, \bar{R_2},... \bar{R_N})$ represent the IS and OOS performance of each configuration, respectively. The crux of the framework lies in comparing the ranking of a selected strategy, and so $\Omega$ is used to represent ranking space consisting of the $N!$ permutations of $(1,2,...N)$ indicating the ranking of the $N$ strategies. The random vectors $r$ and $\bar{r}$ are used to denote the IS and OOS ranking of the configurations making up $\mathbf{R}$ and $\mathbf{\bar{R}}$. Lastly a subset of $\Omega$ is defined, such that $\Omega_{n}^{*}=\left\{f \in \Omega | f_{n}=N\right\}$ - this encapsulates the highest ranking configurations. \newline
+
+
+Formulaically, the definition of backtest overfitting (where a strategy with optimal IS performance has an expected ranking below the median OOS) is then given by
 \begin{equation}\label{eq:PBO1}
-\sum_{n=1}^{N}E[\overline{r_n}|r\in 
-\Omega_{n}^{*}]Prob[r\in\Omega_{n}^{*}]\leq{N/2}
+\sum_{n=1}^{N}\mathbf{E}[\overline{r_n}|r\in 
+\Omega_{n}^{*}]\mathbf{P}[r\in\Omega_{n}^{*}]\leq{N/2}
 \end{equation}
 
-Where the search space {\textOmega} consists of the N ranked strategies, and their ranked IS performance \textit{r} and OOS performance
-\textit{\={r}}. This allows the PBO, using the Bayesian formula, to be defined as 
+This allows the Probability of Backtest Overfitting (PBO) having occured, using the Bayesian formula, to be defined as 
 
 \begin{equation}\label{eq:PBO2}
-PBO = \sum_{n=1}^{N}Prob[\overline{r} < {N/2}|r\in\Omega_{n}^{*}]Prob[r\in\Omega_{n}^{*}]
+PBO = \sum_{n=1}^{N}\mathbf{P}[\overline{r} < {N/2}|r\in\Omega_{n}^{*}]\mathbf{P}[r\in\Omega_{n}^{*}]
 \end{equation}
 
 Notably, the above definitions consider IS as the data made available to the strategy selection, rather than the 
@@ -1637,106 +1558,105 @@ where seeking increased IS performance is detrimental to the goal of improving O
 
 \subsection{Money Management Strategy and Returns}\label{imp_mms}
 
-In line with the general approach here, the Money Management Strategy (MMS) has been designed to be relatively simple, such that the results are more indicative of the underlying modelling rather than intricate trading strategies. The MMS follows an arithmetic long strategy of buying any stock for which the predicted ${t+D}$ price is above the current price, and selling the stock at ${t+D}$. Trading costs have been included at 10\% capital costs per annum for borrowing to purchase, and 0.45\% for transaction costs. Results are compared to a "perfect" model which has exact knowledge of the price in $D$ days, which represents an upper bound on performance. This MMS implentation does not make any attempt to account for volume in the trades, and only trades one asset unit at a time.
+In line with the general approach here, the Money Management Strategy (MMS) has been designed to be relatively simple, such that the results are more indicative of the underlying modelling rather than intricate trading strategies. The MMS follows an arithmetic long strategy of buying any asset for which the predicted ${t+D}$ price is above the current price, and selling the stock at ${t+D}$. Trading costs have been included at 10\% capital costs per annum for borrowing to purchase, and 0.45\% for transaction costs. Results are compared to a benchmark model which has exact knowledge of the price in $D$ days, which represents an upper bound on performance. This MMS implentation does not make any attempt to account for volume in the trades, and only trades one asset unit at a time.
 \hfill\break
 
-\subparagraph{Input Variables}
+\subsubsection{Input Variables}
 
 The MMS takes the following values as input for each time point $t$  and prediction point $D$
 \begin{itemize}
-	\item [1] {$\texttt{y}_t$}, the closing price for $t$
-	\item [2] $\texttt{y}_{t+D}$, the closing price in $D$ days
-	\item [3] $\hat{\texttt{y}}_{t+D}$, the predicted closing price in $D$ days
+	\item [1] {$\mathbf{\tilde{p}}_t$}, the closing price at time $t$
+	\item [2] $\mathbf{\tilde{p}}_{t+D}$, the closing price in $D$ days
+	\item [3] $\hat{\mathbf{p}}_{t+D}$, the predicted closing price in $D$ days
 \end{itemize}
 
-\subparagraph{Calculated Stock Variables}
+\subsubsection{Calculated Stock Variables}
 
 Using these, the MMS calculates and uses the following:
 
 \begin{itemize}
 	\item [1] A flag indicating whether a trade will take place on $t$
 				\begin{equation}
-				\texttt{trade\_long}_t = bool(\hat{y}_{t+5} > y_t) \in (0, 1)
+				\mathbf{s}_t = \mathrm{bool}(\mathbf{\hat{p}}_{t+5} > \mathbf{p}_t) \in (0, 1)
 				\end{equation}
-	\item [2] A flag indicating whether a trade will take place on $t$ in the perfect model
+	\item [2] A flag indicating whether a trade will take place on $t$ in the benchmark model
 				\begin{equation}
-				\texttt{trade\_long}_{p,t} = bool({y}_{t+5} > y_t) \in (0, 1)
+				\mathbf{s}^b_{t} = \mathrm{bool}({\mathbf{p}}_{t+5} > \mathbf{p}_t) \in (0, 1)
 				\end{equation}
 	\item [3] The observed return at $t+D$
 				\begin{equation}
-				\texttt{r}_{o, t + D} = y_{t+D} * trade\_long_t
+				\mathbf{\tilde{r}}_{t + D} = \mathbf{\tilde{p}}_{t+D} * \mathbf{s}_t
 				\end{equation}	
 	\item [4] The expected return at $t+D$
 				\begin{equation}
-				\texttt{r}_{e, t + D} = \hat{y}_{t+D} * trade\_long_t 
+				\mathbf{E[r]}_{t + D} = \mathbf{\hat{p}}_{t+D} * \mathbf{s}_t
 				\end{equation}
-	\item [5] The perfect return at $t+D$
+	\item [5] The benchmark return at $t+D$
 				\begin{equation}
-				\texttt{r}_{p, t + D} = y_{t+D} * trade\_long_{p,t}
+				\mathbf{r}^b_{t + D} = \mathbf{\tilde{p}}_{t+D} * \mathbf{s}^b_{t}
 				\end{equation}
-	\item [6] The cost incurred in buying the stock at time $t$
+				
+				
+				
+	\item [6] The cost incurred in buying the asset at time $t$
 				\begin{equation}
-				\texttt{cost}_t = y_t * trade\_long_t
+				\mathbf{c}_t = \mathbf{\tilde{p}}_t * \mathbf{s}_t
 				\end{equation}
-	\item [7] The cost incurred in the perfect model at $t$
+	\item [7] The cost incurred in the benchmark model at $t$
 				\begin{equation}
-				\texttt{cost}_{p,t} = y_t * trade\_long_{p,t}
+				\mathbf{c}^b_{t} = \mathbf{\tilde{p}}_t * \mathbf{s}^b_{t}
 				\end{equation}
 	\item [8] The possible capital and transaction costs
 				\begin{equation}
-				\texttt{trading\_cost}= y_t * (0.1 / 365 * 2) + y_t * (0.45 / 100)
+				\mathbf{k}_t= \mathbf{\tilde{p}}_t * (0.1 / 365 * 2) + \mathbf{\tilde{p}}_t * (0.45 / 100)
 				\end{equation}
-	\item [9] The full cost of trading the stock at $t$ in the predictive model
+	\item [9] The full cost of trading the asset at $t$ in the predictive model
 				\begin{equation}
-				\texttt{fullcost}_t = (y_t + trading\_cost_t) * trade\_long_t
+				\mathbf{f}_t = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) * \mathbf{s}_t
 				\end{equation}	
-	\item [10] The full cost of trading the stock at $t$ in the perfect model
+	\item [10] The full cost of trading the asset at $t$ in the benchmark model
 				\begin{equation}
-				\texttt{fullcost}_{p,t} = (y_t + trading\_cost_t) * trade\_long_{p, t}
+				\mathbf{f}^b_{t} = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) * \mathbf{s}^b_{t}
 				\end{equation}
 \end{itemize}
 
 \hfill\break
 
-\subparagraph{Calculated Strategy Variables} The MMS  is then implemented using these calculated values which are aggregated at each time point $t$ for all stocks, $s$, as follows:
+\subparagraph{Calculated Strategy Variables} The MMS  is then implemented using these calculated values which are aggregated at each time point $t$ for all assets, $s$, as follows:
 
 \begin{itemize}
 	\item [1] The expected return for $t+D$ from all stocks traded at $t$
 					\begin{equation}
-					\texttt{R}_{e, {t+D}} = \sum_{s \in stocks} r_{s, e, {t+D}}
+					\mathbf{E[R]}_{{t+D}} = \sum_{s \in stocks} \mathbf{E[r]}_{s, {t+D}}
 					\end{equation}
 	\item [2] The observed return for $t+D$ from all stocks traded at $t$
 					\begin{equation}
-					\texttt{R}_{o, {t+D}} = \sum_{s \in stocks} r_{s, o, {t+D}}
+					\mathbf{\tilde{R}}_{{t+D}} = \sum_{s \in stocks} \mathbf{\tilde{r}}_{s, {t+D}}
 					\end{equation}
-	\item [3] The perfect return for $t+D$ from all stocks traded at $t$
+	\item [3] The benchmark return for $t+D$ from all assets traded at $t$
 					\begin{equation}
-					\texttt{R}_{p, {t+D}} = \sum_{s \in stocks} r_{s, p, {t+D}}
+					\mathbf{R}^b_{{t+D}} = \sum_{s \in assets} \mathbf{r}^b_{s, {t+D}}
 					\end{equation}
 	\item [4] The cost of all trades at $t$
 					\begin{equation}
-					\texttt{C}_t = \sum_{s \in stocks} cost_{s,t}
+					\mathbf{C}_t = \sum_{s \in assets} \mathbf{c}_{s,t}
 					\end{equation}
-	\item [5] The cost of all trades at $t$ in the perfect model
+	\item [5] The cost of all trades at $t$ in the benchmark model
 					\begin{equation}
-					\texttt{C}_{p,t} = \sum_{s \in stocks} cost_{s, p ,t}
+					\mathbf{C}^b_{t} = \sum_{s \in assets} \mathbf{c}^b_{s ,t}
 					\end{equation}
 	\item [6] The cost of all trades at $t$ including transaction costs
 					\begin{equation}
-					\texttt{FC}_t = \sum_{s \in stocks} fullcost_{s,t}
+					\mathbf{F}_t = \sum_{s \in assets} \mathbf{f}_{s,t}
 					\end{equation}
-	\item [7] The cost of all trades at $t$, including transation costs, in the perfect model	
+	\item [7] The cost of all trades at $t$, including transation costs, in the benchmark model	
 					\begin{equation}
-					\texttt{FC}_{p,t} = \sum_{s \in stocks} fullcost_{s, p ,t}
+					\mathbf{F}^b_{p,t} = \sum_{s \in assets} \mathbf{f}^b{s,t}
 					\end{equation}	
 \end{itemize}
 \hfill\break
-The final model return is thus established as $\sum_t{R_t} / \sum_t{C_t} $, for any variations of observed, expected or perfect returns as well as base and full costs. These model returns are used to establish the performance of the different predictive models which were trained.\newline
+The final model return is thus established as $\sum_t{\mathbf{R}_t} / \sum_t{\mathbf{C}_t} $, for any variations of observed, expected or perfect returns as well as base and full costs. These model returns are used to establish the performance of the different predictive models which were trained.\newline
 \hfill\break
-An additional consideration of the MMS is the daily rates generated by the strategy, which incorporate the costs of any trades incurred, as well as any returns seen at $t$, such that 
-\begin{equation}
-\texttt{dailyrate}_t = R_{t-D} - C_t
-\end{equation}
 
 \newpage
 \section{Full Process}\label{imp_proc}
@@ -1954,7 +1874,7 @@ This is the primary closing price dataset that has been used through out the exp
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.45]{images/results/prices/actual10_prices.png} 
-	\caption[Actual 10 Prices]{\textbf{Actual 10 Prices}}
+	\caption[Actual 10 Prices]{\textbf{Actual 10 Price Relatives}}
 	\label{figure-actual10_prices}
 \end{figure}
 
@@ -1968,8 +1888,8 @@ Using AGL and ACL data from JSE close price relatives.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{images/results/prices/aglacl_prices.png} 
-	\caption[AGL \& ACL Prices]{\textbf{AGL \& ACL Prices}}
+	\includegraphics[scale=0.45]{images/results/prices/aglacl_prices.png} 
+	\caption[AGL \& ACL Prices]{\textbf{AGL \& ACL Price Relatives}}
 	\label{figure-aglacl_prices}
 \end{figure}
 
@@ -1984,8 +1904,8 @@ Using the following assets from JSE close price relatives:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{images/results/prices/scaling10_prices.png} 
-	\caption[Scaling 10 Prices]{\textbf{Scaling 10 Prices}}
+	\includegraphics[scale=0.45]{images/results/prices/scaling10_prices.png} 
+	\caption[Scaling 10 Prices]{\textbf{Scaling 10 Price Relatives}}
 	\label{figure-scaling0_prices}
 \end{figure}
 
@@ -2437,9 +2357,9 @@ Learning rate schedules were implemented such that the learning rate would rise 
 Input data was scaled to 3 different configurations across a series of tests in order to assess the effect of shorter and longer configurations on both SAE MSE performance, as well as the predictive predictive P\&L results. The configurations tested (in trading day window periods) were:
 
 \begin{itemize}
-	\item[1.] [1, 5, 20]
-	\item[2.] [5, 20, 60]
-	\item[3.] [10, 20, 60]
+	\item[] Horizon Tuple 1. [1, 5, 20]
+	\item[] Horizon Tuple 2. [5, 20, 60]
+	\item[] Horizon Tuple 3. [10, 20, 60]
 \end{itemize}
 
 By way of example using the 3rd configuration: the implementation of this is such that at each time point considered by a network the log difference changes for the past 10, 20 and 60 days are available for each asset. This is described more extensively in Chapter \ref{Data}.\newline
@@ -2837,6 +2757,146 @@ The results for training have been summarised below, especially insofar as they 
 	\item[3] OGD learning rate performances expectedly follow a curve, with underfitting and overfitting sitting either side of the optimal rate, which will change with the dataset.
 \end{itemize}
 
+
+
+
+
+
+
+\newpage
+\section{Software Libraries and Development}\label{Software}
+
+A significant aspect of this dissertation was the implementation of software libraries that fulfilled the criteria of generalised training of neural networks, an implementation of the full process as described later in Chapter \ref{ProcessOverview}, the creation and management of database records for analysis and an extensive set of diagnostic tools in order to assess performance. This Chapter details the implementation choices as well as the final libraries which were produced.
+
+
+\subsection{Programming Languages}
+
+The libraries developed were primarily written in Julia, a relatively new scientific computing language (initially developd in 2009). The main motivation, both for Julia as a language as well as choosing it for this task, is its efficiency and speed. Julia was created with high performance tasks in mind, and with it's use of a Just-In-Time compiler, can approach similar benchmarks to C \cite{Perkel}. This stands in stark contrast to some of the more popular analytical languages used, such as R or Python, which often suffer from performance issues. In the context of a project which required extensive processing time, it was natural to prioritize this computational efficiency. \newline
+
+Julia's focus on technical computing is emphasised with it's built in support for mathematical and statistical work, composable functional base and dyamic and optional typing schemes. It's ability to fulfil general purpose programming, familiar syntax (which also works effectively for mathematical commands) and it's interactive (REPL) command line also make it a practical choice for the task at hand \cite{Perkel}.\newline
+
+SQLite was chosen as the database management language. Relational schemas were a fitting choice for the nature of the data being captured, and SQLite offers a fast, effective and free implementation of SQL.\newline
+
+
+\subsection{Data Generation \& Processing}
+
+Data processing libraries were implemented to offer configurable processing for the steps outline in Chapter \ref{Data}. The \texttt{DataGenerator} module implemented Geometric Brownian Motion (GBM) generation for a set number of steps and assets with their mean and variances specified \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataGenerator.jl}}. \newline
+
+The \texttt{DataProcessor} module \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataProcessor.jl}} offers a more extensive set of operations in order to implement the processing laid out in Section \ref{data_processing}.
+
+
+\begin{itemize}
+	\item[1] Dataset scaling. Available implementations: Normalize, Standardize, Limited-Normalize, Limited-Standardize	
+	\item[2] Log Differencing with rolling windows for past and future time point aggregations
+	\item[3] Partitioning and creating datasets for training processes
+	\item[4] Encoding datasets using Stacked Autoencoders
+	\item[5] Reverse scaling and price reconstruction (i.e. reversing the log differencing from 2) to process predictions into the original format
+	\item[6] Add noise to datasets for denoising training
+\end{itemize}
+
+\subsection{Network Training}
+
+Neural networks were implemented with highly configurable training, such that the parameters are easily specified within Julia types \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/TrainingStructures.jl}} and then passed onto the training functions. The parameters are grouped accordingly to the different aspects of the training that they pertain to.
+
+\subsubsection{Network Parameters}
+\begin{itemize}
+	\item[1] Network Structure: Number of layers, and size of each layer
+	\item[2] Activations: Activation functions for each layer. Available implementations: Linear, Sigmoid, ReLU, LeakyReLU, Softmax, Tanh\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ActivationFunctions.jl}}
+	\item[3] Network Initialization: The initialization method for the weights. Available implementations: Normal Random, Xavier, He, He-Adj \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/InitializationFunctions.jl}}
+\end{itemize}
+
+\subsubsection{SGD \& CD-1 Training Parameters}
+\begin{itemize}
+	\item[1] Maximum learning rate, minimum learning rate and learning rate epoch cycles
+	\item[2] Minibatch size
+	\item[3] Maximum training epochs, or stopping function
+	\item[4] L1 regularization lambda
+	\item[5] Cost function. Avaialable Implementations: Mean Squared Error, Cross Entropy Error, Log Likelihood Error \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/CostFunctions.jl}}
+	\item[6] Denoising variance
+	\item[7] Training / Testing data split
+\end{itemize}	
+
+\subsubsection{OGD Training Parameters}
+\begin{itemize}
+	\item[1] Maximum learning rate
+	\item[2] Cost function. Avaialable Implementations: Mean Squared Error, Cross Entropy Error, Log Likelihood Error \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/CostFunctions.jl}}
+\end{itemize}	
+
+\subsubsection{Network Trainer Module}
+
+The \texttt{NetworkTrainer} \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/NetworkTrainer.jl}} module then offers 3 primary methods, given the relevant parameter configurations and dataset:
+
+\begin{itemize}
+	\item[1] Train a Feedforward Neural Network, using variance based weight initializations 
+	\item[2] Train an SAE, using variance based weight initializations
+	\item[3] Train an SAE, using RBM based pre-training for weight initialization
+\end{itemize}
+
+These functions are supported by the following modules: \texttt{SGD}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/SGD.jl}}, \texttt{RBM}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/RBM.jl}} and \newline  \texttt{GradientFunctions}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/GradientFunctions.jl}}
+
+\subsection{Process Implementation}
+
+The process implementation, as described in Chapter \ref{ProcessOverview}, is largely implemented in the \texttt{ExperimentProcess} module \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ExperimentProcess.jl}}.
+
+~\\
+The \texttt{RunSAEConfigurationTest} method uses the \texttt{SAEExperimentConfig} Type to wrap up all necessary configurations and with a passed dataset runs through the following steps:
+\begin{itemize}
+	\item[1] Either generate or process the raw dataset, according to the specified configuration
+	\item[2] Train the SAE, either by RBM or variance based weight initializations
+	\item[3] Passes back the SAE with original and reconstructed testing datasets
+	\item[4] Store the SAE as a bson object to be used later
+\end{itemize}
+
+~\\
+The \texttt{RunFFNConfigurationTest} method similarly uses the \texttt{FFNExperimentConfig} Type and a passed dataset to run through the following steps:
+\begin{itemize}
+	\item[1] Either generate or process the raw dataset, according to the specified configuration
+	\item[2] Encodes the datasets for the different steps of the process using the specified SAE
+	\item[3] Train the FFN using variance based weight initialization and SGD
+	\item[4] Use the FFN to generate predictions for IS data, reconstruct them and record them in the database
+	\item[5] Train the FFN using OGD on OOS data
+	\item[6] Use the FFN to generate predictions for OOS data, reconstruct them and record them in the database
+\end{itemize}
+
+Two further modules allow the exploration of the configuration space, such that diagnostics can be performed on different aspects of the training. 	The \texttt{ConfigTestsFFN}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsFFN.jl}} and \texttt{ConfigTestsSAE}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsSAE.jl}} modules make use of the \texttt{ConfigGenerator}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/Generator.jl}} module in order to generate a full grid configuration space for a given range of values for any chosen parameters. Each of these combination configuration sets is then run as per the procsses detailed above, with the various results recorded as usual. 
+
+\subsection{Database Implementation}
+
+As noted, the database platform chosen was SQLite, with Julia modules handling the creation and management. The \texttt{DatabaseCreator} module \footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/DatabaseCreator.jl}} creates the database with the following schemas:
+
+\begin{table}[h]
+	\begin{tabular}{|p{0.3\linewidth}|p{0.7\linewidth}|}
+		\hline
+		\textbf{Schema Name} &\textbf{Description}  \\\hline	
+		{configuration\_run} & {The primary record for any experiment process} \\\hline
+		{dataset\_config} & {The dataset configuration that may relate to an experiment} \\\hline
+		{network\_parameters} & {The network configuration for an experiment} \\\hline
+		{training\_parameters} & {The SGD/RBM/CD training configuration for an experiment}  \\\hline
+		{epoch\_records} & {Details relating to ongoing training performance for the duration of an experiment}  \\\hline
+		{backtest\_results} & {predictions for IS data}  \\\hline
+		{prediction\_results} & {Predictions for OOS data}  \\\hline
+		{cscv\_returns} & {MMS level returns by timestep for an experiment}  \\\hline
+		{cscv\_cost\_returns} & {MMS level returns by timestep for an experiment with cost accounted for}  \\\hline
+		{config\_oos\_pl} & {The total OOS profit \& loss for an experiment}  \\\hline
+		{config\_oos\_pl\_cost} & {The total OOS profit \& loss for an experiment, with cost accounted for}  \\\hline
+		{config\_oos\_sharpe\_ratio} & {The OOS sharpe ratio for an experiment}  \\\hline
+		{config\_confusion} & {The percentages of correct trades made for an experiment}  \\\hline
+	\end{tabular}
+	\newline\newline
+	\caption{Database Schema Descriptions}\label{tab_schemas}
+\end{table}
+
+The \texttt{DatabaseOps} \footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/DatabaseOps.jl}} module handles the creation of records for these schemas, as well as the writing and reading of bson files which are used to store actual networks.
+
+\subsection{Diagnostic Libraries}
+
+The diagnostic implementations were focused on 2 primary themes: Exploratory Data Analysis (EDA) through the use of visualizations of network results through configuration spaces, and formalised testing in the form of PBO and DSR.
+
+The EDA makes use of the PlotlyJS\footnote{\url{http://spencerlyon.com/PlotlyJS.jl/}} library, and allows the net performance of any set of networks to be plotted along a particular dimension in their configuration space. In the case of a set of SAE networks, this would typically be the MSE scores, and in the case of predictive FFN networks, this would typically be the P\&L values generated from the MMS. A full list of diagnostic charts can be view in Appendix \ref{appendix_diagnostics}. \newline
+
+The CSCV and PBO methodologies can be found in the \texttt{CSCV}\footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/CSCV.jl}} module, which encapsulates the generation and assessment of the logit distributions, as well as the PBO calculation.
+
+\todo{add DSR here}
 
 \newpage
 \section{Conclusion}\label{Conclusion}\todo{and DSR?}
@@ -3482,12 +3542,72 @@ Samples: 1296
 Samples: 120
 
 \newpage
+\subsection{Diagnostic Charts}\label{appendix_diagnostics}
+
+\begin{longtable}{|p{0.5\linewidth}|p{0.4\linewidth}|p{0.1\linewidth}|}
+		\hline
+		\textbf{Function Name} &\textbf{Configuration Dimensions}&\textbf{Type}  \\\hline	
+		\texttt{PL\_ScalingOutputActivation} & {Scaling Methodology, Network Output Activation Function}& {Box Chart} \\\hline
+		\texttt{PL\_ScalingHiddenOutputActivation} & {Scaling Methodology, Network Hidden Activation Function}& {Box Chart} \\\hline
+		\texttt{PL\_LearningRates\_MaxMin}& {Min and Max SGD Learning Rates} & {Box Chart} \\\hline
+		\texttt{PL\_L1Reg} & {SGD L1 Regularization Lambda}& {Box Chart} \\\hline
+		\texttt{PL\_ValidationSplit} & {Percentage of SGD dataset used for training / testing}& {Box Chart} \\\hline
+		\texttt{PL\_OGD\_LearningRate}& {OGD Learning Rate} & {Box Chart} \\\hline
+		\texttt{PL\_Denoising} & {SGD Denoising Variance}& {Box Chart} \\\hline
+		\texttt{PL\_MaxEpochs} & {SGD Training Epochs}& {Box Charts} \\\hline
+		\texttt{PL\_EpochCycle}& {SGD Learning Rate Epochg Cycle Length} & {Box Chart} \\\hline
+		\texttt{PL\_LayerActivation\_OutputActivation} & {Network Hidden Activations and Output Activation}& {Box Chart} \\\hline
+		\texttt{PL\_Activations} & {Network Hidden Activations}& {Box Chart} \\\hline
+		\texttt{PL\_Activations\_NetworkSize}& {Network Hidden Activations and Layer Sizes} & {Box Chart} \\\hline
+		\texttt{PL\_NetworkSize}& {Network Layers} & {Box Chart} \\\hline
+		\texttt{PL\_NetworkSizeLines}& {Network Layers} & {Line Graph} \\\hline
+		\texttt{PL\_SAE\_Encoding\_SizeLines}& {Feature Selection Size} & {Line Graph} \\\hline
+		\texttt{PL\_SAE\_Encoding\_Size} & {Feature Selection Size}& {Box Chart} \\\hline
+		\texttt{PL\_DataDeltas} & {Price Fluctuation Aggregation Horizons}& {Box Chart} \\\hline
+		\texttt{PL\_Init}& {Network Initialization Method} & {Box Chart} \\\hline		
+		\texttt{PL\_Heatmap\_LearningRate\_MaxEpochs} & {OGD Learning Rate and SGD Training Epochs}& {Heatmap} \\\hline
+		\texttt{PL\_Heatmap\_NetworkSize\_DataAggregation} & {Network Number of Layers and Price Fluctuation Aggregation Horizons}& {Heatmap} \\\hline
+		\texttt{PL\_Heatmap\_LayerSize\_DataAggregation}& {Network Layer Sizes and Price Fluctuation Aggregation Horizons } & {Heatmap} \\\hline
+
+	\caption{P\&L Diagnostic EDA Functions}
+	\label{tab_diagnostics_pl}
+\end{longtable}
+
+\begin{longtable}{|p{0.5\linewidth}|p{0.4\linewidth}|p{0.1\linewidth}|}
+		\hline
+		\textbf{Function Name} &\textbf{Configuration Dimensions}&\textbf{Type}  \\\hline	
+		\texttt{MSE\_ActivationsEncodingSizes} & {Network Activation Functions and Encoding Layer Size}& {Box Chart} \\\hline
+		\texttt{MSE\_LayerSizesLines} & {Network Layer Sizes}& {Line Graph} \\\hline
+		\texttt{MSE\_LayerSizes} & {Network Layer Sizes}& {Box Chart} \\\hline
+		\texttt{MSE\_LearningRate\_MaxMin} & {SGD Min and Max Learning Rates}& {Box Chart} \\\hline
+		\texttt{MSE\_Lambda1} & {SGD L1 Regularization Lambda}& {Box Chart} \\\hline
+		\texttt{MSE\_EpochCycle} & {SGD Learning Rate Epochg Cycle Length}& {Box Chart} \\\hline
+		\texttt{MSE\_Init} & {Network Initialization Method}& {Box Chart} \\\hline
+		\texttt{MSE\_Deltas} & {Price Fluctuation Aggregation Horizons}& {Box Chart} \\\hline
+		\texttt{MSE\_Min\_EncodingSize\_Activation} & {Encoding Layer Activation Function and Size}& {Box Chart} \\\hline
+		\texttt{MSE\_Activation\_Scaling\_Filters} & {All Activation Functions and Data Scaling Methodology}& {Box Chart} \\\hline
+		\texttt{MSE\_OutputActivation\_Scaling\_Filters} & {Output Activation Function and Data Scaling Methodology}& {Box Chart} \\\hline
+		\texttt{MSE\_Output\_Activation} & {Output Activation Function}& {Box Chart} \\\hline
+		\texttt{MSE\_Encoding\_Activation} & {Encoding Layer Activation}& {Box Chart} \\\hline
+		\texttt{MSE\_Hidden\_Activation} & {Hidden Layer Activation Functions}& {Box Chart} \\\hline
+		\texttt{MSE\_Scaling\_Filters} & {Data Scaling Methodology}& {Box Chart} \\\hline
+		\texttt{MSE\_Pretraining} & {Pretraining Epochs}& {Box Chart} \\\hline
+		\texttt{MSE\_Denoising} & {SGD Denoising Variance}& {Box Chart} \\\hline
+
+	\caption{P\&L Diagnostic EDA Functions}
+	\label{tab_diagnostics_mse}
+\end{longtable}
+
+
+
+\newpage
 
 
 
 \bibliography{thesis_bibliography}
 
 \bibliographystyle{IEEEtran}
+
 
 \end{document}
 
