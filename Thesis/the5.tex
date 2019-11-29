@@ -1675,24 +1675,28 @@
 	The critical takeaway from this, is that unless $\mathrm{max}_k\{\widehat{SR_k}\} >> \mathbf{E}\left[\mathrm{max}_k\{\widehat{SR_k}\}\right]$, then it is likely that $\mathrm{max}_k\{\widehat{SR_k}\}$ represents a false positive trial.
 		
 		
+	
 	\subsubsection{Deflated Sharpe Ratio}
-		
+	
 	Prado and Lewis use the Probabilistic Sharpe Ratio and the False Strategy Theorem (FST) to define the Deflated Sharpe Ratio (DSR) as $\widehat{PSR}[SR^*]$: the probability that the true SR exceeds $SR^*$, which no longer needs to be user defined. Following from the FST statement in equation \ref{eq_falsestrat}, 
-		
+	
 	\begin{equation}\label{eq_dsr}
 	SR^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right)
 	\end{equation}
 	where:
 	\begin{itemize}
-	\item [] $\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]$ is the variance across trials' estimated SR
-	\item [] $K$ is the number of independent trials
-	\item [] $Z[.]$ is the CDF of the standard Normal Distribution 
-	\item [] $\gamma$ is the Euler-Mascheroni constant
+		\item [] $\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]$ is the variance across trials' estimated SR
+		\item [] $K$ is the number of independent trials
+		\item [] $Z[.]$ is the CDF of the standard Normal Distribution 
+		\item [] $\gamma$ is the Euler-Mascheroni constant
 	\end{itemize}
-
+	
 	For any set of trials with strategy returns, it is expected that there will be some maximum $\widehat{SR}$ that is more than zero, even if the true $SR$ is zero. This maximum can be defined using equation \ref{eq_dsr} for $SR^*$. The PSR from equation \ref{eq_psr} can then be used to assess if the observed SR is statistically signficicantly larger than the expected maximum, and in doing so possibly reject the null hypothesis that $H_0: SR = 0$. Thus, DSR gives us a confidence level as to whether the observed SR is legitimate and not just a false positive.
-		
-		
+	
+	
+	
+	
+
 		
 		
 		

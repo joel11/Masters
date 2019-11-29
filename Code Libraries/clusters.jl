@@ -1,6 +1,6 @@
 
-#workspace()
-#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
+workspace()
+push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 using NeuralNetworks
 using ActivationFunctions, InitializationFunctions, NetworkTrainer
@@ -92,3 +92,42 @@ l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
 
 fig = Plot(data, l)
 savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster Distributions.html"))
+
+
+
+##########Insert into DB##############################################################################################################
+
+one_vals = clusterOneConfigs
+two_vals = clusterTwoConfigs
+
+one_records = mapreduce(i -> string("(1, $i),"), (x, y) -> string(x, y), one_vals)[1:(end-1)]
+one_cmd = string("insert into clusters(cluster, configuration_id) values $one_records")
+RunQuery(one_cmd)
+
+two_records = mapreduce(i -> string("(2, $i),"), (x, y) -> string(x, y), two_vals)[1:(end-1)]
+two_cmd = string("insert into clusters(cluster, configuration_id) values $two_records")
+RunQuery(two_cmd)
+
+##OGD vs PL graph###############################################################################################################
+
+
+ogdpl_data = RunQuery("select c.cluster, training_cost, total_pl
+from clusters c
+inner join epoch_records er on er.configuration_id = c.configuration_id and category = 'OGD'
+inner join config_oos_pl pl on pl.configuration_id = c.configuration_id")
+
+xvals = Array(ogdpl_data[:training_cost])
+yvals = Array(ogdpl_data[:total_pl])
+
+trace1 = scatter(;
+  x = xvals,
+  y = yvals,
+  mode = "markers")
+
+  fig = Plot(trace1)
+  savefig(plot(fig), string("/users/joeldacosta/desktop/msepl.html"))
+
+
+  #",
+  #"type" => "scatter"
+#]
