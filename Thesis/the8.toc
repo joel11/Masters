@@ -74,7 +74,7 @@
 \contentsline {subsubsection}{\numberline {4.6.1}Input Variables}{41}{subsubsection.4.6.1}
 \contentsline {subsubsection}{\numberline {4.6.2}Calculated Stock Variables}{41}{subsubsection.4.6.2}
 \contentsline {subparagraph}{Calculated Strategy Variables}{42}{equation.4.56}
-\contentsline {subsection}{\numberline {4.7}CSCV \& PBO}{43}{subsection.4.7}
+\contentsline {subsection}{\numberline {4.7}CSCV and PBO}{43}{subsection.4.7}
 \contentsline {subsection}{\numberline {4.8}DSR and ONC}{45}{subsection.4.8}
 \contentsline {subsubsection}{\numberline {4.8.1}Optimal Number of Clusters Algorithm}{45}{subsubsection.4.8.1}
 \contentsline {subsubsection}{\numberline {4.8.2}Sharpe Ratio Normality and Probabilistic Sharpe Ratio}{46}{subsubsection.4.8.2}
@@ -133,53 +133,56 @@
 \contentsline {subsubsection}{\numberline {7.7.2}PBO Results}{87}{subsubsection.7.7.2}
 \contentsline {subsubsection}{\numberline {7.7.3}Framework Success}{88}{subsubsection.7.7.3}
 \contentsline {subsection}{\numberline {7.8}DSR Results}{89}{subsection.7.8}
-\contentsline {subsection}{\numberline {7.9}MMS Results}{91}{subsection.7.9}
-\contentsline {subsubsection}{\numberline {7.9.1}Summary of Experiment Results}{91}{subsubsection.7.9.1}
-\contentsline {subsubsection}{\numberline {7.9.2}Best Network Results}{93}{subsubsection.7.9.2}
-\contentsline {subsection}{\numberline {7.10}Results Summary}{94}{subsection.7.10}
-\contentsline {subsubsection}{\numberline {7.10.1}Framework Success and PBO}{94}{subsubsection.7.10.1}
-\contentsline {subsubsection}{\numberline {7.10.2}Historical Data}{94}{subsubsection.7.10.2}
-\contentsline {subsubsection}{\numberline {7.10.3}Data Processing Considerations}{94}{subsubsection.7.10.3}
-\contentsline {subsubsection}{\numberline {7.10.4}Weight Initializations}{94}{subsubsection.7.10.4}
-\contentsline {subsubsection}{\numberline {7.10.5}Feature Selection}{94}{subsubsection.7.10.5}
-\contentsline {subsubsection}{\numberline {7.10.6}Output Activations and Network Structure}{95}{subsubsection.7.10.6}
-\contentsline {subsubsection}{\numberline {7.10.7}Learning Optimizations}{95}{subsubsection.7.10.7}
-\contentsline {section}{\numberline {8}Software Libraries and Development}{96}{section.8}
-\contentsline {subsection}{\numberline {8.1}Programming Languages}{96}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}Data Generation \& Processing}{96}{subsection.8.2}
-\contentsline {subsection}{\numberline {8.3}Network Training}{97}{subsection.8.3}
-\contentsline {subsubsection}{\numberline {8.3.1}Network Parameters}{97}{subsubsection.8.3.1}
-\contentsline {subsubsection}{\numberline {8.3.2}SGD \& CD-1 Training Parameters}{97}{subsubsection.8.3.2}
-\contentsline {subsubsection}{\numberline {8.3.3}OGD Training Parameters}{97}{subsubsection.8.3.3}
-\contentsline {subsubsection}{\numberline {8.3.4}Network Trainer Module}{97}{subsubsection.8.3.4}
-\contentsline {subsection}{\numberline {8.4}Process Implementation}{98}{subsection.8.4}
-\contentsline {subsection}{\numberline {8.5}Database Implementation}{99}{subsection.8.5}
-\contentsline {subsection}{\numberline {8.6}Diagnostic Libraries}{99}{subsection.8.6}
-\contentsline {section}{\numberline {9}Conclusion}{101}{section.9}
-\contentsline {subsection}{\numberline {9.1}Future Work}{101}{subsection.9.1}
-\contentsline {section}{\numberline {10}Appendix}{103}{section.10}
-\contentsline {subsection}{\numberline {10.1}Additional Results}{103}{subsection.10.1}
-\contentsline {subsubsection}{\numberline {10.1.1}Additional Results for Section \ref {results_activations_scaling} - Activation Functions and Scaling }{103}{subsubsection.10.1.1}
-\contentsline {subsubsection}{\numberline {10.1.2}Additional Results for Section \ref {results_init} - Weight Initialization Techniques }{103}{subsubsection.10.1.2}
-\contentsline {subsubsection}{\numberline {10.1.3}Additional Results for Section \ref {results_reduction} - Feature Selection }{104}{subsubsection.10.1.3}
-\contentsline {subsubsection}{\numberline {10.1.4}Additional Results for Section \ref {results_network} - Network Structure and Training }{105}{subsubsection.10.1.4}
-\contentsline {subsection}{\numberline {10.2}Configuration Sets Used}{109}{subsection.10.2}
-\contentsline {subsubsection}{\numberline {10.2.1}Configuration 1}{109}{subsubsection.10.2.1}
-\contentsline {subsubsection}{\numberline {10.2.2}Configuration 2}{109}{subsubsection.10.2.2}
-\contentsline {subsubsection}{\numberline {10.2.3}Configuration 3}{110}{subsubsection.10.2.3}
-\contentsline {subsubsection}{\numberline {10.2.4}Configuration 4}{111}{subsubsection.10.2.4}
-\contentsline {subsubsection}{\numberline {10.2.5}Configuration 5}{111}{subsubsection.10.2.5}
-\contentsline {subsubsection}{\numberline {10.2.6}Configuration 6}{112}{subsubsection.10.2.6}
-\contentsline {subsubsection}{\numberline {10.2.7}Configuration 7}{113}{subsubsection.10.2.7}
-\contentsline {subsubsection}{\numberline {10.2.8}Configuration 8}{113}{subsubsection.10.2.8}
-\contentsline {subsubsection}{\numberline {10.2.9}Configuration 9}{114}{subsubsection.10.2.9}
-\contentsline {subsubsection}{\numberline {10.2.10}Configuration 10}{115}{subsubsection.10.2.10}
-\contentsline {subsubsection}{\numberline {10.2.11}Configuration 11}{115}{subsubsection.10.2.11}
-\contentsline {subsubsection}{\numberline {10.2.12}Configuration 12}{116}{subsubsection.10.2.12}
-\contentsline {subsubsection}{\numberline {10.2.13}Configuration 13}{117}{subsubsection.10.2.13}
-\contentsline {subsubsection}{\numberline {10.2.14}Configuration 14}{118}{subsubsection.10.2.14}
-\contentsline {subsubsection}{\numberline {10.2.15}Configuration 15}{119}{subsubsection.10.2.15}
-\contentsline {subsubsection}{\numberline {10.2.16}Configuration 16}{119}{subsubsection.10.2.16}
-\contentsline {subsubsection}{\numberline {10.2.17}Configuration 17}{120}{subsubsection.10.2.17}
-\contentsline {subsection}{\numberline {10.3}Diagnostic Charts}{121}{subsection.10.3}
-\contentsline {section}{\numberline {11}References}{124}{section.11}
+\contentsline {subsubsection}{\numberline {7.8.1}Computational Complexity}{89}{subsubsection.7.8.1}
+\contentsline {subsubsection}{\numberline {7.8.2}ONC Results}{89}{subsubsection.7.8.2}
+\contentsline {subsection}{\numberline {7.9}DSR Results2}{91}{subsection.7.9}
+\contentsline {subsection}{\numberline {7.10}MMS Results}{93}{subsection.7.10}
+\contentsline {subsubsection}{\numberline {7.10.1}Summary of Experiment Results}{93}{subsubsection.7.10.1}
+\contentsline {subsubsection}{\numberline {7.10.2}Best Network Results}{95}{subsubsection.7.10.2}
+\contentsline {subsection}{\numberline {7.11}Results Summary}{96}{subsection.7.11}
+\contentsline {subsubsection}{\numberline {7.11.1}Framework Success and PBO}{96}{subsubsection.7.11.1}
+\contentsline {subsubsection}{\numberline {7.11.2}Historical Data}{96}{subsubsection.7.11.2}
+\contentsline {subsubsection}{\numberline {7.11.3}Data Processing Considerations}{96}{subsubsection.7.11.3}
+\contentsline {subsubsection}{\numberline {7.11.4}Weight Initializations}{96}{subsubsection.7.11.4}
+\contentsline {subsubsection}{\numberline {7.11.5}Feature Selection}{96}{subsubsection.7.11.5}
+\contentsline {subsubsection}{\numberline {7.11.6}Output Activations and Network Structure}{97}{subsubsection.7.11.6}
+\contentsline {subsubsection}{\numberline {7.11.7}Learning Optimizations}{97}{subsubsection.7.11.7}
+\contentsline {section}{\numberline {8}Software Libraries and Development}{98}{section.8}
+\contentsline {subsection}{\numberline {8.1}Programming Languages}{98}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Data Generation \& Processing}{98}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Network Training}{99}{subsection.8.3}
+\contentsline {subsubsection}{\numberline {8.3.1}Network Parameters}{99}{subsubsection.8.3.1}
+\contentsline {subsubsection}{\numberline {8.3.2}SGD \& CD-1 Training Parameters}{99}{subsubsection.8.3.2}
+\contentsline {subsubsection}{\numberline {8.3.3}OGD Training Parameters}{99}{subsubsection.8.3.3}
+\contentsline {subsubsection}{\numberline {8.3.4}Network Trainer Module}{99}{subsubsection.8.3.4}
+\contentsline {subsection}{\numberline {8.4}Process Implementation}{100}{subsection.8.4}
+\contentsline {subsection}{\numberline {8.5}Database Implementation}{101}{subsection.8.5}
+\contentsline {subsection}{\numberline {8.6}Diagnostic Libraries}{101}{subsection.8.6}
+\contentsline {section}{\numberline {9}Conclusion}{103}{section.9}
+\contentsline {subsection}{\numberline {9.1}Future Work}{103}{subsection.9.1}
+\contentsline {section}{\numberline {10}Appendix}{105}{section.10}
+\contentsline {subsection}{\numberline {10.1}Additional Results}{105}{subsection.10.1}
+\contentsline {subsubsection}{\numberline {10.1.1}Additional Results for Section \ref {results_activations_scaling} - Activation Functions and Scaling }{105}{subsubsection.10.1.1}
+\contentsline {subsubsection}{\numberline {10.1.2}Additional Results for Section \ref {results_init} - Weight Initialization Techniques }{105}{subsubsection.10.1.2}
+\contentsline {subsubsection}{\numberline {10.1.3}Additional Results for Section \ref {results_reduction} - Feature Selection }{106}{subsubsection.10.1.3}
+\contentsline {subsubsection}{\numberline {10.1.4}Additional Results for Section \ref {results_network} - Network Structure and Training }{107}{subsubsection.10.1.4}
+\contentsline {subsection}{\numberline {10.2}Configuration Sets Used}{111}{subsection.10.2}
+\contentsline {subsubsection}{\numberline {10.2.1}Configuration 1}{111}{subsubsection.10.2.1}
+\contentsline {subsubsection}{\numberline {10.2.2}Configuration 2}{111}{subsubsection.10.2.2}
+\contentsline {subsubsection}{\numberline {10.2.3}Configuration 3}{112}{subsubsection.10.2.3}
+\contentsline {subsubsection}{\numberline {10.2.4}Configuration 4}{113}{subsubsection.10.2.4}
+\contentsline {subsubsection}{\numberline {10.2.5}Configuration 5}{113}{subsubsection.10.2.5}
+\contentsline {subsubsection}{\numberline {10.2.6}Configuration 6}{114}{subsubsection.10.2.6}
+\contentsline {subsubsection}{\numberline {10.2.7}Configuration 7}{115}{subsubsection.10.2.7}
+\contentsline {subsubsection}{\numberline {10.2.8}Configuration 8}{115}{subsubsection.10.2.8}
+\contentsline {subsubsection}{\numberline {10.2.9}Configuration 9}{116}{subsubsection.10.2.9}
+\contentsline {subsubsection}{\numberline {10.2.10}Configuration 10}{117}{subsubsection.10.2.10}
+\contentsline {subsubsection}{\numberline {10.2.11}Configuration 11}{117}{subsubsection.10.2.11}
+\contentsline {subsubsection}{\numberline {10.2.12}Configuration 12}{118}{subsubsection.10.2.12}
+\contentsline {subsubsection}{\numberline {10.2.13}Configuration 13}{119}{subsubsection.10.2.13}
+\contentsline {subsubsection}{\numberline {10.2.14}Configuration 14}{120}{subsubsection.10.2.14}
+\contentsline {subsubsection}{\numberline {10.2.15}Configuration 15}{121}{subsubsection.10.2.15}
+\contentsline {subsubsection}{\numberline {10.2.16}Configuration 16}{121}{subsubsection.10.2.16}
+\contentsline {subsubsection}{\numberline {10.2.17}Configuration 17}{122}{subsubsection.10.2.17}
+\contentsline {subsection}{\numberline {10.3}Diagnostic Charts}{123}{subsection.10.3}
+\contentsline {section}{\numberline {11}References}{126}{section.11}

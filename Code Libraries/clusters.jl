@@ -114,7 +114,10 @@ RunQuery(two_cmd)
 ogdpl_data = RunQuery("select c.cluster, training_cost, total_pl
 from clusters c
 inner join epoch_records er on er.configuration_id = c.configuration_id and category = 'OGD'
-inner join config_oos_pl pl on pl.configuration_id = c.configuration_id")
+inner join config_oos_pl pl on pl.configuration_id = c.configuration_id
+--where training_cost < 0.05")
+
+cor(Array(ogdpl_data[:training_cost]),Array(ogdpl_data[:total_pl]))
 
 xvals = Array(ogdpl_data[:training_cost])
 yvals = Array(ogdpl_data[:total_pl])
@@ -127,7 +130,95 @@ trace1 = scatter(;
   fig = Plot(trace1)
   savefig(plot(fig), string("/users/joeldacosta/desktop/msepl.html"))
 
+##########OGD MSE Plot##############################################################################################################
 
-  #",
-  #"type" => "scatter"
-#]
+clusterOneQuery  = "select  training_cost
+                    from epoch_records
+                    where configuration_id in ($clusterOneQ) and category = 'OGD'
+                    and training_cost < 0.05"
+clusterTwoQuery  = "select  training_cost
+                    from epoch_records
+                    where configuration_id in ($clusterTwoQ) and category = 'OGD'
+                    and training_cost < 0.05"
+
+clusterOneResults = RunQuery(clusterOneQuery)
+clusterTwoResults = RunQuery(clusterTwoQuery)
+#highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio")[1,1])
+
+
+clusterOneResults[:grouping] = round.(Array(clusterOneResults[:training_cost]), 3)
+clusterTwoResults[:grouping] = round.(Array(clusterTwoResults[:training_cost]), 3)
+
+one_groups = by(clusterOneResults, [:grouping], df -> size(df, 1))
+two_groups = by(clusterTwoResults, [:grouping], df -> size(df, 1))
+
+one_groups[:x1] = one_groups[:x1]./size(clusterOneResults, 1).*100
+two_groups[:x1] = two_groups[:x1]./size(clusterTwoResults, 1).*100
+
+opacity_value = 0.8
+
+trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name="Cluster One [n=7253]", opacity=opacity_value, xbins=Dict(:size=>0.0001))
+trace_two = bar(;y=two_groups[:x1], x=two_groups[:grouping], name="Cluster Two [n=14400]", opacity=opacity_value, xbins=Dict(:size=>0.0001))
+#bm  = scatter(;x=[highestSR, highestSR],y=[0, 550], name="Highest SR", marker = Dict(:color=>"green"))
+
+data = [trace_one, trace_two]#, bm]
+
+
+l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+    , yaxis = Dict(:title => string("<b> Percentage of Trials </br> </b>"))
+    , xaxis = Dict(:title => string("<b> OGD MSE </b>"))
+    , barmode="overlay")
+
+fig = Plot(data, l)
+savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster MSE Distributions.html"))
+
+
+
+
+##########Sharpe Ratio Plot##############################################################################################################
+
+clusterOneQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio where configuration_id in ($clusterOneQ)"
+clusterTwoQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio where configuration_id in ($clusterTwoQ)"
+
+clusterOneResults = RunQuery(clusterOneQuery)
+clusterTwoResults = RunQuery(clusterTwoQuery)
+highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio")[1,1])
+
+skewness(Array(clusterOneResults[:sharpe_ratio]))
+skewness(Array(clusterTwoResults[:sharpe_ratio]))
+
+kurtosis(Array(clusterOneResults[:sharpe_ratio]))
+kurtosis(Array(clusterTwoResults[:sharpe_ratio]))
+
+mean(Array(clusterOneResults[:sharpe_ratio]))
+mean(Array(clusterTwoResults[:sharpe_ratio]))
+
+var(Array(clusterOneResults[:sharpe_ratio]))
+var(Array(clusterTwoResults[:sharpe_ratio]))
+
+
+clusterOneResults[:grouping] = round.(Array(clusterOneResults[:sharpe_ratio]), 2)
+clusterTwoResults[:grouping] = round.(Array(clusterTwoResults[:sharpe_ratio]), 2)
+
+one_groups = by(clusterOneResults, [:grouping], df -> size(df, 1))
+two_groups = by(clusterTwoResults, [:grouping], df -> size(df, 1))
+
+one_groups[:x1] = one_groups[:x1]./size(clusterOneResults, 1).*100
+two_groups[:x1] = two_groups[:x1]./size(clusterTwoResults, 1).*100
+
+opacity_value = 0.8
+
+trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name="Cluster One [n=7253]", opacity=opacity_value, xbins=Dict(:size=>0.001))
+trace_two = bar(;y=two_groups[:x1], x=two_groups[:grouping], name="Cluster Two [n=14400]", opacity=opacity_value, xbins=Dict(:size=>0.001))
+bm  = scatter(;x=[highestSR, highestSR],y=[0, 3.6], name="Highest SR", marker = Dict(:color=>"green"))
+
+data = [trace_one, trace_two, bm]
+
+
+l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+    , yaxis = Dict(:title => string("<b> Percentage of Trials in Cluster </br> </b>"))
+    , xaxis = Dict(:title => string("<b> Sharpe Ratio </b>"))
+    , barmode="overlay")
+
+fig = Plot(data, l)
+savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster Distributions.html"))

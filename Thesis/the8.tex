@@ -1593,7 +1593,7 @@
 	
 	The approach produced relies on several principles, which may differ from prior methods suggested (such as those by Harvey in  \cite{Harvey}). The first is that returns do not always follow a normal distribution, which is supported by emperical evidence, and so their method rather takes into account the skewness and kurtosis of observed returns. The second is that Extreme Value Theory is a more appropriate technique than something such as Šidák's correction, due to the incorporation of return variance when a non-normal distribution is present. The third is that they do not assume a  constant average correlation across trials, noting that there is often a heirarchical structure amongst returns where there may be highly correlated clusters of strategies. Failing to take this into account would then bias the expected number of independent trials and so the false positive probability.
 	
-	\subsubsection{Optimal Number of Clusters Algorithm}
+	\subsubsection{Optimal Number of Clusters Algorithm}\label{imp_onc}
 	
 	The primary contribution by Prado and Lewis is the Optimal Number of Clusters (ONC) approach to estimating the number of independent trials, such that the correct variances between strategies can be calculated. The methodology aims to partition a series of returns into clusters with higher intra-cluster correlations, and low inter-cluster correlations. \newline
 	
@@ -2627,20 +2627,43 @@
 	
 	While the CSCV and PBO implementations do raise some concerns, the results here do also highlight the efficacy of the framework which has been implemented. The low PBO scores presented here show that the combinatorial search approach combined with an online machine learning model allows researchers to take on a broad exploration of the possible solution space while maintaining a low risk of backtest overfitting, and such that P\&L results which are comparable to the benchmark are achieved, as seen below in section \ref{results_mms}.
 	
-	
-	
 	\newpage
+
+	\subsection{DSR Results}\label{results_dsr}	
 	
-	\subsection{DSR Results}\label{results_dsr}.
+	\subsubsection{Computational Complexity}
+	
+	One of the primary drawbacks of the DSR algorithm presented by Prado and Lewis (\cite{PradoDSR}) is the computational complexity which arises with the iterative K-means implementation. A standard Lloyds implementation of the K-means algorithm has a computational complexity of $\mathcal{O}(knt)$\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html}}, for $k$ clusters, $n$ components and $t$ iterations. The suggested implementation modification (as discussed in Section \ref{imp_onc}) would be for $t=10$ and to run the algorithm iteratively for $k=1,...,(n-1)$, which can in turn be expressed as $n(n+1)/2$. This leads to a computational complexity with an $\mathcal{O}(n^3)$ magnitude. Including the final modication suggested, which could run the algorithm recursively on subclusters, has the potential to increase this even further. This high degree of complexity presents a problem for cases where a large number of strategy permutations have been attempted, as is the case here (with $n> 20000$). With this in mind, the algorithm was implemented for a maximum of $k=10$, though the results do not suggest this hindered the findings.
+	
+	\subsubsection{ONC Results}
+	
+	Interestingly, the ONC algorithm produced only 2 clusters for the components, which were partitioned exactly by the choice in input price fluctuation horizon aggregations (as per the calculations in Section \ref{Data}) . Cluster One contains all the trials with horizon aggregations of [1, 5, 10], and Cluster Two contains all trials with horizon aggregations of [5, 20, 60] and [10, 20, 60]. The nature of the experimentation process, with the combinatorial parameter space exploration (as detailed in Section \ref{proc_parameters}), is such that other parameters are evenly split across the 2 clusters (e.g. OGD learning rate, network sizes, intializations and so on).\newline
+	
+	Under consideration of a single and consistent MMS trading strategy, the clusters here then indicate that the networks adapted to at least two different general strategies for predicting prices: one which was more influenced by the short term fluctations in the 1 day aggregation, and the second which was more influenced by the long term fluctuations in the 60 day aggregation. The results presented in Section \ref{results_network}, such as the effect of the OGD learning rate on P\&L, are then indicative of the networks ability to execute these overarching strategies effectively. \newline
+	
+	The best Sharpe Ratio value was 0.83 and part of Cluster One, with the [1, 5, 10] price fluctuation horizon aggregations. The distributions seen in Figure \ref{figure-dsr_clusters} indicate that at a general level, Cluster Two has more consistent performance, with a higher mean ($\mu_{c1} = 0.546$, $\mu_{c2} = 0.556$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.48$, $\tilde{\mu}_{3,c2} = -0.67$ ). Cluster One on ther other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR. This shows that relying on the longer term trends for prediction can offer more reliable and consistent returns. Using shorter term fluctations can offer higher rewards, though with more variance and risk involved, as per the efficacy of the implementation. These higher and lower variances in P\&L returns were seen more concretely in Figure \ref{figure-actual_aggregation_pl}. The same patterns are presented in the OGD MSE scores, as seen in Figure \ref{figure-dsr_clusters_mse} .This is perhaps not entirely surprising when the price prediction horizon was 5 days.\newline
+
+	\begin{figure}[H]
+		\centering
+		\textbf{Sharpe Ratios for ONC Clusters and Best Strategy}
+		\includegraphics[scale=0.35]{images/results/dsr/cluster_distributions.png} 
+		\caption[Sharpe Ratios for ONC Clusters and Best Strategy]{
+			 The graph here shows the distributions of all sharpe ratios, grouped by the 2 clusters produced by the ONC algorithm, and an indication for the best sharpe ratio, which is in Cluster One. As note above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.546$, $\mu_{c2} = 0.556$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.48$, $\tilde{\mu}_{3,c2} = -0.67$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials.}
+		\label{figure-dsr_clusters}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\textbf{OGD MSE Scores for ONC Clusters}
+		\includegraphics[scale=0.35]{images/results/dsr/cluster_distributions_mse.png} 
+		\caption[OGD MSE Scores for ONC Clusters]{
+			The distributions of OGD MSE scores can be seen for both clusters here, indicating how precise the predictions were. The patterns tie in with those seen in Figure \ref{figure-dsr_clusters}, with Cluster One having a higher variance which leads to more configurations at either end of the MSE range, and including the best performing one.}
+		\label{figure-dsr_clusters_mse}
+	\end{figure}
 	
 	
-	Note: The work here had not been presented in a final format, but rather so that it facilitates review as the 1.0 DSR value was unexpected. \newline
+	\subsubsection{DSR and PSR Results}\label{results_dsr2}
 	
-	The DSR process was run with:
-	\begin{itemize}
-		\item Maximum Clusters = 10
-		\item Maximum Iterations = 10
-	\end{itemize}
 	
 	The attached code in the paper was used to calculate the clusters, using an input of the correlation matrix for the return rates percentages of each strategy at each timpoint. The output was 2 clusters, and a DSR of 1.0. The intermediate values of the calculations, as well as the cluster configurations and comparisons have been included below.\newline
 	
@@ -2704,7 +2727,7 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{Sharpe Ratios for Clusters and Best Strategy}
-		\includegraphics[scale=0.35]{images/results/dsr/cluster_sr.png} 
+		\includegraphics[scale=0.35]{images/results/dsr_old/cluster_sr.png} 
 		\caption{
 			\newline The distribution of all sharpe ratios, grouped by cluster and a separate line for the best sharpe ratio.}
 		\label{figure-dsr_sr}
@@ -2713,7 +2736,7 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{OOS P\&L for Clusters and Best Strategy}
-		\includegraphics[scale=0.35]{images/results/dsr/cluster_oos.png} 
+		\includegraphics[scale=0.35]{images/results/dsr_old/cluster_oos.png} 
 		\caption{
 			\newline The distribution of all oos P\&L amounts, grouped by cluster and a separate line for the best strategy's P\&L (chosen according to highest SR).}
 		\label{figure-dsr_oos}

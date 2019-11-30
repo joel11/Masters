@@ -37,20 +37,22 @@
 \contentsline {figure}{\numberline {36}{\ignorespaces Number of CSCV Combinations by Split Value}}{87}{figure.caption.45}
 \contentsline {figure}{\numberline {37}{\ignorespaces Logit Distribution for All Configurations}}{87}{figure.caption.47}
 \contentsline {figure}{\numberline {38}{\ignorespaces Logit Distribution for Subset of Configurations}}{88}{figure.caption.48}
-\contentsline {figure}{\numberline {39}{\ignorespaces \newline The distribution of all sharpe ratios, grouped by cluster and a separate line for the best sharpe ratio.\relax }}{90}{figure.caption.49}
-\contentsline {figure}{\numberline {40}{\ignorespaces \newline The distribution of all oos P\&L amounts, grouped by cluster and a separate line for the best strategy's P\&L (chosen according to highest SR).\relax }}{90}{figure.caption.50}
-\contentsline {figure}{\numberline {41}{\ignorespaces OOS P\&L Distribution without Costs}}{91}{figure.caption.51}
-\contentsline {figure}{\numberline {42}{\ignorespaces OOS P\&L Distribution with Costs}}{92}{figure.caption.52}
-\contentsline {figure}{\numberline {43}{\ignorespaces Sharpe Ratios (no Costs)}}{92}{figure.caption.53}
-\contentsline {figure}{\numberline {44}{\ignorespaces Correct Trade Distribution}}{93}{figure.caption.54}
-\contentsline {figure}{\numberline {45}{\ignorespaces SAE: Leaky ReLU vs ReLU (Sythnetic Data)}}{103}{figure.caption.59}
-\contentsline {figure}{\numberline {46}{\ignorespaces Prediction Accuracy by Training Epochs (MNIST Data)}}{103}{figure.caption.60}
-\contentsline {figure}{\numberline {47}{\ignorespaces SAE MSE by Initialization (Actual Data)}}{104}{figure.caption.61}
-\contentsline {figure}{\numberline {48}{\ignorespaces MSE By Feature Selection Size (Synthetic Data)}}{104}{figure.caption.62}
-\contentsline {figure}{\numberline {49}{\ignorespaces MSE By Network Sizes (Actual Data)}}{105}{figure.caption.63}
-\contentsline {figure}{\numberline {50}{\ignorespaces MSE By Network Sizes (Synthetic Data)}}{105}{figure.caption.64}
-\contentsline {figure}{\numberline {51}{\ignorespaces P\&L By Network Sizes (Actual Data)}}{106}{figure.caption.65}
-\contentsline {figure}{\numberline {52}{\ignorespaces P\&L By Network Sizes (Synthetic Data)}}{106}{figure.caption.66}
-\contentsline {figure}{\numberline {53}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)}}{107}{figure.caption.67}
-\contentsline {figure}{\numberline {54}{\ignorespaces Predictive P\&L by OGD Learning Rate (Synthetic Data)}}{107}{figure.caption.68}
-\contentsline {figure}{\numberline {55}{\ignorespaces Predictive P\&L by L1 Regularization (Synthetic Data)}}{108}{figure.caption.69}
+\contentsline {figure}{\numberline {39}{\ignorespaces Sharpe Ratios for ONC Clusters and Best Strategy}}{90}{figure.caption.49}
+\contentsline {figure}{\numberline {40}{\ignorespaces OGD MSE Scores for ONC Clusters}}{90}{figure.caption.50}
+\contentsline {figure}{\numberline {41}{\ignorespaces \newline The distribution of all sharpe ratios, grouped by cluster and a separate line for the best sharpe ratio.\relax }}{92}{figure.caption.51}
+\contentsline {figure}{\numberline {42}{\ignorespaces \newline The distribution of all oos P\&L amounts, grouped by cluster and a separate line for the best strategy's P\&L (chosen according to highest SR).\relax }}{92}{figure.caption.52}
+\contentsline {figure}{\numberline {43}{\ignorespaces OOS P\&L Distribution without Costs}}{93}{figure.caption.53}
+\contentsline {figure}{\numberline {44}{\ignorespaces OOS P\&L Distribution with Costs}}{94}{figure.caption.54}
+\contentsline {figure}{\numberline {45}{\ignorespaces Sharpe Ratios (no Costs)}}{94}{figure.caption.55}
+\contentsline {figure}{\numberline {46}{\ignorespaces Correct Trade Distribution}}{95}{figure.caption.56}
+\contentsline {figure}{\numberline {47}{\ignorespaces SAE: Leaky ReLU vs ReLU (Sythnetic Data)}}{105}{figure.caption.61}
+\contentsline {figure}{\numberline {48}{\ignorespaces Prediction Accuracy by Training Epochs (MNIST Data)}}{105}{figure.caption.62}
+\contentsline {figure}{\numberline {49}{\ignorespaces SAE MSE by Initialization (Actual Data)}}{106}{figure.caption.63}
+\contentsline {figure}{\numberline {50}{\ignorespaces MSE By Feature Selection Size (Synthetic Data)}}{106}{figure.caption.64}
+\contentsline {figure}{\numberline {51}{\ignorespaces MSE By Network Sizes (Actual Data)}}{107}{figure.caption.65}
+\contentsline {figure}{\numberline {52}{\ignorespaces MSE By Network Sizes (Synthetic Data)}}{107}{figure.caption.66}
+\contentsline {figure}{\numberline {53}{\ignorespaces P\&L By Network Sizes (Actual Data)}}{108}{figure.caption.67}
+\contentsline {figure}{\numberline {54}{\ignorespaces P\&L By Network Sizes (Synthetic Data)}}{108}{figure.caption.68}
+\contentsline {figure}{\numberline {55}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)}}{109}{figure.caption.69}
+\contentsline {figure}{\numberline {56}{\ignorespaces Predictive P\&L by OGD Learning Rate (Synthetic Data)}}{109}{figure.caption.70}
+\contentsline {figure}{\numberline {57}{\ignorespaces Predictive P\&L by L1 Regularization (Synthetic Data)}}{110}{figure.caption.71}
