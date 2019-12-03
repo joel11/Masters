@@ -132,18 +132,18 @@
 \BOOKMARK [2][-]{subsection.7.8}{DSR Results}{section.7}% 132
 \BOOKMARK [3][-]{subsubsection.7.8.1}{Computational Complexity}{subsection.7.8}% 133
 \BOOKMARK [3][-]{subsubsection.7.8.2}{ONC Results}{subsection.7.8}% 134
-\BOOKMARK [2][-]{subsection.7.9}{DSR Results2}{section.7}% 135
-\BOOKMARK [2][-]{subsection.7.10}{MMS Results}{section.7}% 136
-\BOOKMARK [3][-]{subsubsection.7.10.1}{Summary of Experiment Results}{subsection.7.10}% 137
-\BOOKMARK [3][-]{subsubsection.7.10.2}{Best Network Results}{subsection.7.10}% 138
-\BOOKMARK [2][-]{subsection.7.11}{Results Summary}{section.7}% 139
-\BOOKMARK [3][-]{subsubsection.7.11.1}{Framework Success and PBO}{subsection.7.11}% 140
-\BOOKMARK [3][-]{subsubsection.7.11.2}{Historical Data}{subsection.7.11}% 141
-\BOOKMARK [3][-]{subsubsection.7.11.3}{Data Processing Considerations}{subsection.7.11}% 142
-\BOOKMARK [3][-]{subsubsection.7.11.4}{Weight Initializations}{subsection.7.11}% 143
-\BOOKMARK [3][-]{subsubsection.7.11.5}{Feature Selection}{subsection.7.11}% 144
-\BOOKMARK [3][-]{subsubsection.7.11.6}{Output Activations and Network Structure}{subsection.7.11}% 145
-\BOOKMARK [3][-]{subsubsection.7.11.7}{Learning Optimizations}{subsection.7.11}% 146
+\BOOKMARK [3][-]{subsubsection.7.8.3}{DSR and PSR Results}{subsection.7.8}% 135
+\BOOKMARK [2][-]{subsection.7.9}{MMS Results}{section.7}% 136
+\BOOKMARK [3][-]{subsubsection.7.9.1}{Summary of Experiment Results}{subsection.7.9}% 137
+\BOOKMARK [3][-]{subsubsection.7.9.2}{Best Network Results}{subsection.7.9}% 138
+\BOOKMARK [2][-]{subsection.7.10}{Results Summary}{section.7}% 139
+\BOOKMARK [3][-]{subsubsection.7.10.1}{Framework Success and PBO}{subsection.7.10}% 140
+\BOOKMARK [3][-]{subsubsection.7.10.2}{Historical Data}{subsection.7.10}% 141
+\BOOKMARK [3][-]{subsubsection.7.10.3}{Data Processing Considerations}{subsection.7.10}% 142
+\BOOKMARK [3][-]{subsubsection.7.10.4}{Weight Initializations}{subsection.7.10}% 143
+\BOOKMARK [3][-]{subsubsection.7.10.5}{Feature Selection}{subsection.7.10}% 144
+\BOOKMARK [3][-]{subsubsection.7.10.6}{Output Activations and Network Structure}{subsection.7.10}% 145
+\BOOKMARK [3][-]{subsubsection.7.10.7}{Learning Optimizations}{subsection.7.10}% 146
 \BOOKMARK [1][-]{section.8}{Software Libraries and Development}{}% 147
 \BOOKMARK [2][-]{subsection.8.1}{Programming Languages}{section.8}% 148
 \BOOKMARK [2][-]{subsection.8.2}{Data Generation \046 Processing}{section.8}% 149

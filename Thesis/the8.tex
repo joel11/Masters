@@ -748,25 +748,20 @@
 	The Sharpe Ratio (SR), as introducd by William Sharpe in earlier literature \cite{Sharpe}, has become the favoured choice as a widely usable
 	investment portfolio performance measure \cite{BaileyFrontier}. The measure, indicating the amount of return relative to risk that a portfolio offers, makes for 
 	a sensible choice in that any portfolio which maximizes this can be shown to lie on Markowitz's efficient frontier. In line with its popularity, there has been 
-	extensive research around its disitributional properties. The estimated SR of a portfolios returns has been shown to follow a normal distribution, regardless
-	of whether the underlying returns are themselves normally distributed or not. Further work by Christie derived a limiting distribution, assuming only stationary and ergodic returns \cite{Christie, Opdyke}. This prior work lead to Bailey and Lopez deriving a probability for whether a true SR measure exceeds the given benchmark \cite{BaileyFrontier}.
+	extensive research around its disitributional properties. The estimated SR of a portfolio's returns has been shown to follow a normal distribution, regardless
+	of whether the underlying returns are themselves normally distributed or not. Further work by Christie derived a limiting distribution, assuming only stationary and ergodic returns \cite{Christie, Opdyke}.
+		\hfill \break 
+		
+	The Sharpe Ratio, and indeed most standard performance measures, are based on the assumption that the returns used are the result of a single trial. In consideration of the issues laid out above, it then becomes a misreprentative performance measure. Bailey and Lopez expanded on the work by \cite{Christie} and \cite{Opdyke} and developed the Probabilistic Sharpe Ratio (PSR) in order to estimate the likelihood that an observed best $\widehat{SR}$ exceeds a provided benchmark $SR^{*}$, which might be expected from variance in the trials \cite{BaileyFrontier}. 
 	\hfill \break 
 	
-	The Sharpe Ratio, and indeed most standard performance measures, are based on the assumption that the returns used are the result of a single trial. In consideration of the issues laid out above, it then becomes a misreprentative performance measure. The Probabilistic Sharpe Ratio (PSR) was developed in order to estimate the likelihood that an observed $\widehat{SR}$ exceeds a provided benchmark $SR^{*}$ \cite{BaileyFrontier}. Further work by Bailey et al. developed the False Strategy Theorem, allowing the assessment of whether a presented strategy is a false positive or not \cite{BaileySharpe}. This allowed the development of the Deflated Sharpe Ratio (DSR) which calculates the likelihood that the true SR is positive under consideration of numerous trials being tested \cite{BaileySharpe}. The DSR can be estimate using the PSR methodology as $\widehat{PSR}[SR^*]$ where the benchmark $SR^{*}$ (SR) is no longer user defined. The crux of the DSR assessment lies on the acknowledgement that a given set of SR estimates will have a greater maximum than zero, even if the true SR is zero, i.e testing the null hypothesis of $H_0:SR=0$. In order to reject this, the observed SR must exceed the expected SR after controlling for the number of trials. Using the noted work, $SR^*$ can be shown to be calculated as follows: 
-	\hfill \break 
+	It is worth emphasising the distinction in investment strategies between a Family Wise Error Rate (FWER), which is the  probability that one or more false positives occur, and a False Discovery Rate (FDR), which is the ratio of false positives to predicted positives. Where an FDR based approach may be applicable to a manufacturing process where there is an accepable defect rate, investment strategy generations will tend to rely on the single best approach produced. Necessarily then, the FWER must be controlled for. Further work by Bailey et al. developed the False Strategy Theorem (FST) with this in mind, allowing the assessment of whether a presented strategy is a false positive or not \cite{BaileySharpe}.
+		\hfill \break 
 	
-	\begin{equation}
-	SR^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right)
-	\end{equation}
-	where:
-	\begin{itemize}
-		\item [] $\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]$ is the variance across trials' estimated SR
-		\item [] $K$ is the number of independent trials
-		\item [] $Z[.]$ is the CDF of the standard Normal Distribution 
-		\item [] $\gamma$ is the Euler-Mascheroni constant
-	\end{itemize}
-	
-	The calculation of $SR^{*}$ requires $\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]$ and  $K$, which are usually unknown on accounts of being meta-research variables which cannot be estimated from the selected strategy. It is not typical for researchers to track and report on these variables, and even if they were to, the trials would not typically be independent, thus further complicating the practical realities around calculating $SR^{*}$ as defined above. Prado and Lewis provide critical work to this end with the Optimal Number Clusters (ONC) algorithm \cite{PradoDSR}. They present a modified K-means methodology of clustering strategies and trial results, such that the dependent returns are categorised into subgroups with high intra-cluster correlations and low inter-cluster correlations. This clustering allows an estimation then of both  $K$ and $\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]$ , which in turn allows the DSR to be calculated. With this as a confidence level, we can accept or reject the notion that the observed SR is positive.
+	 This allowed the development of the Deflated Sharpe Ratio (DSR) which calculates the likelihood that the true SR is positive under consideration of numerous trials being tested \cite{BaileySharpe}. The DSR can be estimate using the PSR methodology as $\widehat{PSR}[SR^*]$ where the benchmark $SR^{*}$ (SR) is no longer user defined, but rather calculated based on the False Strategy Theorem. That said, the calculation of $SR^{*}$ requires both the variance of trial SR values the number of independent trials, which are usually unknown on accounts of being meta-research variables which cannot be estimated from the selected strategy. It is not typical for researchers to track and report on these variables, and even if they were to, the trials would not typically be independent, thus further complicating the practical realities around calculating $SR^{*}$. Prado and Lewis provide critical work to this end with the Optimal Number Clusters (ONC) algorithm \cite{PradoDSR}. They present a modified K-means methodology of clustering strategies and trial results, such that the dependent returns are categorised into subgroups with high intra-cluster correlations and low inter-cluster correlations. This clustering allows an estimation then of both the variance and number of trials, which in turn allows the DSR to be calculated. With this as a confidence level, one can accept or reject the notion that the observed $\widehat{SR}$ is positive.
+		\hfill \break 
+		
+	The approach developed by Prado and Lewis (of combining PSR, FST, DSR and ONC) relies on several principles which may differ from prior methods suggested (such as those by Harvey in \cite{Harvey}). The first is that returns do not always follow a normal distribution, which is supported by empirical evidence, and so their method rather takes into account the skewness and kurtosis of observed returns. The second is that Extreme Value Theory is a more appropriate technique than something such as Sidak's correction, due to the incorporation of return variance when a non-normal distribution is present. The third is that they do not assume a  constant average correlation across trials, noting that there is often a heirarchical structure amongst returns where there may be highly correlated clusters of strategies. Failing to take this into account would then bias the expected number of independent trials and so the false positive probability. 
 	
 	\hfill \break
 	
@@ -1506,6 +1501,10 @@
 		\begin{equation}
 		\mathbf{F}^b_{p,t} = \sum_{s \in assets} \mathbf{f}^b{s,t}
 		\end{equation}	
+		\item [8] The Sharpe Ratio
+		\begin{equation}
+			\mathbf{SR} = \mathbf{\hat{\tilde{R}}_{{t+D}}}
+		\end{equation}
 	\end{itemize}
 	\hfill\break
 	The final model return is thus established as $\sum_t{\mathbf{R}_t} / \sum_t{\mathbf{C}_t} $, for any variations of observed, expected or perfect returns as well as base and full costs. These model returns are used to establish the performance of the different predictive models which were trained.\newline
@@ -1589,9 +1588,8 @@
 	
 	\subsection{DSR and ONC}\label{imp_dsr}
 	
-	Prado and Lewis, as noted discussed in Section \ref{lr_backtesting}, have built upon an extensive amount of literature in order to present a novel approach of detecting false investment strategies using unsupervised learning \cite{PradoDSR}. It is worth emphasising the distinction in investment strategies between a Family Wise Error Rate (FWER), which is the  probability that one or more false positives occur, and a False Discovery Rate (FDR) which is the ratio of false positives to predicted positives. Where an FDR based approach may be applicable to a manufacturing process where there is an accepable defect rate, investment strategy generations will tend to rely on the single best approach produced. Necessarily then, the FWER must be controlled for. \newline
-	
-	The approach produced relies on several principles, which may differ from prior methods suggested (such as those by Harvey in  \cite{Harvey}). The first is that returns do not always follow a normal distribution, which is supported by emperical evidence, and so their method rather takes into account the skewness and kurtosis of observed returns. The second is that Extreme Value Theory is a more appropriate technique than something such as Šidák's correction, due to the incorporation of return variance when a non-normal distribution is present. The third is that they do not assume a  constant average correlation across trials, noting that there is often a heirarchical structure amongst returns where there may be highly correlated clusters of strategies. Failing to take this into account would then bias the expected number of independent trials and so the false positive probability.
+	The crux of the DSR assessment lies on the acknowledgement that a given set of SR estimates will have a greater maximum than zero, even if the true SR is zero, i.e testing the null hypothesis of $H_0:SR=0$. In order to reject this, the observed SR must exceed the expected SR after controlling for the number of trials. Using the 
+	work noted in Section \ref{lr_backtest_sr}, Prado and Lewis combine several ideas allowing the assessment of the Sharpe Ratio under multiple trials. The ONC algorithm is used to cluster the trials into heirarchical independent trial groups (\ref{imp_onc}). Theses clusterings can then be used to estimate the trial set variance and number of trials, which can in turn be used to estimate the maximum likely Sharpe Ratio expected under the False Strategy Theorem (\ref{imp_fst}). The Deflated Sharpe Ratio can be calculated by using this as the benchmark for the Probabilistic Sharpe Ratio, which gives a likelihood of whether the best observed $\widehat{SR}$ is a false positive or not (\ref{sr_normality}, \ref{imp_dsr}). These methods are explained in full detail below.
 	
 	\subsubsection{Optimal Number of Clusters Algorithm}\label{imp_onc}
 	
@@ -1657,7 +1655,7 @@
 	~\\
 	This PSR calculation then gives the probability that the observed $\widehat{SR}$ exceeds $SR^*$. Expectedly then, PSR will increase with $\widehat{SR}$, $T$ and $\hat{\gamma_3}$, but decrease with $\hat{\gamma_4}$.
 		
-	\subsubsection{False Strategy Theorem}
+	\subsubsection{False Strategy Theorem}\label{imp_fst}
 	
 	Bailey et al. \cite{Baileyetal2014} provided a proof for the following statement, allowing for PSR to be properly adjusted for multiple trials.
 	
@@ -1871,6 +1869,7 @@
 	
 	\begin{table}[h]
 		\centering
+		\small
 		\begin{tabular}{|c|c|c|c|}
 			\hline
 			\textbf{Trend Category} &\textbf{Variance Category} & \textbf{Trend Mean} & \textbf{Variance}\\\hline	
@@ -1887,8 +1886,9 @@
 	
 	\begin{figure}[H]
 		\centering
+		\textbf{Synthetic 6 Price Relatives}
 		\includegraphics[scale=0.35]{images/results/prices/synthetic6_prices.png} 
-		\caption[Synthetic 6 Prices]{\textbf{Synthetic 6 Prices}}
+		\caption[Synthetic 6 Price Relatives]{This figure show the price relatives for the Synthetic6 dataset, generated with the attributes in Table \ref{tab_synth6}, with high and low variances of assets with upwards, downwards and sideways trends.}
 		\label{figure-synthetic6_prices}
 	\end{figure}
 	
@@ -1898,6 +1898,7 @@
 	
 	\begin{table}[H]
 		\centering
+		\small
 		\begin{tabular}{|c|c|c|c|}
 			\hline
 			\textbf{Trend Category} &\textbf{Variance Category} & \textbf{Trend Mean} & \textbf{Variance}\\\hline	
@@ -1918,8 +1919,9 @@
 	
 	\begin{figure}[H]
 		\centering
+		\textbf{Synthetic 10 Price Relatives}
 		\includegraphics[scale=0.35]{images/results/prices/synthetic10_prices.png} 
-		\caption[Synthetic 10 Prices]{\textbf{Synthetic 10 Prices}}
+		\caption[Synthetic 10 Price Relatives]{This figure show the price relatives for the Synthetic10 dataset, generated with the attributes in Table \ref{tab_synth10}, with a wide range of means and variances chosen, such that the data might be representative of an non-synthetic dataset.}
 		\label{figure-synthetic10_prices}
 	\end{figure}
 	
@@ -1951,10 +1953,12 @@
 		\caption{Actual 10 Dataset Configuration}\label{tab_actual10}
 	\end{table}
 	
+	
 	\begin{figure}[H]
 		\centering
+		\textbf{Actual 10 Price Relatives}
 		\includegraphics[scale=0.45]{images/results/prices/actual10_prices.png} 
-		\caption[Actual 10 Prices]{\textbf{Actual 10 Price Relatives}}
+		\caption[Actual 10 Price Relatives]{The primary dataset for actual price relatives is displayed here, as noted in Table \ref{tab_actual10}. There is a varied collection of behaviours amongst assess, with upwards, downwards and sideways trends over the full period, as well as assets with very high and low variances. The dataset contains assets from most major sectors, and show some strong correlatons amongst groups of assets (e.g. AGL, REM and SNH). }
 		\label{figure-actual10_prices}
 	\end{figure}
 	
@@ -1968,8 +1972,9 @@
 	
 	\begin{figure}[H]
 		\centering
+		\textbf{AGL \& ACL Price Relatives}
 		\includegraphics[scale=0.45]{images/results/prices/aglacl_prices.png} 
-		\caption[AGL \& ACL Prices]{\textbf{AGL \& ACL Price Relatives}}
+		\caption[AGL \& ACL Price Relatives]{The figure here shows price relatives for AGL and ACL which make up the AGL and AGL\&ACL datasets (\ref{dataset_agl}, \ref{dataset_aglacl}), which were used for some limited testing.}
 		\label{figure-aglacl_prices}
 	\end{figure}
 	
@@ -1984,8 +1989,9 @@
 	
 	\begin{figure}[H]
 		\centering
+		\textbf{Scaling 10 Price Relatives}
 		\includegraphics[scale=0.45]{images/results/prices/scaling10_prices.png} 
-		\caption[Scaling 10 Prices]{\textbf{Scaling 10 Price Relatives}}
+		\caption[Scaling 10 Price Relatives]{The figure here shows the prices relatives for the Scaling10 Dataset \ref{dataset_scaling10}. The group of assets show a wide variet of behaviours, which was appropriat for the testing of training techniques on SAE networks. These results can be seen in Section \ref{results_activations_scaling}.}
 		\label{figure-scaling0_prices}
 	\end{figure}
 	

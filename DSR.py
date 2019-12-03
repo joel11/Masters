@@ -206,13 +206,13 @@ def writeCoefficientMatric(data):
     df = df.fillna(0) # with 0s rather than NaNs
     corr_df = df.corr()
     
-    corr_df.to_csv(r'/users/joeldacosta/desktop/all_returns_correlation_matrix_rates.csv')
+    corr_df.to_csv(r'/users/joeldacosta/desktop/cluster_one_returns_correlation_matrix_rates.csv')
     
     return df
 
 
-#returns = pd.read_csv('/users/joeldacosta/desktop/all_return_rates.csv') 
-#writeCoefficientMatric(returns)
+returns = pd.read_csv('/users/joeldacosta/desktop/cluster_one_return_rates.csv') 
+writeCoefficientMatric(returns)
 
 corrMatrix = pd.read_csv(r'/users/joeldacosta/desktop/all_returns_correlation_matrix_rates.csv')
 corrMatrix = corrMatrix.fillna(0) # with 0s rather than NaNs

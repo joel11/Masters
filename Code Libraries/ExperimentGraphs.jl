@@ -1282,6 +1282,13 @@ function PlotSynthetic6(dataseed)
 
     ds = GenerateDataset(dataseed, 5000, var_pairs)
 
+
+    for r in size(ds, 1):-1:1
+        for c in 1:size(ds, 2)
+            ds[r,c] = ds[r,c]./ds[1,c]
+        end
+    end
+
     data = [scatter(;x=1:5001,y=ds[:,1], name=names[1])]
 
     for i in 2:size(ds, 2)
@@ -1321,8 +1328,13 @@ function PlotSynthetic10(dataseed)
             "Strong Downward High")
 
 
-
     ds = GenerateDataset(dataseed, 5000, var_pairs)
+
+    for r in size(ds, 1):-1:1
+        for c in 1:size(ds, 2)
+            ds[r,c] = ds[r,c]./ds[1,c]
+        end
+    end
 
     data = [scatter(;x=1:5001,y=ds[:,1], name=names[1])]
 
