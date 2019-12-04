@@ -1472,10 +1472,18 @@
 	
 	\subparagraph{Calculated Strategy Variables} The MMS  is then implemented using these calculated values which are aggregated at each time point $t$ for all assets, $s$, as follows:
 	
+	%(strat_df[:total_returns_observed] .- strat_df[:total_trade_costs]) ./ strat_df[:total_trade_costs]
+	
+	
+	
 	\begin{itemize}
+		\item[8] The observed return rate for $t+D$ from all stocks traded at $t$
+		\begin{equation}
+			\mathbf{A_{t+D}} 
+		\end{equation}
 		\item [1] The expected return for $t+D$ from all stocks traded at $t$
 		\begin{equation}
-		\mathbf{E[R_{{t+D}}]} = \sum_{s \in stocks} \mathbf{E[r]}_{s, {t+D}}
+		\mathbf{E[U_{{t+D}}]} = \sum_{s \in stocks} \mathbf{E[r]}_{s, {t+D}}
 		\end{equation}
 		\item [2] The observed return for $t+D$ from all stocks traded at $t$
 		\begin{equation}
@@ -2006,7 +2014,7 @@
 	
 	\newpage
 	\section{Results}\label{Results}
-	\subsection{Introduction}
+	\subsection{Introduction}\label{results_into}
 	
 	The results section offers several key takeaways, mostly discussed in order of application (such that some findings will have been taken into account for later sections in this chapter). There are some general aspects worth keeping in mind throughout the result chapter:
 	\begin{itemize}
@@ -2015,6 +2023,17 @@
 		\item[3] The MMS, as described in \ref{imp_mms}, only trades 1 stock unit at a time, and so any P\&L figures are relative indications rather than absolute limits.
 		\item[4]  Results for synthetic data are compared against actual data when appropriate, such that it might guide when synthetic data can and should be used for parameter space exploration (as discussed in section \ref{proc_synthetic}).
 	\end{itemize}
+	
+	Additionally, while the predictive networks are trained using an MSE loss function, the performance will mostly be reported on according to the P\&L they were able to achieve through the MMS. Looking at Figure \ref{figure-ogdmse_pl}, we can see that while there is a strong correlation between predictive accuracy and P\&L achieved, it is not absolute and there are many "worse" configurations according to OGD MSE which have higher P\&L. This is due in part to OGD's potential to oscillate wildly in the beginning of training while it adjusts, and also representative of lower variance models being able to achieve competitive P\&L. Also, in consideration of the task at hand, P\&L is the primary metric of interest and so is a sensible analysis choice.
+	
+		\begin{figure}[H]
+		\textbf{OGD MSE vs P\&L}
+		\centering
+		\includegraphics[scale=0.45]{images/results/intro/ogdmse_pl.png}
+		\caption[OGD MSE vs P\&L]
+					{The figure here shows the paired OGD MSE score and P\&L achieved for all configurations run. There is a very strong correlation with $\rho = -0.74$, indicating the relationship of P\&L increasing as OGD MSE decreases (or, predictive accuracy increases). As can be seen however, there are still many configurations with which outperform in P\&L despite having a worse OGD MSE score (reasons are noted above in \ref{results_into}). As a result, and with the end goal in mind, P\&L is chosen as the reporting primary assessement metric for the analyses on predictive networks. }
+		\label{figure-ogdmse_pl}
+	\end{figure}
 	
 	\subsubsection{Overview}
 	

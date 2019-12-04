@@ -111,24 +111,26 @@ RunQuery(two_cmd)
 ##OGD vs PL graph###############################################################################################################
 
 
-ogdpl_data = RunQuery("select c.cluster, training_cost, total_pl
+ogdpl_data = RunQuery("select training_cost, total_pl
 from clusters c
 inner join epoch_records er on er.configuration_id = c.configuration_id and category = 'OGD'
 inner join config_oos_pl pl on pl.configuration_id = c.configuration_id
---where training_cost < 0.05")
+--where training_cost < 0.02")
 
-cor(Array(ogdpl_data[:training_cost]),Array(ogdpl_data[:total_pl]))
+#cor(Array(ogdpl_data[:training_cost]),Array(ogdpl_data[:total_pl]))
 
-xvals = Array(ogdpl_data[:training_cost])
-yvals = Array(ogdpl_data[:total_pl])
+ogdpl_data[:,1] = Array(ogdpl_data[:,1])
+ogdpl_data[:,2] = Array(ogdpl_data[:,2])
+ogdpl_data[:rounded_mse] = round.(Array(ogdpl_data[:,1]),3)
 
-trace1 = scatter(;
-  x = xvals,
-  y = yvals,
-  mode = "markers")
+groups = by(ogdpl_data, [:rounded_mse], df -> mean(df[:total_pl]))
 
-  fig = Plot(trace1)
-  savefig(plot(fig), string("/users/joeldacosta/desktop/msepl.html"))
+trace1 = scatter(;x = Array(c1_data[:training_cost]), y = Array(c1_data[:total_pl]), mode = "markers", name = "Observations")
+
+trace2 = scatter(;x = Array(groups[:rounded_mse]), y = Array(groups[:x1]), mode = "line", name = "Mean")
+
+fig = Plot([trace1, trace2])
+savefig(plot(fig), string("/users/joeldacosta/desktop/msepl.html"))
 
 ##########OGD MSE Plot##############################################################################################################
 

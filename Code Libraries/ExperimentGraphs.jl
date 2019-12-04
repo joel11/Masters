@@ -1,7 +1,7 @@
-#module ExperimentGraphs
+module ExperimentGraphs
 
-workspace()
-push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
+#workspace()
+#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
 using NeuralNetworks
 using ActivationFunctions, InitializationFunctions, NetworkTrainer
@@ -414,7 +414,9 @@ function PL_NetworkSizeLines(config_ids, file_prefix = "", colourSetChoice = "",
     query = "select np.configuration_id,
             layer_sizes
         from network_parameters np
-        where np.configuration_id in ($ids)"
+        inner join epoch_records er on er.configuration_id = np.configuration_id and er.category = 'OGD'
+        where np.configuration_id in ($ids)
+        and training_cost < 0.5"
 
     results = RunQuery(query, testDatabase)
 
@@ -542,6 +544,57 @@ function PL_Init(config_ids, file_prefix = "", colourSetChoice = "", testDatase 
 end
 
 #MSE BoxPlots############################################################################
+
+function OGDMSE_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, learning_rate = nothing, aggregation = maximum)
+
+    config_ids = 28880:49616
+    noneSize = 30
+    testDatabase = false
+    aggregation = mean
+    file_prefix = "actual"
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+                tp.learning_rate,
+                er.training_cost
+            from network_parameters np
+                inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
+                inner join epoch_records er on er.configuration_id = np.configuration_id and er.category = 'OGD'
+            where np.configuration_id in ($ids)
+                and training_cost is not null
+            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    results[:,4] = Array{Float64,1}(results[:,4])
+
+    groups = by(results, [:encoding, :learning_rate], df -> aggregation(df[:training_cost]))
+
+    encoding_groups = by(groups, [:learning_rate], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets["ActualPL"], 8)
+
+    for i in 1:size(encoding_groups,1)
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " OGD Learning Rate"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> OGD MSE (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>")))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Encoding OGD MSE Learning Rates", string(aggregation), ".html"))
+end
 
 function MSE_ActivationsEncodingSizes(config_ids, encoding_size = nothing, file_prefix = "", colourSetChoice = "", testDatabase = false)
 
@@ -845,6 +898,7 @@ function MSE_Min_EncodingSize_Activation(config_ids, activation_choice = "encodi
             inner join configuration_run cr on cr.configuration_id = er.configuration_id
             inner join dataset_config dc on dc.configuration_id = er.configuration_id
             inner join network_parameters np on np.configuration_id = er.configuration_id
+
             where er.configuration_id in ($ids)
                 and er.category = \"SAE-SGD-Init\"
                 and training_cost is not null
@@ -1675,6 +1729,37 @@ function BestStrategyVsBenchmark(original_prices)
     ConfusionMatrix(config_id, stockreturns)
 end
 
+function OGD_MSE_vs_PL()
+
+    ogdpl_data = RunQuery("select training_cost, total_pl
+    from clusters c
+    inner join epoch_records er on er.configuration_id = c.configuration_id and category = 'OGD'
+    inner join config_oos_pl pl on pl.configuration_id = c.configuration_id
+    where training_cost < 0.02")
+
+    cor(Array(ogdpl_data[:training_cost]),Array(ogdpl_data[:total_pl]))
+
+    ogdpl_data[:,1] = Array(ogdpl_data[:,1])
+    ogdpl_data[:,2] = Array(ogdpl_data[:,2])
+    ogdpl_data[:rounded_mse] = round.(Array(ogdpl_data[:,1]),3)
+
+    groups = by(ogdpl_data, [:rounded_mse], df -> mean(df[:total_pl]))
+
+    trace1 = scatter(;x = Array(ogdpl_data[:training_cost]), y = Array(ogdpl_data[:total_pl]), mode = "markers", name = "Observations")
+    trace2 = scatter(;x = Array(groups[:rounded_mse]), y = Array(groups[:x1]), mode = "line", name = "P&L Mean")
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 140, :l => 100)
+        , yaxis = Dict(:title => string("<b> P\&L <br> </b>"))
+        , xaxis = Dict(:title => string("<b> OGD MSE </b><br><br><br><i> Sample Size: ", size(ogdpl_data,1), "</i>")
+                     , :showticklabels => true)
+         )
+
+
+    fig = Plot([trace1, trace2], l)
+    savefig(plot(fig), string("/users/joeldacosta/desktop/OGD MSE vs PL.html"))
+
+end
+
 ##CSCV Plots ####################################################################
 
 function PlotCombinationSizes()
@@ -1778,4 +1863,4 @@ TotalProfits_Test = ReadTestProfits()
 TotalProfitsCost = ReadProfitsCost()
 
 
-#end
+end
