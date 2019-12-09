@@ -134,13 +134,13 @@ function sae_boxplot(sae_groups, filename, variable_name)
     savefig(plot(data), string("/users/joeldacosta/desktop/", filename, export_ext))
 end
 
-function ProfitBoxplot(query, group_column, xaxis_label, filename, secondary_type, testDatabase = false, colourSetChoice = "", ordering = nothing, xlabels_show = true, font_size = 18, minimum_val = nothing)
+function ProfitBoxplot(query, group_column, xaxis_label, filename, secondary_type, testDatabase = false, colourSetChoice = "", ordering = nothing, xlabels_show = true, font_size = 18, minimum_val = nothing, in_sample = false)
 
     results = RunQuery(query, testDatabase)
 
     results[:,1] = Array{Int64,1}(results[:,1])
     results[:,2] = Array{secondary_type,1}(results[:,2])
-    layer_returns = join(GetProfits(testDatabase), results, on = :configuration_id)
+    layer_returns = join(GetProfits(testDatabase, in_sample), results, on = :configuration_id)
 
     println(minimum_val)
     if minimum_val != nothing
@@ -152,7 +152,9 @@ function ProfitBoxplot(query, group_column, xaxis_label, filename, secondary_typ
 
     groups = ordering == nothing ? groups : OrderDataFrame(groups, ordering)
 
-    general_boxplot(groups, xaxis_label, filename, :profit, "P&L", xlabels_show, colourSetChoice, font_size)
+    set = in_sample ? "IS" : "OOS"
+
+    general_boxplot(groups, xaxis_label, filename, :profit, string(set, " P&L"), xlabels_show, colourSetChoice, font_size)
 end
 
 function MSEBoxplot(query, group_column, xaxis_label, filename, secondary_type, colourSetChoice = "", testDatabase = false, xlabels_show = true, font_size = 18, ordering = nothing)
@@ -449,45 +451,48 @@ function PL_NetworkSizeLines(config_ids, file_prefix = "", colourSetChoice = "",
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Network Size Profits - Lines.html"))
 end
 
-function PL_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, learning_rate = nothing, aggregation = maximum)
+function PL_LearningRateReg_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
 
     ids = TransformConfigIDs(config_ids)
 
-    query = "select np.configuration_id,
-                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
-                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
-                tp.learning_rate
-            from network_parameters np
-                inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
-            where np.configuration_id in ($ids)
-            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
+    query = "select
+            tp.configuration_id,
+            tp.min_learning_rate learning_rate,
+            tp.l1_lambda lambda
+        from training_parameters tp
+        where configuration_id in ($ids)
+            and category = 'FFN'
+        order by learning_rate"
 
     results = RunQuery(query, testDatabase)
     results[:,1] = Array{Int64,1}(results[:,1])
-    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,2] = Array{Float64,1}(results[:,2])
     results[:,3] = Array{Float64,1}(results[:,3])
-    pl_returns = join(GetProfits(testDatabase), results, on = :configuration_id)
 
-    groups = by(pl_returns, [:encoding, :learning_rate], df -> aggregation(df[:profit]))
+    results = join(GetProfits(testDatabase), results, on = :configuration_id)
 
-    encoding_groups = by(groups, [:learning_rate], df -> [df])
+    groups = by(results, [:lambda, :learning_rate], df -> median(df[:profit]))
+
+    node_groups = by(groups, [:lambda], df -> [df])
+
     data = Array{PlotlyBase.GenericTrace,1}()
-    colors = colors = ColorBrewer.palette(colourSets["ActualPL"], 8)
 
-    for i in 1:size(encoding_groups,1)
-        trace = scatter(;x=encoding_groups[i,2][:encoding],
-                         y=encoding_groups[i,2][:x1],
-                         name=string(encoding_groups[i,1],
-                         " OGD Learning Rate"),
+    colors = colors = ColorBrewer.palette(colourSets["ActualMSE"], 8)
+
+    for i in 1:size(node_groups,1)
+        trace = scatter(;x=node_groups[i,2][:learning_rate],
+                        y=node_groups[i,2][:x1],
+                        name=string(node_groups[i,1], " Lambda"),
                         marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
         push!(data, trace)
     end
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> P&L (", string(aggregation), ")</br> </b>"))
-        , xaxis = Dict(:title => string("<b> Encoding Size </b>")))
+        , yaxis = Dict(:title => string("<b> P&L </br> </b>"))
+        , xaxis = Dict(:dtick => 1.0, :title => string("<b> Learning Rate </b>"))
+        , font = Dict(:size => 16))
 
-    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Encoding PL Learning Rates", string(aggregation), ".html"))
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " Learning Rate Lambda PL.html"))
 end
 
 function PL_SAE_Encoding_Size(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, learning_rate = nothing)
@@ -508,12 +513,12 @@ function PL_SAE_Encoding_Size(config_ids, noneSize = -1, file_prefix = "", colou
     ProfitBoxplot(query, :encoding, "Encoding ", string(file_prefix, "Encoding Size Profits"), Int64, testDatabase, colourSetChoice)
 end
 
-function PL_DataDeltas(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+function PL_DataDeltas(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
 
     ids = TransformConfigIDs(config_ids)
 
     query = "select np.configuration_id,
-             ('[' || deltas || '] Data Windows') deltas
+             ('[' || deltas || '] Horizons') deltas
             from dataset_config np
             where np.configuration_id in($ids)"
 
@@ -525,7 +530,8 @@ function PL_DataDeltas(config_ids, file_prefix = "", colourSetChoice = "", testD
 
     ordering = groups[[1,3,2],1]
 
-    ProfitBoxplot(query, :deltas, " ", string(file_prefix, "Data Deltas Profits"), String, testDatabase, colourSetChoice, ordering, false)
+
+    ProfitBoxplot(query, :deltas, " ", string(file_prefix, "Data Deltas Profits"), String, testDatabase, colourSetChoice, ordering, false, 18, nothing, in_sample)
 end
 
 function PL_Init(config_ids, file_prefix = "", colourSetChoice = "", testDatase = false)
@@ -543,7 +549,114 @@ function PL_Init(config_ids, file_prefix = "", colourSetChoice = "", testDatase 
     ProfitBoxplot(query, :initialization, "Initialization", string(file_prefix, "Init Profits"), String, testDatase, colourSetChoice, nothing, true, 16)
 end
 
+function PL_OGDLearningDeltas_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    #config_ids = 28880:50000
+    #file_prefix = "actual"
+    #colourSetChoice = "ActualPL"
+    #testDatabase = false
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select
+                dc.configuration_id,
+                dc.deltas,
+                tp.learning_rate
+        from dataset_config dc
+            inner join training_parameters tp on tp.configuration_id = dc.configuration_id and tp.category = 'FFN-OGD'
+        where dc.configuration_id in ($ids)
+        order by learning_rate"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{String,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+
+    results = join(GetProfits(testDatabase), results, on = :configuration_id)
+
+    groups = by(results, [:deltas, :learning_rate], df -> median(df[:profit]))
+
+    node_groups = by(groups, [:deltas], df -> [df])
+
+    data = Array{PlotlyBase.GenericTrace,1}()
+
+    colors = colors = ColorBrewer.palette(colourSets["ActualMSE"], 8)
+
+    for i in [1,3,2]
+        trace = scatter(;x=node_groups[i,2][:learning_rate],
+                        y=node_groups[i,2][:x1],
+                        name=string(node_groups[i,1], " Deltas"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> P&L </br> </b>"))
+        , xaxis = Dict(:dtick => 0.01, :title => string("<b> OGD Learning Rate </b>"), :showticklabels => true )
+        , font = Dict(:size => 16))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " OGD Learning Rate Deltas PL.html"))
+end
+
+
 #MSE BoxPlots############################################################################
+
+function MSE_SAE_Encoding_Size_Deltas_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    config_ids = 1:1655
+    file_prefix = "actual"
+    colourSetChoice = "ActualMSE"
+    testDatabase = false
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select
+                dc.configuration_id,
+                dc.deltas,
+                layer_sizes,
+                min(training_cost) cost
+        from dataset_config dc
+            inner join network_parameters np on np.configuration_id = dc.configuration_id
+            inner join epoch_records er on er.configuration_id = dc.configuration_id
+        where dc.configuration_id in ($ids)
+        group by dc.configuration_id, dc.deltas, layer_sizes
+        having cost not null
+        order by deltas"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{String,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    results[:,4] = Array{Float64,1}(results[:,4])
+
+
+    results[:encoding] =  map(s -> parse(Int64, s), (ascii.(map(l -> split(l, ',')[1], results[:,:layer_sizes]))))
+
+    groups = by(results, [:deltas, :encoding], df -> mean(df[:cost]))
+
+    node_groups = by(groups, [:deltas], df -> [df])
+
+    data = Array{PlotlyBase.GenericTrace,1}()
+
+    colors = colors = ColorBrewer.palette(colourSets["ActualMSE"], 8)
+
+    for i in [1,3,2]
+        trace = scatter(;x=node_groups[i,2][:encoding],
+                        y=node_groups[i,2][:x1],
+                        name=string(node_groups[i,1], " Deltas"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> Median MSE </br> </b>"))
+        , xaxis = Dict(:dtick => 5, :title => string("<b> Encoding Size </b>"), :showticklabels => true )
+        , font = Dict(:size => 16))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " Encoding Size Deltas MSE.html"))
+end
 
 function OGDMSE_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, learning_rate = nothing, aggregation = maximum)
 
@@ -715,6 +828,113 @@ function MSE_LayerSizesLines(config_ids, file_prefix = "", colourSetChoice = "",
         , font = Dict(:size => 16))
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Network Size MSE.html"))
+end
+
+function MSE_LearningRateReg_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select
+            er.configuration_id,
+            min(training_cost) cost,
+            tp.learning_rate learning_rate,
+            tp.l1_lambda lambda
+        from epoch_records er
+        inner join configuration_run cr on cr.configuration_id = er.configuration_id
+        inner join training_parameters tp on tp.configuration_id = er.configuration_id and tp.category = 'SAE'
+        where er.configuration_id in ($ids)
+            and er.category = 'SAE-SGD-Init'
+            and training_cost is not null
+        group by er.configuration_id
+        having cost < 1000
+        order by tp.learning_rate"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Float64,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    results[:,4] = Array{Float64,1}(results[:,4])
+
+    groups = by(results, [:lambda, :learning_rate], df -> median(df[:cost]))
+
+    node_groups = by(groups, [:lambda], df -> [df])
+
+    data = Array{PlotlyBase.GenericTrace,1}()
+
+    colors = colors = ColorBrewer.palette(colourSets["ActualMSE"], 8)
+
+    for i in 1:size(node_groups,1)
+        trace = scatter(;x=node_groups[i,2][:learning_rate],
+                        y=node_groups[i,2][:x1],
+                        name=string(node_groups[i,1], " Lambda"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> MSE </br> </b>"))
+        , xaxis = Dict(:dtick => 1.0, :title => string("<b> Learning Rate </b>"))
+        , font = Dict(:size => 16))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " Learning Rate Lambda MSE.html"))
+end
+
+function MSE_LearningRateInit_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    config_ids = 1:1655
+    file_prefix = "actual"
+    colourSetChoice = "ActualMSE"
+    testDatabase = false
+
+
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select
+            er.configuration_id,
+            min(training_cost) cost,
+            tp.min_learning_rate learning_rate,
+            np.initialization
+        from epoch_records er
+        inner join configuration_run cr on cr.configuration_id = er.configuration_id
+        inner join network_parameters np on np.configuration_id = er.configuration_id
+        inner join training_parameters tp on tp.configuration_id = er.configuration_id and tp.category = 'SAE'
+        where er.configuration_id in ($ids)
+            and er.category = 'SAE-SGD-Init'
+            and training_cost is not null
+        group by er.configuration_id
+        having cost < 1000
+        order by tp.learning_rate"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Float64,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    results[:,4] = Array{String,1}(results[:,4])
+
+    groups = by(results, [:initialization, :learning_rate], df -> median(df[:cost]))
+
+    node_groups = by(groups, [:initialization], df -> [df])
+
+    data = Array{PlotlyBase.GenericTrace,1}()
+
+    colors = colors = ColorBrewer.palette(colourSets["ActualMSE"], 8)
+
+    for i in 1:size(node_groups,1)
+        trace = scatter(;x=node_groups[i,2][:learning_rate],
+                        y=node_groups[i,2][:x1],
+                        name=string(node_groups[i,1], " Init"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> MSE </br> </b>"))
+        , xaxis = Dict(:dtick => 1.0, :title => string("<b> Learning Rate </b>"))
+        , font = Dict(:size => 16))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " Learning Rate Init MSe.html"))
 end
 
 function MSE_LayerSizes(config_ids, encoding_size = nothing, file_prefix = "",  colourSetChoice = "", testDatabase = false)
@@ -1543,7 +1763,7 @@ end
 
 function SharpeRatiosPDF()
 
-    sr_vals = RunQuery("Select configuration_id, ifnull(sharpe_ratio, 0.0) sharpe_ratio from config_oos_sharpe_ratio")
+    sr_vals = RunQuery("Select configuration_id, ifnull(sharpe_ratio, 0.0) sharpe_ratio from config_oos_sharpe_ratio_cost")
 
     x0 = Array(sr_vals[:,:sharpe_ratio])
     trace = histogram(;x=x0, name="Experiment Configurations", marker=Dict(:color => "indianred"))
@@ -1757,7 +1977,37 @@ function OGD_MSE_vs_PL()
 
     fig = Plot([trace1, trace2], l)
     savefig(plot(fig), string("/users/joeldacosta/desktop/OGD MSE vs PL.html"))
+end
 
+function OGD_MSE_vs_Confusion()
+
+    ogd_conf_data = RunQuery("select er.training_cost, cc.all_trades_percentage
+                        from config_confusion cc
+                        inner join epoch_records er on er.configuration_id = cc.configuration_id and er.category = 'OGD'
+                        where all_trades_percentage is not null and training_cost is not null
+                        and training_cost < 0.02")
+
+    cor(Array(ogd_conf_data[:all_trades_percentage]),Array(ogd_conf_data[:training_cost]))
+
+    ogd_conf_data[:,1] = Array(ogd_conf_data[:,1])
+    ogd_conf_data[:,2] = Array(ogd_conf_data[:,2])
+    ogd_conf_data[:rounded_mse] = round.(Array(ogd_conf_data[:,1]),3)
+
+    groups = by(ogd_conf_data, [:rounded_mse], df -> mean(df[:all_trades_percentage]))
+
+    trace1 = scatter(;x = Array(ogd_conf_data[:training_cost]),
+                     y = Array(ogd_conf_data[:all_trades_percentage]), mode = "markers", name = "Observations")
+    trace2 = scatter(;x = Array(groups[:rounded_mse]), y = Array(groups[:x1]), mode = "line", name = "Confusion Mean")
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 140, :l => 100)
+        , yaxis = Dict(:title => string("<b> Confusion Percentage <br> </b>"))
+        , xaxis = Dict(:title => string("<b> OGD MSE </b><br><br><br><i> Sample Size: ", size(ogd_conf_data,1), "</i>")
+                     , :showticklabels => true)
+         )
+
+
+    fig = Plot([trace1, trace2], l)
+    savefig(plot(fig), string("/users/joeldacosta/desktop/OGD MSE vs Confusion.html"))
 end
 
 ##CSCV Plots ####################################################################
@@ -1823,9 +2073,20 @@ function UpdateProfits()
             group by configuration_id")
 end
 
-function ReadProfits()
+function ReadOOSProfits()
 
     plresults = RunQuery("select * from config_oos_pl")
+
+    pl_df = DataFrame()
+    pl_df[:configuration_id] = Array(plresults[:configuration_id])
+    pl_df[:profit] = Array(plresults[:total_pl])
+
+    return pl_df
+end
+
+function ReadISProfits()
+
+    plresults = RunQuery("select * from config_is_pl")
 
     pl_df = DataFrame()
     pl_df[:configuration_id] = Array(plresults[:configuration_id])
@@ -1849,18 +2110,876 @@ function ReadTestProfits()
     return DataFrame(configuration_id = Array{Int64,1}(ln[:profits][:,1]), profit = ln[:profits][:,2])
 end
 
-function GetProfits(testDatabase = false)
+function GetProfits(testDatabase = false, in_sample = false)
     if testDatabase == true
         return TotalProfits_Test
+    elseif in_sample == true
+        return TotalProfitsIS
     else
-        return TotalProfits
+        return TotalProfitsOOS
     end
 end
 
-TotalProfits = ReadProfits()
+
 TotalProfits_Test = ReadTestProfits()
 
-TotalProfitsCost = ReadProfitsCost()
+TotalProfitsOOS = ReadOOSProfits() #OOS no Cost
+TotalProfitsIS = ReadISProfits() #IS no Cost
+TotalProfitsCost = ReadProfitsCost() #OOS Cost
 
+
+
+function OOS_PL_OGDLR_Deltas(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median, in_sample = false)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select tp.configuration_id,
+                ('[' || deltas || ']') deltas,
+                tp.learning_rate
+            from training_parameters tp
+            inner join dataset_config dc on dc.configuration_id = tp.configuration_id
+            where tp.configuration_id in ($ids)
+                and tp.category = 'FFN-OGD'
+            "
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{String,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    groups = by(pl_returns, [:learning_rate, :deltas], df -> aggregation(df[:profit]))
+    encoding_groups = by(groups, [:deltas], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    for i in [1,3,2]
+        trace = scatter(;x=encoding_groups[i,2][:learning_rate],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " Data Horizons"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> OGD Learning Rate</b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS OGDLR-Delta P&L ", string(aggregation), ".html"))
+end
+
+function OOS_PL_OGDLR_Delta_Encoding(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median, encoding)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+                tp.learning_rate,
+                ('[' || deltas || ']') deltas
+            from network_parameters np
+            inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
+            inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            where np.configuration_id in ($ids)
+                and layer_sizes like '$encoding,%'
+            "
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    results[:,4] = Array{String,1}(results[:,4])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    aggregation = median
+    groups = by(pl_returns, [:deltas, :learning_rate], df -> aggregation(df[:profit]))
+    encoding_groups = by(groups, [:deltas], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    for i in [1,3,2]
+        trace = scatter(;x=encoding_groups[i,2][:learning_rate],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " Data Horizons"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> OGD Learning Rate </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS OGDLR-Delta-Encoding ", string(encoding), "_", string(aggregation), ".html"))
+end
+
+function IS_PL_Encoding(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding
+            from network_parameters np
+            where np.configuration_id in ($ids)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    pl_returns = join(GetProfits(false, true), results, on = :configuration_id)
+
+    #Box Plot
+    #groups = by(pl_returns, [:encoding], df -> [df])
+    #general_boxplot(groups, "Encoding Size", "IS Encoding P&L Box", :profit, "IS P&L", true, colourSetChoice, 16)
+
+    #Median Plot
+
+    encoding_groups = by(pl_returns, [:encoding], df -> aggregation(df[:profit]))
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    trace = scatter(;x=encoding_groups[:encoding],
+                     y=encoding_groups[:x1],
+                     name="Encoding",
+                    marker = Dict(:line => Dict(:width => 2, :color => colors[1]), :color=>colors[1]))
+    push!(data, trace)
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> IS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/IS Encoding P&L ", string(aggregation), ".html"))
+end
+
+##New Graphs ####################################################################
+
+
+
+function IS_PL_Encoding(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    noneSize = 30
+    file_prefix = "IS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select dc.configuration_id,
+                deltas,
+                cast(substr(deltas, 0, instr(deltas, ',')) as INT) fd
+            from dataset_config dc
+            where dc.configuration_id in ($ids)
+            order by fd"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{String,1}(results[:,2])
+    results[:,3] = Array{Int64,1}(results[:,3])
+    pl_returns = join(GetProfits(false, true), results, on = :configuration_id)
+
+    #Box Plot
+    groups = by(pl_returns, [:deltas], df -> [df])
+    general_boxplot(groups, "Encoding Size", "IS Deltas P&L Box", :profit, "IS P&L", true, colourSetChoice, 16)
+
+    #Median Plot
+    encoding_groups = by(pl_returns, [:deltas], df -> aggregation(df[:profit]))
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    trace = scatter(;x=encoding_groups[:deltas],
+                     y=encoding_groups[:x1],
+                     name="Encoding",
+                    marker = Dict(:line => Dict(:width => 2, :color => colors[1]), :color=>colors[1]))
+    push!(data, trace)
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> IS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/IS Encoding P&L ", string(aggregation), ".html"))
+end
+
+
+function IS_PL_Encoding_Deltas(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    noneSize = 30
+    file_prefix = "IS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+                deltas
+            from network_parameters np
+            inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            where np.configuration_id in ($ids)
+            and deltas like '1%'"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    pl_returns = join(GetProfits(false, true), results, on = :configuration_id)
+
+    #Median Plot
+    aggregation = maximum
+    groups = by(pl_returns, [:encoding, :deltas], df -> aggregation(df[:profit]))
+    encoding_groups = by(groups, [:deltas], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    for i in [1,2]
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " "),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> IS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/IS Encoding Delta P&L ", string(aggregation), ".html"))
+end
+
+function OOS_PL_Encoding(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    noneSize = 30
+    file_prefix = "OOS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+    aggregation = mean
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding
+            from network_parameters np
+                inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            where np.configuration_id in ($ids)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    #Box Plot
+    groups = by(pl_returns, [:encoding], df -> [df])
+    general_boxplot(groups, "Encoding Size", "OOS Encoding P&L Box", :profit, "OOS P&L", true, colourSetChoice, 16)
+
+end
+
+function OOS_PL_Encoding_Deltas(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    noneSize = 30
+    file_prefix = "OOS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+                deltas
+            from network_parameters np
+            inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            where np.configuration_id in ($ids)
+            "
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    #Median Plot
+    aggregation = median
+    groups = by(pl_returns, [:encoding, :deltas], df -> aggregation(df[:profit]))
+    encoding_groups = by(groups, [:deltas], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    for i in [1,3,2]
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " "),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS Encoding Delta P&L ", string(aggregation), ".html"))
+end
+
+function OOS_PL_Encoding_LR(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    noneSize = 30
+    file_prefix = "OOS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+                tp.learning_rate
+            from network_parameters np
+            inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
+            where np.configuration_id in ($ids)
+            "
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    aggregation = median
+    groups = by(pl_returns, [:encoding, :learning_rate], df -> aggregation(df[:profit]))
+    encoding_groups = by(groups, [:learning_rate], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    for i in 1:size(encoding_groups, 1)
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " OGD Learning Rate"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS Encoding OGD LR P&L ", string(aggregation), ".html"))
+end
+
+function OOS_PL_Deltas(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    noneSize = 30
+    file_prefix = "OOS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+    aggregation = mean
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select configuration_id,
+                deltas
+            from dataset_config dc
+            where configuration_id in ($ids)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{String,1}(results[:,2])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    #Box Plot
+    groups = by(pl_returns, [:deltas], df -> [df])
+    general_boxplot(groups, "Encoding Size", "OOS Encoding P&L Box", :profit, "OOS P&L", true, colourSetChoice, 16)
+end
+
+function OOS_PL_Deltas_Encoding(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    noneSize = 30
+    file_prefix = "IS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+                ('[' || deltas || ']') deltas
+            from network_parameters np
+            inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            where np.configuration_id in ($ids)
+            "
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    #Median Plot
+    aggregation = median
+    groups = by(pl_returns, [:encoding, :deltas], df -> aggregation(df[:profit]))
+    encoding_groups = by(groups, [:encoding], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    i = 1
+    order = [1,3,2]
+    for i in 1:size(encoding_groups, 1)
+        trace = scatter(;x=encoding_groups[i,2][:deltas][order],
+                         y=encoding_groups[i,2][:x1][order],
+                         name=string(encoding_groups[i,1],
+                         " Encoding Size"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> IS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS Delta-Encoding P&L ", string(aggregation), ".html"))
+end
+
+function OOS_PL_Deltas_OGDLR(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    noneSize = 30
+    file_prefix = "IS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select tp.configuration_id,
+                ('[' || deltas || ']') deltas,
+                tp.learning_rate
+            from training_parameters tp
+            inner join dataset_config dc on dc.configuration_id = tp.configuration_id
+            where tp.configuration_id in ($ids)
+                and tp.category = 'FFN-OGD'
+            "
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{String,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    #Median Plot
+    aggregation = median
+    groups = by(pl_returns, [:learning_rate, :deltas], df -> aggregation(df[:profit]))
+    encoding_groups = by(groups, [:learning_rate], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    i = 1
+    order = [1,3,2]
+    for i in 1:size(encoding_groups, 1)
+        trace = scatter(;x=encoding_groups[i,2][:deltas][order],
+                         y=encoding_groups[i,2][:x1][order],
+                         name=string(encoding_groups[i,1],
+                         " Encoding Size"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> IS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> OGD Learning Rate</b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS Delta-OGDLR P&L ", string(aggregation), ".html"))
+end
+
+function OOS_PL_Encoding_LR(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
+
+    noneSize = 30
+    file_prefix = "OOS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+                tp.learning_rate
+            from network_parameters np
+            inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
+            where np.configuration_id in ($ids)
+            "
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    aggregation = maximum
+    groups = by(pl_returns, [:encoding, :learning_rate], df -> aggregation(df[:profit]))
+    encoding_groups = by(groups, [:encoding], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    for i in 1:size(encoding_groups, 1)
+        trace = scatter(;x=encoding_groups[i,2][:learning_rate],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " OGD Encoding Size"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> OGD Learning Rate </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS OGDLR-Encoding  LR P&L ", string(aggregation), ".html"))
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function PL_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, learning_rate = nothing, aggregation = maximum)
+
+    aggregation = mean
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+                tp.learning_rate
+            from network_parameters np
+                inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
+                inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            where np.configuration_id in ($ids)
+                --and deltas = '1,5,20'
+                and deltas = '10,20,60'
+            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    groups = by(pl_returns, [:encoding, :learning_rate], df -> aggregation(df[:profit]))
+
+    encoding_groups = by(groups, [:learning_rate], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets["ActualPL"], 8)
+
+    for i in 1:size(encoding_groups,1)
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " OGD Learning Rate"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>")))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Encoding PL Learning Rates", string(aggregation), ".html"))
+end
+
+function IS_PL_SAE_Encoding_Size_Boxplot(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    noneSize = 30
+    file_prefix = "IS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding
+            from network_parameters np
+            where np.configuration_id in ($ids)
+            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    pl_returns = join(GetProfits(testDatabase, true), results, on = :configuration_id)
+
+    groups = by(pl_returns, [:encoding], df -> [df])
+
+    general_boxplot(groups, "Encoding Size", "IS P&L", :profit, "IS P&L", true, "ActualMSE", 16)
+end
+
+function IS_PL_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = maximum)
+
+    noneSize = 30
+    file_prefix = "IS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+    aggregation = median
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+            else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+            dc.deltas
+            from network_parameters np
+            inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            where np.configuration_id in ($ids)
+            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    pl_returns = join(GetProfits(testDatabase, false), results, on = :configuration_id)
+
+
+    aggregation = median
+    groups = by(pl_returns, [:encoding, :deltas], df -> aggregation(df[:profit]))
+
+    encoding_groups = by(groups, [:deltas], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets["ActualPL"], 8)
+
+    for i in 1:size(encoding_groups,1)
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " "),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>")))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Encoding IS PL Deltas", string(aggregation), ".html"))
+end
+
+function IS_PL_SAE_Encoding_Delta_Box(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = maximum)
+
+    noneSize = 30
+    file_prefix = "IS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+    aggregation = median
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+            else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+
+            (case when learning_rate > 0.01 then 'High LR - '
+        else 'Low LR - ' end) || deltas lr_delta
+
+            from network_parameters np
+            inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
+            where np.configuration_id in ($ids)
+            --    and deltas like '1%'
+            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    pl_returns = join(GetProfits(testDatabase, true), results, on = :configuration_id)
+
+
+    aggregation = median
+    groups = by(pl_returns, [:encoding, :lr_delta], df -> aggregation(df[:profit]))
+
+    encoding_groups = by(groups, [:lr_delta], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets["ActualPL"], 8)
+
+    for i in 1:size(encoding_groups,1)
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " OGD Learning Rate"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>")))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Deltas Encoding OOS PL ", string(aggregation), ".html"))
+end
+
+function IS_PL_SAE_Encoding_Delta_Lines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = maximum)
+
+    noneSize = 30
+    file_prefix = "IS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+    aggregation = mean
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+            else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+            deltas
+
+            from network_parameters np
+            inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
+            where np.configuration_id in ($ids)
+            --    and deltas like '1%'
+            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    pl_returns = join(GetProfits(testDatabase, true), results, on = :configuration_id)
+
+    groups = by(pl_returns, [:encoding, :deltas], df -> aggregation(df[:profit]))
+
+    encoding_groups = by(groups, [:deltas], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets["ActualPL"], 8)
+
+    for i in 1:size(encoding_groups,1)
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " OGD Learning Rate"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>")))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Deltas Encoding IS PL ", string(aggregation), ".html"))
+end
+
+
+
+function IS_PL_SAE_Encoding_Size_Boxplot(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    noneSize = 30
+    file_prefix = "IS Actual"
+    colourSetChoice = "ActualPL"
+    config_ids = 28880:49616
+    testDatabase = false
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select tp.configuration_id,
+                tp.learning_rate,
+                dc.deltas
+            from training_parameters tp
+            inner join dataset_config dc on dc.configuration_id = tp.configuration_id
+            where tp.configuration_id in ($ids)
+                and tp.category = 'FFN-OGD'
+                --and deltas like '1%'
+            "
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Float64,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    pl_returns = join(GetProfits(testDatabase, false), results, on = :configuration_id)
+
+    aggregation = maximum
+    groups = by(pl_returns, [:deltas, :learning_rate], df -> aggregation(df[:profit]))
+
+    encoding_groups = by(groups, [:deltas], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets["ActualPL"], 9)
+
+    for i in [1,3,2]
+        trace = scatter(;x=encoding_groups[i,2][:learning_rate],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " OGD Learning Rate"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> OGD Learning Rate </b>")))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " OOS PL Delta by LR", string(aggregation), ".html"))
+
+
+end
 
 end

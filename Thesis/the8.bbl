@@ -418,6 +418,10 @@ M.~Lopez~de Prado and M.~Lewis, ``Detection of false investment strategies
   using unsupervised learning methods,'' \emph{Quantitative Finance}, vol.~19,
   pp. 1--11, 07 2019.
 
+\bibitem{Harvey}
+C.~R. Harvey and Y.~Liu, ``Backtesting,'' \emph{The Journal of Portfolio
+  Management}, vol.~42, pp. 13--28, 07 2015.
+
 \bibitem{Hansen}
 P.~Hansen, J.~Nason, and A.~Lunde, ``The model confidence set,''
   \emph{Econometrica}, vol.~79, pp. 453--497, 03 2010.
@@ -441,10 +445,6 @@ D.~H. Bailey, J.~Borwein, M.~Lopez~de Prado, and Q.~J. Zhu,
 \bibitem{Hinton5}
 G.~Hinton, ``A practical guide to training restricted boltzmann machines[j],''
   \emph{Momentum}, vol.~9, pp. 926--947, 01 2010.
-
-\bibitem{Harvey}
-C.~R. Harvey and Y.~Liu, ``Backtesting,'' \emph{The Journal of Portfolio
-  Management}, vol.~42, pp. 13--28, 07 2015.
 
 \bibitem{Wilcox}
 D.~Wilcox and T.~Gebbie, ``Hierarchical causality in financial economics,''

@@ -101,7 +101,7 @@ function GenerateCSCVStockReturns(step_predictions, start_t, finish_t, timestep,
         df[:cost] = df[:trade] .* df[:observed_t]
         df[:cost_benchmark] = df[:trade_benchmark] .* df[:observed_t]
 
-        df[:trading_cost] = df[:observed_t] .* (0.1/365*2) + df[:observed_t] .* (0.45/100)
+        df[:trading_cost] = df[:observed_t] .* (0.1/365*timestep) + df[:observed_t] .* (0.45/100)
 
         df[:fullcost] = (df[:observed_t] .+ df[:trading_cost]) .* df[:trade]
         df[:fullcost_benchmark] = (df[:observed_t] .+ df[:trading_cost]) .* df[:trade_benchmark]
@@ -204,7 +204,7 @@ function GenerateStockReturns(step_predictions, start_t, finish_t, timestep, ori
         df[:cost] = df[:trade] .* df[:observed_t]
         df[:cost_benchmark] = df[:trade_benchmark] .* df[:observed_t]
 
-        df[:trading_cost] = df[:observed_t] .* (0.1/365*2) + df[:observed_t] .* (0.45/100)
+        df[:trading_cost] = df[:observed_t] .* (0.1/365*timestep) + df[:observed_t] .* (0.45/100)
 
         df[:fullcost] = (df[:observed_t] .+ df[:trading_cost]) .* df[:trade]
         df[:fullcost_benchmark] = (df[:observed_t] .+ df[:trading_cost]) .* df[:trade_benchmark]

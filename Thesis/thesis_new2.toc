@@ -1,0 +1,194 @@
+\select@language {english}
+\contentsline {section}{List of Figures}{7}{Doc-Start}
+\contentsline {section}{List of Tables}{8}{Doc-Start}
+\contentsline {section}{\numberline {1}Introduction}{9}{section.1}
+\contentsline {section}{\numberline {2}Literature Review}{11}{section.2}
+\contentsline {subsection}{\numberline {2.1}Technical Analysis}{11}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Neural Networks}{12}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Training and Backpropagation}{12}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Activation Functions}{13}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Deep Learning}{14}{subsubsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.4}Weight Initialization Improvements}{14}{subsubsection.2.2.4}
+\contentsline {subsection}{\numberline {2.3}Stacked Autoencoders}{15}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}High Dimensional Data Reduction}{15}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}Deep Belief Networks}{16}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising Autoencoders}{16}{subsubsection.2.3.3}
+\contentsline {subsubsection}{\numberline {2.3.4}Pre-training}{17}{subsubsection.2.3.4}
+\contentsline {subsubsection}{\numberline {2.3.5}Time Series Applications}{18}{subsubsection.2.3.5}
+\contentsline {subsubsection}{\numberline {2.3.6}Financial Applications}{18}{subsubsection.2.3.6}
+\contentsline {subsection}{\numberline {2.4}Online Learning Algorithms and Gradient Descent}{19}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Gradient Learning Improvements}{20}{subsection.2.5}
+\contentsline {subsubsection}{\numberline {2.5.1}Gradient Adjustments and Regularization}{20}{subsubsection.2.5.1}
+\contentsline {subsubsection}{\numberline {2.5.2}Dropout}{20}{subsubsection.2.5.2}
+\contentsline {subsubsection}{\numberline {2.5.3}Learning Rate Schedules}{21}{subsubsection.2.5.3}
+\contentsline {subsection}{\numberline {2.6}Backtesting and Model Validation}{21}{subsection.2.6}
+\contentsline {subsubsection}{\numberline {2.6.1}Sharpe Ratio Assessment Methodologies}{22}{subsubsection.2.6.1}
+\contentsline {subsubsection}{\numberline {2.6.2}Generalised Assessment Methodologies}{23}{subsubsection.2.6.2}
+\contentsline {subsubsection}{\numberline {2.6.3}Test Data Length}{24}{subsubsection.2.6.3}
+\contentsline {section}{\numberline {3}Data Processing and Generation }{25}{section.3}
+\contentsline {subsection}{\numberline {3.1}Data Processing}{25}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Log Difference Transformation and Aggregation}{25}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}Data Scaling}{25}{subsubsection.3.1.2}
+\contentsline {paragraph}{\numberline {3.1.2.1}Standardization}{25}{paragraph.3.1.2.1}
+\contentsline {paragraph}{\numberline {3.1.2.2}Normalization}{26}{paragraph.3.1.2.2}
+\contentsline {paragraph}{\numberline {3.1.2.3}Limited Standardization}{26}{paragraph.3.1.2.3}
+\contentsline {paragraph}{\numberline {3.1.2.4}Limited Normalization}{26}{paragraph.3.1.2.4}
+\contentsline {subsubsection}{\numberline {3.1.3}Reverse Data Scaling}{26}{subsubsection.3.1.3}
+\contentsline {paragraph}{\numberline {3.1.3.1}Reverse Standardization}{26}{paragraph.3.1.3.1}
+\contentsline {paragraph}{\numberline {3.1.3.2}Reverse Normalization}{26}{paragraph.3.1.3.2}
+\contentsline {subsubsection}{\numberline {3.1.4}Price Reconstruction}{26}{subsubsection.3.1.4}
+\contentsline {subsection}{\numberline {3.2}Synthetic Data Generation}{27}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}GBM Data Distributions}{27}{subsubsection.3.2.1}
+\contentsline {subsection}{\numberline {3.3}Price Considerations}{27}{subsection.3.3}
+\contentsline {section}{\numberline {4}Models and Algorithms}{29}{section.4}
+\contentsline {subsection}{\numberline {4.1}Process Overview}{29}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Feedforward Neural Networks}{29}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Notation and Network Representation}{30}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Activation Functions}{30}{subsubsection.4.2.2}
+\contentsline {paragraph}{\numberline {4.2.2.1}Sigmoid}{30}{paragraph.4.2.2.1}
+\contentsline {paragraph}{\numberline {4.2.2.2}ReLU}{31}{paragraph.4.2.2.2}
+\contentsline {paragraph}{\numberline {4.2.2.3}Leaky ReLU}{31}{paragraph.4.2.2.3}
+\contentsline {paragraph}{\numberline {4.2.2.4}Linear Activation}{32}{paragraph.4.2.2.4}
+\contentsline {subsubsection}{\numberline {4.2.3}Backpropagation}{32}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}Gradient Descent Algorithms}{34}{subsubsection.4.2.4}
+\contentsline {subparagraph}{Online Gradient Descent}{34}{equation.4.26}
+\contentsline {subsubsection}{\numberline {4.2.5}Regularization}{34}{subsubsection.4.2.5}
+\contentsline {subsubsection}{\numberline {4.2.6}Learning Rate Schedule}{35}{subsubsection.4.2.6}
+\contentsline {subsubsection}{\numberline {4.2.7}Dropout}{35}{subsubsection.4.2.7}
+\contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{36}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Contrastive Divergence}{37}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{37}{subsubsection.4.3.2}
+\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{38}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Sigmoid based Greedy Layerwise SAE Training}{38}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}ReLU based SAE Training}{39}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{39}{subsubsection.4.4.3}
+\contentsline {paragraph}{\numberline {4.4.3.1}Additive Gaussian Noise}{39}{paragraph.4.4.3.1}
+\contentsline {paragraph}{\numberline {4.4.3.2}Masking Noise}{39}{paragraph.4.4.3.2}
+\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{39}{subsection.4.5}
+\contentsline {subsubsection}{\numberline {4.5.1}Initialization Rationale}{40}{subsubsection.4.5.1}
+\contentsline {subsubsection}{\numberline {4.5.2}Initializations}{40}{subsubsection.4.5.2}
+\contentsline {paragraph}{\numberline {4.5.2.1}Xavier}{40}{paragraph.4.5.2.1}
+\contentsline {paragraph}{\numberline {4.5.2.2}He}{40}{paragraph.4.5.2.2}
+\contentsline {paragraph}{\numberline {4.5.2.3}He-Adjusted}{41}{paragraph.4.5.2.3}
+\contentsline {subsection}{\numberline {4.6}Money Management Strategy and Returns}{41}{subsection.4.6}
+\contentsline {subsubsection}{\numberline {4.6.1}Input Variables}{41}{subsubsection.4.6.1}
+\contentsline {subsubsection}{\numberline {4.6.2}Calculated Asset Variables}{41}{subsubsection.4.6.2}
+\contentsline {subsubsection}{\numberline {4.6.3}Calculated Strategy Variables}{42}{subsubsection.4.6.3}
+\contentsline {subsection}{\numberline {4.7}CSCV and PBO}{43}{subsection.4.7}
+\contentsline {subsection}{\numberline {4.8}DSR and ONC}{46}{subsection.4.8}
+\contentsline {subsubsection}{\numberline {4.8.1}Optimal Number of Clusters Algorithm}{46}{subsubsection.4.8.1}
+\contentsline {subsubsection}{\numberline {4.8.2}Sharpe Ratio Normality and Probabilistic Sharpe Ratio}{47}{subsubsection.4.8.2}
+\contentsline {subsubsection}{\numberline {4.8.3}False Strategy Theorem}{48}{subsubsection.4.8.3}
+\contentsline {subsubsection}{\numberline {4.8.4}Deflated Sharpe Ratio}{48}{subsubsection.4.8.4}
+\contentsline {paragraph}{\numberline {4.8.4.1}Estimating $\mathbf {E}\left [\mathbf {K}\right ]$ and $\mathbf {V}\left [\setbox \z@ \hbox {\frozen@everymath \@emptytoks \mathsurround \z@ $\textstyle \mathbf {SR_k}$}\mathaccent "0362{\mathbf {SR_k}}\right ]$}{49}{paragraph.4.8.4.1}
+\contentsline {section}{\numberline {5}Full Process}{51}{section.5}
+\contentsline {subsection}{\numberline {5.1}Parameter Space Exploration}{51}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Synthetic Data}{51}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Data Preparation}{51}{subsection.5.3}
+\contentsline {subsubsection}{\numberline {5.3.1}Data Window Aggregations}{52}{subsubsection.5.3.1}
+\contentsline {subsubsection}{\numberline {5.3.2}Point Predictions}{52}{subsubsection.5.3.2}
+\contentsline {subsubsection}{\numberline {5.3.3}Scaling}{52}{subsubsection.5.3.3}
+\contentsline {subsection}{\numberline {5.4}Data Segregation}{53}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Unsupervised Learning: SAE Training}{53}{subsection.5.5}
+\contentsline {subsection}{\numberline {5.6}Supervised Learning: Prediction Network Training}{54}{subsection.5.6}
+\contentsline {subsection}{\numberline {5.7}Price Reconstruction}{54}{subsection.5.7}
+\contentsline {subsection}{\numberline {5.8}Money Management Strategy}{54}{subsection.5.8}
+\contentsline {subsection}{\numberline {5.9}CSCV \& PBO}{55}{subsection.5.9}
+\contentsline {subsection}{\numberline {5.10}DSR}{55}{subsection.5.10}
+\contentsline {subsection}{\numberline {5.11}Process Diagram}{55}{subsection.5.11}
+\contentsline {section}{\numberline {6}Datasets Used}{57}{section.6}
+\contentsline {subsection}{\numberline {6.1}Synthetic Datasets}{57}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}Synthetic6}{57}{subsubsection.6.1.1}
+\contentsline {subsubsection}{\numberline {6.1.2}Synthetic10}{58}{subsubsection.6.1.2}
+\contentsline {subsection}{\numberline {6.2}Actual Datasets}{59}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {6.2.1}Actual10}{59}{subsubsection.6.2.1}
+\contentsline {subsubsection}{\numberline {6.2.2}AGL}{61}{subsubsection.6.2.2}
+\contentsline {subsubsection}{\numberline {6.2.3}AGL\&ACL}{61}{subsubsection.6.2.3}
+\contentsline {subsubsection}{\numberline {6.2.4}Scaling10}{62}{subsubsection.6.2.4}
+\contentsline {section}{\numberline {7}Results}{64}{section.7}
+\contentsline {subsection}{\numberline {7.1}Introduction}{64}{subsection.7.1}
+\contentsline {subsubsection}{\numberline {7.1.1}Overview}{65}{subsubsection.7.1.1}
+\contentsline {subsection}{\numberline {7.2}Primary Determinants of OOS P\&L}{67}{subsection.7.2}
+\contentsline {subsubsection}{\numberline {7.2.1}Effects of Data Horizon Aggrgations}{67}{subsubsection.7.2.1}
+\contentsline {subsubsection}{\numberline {7.2.2}OGD Learning Rate}{69}{subsubsection.7.2.2}
+\contentsline {subsubsection}{\numberline {7.2.3}Feature Selection}{70}{subsubsection.7.2.3}
+\contentsline {subsection}{\numberline {7.3}Linearity, Complexity and Structure of Data}{74}{subsection.7.3}
+\contentsline {subsubsection}{\numberline {7.3.1}GBM Generated Data}{74}{subsubsection.7.3.1}
+\contentsline {subsubsection}{\numberline {7.3.2}Effects of Activation Functions and Scaling}{74}{subsubsection.7.3.2}
+\contentsline {subsubsection}{\numberline {7.3.3}Predictive FFN Activations and Scaling}{76}{subsubsection.7.3.3}
+\contentsline {subsubsection}{\numberline {7.3.4}Leaky ReLU vs ReLU}{77}{subsubsection.7.3.4}
+\contentsline {subsection}{\numberline {7.4}Weight Initialization Techniques}{79}{subsection.7.4}
+\contentsline {subsubsection}{\numberline {7.4.1}RBM Pretraining for Sigmoid Networks}{79}{subsubsection.7.4.1}
+\contentsline {paragraph}{\numberline {7.4.1.1}Sigmoid Activation Functions}{80}{paragraph.7.4.1.1}
+\contentsline {subsubsection}{\numberline {7.4.2}Variance Based Weight Initialization Techniques}{80}{subsubsection.7.4.2}
+\contentsline {subsection}{\numberline {7.5}Feature Selection}{82}{subsection.7.5}
+\contentsline {subsection}{\numberline {7.6}Network Structure and Training}{83}{subsection.7.6}
+\contentsline {subsubsection}{\numberline {7.6.1}Effects of Network Size}{83}{subsubsection.7.6.1}
+\contentsline {paragraph}{\numberline {7.6.1.1}SAE Network Structures}{83}{paragraph.7.6.1.1}
+\contentsline {subsubsection}{\numberline {7.6.2}Effects of Learning Rates and Schedules}{84}{subsubsection.7.6.2}
+\contentsline {subsubsection}{\numberline {7.6.3}Effects of Regularization}{87}{subsubsection.7.6.3}
+\contentsline {subsubsection}{\numberline {7.6.4}Effects of Denoising}{88}{subsubsection.7.6.4}
+\contentsline {subsection}{\numberline {7.7}The Effects of Data Aggregation and Value of Historical Data}{89}{subsection.7.7}
+\contentsline {subsubsection}{\numberline {7.7.1}Data Aggregation and SAE MSE Scores}{89}{subsubsection.7.7.1}
+\contentsline {subsubsection}{\numberline {7.7.2}Data Aggregation and Predictive P\&L Scores}{90}{subsubsection.7.7.2}
+\contentsline {subsubsection}{\numberline {7.7.3}Effects of IS Training and Historical Data}{90}{subsubsection.7.7.3}
+\contentsline {subsection}{\numberline {7.8}Probability of Backtest Overfitting}{93}{subsection.7.8}
+\contentsline {subsubsection}{\numberline {7.8.1}Concerns Regarding the PBO Calculation}{93}{subsubsection.7.8.1}
+\contentsline {subsubsection}{\numberline {7.8.2}PBO Results}{95}{subsubsection.7.8.2}
+\contentsline {subsubsection}{\numberline {7.8.3}Framework Success}{96}{subsubsection.7.8.3}
+\contentsline {subsection}{\numberline {7.9}DSR Results}{97}{subsection.7.9}
+\contentsline {subsubsection}{\numberline {7.9.1}Computational Complexity}{97}{subsubsection.7.9.1}
+\contentsline {subsubsection}{\numberline {7.9.2}ONC Results}{97}{subsubsection.7.9.2}
+\contentsline {subsubsection}{\numberline {7.9.3}DSR and PSR Results}{99}{subsubsection.7.9.3}
+\contentsline {subsection}{\numberline {7.10}MMS Results}{100}{subsection.7.10}
+\contentsline {subsubsection}{\numberline {7.10.1}Summary of Experiment Results}{100}{subsubsection.7.10.1}
+\contentsline {subsubsection}{\numberline {7.10.2}Best Network Results}{102}{subsubsection.7.10.2}
+\contentsline {subsection}{\numberline {7.11}Results Summary}{103}{subsection.7.11}
+\contentsline {subsubsection}{\numberline {7.11.1}Framework Success : PBO and DSR}{103}{subsubsection.7.11.1}
+\contentsline {subsubsection}{\numberline {7.11.2}Historical Data}{103}{subsubsection.7.11.2}
+\contentsline {subsubsection}{\numberline {7.11.3}Data Processing Considerations}{103}{subsubsection.7.11.3}
+\contentsline {subsubsection}{\numberline {7.11.4}Weight Initializations}{103}{subsubsection.7.11.4}
+\contentsline {subsubsection}{\numberline {7.11.5}Feature Selection}{103}{subsubsection.7.11.5}
+\contentsline {subsubsection}{\numberline {7.11.6}Output Activations and Network Structure}{104}{subsubsection.7.11.6}
+\contentsline {subsubsection}{\numberline {7.11.7}Learning Optimizations}{104}{subsubsection.7.11.7}
+\contentsline {section}{\numberline {8}Software Libraries and Development}{105}{section.8}
+\contentsline {subsection}{\numberline {8.1}Programming Languages}{105}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Data Generation \& Processing}{105}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Network Training}{106}{subsection.8.3}
+\contentsline {subsubsection}{\numberline {8.3.1}Network Parameters}{106}{subsubsection.8.3.1}
+\contentsline {subsubsection}{\numberline {8.3.2}SGD \& CD-1 Training Parameters}{106}{subsubsection.8.3.2}
+\contentsline {subsubsection}{\numberline {8.3.3}OGD Training Parameters}{106}{subsubsection.8.3.3}
+\contentsline {subsubsection}{\numberline {8.3.4}Network Trainer Module}{106}{subsubsection.8.3.4}
+\contentsline {subsection}{\numberline {8.4}Process Implementation}{107}{subsection.8.4}
+\contentsline {subsection}{\numberline {8.5}Database Implementation}{108}{subsection.8.5}
+\contentsline {subsection}{\numberline {8.6}Diagnostic Libraries}{108}{subsection.8.6}
+\contentsline {section}{\numberline {9}Conclusion}{110}{section.9}
+\contentsline {subsection}{\numberline {9.1}Future Work}{110}{subsection.9.1}
+\contentsline {section}{\numberline {10}Appendix}{112}{section.10}
+\contentsline {subsection}{\numberline {10.1}Additional Results}{112}{subsection.10.1}
+\contentsline {subsubsection}{\numberline {10.1.1}Additional Results for Section \ref {results_activations_scaling} - Activation Functions and Scaling }{112}{subsubsection.10.1.1}
+\contentsline {subsubsection}{\numberline {10.1.2}Additional Results for Section \ref {results_init} - Weight Initialization Techniques }{112}{subsubsection.10.1.2}
+\contentsline {subsubsection}{\numberline {10.1.3}Additional Results for Section \ref {results_reduction} - Feature Selection }{113}{subsubsection.10.1.3}
+\contentsline {subsubsection}{\numberline {10.1.4}Additional Results for Section \ref {results_network} - Network Structure and Training }{114}{subsubsection.10.1.4}
+\contentsline {subsection}{\numberline {10.2}Additional Calculations for Section \ref {results_dsr} - DSR and ONC}{117}{subsection.10.2}
+\contentsline {subsubsection}{\numberline {10.2.1}DSR and PSR calculations}{117}{subsubsection.10.2.1}
+\contentsline {subsection}{\numberline {10.3}Configuration Sets Used}{119}{subsection.10.3}
+\contentsline {subsubsection}{\numberline {10.3.1}Configuration 1}{119}{subsubsection.10.3.1}
+\contentsline {subsubsection}{\numberline {10.3.2}Configuration 2}{119}{subsubsection.10.3.2}
+\contentsline {subsubsection}{\numberline {10.3.3}Configuration 3}{120}{subsubsection.10.3.3}
+\contentsline {subsubsection}{\numberline {10.3.4}Configuration 4}{121}{subsubsection.10.3.4}
+\contentsline {subsubsection}{\numberline {10.3.5}Configuration 5}{121}{subsubsection.10.3.5}
+\contentsline {subsubsection}{\numberline {10.3.6}Configuration 6}{122}{subsubsection.10.3.6}
+\contentsline {subsubsection}{\numberline {10.3.7}Configuration 7}{123}{subsubsection.10.3.7}
+\contentsline {subsubsection}{\numberline {10.3.8}Configuration 8}{123}{subsubsection.10.3.8}
+\contentsline {subsubsection}{\numberline {10.3.9}Configuration 9}{124}{subsubsection.10.3.9}
+\contentsline {subsubsection}{\numberline {10.3.10}Configuration 10}{125}{subsubsection.10.3.10}
+\contentsline {subsubsection}{\numberline {10.3.11}Configuration 11}{125}{subsubsection.10.3.11}
+\contentsline {subsubsection}{\numberline {10.3.12}Configuration 12}{126}{subsubsection.10.3.12}
+\contentsline {subsubsection}{\numberline {10.3.13}Configuration 13}{127}{subsubsection.10.3.13}
+\contentsline {subsubsection}{\numberline {10.3.14}Configuration 14}{128}{subsubsection.10.3.14}
+\contentsline {subsubsection}{\numberline {10.3.15}Configuration 15}{129}{subsubsection.10.3.15}
+\contentsline {subsubsection}{\numberline {10.3.16}Configuration 16}{129}{subsubsection.10.3.16}
+\contentsline {subsubsection}{\numberline {10.3.17}Configuration 17}{130}{subsubsection.10.3.17}
+\contentsline {subsection}{\numberline {10.4}Diagnostic Charts}{131}{subsection.10.4}
+\contentsline {section}{\numberline {11}References}{134}{section.11}

@@ -240,7 +240,40 @@ function Results_2_Init()
     PL_Init(config_ids, "AGL All ", "ActualPL", true)
 end
 
+function ResultsNew_1_PLDeterminants()
+
+
+    setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests"]
+    config_ids = SelectConfigIDs(setnames)
+    PrintConfig(setnames, false)
+
+    OOS_PL_OGDLR_Deltas(config_ids, noneSize = 30, file_prefix = "IS Actual", colourSetChoice = "ActualPL"
+        , testDatabase = false, aggregation = median, in_sample = false)
+
+    OOS_PL_OGDLR_Deltas(config_ids, noneSize = 30, file_prefix = "IS Actual", colourSetChoice = "ActualPL"
+            , testDatabase = false, aggregation = maxium, in_sample = false)
+
+    ffn_setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests"]
+    ffn_config_ids = SelectConfigIDs(ffn_setnames) #config13
+    PL_DataDeltas(ffn_config_ids, "OOS Actual", "ActualPL", false, false)
+    PL_DataDeltas(ffn_config_ids, "IS Actual", "ActualPL", false, true)
+
+
+    IS_PL_Encoding(config_ids, 30, "IS Actual", "ActualPL", false, median)
+
+    OOS_PL_OGDLR_Delta_Encoding(ffn_config_ids, 30, "OOS Actual", "ActualPL", false, median, 5)
+    OOS_PL_OGDLR_Delta_Encoding(ffn_config_ids, 30, "OOS Actual", "ActualPL", false, median, 10)
+    OOS_PL_OGDLR_Delta_Encoding(ffn_config_ids, 30, "OOS Actual", "ActualPL", false, median, 15)
+    OOS_PL_OGDLR_Delta_Encoding(ffn_config_ids, 30, "OOS Actual", "ActualPL", false, median, 20)
+    OOS_PL_OGDLR_Delta_Encoding(ffn_config_ids, 30, "OOS Actual", "ActualPL", false, median, 25)
+
+end
+
+
+
 function Results_3_FeatureSelection()
+
+
 
     setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests"]
     config_ids = SelectConfigIDs(setnames)
@@ -401,7 +434,6 @@ function Results_5_DataAggregation()
     # PL_EpochCycle(large_ffn_config_ids)
     # PL_MaxEpochs(large_ffn_config_ids)
     # PL_Heatmap_LearningRate_MaxEpochs(large_ffn_config_ids)
-
 end
 
 function Results_7_FinancialResults()

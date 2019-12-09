@@ -1,7 +1,7 @@
 This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: the8.aux
-White space in argument---line 411 of file the8.aux
+White space in argument---line 405 of file the8.aux
  : \citation{Brooks
  :                  and Kat2002; Ingersoll 2007}
 I'm skipping whatever remains of this command
@@ -16,6 +16,7 @@ Warning--I didn't find a database entry for "LopezPrado2016a"
 Warning--I didn't find a database entry for "Rousseeouw1987"
 Warning--I didn't find a database entry for "Mertens"
 Warning--I didn't find a database entry for "Baileyetal2014"
+Warning--I didn't find a database entry for "proadi2016a"
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
@@ -41,7 +42,7 @@ Warning--empty booktitle in Loshchilov
 Done.
 You've used 92 entries,
             4087 wiz_defined-function locations,
-            1402 strings with 20917 characters,
+            1403 strings with 20928 characters,
 and the built_in function-call counts, 56862 in all, are:
 = -- 4605
 > -- 1242

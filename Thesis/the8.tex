@@ -184,10 +184,9 @@
 \begin{document} 
 	\vspace{-7cm}
 	\maketitle \setlinespacing{1}
-	\abstract{We consider pattern prediction of financial time-series data. The algorithm framework and workflow is developed and proved on daily sampled closing time-series data for JSE equity markets. The input patterns are based on input data vectors of data windows pre-processed into a sequence of daily, weekly and monthly or quarterly sampled feature measurement changes (log feature fluctuations). The data processing is split into an online batch processed step where data is compressed using a stacked autoencoder (SAE) via unsupervised learning, and then batch supervised learning is carried out using the data-compression algorithm with the output being a point prediction of measured time-series feature fluctuations (log differenced data) in the future (ex-post) from the training and validation data. Weight initializations for these networks are implemented with Restricted Boltzmann Machine (RBM) pre-training, and variance based initializations. The historical simulation is then run using an online feedforward neutral network (FNN) initialised with the weights from the online training and validation step. The validity of results is considered under a rigorous assessment of backtest overfitting (Combinatorially Symmetrical Cross Validation). Results are further used to develop a view on the phenomenology of financial markets and the value of historical data.}\\
-	\todo{DSR?}
+	\abstract{We consider pattern prediction of financial time-series data. The algorithm framework and workflow is developed and proved on daily sampled closing time-series data for JSE equity markets. The input patterns are based on input data vectors of data windows pre-processed into a sequence of daily, weekly and monthly or quarterly sampled feature measurement changes (log feature fluctuations). The data processing is split into an online batch processed step where data is compressed using a stacked autoencoder (SAE) via unsupervised learning, and then batch supervised learning is carried out using the data-compression algorithm with the output being a point prediction of measured time-series feature fluctuations (log differenced data) in the future (ex-post) from the training and validation data. Weight initializations for these networks are implemented with Restricted Boltzmann Machine (RBM) pre-training, and variance based initializations. The historical simulation is then run using an online feedforward neutral network (FNN) initialised with the weights from the online training and validation step. The validity of results is considered under a rigorous assessment of backtest overfitting using both Combinatorially Symmetrical Cross Validation and Probabilistic and Deflated Sharpe Ratios. Results are further used to develop a view on the phenomenology of financial markets and the value of historical data.}\\
 	
-	\noindent\textbf{Keywords:} online learning, feedforward neural network, restricted boltzmann machine, variance weight initialization, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting
+	\noindent\textbf{Keywords:} online learning, feedforward neural network, restricted boltzmann machine, variance weight initialization, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting, deflated Sharpe ratio, probabilistic Sharpe ratio
 	
 	
 	\newpage
@@ -206,7 +205,7 @@
 	
 	\section{Introduction}\label{Introduction}
 	
-	This dissertation explores several ideas for the purposes of effective and valid stock price prediction, and suggests a novel framework for generating and assessing such predictions. The framework combines several concepts to this end: the training of deep neural networks, feature selection through the use of Stacked Autoencoders, online learning for stock price fluctuation prediction and current assessment techniques such as Combinatorially Symmetric Cross-Validation (CSCV)\todo{add DSR?}. In doing so, a modular process is presented, where indivual components are decoupled and can be configured as necessary. This delivers a simplest high complexity framework which allows further adaption for the exploration of a high dimensional solution space. 
+	This dissertation explores several ideas for the purposes of effective and valid stock price prediction, and suggests a novel framework for generating and assessing such predictions. The framework combines several concepts to this end: the training of deep neural networks, feature selection through the use of Stacked Autoencoders, online learning for stock price fluctuation prediction and current assessment techniques such as Combinatorially Symmetric Cross-Validation (CSCV) and the Deflated Sharpe Ratio (DSR). In doing so, a modular process is presented, where indivual components are decoupled and can be configured as necessary. This delivers a simplest high complexity framework which allows further adaption for the exploration of a high dimensional solution space. 
 	~\\\newline
 	As Bailey et al. have noted, and which is discussed more fully in \ref{lr_backtesting}, backtesting overfitting for trading strategies have become problematically widespread in financial literature. Neural networks, in their capacity as universal function approximators with few model limitations, offer an effective and appropriate methodology to generate predictions in an environment as complex as financial markets. However, the increased complexity and nature of backtest overfitting leave traditional validation methods such as hold-out or cross validation falling short. The framework presented investigates how more rigorous validation techniques can be applied to deep learning models in order to avoid such overfitting. Further validation takes place in assessing the potential profitability of the model in a live market.
 	~\\\newline
@@ -216,9 +215,9 @@
 	~\\\newline
 	Chapter \ref{Data} provides the details around the data which has been used in the paper. The chapter starts with describing how the data is processed using log feature fluctuations, and then is expanded to include the fluctuations over rolling window periods. A discussion of Geometric Brownian motion, which is used for the generation of synthetic data, is included with notes around it's characteristics and usage in financial prediction models.
 	~\\\newline
-	Chapter \ref{Implementation} provides more indepth details on the algorithms and structures used to implement the framework. The structure of feedforward neural networks is discussed, as well as how they are trained using the backpropagation algorithm, and how that can be applied in a stochastic descent framework (\ref{imp_ffn}). The chapter also provides details for how these network weight initializations can impact performance, and how this can be improved with either RBM pre-training (as per \ref{imp_rbm}) or through newer variance based techniques (\ref{imp_weights}) - this includes the structures and training techniques used for the Stacked Autoencoders (\ref{imp_SAE}). How the CSCV techniques suggested by \cite{BailyPBO} are implemented and used to derive a Probability of Backtest Overfitting figure for the full training and testing processes is detailed in \ref{imp_cscv}. Finally, the Money Management System (MMS), which constitutes the implementation of trading decisions and actions based on the network model predictions, is detailed in \ref{imp_mms}.
+	Chapter \ref{Implementation} provides more indepth details on the algorithms and structures used to implement the framework. The structure of feedforward neural networks is discussed, as well as how they are trained using the backpropagation algorithm, and how that can be applied in a stochastic descent framework (\ref{imp_ffn}). The chapter also provides details for how these network weight initializations can impact performance, and how this can be improved with either RBM pre-training (as per \ref{imp_rbm}) or through newer variance based techniques (\ref{imp_weights}) - this includes the structures and training techniques used for the Stacked Autoencoders (\ref{imp_SAE}). The Money Management System (MMS), which constitutes the implementation of trading decisions and actions based on the network model predictions, is detailed in \ref{imp_mms}. The CSCV techniques suggested by \cite{BailyPBO} are implemented and used to derive a Probability of Backtest Overfitting figure for the full training and testing processes is detailed in \ref{imp_cscv}. Finally, the implementation of the Optimal Number of Clusters (ONC) and DSR calculations are covered in \ref{imp_dsr}.
 	~\\\newline
-	Where Chapter \ref{Implementation} discusses the functional implementations of each module of the framework, Chapter \ref{imp_proc} is concerned with how these modules fit together to form an end to end system, from the data preparation to the output of a Probability of Backtest Overfitting (PBO) figure. This includes discussions of various considerations for individual aspects of the framework, as well as decisions around the combinations of these parts with their justifications and relevant advantages or disadvantages. In light of the configurable and modular system developed, potential alternatives and how they might be used are also discussed here.
+	Where Chapter \ref{Implementation} discusses the functional implementations of each module of the framework, Chapter \ref{imp_proc} is concerned with how these modules fit together to form an end to end system, from the data preparation to the output of a Probability of Backtest Overfitting (PBO) or DSR figure. This includes discussions of various considerations for individual aspects of the framework, as well as decisions around the combinations of these parts with their justifications and relevant advantages or disadvantages. In light of the configurable and modular system developed, potential alternatives and how they might be used are also discussed here.
 	~\\\newline
 	Chapter \ref{Datasets} provides a brief overview of the datasets used the experiments ran, including both the synthetic and actual datasets. Visualisations for the individual asset prices are also included here.
 	~\\\newline
@@ -228,7 +227,7 @@
 		\item[2] RBM pre-training, a seminal development for deep learning, has potentially detrimental effects on when used for finanical time series. Variance based initializations are shown to be more effective.
 		\item[3] Feature selection is possible, though the features learnt are not static through time, once again emphasising the value of recent financial data.	 
 		\item[4] Learning optimizations \todo{add potential line here}
-		\item[5] The framework was able to deliver returns within a successful range of the benchmark, and with only a low likelihood calculated for the PBO.
+		\item[5] The framework was able to deliver returns within a successful range of the benchmark, and with only a low likelihood calculated for the PBO, and a positive Sharpe Ratio as assessed through DSR.
 	\end{itemize}
 	Further discussion around network structures, activation functions and learning optimisations are included here, with a focus on how these parameters might result in differences between results for synthetic and actual datasets.
 	
@@ -1418,54 +1417,57 @@
 		\item [3] $\hat{\mathbf{p}}_{t+D}$, the predicted closing price in $D$ days
 	\end{itemize}
 	
-	\subsubsection{Calculated Stock Variables}
+	\subsubsection{Calculated Asset Variables}
 	
-	Using these, the MMS calculates and uses the following:
+	The following variables are calculated for each asset at each timepoint, which can then be aggregated to assess the strategy as a whole.
 	
 	\begin{itemize}
 		\item [1] A flag indicating whether a trade will take place on $t$
 		\begin{equation}
-		\mathbf{s}_t = \mathrm{bool}(\mathbf{\hat{p}}_{t+5} > \mathbf{p}_t) \in (0, 1)
+%		\mathbf{s}_t = \mathrm{bool}(\mathbf{\hat{p}}_{t+5} > \mathbf{p}_t) \in (0, 1)
 		\end{equation}
 		\item [2] A flag indicating whether a trade will take place on $t$ in the benchmark model
 		\begin{equation}
-		\mathbf{s}^b_{t} = \mathrm{bool}({\mathbf{p}}_{t+5} > \mathbf{p}_t) \in (0, 1)
+%		\mathbf{s}^b_{t} = \mathrm{bool}({\mathbf{p}}_{t+5} > \mathbf{p}_t) \in (0, 1)
 		\end{equation}
-		\item [3] The observed return at $t+D$
+		
+		\item [3] The cost incurred in buying the asset at time $t$
 		\begin{equation}
-		\mathbf{\tilde{r}}_{t + D} = \mathbf{\tilde{p}}_{t+D} * \mathbf{s}_t
+		%\mathbf{c}_t = \mathbf{\tilde{p}}_t * \mathbf{s}_t
+		\end{equation}
+		\item [4] The cost incurred in the benchmark model at $t$
+		\begin{equation}
+%		\mathbf{c}^b_{t} = \mathbf{\tilde{p}}_t * \mathbf{s}^b_{t}
+		\end{equation}
+		\item [5] The possible capital and transaction costs
+		\begin{equation}
+	%	\mathbf{k}_t= \mathbf{\tilde{p}}_t * (0.1 / 365 * D) + \mathbf{\tilde{p}}_t * (0.45 / 100)
+		\end{equation}
+		\item [6] The full cost of trading the asset at $t$ in the predictive model
+		\begin{equation}
+	%	\mathbf{f}_t = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) * \mathbf{s}_t
 		\end{equation}	
-		\item [4] The expected return at $t+D$
+		\item [7] The full cost of trading the asset at $t$ in the benchmark model
 		\begin{equation}
-		\mathbf{E[r_{t + D}]} = \mathbf{\hat{p}}_{t+D} * \mathbf{s}_t
-		\end{equation}
-		\item [5] The benchmark return at $t+D$
-		\begin{equation}
-		\mathbf{r}^b_{t + D} = \mathbf{\tilde{p}}_{t+D} * \mathbf{s}^b_{t}
+	%	\mathbf{f}^b_{t} = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) * \mathbf{s}^b_{t}
 		\end{equation}
 		
 		
-		
-		\item [6] The cost incurred in buying the asset at time $t$
+		\item [8] The nominal observed P\&L at $t+D$
 		\begin{equation}
-		\mathbf{c}_t = \mathbf{\tilde{p}}_t * \mathbf{s}_t
-		\end{equation}
-		\item [7] The cost incurred in the benchmark model at $t$
-		\begin{equation}
-		\mathbf{c}^b_{t} = \mathbf{\tilde{p}}_t * \mathbf{s}^b_{t}
-		\end{equation}
-		\item [8] The possible capital and transaction costs
-		\begin{equation}
-		\mathbf{k}_t= \mathbf{\tilde{p}}_t * (0.1 / 365 * 2) + \mathbf{\tilde{p}}_t * (0.45 / 100)
-		\end{equation}
-		\item [9] The full cost of trading the asset at $t$ in the predictive model
-		\begin{equation}
-		\mathbf{f}_t = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) * \mathbf{s}_t
+	%	\mathbf{\tilde{o}}_{t + D} = \left( \mathbf{\tilde{p}}_{t+D} - \mathbf{\tilde{p}}_t \right) * \mathbf{s}_t
 		\end{equation}	
-		\item [10] The full cost of trading the asset at $t$ in the benchmark model
+		\item [9] The nominal expected P\&L at $t+D$
 		\begin{equation}
-		\mathbf{f}^b_{t} = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) * \mathbf{s}^b_{t}
+	%	\mathbf{\hat{o}}_{t + D} = \left( \mathbf{\hat{p}}_{t+D} - \mathbf{\hat{p}}_t \right ) * \mathbf{s}_t
 		\end{equation}
+		\item [10] The nominal benchmark P\&L at $t+D$
+		\begin{equation}
+	%	\mathbf{o}^b_{t + D} = \left( \mathbf{\tilde{p}}_{t+D} - \mathbf{\tilde{p}}_t \right) * \mathbf{s}^b_{t}
+		\end{equation}
+		
+
+
 	\end{itemize}
 	
 	\hfill\break
@@ -1477,41 +1479,58 @@
 	
 	
 	\begin{itemize}
-		\item[8] The observed return rate for $t+D$ from all stocks traded at $t$
-		\begin{equation}
-			\mathbf{A_{t+D}} 
-		\end{equation}
-		\item [1] The expected return for $t+D$ from all stocks traded at $t$
-		\begin{equation}
-		\mathbf{E[U_{{t+D}}]} = \sum_{s \in stocks} \mathbf{E[r]}_{s, {t+D}}
-		\end{equation}
-		\item [2] The observed return for $t+D$ from all stocks traded at $t$
-		\begin{equation}
-		\mathbf{\tilde{R}}_{{t+D}} = \sum_{s \in stocks} \mathbf{\tilde{r}}_{s, {t+D}}
-		\end{equation}
-		\item [3] The benchmark return for $t+D$ from all assets traded at $t$
-		\begin{equation}
-		\mathbf{R}^b_{{t+D}} = \sum_{s \in assets} \mathbf{r}^b_{s, {t+D}}
-		\end{equation}
-		\item [4] The cost of all trades at $t$
-		\begin{equation}
-		\mathbf{C}_t = \sum_{s \in assets} \mathbf{c}_{s,t}
+%		\item [1] The nominal expected return for $t+D$ from all stocks traded at $t$
+%		\begin{equation}
+	%	\mathbf{\hat{O}}_{t+D} = \sum_{s \in stocks} \mathbf{E[r]}_{s, {t+D}}
+	%	\end{equation}
+	%	\item [2] The nominal observed return for $t+D$ from all stocks traded at $t$
+	%	\begin{equation}
+%		\mathbf{\tilde{O}}_{t+D} = \sum_{s \in stocks} \mathbf{\tilde{r}}_{s, {t+D}}
+%		\end{equation}
+	%	\item [3] The nominal benchmark return for $t+D$ from all assets traded at $t$
+%		\begin{equation}
+%		\mathbf{O}^b_{t+D} = \sum_{s \in assets} \mathbf{r}^b_{s, {t+D}}
+%		\end{equation}
+		
+		%\item [4] The cost of all trades at $t$
+		%\begin{equation}
+		%\mathbf{C}_t = \sum_{s \in assets} \mathbf{c}_{s,t}
 		\end{equation}
 		\item [5] The cost of all trades at $t$ in the benchmark model
 		\begin{equation}
-		\mathbf{C}^b_{t} = \sum_{s \in assets} \mathbf{c}^b_{s ,t}
+	%	\mathbf{C}^b_{t} = \sum_{s \in assets} \mathbf{c}^b_{s ,t}
 		\end{equation}
 		\item [6] The cost of all trades at $t$ including transaction costs
 		\begin{equation}
-		\mathbf{F}_t = \sum_{s \in assets} \mathbf{f}_{s,t}
+	%	\mathbf{F}_t = \sum_{s \in assets} \mathbf{f}_{s,t}
 		\end{equation}
 		\item [7] The cost of all trades at $t$, including transation costs, in the benchmark model	
 		\begin{equation}
-		\mathbf{F}^b_{p,t} = \sum_{s \in assets} \mathbf{f}^b{s,t}
+%		\mathbf{F}^b_{p,t} = \sum_{s \in assets} \mathbf{f}^b{s,t}
 		\end{equation}	
+		
+		
+		
+		
+		\item [11] The fullcost observed return rate at $t+D$
+		\begin{equation}
+	%	\mathbf{\tilde{r}}_{t + D} = \frac{\left( \mathbf{\tilde{p}}_{t+D} - \mathbf{f}_t \right) }
+	%	{\mathbf{f}_t}* \mathbf{s}_t
+		\end{equation}	
+		\item [12] The fullcost expected return rate at $t+D$
+		\begin{equation}
+%		\mathbf{\hat{r}_{t + D}} = \frac{\left( \mathbf{\hat{p}}_{t+D} - \mathbf{f}_t \right) }
+	%	{\mathbf{f}_t}* \mathbf{s}_t
+		\end{equation}
+		\item [13] The fullcost benchmark return rate at $t+D$
+		\begin{equation}
+%		\mathbf{r}^b_{t + D} = \frac{\left( \mathbf{\tilde{p}}_{t+D} - \mathbf{f}^b_t \right) }
+	%	{\mathbf{f}^b_t}* \mathbf{s}^b_t
+		\end{equation}	
+		
 		\item [8] The Sharpe Ratio
 		\begin{equation}
-			\mathbf{SR} = \mathbf{\hat{\tilde{R}}_{{t+D}}}
+		%	\mathbf{SR} = \mathbf{\hat{\tilde{R}}_{{t+D}}}
 		\end{equation}
 	\end{itemize}
 	\hfill\break
@@ -1621,15 +1640,15 @@
 	Using the distance matrix $\mathbf{\tilde{D}}$, a modified K-means clustering algorithm is run, which address 2 concerns with a typical K-means implementation: the number of clusters needs to be set prior to running, and the random initialization can lead to similarly random efficacy. \newline
 	
 	The first problem is addressed using an objective function which can then be optimised. The silhouette score, introduced by Rousseeuw \cite{Rousseeouw1987} is used as base to measure the quality of an individual strategies' assigned cluster.
-	\begin{equation}
+	\begin{equation}\label{eq_silhouette}
 	\mathbf{S_i} = \frac{b_i - a_i}{\mathrm{max}\left(a_i, b_i\right)}
 	\end{equation}
-	where $a_i$ is the average distance between i and all other nodes in the same cluster, $b_i$ is the smallest average distance ebtween i and all the nodes in any other cluster. $\mathbf{S}_i$ then ranges between -1 (poor fit)and 1 (good fit), and incorporats a meaure of both inter-cluster and intra-cluster quality. This allows the definition of the objective function to be used, where for a given cluster:
-	\begin{equation}\label{eq_clsuter_q}
+	where $a_i$ is the average distance between i and all other nodes in the same cluster, $b_i$ is the smallest average distance between i and all the nodes in any other cluster. $\mathbf{S}_i$ then ranges between -1 (poor fit) and 1 (good fit), and incorporats a meaure of both inter-cluster and intra-cluster quality. This allows the definition of the objective function to be used, where for a given cluster:
+	\begin{equation}\label{eq_cluster_q}
 	\mathbf{q} = \frac{\mathbf{E}[{\mathbf{S}_i}]}{\sqrt{\mathbf{V}[{\mathbf{S}_i}]}}
 	\end{equation} 
 	
-	The initialization problem is, in part, addressed through the use of nested clustering. Typical K-means clustering is run for k = 2, ..., N-1 clusters, for which each clustering is evaluated according to $\mathbf{q}$ (\ref{eq_clsuter_q}). This process is itself repeated a number of times, thus obtaining the results for different random initializations. Naturally, the clustering results with the highest $\mathbf{q}$ are used for the steps that follow. \newline
+	The initialization problem is, in part, addressed through the use of nested clustering. Typical K-means clustering is run for k = 2, ..., N-1 clusters, for which each clustering is evaluated according to $\mathbf{q}$ (\ref{eq_cluster_q}). This process is itself repeated a number of times, thus obtaining the results for different random initializations. Naturally, the clustering results with the highest $\mathbf{q}$ are used for the steps that follow. \newline
 	
 	A final modification is made in order to address lower quality clusters that may have occured as a result of the initial clustering capturing larger and broader clusters, but missing smaller and more distinct ones. In order to assess this, any cluster $k$ where $\mathbf{q}_k < \mathbf{\bar{q}}$ has its components aggregated into a partition, $K_1$, with the remaining components in $K_0$. The components in $K_1$ are then run through the full ONC algorithm. This resursive approach may produce a better clustering, and so the  $\mathbf{\bar{q}}$  for the cluster before and after the recursive step are compared. If the new clustering is better, then the new clusters for $K_1$ are combined with the original $K_0$ clustrers. If not, then the original clustering is used as the final result. These clusterings will be used below, where both the number and variances thereof will be used.
 	
@@ -1682,7 +1701,7 @@
 		
 		
 	
-	\subsubsection{Deflated Sharpe Ratio}
+	\subsubsection{Deflated Sharpe Ratio}\label{imp_dsr_detail}
 	
 	Prado and Lewis use the Probabilistic Sharpe Ratio and the False Strategy Theorem (FST) to define the Deflated Sharpe Ratio (DSR) as $\widehat{PSR}[SR^*]$: the probability that the true SR exceeds $SR^*$, which no longer needs to be user defined. Following from the FST statement in equation \ref{eq_falsestrat}, 
 	
@@ -1699,7 +1718,7 @@
 	~\\
 	For any set of trials with strategy returns, it is expected that there will be some maximum $\widehat{SR}$ that is more than zero, even if the true $SR$ is zero. This maximum can be defined using equation \ref{eq_dsr} for $SR^*$. The PSR from equation \ref{eq_psr} can then be used to assess if the observed SR is statistically signficicantly larger than the expected maximum, and in doing so possibly reject the null hypothesis that $H_0: SR = 0$. Thus, DSR gives us a confidence level as to whether the observed SR is legitimate and not just a false positive.
 	
-	\paragraph{Estimating $\mathbf{E}\left[\mathbf{K}\right]$ and $\mathbf{V}\left[\widehat{\mathbf{SR_k}}\right]$}
+	\paragraph{Estimating $\mathbf{E}\left[\mathbf{K}\right]$ and $\mathbf{V}\left[\widehat{\mathbf{SR_k}}\right]$}\label{dsr_cluster_estimates}
 	
 	The results from the ONC algorithm, having already determined $\mathbf{E}\left[K\right]$ by clustering the trials into $K$ clusters, can then be used to estimate the variance of the cluster sharpe ratios. In order to do so, a single time series return needs to be constructed for the strategies in each cluster. The minimum variance allocation from Prado \cite{proadi2016a} is used in order to choose the best weightings and reduce the effects of strategies with large variances.\newline
 
@@ -2044,7 +2063,7 @@
 		\item[4] Section \ref{results_network} discusses the effects of network size, training parameters as well as the effects of learning optimizations on network performance.
 		\item[5] Section \ref{results_hist} shows the negligble impact of extensive training on historical data, noting that reducing training epochs and datasets has limited effect, and that the online learning is most impactful for P\&L. The effects of data aggregation windows on synthetic and actual data are also discussed.
 		\item[6] Section \ref{results_pbo} presents the PBO results for configurations run, and disusses the potential shortfalls and dynamics of the PBO methodology.
-		\item[7] Section \ref{results_dsr} \todo{add DSR when possible}
+		\item[7] Section \ref{results_dsr} presents the clustering results from the ONC algorithm, and uses them to calculate the DSR, indicating the confidence of a positive Sharpe ratio in the trials.
 		\item[8] Section \ref{results_mms} presents the general P\&L results for experiment configurations and compares them to the benchmark.
 		\item[9] Section \ref{results_summary} summarises the results presented, noting major differences between synthetic and actual data.
 	\end{itemize}
@@ -2660,7 +2679,7 @@
 	
 	One of the primary drawbacks of the DSR algorithm presented by Prado and Lewis (\cite{PradoDSR}) is the computational complexity which arises with the iterative K-means implementation. A standard Lloyds implementation of the K-means algorithm has a computational complexity of $\mathcal{O}(knt)$\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html}}, for $k$ clusters, $n$ components and $t$ iterations. The suggested implementation modification (as discussed in Section \ref{imp_onc}) would be for $t=10$ and to run the algorithm iteratively for $k=1,...,(n-1)$, which can in turn be expressed as $n(n+1)/2$. This leads to a computational complexity with an $\mathcal{O}(n^3)$ magnitude. Including the final modication suggested, which could run the algorithm recursively on subclusters, has the potential to increase this even further. This high degree of complexity presents a problem for cases where a large number of strategy permutations have been attempted, as is the case here (with $n> 20000$). With this in mind, the algorithm was implemented for a maximum of $k=10$, though the results do not suggest this hindered the findings.
 	
-	\subsubsection{ONC Results}
+	\subsubsection{ONC Results}\label{results_onc}
 	
 	Interestingly, the ONC algorithm produced only 2 clusters for the components, which were partitioned exactly by the choice in input price fluctuation horizon aggregations (as per the calculations in Section \ref{Data}) . Cluster One contains all the trials with horizon aggregations of [1, 5, 10], and Cluster Two contains all trials with horizon aggregations of [5, 20, 60] and [10, 20, 60]. The nature of the experimentation process, with the combinatorial parameter space exploration (as detailed in Section \ref{proc_parameters}), is such that other parameters are evenly split across the 2 clusters (e.g. OGD learning rate, network sizes, intializations and so on).\newline
 	
@@ -2686,86 +2705,16 @@
 		\label{figure-dsr_clusters_mse}
 	\end{figure}
 	
+	The lack of further clusterings was probed manually for Cluster One, running the algorithm for a range of values between 2 and 7000 \footnote{[2,3,...,49,50,500,1000,1500,2000,2250,2400,2500,2600,2750,3000,4000,5000,6000]}. It was found that while there were sub-clusterings which resulted in a higher mean silhouette score (as per Equation \ref{eq_silhouette}), the variance of the silhouette scores also increased dramatically. This in turn, resulted in a lower score for the cost function $q$ (as per Equation \ref{eq_cluster_q}), and so the ONC algorithm did not cluster further.
 	
 	\subsubsection{DSR and PSR Results}\label{results_dsr2}
 	
+	Using the clusters produced by the ONC algorithm (\ref{results_onc}), the DSR process as presented in Section \ref{imp_dsr} was followed. The aggregate cluster time series returns were calculated using Equations \ref{eq_onc_weights} and \ref{eq_onc_returns} (Section \ref{dsr_cluster_estimates}). These are annualized, which allows their variance estimates to then be used to calculate $SR^*$, which represents the maximum expected observed Sharpe Ratio due to variance under the null hypothesis of $H_0:  \widehat{SR} = 0$ (as discussed in Sections \ref{sr_normality} and \ref{imp_fst}). Using this $SR^*$ as the benchmark, the PSR calculation ($\widehat{PSR}[SR^*]$) can then be used to determine if the observed $\widehat{SR}$ is a false positive or not (as per Section \ref{imp_dsr_detail}).This figure is the DSR as a confidence for whether the observed best $SR$ is actually postive. \newline
 	
-	The attached code in the paper was used to calculate the clusters, using an input of the correlation matrix for the return rates percentages of each strategy at each timpoint. The output was 2 clusters, and a DSR of 1.0. The intermediate values of the calculations, as well as the cluster configurations and comparisons have been included below.\newline
+	In this case, the benchmark $SR^*$ calculated was 0.00048, and the best $\widehat{SR}$ observed was 0.83, leading to a $\widehat{PSR}[SR^*]$ of 1.0, thus indicating that the trials certainly contain a strategy which has a positive SR rate. This does seem like a reasonable conclusion, considering the SR distributions in Figure \ref{figure-dsr_clusters}. The calculations for all steps can be seen in Section \ref{results_dsr_appendix} of the Appendix. \newline
+
+	Much like the results for the CSCV and PBO methods, this once again hightlights the presented framework's ability to develop and assess predictive networks which can be successfully incorporated into a profitable trading strategy.	
 	
-	Calculating the aSR values for each cluster:
-	
-	\begin{equation}
-	\widehat{aSR}_{k}=\widehat{SR}_{k}\sqrt{{Frequency_{k}}}
-	\end{equation}
-	\begin{equation}
-	\widehat{aSR}_{1}={0.70486}\sqrt{{365.25}}={13.47103}
-	\end{equation}
-	\begin{equation}
-	\widehat{aSR}_{2}={0.70301}\sqrt{{365.25}} ={13.43565}
-	\end{equation}
-	
-	Calculating the variance of the clusters:
-	
-	\begin{equation}
-	\mathrm{E}\left[\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]\right]=\frac{\mathrm{V}\left[\left\{\widehat{aSR}_{k}\right\}\right]}{\text {Frequency}_{k^{*}}}
-	\end{equation}
-	\begin{equation}
-	=\frac{\mathrm{Var}\left[\left\{{13.47103,13.43565} \right\}\right]}{\text {365.25}}
-	\end{equation}
-	\begin{equation}
-	={8.569980392994096e-07}
-	\end{equation}
-	
-	\begin{equation}
-	S R^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right)
-	\end{equation}
-	\begin{equation}
-	=\sqrt{{8.56998e-07}}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{2}\right]+\gamma Z^{-1}\left[1-\frac{1}{2 e}\right]\right)
-	\end{equation}
-	\begin{equation}
-	=0.00048115929261803515
-	\end{equation}
-	
-	Best SR observed in full configuration set:
-	\begin{equation}
-	\widehat{S R}=0.7286175492903578
-	\end{equation}
-	
-	Calculating DSR:
-	
-	\begin{equation}
-	\widehat{P S R}\left[S R^{*}\right]=Z\left[\frac{\left(\widehat{S R}-S R^{*}\right) \sqrt{T-1}}{\sqrt{1-\hat{\gamma}_{3} \widehat{S R}+\frac{\hat{\gamma}_{4}-1}{4} \widehat{S R}^{2}}}\right]
-	\end{equation}
-	
-	\begin{equation}
-	=Z\left[\frac{\left({0.7286}-{0.00048}\right) \sqrt{1500-1}}{\sqrt{1-{2.2772}\ast{0.7286}+\frac{{12.3861}-1}{4}{0.7286}^{2}}}\right]
-	\end{equation}
-	
-	\begin{equation}
-	=Z\left[\frac{28.6566}{0.9353}\right]
-	\end{equation}
-	
-	\begin{equation}
-	= {1.0}
-	\end{equation}
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Sharpe Ratios for Clusters and Best Strategy}
-		\includegraphics[scale=0.35]{images/results/dsr_old/cluster_sr.png} 
-		\caption{
-			\newline The distribution of all sharpe ratios, grouped by cluster and a separate line for the best sharpe ratio.}
-		\label{figure-dsr_sr}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{OOS P\&L for Clusters and Best Strategy}
-		\includegraphics[scale=0.35]{images/results/dsr_old/cluster_oos.png} 
-		\caption{
-			\newline The distribution of all oos P\&L amounts, grouped by cluster and a separate line for the best strategy's P\&L (chosen according to highest SR).}
-		\label{figure-dsr_oos}
-	\end{figure}
 	
 	\newpage
 	\subsection{MMS Results}\label{results_mms}
@@ -2840,9 +2789,9 @@
 	
 	The results for training have been summarised below, especially insofar as they relate to differences observed between actual and synthetic data.
 	
-	\subsubsection{Framework Success and PBO}
+	\subsubsection{Framework Success : PBO and DSR}
 	\begin{itemize}
-		\item[1] Section \ref{results_pbo} and \ref{results_mms} show that the framework was able to generate models that deliver returns within a successful range of the benchmark, even with costs considered, and with a low likelihood of having succumbed to backtest overfitting as indicated by a rigorous assessment.
+		\item[1] Sections \ref{results_pbo} and \ref{results_mms} show that the framework was able to generate models that deliver returns within a successful range of the benchmark, even with costs considered, and with a low likelihood of having succumbed to backtest overfitting as indicated by a rigorous assessment. Section \ref{results_dsr} further validates the results, with the DSR calculated showing that the trials have a high certainty of containing a positive Sharpe ratio.
 	\end{itemize}
 	
 	\subsubsection{Historical Data}
@@ -3027,11 +2976,11 @@
 	\todo{add DSR here}
 	
 	\newpage
-	\section{Conclusion}\label{Conclusion}\todo{and DSR?}
+	\section{Conclusion}\label{Conclusion}
 	
-	A configurable system and framework, based on decoupled modules, has been presented which incorporates several notable techniques: deep learning neural networks for stock price fluctuation prediction, stacked auto encoders for the purpose of feature selection, and CSCV and PBO in order to assess the returns from the MMS and the likelihood that backtest overfitting has taken place. \newline 
+	A configurable system and framework, based on decoupled modules, has been presented which incorporates several notable techniques: deep learning neural networks for stock price fluctuation prediction, stacked auto encoders for the purpose of feature selection, and both CSCV \& PBO in order to assess the returns from the MMS and the likelihood that backtest overfitting has taken place, and DSR in order to assess the likelihood of a positive Sharpe Ratio being observed. \newline 
 	
-	The system presented is successful in achieving the aims set out for it and presents a cohesive view of how components interact and might be changed in a future implementation. Feedforward neural network training parameters are explored and presented, including network sizes, activation functions and learning optimizations. Stacked auto encoders, initialized using both RBM pre-training as well as variance based techniques, are presented and shown to be able to perform effective feature selection. An extensive comparison of synthetic and actual data, including data pre-processing, is covered such that it might guide further usage of the system. Lastly, the CSCV and PBO methodologies are implemented, considered, and shown that they are able to work for a novel implementation on machine learning models and provide rigorous assessment of results. \newline 
+	The system presented is successful in achieving the aims set out for it and presents a cohesive view of how components interact and might be changed in a future implementation. Feedforward neural network training parameters are explored and presented, including network sizes, activation functions and learning optimizations. Stacked auto encoders, initialized using both RBM pre-training as well as variance based techniques, are presented and shown to be able to perform effective feature selection. An extensive comparison of synthetic and actual data, including data pre-processing, is covered such that it might guide further usage of the system. The CSCV and PBO methodologies are implemented, considered, and shown that they are able to work for a novel implementation on machine learning models and provide rigorous assessment of results. Their results are further validated through the usage of the ONC and DSR algorithms to detect positive Sharpe Ratios. \newline 
 	
 	Further to this, a view on the phenomenology of financial markets has been developed and presented, based on the experiments results. The results presented for limited in-sample training of the networks (both by length of training and dataset size), the effects of feature selection developed in-sample, as well as out of sample training parameters all provide a clear notion that there is a positive but very limited benefit to training on long term historical financial time series. The results show that the value of a cross sectional view of the data has far more weight in delivering out of sample returns, which is particularly noteworthy in the context of a neural network with few structural model limitations. \newline 
 	
@@ -3170,7 +3119,81 @@
 	
 	
 	
+	\subsection{Additional Calculations for Section \ref{results_dsr} - DSR and ONC}\label{results_dsr_appendix}
 	
+	
+	\subsubsection{DSR and PSR calculations}
+	
+	\begin{itemize}
+		\item [1] \textbf{Calculated the Aggregate Cluster Strategy Time Series Return:} \newline
+		Using the ONC results from \ref{results_onc}, as well as Equations \ref{eq_onc_weights} and \ref{eq_onc_returns} from Section \ref{dsr_cluster_estimates}, the 2 cluster SR metrics were calculated to be $\widehat{SR}_{1}={0.70486}$ and 	$\widehat{SR}_{2}={0.70301}$. \newline
+		
+		\item [2] \textbf{Annualize the Cluster Strategy Sharpe Ratios:} \newline
+		\begin{equation}
+		\widehat{aSR}_{k}=\widehat{SR}_{k}\sqrt{{Frequency_{k}}}
+		\end{equation}
+		\begin{equation}
+		\widehat{aSR}_{1}={0.70486}\sqrt{{365.25}}={13.47103}
+		\end{equation}
+		\begin{equation}
+		\widehat{aSR}_{2}={0.70301}\sqrt{{365.25}} ={13.43565}
+		\end{equation}
+		
+		\item [3] \textbf{Estimate the Variance of Strategy Sharpe Ratios:} \newline
+		
+		Using Equation \ref{eq_onc_nc_var}, the cluster strategy sharpe ratios can be used to estimate the SR variance. 
+		
+		\begin{equation}
+		\mathrm{E}\left[\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]\right]=\frac{\mathrm{V}\left[\left\{\widehat{aSR}_{k}\right\}\right]}{\text {Frequency}_{k^{*}}}
+		\end{equation}
+		\begin{equation}
+		=\frac{\mathrm{V}\left[\left\{{13.47103,13.43565} \right\}\right]}{\text {365.25}}
+		\end{equation}
+		\begin{equation}
+		={8.56998e-07}
+		\end{equation}
+		
+		\item [4] \textbf{Calculate the Benchmark $\mathbf{SR^*}$:} \newline
+		
+		Using the estimated variance and Equation \ref{eq_dsr}, the benchmark $SR^*$ can then be calculated (where $Z[.]$ is the CDF of the standard Normal Distribution 
+		and $\gamma$ is the Euler-Mascheroni constant).
+		
+		\begin{equation}
+		S R^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right)
+		\end{equation}
+		\begin{equation}
+		=\sqrt{{8.56998e-07}}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{2}\right]+\gamma Z^{-1}\left[1-\frac{1}{2 e}\right]\right)
+		\end{equation}
+		\begin{equation}
+		=0.000481
+		\end{equation}
+		
+		\item [5] \textbf{Calculate DSR:} \newline
+		
+		Using the benchmark, the final DSR calculation can be done with Equation \ref{eq_psr} (where $T$ is the number of observed returns, $\hat{\gamma_3}$ is the skewness of $r_t$ and $\hat{\gamma_4}$ is the kurtosis of $r_t$	())
+		
+		\begin{equation}
+		\widehat{SR}=0.831624
+		\end{equation}
+		
+		\begin{equation}
+		\widehat{P S R}\left[S R^{*}\right]=Z\left[\frac{\left(\widehat{S R}-S R^{*}\right) \sqrt{T-1}}{\sqrt{1-\hat{\gamma}_{3} \widehat{S R}+\frac{\hat{\gamma}_{4}-1}{4} \widehat{S R}^{2}}}\right]
+		\end{equation}
+		
+		\begin{equation}
+		=Z\left[\frac{\left({0.831624}-{0.00048}\right) \sqrt{1555-1}}{\sqrt{1-{2.2772}\ast{0.831624}+\frac{{12.3861}-1}{4}{0.831624}^{2}}}\right]
+		\end{equation}
+		
+		\begin{equation}
+		=Z\left[\frac{32.764367}{1.0367}\right]
+		\end{equation}
+		
+		\begin{equation}
+		= {1.0}
+		\end{equation}
+		
+		
+	\end{itemize}
 	
 	\newpage
 	\subsection{Configuration Sets Used}

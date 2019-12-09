@@ -139,14 +139,14 @@ function RunGenerations()
     jsedata = ReadJSETop40Data()
     dataset = jsedata[:, [:AGL,:BIL,:IMP,:FSR,:SBK,:REM,:INP,:SNH,:MTN,:DDT]]
 
-    config_starts = 52121:400:52336
+	config_starts = 28880:1000:51904
 
     for c in config_starts
-        range = c:(c+399)
+        range = c:(c+999)
         println(range)
         tic()
-        WriteCSCVReturns(range, dataset)
-        #WriteCSCVCostReturns(range, dataset)
+        #WriteCSCVReturns(range, dataset)
+        WriteCSCVCostReturns(range, dataset)
         println(toc())
     end
 end
@@ -474,6 +474,23 @@ function WriteSharpeRatios()
     ratios = by(returns, :configuration_id, df-> SharpeRatio(df[:total_profit_rate_observed], 0.0))
 
     CreateSRRecords(ratios)
+end
+
+function WriteSharpeRatiosCost()
+
+    returns = RunQuery("select configuration_id, time_step, ifnull(total_profit_rate_observed, 0.0) total_profit_rate_observed
+                                 from cscv_cost_returns
+                                 where configuration_id < 51905
+                                 and configuration_id not between 50249 and 50392
+                                 and time_step > 2333")
+
+    returns[:,1] = Array{Int64,1}(returns[:,1])
+    returns[:,2] = Array{Int64,1}(returns[:,2])
+    returns[:,3] = Array{Float64,1}(returns[:,3])
+
+    ratios = by(returns, :configuration_id, df-> SharpeRatio(df[:total_profit_rate_observed], 0.0))
+
+    CreateSRRecordsCost(ratios)
 end
 
 function RunConfusionGenerations()

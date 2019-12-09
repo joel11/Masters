@@ -5,7 +5,7 @@ using TrainingStructures
 using BSON
 #using HDF5
 #using JLD
-export CreateConfusionRecords, CreateSRRecords, CreateCSCVCostRecords, WriteFFN, CreateBacktestRecords, CreateCSCVRecords, CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
+export CreateSRRecordsCost, CreateConfusionRecords, CreateSRRecords, CreateCSCVCostRecords, WriteFFN, CreateBacktestRecords, CreateCSCVRecords, CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
 db = SQLite.DB("/Users/joeldacosta/Masters/Code Libraries/database_actual.db")
 db_test  = SQLite.DB("/Users/joeldacosta/Masters/Code Libraries/database_test.db")
@@ -259,6 +259,26 @@ function CreateSRRecords(sharpe_ratios)
 
     sr_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
     sr_cmd = "insert into config_oos_sharpe_ratio (configuration_id, sharpe_ratio) values $(sr_values)"
+    SQLite.execute!(db, sr_cmd)
+end
+
+function CreateSRRecordsCost(sharpe_ratios)
+
+    records = []
+
+    function NanRemover(x)
+        if (isnan(x) || isinf(x))
+            return "null"
+        end
+        return x
+    end
+
+    for r in 1:size(sharpe_ratios)[1]
+        push!(records, (string("(", sharpe_ratios[r,1],",", NanRemover(sharpe_ratios[r,2]), ")")))
+    end
+
+    sr_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    sr_cmd = "insert into config_oos_sharpe_ratio_cost (configuration_id, sharpe_ratio) values $(sr_values)"
     SQLite.execute!(db, sr_cmd)
 end
 
