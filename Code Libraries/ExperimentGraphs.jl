@@ -203,7 +203,7 @@ function PL_ScalingHiddenOutputActivation(config_ids, file_prefix = "", colourSe
     ProfitBoxplot(query, :scaling_methodology, " ", string(file_prefix, "Scaling Methodolgy Profits"), String, testDatabase, colourSetChoice, false)
 end
 
-function PL_LearningRates_MaxMin(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+function PL_LearningRates_MaxMin(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
 
     ids = TransformConfigIDs(config_ids)
 
@@ -215,7 +215,7 @@ function PL_LearningRates_MaxMin(config_ids, file_prefix = "", colourSetChoice =
                     and learning_rate != min_learning_rate
                 order by learning_rates"
 
-    ProfitBoxplot(lr_query, :learning_rates, "SGD Learning Rates", string(file_prefix, "PL SGD LearningRates MaxMin"), String, testDatabase, colourSetChoice, nothing, true, 16)
+    ProfitBoxplot(lr_query, :learning_rates, "SGD Learning Rates", string(file_prefix, "PL SGD LearningRates MaxMin"), String, testDatabase, colourSetChoice, nothing, true, 16, nothing, in_sample)
 end
 
 function PL_SAE_Size(config_ids)
@@ -244,6 +244,86 @@ function PL_L1Reg(config_ids, file_prefix = "", colourSetChoice = "", testDataba
                     and tp.category = \"FFN\""
 
     ProfitBoxplot(lr_query, :lambda, "L1 Lambda ", string(file_prefix, "L1 Reg Effects on Profits"), String, testDatabase, colourSetChoice)
+end
+
+function PL_L1Reg(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    ids = TransformConfigIDs(config_ids)
+    lr_query = "select tp.configuration_id,
+                    (cast(l1_lambda as string) || ' lambda') lambda
+                from training_parameters tp
+                inner join dataset_config dc on dc.configuration_id = tp.configuration_id
+                inner join network_parameters np on np.configuration_id = tp.configuration_id
+                where tp.configuration_id in ($ids)
+                    and tp.category = \"FFN\"
+                    and layer_sizes like '25,%'"
+
+    ProfitBoxplot(lr_query, :lambda, "L1 Lambda ", string(file_prefix, "L1 Reg Effects on Profits"), String, testDatabase, colourSetChoice)
+end
+
+function PL_L1Reg(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    ids = TransformConfigIDs(config_ids)
+    lr_query = "select tp.configuration_id,
+                    (cast(l1_lambda as string) || ' lambda') lambda
+                from training_parameters tp
+                inner join dataset_config dc on dc.configuration_id = tp.configuration_id
+                where tp.configuration_id in ($ids)
+                    and tp.category = \"FFN\"
+                    and deltas like '10,%'"
+
+    ProfitBoxplot(lr_query, :lambda, "L1 Lambda ", string(file_prefix, "L1 Reg Effects on Profits"), String, testDatabase, colourSetChoice)
+end
+
+function PL_L1Reg_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
+
+    config_ids = 28880:50000
+    testDatabase = false
+    colourSetChoice = "ActualPL"
+    file_prefix = "Actual "
+    in_sample = false
+    aggregation = median
+
+    ids = TransformConfigIDs(config_ids)
+    query = "select tp.configuration_id,
+                    l1_lambda,
+                    deltas
+                from training_parameters tp
+                inner join dataset_config dc on dc.configuration_id = tp.configuration_id
+                where tp.configuration_id in ($ids)
+                    and tp.category = \"FFN\""
+
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Float64,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    results = join(GetProfits(testDatabase, true), results, on = :configuration_id)
+    #results[:encoding] = map(i -> parse(Int64, ascii(i[end])), split.(results[:layer_sizes], ','))
+
+    groups = by(results, [:l1_lambda, :deltas], df -> aggregation(df[:profit]))
+
+
+    encoding_groups = by(groups, [:deltas], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    for i in 1:size(encoding_groups, 1)
+        trace = scatter(;x=encoding_groups[i,2][:l1_lambda],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " "),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> MSE (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/FFN PL by Lamda and Deltas ", string(aggregation), ".html"))
 end
 
 function PL_ValidationSplit(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -312,7 +392,7 @@ function PL_MaxEpochs(config_ids, file_prefix = "", colourSetChoice = "", testDa
     ProfitBoxplot(query, :max_epochs, "IS Training Epochs", string(file_prefix, "PL Max Epochs"), String, testDatabase, colourSetChoice, ordering, true)
 end
 
-function PL_EpochCycle(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+function PL_EpochCycle(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
 
     ids = TransformConfigIDs(config_ids)
     lr_query = "select tp.configuration_id,
@@ -321,7 +401,7 @@ function PL_EpochCycle(config_ids, file_prefix = "", colourSetChoice = "", testD
                 where tp.configuration_id in ($ids)
                     and tp.category = \"FFN\""
 
-    ProfitBoxplot(lr_query, :max_epochs, "SGD Learning Rate Epoch Cycle", string(file_prefix, "PL SGD Epoch Cycle"), String, testDatabase, colourSetChoice)
+    ProfitBoxplot(lr_query, :max_epochs, "SGD Learning Rate Epoch Cycle", string(file_prefix, "PL SGD Epoch Cycle"), String, testDatabase, colourSetChoice, nothing, true, 16, nothing, in_sample)
 end
 
 function PL_LayerActivation_OutputActivation(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -1048,6 +1128,122 @@ function MSE_EpochCycle(config_ids, file_prefix = "", colourSetChoice = "", test
                 order by epoch_cycle_max"
 
     MSEBoxplot(query, :epoch_cycle_max, "Learning Rate Epoch Cycles ", string(file_prefix, "SAE MSE Epoch Cycles"), String, colourSetChoice, testDatabase)
+end
+
+function MSE_EpochCycle_EncodingLines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    config_ids = 1:1665
+    testDatabase = false
+    file_prefix = ""
+    colourSetChoice = "ActualMSE"
+    aggregation = median
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select tp.configuration_id,
+                            min(testing_cost) cost,
+                            cast(epoch_cycle_max as string) || ' Epochs' epoch_cycle_max,
+                            layer_sizes
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                inner join network_parameters np on np.configuration_id = tp.configuration_id
+                where tp.configuration_id in ($ids)
+                    and tp.category like \"SAE%\"
+                    and er.category like \"SAE%\"
+                group by tp.configuration_id, epoch_cycle_max, layer_sizes
+                having cost not null
+                order by epoch_cycle_max"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Float64,1}(results[:,2])
+    results[:,3] = Array{String,1}(results[:,3])
+    results[:,4] = Array{String,1}(results[:,4])
+
+    results[:encoding] = map(i -> parse(Int64, ascii(i[end])), split.(results[:layer_sizes], ','))
+
+    groups = by(results, [:encoding, :epoch_cycle_max], df -> aggregation(df[:cost]))
+
+
+    encoding_groups = by(groups, [:epoch_cycle_max], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    for i in 1:size(encoding_groups, 1)
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " "),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> MSE (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/SAE MSE Epoch Cycles by Encoding ", string(aggregation), ".html"))
+
+end
+
+function MSE_Reg_EncodingLines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    config_ids = 1:1665
+    testDatabase = false
+    file_prefix = ""
+    colourSetChoice = "ActualMSE"
+    aggregation = median
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select tp.configuration_id,
+                            min(testing_cost) cost,
+                            l1_lambda,
+                            layer_sizes
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                inner join network_parameters np on np.configuration_id = tp.configuration_id
+                where tp.configuration_id in ($ids)
+                    and tp.category like \"SAE%\"
+                    and er.category like \"SAE%\"
+                group by tp.configuration_id, l1_lambda, layer_sizes
+                having cost not null
+                order by epoch_cycle_max"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Float64,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    results[:,4] = Array{String,1}(results[:,4])
+
+    results[:encoding] = map(i -> ascii(i[end]), split.(results[:layer_sizes], ','))
+
+    groups = by(results, [:encoding, :l1_lambda], df -> aggregation(df[:cost]))
+
+
+    encoding_groups = by(groups, [:encoding], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+    for i in 1:size(encoding_groups, 1)
+        trace = scatter(;x=encoding_groups[i,2][:l1_lambda],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " Encoding"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> OGD Learning Rate</b>"))
+        , font = Dict(:size => 16)
+         )
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/SAE MSE l1_lambda by Encoding ", string(aggregation), ".html"))
+
 end
 
 function MSE_Init(config_ids, encoding_size, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -2171,7 +2367,7 @@ function OOS_PL_OGDLR_Deltas(config_ids, noneSize = -1, file_prefix = "", colour
     savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS OGDLR-Delta P&L ", string(aggregation), ".html"))
 end
 
-function OOS_PL_OGDLR_Delta_Encoding(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median, encoding)
+function OOS_PL_OGDLR_Delta_Encoding(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median, encoding = nothing)
 
     ids = TransformConfigIDs(config_ids)
 
@@ -2260,7 +2456,7 @@ end
 
 ##New Graphs ####################################################################
 
-
+#=
 
 function IS_PL_Encoding(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = median)
 
@@ -2674,28 +2870,6 @@ function OOS_PL_Encoding_LR(config_ids, noneSize = -1, file_prefix = "", colourS
     savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS OGDLR-Encoding  LR P&L ", string(aggregation), ".html"))
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function PL_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, learning_rate = nothing, aggregation = maximum)
 
     aggregation = mean
@@ -2928,8 +3102,6 @@ function IS_PL_SAE_Encoding_Delta_Lines(config_ids, noneSize = -1, file_prefix =
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Deltas Encoding IS PL ", string(aggregation), ".html"))
 end
 
-
-
 function IS_PL_SAE_Encoding_Size_Boxplot(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false)
 
     noneSize = 30
@@ -2981,5 +3153,6 @@ function IS_PL_SAE_Encoding_Size_Boxplot(config_ids, noneSize = -1, file_prefix 
 
 
 end
+=#
 
 end

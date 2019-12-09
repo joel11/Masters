@@ -341,10 +341,12 @@ function Results_4_NetworkStructureTraining()
     MSE_LearningRate_MaxMin(synth_sae_ids, nothing, "Synth", "SyntheticMSE", true) #config 7
     MSE_EpochCycle(synth_sae_ids, "Synth", "SyntheticMSE",true)
 
-    PL_LearningRates_MaxMin(ffn_config_ids, "Actual", "ActualPL", false) #config13
+    PL_LearningRates_MaxMin(ffn_config_ids, "OOS Actual", "ActualPL", false, false) #config13
+    PL_LearningRates_MaxMin(ffn_config_ids, "IS Actual", "ActualPL", false, true) #config13
     PL_LearningRates_MaxMin(synth_ffn_ids, "Synth", "SyntheticPL", true) #config9
 
-    PL_EpochCycle(ffn_config_ids, "Actual", "ActualPL", false)
+    PL_EpochCycle(ffn_config_ids, "IS Actual", "ActualPL", false, false)
+    PL_EpochCycle(ffn_config_ids, "OOS Actual", "ActualPL", false, true)
     PL_EpochCycle(synth_ffn_ids, "Synth", "SyntheticPL", true)
 
     PL_OGD_LearningRate(ffn_config_ids, "Actual", "ActualPL", false)#config13

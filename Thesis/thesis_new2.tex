@@ -2239,22 +2239,164 @@
 		
 		\newpage
 
-	\subsection{Value of Historical Signal}
+	\subsection{Value of Historical Signal}\label{results_data_hist}
 		
+	Experimental configuration sets were run to test the hypothesis that the amount of historical IS data available is of limited use, and that the real value is in broader current and cross sectional data. This idea is in line with the understanding that financial markets are inherently complex, adaptive and dynamic, as discussed more broadly in section \ref{lr_TechnicalAnalysis}. With this in mind, and especially so in light of a fundamentally changing macroeconomic landscape, there is limited reason to believe that the functions and relations that may have governed the asset prices 10-15 years ago would still be in effect today. The P\&L results shown in Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset} validate this and show that extensive training on past data may be akin to pre-training network weights at best, and counterproductive in overfitting to dynamics that no longer exist at worst. These findings fall in line with those found in Section \ref{results_oos_pl}, which highlighted the efficacy of prediction strategies using shorter data aggregation horizons over those using longer horizons.
+	
+	\begin{figure}[H]
+		\centering 
+		\textbf{OOS P\&L by IS Training Epochs}
+		\includegraphics[scale=0.4]{images/results/data/max_epochs.png}
+		\caption[P\&L by IS Training Epochs]{
+			Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13}) 
+			\newline The box plots above show OOS P\&L grouped by the number of epochs in the SGD IS training phase (i.e. the number of times the IS data was trained on). In this set of configurations, 100 Epochs offers the best overall performance, and further training to 500 or 1000 epochs degrades performance due to the network overfitting on the IS data. The results here are noteworthy as they show that the benefit of historical data is limited - having a network become better at learning return relationships from 10 years ago is not leading to increased OOS P\&L for more current data. The small difference in the upper halve of observeations between 10 and 100 Epochs further emphasises this point.
+		}
+		\label{figure-results_pl_max_epochs}
+	\end{figure}
+	
+	
+	\begin{figure}[H]
+		\centering 
+		\textbf{OOS P\&L by IS Training Dataset Size}
+		\includegraphics[scale=0.4]{images/results/data/training_data_excluded.png}
+		\caption[P\&L by IS Training Dataset Size]{
+			Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 16 (\ref{config16}) (some samples with 0 P\&L were excluded for more effective visualization)
+			\newline To further explore the effect of IS training on historical data, configurations were run with a percentage of the usual training data excluded, with the P\&L results grouped above. The exclusion of up to 80\% of the IS training data resulted in only a 2.2\% drop in median OOS P\&L for those networks. The training in these instances were not adjusted to increase the number of epochs according to the size of IS data, and so the configurations with more data excluded were also in essence trained less. These results, combined with those in Figure \ref{figure-results_pl_max_epochs} show the limited use in training on historical data, and hence the far greater value in current cross sectional information.}
+		\label{figure-results_it3_validationset}
+	\end{figure}
+	
+	
+	\newpage
+	
+	\subsection{Weight Initializaton Techniques}\label{results_init}
+	
+	Neural network weight initialization has been one of the primary barriers to effective deep learning, with incorrect initializations leading to poor learning performance in deep networks. New techniques for initializing weights were one of the main reasons for the recent progress in the field (\cite{Hinton2}). Sections \ref{results_oos_pl} and \ref{results_data_hist} clearly show that historical data and training are of limited value. The most profitable models learn quickly from recent data, and have had less training on historical data. The issue of weight initialization then is even more prominent when in the context of financial time series. The two most popular methods, RBM pre-training and Variance based initialization, have both been explored and are detailed below.
+	
+	\subsubsection{RBM Pretraining for Sigmoid Networks}
+	
+	While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2}) had detrimental effects on network performance, as seen in Figure \ref{figure-results-pretraining-effect}. \newline
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{Pre-training Effects on SAE MSE Scores (Actual Data)} 
+		\includegraphics[scale=0.45]{images/results/newinit/actual_sigmoid_pt.png}
+		\caption[Pre-training Effects on SAE MSE Scores (Actual Data)]{Dataset AGL\&ACL (\ref{dataset_aglacl}); Configuration 6 (\ref{config6})
+			\newline \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is an evident benefit to having no pre-training in this scenario as there is a clear decrease in performance as the number of epochs increase (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs).}
+		\label{figure-results-pretraining-effect}
+	\end{figure}		
+	
+	The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset, and that ultimately the financial time series data is pathological for RBM pre-training. It may also emphasise the value of more recent data over historical data usage, as discussed more in Section \ref{results_hist}\footnote{The RBM greedy layerwise training implementation was effectively tested and validated on known datasets such as MNIST, example results for which can bee seen in Section \ref{results_init_appendix} of the Appendix}.\newline 
+	
+	\subsubsection{Variance Based Weight Initialization Techniques}
+	
+	More recent research has focused on the use of weight initialization using variance based methodologies, as discussed fully in \ref{imp_weights}. Our expectation, theoretically, is that the He initialization will generally outperform Xavier due to it being more appropriate for the ReLU activations being used. Additionally, in networks with varying layer sizes, we expect He-Adj and possibly Xavier to outperform He which is subject to imbalanced initializations. Ultimately, He-Adj as presented in \ref{imp_weights}, should present the best of both for an initialization that is suited to Leaky ReLU activations and the varying layer sizes found in SAE networks.\newline
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{SAE MSE by Weight Initialization}
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.28]{images/results/newinit/synthetic_mse_init.png}
+			\caption{\textbf{Synthetic Data} 
+				\newline }
+			\label{figure-synthetic_mse_init}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.28]{images/results/newinit/agl_mse_init.png}
+			\caption{\textbf{AGL} 
+				\newline }
+			\label{figure-agl_mse_init}
+		\end{subfigure}
+		\caption[SAE MSE by Weight Initialization]{Dataset: Synthetic10 (\ref{dataset_synthetic10}), AGL \ref{dataset_agl}, Configuration 7 (\ref{config7}) \& Configuration 8 (\ref{config8})
+			\newline Training SAE networks across the Synthetic10 and AGL  datasets, we mostly see the expected patterns emerge. He-Adj consistently outperforms He due to being better suited to the network structures, as seen in the plots above. We also see that He-Adj clearly outperforms Xavier for AGL data, but has performance that is mostly the same (or even marginally worse) than Xavier for the synthetic dataset. Similar trends as AGL are seen when SAEs were trained for the full 10 asset dataset, which can be see in the Appendix, Section \ref{results_init_appendix}.}
+		\label{figure-mse_init}
+	\end{figure}
+	
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{P\&L by Weight Initialization}
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.28]{images/results/newinit/synth_pl_init.png}
+			\caption{\textbf{Synthetic Data} 
+				\newline }
+			\label{figure-synthetic_pl_init}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.28]{images/results/newinit/agl_pl_init.png}
+			\caption{\textbf{AGL} 
+				\newline }
+			\label{figure-agl_pl_init}
+		\end{subfigure}
+		\caption[P\&L by Weight Initialization]{Dataset: Synthetic10 (\ref{dataset_synthetic10}), AGL \ref{dataset_agl}, Configuration 9 (\ref{config9}) \& Configuration 10 (\ref{config10})
+			\newline Figure (a) shows P\&L performance for synthetic data. The networks with more consistent layer sizes result in the performance between He and He-Adj becoming comparable, while both outperform Xavier (as expected, with ReLU activations). In Figure (b), the P\&L results for AGL data shows clear outperformance of Xavier by the He based initializations, but a less clear comparison betwen He and He-Adj.}
+		\label{figure-pl_init}
+	\end{figure}
+	
+	
+	The results here mostly conform to the theoretical expectations, though there are some inconsistencies. As discussed more fully in \ref{results_linearity}, the GBM data in synthetic datasets will have assets that are configured to certain mean and variances. As these movements are processed, scaled and aggregated over time through the data processing, the movements will generally be more similar and less complex than those of actual stock data which will show greater variance over time (this is shown more concretely in \ref{results_hist}). The learning process then is not required to be able to pass through error signals that change as dynamically over time, and so there is less pressure on the initial starting weights. This consideration may account for the unexpected performance of the Xavier initialization in the Synthetic SAE networks. Further, some of the assumptions of these techniques, such as data being IID, may not apply in the first place, making their results less predictable.  Due to the generally better or comparable performance of He-Adj, it was the only initialization chosen for further experiments.  \newline
+	
+	
+	\subsection{Synthetic Data}\label{results_synth}
+	
+	\subsubsection{GBM Generated Data}\label{results_gbm_data}
+	
+	Geometric Brownian Motion (GBM), as discussed in \ref{data_synthetic}, has been used to simulate synthetic datasets for the purposes of testing implementations and configurations without influencing the likelihood of backtest overfitting. GBM is a popular choice for synthetic financial data as it is a Markov process, thus following a random walk and is generally consistent with the efficient market hypothesis in that the next price movements is conditionally independent of past movements. In line with this though, the series will exhibit a constant drift with price shocks according to it's stationary configuration, and changes in price that are not independent. It is worth noting that as GBM are non ergodic series, one should be wary of considering ensemble based predictions with much confidence \cite{Peters}. GBM generated data provides a valuable tool in assessing ideas without taking on any risks, but these results need to be considered correctly. This section details how the behaviour of synthetic data differs from actual data in some of the more critical areas.
+	
+	\subsubsection{Synthetic Data Aggregation Effects}\label{results_synthdata_mse}
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{SAE MSE Scores for Synthetic Data}
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.25]{images/results/data/test_aggregate_dist.png}
+			\caption{\textbf{Log Difference Distributions} 
+				\newline }
+			\label{figure-test_aggregate_dist}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.26]{images/results/data/test_aggregation_mse.png}
+			\caption{\textbf{SAE MSE Scores} 
+				\newline }
+			\label{figure-test_aggregation_mse}
+		\end{subfigure}
+		\caption[SAE MSE Scores for Synthetic Data]{Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Configuration 7 (\ref{config7})
+			\newline Figure (a) shows the distribution of values to be replicated by the SAE for synthetic data. Geometric Brownian Motion generates discrete changes that follow a log-normal distribution, the log difference and scaling of which (as per the data processing described in \ref{data_processing}) result in normally distributed price changes. We see small differences in the distributions according to the data aggregation used, as one would expect, with slightly lower variances occuring for smaller data windows ($\sigma_{[1,5,20]} = 0.145$, $\sigma_{[5,20,60]} = 0.152$, $\sigma_{[10,20,60]} = 0.154$). There were some differences in SAE performance as indicated in Figure (b), though not to large extents and considering the very similar distribution of values, there isn't any expectation of seeing fundamental differences in the networks ability to compress and replicate them. 
+			\newline Figure \ref{fig_data_sae_actual} shows the equivalent for actual data, where there is a significant difference in variances for longer data horizons which are more difficult to replicate.}
+		\label{figure-data_sae_synthetic}
+	\end{figure}
 	
 	
 	
+	\begin{figure}[H]
+		\centering 
+		\textbf{P\&L by Data Aggregation (Synthetic Data)}
+		\includegraphics[scale=0.35]{images/results/data/test_aggregation_pl.png}
+		\caption[OOS P\&L by Data Aggregation]{
+			Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Configuration 9 (\ref{config9})
+			\newline  The boxplots here show the P\&L from the MMS according group by the data window configurations. There's a clear trend of P\&L increasing as the length of the windows increase. Shorter term GBM data would be more likely to represent fluctuations, whereas the longer term windows will be more representative of the constant mean in the stocks, leading to easier predictive performance and higher P\&L. This is in clear contrast to the effects seen in actual data, where both long term and short term strategies are present, with the highest strategies occuring for shorter horizon aggregations (these can be seen in Figure \ref{figure-actual_aggregation_pl}).}
+		\label{figure-test_aggregation_pl}
+	\end{figure}
 	
+	\subsubsection{Synthetic Data Feature Selection}\label{results_synthdata_feature_selection}
 	
-
+	\begin{figure}[H]
+		\centering 
+		\textbf{OOS P\&L By Feature Selection Size and OGD Learning Rate}
+		\includegraphics[scale=0.3]{images/results/feature_selection/synthetic_median.png} 
+		\caption[P\&L By Feature Selection Size and OGD Learning Rate (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configurations 9 (\ref{config9})
+			\newline The trends in the synthetic data are relatively straightforward in comparison to actual data. Feature reduction is possible, with OOS P\&L increasing as encoding size increases. There does however appear to be an optimal point around 15, after which performance plateaus. Given the stabler nature of GBM data, this is to be expected. The results seen for synthetic data here offer a nice counterpoint to what is seen in the actual data. With the GBM stock data having constant characteristics throughout the whole dataset, there is no potential for the SAE to overfit to IS data and have a potentially detrimental effect as the learning rate increases (as was the case with actual data).
+			\newline Results for SAE MSE were largely the same, which can be seen in Appendix section \ref{results_features_appendix}.
+		}
+		\label{figure-synthetic_median}
+	\end{figure}
 	
-	
-	
-	
-	
-	
-	
-	
+	\newpage
 	
 	
 	
@@ -2267,11 +2409,207 @@
 	
 	
 	\newpage
-	\subsection{Linearity, Complexity and Structure of Data}\label{results_linearity}
 	
-	\subsubsection{GBM Generated Data}\label{results_gbm_data}
+	\subsection{Complexity of Financial Time Series}\label{results_finance_data}
 	
-	Geometric Brownian Motion (GBM), as discussed in \ref{data_synthetic}, has been used to simulate synthetic datasets for the purposes of testing implementations and configurations. GBM is a popular choice for synthetic financial data as it is a Markov process, thus following a random walk and is generally consistent with the efficient market hypothesis in that the next price movements is conditionally independent of past movements. In line with this though, the series will exhibit a constant drift with price shocks according to it's stationary configuration, and changes in price that are not independent. The effect seen, and discussed more below, is that reconstruction of aggregated GBM data was able to performed quite effectively through linear activations, so long as the network (and encoding layers) were large enough to allow for sufficient transformations. Linear activations weren't tested further on actual data, as there is no reason to believe the time series would continue to exhibit the constant drift with non-independent price jumps over time. Further to this point, it is worth pointing out that as GBM are non ergodic series, one should be wary of considering ensemble based predictions with much confidence \cite{Peters}. So while the GBM data was used for assessment of some prediction networks, these results should be considered contextually.
+	The complex nature of financial markets, with a high noise to signal ratio and constantly changing dynamics, presents challenges during the learning process. A model's success lies in it's ability to reduce noise without losing signal, and being able to capture determinant features of importance. This section considers how these issues affect both SAE reproduction (Unsupervised Learning) and FFN prediction (Supervised Learning), and how SGD learning optimizations are able to help improve performance therein.
+	
+	\subsubsection{SAE Reproduction}
+	
+	\paragraph{Learning Rate Schedules}
+
+	Learning rate schedules were implemented such that the learning rate would rise and fall through a set of values during a set number of epochs (or epoch cycle), as discussed in \ref{imp_learning_rate_schedule}.	Conceptually, this should allow a more effective traversal of the solution space, where larger learning rates are able to dislodge the configuration from saddle points, and smaller learning rates are able to optimize at a minima. \newline
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{SAE MSE by Learning Rates}
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.3]{images/results/network/lr/synth_mse_minmax_lr.png}
+			\caption{\textbf{Synthetic Data} 
+				\newline }
+			\label{figure-synth_mse_minmax_lr}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.3]{images/results/network/lr/actual_mse_minmax_lr.png}
+			\caption{\textbf{Actual Data} 
+				\newline }
+			\label{figure-actual_mse_minmax_lr}
+		\end{subfigure}
+		\caption[SAE MSE by Learning Rates]{Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Actual10 dataset (\ref{dataset_actual10}), Configuration 7 (\ref{config7}) \& Configuration 12 (\ref{config12})
+			\newline It is interesting to  note that the effects here are quite different for Synthetic and Actual data, with networks for Synthetic data favouring learning rate ranges with a higher upper bound, and Actual data networks trending in favour of lower upper bound ranges. The synthetic data is structurally less complex, as discussed further in \ref{results_gbm_data} and \ref{results_data_hist}, and so the larger learning rates will allow for quicker optimisation. Conversely, SAE networks for actual data benefit from a more careful exploration of the solution space.}
+		\label{figure-mse_lr}
+	\end{figure}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\subsubsection{FFN Prediction}
+	
+	As discussed in Section \ref{results_data_hist}, the effects of supervised training on the IS dataset with SGD had limited benefits for OOS performance, and ultimately may be approximating the equivalent of pretraining weight initialization rather than an effective structural learning. The best performing networks were those which were able to quickly adapt to new solution spaces, rather than those which had trained effectively to old ones. Naturally then, the numerous SGD optimizations employed had very little effect on the OOS performance. That said, the effects they have on IS performance do give some insights into the nature of financial data being considered, and do suggest that implementing such optimizations in the OGD phase could be beneficial. 
+	
+	\subsubsection{Effects of Learning Rates and Schedules}\label{results_lr}
+	
+
+	
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{P\&L by Learning Rates}
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.3]{images/results/network/lr/synth_pl_minmax_lr.png}
+			\caption{\textbf{Synthetic Data} 
+				\newline }
+			\label{figure-synth_pl_minmax_lr}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.3]{images/results/network/lr/actual_pl_minmax_lr.png}
+			\caption{\textbf{Actual Data} 
+				\newline }
+			\label{figure-actual_pl_minmax_lr}
+		\end{subfigure}
+		\caption[P\&L by Learning Rates]{Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Actual10 dataset (\ref{dataset_actual10}), Configuration 9 (\ref{config9}) \& Configuration 13 (\ref{config13})
+			\newline The learning rates for Actual data showin in Figure (b) here were chosen according to the best rates seen in the SAE training. There's no substantial difference shown by changing the lower bound by a factor. The results for Synthetic data were interesting in that the networks had higher P\&L when trained with smaller learning rates, suggesting that the predictive task still warrants a more careful solution space exploration despite the less complex nature of the data.}
+		\label{figure-pl_lr}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{Effects of Epoch Cycle Lengths (Actual Data)}
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.3]{images/results/network/lr/actual_mse_lr_epochs.png}
+			\caption{\textbf{MSE for SAE Networks} 
+				\newline }
+			\label{figure-actual_mse_lr_epochs}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.3]{images/results/network/lr/actual_pl_lr_epochs.png}
+			\caption{\textbf{P\&L for Predictive Networks} 
+				\newline }
+			\label{figure-actual_pl_lr_epochs}
+		\end{subfigure}
+		\caption[Effects of Epoch Cycle Lengths (Actual Data)]{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12}) \& Configuration 13 (\ref{config13})
+			\newline Figure(a) shows the MSE scores for SAE networks, with the shorter epoch cycle offering the best (and the worst) results. Synthetic data for the SAE MSE scores behaved similarly, as seen in the appendix (section \ref{results_network_appendix}). 
+			\newline In Figure (b), for the predictive networks, P\&L was highest in the 100 epoch cycle as well, where -1 indicates a constant learning rate rather than the cyclical pattern, and 10 epoch learning rates were used for configurations which only ran for 10 epochs. The configurations without learning epochs (-1) were in the second round of testing and had a more effective set of parameters elsewhere, hence the large difference in the lower bounds relative to the other configurations. Ultimately, the implementation of the learning rate cycle has offered a small but real improvement relative to the constant learning rate for P\&L.}
+		\label{figure-epochs_lr}
+	\end{figure}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\subsubsection{Effects of Regularization}
+	
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{Effects of L1 Regularization (Actual Data)}
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.3]{images/results/network/reg/actual_mse_reg.png}
+			\caption{\textbf{MSE for SAE Networks} 
+				\newline }
+			\label{figure-actual_mse_reg}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.3]{images/results/network/reg/actual_pl_reg.png}
+			\caption{\textbf{P\&L for Predictive Networks (SGD)} 
+				\newline }
+			\label{figure-actual_pl_reg}
+		\end{subfigure}
+		\caption[Effects of L1 Regularization (Actual Data)]{Dataset: Actual10 dataset (\ref{dataset_actual10}),  Configurations 12 (\ref{config12}) \& Configuration 13 (\ref{config13})
+			\newline Both Figures (a) and (b) show increasingly detrimental performance impacts for SAE as well as predictive FFN networks as the rate of L1 regularization is increased. It is clear, in these cases, that the models were not overfitting in the first place. L1 regularization is expected to work well in instances of IID data, but for time series financial data, where the model isn't overfitting, it is just affecting model fidelity. The effect of regularization on SAE MSE ties in with results seen in sections such as RBM based pre-training (section \ref{results_init}). The effects of P\&L from regularization during the SGD training phase were not expected to be largely beneficial, in light of the process, and the detrimental effect here suggests that it is only reducing the weight initialization like effect of SGD as noted in section \ref{results_hist}.}
+		\label{figure-results-reg}
+	\end{figure}
+	
+	\subsubsection{Effects of Denoising}
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{Effects of Denoising on SAE MSE (Actual Data)}
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_gaussian.png}
+			\caption{\textbf{Gaussian Denoising} 
+				\newline }
+			\label{figure-actual_mse_gaussian}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_masking.png}
+			\caption{\textbf{Masking Denoising} 
+				\newline }
+			\label{figure-actual_mse_masking}
+		\end{subfigure}
+		\caption[Effects of Denoising on SAE MSE (Actual Data)]{Dataset: Scaling 10 (\ref{dataset_scaling10}) , Configuration 14 (\ref{config14}) \& Configuration 15 (\ref{config15})
+			\newline Figure (a) shows the effects of gaussian denoising on SAE MSE scores, with scores becoming worse as the denoising increases. This may once again reflect the differences between IID datasets with a model that is likely to overfit in comparison to financial time series data. Figure (b), with masking denoising, was not expected to have a beneficial effect on SAE performance from a conceptual perspective, which the results are certainly in line with. }
+		\label{figure-results_mse_denoising}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\textbf{P\&L by Masking Denoising}
+		\centering
+		\includegraphics[scale=0.35]{images/results/network/denoising/actual_pl_masking.png}
+		\caption[P\&L by Masking Denoising]{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13})
+			\newline Masking Denoising was tested on the predictive FFN networks in the hope that it might encourage the network to increase learning about the relationships between assets. The results for 10\% demasking shown here were inconclusive as to whether this would be a beneficial optimization or not, and would warrant further efforts.}
+		\label{figure-actual_pl_masking}
+	\end{figure}
+		
+	\newpage
+
+	\subsection{Network Structure and Training}\label{results_network}
+	
+	\subsubsection{Effects of Network Size}
+	
+	The effects of networks size on SAE MSE performance and the predictive P\&L performance are shown in Figure \ref{figure-network_size} below. The boxplots showing data for different SAE and predictive networks, for both actual and synthetic data, can be seen in the appendix (section \ref{results_network_appendix}). The trends for both actual and synthetic data were largely the same, and so only actual data has been considered here.
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{Network Performance by Size}
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.25]{images/results/network/actual_mse_lines.png}
+			\caption{\textbf{SAE MSE Scores} 
+				\newline }
+			\label{figure-actual_mse_lines}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering 
+			\includegraphics[scale=0.26]{images/results/network/actual_pl_lines.png}
+			\caption{\textbf{Predictive P\&L Scores} 
+				\newline }
+			\label{figure-actual_pl_lines}
+		\end{subfigure}
+		\caption[Network Performance by Size]{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12}) \& Configuration 13 (\ref{config13})
+			\newline Figure (a) shows the median minimum MSE by SAE networks achieved with the indicated number of layers and layer nodes. It's worth noting that the number of layers here indicate the final SAE structure of $N$ hidden layers, rather than the training structure of $2N + 1$ hidden layers. Interestingly, the networks with 120 node layers seem to struggled with training, performance decreases as layers increased. This is to be expected if the learning parameters (e.g. SGD  learning rate) are not ideal for the structure, the effects of which are amplified as network sizes increase. This is resolved in the larger 240 node networks which show significant improvement as more layers are added (as one would generally expect, subject to effective SGD).
+			\newline Figure (b) shows the median OOS P\&L achieved by predictive networks with the indicated number of layers and layer nodes. The behaviour is as expected here, where network performance generally increases with size. The exception is the four layer network of 60 nodes, where the training parameters were no longer effective in passing signal back (larger layer sizes are less likely to suffer from this, particuarly with ReLU activations).
+		}
+		\label{figure-network_size}
+	\end{figure}
+	
+	\paragraph{SAE Network Structures}
+	
+	It was interesting to note that the typically accepted SAE network structure, where layers decrease in size between the input layer and the encoding layer, resulted in worse performance when compared to the same number of layers with constant numbers of nodes. As detailed in section \ref{results_init}, the RBM based greedy layerwise pre-training proved to be ineffective, and so weight initialization with SGD training on the entire network was used instead. It is possible that a greedy layerwise training using these methods (rather than RBM initialization) may have shown increased performance in the decreasing layer size structure, but for SGD training it was clear that larger layers at all stages increased performance. The box plots showing these trends can be seen for actual and synthetic data in the appendix, section \ref{results_network_appendix}.
+
+	
+The effect seen, and discussed more below, is that reconstruction of aggregated GBM data was able to be performed quite effectively through linear activations, so long as the network (and encoding layers) were large enough to allow for sufficient transformations. Linear activations weren't tested further on actual data, as there is no reason to believe the time series would continue to exhibit the constant drift with non-independent price jumps over time. 
 	
 	\subsubsection{Effects of Activation Functions and Scaling}\label{results_activations_scaling}
 	
@@ -2353,6 +2691,8 @@
 		\label{figure-pl_activations_scaling}
 	\end{figure}
 	
+	\subsubsection{Sigmoid Activation Functions} 
+	Due to the poor performance seen in Sigmoid function based SAE's, as well as the poorer results when compared to ReLU activations, Sigmoid functions were largely excluded from further configuration testing.
 	
 	
 	\subsubsection{Leaky ReLU vs ReLU}
@@ -2368,359 +2708,26 @@
 		\label{figure-synthetic_pl_leakyrelu}
 	\end{figure}
 	
+
+	
+	
+
+	
+	
+	
 	\newpage
-	\subsection{Weight Initialization Techniques}\label{results_init}
-	
-	\subsubsection{RBM Pretraining for Sigmoid Networks}
-	
-	While previously considered the best approach for training deep neural networks, the methodology of greedy layerwise RBM pre-training for Sigmoid SAE networks (as described in \cite{Hinton2}) had detrimental effects on network performance, as seen below in Figure \ref{figure-results-pretraining-effect}. \newline
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Pre-training Effects on SAE MSE Scores (Actual Data)} 
-		\includegraphics[scale=0.45]{images/results/newinit/actual_sigmoid_pt.png}
-		\caption[Pre-training Effects on SAE MSE Scores (Actual Data)]{Dataset AGL\&ACL (\ref{dataset_aglacl}); Configuration 6 (\ref{config6})
-			\newline \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is an evident benefit to having no pre-training in this scenario as there is a clear decrease in performance as the number of epochs increase (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs).}
-		\label{figure-results-pretraining-effect}
-	\end{figure}		
-	
-	The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset, and that ultimately the financial time series data is pathological for RBM pre-training. It may also emphasise the value of more recent data over historical data usage, as discussed more in Section \ref{results_hist}\footnote{The RBM greedy layerwise training implementation was effectively tested and validated on known datasets such as MNIST, example results for which can bee seen in Section \ref{results_init_appendix} of the Appendix}.\newline 
-	
-	\paragraph{Sigmoid Activation Functions} 
-	Due to the poor performance seen in Sigmoid function based SAE's here, as well as the poorer results when compared to ReLU activations (noted in \ref{results_activations_scaling}), Sigmoid functions were largely excluded from further configuration testing.
+
 	
 	
-	\subsubsection{Variance Based Weight Initialization Techniques}
+
 	
-	More recent research has focused on the use of weight initialization using variance based methodologies, as discussed fully in \ref{imp_weights}. Our expectation, theoretically, is that the He initialization will generally outperform Xavier due to it being more appropriate for the ReLU activations being used. Additionally, in networks with varying layer sizes, we expect He-Adj and possibly Xavier to outperform He which is subject to imbalanced initializations. Ultimately, He-Adj as presented in \ref{imp_weights}, should present the best of both for an initialization that is suited to Leaky ReLU activations and the varying layer sizes found in SAE networks.\newline
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{SAE MSE by Weight Initialization}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.28]{images/results/newinit/synthetic_mse_init.png}
-			\caption{\textbf{Synthetic Data} 
-				\newline }
-			\label{figure-synthetic_mse_init}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.28]{images/results/newinit/agl_mse_init.png}
-			\caption{\textbf{AGL} 
-				\newline }
-			\label{figure-agl_mse_init}
-		\end{subfigure}
-		\caption[SAE MSE by Weight Initialization]{Dataset: Synthetic10 (\ref{dataset_synthetic10}), AGL \ref{dataset_agl}, Configuration 7 (\ref{config7}) \& Configuration 8 (\ref{config8})
-			\newline Training SAE networks across the Synthetic10 and AGL  datasets, we mostly see the expected patterns emerge. He-Adj consistently outperforms He due to being better suited to the network structures, as seen in the plots above. We also see that He-Adj clearly outperforms Xavier for AGL data, but has performance that is mostly the same (or even marginally worse) than Xavier for the synthetic dataset. Similar trends as AGL are seen when SAEs were trained for the full 10 asset dataset, which can be see in the Appendix, Section \ref{results_init_appendix}.}
-		\label{figure-mse_init}
-	\end{figure}
-	
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{P\&L by Weight Initialization}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.28]{images/results/newinit/synth_pl_init.png}
-			\caption{\textbf{Synthetic Data} 
-				\newline }
-			\label{figure-synthetic_pl_init}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.28]{images/results/newinit/agl_pl_init.png}
-			\caption{\textbf{AGL} 
-				\newline }
-			\label{figure-agl_pl_init}
-		\end{subfigure}
-		\caption[P\&L by Weight Initialization]{Dataset: Synthetic10 (\ref{dataset_synthetic10}), AGL \ref{dataset_agl}, Configuration 9 (\ref{config9}) \& Configuration 10 (\ref{config10})
-			\newline Figure(a) shows P\&L performance for synthetic data. The networks with more consistent layer sizes result in the performance between He and He-Adj becoming comparable, while both outperform Xavier (as expected, with ReLU activations). Figure (b) The P\&L results for AGL data shows clear outperformance of Xavier by the He based initializations, but a less clear comparison betwen He and He-Adj.}
-		\label{figure-pl_init}
-	\end{figure}
-	
-	
-	The results here mostly conform to the theoretical expectations, though there are some inconsistencies. As discussed more fully in \ref{results_linearity}, the GBM data in synthetic datasets will have assets that are configured to certain mean and variances. As these movements are processed, scaled and aggregated over time through the data processing, the movements will generally be more similar and less complex than those of actual stock data which will show greater variance over time (this is shown more concretely in \ref{results_hist}). The learning process then is not required to be able to pass through error signals that change as dynamically over time, and so there is less pressure on the initial starting weights. This consideration may account for the unexpected performance of the Xavier initialization in the Synthetic SAE networks. Further, some of the assumptions of these techniques, such as data being IID, may not apply in the first place, making their results less predictable.  Due to the generally better or comparable performance of He-Adj, it was the only initialization chosen for further experiments.  \newline
 	
 	
 	
 	
 	
 	\newpage
-	\subsection{Feature Selection}\label{results_reduction}
-	
 
-	
-	\begin{figure}[H]
-		\centering 
-		\textbf{P\&L By Feature Selection Size and OGD Learning Rate (Synthetic Data)}
-		\includegraphics[scale=0.4]{images/results/feature_selection/synthetic_median.png} 
-		\caption[P\&L By Feature Selection Size and OGD Learning Rate (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configurations 9 (\ref{config9})
-			\newline The trends in the synthetic data show that the optimal encoding size may be a little larger than the actual data, with P\&L in these cases seeming to plateau after 15. This is however still an indication that feature reduction is both possible and effective, even with a 50\% reduction in feature size.)}
-		\label{figure-synthetic_median}
-	\end{figure}
-	
-	The results seen for synthetic data here offer a nice counterpoint to what is seen in the actual data. With the GBM stock data having constant characteristics throughout the whole dataset, there is no potential for the SAE to overfit to IS data and have a potentially detrimental effect as the learning rate increases (as was the case with actual data).
-	
-	Results for synthetic data were largely the same, which can be seen in Appendix section \ref{results_features_appendix}.
-
-	
-	\newpage
-	
-	\subsection{Network Structure and Training}\label{results_network}
-	
-	\subsubsection{Effects of Network Size}
-	
-	The effects of networks size on SAE MSE performance and the predictive P\&L performance are shown in Figure \ref{figure-network_size} below. The boxplots showing data for different SAE and predictive networks, for both actual and synthetic data, can be seen in the appendix (section \ref{results_network_appendix}). The trends for both actual and synthetic data were largely the same, and so only actual data has been considered here.
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Network Performance by Size}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.25]{images/results/network/actual_mse_lines.png}
-			\caption{\textbf{SAE MSE Scores} 
-				\newline }
-			\label{figure-actual_mse_lines}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.26]{images/results/network/actual_pl_lines.png}
-			\caption{\textbf{Predictive P\&L Scores} 
-				\newline }
-			\label{figure-actual_pl_lines}
-		\end{subfigure}
-		\caption[Network Performance by Size]{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12}) \& Configuration 13 (\ref{config13})
-			\newline Figure (a) shows the median minimum MSE by SAE networks achieved with the indicated number of layers and layer nodes. It's worth noting that the number of layers here indicate the final SAE structure of $N$ hidden layers, rather than the training structure of $2N + 1$ hidden layers. Interestingly, the networks with 120 node layers seem to struggled with training, performance decreases as layers increased. This is to be expected if the learning parameters (e.g. SGD  learning rate) are not ideal for the structure, the effects of which are amplified as network sizes increase. This is resolved in the larger 240 node networks which show significant improvement as more layers are added (as one would generally expect, subject to effective SGD).
-			\newline Figure (b) shows the median OOS P\&L achieved by predictive networks with the indicated number of layers and layer nodes. The behaviour is as expected here, where network performance generally increases with size. The exception is the four layer network of 60 nodes, where the training parameters were no longer effective in passing signal back (larger layer sizes are less likely to suffer from this, particuarly with ReLU activations).
-		}
-		\label{figure-network_size}
-	\end{figure}
-	
-	\paragraph{SAE Network Structures}
-	
-	It was interesting to note that the typically accepted SAE network structure, where layers decrease in size between the input layer and the encoding layer, resulted in worse performance when compared to the same number of layers with constant numbers of nodes. As detailed in section \ref{results_init}, the RBM based greedy layerwise pre-training proved to be ineffective, and so weight initialization with SGD training on the entire network was used instead. It is possible that a greedy layerwise training using these methods (rather than RBM initialization) may have shown increased performance in the decreasing layer size structure, but for SGD training it was clear that larger layers at all stages increased performance. The box plots showing these trends can be seen for actual and synthetic data in the appendix, section \ref{results_network_appendix}.
-	
-	
-	
-	\subsubsection{Effects of Learning Rates and Schedules}\label{results_lr}
-	
-	Learning rate schedules were implemented such that the learning rate would rise and fall through a set of values during a set number of epochs (or epoch cycle), as discussed in \ref{imp_learning_rate_schedule}.	Conceptually, this should allow a more effective traversal of the solution space, where larger learning rates are able to dislodge the configuration from saddle points, and smaller learning rates are able to optimize at a minima. \newline
-	
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{SAE MSE by Learning Rates}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/synth_mse_minmax_lr.png}
-			\caption{\textbf{Synthetic Data} 
-				\newline }
-			\label{figure-synth_mse_minmax_lr}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/actual_mse_minmax_lr.png}
-			\caption{\textbf{Actual Data} 
-				\newline }
-			\label{figure-actual_mse_minmax_lr}
-		\end{subfigure}
-		\caption[SAE MSE by Learning Rates]{Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Actual10 dataset (\ref{dataset_actual10}), Configuration 7 (\ref{config7}) \& Configuration 12 (\ref{config12})
-			\newline It is interesting to  note that the effects here are quite different for Synthetic and Actual data, with networks for Synthetic data favouring learning rate ranges with a higher upper bound, and Actual data networks trending in favour of lower upper bound ranges. The synthetic data is structurally less complex, as discussed further in \ref{results_gbm_data} and \ref{results_data_hist}, and so the larger learning rates will allow for quicker optimisation. Conversely, SAE networks for actual data benefit from a more careful exploration of the solution space.}
-		\label{figure-mse_lr}
-	\end{figure}
-	
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{P\&L by Learning Rates}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/synth_pl_minmax_lr.png}
-			\caption{\textbf{Synthetic Data} 
-				\newline }
-			\label{figure-synth_pl_minmax_lr}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/actual_pl_minmax_lr.png}
-			\caption{\textbf{Actual Data} 
-				\newline }
-			\label{figure-actual_pl_minmax_lr}
-		\end{subfigure}
-		\caption[P\&L by Learning Rates]{Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Actual10 dataset (\ref{dataset_actual10}), Configuration 9 (\ref{config9}) \& Configuration 13 (\ref{config13})
-			\newline The learning rates for Actual data showin in Figure (b) here were chosen according to the best rates seen in the SAE training. There's no substantial difference shown by changing the lower bound by a factor. The results for Synthetic data were interesting in that the networks had higher P\&L when trained with smaller learning rates, suggesting that the predictive task still warrants a more careful solution space exploration despite the less complex nature of the data.}
-		\label{figure-pl_lr}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Effects of Epoch Cycle Lengths (Actual Data)}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/actual_mse_lr_epochs.png}
-			\caption{\textbf{MSE for SAE Networks} 
-				\newline }
-			\label{figure-actual_mse_lr_epochs}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/actual_pl_lr_epochs.png}
-			\caption{\textbf{P\&L for Predictive Networks} 
-				\newline }
-			\label{figure-actual_pl_lr_epochs}
-		\end{subfigure}
-		\caption[Effects of Epoch Cycle Lengths (Actual Data)]{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12}) \& Configuration 13 (\ref{config13})
-			\newline Figure(a) shows the MSE scores for SAE networks, with the shorter epoch cycle offering the best (and the worst) results. Synthetic data for the SAE MSE scores behaved similarly, as seen in the appendix (section \ref{results_network_appendix}). 
-			\newline In Figure (b), for the predictive networks, P\&L was highest in the 100 epoch cycle as well, where -1 indicates a constant learning rate rather than the cyclical pattern, and 10 epoch learning rates were used for configurations which only ran for 10 epochs. The configurations without learning epochs (-1) were in the second round of testing and had a more effective set of parameters elsewhere, hence the large difference in the lower bounds relative to the other configurations. Ultimately, the implementation of the learning rate cycle has offered a small but real improvement relative to the constant learning rate for P\&L.}
-		\label{figure-epochs_lr}
-	\end{figure}
-	
-	
-
-	
-	
-	
-	
-	
-	
-	\subsubsection{Effects of Regularization}
-	
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Effects of L1 Regularization (Actual Data)}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/network/reg/actual_mse_reg.png}
-			\caption{\textbf{MSE for SAE Networks} 
-				\newline }
-			\label{figure-actual_mse_reg}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/network/reg/actual_pl_reg.png}
-			\caption{\textbf{P\&L for Predictive Networks (SGD)} 
-				\newline }
-			\label{figure-actual_pl_reg}
-		\end{subfigure}
-		\caption[Effects of L1 Regularization (Actual Data)]{Dataset: Actual10 dataset (\ref{dataset_actual10}),  Configurations 12 (\ref{config12}) \& Configuration 13 (\ref{config13})
-			\newline Both Figures (a) and (b) show increasingly detrimental performance impacts for SAE as well as predictive FFN networks as the rate of L1 regularization is increased. It is clear, in these cases, that the models were not overfitting in the first place. L1 regularization is expected to work well in instances of IID data, but for time series financial data, where the model isn't overfitting, it is just affecting model fidelity. The effect of regularization on SAE MSE ties in with results seen in sections such as RBM based pre-training (section \ref{results_init}). The effects of P\&L from regularization during the SGD training phase were not expected to be largely beneficial, in light of the process, and the detrimental effect here suggests that it is only reducing the weight initialization like effect of SGD as noted in section \ref{results_hist}.}
-		\label{figure-results-reg}
-	\end{figure}
-	
-	\subsubsection{Effects of Denoising}
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Effects of Denoising on SAE MSE (Actual Data)}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_gaussian.png}
-			\caption{\textbf{Gaussian Denoising} 
-				\newline }
-			\label{figure-actual_mse_gaussian}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_masking.png}
-			\caption{\textbf{Masking Denoising} 
-				\newline }
-			\label{figure-actual_mse_masking}
-		\end{subfigure}
-		\caption[Effects of Denoising on SAE MSE (Actual Data)]{Dataset: Scaling 10 (\ref{dataset_scaling10}) , Configuration 14 (\ref{config14}) \& Configuration 15 (\ref{config15})
-			\newline Figure (a) shows the effects of gaussian denoising on SAE MSE scores, with scores becoming worse as the denoising increases. This may once again reflect the differences between IID datasets with a model that is likely to overfit in comparison to financial time series data. Figure (b), with masking denoising, was not expected to have a beneficial effect on SAE performance from a conceptual perspective, which the results are certainly in line with. }
-		\label{figure-results_mse_denoising}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\textbf{P\&L by Masking Denoising}
-		\centering
-		\includegraphics[scale=0.35]{images/results/network/denoising/actual_pl_masking.png}
-		\caption[P\&L by Masking Denoising]{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13})
-			\newline Masking Denoising was tested on the predictive FFN networks in the hope that it might encourage the network to increase learning about the relationships between assets. The results for 10\% demasking shown here were inconclusive as to whether this would be a beneficial optimization or not, and would warrant further efforts.}
-		\label{figure-actual_pl_masking}
-	\end{figure}
-	
-	
-	
-	\newpage
-	\subsection{The Effects of Data Aggregation and Value of Historical Data}\label{results_hist}
-	
-
-	
-	\subsubsection{Data Aggregation and SAE MSE Scores}\label{results_data_mse}
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{SAE MSE Scores for Synthetic Data}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.25]{images/results/data/test_aggregate_dist.png}
-			\caption{\textbf{Log Difference Distributions} 
-				\newline }
-			\label{figure-test_aggregate_dist}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.26]{images/results/data/test_aggregation_mse.png}
-			\caption{\textbf{SAE MSE Scores} 
-				\newline }
-			\label{figure-test_aggregation_mse}
-		\end{subfigure}
-		\caption[SAE MSE Scores for Synthetic Data]{Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Configuration 7 (\ref{config7})
-			\newline Figure (a) shows the distribution of values to be replicated by the SAE for synthetic data. Geometric Brownian Motion generates discrete changes that follow a log-normal distribution, the log difference and scaling of which (as per the data processing described in \ref{data_processing}) result in normally distributed price changes. We see small differences in the distributions according to the data aggregation used, as one would expect, with slightly lower variances occuring for smaller data windows ($\sigma_{[1,5,20]} = 0.145$, $\sigma_{[5,20,60]} = 0.152$, $\sigma_{[10,20,60]} = 0.154$). There were some differences in SAE performance as indicated in Figure (b), though not to large extents and considering the very similar distribution of values, there isn't any expectation of seeing fundamental differences in the networks ability to compress and replicate them. }
-		\label{figure-data_sae_synthetic}
-	\end{figure}
-	
-
-	
-	
-	\subsubsection{Data Aggregation and Predictive P\&L Scores}\label{results_data_pl}
-	
-	\begin{figure}[H]
-		\centering 
-		\textbf{P\&L by Data Aggregation (Synthetic Data)}
-		\includegraphics[scale=0.4]{images/results/data/test_aggregation_pl.png}
-		\caption[P\&L by Data Aggregation (Synthetic Data)]{
-			Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Configuration 9 (\ref{config9})
-			\newline  The boxplots here show the P\&L from the MMS according group by the data window configurations. There's a clear trend of P\&L increasing as the length of the windows increase. Shorter term GBM data would be more likely to represent fluctuations, whereas the longer term windows will be more representative of the constant mean in the stocks, leading to easier predictive performance and higher P\&L.}
-		\label{figure-test_aggregation_pl}
-	\end{figure}
-	
-
-	
-	\subsubsection{Effects of IS Training and Historical Data}\label{results_data_hist}
-	
-	Experimental configuration sets were run to test the hypothesis that the amount of historical IS data available is of limited use, and that the real value is in broader current and cross sectional data. This idea is in line with the understanding that financial markets are inherently complex, adaptive and dynamic, as discussed more broadly in section \ref{lr_TechnicalAnalysis}. With this in mind, and especially so in light of a fundamentally changing macroeconomic landscape, there is limited reason to believe that the functions and relations that may have governed the asset prices 10-15 years ago would still be in effect today. The P\&L results shown in Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset} validate this and show that extensive training on past data may be akin to pre-training network weights at best, and counterproductive in overfitting to dynamics that no longer exist at worst.
-	
-	
-	
-	\begin{figure}[H]
-		\centering 
-		\textbf{P\&L by IS Training Epochs}
-		\includegraphics[scale=0.4]{images/results/data/max_epochs.png}
-		\caption[P\&L by IS Training Epochs]{
-			Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13}) 
-			\newline The box plots above show P\&L grouped by the number of epochs in the SGD IS training phase (i.e. the number of times the IS data was trained on). In this set of configurations, 100 Epochs offers the best overall performance, and further training to 500 or 1000 epochs degrades performance due to the network overfitting on the IS data. The results here are noteworthy as they show that the benefit of historical data is limited - having a network become better at learning return relationships from 10 years ago is not leading to increased P\&L for more current data. The small difference between 10 and 100 Epochs further emphasises this point.
-		}
-		\label{figure-results_pl_max_epochs}
-	\end{figure}
-	
-	
-	\begin{figure}[H]
-		\centering 
-		\textbf{P\&L by IS Training Dataset Size}
-		\includegraphics[scale=0.4]{images/results/data/training_data_excluded.png}
-		\caption[P\&L by IS Training Dataset Size]{
-			Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 16 (\ref{config16}) (some samples with 0 P\&L were excluded for more effective visualization)
-			\newline To further explore the effect of IS training on historical data, configurations were run with a percentage of the usual training data excluded, with the P\&L results grouped above. The exclusion of up to 80\% of the IS training data resulted in only a 2.2\% drop in median P\&L for those networks. The training in these instances were not adjusted to increase the number of epochs according to the size of IS data, and so the configurations with more data excluded were also in essence trained less. These results, combined with those in Figure \ref{figure-results_pl_max_epochs} show the limited use in training on historical data, and hence the far greater value in current cross sectional information.}
-		\label{figure-results_it3_validationset}
-	\end{figure}
-	
-	
-	\newpage
-	
 	\subsection{Probability of Backtest Overfitting}\label{results_pbo}
 	
 	
