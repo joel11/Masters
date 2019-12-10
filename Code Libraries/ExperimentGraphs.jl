@@ -282,7 +282,7 @@ function PL_L1Reg_Lines(config_ids, file_prefix = "", colourSetChoice = "", test
     colourSetChoice = "ActualPL"
     file_prefix = "Actual "
     in_sample = false
-    aggregation = median
+    aggregation = maximum
 
     ids = TransformConfigIDs(config_ids)
     query = "select tp.configuration_id,
@@ -1094,6 +1094,68 @@ function MSE_LearningRate_MaxMin(config_ids, init, file_prefix = "", colourSetCh
     MSEBoxplot(lr_msequery, :learning_rates, "Max-Min Learning Rates", string(file_prefix, "SAE Max Learning Rate Min Test MSE"), String, colourSetChoice, testDatabase, true, 16)
 end
 
+function MSE_LearningRate_MaxMin_Lines(config_ids, init, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    config_ids = 1:1665
+    testDatabase = false
+    file_prefix = ""
+    colourSetChoice = "ActualMSE"
+    aggregation = mean
+    init = nothing
+
+    ids = TransformConfigIDs(config_ids)
+
+    init_clause = init == nothing ? "" : " and initialization like '%$init%'"
+
+    lr_msequery = "select
+                    tp.configuration_id,
+                    min(testing_cost) cost,
+                    replace(('' || cast(tp.learning_rate as text) || '-' ||  cast(min_learning_rate as text)), '1.0e-05', '0.00001') learning_rates,
+                    layer_sizes
+                from training_parameters tp
+                inner join epoch_records er on er.configuration_id = tp.configuration_id
+                inner join network_parameters np on np.configuration_id = tp.configuration_id
+                where tp.configuration_id in ($ids)
+                    and tp.category like \"SAE%\"
+                    and er.category like \"SAE%\"
+                $init_clause
+                group by tp.configuration_id, tp.learning_rate, layer_sizes
+                having min(testing_cost) is not null
+                order by learning_rates"
+
+        results = RunQuery(lr_msequery, testDatabase)
+        results[:,1] = Array{Int64,1}(results[:,1])
+        results[:,2] = Array{Float64,1}(results[:,2])
+        results[:,3] = Array{String,1}(results[:,3])
+        results[:,4] = Array{String,1}(results[:,4])
+
+        results[:encoding] = results[:layer_sizes]#map(i -> parse(Int64, ascii(i[end])), split.(results[:layer_sizes], ','))
+
+        groups = by(results, [:encoding, :learning_rates], df -> aggregation(df[:cost]))
+
+
+        encoding_groups = by(groups, [:learning_rates], df -> [df])
+        data = Array{PlotlyBase.GenericTrace,1}()
+        colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
+
+        for i in 1:size(encoding_groups, 1)
+            trace = scatter(;x=encoding_groups[i,2][:encoding],
+                             y=encoding_groups[i,2][:x1],
+                             name=string(encoding_groups[i,1],
+                             " "),
+                            marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+            push!(data, trace)
+        end
+
+        l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+            , yaxis = Dict(:title => string("<b> MSE (", string(aggregation), ")</br> </b>"))
+            , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+            , font = Dict(:size => 16)
+             )
+
+        savefig(plot(data, l), string("/users/joeldacosta/desktop/SAE MSE Learning Rates by Encoding ", string(aggregation), ".html"))
+end
+
 function MSE_Lambda1(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
 
     ids = TransformConfigIDs(config_ids)
@@ -1194,7 +1256,7 @@ function MSE_Reg_EncodingLines(config_ids, file_prefix = "", colourSetChoice = "
     testDatabase = false
     file_prefix = ""
     colourSetChoice = "ActualMSE"
-    aggregation = median
+    aggregation = minimum
 
     ids = TransformConfigIDs(config_ids)
 
@@ -1227,18 +1289,18 @@ function MSE_Reg_EncodingLines(config_ids, file_prefix = "", colourSetChoice = "
     data = Array{PlotlyBase.GenericTrace,1}()
     colors = colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
 
-    for i in 1:size(encoding_groups, 1)
+    for i in [5, 1,2,3,4]
         trace = scatter(;x=encoding_groups[i,2][:l1_lambda],
                          y=encoding_groups[i,2][:x1],
                          name=string(encoding_groups[i,1],
-                         " Encoding"),
+                         " Encoding Size"),
                         marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
         push!(data, trace)
     end
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
-        , xaxis = Dict(:title => string("<b> OGD Learning Rate</b>"))
+        , yaxis = Dict(:title => string("<b> MSE (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> L1 Lambda </b>"))
         , font = Dict(:size => 16)
          )
 

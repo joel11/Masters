@@ -1334,7 +1334,7 @@
 		\item [4] Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE
 	\end{itemize}
 	
-	\subsubsection{Denoising Autoencoders}
+	\subsubsection{Denoising Autoencoders}\label{imp_denoising}
 	
 	As noted in \ref{lr_SDAE}, denoising can be used as an optimization technique for autoencoders in order to improve general performance and reconstruction. The methodology works by corrupting the input data for training, but using the non-corrupted data as the expected output sample. In doing so, this forces the autoencoder to learn more fundamental representations of the data rather then fitting to sample noise, hence "denoising". Two of the more typical techniques for achieving this have been implemented, as detailed below. In both cases, the noise is reapplied each time training samples are chosen.
 	
@@ -2339,7 +2339,7 @@
 	
 	The results here mostly conform to the theoretical expectations, though there are some inconsistencies. As discussed more fully in \ref{results_linearity}, the GBM data in synthetic datasets will have assets that are configured to certain mean and variances. As these movements are processed, scaled and aggregated over time through the data processing, the movements will generally be more similar and less complex than those of actual stock data which will show greater variance over time (this is shown more concretely in \ref{results_hist}). The learning process then is not required to be able to pass through error signals that change as dynamically over time, and so there is less pressure on the initial starting weights. This consideration may account for the unexpected performance of the Xavier initialization in the Synthetic SAE networks. Further, some of the assumptions of these techniques, such as data being IID, may not apply in the first place, making their results less predictable.  Due to the generally better or comparable performance of He-Adj, it was the only initialization chosen for further experiments.  \newline
 	
-	
+	\newpage
 	\subsection{Synthetic Data}\label{results_synth}
 	
 	\subsubsection{GBM Generated Data}\label{results_gbm_data}
@@ -2415,14 +2415,60 @@
 	The complex nature of financial markets, with a high noise to signal ratio and constantly changing dynamics, presents challenges during the learning process. A model's success lies in it's ability to reduce noise without losing signal, and being able to capture determinant features of importance. This section considers how these issues affect both SAE reproduction (Unsupervised Learning) and FFN prediction (Supervised Learning), and how SGD learning optimizations are able to help improve performance therein.
 	
 	\subsubsection{SAE Reproduction}
-	
-	\paragraph{Learning Rate Schedules}
 
-	Learning rate schedules were implemented such that the learning rate would rise and fall through a set of values during a set number of epochs (or epoch cycle), as discussed in \ref{imp_learning_rate_schedule}.	Conceptually, this should allow a more effective traversal of the solution space, where larger learning rates are able to dislodge the configuration from saddle points, and smaller learning rates are able to optimize at a minima. \newline
+	The ability of an SAE to reproduce data to a smaller encoding is directly related to the variability and complexity of the underlying data, and the extent to which it can be reduced to fundamental underlying features. The impact of data complexity and variance, as well as the different natures of encodings learnt is discussed fully in Section \ref{results_oos_pl} for actual data, and Section \ref{results_synth} for synthetic data. What is noted here is how learning optimizations can affect the traversal of a complex solution space. \newline
+	
+	Figure \ref{figure-mse_reg} shows the impact of L1 regularization (implemented as per Section \ref{imp_regularization}) at both the aggregate and encoding size level, with results emphasising the different nature of features learnt at different encoding sizes, as discussed in Section \ref{results_oos_pl}. Figure \ref{figure-results_mse_denoising} shows that denoising optimizations (implemented as per Section \ref{imp_denoising}) have detrimental effects, highlighting the lack of benefits in adding noise to an already noisy feature space. Figure \ref{figure-mse_lr} shows the effects of learning rate schedules (implemented as per  \ref{imp_learning_rate_schedule}), with increased performances shown for different configurations.
+	
+	\begin{figure}[H]
+	\centering
+	\textbf{SAE MSE by L1 Lambda}
+	\begin{subfigure}{.49\textwidth}
+		\centering 
+		\includegraphics[scale=0.3]{images/results/network/reg/actual_mse_reg.png}
+		\caption{\textbf{All Encodings} 
+			\newline }
+		\label{figure-actual_mse_reg}
+	\end{subfigure}%
+	\begin{subfigure}{.49\textwidth}
+		\centering 
+		\includegraphics[scale=0.3]{images/results/network/reg/actual_sae_mse_by_encoding.png}
+		\caption{\textbf{Split by Encoding Size} 
+			\newline }
+		\label{figure-actual_sae_mse_by_encoding}
+	\end{subfigure}
+	\caption[SAE MSE by Regularization]{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12})
+		\newline Figure (a) shows the aggregate performance of SAE networks at different degrees of regularization, with a generally detrimental trend. Figure (b) however, grouping by encoding size, provides a better understanding. As per the results in Section \ref{results_oos_pl}, encodings of 5 are learning highly generalisable featurs, and so benefit from regularization with their best performance at $\lambda = 0.5$. Encodings of 10 are less generalisable, and have their best performance at $\lambda = 0.1$. Higher encoding levels are operating in a different solution space, and not learning generalisable features, and so do not benefit from the regularization.
+	}
+	\label{figure-mse_reg}
+\end{figure}
+
+	\begin{figure}[H]
+	\centering
+	\textbf{SAE MSE by Denoising Variance}
+	\begin{subfigure}{.5\textwidth}
+		\centering 
+		\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_gaussian.png}
+		\caption{\textbf{Gaussian Denoising} 
+			\newline }
+		\label{figure-actual_mse_gaussian}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering 
+		\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_masking.png}
+		\caption{\textbf{Masking Denoising} 
+			\newline }
+		\label{figure-actual_mse_masking}
+	\end{subfigure}
+	\caption[Effects of Denoising on SAE MSE (Actual Data)]{Dataset: Scaling 10 (\ref{dataset_scaling10}) , Configuration 14 (\ref{config14}) \& Configuration 15 (\ref{config15})
+		\newline Figure (a) shows the effects of gaussian denoising on SAE MSE scores, with scores becoming worse as the denoising increases. This may once again reflect the differences between IID datasets with a model that is likely to overfit in comparison to financial time series data which already have a significant amount of noise present. Figure (b), with masking denoising, was not expected to have a beneficial effect on SAE performance from a conceptual perspective, which the results are certainly in line with. }
+	\label{figure-results_mse_denoising}
+\end{figure}
+
 	
 	\begin{figure}[H]
 		\centering
-		\textbf{SAE MSE by Learning Rates}
+		\textbf{SAE MSE by Learning Rate Schedule Ranges}
 		\begin{subfigure}{.5\textwidth}
 			\centering 
 			\includegraphics[scale=0.3]{images/results/network/lr/synth_mse_minmax_lr.png}
@@ -2441,6 +2487,11 @@
 			\newline It is interesting to  note that the effects here are quite different for Synthetic and Actual data, with networks for Synthetic data favouring learning rate ranges with a higher upper bound, and Actual data networks trending in favour of lower upper bound ranges. The synthetic data is structurally less complex, as discussed further in \ref{results_gbm_data} and \ref{results_data_hist}, and so the larger learning rates will allow for quicker optimisation. Conversely, SAE networks for actual data benefit from a more careful exploration of the solution space.}
 		\label{figure-mse_lr}
 	\end{figure}
+
+	
+
+	
+
 	
 	
 	
@@ -2449,9 +2500,7 @@
 	
 	
 	
-	
-	
-	
+	\newpage
 	\subsubsection{FFN Prediction}
 	
 	As discussed in Section \ref{results_data_hist}, the effects of supervised training on the IS dataset with SGD had limited benefits for OOS performance, and ultimately may be approximating the equivalent of pretraining weight initialization rather than an effective structural learning. The best performing networks were those which were able to quickly adapt to new solution spaces, rather than those which had trained effectively to old ones. Naturally then, the numerous SGD optimizations employed had very little effect on the OOS performance. That said, the effects they have on IS performance do give some insights into the nature of financial data being considered, and do suggest that implementing such optimizations in the OGD phase could be beneficial. 
@@ -2520,13 +2569,7 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{Effects of L1 Regularization (Actual Data)}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/network/reg/actual_mse_reg.png}
-			\caption{\textbf{MSE for SAE Networks} 
-				\newline }
-			\label{figure-actual_mse_reg}
-		\end{subfigure}%
+
 		\begin{subfigure}{.5\textwidth}
 			\centering 
 			\includegraphics[scale=0.3]{images/results/network/reg/actual_pl_reg.png}
@@ -2539,29 +2582,7 @@
 		\label{figure-results-reg}
 	\end{figure}
 	
-	\subsubsection{Effects of Denoising}
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Effects of Denoising on SAE MSE (Actual Data)}
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_gaussian.png}
-			\caption{\textbf{Gaussian Denoising} 
-				\newline }
-			\label{figure-actual_mse_gaussian}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_masking.png}
-			\caption{\textbf{Masking Denoising} 
-				\newline }
-			\label{figure-actual_mse_masking}
-		\end{subfigure}
-		\caption[Effects of Denoising on SAE MSE (Actual Data)]{Dataset: Scaling 10 (\ref{dataset_scaling10}) , Configuration 14 (\ref{config14}) \& Configuration 15 (\ref{config15})
-			\newline Figure (a) shows the effects of gaussian denoising on SAE MSE scores, with scores becoming worse as the denoising increases. This may once again reflect the differences between IID datasets with a model that is likely to overfit in comparison to financial time series data. Figure (b), with masking denoising, was not expected to have a beneficial effect on SAE performance from a conceptual perspective, which the results are certainly in line with. }
-		\label{figure-results_mse_denoising}
-	\end{figure}
+
 	
 	\begin{figure}[H]
 		\textbf{P\&L by Masking Denoising}
