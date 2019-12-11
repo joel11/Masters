@@ -118,75 +118,9 @@
 \BOOKMARK [3][-]{subsubsection.7.5.1}{GBM Generated Data}{subsection.7.5}% 118
 \BOOKMARK [3][-]{subsubsection.7.5.2}{Synthetic Data Aggregation Effects}{subsection.7.5}% 119
 \BOOKMARK [3][-]{subsubsection.7.5.3}{Synthetic Data Feature Selection}{subsection.7.5}% 120
-\BOOKMARK [2][-]{subsection.7.6}{Complexity of Financial Time Series}{section.7}% 121
-\BOOKMARK [3][-]{subsubsection.7.6.1}{SAE Reproduction}{subsection.7.6}% 122
-\BOOKMARK [3][-]{subsubsection.7.6.2}{FFN Prediction}{subsection.7.6}% 123
-\BOOKMARK [3][-]{subsubsection.7.6.3}{Effects of Learning Rates and Schedules}{subsection.7.6}% 124
-\BOOKMARK [3][-]{subsubsection.7.6.4}{Effects of Regularization}{subsection.7.6}% 125
-\BOOKMARK [2][-]{subsection.7.7}{Network Structure and Training}{section.7}% 126
-\BOOKMARK [3][-]{subsubsection.7.7.1}{Effects of Network Size}{subsection.7.7}% 127
-\BOOKMARK [4][-]{paragraph.7.7.1.1}{SAE Network Structures}{subsubsection.7.7.1}% 128
-\BOOKMARK [3][-]{subsubsection.7.7.2}{Effects of Activation Functions and Scaling}{subsection.7.7}% 129
-\BOOKMARK [3][-]{subsubsection.7.7.3}{Predictive FFN Activations and Scaling}{subsection.7.7}% 130
-\BOOKMARK [3][-]{subsubsection.7.7.4}{Sigmoid Activation Functions}{subsection.7.7}% 131
-\BOOKMARK [3][-]{subsubsection.7.7.5}{Leaky ReLU vs ReLU}{subsection.7.7}% 132
-\BOOKMARK [2][-]{subsection.7.8}{Probability of Backtest Overfitting}{section.7}% 133
-\BOOKMARK [3][-]{subsubsection.7.8.1}{Concerns Regarding the PBO Calculation}{subsection.7.8}% 134
-\BOOKMARK [3][-]{subsubsection.7.8.2}{PBO Results}{subsection.7.8}% 135
-\BOOKMARK [3][-]{subsubsection.7.8.3}{Framework Success}{subsection.7.8}% 136
-\BOOKMARK [2][-]{subsection.7.9}{DSR Results}{section.7}% 137
-\BOOKMARK [3][-]{subsubsection.7.9.1}{Computational Complexity}{subsection.7.9}% 138
-\BOOKMARK [3][-]{subsubsection.7.9.2}{ONC Results}{subsection.7.9}% 139
-\BOOKMARK [3][-]{subsubsection.7.9.3}{DSR and PSR Results}{subsection.7.9}% 140
-\BOOKMARK [2][-]{subsection.7.10}{MMS Results}{section.7}% 141
-\BOOKMARK [3][-]{subsubsection.7.10.1}{Summary of Experiment Results}{subsection.7.10}% 142
-\BOOKMARK [3][-]{subsubsection.7.10.2}{Best Network Results}{subsection.7.10}% 143
-\BOOKMARK [2][-]{subsection.7.11}{Results Summary}{section.7}% 144
-\BOOKMARK [3][-]{subsubsection.7.11.1}{Framework Success : PBO and DSR}{subsection.7.11}% 145
-\BOOKMARK [3][-]{subsubsection.7.11.2}{Historical Data}{subsection.7.11}% 146
-\BOOKMARK [3][-]{subsubsection.7.11.3}{Data Processing Considerations}{subsection.7.11}% 147
-\BOOKMARK [3][-]{subsubsection.7.11.4}{Weight Initializations}{subsection.7.11}% 148
-\BOOKMARK [3][-]{subsubsection.7.11.5}{Feature Selection}{subsection.7.11}% 149
-\BOOKMARK [3][-]{subsubsection.7.11.6}{Output Activations and Network Structure}{subsection.7.11}% 150
-\BOOKMARK [3][-]{subsubsection.7.11.7}{Learning Optimizations}{subsection.7.11}% 151
-\BOOKMARK [1][-]{section.8}{Software Libraries and Development}{}% 152
-\BOOKMARK [2][-]{subsection.8.1}{Programming Languages}{section.8}% 153
-\BOOKMARK [2][-]{subsection.8.2}{Data Generation \046 Processing}{section.8}% 154
-\BOOKMARK [2][-]{subsection.8.3}{Network Training}{section.8}% 155
-\BOOKMARK [3][-]{subsubsection.8.3.1}{Network Parameters}{subsection.8.3}% 156
-\BOOKMARK [3][-]{subsubsection.8.3.2}{SGD \046 CD-1 Training Parameters}{subsection.8.3}% 157
-\BOOKMARK [3][-]{subsubsection.8.3.3}{OGD Training Parameters}{subsection.8.3}% 158
-\BOOKMARK [3][-]{subsubsection.8.3.4}{Network Trainer Module}{subsection.8.3}% 159
-\BOOKMARK [2][-]{subsection.8.4}{Process Implementation}{section.8}% 160
-\BOOKMARK [2][-]{subsection.8.5}{Database Implementation}{section.8}% 161
-\BOOKMARK [2][-]{subsection.8.6}{Diagnostic Libraries}{section.8}% 162
-\BOOKMARK [1][-]{section.9}{Conclusion}{}% 163
-\BOOKMARK [2][-]{subsection.9.1}{Future Work}{section.9}% 164
-\BOOKMARK [1][-]{section.10}{Appendix}{}% 165
-\BOOKMARK [2][-]{subsection.10.1}{Additional Results}{section.10}% 166
-\BOOKMARK [3][-]{subsubsection.10.1.1}{Additional Results for Section 7.7.2 - Activation Functions and Scaling }{subsection.10.1}% 167
-\BOOKMARK [3][-]{subsubsection.10.1.2}{Additional Results for Section 7.4 - Weight Initialization Techniques }{subsection.10.1}% 168
-\BOOKMARK [3][-]{subsubsection.10.1.3}{Additional Results for Section ?? - Feature Selection }{subsection.10.1}% 169
-\BOOKMARK [3][-]{subsubsection.10.1.4}{Additional Results for Section 7.7 - Network Structure and Training }{subsection.10.1}% 170
-\BOOKMARK [2][-]{subsection.10.2}{Additional Calculations for Section 7.9 - DSR and ONC}{section.10}% 171
-\BOOKMARK [3][-]{subsubsection.10.2.1}{DSR and PSR calculations}{subsection.10.2}% 172
-\BOOKMARK [2][-]{subsection.10.3}{Configuration Sets Used}{section.10}% 173
-\BOOKMARK [3][-]{subsubsection.10.3.1}{Configuration 1}{subsection.10.3}% 174
-\BOOKMARK [3][-]{subsubsection.10.3.2}{Configuration 2}{subsection.10.3}% 175
-\BOOKMARK [3][-]{subsubsection.10.3.3}{Configuration 3}{subsection.10.3}% 176
-\BOOKMARK [3][-]{subsubsection.10.3.4}{Configuration 4}{subsection.10.3}% 177
-\BOOKMARK [3][-]{subsubsection.10.3.5}{Configuration 5}{subsection.10.3}% 178
-\BOOKMARK [3][-]{subsubsection.10.3.6}{Configuration 6}{subsection.10.3}% 179
-\BOOKMARK [3][-]{subsubsection.10.3.7}{Configuration 7}{subsection.10.3}% 180
-\BOOKMARK [3][-]{subsubsection.10.3.8}{Configuration 8}{subsection.10.3}% 181
-\BOOKMARK [3][-]{subsubsection.10.3.9}{Configuration 9}{subsection.10.3}% 182
-\BOOKMARK [3][-]{subsubsection.10.3.10}{Configuration 10}{subsection.10.3}% 183
-\BOOKMARK [3][-]{subsubsection.10.3.11}{Configuration 11}{subsection.10.3}% 184
-\BOOKMARK [3][-]{subsubsection.10.3.12}{Configuration 12}{subsection.10.3}% 185
-\BOOKMARK [3][-]{subsubsection.10.3.13}{Configuration 13}{subsection.10.3}% 186
-\BOOKMARK [3][-]{subsubsection.10.3.14}{Configuration 14}{subsection.10.3}% 187
-\BOOKMARK [3][-]{subsubsection.10.3.15}{Configuration 15}{subsection.10.3}% 188
-\BOOKMARK [3][-]{subsubsection.10.3.16}{Configuration 16}{subsection.10.3}% 189
-\BOOKMARK [3][-]{subsubsection.10.3.17}{Configuration 17}{subsection.10.3}% 190
-\BOOKMARK [2][-]{subsection.10.4}{Diagnostic Charts}{section.10}% 191
-\BOOKMARK [1][-]{section.11}{References}{}% 192
+\protect \let \reserved@d =[\def \def \begingroup \let \@@protect \protect \let \protect \protect \afterassignment \let \protect \@@protect \edef SAE Reproduction{[1][-]}\edef {\futurelet }\toks@ {\endgroup \par }\let  
+\protect \let \reserved@d =[\def \def \begingroup \let \@@protect \protect \let \protect \protect \afterassignment \let \protect \@@protect \edef SAE Reproduction{[1][-]}\edef {\futurelet }\toks@ {\endgroup \par }\let  
+\protect \let \reserved@d =[\def \def \begingroup \let \@@protect \protect \let \protect \protect \afterassignment \let \protect \@@protect \edef SAE Reproduction{[1][-]}\edef {\futurelet }\toks@ {\endgroup \par }\let  
+\protect \let \reserved@d =[\def \def \unskip \reserved@e {\reserved@f \relax }\penalty \@M \hfil \penalty -\@M {[1][-]}\futurelet \@let@token \let \unskip \reserved@e {\reserved@f \relax }\penalty \@M \hfil \penalty -\@M \unskip \reserved@e {\reserved@f \relax }\penalty \@M \hfil \penalty -\@M \unskip \reserved@e {\reserved@f \relax }\penalty \@M \hfil \penalty -\@M [3][-]{subsubsection.7.6.3}{FFN Prediction}{subsection.7.6}% 124
+\protect \let \reserved@d =[\def \def \begingroup \let \@@protect \protect \let \protect \protect \afterassignment \let \protect \@@protect \edef Effects of Network Size{[1][-]}\edef {\futurelet }\toks@ {\endgroup \par }\let  
+\protect \let \reserved@d =[\def \def \begingroup \let \@@protect \protect \let \protect \protect \afterassignment \let \protect \@@protect \edef Effects of Network Size{[1][-]}\edef {\futurelet }\toks@ {\endgroup \par }\let  

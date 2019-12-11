@@ -177,6 +177,7 @@ function Results_Linearity_1()
     config_ids = SelectConfigIDs(setnames, true)
     #PrintConfig(setnames, true)
     PL_ScalingOutputActivation(config_ids, "Linear ", "SyntheticPL", true)
+    PL_Scaling(config_ids, "Linear ", "SyntheticPL", true)
 
     setnames = ["Iteration2_1 Tests FFN", "Iteration2_1 Linear Tests FFN","Iteration2_1 Smaller Linear Tests"]
     config_ids = SelectConfigIDs(setnames, true)
@@ -345,8 +346,8 @@ function Results_4_NetworkStructureTraining()
     PL_LearningRates_MaxMin(ffn_config_ids, "IS Actual", "ActualPL", false, true) #config13
     PL_LearningRates_MaxMin(synth_ffn_ids, "Synth", "SyntheticPL", true) #config9
 
-    PL_EpochCycle(ffn_config_ids, "IS Actual", "ActualPL", false, false)
-    PL_EpochCycle(ffn_config_ids, "OOS Actual", "ActualPL", false, true)
+    PL_EpochCycle(ffn_config_ids, "IS Actual", "ActualPL", false, true)
+    PL_EpochCycle(ffn_config_ids, "OOS Actual", "ActualPL", false, false)
     PL_EpochCycle(synth_ffn_ids, "Synth", "SyntheticPL", true)
 
     PL_OGD_LearningRate(ffn_config_ids, "Actual", "ActualPL", false)#config13
@@ -359,14 +360,16 @@ function Results_4_NetworkStructureTraining()
     MSE_Lambda1(sae_config_ids, "Actual", "ActualMSE", false)#config12
     MSE_Lambda1(synth_sae_ids, "Synth", "SyntheticMSE", true)
 
-    PL_L1Reg(ffn_config_ids, "Actual", "ActualPL", false)#config13
+    PL_L1Reg(ffn_config_ids, "Actual OOS", "ActualPL", false, false)#config13
+    PL_L1Reg(ffn_config_ids, "Actual IS", "ActualPL", false, true)#config13
     PL_L1Reg(synth_ffn_ids, "Synth", "SyntheticPL", true)
 
     #Denoising##################################################################
     #MSE_Denoising(sae_config_ids, "Actual", "ActualMSE", false)
     #MSE_Denoising(synth_sae_ids, "Synth", "SyntheticMSE", true)
 
-    PL_Denoising(ffn_config_ids, "Actual", "ActualPL", false)#config13
+    PL_Denoising(ffn_config_ids, "OOS Actual", "ActualPL", false, false)#config13
+    PL_Denoising(ffn_config_ids, "IS Actual", "ActualPL", false, true)#config13
     #PL_Denoising(synth_ffn_ids, "Synth", "SyntheticPL", true)
 
     gaussian_denoising_sets = ["Denoising 2" , "Denoising 1"]#, "Denoising tests"]

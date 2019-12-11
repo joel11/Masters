@@ -19,7 +19,7 @@ using MLBase
 using ColorBrewer
 using PlotlyJS
 
-export PL_Heatmap_NetworkSize_DataAggregation, PL_SAE_Encoding_SizeLines, PL_Activations, PL_ScalingOutputActivation, MSE_OutputActivation_Scaling_Filters, MSE_Min_EncodingSize_Activation, MSE_Encoding_Activation, MSE_Output_Activation, MSE_Hidden_Activation, MSE_Scaling_Filters, PL_Heatmap_LearningRate_MaxEpochs, MSE_EpochCycle, MSE_LearningRate_MaxMin, MSE_LayerSizesLines, PL_NetworkSizeLines, MSE_LayerSizes3, PL_LearningRates_MaxMin, GenerateDeltaDistribution, BestStrategyVsBenchmark, AllProfitsPDF, ReadProfits, OGD_Heatmap_LayerSizes_Epochs, PL_EpochCycle, AllProfitsPDF, TransformConfigIDs, ConfigStrategyOutput, PL_MaxEpochs, PL_Denoising, ReadProfits, UpdateTotalProfits, MSE_Pretraining, OGD_ScalingOutputActivation_Profits_Bx, MSE_Activation_Scaling_Filters, FFN_LR_Sched_BxProfit, PL_SAE_Encoding_Size, PL_L1Reg, PL_NetworkSize, PL_Init, MSE_LayerSizes, SAE_EncodingSizes_MinMSE, MSE_Deltas, MSE_Init, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, PL_DataDeltas, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,MSE_Lambda1, MSE_Denoising, PL_ValidationSplit, MSE_MaxLearningRate_Activation, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, PL_OGD_LearningRate, PL_LayerActivation_OutputActivation, OGD_SAE_Selection_Profits_bx, PL_Activations_NetworkSize, SAE_ActivationsNetworkSizes_MinMSE, MSE_ActivationsEncodingSizes
+export PL_Scaling, PL_Heatmap_NetworkSize_DataAggregation, PL_SAE_Encoding_SizeLines, PL_Activations, PL_ScalingOutputActivation, MSE_OutputActivation_Scaling_Filters, MSE_Min_EncodingSize_Activation, MSE_Encoding_Activation, MSE_Output_Activation, MSE_Hidden_Activation, MSE_Scaling_Filters, PL_Heatmap_LearningRate_MaxEpochs, MSE_EpochCycle, MSE_LearningRate_MaxMin, MSE_LayerSizesLines, PL_NetworkSizeLines, MSE_LayerSizes3, PL_LearningRates_MaxMin, GenerateDeltaDistribution, BestStrategyVsBenchmark, AllProfitsPDF, ReadProfits, OGD_Heatmap_LayerSizes_Epochs, PL_EpochCycle, AllProfitsPDF, TransformConfigIDs, ConfigStrategyOutput, PL_MaxEpochs, PL_Denoising, ReadProfits, UpdateTotalProfits, MSE_Pretraining, OGD_ScalingOutputActivation_Profits_Bx, MSE_Activation_Scaling_Filters, FFN_LR_Sched_BxProfit, PL_SAE_Encoding_Size, PL_L1Reg, PL_NetworkSize, PL_Init, MSE_LayerSizes, SAE_EncodingSizes_MinMSE, MSE_Deltas, MSE_Init, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, PL_DataDeltas, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,MSE_Lambda1, MSE_Denoising, PL_ValidationSplit, MSE_MaxLearningRate_Activation, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, PL_OGD_LearningRate, PL_LayerActivation_OutputActivation, OGD_SAE_Selection_Profits_bx, PL_Activations_NetworkSize, SAE_ActivationsNetworkSizes_MinMSE, MSE_ActivationsEncodingSizes
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -188,6 +188,21 @@ function PL_ScalingOutputActivation(config_ids, file_prefix = "", colourSetChoic
     ProfitBoxplot(query, :scaling_methodology, " ", string(file_prefix, "Scaling Methodolgy Profits"), String, testDatabase, colourSetChoice, nothing, false)
 end
 
+function PL_Scaling(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select cr.configuration_id,
+                    scaling_function scaling_methodology
+            from configuration_run cr
+            inner join dataset_config dc on cr.configuration_id = dc.configuration_id
+            inner join network_parameters np on np.configuration_id = cr.configuration_id
+            where cr.configuration_id in ($ids)
+            order by cr.configuration_id desc"
+
+    ProfitBoxplot(query, :scaling_methodology, " ", string(file_prefix, "Scaling Methodolgy Profits"), String, testDatabase, colourSetChoice, nothing, true)
+end
+
 function PL_ScalingHiddenOutputActivation(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
 
     ids = TransformConfigIDs(config_ids)
@@ -234,7 +249,7 @@ function PL_SAE_Size(config_ids)
     sae_boxplot(groups, "SAE Profit Boxplots", :profit)
 end
 
-function PL_L1Reg(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+function PL_L1Reg(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
 
     ids = TransformConfigIDs(config_ids)
     lr_query = "select tp.configuration_id,
@@ -243,7 +258,7 @@ function PL_L1Reg(config_ids, file_prefix = "", colourSetChoice = "", testDataba
                 where tp.configuration_id in ($ids)
                     and tp.category = \"FFN\""
 
-    ProfitBoxplot(lr_query, :lambda, "L1 Lambda ", string(file_prefix, "L1 Reg Effects on Profits"), String, testDatabase, colourSetChoice)
+    ProfitBoxplot(lr_query, :lambda, "L1 Lambda ", string(file_prefix, "L1 Reg Effects on Profits"), String, testDatabase, colourSetChoice, nothing, true, 16, nothing, in_sample)
 end
 
 function PL_L1Reg(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -281,8 +296,8 @@ function PL_L1Reg_Lines(config_ids, file_prefix = "", colourSetChoice = "", test
     testDatabase = false
     colourSetChoice = "ActualPL"
     file_prefix = "Actual "
-    in_sample = false
-    aggregation = maximum
+    in_sample = true
+    aggregation = median
 
     ids = TransformConfigIDs(config_ids)
     query = "select tp.configuration_id,
@@ -298,7 +313,7 @@ function PL_L1Reg_Lines(config_ids, file_prefix = "", colourSetChoice = "", test
     results[:,1] = Array{Int64,1}(results[:,1])
     results[:,2] = Array{Float64,1}(results[:,2])
     results[:,3] = Array{String,1}(results[:,3])
-    results = join(GetProfits(testDatabase, true), results, on = :configuration_id)
+    results = join(GetProfits(testDatabase, in_sample), results, on = :configuration_id)
     #results[:encoding] = map(i -> parse(Int64, ascii(i[end])), split.(results[:layer_sizes], ','))
 
     groups = by(results, [:l1_lambda, :deltas], df -> aggregation(df[:profit]))
@@ -367,7 +382,7 @@ function PL_OGD_LearningRate(config_ids, file_prefix = "", colourSetChoice = "",
     ProfitBoxplot(lr_query, :learning_rate, "OGD Learning Rate", string(file_prefix, "OGD LR Profits"), String, testDatabase, colourSetChoice)
 end
 
-function PL_Denoising(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
+function PL_Denoising(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
 
     ids = TransformConfigIDs(config_ids)
     lr_query = "select tp.configuration_id,
@@ -376,7 +391,7 @@ function PL_Denoising(config_ids, file_prefix = "", colourSetChoice = "", testDa
                 where tp.configuration_id in ($ids)
                     and tp.category = \"FFN\""
 
-    ProfitBoxplot(lr_query, :denoising_variance, "SGD Denoising Variance", string(file_prefix, "OGD Denoising Variance Profits"), Float64, testDatabase, colourSetChoice)
+    ProfitBoxplot(lr_query, :denoising_variance, "SGD Denoising Variance", string(file_prefix, "OGD Denoising Variance Profits"), Float64, testDatabase, colourSetChoice, nothing, true, 16, nothing, in_sample)
 end
 
 function PL_MaxEpochs(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -396,7 +411,7 @@ function PL_EpochCycle(config_ids, file_prefix = "", colourSetChoice = "", testD
 
     ids = TransformConfigIDs(config_ids)
     lr_query = "select tp.configuration_id,
-                    (cast(tp.epoch_cycle_max as string) || ' Epochs') max_epochs
+                    (case when epoch_cycle_max = -1 then 'Constant Learning Rate' else cast(tp.epoch_cycle_max as string) || ' Epochs' end) max_epochs
                 from training_parameters tp
                 where tp.configuration_id in ($ids)
                     and tp.category = \"FFN\""
