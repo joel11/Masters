@@ -72,8 +72,8 @@
 \BOOKMARK [3][-]{subsubsection.4.6.1}{Input Variables}{subsection.4.6}% 72
 \BOOKMARK [3][-]{subsubsection.4.6.2}{Calculated Asset Variables}{subsection.4.6}% 73
 \BOOKMARK [3][-]{subsubsection.4.6.3}{Calculated Strategy Variables}{subsection.4.6}% 74
-\BOOKMARK [2][-]{subsection.4.7}{CSCV and PBO}{section.4}% 75
-\BOOKMARK [2][-]{subsection.4.8}{DSR and ONC}{section.4}% 76
+\BOOKMARK [2][-]{subsection.4.7}{Combinatorially Symmetric Cross-Validation and Probability of Backtest Overfitting}{section.4}% 75
+\BOOKMARK [2][-]{subsection.4.8}{Deflated Sharpe Ratio}{section.4}% 76
 \BOOKMARK [3][-]{subsubsection.4.8.1}{Optimal Number of Clusters Algorithm}{subsection.4.8}% 77
 \BOOKMARK [3][-]{subsubsection.4.8.2}{Sharpe Ratio Normality and Probabilistic Sharpe Ratio}{subsection.4.8}% 78
 \BOOKMARK [3][-]{subsubsection.4.8.3}{False Strategy Theorem}{subsection.4.8}% 79
@@ -91,8 +91,8 @@
 \BOOKMARK [2][-]{subsection.5.6}{Supervised Learning: Prediction Network Training}{section.5}% 91
 \BOOKMARK [2][-]{subsection.5.7}{Price Reconstruction}{section.5}% 92
 \BOOKMARK [2][-]{subsection.5.8}{Money Management Strategy}{section.5}% 93
-\BOOKMARK [2][-]{subsection.5.9}{CSCV \046 PBO}{section.5}% 94
-\BOOKMARK [2][-]{subsection.5.10}{DSR}{section.5}% 95
+\BOOKMARK [2][-]{subsection.5.9}{Probability of Backtest Overfitting}{section.5}% 94
+\BOOKMARK [2][-]{subsection.5.10}{Deflated Sharpe Ratio}{section.5}% 95
 \BOOKMARK [2][-]{subsection.5.11}{Process Diagram}{section.5}% 96
 \BOOKMARK [1][-]{section.6}{Datasets Used}{}% 97
 \BOOKMARK [2][-]{subsection.6.1}{Synthetic Datasets}{section.6}% 98
@@ -107,7 +107,7 @@
 \BOOKMARK [2][-]{subsection.7.1}{Introduction}{section.7}% 107
 \BOOKMARK [3][-]{subsubsection.7.1.1}{Technical Notes}{subsection.7.1}% 108
 \BOOKMARK [2][-]{subsection.7.2}{Primary Determinants of OOS P\046L}{section.7}% 109
-\BOOKMARK [3][-]{subsubsection.7.2.1}{Effects of Data Horizon Aggrgations}{subsection.7.2}% 110
+\BOOKMARK [3][-]{subsubsection.7.2.1}{Effects of Data Horizon Aggregations}{subsection.7.2}% 110
 \BOOKMARK [3][-]{subsubsection.7.2.2}{OGD Learning Rate}{subsection.7.2}% 111
 \BOOKMARK [3][-]{subsubsection.7.2.3}{Feature Selection}{subsection.7.2}% 112
 \BOOKMARK [2][-]{subsection.7.3}{Value of Historical Signal}{section.7}% 113
@@ -133,12 +133,12 @@
 \BOOKMARK [3][-]{subsubsection.7.8.1}{Concerns Regarding the PBO Calculation}{subsection.7.8}% 133
 \BOOKMARK [3][-]{subsubsection.7.8.2}{PBO Results}{subsection.7.8}% 134
 \BOOKMARK [3][-]{subsubsection.7.8.3}{Framework Success}{subsection.7.8}% 135
-\BOOKMARK [2][-]{subsection.7.9}{DSR Results}{section.7}% 136
+\BOOKMARK [2][-]{subsection.7.9}{Deflated Sharpe Ratio}{section.7}% 136
 \BOOKMARK [3][-]{subsubsection.7.9.1}{Computational Complexity}{subsection.7.9}% 137
 \BOOKMARK [3][-]{subsubsection.7.9.2}{ONC Results}{subsection.7.9}% 138
 \BOOKMARK [3][-]{subsubsection.7.9.3}{DSR and PSR Results}{subsection.7.9}% 139
 \BOOKMARK [3][-]{subsubsection.7.9.4}{Framework Success}{subsection.7.9}% 140
-\BOOKMARK [2][-]{subsection.7.10}{MMS Results}{section.7}% 141
+\BOOKMARK [2][-]{subsection.7.10}{Money Management Strategy}{section.7}% 141
 \BOOKMARK [2][-]{subsection.7.11}{Summary of Actual and Synthetic Data Effects}{section.7}% 142
 \BOOKMARK [1][-]{section.8}{Software Libraries and Development}{}% 143
 \BOOKMARK [2][-]{subsection.8.1}{Programming Languages}{section.8}% 144

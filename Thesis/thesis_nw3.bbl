@@ -75,6 +75,14 @@ A.~Skabar and I.~Cloete, ``Neural networks, financial trading and the efficient
   markets hypothesis,'' \emph{ACSC '02: Proceedings of the Twenty-fifth
   Australasian Conference on Computer Science}, vol.~4, 02 2002.
 
+\bibitem{Loonat}
+T.~Gebbie and F.~Loonat, ``Learning zero-cost portfolio selection with pattern
+  matching,'' \emph{PLOS ONE}, vol.~13, 05 2016.
+
+\bibitem{MurphyGebbie}
+N.~Murphy and T.~Gebbie, ``Learning the population dynamics of technical
+  trading strategies,'' 03 2019.
+
 \bibitem{Schmidhuber}
 J.~Schmidhuber, ``Deep learning in neural networks: An overview,'' \emph{Neural
   Networks}, vol.~61, pp. 85--117, 01 2015.

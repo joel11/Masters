@@ -1,7 +1,7 @@
 This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: thesis_nw3.aux
-White space in argument---line 409 of file thesis_nw3.aux
+White space in argument---line 413 of file thesis_nw3.aux
  : \citation{Brooks
  :                  and Kat2002; Ingersoll 2007}
 I'm skipping whatever remains of this command
@@ -12,6 +12,8 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: thesis_bibliography.bib
+Warning--entry type for "MurphyGebbie" isn't style-file defined
+--line 1081 of file thesis_bibliography.bib
 Warning--I didn't find a database entry for "LopezPrado2016a"
 Warning--I didn't find a database entry for "Rousseeouw1987"
 Warning--I didn't find a database entry for "Mertens"
@@ -40,45 +42,45 @@ Warning--empty booktitle in Smith
 Warning--empty booktitle in Loshchilov
 
 Done.
-You've used 92 entries,
+You've used 94 entries,
             4087 wiz_defined-function locations,
-            1403 strings with 20940 characters,
-and the built_in function-call counts, 56862 in all, are:
-= -- 4605
-> -- 1242
-< -- 392
-+ -- 684
-- -- 225
-* -- 2658
-:= -- 8997
-add.period$ -- 182
-call.type$ -- 92
-change.case$ -- 87
+            1413 strings with 21173 characters,
+and the built_in function-call counts, 57684 in all, are:
+= -- 4669
+> -- 1260
+< -- 393
++ -- 692
+- -- 229
+* -- 2692
+:= -- 9137
+add.period$ -- 186
+call.type$ -- 94
+change.case$ -- 89
 chr.to.int$ -- 849
-cite$ -- 110
-duplicate$ -- 4397
-empty$ -- 4709
-format.name$ -- 284
-if$ -- 13175
+cite$ -- 112
+duplicate$ -- 4471
+empty$ -- 4787
+format.name$ -- 290
+if$ -- 13359
 int.to.chr$ -- 0
-int.to.str$ -- 92
-missing$ -- 721
-newline$ -- 315
-num.names$ -- 94
-pop$ -- 1631
+int.to.str$ -- 94
+missing$ -- 736
+newline$ -- 321
+num.names$ -- 96
+pop$ -- 1670
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 4388
+skip$ -- 4452
 stack$ -- 0
-substring$ -- 2074
-swap$ -- 3442
-text.length$ -- 109
+substring$ -- 2076
+swap$ -- 3490
+text.length$ -- 110
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 92
+type$ -- 94
 warning$ -- 18
-while$ -- 226
-width$ -- 94
-write$ -- 870
+while$ -- 228
+width$ -- 96
+write$ -- 886
 (There was 1 error message)
