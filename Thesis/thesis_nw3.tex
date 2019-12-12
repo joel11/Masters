@@ -947,7 +947,7 @@
 	
 	\subsubsection{GBM Data Distributions}
 	
-	An important aspect of GBM generated data is that the price changes follow a Log-Normal distribution. If this data is then processed as per the steps above in section \ref{data_processing}, then after taking the \texttt{log\_diff} values using equation \eqref{eq_logdiff}, the values will follow a Normal distirbution. Once scaled using standardization or normalization, these values will become centered and possibly be following a standard normal distribution. However, due to the effect of the limited scaling techniques used, only the Training dataset will be consistent in following this distribution, with the Prediction dataset having an increasing number of outliers as the timepoint moves further away from the Training set demarcations. These issues have notable impacts through out the results, and are discussed more in Section \ref{Results}.
+	An important aspect of GBM generated data is that the price changes follow a Log-Normal distribution. If this data is then processed as per the steps above in Section \ref{data_processing}, then after taking the \texttt{log\_diff} values using equation \eqref{eq_logdiff}, the values will follow a Normal distirbution. Once scaled using standardization or normalization, these values will become centered and possibly be following a standard normal distribution. However, due to the effect of the limited scaling techniques used, only the Training dataset will be consistent in following this distribution, with the Prediction dataset having an increasing number of outliers as the timepoint moves further away from the Training set demarcations. These issues have notable impacts through out the results, and are discussed more in Section \ref{Results}.
 	
 	\subsection{Price Considerations}\label{data_prices}
 	
@@ -1561,7 +1561,7 @@
 
 	\subsection{Combinatorially Symmetric Cross-Validation and Probability of Backtest Overfitting}\label{imp_cscv}
 	
-	The  combinatorially symmetric cross-validation (CSCV) method developed by Bailey et al., as discussed in \ref{lr_cscv}, can be used to assess the likelihood of backtest overfitting through comparison of IS and OOS return metrics. As discussed more extensively in section \ref{lr_cscv}, their research defines backtest overfitting as having
+	The  combinatorially symmetric cross-validation (CSCV) method developed by Bailey et al., as discussed in \ref{lr_cscv}, can be used to assess the likelihood of backtest overfitting through comparison of IS and OOS return metrics. As discussed more extensively in Section \ref{lr_cscv}, their research defines backtest overfitting as having
 	occurred when the strategy selection which maximizes IS performance systematically underperforms median OOS in comparison to the remaining configurations. The $N$  configurations are assessed according to a fixed performance measure, such that $\mathbf{R} = (R_1, R_2, ..., R_N)$ and $\mathbf{\bar{R}} = (\bar{R_1}, \bar{R_2},... \bar{R_N})$ represent the IS and OOS performance of each configuration, respectively. The crux of the framework lies in comparing the ranking of a selected strategy, and so $\Omega$ is used to represent ranking space consisting of the $N!$ permutations of $(1,2,...N)$ indicating the ranking of the $N$ strategies. The random vectors $r$ and $\bar{r}$ are used to denote the IS and OOS ranking of the configurations making up $\mathbf{R}$ and $\mathbf{\bar{R}}$. Lastly a subset of $\Omega$ is defined, such that $\Omega_{n}^{*}=\left\{f \in \Omega | f_{n}=N\right\}$ - this encapsulates the highest ranking configurations. \newline
 	
 	
@@ -1796,7 +1796,7 @@
 	
 	\subsection{Synthetic Data}\label{proc_synthetic}
 	
-	The use of synthetic GBM generated data offers a convenient way of exploring the parameter space without running configuration experiments on the actual data which might then raise the probability of backtest overfitting. The synthetic data has enough similarity that it can allow a broad exploration to get ideas of networks sizes, learning rates, data considerations and so on. This is paricularly useful in light of the concerns around increasing the number of particularly poor performing networks when it comes to calculating PBO, as discussed in section \ref{results_pbo}. That said, there are characteristic differences between GBM generated data and actual financial time series. With these in mind, the results section will make comparisons of the two in order to offer a sufficient understanding for when synthetic data can be relied upon to guide future training.
+	The use of synthetic GBM generated data offers a convenient way of exploring the parameter space without running configuration experiments on the actual data which might then raise the probability of backtest overfitting. The synthetic data has enough similarity that it can allow a broad exploration to get ideas of networks sizes, learning rates, data considerations and so on. This is paricularly useful in light of the concerns around increasing the number of particularly poor performing networks when it comes to calculating PBO, as discussed in Section \ref{results_pbo}. That said, there are characteristic differences between GBM generated data and actual financial time series. With these in mind, the results section will make comparisons of the two in order to offer a sufficient understanding for when synthetic data can be relied upon to guide future training.
 	
 	\subsection{Data Preparation}\label{proc_dataprep}
 	
@@ -1844,7 +1844,7 @@
 	
 	Once the SAE networks have been defined and chosen, they can be used to reprocess both the Training and Prediction datasets such that the input is encoded, and the output is as before. These encoded datasets can then be used for the following steps in the process. \newline
 	
-	In a productionized system, where data is updated daily, there would be a set period after which the SAE network would be retrained to reflect more recent data. This step wasn't deemed necessary at the outset of developing this process, but results detailed in section \ref{results_reduction} suggest that it is a necessary implementation step.\newline
+	In a productionized system, where data is updated daily, there would be a set period after which the SAE network would be retrained to reflect more recent data. This step wasn't deemed necessary at the outset of developing this process, but results detailed in Section \ref{results_reduction} suggest that it is a necessary implementation step.\newline
 	
 	\subsection{Supervised Learning: Prediction Network Training}\label{proc_predictionnetwork}
 	
@@ -1875,7 +1875,7 @@
 	
 	\subsection{Process Diagram}\label{proc_diagram}
 	
-	The flow diagram below provides a graphical representation of this process from the raw market data up until the price prediction points (the MMS calculations and CSCV process are not included). The process may be repeated accordingly in terms of SAE structures that are desired for testing, such that the ``Best SAE Network'' is different for different encoding layer sizes, or data aggregations used (as was the case in many of the experiments which will be discussed in section \ref{Results}).
+	The flow diagram below provides a graphical representation of this process from the raw market data up until the price prediction points (the MMS calculations and CSCV process are not included). The process may be repeated accordingly in terms of SAE structures that are desired for testing, such that the ``Best SAE Network'' is different for different encoding layer sizes, or data aggregations used (as was the case in many of the experiments which will be discussed in Section \ref{Results}).
 	
 	\begin{figure}[H]
 		\centering \includegraphics[scale=0.6]{images/process_implementation/process_flow.png}
@@ -2056,7 +2056,7 @@
 	\section{Results}\label{Results}
 	\subsection{Introduction}\label{results_into}
 	
-	The results section offers a full discussion of the results seen at all stages in the framework, providing several takeaways both in terms of technical training as well developing a perspective on the phenomenology of financial markets. \newline
+	The results section offers a full discussion of the results seen at all stages in the framework, providing numerours takeaways both in terms of technical training as well developing a perspective on the phenomenology of financial markets, and how these influence mechanistic learning approaches to pattern prediction. \newline
 	
 	Section \ref{results_oos_pl} discusses the primary determinants of OOS P\&L seen in actual data results, covering data horizon aggregations, SAE feature reduction and the OGD learning phase. It's shown that data horizon aggregations form the primary determinant of the prediction strategies learnt, and that SAE networks learn different classes of features according to the encoding size (which may differ in suitability for different prediction strategies). These are both considered in the context of the online OOS learning, which proves to be critical in effective learning. This is expanded on in Section \ref{results_data_hist}, which shows the negligble impact of extensive training on historical data, noting that reducing training epochs and datasets has limited effect, and that the online learning phase is most impactful for OOS P\&L. \newline
 	
@@ -2076,7 +2076,7 @@
 	
 	While the predictive networks are trained using an MSE loss function, the performance will mostly be reported on according to the P\&L they were able to achieve through the MMS. Looking at Figure \ref{figure-ogdmse_pl}, we can see that while there is a strong correlation between predictive accuracy and P\&L achieved, it is not absolute and there are many ``worse'' configurations according to OGD MSE which have higher P\&L. This is due in part to OGD's potential to oscillate wildly in the beginning of training while it adjusts, and also representative of lower variance models being able to achieve competitive P\&L. Also, in consideration of the task at hand, P\&L is the primary metric of interest and so is a sensible analysis choice. It is worth noting though that this P\&L is a relative unit measurement, rather than a particular currency (as noted in \ref{data_prices}), and that the MMS, as described in \ref{imp_mms}, only trades 1 stock unit at a time, and so any P\&L figures are relative indications rather than absolute limits. It is also usually reported without capital and trading costs (as per Equation \ref{eq_capital_costs}) applied, though these costs are taken into account for the PBO and DSR validations. \newline
 
-	The results for synthetic data are compared against actual data when appropriate, such that it might guide when synthetic data can and should be used for parameter space exploration (as discussed in section \ref{proc_synthetic}). These results are discussed more completely in Sections \ref{results_synth} and \ref{results_synth_summary}.\newline
+	The results for synthetic data are compared against actual data when appropriate, such that it might guide when synthetic data can and should be used for parameter space exploration (as discussed in Section \ref{proc_synthetic}). These results are discussed more completely in Sections \ref{results_synth} and \ref{results_synth_summary}.\newline
 
 	Sample sizes for some configurations may differ greatly across results (particularly as results are aggregated across training sets and phases), though these are noted in the figures as well as the configurations in the appendix.\newline
 	
@@ -2084,15 +2084,15 @@
 		\textbf{OGD MSE vs P\&L}
 		\centering
 		\includegraphics[scale=0.45]{images/results/intro/ogdmse_pl.png}
-		\caption[OGD MSE vs P\&L]
-		{The figure here shows the paired OGD MSE score and P\&L achieved for all configurations run. There is a very strong correlation with $\rho = -0.74$, indicating the relationship of P\&L increasing as OGD MSE decreases (or, predictive accuracy increases). As can be seen however, there are still many configurations with which outperform in P\&L despite having a worse OGD MSE score (reasons are noted above in \ref{results_into}). As a result, and with the end goal in mind, P\&L is chosen as the reporting primary assessement metric for the analyses on predictive networks. }
+		\caption[OGD MSE vs OOS P\&L]
+		{The figure here shows the paired OGD MSE score and P\&L achieved for the trials run. There is a very strong correlation with $\rho = -0.74$, indicating the relationship of P\&L increasing as OGD MSE decreases (or, predictive accuracy increases). As can be seen however, there are still many configurations which outperform in P\&L despite having a worse OGD MSE score (reasons are noted above in \ref{results_into}). As a result, and with the end goal in mind, P\&L is chosen as the reporting primary assessement metric for the analyses on predictive networks. }
 		\label{figure-ogdmse_pl}
 	\end{figure}
 	
 	\newpage
 	\subsection{Primary Determinants of OOS P\&L}\label{results_oos_pl}
 	
-	The initial expectations of the process implemented was that the IS batch training using SGD for the predictive network would have a significant influence on priming the network through the use of historical data, and in doing so affect OOS P\&L performance. The results however, indicate that the effects of IS training has relatively limited effect, highlighting the complexity and dynamic nature of financial time series, where past relations and behaviours are not necessarily inidicative of present state. These issues are discussed more extensively in Section \ref{results_data_hist}, however the follow through is that the primary determinants of OOS P\&L are those which are present in the OGD learning phase: the OGD learning rate, the data horizon aggregations and the SAE feature reduction.\newline
+	The initial expectations of the process implemented was that the IS batch training using SGD for the predictive network would have a significant influence on priming the network through the use of historical data, and in doing so affect OOS P\&L performance. The results however, indicate that the effects of IS training has relatively limited effect, highlighting the complexity and dynamic nature of financial time series, where past relations and behaviours are not necessarily indicative of present state. These issues are discussed more extensively in Section \ref{results_data_hist}, however the follow through is that the primary determinants of OOS P\&L are those which are present in the OGD learning phase: the OGD learning rate, the data horizon aggregations and the SAE feature reduction.\newline
 	
 	
 	\subsubsection{Effects of Data Horizon Aggregations}
@@ -2144,7 +2144,7 @@
 		\caption[OOS P\&L by Data Aggregations]
 		{
 			Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13})
-			\newline The P\&L by data window configurations show a more complex view than the SAE performance. At a mean level, predictive performance is increasing as the span of the windows increase, but with a decrease in the lower and upper bounds. The highest P\&L occurs for the shortest window configuration ([1, 5, 20]). This is a clear view on a consistent dynamic in the results: focusing on short term fluctuations for predictions has a higher risk and reward, whereas focusing on longer term trends with the longer horizons offers a more reliable, though less profitable, return.}
+			\newline The OOS P\&L by data horizon configurations show a more complex view than the SAE performance. At a mean level, predictive performance is increasing as the span of the windows increase, but with a decrease in the lower and upper bounds. The highest P\&L occurs for the shortest window configuration ([1, 5, 20]). This is a clear view on a consistent dynamic in the results: focusing on short term fluctuations for predictions has a higher risk and reward, whereas focusing on longer term trends with the longer horizons offers a more reliable, though less profitable, return.}
 		\label{figure-actual_aggregation_pl}
 	\end{figure}
 	
@@ -2160,7 +2160,7 @@
 		\includegraphics[scale=0.45]{images/results/network/lr/actual_ogd_lr.png}
 		\caption[OOS P\&L by OGD Learning Rates]
 		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13})
-			\newline The P\&L performance for OGD learning rates is expectedly non-linear, with performance increasing significantly from 0.001 up until 0.05 where the network, and degrading thereafter as the network overcorrects to noise and short term changes picked up in the online learning period. The higher learning rates, with networks more able to adapt to changing signal dynamics also result in significantly lower variance in the P\&L delivered. }
+			\newline The OOS P\&L performance for OGD learning rates is expectedly non-linear, with performance increasing significantly from 0.001 up until 0.05 where the network, and degrading thereafter as the network overcorrects to noise and short term changes picked up in the online learning period. The higher learning rates, with networks more able to adapt to changing signal dynamics also result in significantly lower variance in the P\&L delivered. }
 		\label{figure-actual_ogd_lr}
 	\end{figure}
 
@@ -2180,7 +2180,7 @@
 
 	While the OOS performance of the larger encoding sizes behave expectedly for the most part, the SAEs with encoding sizes of 5 and 10 are more inconsistent. In line with the view of changing dynamics within financial markets over time, it would seem that the SAEs with encoding of 10 have overfit to some particular features. These appear to perform well for strategies focusing on long term trends, but are seemingly pathological for the strategies focusing on short term fluctuations. The SAEs with encoding size of 5 results in more dependable performance, presumably because the small encoding layer acts as a form of regularization and so forces the SAE to learn more consistently generalisable features. These dynamics are explored more in Figures \ref{figure_ogdlr_delta_encoding_groups} and \ref{figure-encoding_pl_median}.  \newline
 	
-	The SAE networks with encoding size of 5 appear to have learnt generalisable features for 10 assets, each with 3 data aggregations. Their performances are often on par or better than the higher encoding sizes, or no encoding at all, as can be seen in Figure \ref{figure_OOS_Encoding_PL_Box}. The performance of these SAE networks, with an 83\% reduction in input data, are clear evidence of the efficacy and potential of feature selection in financial times series.\newline
+	The most noteworthy results are the SAE networks with encoding size of 5  which have learnt generalisable features for 10 assets, each with 3 data aggregations. Their performances are often on par or better than the higher encoding sizes, or no encoding at all, as can be seen in Figure \ref{figure_OOS_Encoding_PL_Box}. The performance of these SAE networks, with an 83\% reduction in input data, are clear evidence of the efficacy and potential of feature selection in financial times series.\newline
 	
 	\begin{figure}[H]
 		\centering
@@ -2243,7 +2243,7 @@
 			\end{subfigure}
 		\caption[OOS P\&L By Feature Selection Size, OGD Learning Rate and Data Horizons]
 		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 11 (\ref{config11})		
-			\newline The 4 plots above offer a cohesive view of all 3 primary determinants of OOS P\&L. At an encoding levels of 25 and 20, which are largely smoothing the input, the feature reduction has less material impact and so the relation between data horizons and learning rates are more prominent. Longer horizons deliver higher P\&L with lower learning rates (and so smaller adjustments), while short term horizons outperform with large learning rates (and so an ability to adapt quickly). The SAEs with encoding size 10 show the most inconsistent behaviour, clearly having overfit to the long term features. This results in high performance with the low learning rates and longer horizons, and extremely poor performance with higher learning rates and longer horizons. The encoding size 5 offers a more robust feature selection, resulting in the best of longer horizons at low learning rates, and the best of shorter horizons at larger learning rates.}
+			\newline The 4 plots above offer a cohesive view of all 3 primary determinants of OOS P\&L. At encoding sizes of 25 and 20, which are largely smoothing the input, the feature reduction has less material impact and so the relation between data horizons and learning rates are more prominent. Longer horizons deliver higher P\&L with lower learning rates (and so smaller adjustments), while short term horizons outperform with large learning rates (and so an ability to adapt quickly). The SAEs with encoding size 10 show the most inconsistent behaviour, clearly having overfit to the long term features. This results in high performance with the low learning rates and longer horizons, and extremely poor performance with higher learning rates and longer horizons. The encoding size 5 offers a more robust feature selection, resulting in the best of longer horizons at low learning rates, and the best of shorter horizons at larger learning rates.}
 			\label{figure_ogdlr_delta_encoding_groups}
 		\end{figure}
 		
@@ -2254,7 +2254,7 @@
 
 	\subsection{Value of Historical Signal}\label{results_data_hist}
 		
-	Experimental configuration sets were run to test the hypothesis that the amount of historical IS data available is of limited use, and that the real value is in broader current and cross sectional data. This idea is in line with the understanding that financial markets are inherently complex, adaptive and dynamic, as discussed more broadly in section \ref{lr_TechnicalAnalysis}. With this in mind, and especially so in light of a fundamentally changing macroeconomic landscape, there is limited reason to believe that the functions and relations that may have governed the asset prices 10-15 years ago would still be in effect today. The P\&L results shown in Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset} validate this and show that extensive training on past data may be akin to pre-training network weights at best, and counterproductive in overfitting to dynamics that no longer exist at worst. These findings fall in line with those found in Section \ref{results_oos_pl}, which highlighted the efficacy of prediction strategies using shorter data aggregation horizons over those using longer horizons.
+	Experimental trials were run to test the hypothesis that the amount of historical IS data available is of limited use, and that the real value is in broader current and cross sectional data. This idea is in line with the understanding that financial markets are inherently complex, adaptive and dynamic, as discussed more broadly in Section \ref{lr_TechnicalAnalysis}. With this in mind, and especially so in light of a fundamentally changing macroeconomic landscape, there is limited reason to believe that the functions and relations that may have governed the asset prices 10-15 years ago would still be in effect today. The P\&L results shown in Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset} validate this and show that extensive training on past data may be akin to pre-training network weights at best, and counterproductive in overfitting to dynamics that no longer exist at worst. These findings fall in line with those found in Section \ref{results_oos_pl}, which highlighted the efficacy of prediction strategies using shorter data aggregation horizons over those using longer horizons.
 	
 	\begin{figure}[H]
 		\centering 
@@ -2263,7 +2263,7 @@
 		\caption[OOS P\&L by IS Training Epochs]
 		{
 			Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13}) 
-			\newline The box plots above show OOS P\&L grouped by the number of epochs in the SGD IS training phase (i.e. the number of times the IS data was trained on). In this set of configurations, 100 Epochs offers the best overall performance, and further training to 500 or 1000 epochs degrades performance due to the network overfitting on the IS data. The results here are noteworthy as they show that the benefit of historical data is limited - having a network become better at learning return relationships from 10 years ago is not leading to increased OOS P\&L for more current data. The small difference in the upper halve of observeations between 10 and 100 Epochs further emphasises this point.
+			\newline The box plots above show OOS P\&L grouped by the number of epochs in the SGD IS training phase (i.e. the number of times the IS data was trained on). In this set of configurations, 100 Epochs offers the best overall performance, and further training to 500 or 1000 epochs degrades performance due to the network overfitting on the IS data. The results here are noteworthy as they show that the benefit of historical data is limited - having a network become better at learning return relationships from 10 years ago is not leading to increased OOS P\&L for more current data. The small difference in the upper half of observations between 10 and 100 Epochs further emphasises this point.
 		}
 		\label{figure-results_pl_max_epochs}
 	\end{figure}
@@ -2300,7 +2300,7 @@
 		\label{figure-results-pretraining-effect}
 	\end{figure}		
 	
-	The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset, and that ultimately the financial time series data is pathological for RBM pre-training. It may also emphasise the value of more recent data over historical data usage, as discussed more in Section \ref{results_hist}\footnote{The RBM greedy layerwise training implementation was effectively tested and validated on known datasets such as MNIST, example results for which can bee seen in Section \ref{results_init_appendix} of the Appendix}.\newline 
+	The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts, it was shown to result in a counterproductive exploration of the weight space for this non-IID dataset, and that ultimately the financial time series data is pathological for RBM pre-training. It may also again emphasise the value of more recent data over historical data \footnote{The RBM greedy layerwise training implementation was effectively tested and validated on known datasets such as MNIST, example results for which can bee seen in Section \ref{results_init_appendix} of the Appendix}.\newline 
 	
 	\subsubsection{Variance Based Weight Initialization Techniques}
 	
@@ -2325,7 +2325,7 @@
 		\end{subfigure}
 		\caption[SAE MSE by Weight Initialization]
 		{Dataset: Synthetic10 (\ref{dataset_synthetic10}), AGL \ref{dataset_agl}, Configuration 7 (\ref{config7}) \& Configuration 8 (\ref{config8})
-			\newline Training SAE networks across the Synthetic10 and AGL  datasets, we mostly see the expected patterns emerge. He-Adj consistently outperforms He due to being better suited to the network structures, as seen in the plots above. We also see that He-Adj clearly outperforms Xavier for AGL data, but has performance that is mostly the same (or even marginally worse) than Xavier for the synthetic dataset. Similar trends as AGL are seen when SAEs were trained for the full 10 asset dataset, which can be see in the Appendix, Section \ref{results_init_appendix}.}
+			\newline Training SAE networks across the Synthetic10 and AGL  datasets, we mostly see the expected patterns emerge. He-Adj consistently outperforms He due to being better suited to the network structures, as seen in the plots above. We also see that He-Adj clearly outperforms Xavier for AGL data, but has performance that is mostly the same (or even marginally worse) than Xavier for the synthetic dataset. Similar trends as AGL are seen when SAEs were trained for the full 10 asset dataset, which can be see in Appendix \ref{results_init_appendix}.}
 		\label{figure-mse_init}
 	\end{figure}
 	
@@ -2354,16 +2354,16 @@
 	\end{figure}
 	
 	
-	The results here mostly conform to the theoretical expectations, though there are some inconsistencies. As discussed more fully in \ref{results_linearity}, the GBM data in synthetic datasets will have assets that are configured to certain mean and variances. As these movements are processed, scaled and aggregated over time through the data processing, the movements will generally be more similar and less complex than those of actual stock data which will show greater variance over time (this is shown more concretely in \ref{results_hist}). The learning process then is not required to be able to pass through error signals that change as dynamically over time, and so there is less pressure on the initial starting weights. This consideration may account for the unexpected performance of the Xavier initialization in the Synthetic SAE networks. Further, some of the assumptions of these techniques, such as data being IID, may not apply in the first place, making their results less predictable.  Due to the generally better or comparable performance of He-Adj, it was the only initialization chosen for further experiments.  \newline
+	The results here mostly conform to the theoretical expectations, though there are some inconsistencies. As discussed more fully in \ref{results_synth}, the GBM data in synthetic datasets will have assets that are configured to certain mean and variances. As these movements are processed, scaled and aggregated over time through the data processing, the movements will generally be more similar and less complex than those of actual stock data which will show greater variance over time (this is shown more concretely in Figure \ref{figure-actual_aggregate_dist}). The learning process then is not required to be able to pass through error signals that change as dynamically over time, and so there is less pressure on the initial starting weights. This consideration may account for the unexpected performance of the Xavier initialization in the Synthetic SAE networks. Further, some of the assumptions of these techniques, such as data being IID, may not apply in the first place, making their results less predictable.  Due to the generally better or comparable performance of He-Adj, it was the only initialization chosen for further trials.  \newline
 	
 	\newpage
 	\subsection{Synthetic Data}\label{results_synth}
 	
 	\subsubsection{GBM Generated Data}\label{results_gbm_data}
 	
-	Geometric Brownian Motion (GBM), as discussed in \ref{data_synthetic}, has been used to simulate synthetic datasets for the purposes of testing implementations and configurations without influencing the likelihood of backtest overfitting. GBM is a popular choice for synthetic financial data as it is a Markov process, thus following a random walk and is generally consistent with the efficient market hypothesis in that the next price movements is conditionally independent of past movements. In line with this though, the series will exhibit a constant drift with price shocks according to it's stationary configuration, and changes in price that are not independent. It is worth noting that as GBM are non ergodic series, one should be wary of considering ensemble based predictions with much confidence \cite{Peters}. GBM generated data provides a valuable tool in assessing ideas without taking on any risks, but these results need to be considered correctly. This section details how the behaviour of synthetic data differs from actual data in some of the more critical areas.
+	Geometric Brownian Motion (GBM), as discussed in \ref{data_synthetic}, has been used to simulate synthetic datasets for the purposes of testing implementations and configurations without influencing the likelihood of backtest overfitting. GBM is a popular choice for synthetic financial data as it is a Markov process, thus following a random walk and is generally consistent with the efficient market hypothesis in that the next price movements is conditionally independent of past movements. In line with this though, the series will exhibit a constant drift with price shocks according to it's stationary configuration, and changes in price follow a particular distribution. It is worth noting that as GBM are non ergodic series, one should be wary of considering ensemble based predictions with much confidence \cite{Peters}. GBM generated data provides a valuable tool in assessing ideas without taking on any risks, but these results need to be considered correctly. This section details how the behaviour of synthetic data differs from actual data in some of the more critical areas.
 	
-	\subsubsection{Synthetic Data Aggregation Effects}\label{results_synthdata_mse}
+	\subsubsection{Synthetic Data Horizon Effects}\label{results_synthdata_mse}
 	
 	\begin{figure}[H]
 		\centering
@@ -2384,7 +2384,7 @@
 		\end{subfigure}
 		\caption[SAE MSE Scores for Synthetic Data]
 		{Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Configuration 7 (\ref{config7})
-			\newline Figure (a) shows the distribution of values to be replicated by the SAE for synthetic data. Geometric Brownian Motion generates discrete changes that follow a log-normal distribution, the log difference and scaling of which (as per the data processing described in \ref{data_processing}) result in normally distributed price changes. We see small differences in the distributions according to the data aggregation used, as one would expect, with slightly lower variances occuring for smaller data windows ($\sigma_{[1,5,20]} = 0.145$, $\sigma_{[5,20,60]} = 0.152$, $\sigma_{[10,20,60]} = 0.154$). There were some differences in SAE performance as indicated in Figure (b), though not to large extents and considering the very similar distribution of values, there isn't any expectation of seeing fundamental differences in the networks ability to compress and replicate them. 
+			\newline Figure (a) shows the distribution of values to be replicated by the SAE for synthetic data. Geometric Brownian Motion generates discrete changes that follow a log-normal distribution, the log difference and scaling of which (as per the data processing described in \ref{data_processing}) result in normally distributed price changes. We see small differences in the distributions according to the data horizons used, as one would expect, with slightly lower variances occuring for smaller data horizons ($\sigma_{[1,5,20]} = 0.145$, $\sigma_{[5,20,60]} = 0.152$, $\sigma_{[10,20,60]} = 0.154$). There were some differences in SAE performance as indicated in Figure (b), though not to large extents and considering the very similar distribution of values, there isn't any expectation of seeing fundamental differences in the networks ability to compress and replicate them. 
 			\newline Figure \ref{fig_data_sae_actual} shows the equivalent for actual data, where there is a significant difference in variances for longer data horizons which are more difficult to replicate.}
 		\label{figure-data_sae_synthetic}
 	\end{figure}
@@ -2393,11 +2393,11 @@
 	
 	\begin{figure}[H]
 		\centering 
-		\textbf{OOS P\&L by Data Aggregation (Synthetic Data)}
-		\includegraphics[scale=0.35]{images/results/data/test_aggregation_pl.png}
+		\textbf{OOS P\&L by Data Horizon (Synthetic Data)}
+		\includegraphics[scale=0.3]{images/results/data/test_aggregation_pl.png}
 		\caption[OOS P\&L by Data Aggregation (Synthetic Data)]{
 			Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Configuration 9 (\ref{config9})
-			\newline  The boxplots here show the P\&L from the MMS according group by the data window configurations. There's a clear trend of P\&L increasing as the length of the windows increase. Shorter term GBM data would be more likely to represent fluctuations, whereas the longer term windows will be more representative of the constant mean in the stocks, leading to easier predictive performance and higher P\&L. This is in clear contrast to the effects seen in actual data, where both long term and short term strategies are present, with the highest strategies occuring for shorter horizon aggregations (these can be seen in Figure \ref{figure-actual_aggregation_pl}).}
+			\newline  The boxplots here show the P\&L from the MMS grouped by the data horizon configurations. There's a clear trend of P\&L increasing as the length of the windows increase. Shorter term GBM data would be more likely to represent fluctuations, whereas the longer term windows will be more representative of the constant mean in the asset price fluctuations, leading to easier predictive performance and higher P\&L. This is in clear contrast to the effects seen in actual data, where both long term and short term strategies are present, with the highest strategies occuring for shorter horizon aggregations (these can be seen in Figure \ref{figure-actual_aggregation_pl}).}
 		\label{figure-test_aggregation_pl}
 	\end{figure}
 	
@@ -2408,8 +2408,8 @@
 		\textbf{OOS P\&L by Feature Selection Size and OGD Learning Rate}
 		\includegraphics[scale=0.3]{images/results/feature_selection/synthetic_median.png} 
 		\caption[OOS P\&L by Feature Selection Size and OGD Learning Rate (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configurations 9 (\ref{config9})
-			\newline The trends in the synthetic data are relatively straightforward in comparison to actual data. Feature reduction is possible, with OOS P\&L increasing as encoding size increases. There does however appear to be an optimal point around 15, after which performance plateaus. Given the stabler nature of GBM data, this is to be expected. The results seen for synthetic data here offer a nice counterpoint to what is seen in the actual data. With the GBM stock data having constant characteristics throughout the whole dataset, there is no potential for the SAE to overfit to IS data and have a potentially detrimental effect as the learning rate increases (as was the case with actual data).
-			\newline Results for SAE MSE were largely the same, which can be seen in Appendix section \ref{results_features_appendix}.
+			\newline The trends in the synthetic data are relatively straightforward in comparison to actual data. Feature reduction is possible, with OOS P\&L increasing as encoding size increases. There does however appear to be an optimal point around 15, after which performance plateaus. Given the stabler nature of GBM data, this is to be expected. The results seen for synthetic data here offer a nice counterpoint to what is seen in the actual data. With the GBM data having constant characteristics throughout the whole dataset, there is no potential for the SAE to overfit to IS data and have a potentially detrimental effect as the learning rate increases (as was the case with actual data).
+			\newline Results for SAE MSE were largely the same, which can be seen in Appendix \ref{results_features_appendix}.
 		}
 		\label{figure-synthetic_median}
 	\end{figure}
@@ -2482,7 +2482,7 @@
 	\end{subfigure}
 	\caption[SAE MSE by L1 Regularization]
 	{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12})
-		\newline Figure (a) shows the aggregate performance of SAE networks at different degrees of regularization, with a generally detrimental trend. Figure (b) however, grouping by encoding size, provides a better understanding. As per the results in Section \ref{results_oos_pl}, encodings of 5 are learning highly generalisable featurs, and so benefit from regularization with their best performance at $\lambda = 0.5$. Encodings of 10 are less generalisable, and have their best performance at $\lambda = 0.1$. Higher encoding levels are operating in a different solution space, and not learning generalisable features, and so do not benefit from the regularization.
+		\newline Figure (a) shows the aggregate performance of SAE networks at different degrees of regularization, with a generally detrimental trend. Figure (b) however, grouping by encoding size, provides a better understanding. As per the results in Section \ref{results_oos_pl}, encodings of 5 are learning highly generalisable features, and so benefit from regularization with their best performance at $\lambda = 0.5$. Encodings of 10 have their best performance at $\lambda = 0.1$, learning less generalisable features . Higher encoding levels are operating in a different solution space, and do not benefit from the regularization.
 	}
 	\label{figure-mse_reg}
 \end{figure}
@@ -2530,7 +2530,7 @@
 		\end{subfigure}
 		\caption[SAE MSE by Learning Rate Schedule Ranges]
 		{Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Actual10 dataset (\ref{dataset_actual10}), Configuration 7 (\ref{config7}) \& Configuration 12 (\ref{config12})
-			\newline It is interesting to  note that the effects here are quite different for Synthetic and Actual data, with networks for Synthetic data favouring learning rate ranges with a higher upper bound, and Actual data networks trending in favour of lower upper bound ranges. The synthetic data is structurally less complex, as discussed further in \ref{results_gbm_data} and \ref{results_data_hist}, and so the larger learning rates will allow for quicker optimisation. Conversely, SAE networks for actual data benefit from a more careful exploration of the solution space. The effects of the epoch length had a marginal effect, which can be viewed in the Appendix in Section \ref{results_appendix_finance_data}.}
+			\newline It is interesting to  note that the effects here are quite different for Synthetic and Actual data, with networks for Synthetic data favouring learning rate ranges with a higher upper bound, and Actual data networks trending in favour of lower upper bound ranges. The synthetic data is structurally less complex, as discussed further in \ref{results_gbm_data} and \ref{results_data_hist}, and so the larger learning rates will allow for quicker optimisation. Conversely, SAE networks for actual data benefit from a more careful exploration of the solution space. The effects of the epoch length had a marginal effect, which can be viewed in Appendix \ref{results_appendix_finance_data}.}
 		\label{figure-mse_lr}
 	\end{figure}
 
@@ -2551,7 +2551,7 @@
 	
 	As discussed in Section \ref{results_data_hist}, the effects of supervised training on the IS dataset with SGD had limited benefits for OOS performance, and ultimately may be approximating the equivalent of pretraining weight initialization rather than an effective structural learning. The best performing networks were those which were able to quickly adapt to new solution spaces, rather than those which had trained effectively to old ones. Naturally then, the numerous SGD optimizations employed had very little effect on the OOS performance. That said, the effects they have on IS performance do give some insights into the nature of financial data being considered, and do suggest that implementing such optimizations in the OGD phase could be beneficial. \newline
 		
-	Figure \ref{figure-actual_pl_lr_epochs} shows the effects of learning rate schedules (implemented as per  \ref{imp_learning_rate_schedule}), with notable impact across different epoch lengths. Figure \ref{figure-results-reg} shows the impact of L1 regularization (implemented as per Section \ref{imp_regularization}), with results showing only a minor potential improvement and ultimately highlighting the unstable dynamics of financial time series. Lastly, Figure \ref{figure-results_mse_denoising} shows that input dropout (implemented as per Section \ref{imp_dropout}) was ineffective in prompting the network to learn interactive relations between assets.
+	Figure \ref{figure-actual_pl_lr_epochs} shows the effects of learning rate schedules (implemented as per  \ref{imp_learning_rate_schedule}), with notable impact across different epoch lengths. Figure \ref{figure-results-reg} shows the impact of L1 regularization (implemented as per Section \ref{imp_regularization}), with results showing only a minor potential improvement and ultimately highlighting the unstable dynamics of financial time series. Lastly, Figure \ref{figure-results_mse_denoising} shows that input Dropout (implemented as per Section \ref{imp_dropout}) was ineffective in prompting the network to learn interactive relations between assets.
 		
 		
 	\begin{figure}[H]
@@ -2573,9 +2573,9 @@
 		\end{subfigure}
 		\caption[Effects of Epoch Cycle Lengths on P\&L]
 		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12}) \& Configuration 13 (\ref{config13})
-		\newline Figure (a) shows significant differences in the P\&L compared across different learning rate epochs, with 100 offering notable improvement over  a constant learning rate. The 10 epoch cycles were used for configurations which only ran for 10 epochs, and so the performance may just be indicative of the amount of training. As expected, the performance increase IS doesnt' have significant impacts on the OOS performance, but it does given an indication that a more careful exploration of the complex solution space would be beneficial where possible.
+		\newline Figure (a) shows significant differences in the P\&L compared across different learning rate epochs, with 100 offering notable improvement over  a constant learning rate. The 10 epoch cycles were used for configurations which only ran for 10 epochs, and so the performance may just be indicative of the amount of training. As expected, the performance increase IS doesn't have significant impacts on the OOS performance, but it does given an indication that a more careful exploration of the complex solution space would be beneficial where possible.
 		\newline\newline
-		The learning rate ranges themselves were set to the best values seen for the data in the SAE training, and small variations did not results in notable changes. These can be seen in the Appendix in Section \ref{results_appendix_finance_data}.}
+		The learning rate ranges themselves were set to the best values seen for the data in the SAE training, and small variations did not results in notable changes. These can be seen in Appendix \ref{results_appendix_finance_data}.}
 		\label{figure-actual_pl_lr_epochs}
 	\end{figure}
 	
@@ -2653,7 +2653,7 @@
 	
 	\paragraph{SAE Network Structures}
 	
-	It was interesting to note that the typically accepted SAE network structure, where layers decrease in size between the input layer and the encoding layer, resulted in worse performance when compared to the same number of layers with constant numbers of nodes. As detailed in section \ref{results_init}, the RBM based greedy layerwise pre-training proved to be ineffective, and so weight initialization with SGD training on the entire network was used instead. It is possible that a greedy layerwise training using these methods (rather than RBM initialization) may have shown increased performance in the decreasing layer size structure, but for SGD training it was clear that larger layers at all stages increased performance. The box plots showing these trends can be seen for actual and synthetic data in the appendix, section \ref{results_network_appendix}.
+	It was interesting to note that the typically accepted SAE network structure, where layers decrease in size between the input layer and the encoding layer, resulted in worse performance when compared to the same number of layers with constant numbers of nodes. As detailed in Section \ref{results_init}, the RBM based greedy layerwise pre-training proved to be ineffective, and so weight initialization with SGD training on the entire network was used instead. It is possible that a greedy layerwise training using these methods (rather than RBM initialization) may have shown increased performance in the decreasing layer size structure, but for SGD training it was clear that larger layers at all stages increased performance. The box plots showing these trends can be seen for actual and synthetic data in Appendix \ref{results_network_appendix}.
 
 	
 	
@@ -2714,7 +2714,7 @@
 		\end{subfigure}
 		\caption[P\&L by Scaling and Activations (Synthetic Data)]
 		{Dataset Synthetic6  (\ref{dataset_synthetic6})), Configuration 3 (\ref{config3}) \& Configuration 4 (\ref{config4})
-			This figure offers a comparison of Linear and ReLU hidden layer activations on P\&L, with the linear activations resulting in notably better P\&L when compared to ReLU activations. Unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per \ref{results_gbm_data}, whereas we would see actual asset data benefit from a non-linear representation. Linear configurations for actual data were not run, as real stock data is not expected to follow patterns that are linear through time, thus offering little value.}
+			\newline This figure offers a comparison of Linear and ReLU hidden layer activations on P\&L, with the linear activations resulting in notably better P\&L when compared to ReLU activations. Unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per \ref{results_gbm_data}, whereas we would see actual asset data benefit from a non-linear representation. Linear configurations for actual data were not run, as real stock data is not expected to follow patterns that are linear through time, thus offering little value.}
 		\label{figure-pl_activations_scaling}
 	\end{figure}
 	
@@ -2723,8 +2723,60 @@
 	
 	\subsubsection{Leaky ReLU vs ReLU}
 	
-	Leaky ReLU activations were implemented, and showed negligible effects for SAE, which can be seen in the Appendix \ref{results_activations_appendix}. For the predictive network, the LeakyReLU did offer some more significant improvements (3\% - 10\%) on OOS P\&L for Synthetic data, as seen in Figure \ref{figure-synthetic_pl_leakyrelu} in the Appendix. Subsequently, Leaky ReLU was used as the hidden layer activation of choice for most experiments.
+	Leaky ReLU activations were implemented, and showed negligible effects for SAE, which can be seen in Appendix \ref{results_activations_appendix}. For the predictive network, the LeakyReLU did offer some more significant improvements (3\% - 10\%) on OOS P\&L for Synthetic data, as seen in Figure \ref{figure-synthetic_pl_leakyrelu} in the appendix. Subsequently, Leaky ReLU was used as the hidden layer activation of choice for most trials.
 	
+	\newpage
+	\subsection{Money Management Strategy}\label{results_mms}
+	
+	This section details the financial returns generated from the MMS implemented, as per Section \ref{imp_mms}, both in terms of OOS P\&L as well as the strategy Sharp Ratios. The benchmark noted represents returns that would have been generated from the same MMS if the underlying network making predictions had 100\% accuracy, and so in this way represents an upper bound on performance.\newline
+	
+	The benchmark return rate is 3.04\%, so while the strategies' proximity to the benchmark do represent a framework success, they are not necessarily representative of a feasible market solution. Ultimately, this enforces the notion that the MMS implementation is of exceeding importance in a live trading process, and predictive accuracy is only able to achieve so much. \newline
+	
+	Figure \ref{results_pl_pdf_cost} shows the distributions of OOS P\&L with and without trading costs being accounted for, with a significant number of distributions which are within the 20\%-30\% range of the benchmark. While the costs do have a notable impact on the overall P\&L distribution, it does not seem to indicate that the strategy would suffer from implementation limitations due to trading costs. The trials with 0 P\&L are networks which suffered from either exploding or vanishing gradients, and were not able to make sufficient predictions. The distribution of Sharpe Ratios are shown in Figure \ref{figure-sharpe_ratios}, and are expectedly following a similar pattern to the P\&L distributions. The Sharpe Ratio's are not providing exceedingly good returns, though this is as representative of the basic trading strategy and selection of stocks used as any performance assessment of the underlying networks, as further emphasised by the distribution of correct trade percentages in Figure \ref{figure-confusion_dist}. \newline 
+	
+	As noted earlier, the P\&L reported on here is a relative unit measurement, rather than a particular currency (as discussed in \ref{data_prices}). Additionally, the MMS, as described in \ref{imp_mms}, only trades 1 stock unit at a time and so any P\&L figures are relative indications rather than absolute limits.
+	
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{MMS OOS P\&L Distributions}
+		\begin{subfigure}{.44\textwidth}
+			\centering 
+			\includegraphics[scale=0.3]{images/results/mms/profits_nocost.png} 
+			\caption{\textbf{Without Capital \& Trading Costs}}
+			\label{figure-results_pl_pdf_nocapital}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\includegraphics[scale=0.31]{images/results/mms/profits_cost.png} 
+			\caption{\textbf{With Capital \& Trading Costs}}
+			\label{figure-results_pl_pdf_cost_capital}
+		\end{subfigure}
+		\caption[MMS OOS P\&L Distributions]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+			\newline The distributions of all OOS P\&L values, with the benchmark P\&L indicated in orange, give an encouraging view of the results. There is a significant negative skew, with a proportionally small number of strategies resulting in negative returns, even with capital and trading costs applied (as per Equation \ref{eq_capital_costs}). There are a large proportion of strategies near the OOS upper bound, which in turn is within 22\% and 28\% of the benchmark for Figure (a) and (b), respectively (these percentages apply similarly to return rates as they do to OOS P\&L).
+		}
+		\label{results_pl_pdf_cost}
+	\end{figure}
+	
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{MMS Sharpe Ratios and Correct Trades}
+		\begin{subfigure}{.44\textwidth}
+			\centering 
+			\includegraphics[scale=0.23]{images/results/mms/sharpe_ratios.png} 
+			\caption{\textbf{Sharpe Ratios (With Costs)}}
+			\label{figure-sharpe_ratios}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\includegraphics[scale=0.22]{images/results/mms/confusion_dist.png} 
+			\caption{\textbf{Correct Trade Distribution}}
+			\label{figure-confusion_dist}
+		\end{subfigure}
+		\caption[MMS Sharpe Ratios and Correct Trades]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+			\newline Figure (a) shows the distribution of all strategies' Sharpe Ratios, with costs taken into account. Figure (b) shows the correct trade percentages made by the strategies (i.e. purchasing an asset when they should have). Naturally, theses are all highly correlated measures, showing the same overall distribution patterns as those seen in the OOS P\&L in Figure \ref{results_pl_pdf_cost}. This once again indicates the successful implementation of the underlying framework.
+		}
+		\label{results_mms_sr_conf}
+	\end{figure}
 
 	\newpage
 
@@ -2737,18 +2789,18 @@
 	
 	Their methodology offers several key benefits:
 	\begin{itemize}
-		\item[1] The CSCV methodology is generic, model-free and nonparametric, allowing it to arguably used in any model case
-		\item[2] There is no requirement of a hold-out set, which removes potential credibility issues regarding whether the holdout set was treated appropriately or not
-		\item[3] While the Sharpe Ratio is the typically chosen performance metric, the technique is generic enough to allow any performance measure to be used
-		\item[4] The logit distribution developed through the assessment offers a useful view on the robustness of the strategies used and the nature of the PBO score
+		\item[1] The CSCV methodology is generic, model-free and nonparametric, allowing it to arguably be used in any model case.
+		\item[2] There is no requirement of a hold-out set, which removes potential credibility issues regarding whether the holdout set was treated appropriately or not.
+		\item[3] While the Sharpe Ratio is the typically chosen performance metric, the technique is generic enough to allow any performance measure to be used.
+		\item[4] The logit distribution developed through the assessment offers a useful view on the robustness of the strategies used and the nature of the PBO score.
 	\end{itemize}
 	
 	\texttt{}\newline
-	While the methodology is in substance a model free approach to assessing overfitting, the application in a machine learning context has highlighted some shortfalls and dynamics that are worth considering in its usage. Conceptually, overfitting occurs from model parameters being applied to the IS set which perform poorly OOS. For an online learning neural network though, the model parameters which are applied IS for prior training are not necessarily the same parameters that are used for the OOS results (i.e. one may not use the same learning rates for IS SGD training as for OOS OGD training). Further, the parameters of a neural network model are for the most part the weights of the network, which change and adapt during the online learning (OOS) phase. This is the primary strength of the model - while it may very well be overfit to the IS data, an effective learning implementation will result in the model adapting relatively quickly and so move out of the overfit solution space (evidence of IS overfitting can be seen in \ref{results_hist}). Notably, this behaviour would not occur in many static financial econometric models that might typically be more closely associated with backtest overfitting issues.\newline 
+	While the methodology is in substance a model free approach to assessing overfitting, the application in a machine learning context has highlighted some shortfalls and dynamics that are worth considering in its usage. Conceptually, overfitting occurs from model parameters being applied to the IS set which perform poorly OOS. For an online learning neural network though, the model parameters which are applied IS for prior training are not necessarily the same parameters that are used for the OOS results (i.e. one may not use the same learning rates for IS SGD training as for OOS OGD training). Further, the parameters of a neural network model are for the most part the weights of the network, which change and adapt during the online learning (OOS) phase. This is the primary strength of the model - while it may very well be overfit to the IS data, an effective learning implementation will result in the model adapting relatively quickly and so move out of the overfit solution space (evidence of IS overfitting can be seen in \ref{results_data_hist}). Notably, this behaviour would not occur in many static financial econometric models that might typically be more closely associated with backtest overfitting issues.\newline 
 	
 	The use of the logit metric in the CSCV method also creates some potentially problematic issues due to its basis in an ordinal ranking, and whether the best strategy in the IS set is higher than the median in the OOS set. The effect is that strategies which perform poorly both in the IS and OOS datasets are able to artificially bolster the ordinal position of the best strategy such that it is past the median point and does not result in an increased likelihood of overfitting. As the authors correctly noted, the addition of trials that are doomed to fail will bias results, and if configurations are obviously flawed then they shouldn't have been tried in the first place. In practice though, the issue is more pervasive than suggested. The combinatorial grid search approach as outlined in \ref{proc_parameters} results in certain parameter combinations that cause networks to perform very poorly. Individually, these parameters may work well in other combinations though, and so there would be no obvious reason to exclude them to begin with. In this sense, an honest search of the solution space where there is no prior knowledge about what will work OOS may result in a PBO score that is lower than it should be. This dynamic is concerning in that it is easy to create poor performance models and so allows the PBO method to be used fraudulently, and is even more so in the case where it might occur without the researcher realising. \newline
 	
-	Further to this, the parameter space search methodology (section \ref{proc_parameters}) also results in a lower likelihood of PBO due to the way of combining parameters across IS and OOS stages. By way of example, any configuration which performs well IS will have all possible OOS parameters tested in combination with it. While some of these combinations may result in poor performance, there will always be a combination of the best IS and best OOS parameter choices. This makes it unlikely that the best configurations will be past the median point for the logit calculation, resulting in a systematically low PBO.\newline
+	Further to this, the parameter space search methodology (Section \ref{proc_parameters}) also results in a lower likelihood of PBO due to the way of combining parameters across IS and OOS stages. By way of example, any configuration which performs well IS will have all possible OOS parameters tested in combination with it. While some of these combinations may result in poor performance, there will always be a combination of the best IS and best OOS parameter choices. This makes it unlikely that the best configurations will be past the median point for the logit calculation, resulting in a systematically low PBO.\newline
 	
 	Another potential implementation concern with CSCV and PBO is the choice of the $S$ parameter, which is the number of splits for the data to be sampled into. As seen in Figure \ref{figure-PBO_by_Split}, the number of splits can have an overwhelming effect on the PBO score reported for the same data sets and results. This is not a problem if the implementation is done honestly and openly, but does allow for misuse and a potential inability to compare PBO scores. Further, while the authors do provide guidelines for choosing $S$ such that the splits will be representative of trading periods, there is still no clearly defined method of choosing the time spans of these periods. The exponential growth in combinations to be tested as $S$ increases also quickly results in reaching computational resource limits, which may further lead to the choice in $S$ being made according to reasons that are not in line with prioritising the correct PBO score to report. These combination sizes can be seen below in Figure \ref{figure-s_combinations}.
 	
@@ -2805,7 +2857,7 @@
 	\subsubsection{Framework Success}
 	
 	
-	While the CSCV and PBO implementations do raise some concerns, the results here do also highlight the efficacy of the framework which has been implemented. The low PBO scores presented here show that the combinatorial search approach combined with an online machine learning model allows researchers to take on a broad exploration of the possible solution space while maintaining a low risk of backtest overfitting, and such that P\&L results which are comparable to the benchmark are achieved, as seen below in section \ref{results_mms}.
+	While the CSCV and PBO implementations do raise some concerns, the results here do also highlight the efficacy of the framework which has been implemented. The low PBO scores presented here show that the combinatorial search approach combined with an online machine learning model allows researchers to take on a broad exploration of the possible solution space while maintaining a low risk of backtest overfitting, and such that P\&L results which are comparable to the benchmark are achieved, as seen in Section \ref{results_mms}.
 	
 	\newpage
 
@@ -2817,18 +2869,18 @@
 	
 	\subsubsection{ONC Results}\label{results_onc}
 	
-	Interestingly, the ONC algorithm produced only 2 clusters for the components, which were partitioned exactly by the choice in input price fluctuation horizon aggregations (as per the calculations in Section \ref{Data}) . Cluster One contains all the trials with horizon aggregations of [1, 5, 10], and Cluster Two contains all trials with horizon aggregations of [5, 20, 60] and [10, 20, 60]. The nature of the experimentation process, with the combinatorial parameter space exploration (as detailed in Section \ref{proc_parameters}), is such that other parameters are evenly split across the 2 clusters (e.g. OGD learning rate, network sizes, intializations and so on).\newline
+	The ONC algorithm produced only 2 clusters for the components, which were partitioned exactly by the choice in input price fluctuation horizon aggregations (as per the calculations in Section \ref{Data}) . Cluster One contains all the trials with horizon aggregations of [1, 5, 10], and Cluster Two contains all trials with horizon aggregations of [5, 20, 60] and [10, 20, 60]. The nature of the experimentation process, with the combinatorial parameter space exploration (as detailed in Section \ref{proc_parameters}), is such that other parameters are evenly split across the 2 clusters (e.g. OGD learning rate, network sizes, intializations and so on).\newline
 	
-	Under consideration of a single and consistent MMS trading strategy, the clusters here then indicate that the networks adapted to at least two different general strategies for predicting prices: one which was more influenced by the short term fluctations in the 1 day aggregation, and the second which was more influenced by the long term fluctuations in the 60 day aggregation. The results presented in Section \ref{results_network}, such as the effect of the OGD learning rate on P\&L, are then indicative of the networks ability to execute these overarching strategies effectively. \newline
+	Under consideration of a single and consistent MMS trading strategy, the clusters here then indicate that the networks adapted to at least two different general strategies for predicting prices: one which was more influenced by the short term fluctations in the 1 day aggregation, and the second which was more influenced by the long term fluctuations in the 60 day aggregation. The results presented in Section \ref{results_oos_pl}, such as the effect of the OGD learning rate on P\&L, are then indicative of the networks ability to execute these overarching strategies effectively. \newline
 	
-	The best Sharpe Ratio value was 0.83 and part of Cluster One, with the [1, 5, 10] price fluctuation horizon aggregations. The distributions seen in Figure \ref{figure-dsr_clusters} indicate that at a general level, Cluster Two has more consistent performance, with a higher mean ($\mu_{c1} = 0.546$, $\mu_{c2} = 0.556$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.48$, $\tilde{\mu}_{3,c2} = -0.67$ ). Cluster One on ther other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR. This shows that relying on the longer term trends for prediction can offer more reliable and consistent returns. Using shorter term fluctations can offer higher rewards, though with more variance and risk involved, as per the efficacy of the implementation. These higher and lower variances in P\&L returns were seen more concretely in Figure \ref{figure-actual_aggregation_pl}. The same patterns are presented in the OGD MSE scores, as seen in Figure \ref{figure-dsr_clusters_mse} .This is perhaps not entirely surprising when the price prediction horizon was 5 days.\newline
+	The best Sharpe Ratio value (with trading costs applied) was 0.63 and part of Cluster One, with the [1, 5, 10] price fluctuation horizon aggregations. The distributions seen in Figure \ref{figure-dsr_clusters} indicate that at a general level, Cluster Two has more consistent performance, with a higher mean ($\mu_{c1} = 0.546$, $\mu_{c2} = 0.556$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.48$, $\tilde{\mu}_{3,c2} = -0.67$ ). Cluster One on ther other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR. This shows that relying on the longer term trends for prediction can offer more reliable and consistent returns. Using shorter term fluctations can offer higher rewards, though with more variance and risk involved, as per the efficacy of the implementation. These higher and lower variances in P\&L returns were seen more concretely in Figure \ref{figure-actual_aggregation_pl}. The same patterns are presented in the OGD MSE scores, as seen in Figure \ref{figure-dsr_clusters_mse} .This is perhaps not entirely surprising when the price prediction horizon was 5 days.\newline
 
 	\begin{figure}[H]
 		\centering
 		\textbf{Sharpe Ratios for ONC Clusters and Best Strategy}
 		\includegraphics[scale=0.35]{images/results/dsr/cluster_distributions.png} 
 		\caption[Sharpe Ratios for ONC Clusters and Best Strategy]{
-			 The graph here shows the distributions of all sharpe ratios, grouped by the 2 clusters produced by the ONC algorithm, and an indication for the best sharpe ratio, which is in Cluster One. As note above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.546$, $\mu_{c2} = 0.556$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.48$, $\tilde{\mu}_{3,c2} = -0.67$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials.}
+			 The graph here shows the distributions of all Sharpe Ratios, grouped by the 2 clusters produced by the ONC algorithm, and an indication for the best sharpe ratio, which is in Cluster One. As note above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.546$, $\mu_{c2} = 0.556$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.48$, $\tilde{\mu}_{3,c2} = -0.67$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials.}
 		\label{figure-dsr_clusters}
 	\end{figure}
 
@@ -2845,68 +2897,13 @@
 	
 	\subsubsection{DSR and PSR Results}\label{results_dsr2}
 	
-	Using the clusters produced by the ONC algorithm (\ref{results_onc}), the DSR process as presented in Section \ref{imp_dsr} was followed. The aggregate cluster time series returns were calculated using Equations \ref{eq_onc_weights} and \ref{eq_onc_returns} (Section \ref{dsr_cluster_estimates}). These are annualized, which allows their variance estimates to then be used to calculate $SR^*$, which represents the maximum expected observed Sharpe Ratio due to variance under the null hypothesis of $H_0:  \widehat{SR} = 0$ (as discussed in Sections \ref{sr_normality} and \ref{imp_fst}). Using this $SR^*$ as the benchmark, the PSR calculation ($\widehat{PSR}[SR^*]$) can then be used to determine if the observed $\widehat{SR}$ is a false positive or not (as per Section \ref{imp_dsr_detail}).This figure is the DSR as a confidence for whether the observed best $SR$ is actually postive. \newline
+	Using the clusters produced by the ONC algorithm (\ref{results_onc}), the DSR process as presented in Section \ref{imp_dsr} was followed. The aggregate cluster time series returns were calculated using Equations \ref{eq_onc_weights} and \ref{eq_onc_returns} (Section \ref{dsr_cluster_estimates}). These are annualized, which allows their variance estimates to then be used to calculate $SR^*$, which represents the maximum expected observed Sharpe Ratio due to variance under the null hypothesis of $H_0:  \widehat{SR} = 0$ (as discussed in Sections \ref{sr_normality} and \ref{imp_fst}). Using this $SR^*$ as the benchmark, the PSR calculation ($\widehat{PSR}[SR^*]$) can then be used to determine if the observed $\widehat{SR}$ is a false positive or not (as per Section \ref{imp_dsr_detail}). This figure is the DSR as a confidence for whether the observed best $SR$ is actually positive. \newline
 	
-	In this case, the benchmark $SR^*$ calculated was 0.00048, and the best $\widehat{SR}$ observed was 0.83, leading to a $\widehat{PSR}[SR^*]$ of 1.0, thus indicating that the trials certainly contain a strategy which has a positive SR rate. This does seem like a reasonable conclusion, considering the SR distributions in Figure \ref{figure-dsr_clusters}. The calculations for all steps can be seen in Section \ref{results_dsr_appendix} of the Appendix. \newline
+	In this case, the benchmark $SR^*$ calculated was 0.00048, and the best $\widehat{SR}$ observed was 0.83, leading to a $\widehat{PSR}[SR^*]$ of 1.0, thus indicating that the trials certainly contain a strategy which has a positive SR rate. This does seem like a reasonable conclusion, considering the SR distributions in Figure \ref{figure-dsr_clusters}. The calculations for all steps can be seen in Appendix \ref{results_dsr_appendix}. \newline
 
-	Much like the results for the CSCV and PBO methods, this once again hightlights the presented framework's ability to develop and assess predictive networks which can be successfully incorporated into a profitable trading strategy.	
-	
 	\subsubsection{Framework Success}
 	
-	Much like the results from the CSCV and PBO methodogies, the DSR assessment here provides assurance that a large confguration space can be explored effectively and still have confirmable effects. In this case, the DSR indicates that even with the expected variation amongst trial Sharpe Ratios, we were still able to find a strategy with a postive SR with full confidence.
-	
-	\newpage
-	\subsection{Money Management Strategy}\label{results_mms}
-	
-	This section details the financial returns generated from the MMS implemented, as per Section \ref{imp_mms}, both in terms of OOS P\&L as well as the strategy Sharp Ratios. The benchmark noted represents returns that would have been generated from the same MMS if the underlying network making predictions had 100\% accuracy, and so in this way represents an upper bound on performance.\newline
-	
-	The benchmark return rate is 3.04\%, so while the strategies' proximity to the benchmark do represent a framework success, they are not necessarily representative of a feasible market solution. Ultimately, this enforces the notion that the MMS implementation is of exceeding importance in a live trading process, and predictive accuracy is only able to achieve so much. \newline
-	
-	Figure \ref{results_pl_pdf_cost} shows the distributions of OOS P\&L with and without trading costs being accounted for, with a significant number of distributions which are within the 20\%-30\% range of the benchmark. While the costs do have a notable impact on the overall P\&L distribution, it does not seem to indicate that the strategy would suffer from implementation limitations due to trading costs. The configurations represented by the '0' bar are networks which suffered from either exploding or vanishing gradients, and were not able to make sufficient predictions. The distribution of Sharpe Ratios are shown in Figure \ref{figure-sharpe_ratios}, and are expectedly following a similar pattern to the P\&L distributions. The Sharpe Ratio's are not providing exceedingly good returns, though this is as representative of the basic trading strategy and selection of stocks used as any performance assessment of the underlying networks, as further emphasised by the distribution of correct trade percentages in Figure \ref{figure-confusion_dist}. \newline 
-	
-	As noted earlier, the P\&L reported on here is a relative unit measurement, rather than a particular currency (as discussed in \ref{data_prices}). Additionally, the MMS, as described in \ref{imp_mms}, only trades 1 stock unit at a time and so any P\&L figures are relative indications rather than absolute limits.
-	
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{MMS OOS P\&L Distributions}
-		\begin{subfigure}{.44\textwidth}
-			\centering 
-			\includegraphics[scale=0.3]{images/results/mms/profits_nocost.png} 
-			\caption{\textbf{Without Capital \& Trading Costs}}
-			\label{figure-results_pl_pdf_nocapital}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-		\includegraphics[scale=0.31]{images/results/mms/profits_cost.png} 
-		\caption{\textbf{With Capital \& Trading Costs}}
-		\label{figure-results_pl_pdf_cost_capital}
-		\end{subfigure}
-			\caption[MMS OOS P\&L Distributions]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
-			\newline The distributions of all OOS P\&L values, with the benchmark P\&L indicated in orange, give an encouraging view of the results. There is a significant negative skew, with a proportionally small number of strategies resulting in negative returns, even with capital and trading costs applied (as per Equation \ref{eq_capital_costs}). There are a large proportion of strategies near the OOS upper bound, which in turn is within 22\% and 28\% of the benchmark for Figure (a) and (b), respectively (these percentags apply similarly to return rates as they do to OOS P\&L).
-		}
-		\label{results_pl_pdf_cost}
-	\end{figure}
-
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{MMS Sharpe Ratios and Correct Trades}
-		\begin{subfigure}{.44\textwidth}
-			\centering 
-			\includegraphics[scale=0.23]{images/results/mms/sharpe_ratios.png} 
-			\caption{\textbf{Sharpe Ratios (With Costs)}}
-			\label{figure-sharpe_ratios}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
-			\includegraphics[scale=0.22]{images/results/mms/confusion_dist.png} 
-			\caption{\textbf{Correct Trade Distribution}}
-			\label{figure-confusion_dist}
-		\end{subfigure}
-		\caption[MMS Sharpe Ratios and Correct Trades]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
-			\newline Figure (a) shows the distribution of all strategies' Sharpe Ratios, with costs taken into account. Figure (b) shows the correct trade percentages made by the strategies (i.e. purchasing an asset when they should have). Naturally, theses are all highly correlated measures, showing the same overall distribution patterns as those sen in the OOS P\&L in Figure \ref{results_pl_pdf_cost}. This once again indicates the successful implementation on the underlying framework.
-		}
-		\label{results_mms_sr_conf}
-	\end{figure}
+	Much like the results from the CSCV and PBO methodogies, the DSR assessment here provides assurance that a large confguration space can be explored effectively and still have confirmable effects which can be successfully incorporated into a profitable trading strategy. In this case, the DSR indicates that even with the expected variation amongst trial Sharpe Ratios, we were still able to find a strategy with a positive SR with full confidence.
 
 	
 	\newpage
@@ -2918,7 +2915,7 @@
 	
 		The other prominent difference in Synthetic data was in the SAE features learnt. Results for SAE networks trained on actual data displayed different classes of features being learnt according to the input horizons, which had fluctuating performances across time periods. Synthetic data however has less inherent features to learn, and so responded with a monontonic performance according to feature size, as seen in Figure \ref{figure-synthetic_median}. In assessing data aggregations and encoding sizes, synthetic data was not an effective indicator for results on actual data. \newline
 	
-		The results for weight initialzation techniques, as discussed in Section \ref{results_init} , were slightly different from actual data, but did still follow theoretical conclusions and lead to similar conclusions. In this sense, synthetic data seemed to be a good indicator. Similarly, while synthetic results for Linear network activations would be misleading for actual data, the results for non-linear activations seemed to be effective in leading to similar decisions (as discussed in Section \ref{results_network}).\newline
+		The results for weight initialzation techniques, as discussed in Section \ref{results_init} , were slightly different from actual data, but did still follow theoretical expectations and lead to similar conclusions. In this sense, synthetic data seemed to be a good indicator. Similarly, while synthetic results for Linear network activations would be misleading for actual data, the results for non-linear activations seemed to be effective in leading to similar decisions (as discussed in Section \ref{results_network}).\newline
 		
 		More typical implementation aspects, such as learning rates and network sizes, also followed similar patterns to actual data when training. These parameters tend to be discovered through exploration on any given data set though, and so the added benefit of synthetic data results is marginal.\newline
 		
@@ -3120,7 +3117,7 @@ Section \ref{results_reduction} showed that while feature selection was possible
 		\textbf{SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)}
 		\includegraphics[scale=0.3]{images/results/network/lr/synth_mse_lr_epochs.png} 
 		\caption[SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configuration 7 (\ref{config7})
-			\newline The SAE networks didn't show significant differences according to the epoch cycles. As discussed in sections \ref{results_gbm_data} and \ref{results_data_hist}, the structure of synthetic data for SAE replication is structurally less complex, and so learning optimizations are less likely to produce large differences.}
+			\newline The SAE networks didn't show significant differences according to the epoch cycles. As discussed in Sections \ref{results_gbm_data} and \ref{results_data_hist}, the structure of synthetic data for SAE replication is structurally less complex, and so learning optimizations are less likely to produce large differences.}
 		\label{figure-synth_mse_lr_epochs}
 		\end{figure}
 	
@@ -3176,7 +3173,7 @@ Section \ref{results_reduction} showed that while feature selection was possible
 		\centering 
 		\textbf{Prediction Accuracy by Training Epochs (MNIST Data)} 
 		\includegraphics[scale=0.2]{images/results/newinit/rbm_pretraining.png}
-		\caption[Prediction Accuracy by Training Epochs (MNIST Data)]{The plot above shows the prediction accuracy achieved on the MNIST dataset according to the number of pre-training epochs using the RBM greedy layerwise methodology as per section \ref{imp_rbm}. There's a clear indication that pre-training allows the network to achieve much higher accuracy much quicker.}
+		\caption[Prediction Accuracy by Training Epochs (MNIST Data)]{The plot above shows the prediction accuracy achieved on the MNIST dataset according to the number of pre-training epochs using the RBM greedy layerwise methodology as per Section \ref{imp_rbm}. There's a clear indication that pre-training allows the network to achieve much higher accuracy much quicker.}
 		\label{figure-rbm_pretraining}
 	\end{figure}
 	

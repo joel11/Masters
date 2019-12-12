@@ -116,7 +116,7 @@
 \BOOKMARK [3][-]{subsubsection.7.4.2}{Variance Based Weight Initialization Techniques}{subsection.7.4}% 116
 \BOOKMARK [2][-]{subsection.7.5}{Synthetic Data}{section.7}% 117
 \BOOKMARK [3][-]{subsubsection.7.5.1}{GBM Generated Data}{subsection.7.5}% 118
-\BOOKMARK [3][-]{subsubsection.7.5.2}{Synthetic Data Aggregation Effects}{subsection.7.5}% 119
+\BOOKMARK [3][-]{subsubsection.7.5.2}{Synthetic Data Horizon Effects}{subsection.7.5}% 119
 \BOOKMARK [3][-]{subsubsection.7.5.3}{Synthetic Data Feature Selection}{subsection.7.5}% 120
 \BOOKMARK [2][-]{subsection.7.6}{Complexity of Financial Time Series}{section.7}% 121
 \BOOKMARK [3][-]{subsubsection.7.6.1}{Data Scaling}{subsection.7.6}% 122
@@ -129,16 +129,16 @@
 \BOOKMARK [3][-]{subsubsection.7.7.3}{Predictive FFN Activations and Scaling}{subsection.7.7}% 129
 \BOOKMARK [3][-]{subsubsection.7.7.4}{Sigmoid Activation Functions}{subsection.7.7}% 130
 \BOOKMARK [3][-]{subsubsection.7.7.5}{Leaky ReLU vs ReLU}{subsection.7.7}% 131
-\BOOKMARK [2][-]{subsection.7.8}{Probability of Backtest Overfitting}{section.7}% 132
-\BOOKMARK [3][-]{subsubsection.7.8.1}{Concerns Regarding the PBO Calculation}{subsection.7.8}% 133
-\BOOKMARK [3][-]{subsubsection.7.8.2}{PBO Results}{subsection.7.8}% 134
-\BOOKMARK [3][-]{subsubsection.7.8.3}{Framework Success}{subsection.7.8}% 135
-\BOOKMARK [2][-]{subsection.7.9}{Deflated Sharpe Ratio}{section.7}% 136
-\BOOKMARK [3][-]{subsubsection.7.9.1}{Computational Complexity}{subsection.7.9}% 137
-\BOOKMARK [3][-]{subsubsection.7.9.2}{ONC Results}{subsection.7.9}% 138
-\BOOKMARK [3][-]{subsubsection.7.9.3}{DSR and PSR Results}{subsection.7.9}% 139
-\BOOKMARK [3][-]{subsubsection.7.9.4}{Framework Success}{subsection.7.9}% 140
-\BOOKMARK [2][-]{subsection.7.10}{Money Management Strategy}{section.7}% 141
+\BOOKMARK [2][-]{subsection.7.8}{Money Management Strategy}{section.7}% 132
+\BOOKMARK [2][-]{subsection.7.9}{Probability of Backtest Overfitting}{section.7}% 133
+\BOOKMARK [3][-]{subsubsection.7.9.1}{Concerns Regarding the PBO Calculation}{subsection.7.9}% 134
+\BOOKMARK [3][-]{subsubsection.7.9.2}{PBO Results}{subsection.7.9}% 135
+\BOOKMARK [3][-]{subsubsection.7.9.3}{Framework Success}{subsection.7.9}% 136
+\BOOKMARK [2][-]{subsection.7.10}{Deflated Sharpe Ratio}{section.7}% 137
+\BOOKMARK [3][-]{subsubsection.7.10.1}{Computational Complexity}{subsection.7.10}% 138
+\BOOKMARK [3][-]{subsubsection.7.10.2}{ONC Results}{subsection.7.10}% 139
+\BOOKMARK [3][-]{subsubsection.7.10.3}{DSR and PSR Results}{subsection.7.10}% 140
+\BOOKMARK [3][-]{subsubsection.7.10.4}{Framework Success}{subsection.7.10}% 141
 \BOOKMARK [2][-]{subsection.7.11}{Summary of Actual and Synthetic Data Effects}{section.7}% 142
 \BOOKMARK [1][-]{section.8}{Software Libraries and Development}{}% 143
 \BOOKMARK [2][-]{subsection.8.1}{Programming Languages}{section.8}% 144
@@ -164,7 +164,7 @@
 \BOOKMARK [3][-]{subsubsection.10.1.3}{Additional Results for Section 7.4 - Weight Initialization Techniques }{subsection.10.1}% 164
 \BOOKMARK [3][-]{subsubsection.10.1.4}{Additional Results for Section ?? - Feature Selection }{subsection.10.1}% 165
 \BOOKMARK [3][-]{subsubsection.10.1.5}{Additional Results for Section 7.7 - Network Structure and Training }{subsection.10.1}% 166
-\BOOKMARK [2][-]{subsection.10.2}{Additional Calculations for Section 7.9 - DSR and ONC}{section.10}% 167
+\BOOKMARK [2][-]{subsection.10.2}{Additional Calculations for Section 7.10 - DSR and ONC}{section.10}% 167
 \BOOKMARK [3][-]{subsubsection.10.2.1}{DSR and PSR calculations}{subsection.10.2}% 168
 \BOOKMARK [2][-]{subsection.10.3}{Configuration Sets Used}{section.10}% 169
 \BOOKMARK [3][-]{subsubsection.10.3.1}{Configuration 1}{subsection.10.3}% 170

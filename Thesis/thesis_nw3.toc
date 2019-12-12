@@ -118,7 +118,7 @@
 \contentsline {subsubsection}{\numberline {7.4.2}Variance Based Weight Initialization Techniques}{77}{subsubsection.7.4.2}
 \contentsline {subsection}{\numberline {7.5}Synthetic Data}{79}{subsection.7.5}
 \contentsline {subsubsection}{\numberline {7.5.1}GBM Generated Data}{79}{subsubsection.7.5.1}
-\contentsline {subsubsection}{\numberline {7.5.2}Synthetic Data Aggregation Effects}{79}{subsubsection.7.5.2}
+\contentsline {subsubsection}{\numberline {7.5.2}Synthetic Data Horizon Effects}{79}{subsubsection.7.5.2}
 \contentsline {subsubsection}{\numberline {7.5.3}Synthetic Data Feature Selection}{80}{subsubsection.7.5.3}
 \contentsline {subsection}{\numberline {7.6}Complexity of Financial Time Series}{81}{subsection.7.6}
 \contentsline {subsubsection}{\numberline {7.6.1}Data Scaling}{81}{subsubsection.7.6.1}
@@ -131,16 +131,16 @@
 \contentsline {subsubsection}{\numberline {7.7.3}Predictive FFN Activations and Scaling}{89}{subsubsection.7.7.3}
 \contentsline {subsubsection}{\numberline {7.7.4}Sigmoid Activation Functions}{90}{subsubsection.7.7.4}
 \contentsline {subsubsection}{\numberline {7.7.5}Leaky ReLU vs ReLU}{90}{subsubsection.7.7.5}
-\contentsline {subsection}{\numberline {7.8}Probability of Backtest Overfitting}{91}{subsection.7.8}
-\contentsline {subsubsection}{\numberline {7.8.1}Concerns Regarding the PBO Calculation}{91}{subsubsection.7.8.1}
-\contentsline {subsubsection}{\numberline {7.8.2}PBO Results}{93}{subsubsection.7.8.2}
-\contentsline {subsubsection}{\numberline {7.8.3}Framework Success}{94}{subsubsection.7.8.3}
-\contentsline {subsection}{\numberline {7.9}Deflated Sharpe Ratio}{95}{subsection.7.9}
-\contentsline {subsubsection}{\numberline {7.9.1}Computational Complexity}{95}{subsubsection.7.9.1}
-\contentsline {subsubsection}{\numberline {7.9.2}ONC Results}{95}{subsubsection.7.9.2}
-\contentsline {subsubsection}{\numberline {7.9.3}DSR and PSR Results}{97}{subsubsection.7.9.3}
-\contentsline {subsubsection}{\numberline {7.9.4}Framework Success}{97}{subsubsection.7.9.4}
-\contentsline {subsection}{\numberline {7.10}Money Management Strategy}{98}{subsection.7.10}
+\contentsline {subsection}{\numberline {7.8}Money Management Strategy}{91}{subsection.7.8}
+\contentsline {subsection}{\numberline {7.9}Probability of Backtest Overfitting}{93}{subsection.7.9}
+\contentsline {subsubsection}{\numberline {7.9.1}Concerns Regarding the PBO Calculation}{93}{subsubsection.7.9.1}
+\contentsline {subsubsection}{\numberline {7.9.2}PBO Results}{95}{subsubsection.7.9.2}
+\contentsline {subsubsection}{\numberline {7.9.3}Framework Success}{96}{subsubsection.7.9.3}
+\contentsline {subsection}{\numberline {7.10}Deflated Sharpe Ratio}{97}{subsection.7.10}
+\contentsline {subsubsection}{\numberline {7.10.1}Computational Complexity}{97}{subsubsection.7.10.1}
+\contentsline {subsubsection}{\numberline {7.10.2}ONC Results}{97}{subsubsection.7.10.2}
+\contentsline {subsubsection}{\numberline {7.10.3}DSR and PSR Results}{99}{subsubsection.7.10.3}
+\contentsline {subsubsection}{\numberline {7.10.4}Framework Success}{99}{subsubsection.7.10.4}
 \contentsline {subsection}{\numberline {7.11}Summary of Actual and Synthetic Data Effects}{100}{subsection.7.11}
 \contentsline {section}{\numberline {8}Software Libraries and Development}{101}{section.8}
 \contentsline {subsection}{\numberline {8.1}Programming Languages}{101}{subsection.8.1}
