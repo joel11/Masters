@@ -79,7 +79,7 @@
 \BOOKMARK [3][-]{subsubsection.4.8.3}{False Strategy Theorem}{subsection.4.8}% 79
 \BOOKMARK [3][-]{subsubsection.4.8.4}{Deflated Sharpe Ratio}{subsection.4.8}% 80
 \BOOKMARK [4][-]{paragraph.4.8.4.1}{Estimating E[K] and V[SRk"0362SRk]}{subsubsection.4.8.4}% 81
-\BOOKMARK [1][-]{section.5}{Full Process}{}% 82
+\BOOKMARK [1][-]{section.5}{Framework Implementation}{}% 82
 \BOOKMARK [2][-]{subsection.5.1}{Parameter Space Exploration}{section.5}% 83
 \BOOKMARK [2][-]{subsection.5.2}{Synthetic Data}{section.5}% 84
 \BOOKMARK [2][-]{subsection.5.3}{Data Preparation}{section.5}% 85
@@ -152,37 +152,35 @@
 \BOOKMARK [2][-]{subsection.8.5}{Database Implementation}{section.8}% 152
 \BOOKMARK [2][-]{subsection.8.6}{Diagnostic Libraries}{section.8}% 153
 \BOOKMARK [1][-]{section.9}{Conclusion}{}% 154
-\BOOKMARK [2][-]{subsubsection.9.0.1}{Framework Success : PBO and DSR}{section.9}% 155
-\BOOKMARK [3][-]{subsubsection.9.0.2}{Historical Data}{subsubsection.9.0.1}% 156
-\BOOKMARK [2][-]{subsection.9.1}{Future Work}{section.9}% 157
-\BOOKMARK [1][-]{section.10}{Appendix}{}% 158
-\BOOKMARK [2][-]{subsection.10.1}{Additional Results}{section.10}% 159
-\BOOKMARK [3][-]{subsubsection.10.1.1}{Additional Results for Section 7.6 - Complexity of Financial Time Series}{subsection.10.1}% 160
-\BOOKMARK [4][-]{paragraph.10.1.1.1}{Effects of Learning Rate Epoch Cycles}{subsubsection.10.1.1}% 161
-\BOOKMARK [4][-]{paragraph.10.1.1.2}{Effects of Learning Rate Epoch Cycles}{subsubsection.10.1.1}% 162
-\BOOKMARK [3][-]{subsubsection.10.1.2}{Additional Results for Section 7.7.2 - Activation Functions and Scaling }{subsection.10.1}% 163
-\BOOKMARK [3][-]{subsubsection.10.1.3}{Additional Results for Section 7.4 - Weight Initialization Techniques }{subsection.10.1}% 164
-\BOOKMARK [3][-]{subsubsection.10.1.4}{Additional Results for Section ?? - Feature Selection }{subsection.10.1}% 165
-\BOOKMARK [3][-]{subsubsection.10.1.5}{Additional Results for Section 7.7 - Network Structure and Training }{subsection.10.1}% 166
-\BOOKMARK [2][-]{subsection.10.2}{Additional Calculations for Section 7.10 - DSR and ONC}{section.10}% 167
-\BOOKMARK [3][-]{subsubsection.10.2.1}{DSR and PSR calculations}{subsection.10.2}% 168
-\BOOKMARK [2][-]{subsection.10.3}{Configuration Sets Used}{section.10}% 169
-\BOOKMARK [3][-]{subsubsection.10.3.1}{Configuration 1}{subsection.10.3}% 170
-\BOOKMARK [3][-]{subsubsection.10.3.2}{Configuration 2}{subsection.10.3}% 171
-\BOOKMARK [3][-]{subsubsection.10.3.3}{Configuration 3}{subsection.10.3}% 172
-\BOOKMARK [3][-]{subsubsection.10.3.4}{Configuration 4}{subsection.10.3}% 173
-\BOOKMARK [3][-]{subsubsection.10.3.5}{Configuration 5}{subsection.10.3}% 174
-\BOOKMARK [3][-]{subsubsection.10.3.6}{Configuration 6}{subsection.10.3}% 175
-\BOOKMARK [3][-]{subsubsection.10.3.7}{Configuration 7}{subsection.10.3}% 176
-\BOOKMARK [3][-]{subsubsection.10.3.8}{Configuration 8}{subsection.10.3}% 177
-\BOOKMARK [3][-]{subsubsection.10.3.9}{Configuration 9}{subsection.10.3}% 178
-\BOOKMARK [3][-]{subsubsection.10.3.10}{Configuration 10}{subsection.10.3}% 179
-\BOOKMARK [3][-]{subsubsection.10.3.11}{Configuration 11}{subsection.10.3}% 180
-\BOOKMARK [3][-]{subsubsection.10.3.12}{Configuration 12}{subsection.10.3}% 181
-\BOOKMARK [3][-]{subsubsection.10.3.13}{Configuration 13}{subsection.10.3}% 182
-\BOOKMARK [3][-]{subsubsection.10.3.14}{Configuration 14}{subsection.10.3}% 183
-\BOOKMARK [3][-]{subsubsection.10.3.15}{Configuration 15}{subsection.10.3}% 184
-\BOOKMARK [3][-]{subsubsection.10.3.16}{Configuration 16}{subsection.10.3}% 185
-\BOOKMARK [3][-]{subsubsection.10.3.17}{Configuration 17}{subsection.10.3}% 186
-\BOOKMARK [2][-]{subsection.10.4}{Diagnostic Charts}{section.10}% 187
-\BOOKMARK [1][-]{section.11}{References}{}% 188
+\BOOKMARK [1][-]{section.10}{Future Work}{}% 155
+\BOOKMARK [1][-]{section.11}{Appendix}{}% 156
+\BOOKMARK [2][-]{subsection.11.1}{Additional Results}{section.11}% 157
+\BOOKMARK [3][-]{subsubsection.11.1.1}{Additional Results for Section 7.6 - Complexity of Financial Time Series}{subsection.11.1}% 158
+\BOOKMARK [4][-]{paragraph.11.1.1.1}{Effects of Learning Rate Epoch Cycles}{subsubsection.11.1.1}% 159
+\BOOKMARK [4][-]{paragraph.11.1.1.2}{Effects of Learning Rate Epoch Cycles}{subsubsection.11.1.1}% 160
+\BOOKMARK [3][-]{subsubsection.11.1.2}{Additional Results for Section 7.7.2 - Activation Functions and Scaling }{subsection.11.1}% 161
+\BOOKMARK [3][-]{subsubsection.11.1.3}{Additional Results for Section 7.4 - Weight Initialization Techniques }{subsection.11.1}% 162
+\BOOKMARK [3][-]{subsubsection.11.1.4}{Additional Results for Section ?? - Feature Selection }{subsection.11.1}% 163
+\BOOKMARK [3][-]{subsubsection.11.1.5}{Additional Results for Section 7.7 - Network Structure and Training }{subsection.11.1}% 164
+\BOOKMARK [2][-]{subsection.11.2}{Additional Calculations for Section 7.10 - DSR and ONC}{section.11}% 165
+\BOOKMARK [3][-]{subsubsection.11.2.1}{DSR and PSR calculations}{subsection.11.2}% 166
+\BOOKMARK [2][-]{subsection.11.3}{Configuration Sets Used}{section.11}% 167
+\BOOKMARK [3][-]{subsubsection.11.3.1}{Configuration 1}{subsection.11.3}% 168
+\BOOKMARK [3][-]{subsubsection.11.3.2}{Configuration 2}{subsection.11.3}% 169
+\BOOKMARK [3][-]{subsubsection.11.3.3}{Configuration 3}{subsection.11.3}% 170
+\BOOKMARK [3][-]{subsubsection.11.3.4}{Configuration 4}{subsection.11.3}% 171
+\BOOKMARK [3][-]{subsubsection.11.3.5}{Configuration 5}{subsection.11.3}% 172
+\BOOKMARK [3][-]{subsubsection.11.3.6}{Configuration 6}{subsection.11.3}% 173
+\BOOKMARK [3][-]{subsubsection.11.3.7}{Configuration 7}{subsection.11.3}% 174
+\BOOKMARK [3][-]{subsubsection.11.3.8}{Configuration 8}{subsection.11.3}% 175
+\BOOKMARK [3][-]{subsubsection.11.3.9}{Configuration 9}{subsection.11.3}% 176
+\BOOKMARK [3][-]{subsubsection.11.3.10}{Configuration 10}{subsection.11.3}% 177
+\BOOKMARK [3][-]{subsubsection.11.3.11}{Configuration 11}{subsection.11.3}% 178
+\BOOKMARK [3][-]{subsubsection.11.3.12}{Configuration 12}{subsection.11.3}% 179
+\BOOKMARK [3][-]{subsubsection.11.3.13}{Configuration 13}{subsection.11.3}% 180
+\BOOKMARK [3][-]{subsubsection.11.3.14}{Configuration 14}{subsection.11.3}% 181
+\BOOKMARK [3][-]{subsubsection.11.3.15}{Configuration 15}{subsection.11.3}% 182
+\BOOKMARK [3][-]{subsubsection.11.3.16}{Configuration 16}{subsection.11.3}% 183
+\BOOKMARK [3][-]{subsubsection.11.3.17}{Configuration 17}{subsection.11.3}% 184
+\BOOKMARK [2][-]{subsection.11.4}{Diagnostic Charts}{section.11}% 185
+\BOOKMARK [1][-]{section.12}{References}{}% 186
