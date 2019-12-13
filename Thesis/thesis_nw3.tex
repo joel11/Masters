@@ -185,7 +185,9 @@
 \begin{document} 
 	\vspace{-7cm}
 	\maketitle \setlinespacing{1}
-	\abstract{We consider pattern prediction of financial time-series data. The algorithm framework and workflow is developed and proved on daily sampled closing time-series data for JSE equity markets. The input patterns are based on input data vectors of data windows pre-processed into a sequence of daily, weekly and monthly or quarterly sampled feature measurement changes (log feature fluctuations). The data processing is split into an online batch processed step where data is compressed using a stacked autoencoder (SAE) via unsupervised learning, and then batch supervised learning is carried out using the data-compression algorithm with the output being a point prediction of measured time-series feature fluctuations (log differenced data) in the future (ex-post) from the training and validation data. Weight initializations for these networks are implemented with Restricted Boltzmann Machine (RBM) pre-training, and variance based initializations. The historical simulation is then run using an online feedforward neutral network (FNN) initialised with the weights from the online training and validation step. The validity of results is considered under a rigorous assessment of backtest overfitting using both Combinatorially Symmetrical Cross Validation and Probabilistic and Deflated Sharpe Ratios. Results are further used to develop a view on the phenomenology of financial markets and the value of historical data.}\\
+	\abstract{
+		
+		We consider a mechanistic non-linear machine learning approach to learning signals in financial time series data, and establish a modularised and decoupled algorithm framework that is proved on daily sampled closing time-series data for JSE equity markets. The input patterns are based on input data vectors of data windows pre-processed into a sequence of daily, weekly and monthly or quarterly sampled feature measurement changes (log feature fluctuations). The data processing is split into a batch processed step where features are learnt using a stacked autoencoder (SAE) via unsupervised learning, and then both batch and online supervised learning are carried out using these features learnt, with the output being a point prediction of measured time-series feature fluctuations (log differenced data) in the future (ex-post). Weight initializations for these networks are implemented with Restricted Boltzmann Machine (RBM) pre-training, and variance based initializations. The historical simulation is then run using an online feedforward neutral network (FNN) initialised with the weights from the batch training and validation step. The validity of results are shown under a rigorous assessment of backtest overfitting using both Combinatorially Symmetrical Cross Validation and Probabilistic and Deflated Sharpe Ratios. Results are further used to develop a view on the phenomenology of financial markets and the value of complex historical data under unstable dynamics.}\\
 	
 	\noindent\textbf{Keywords:} online learning, feedforward neural network, restricted boltzmann machine, variance weight initialization, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting, deflated Sharpe ratio, probabilistic Sharpe ratio
 	
@@ -220,11 +222,12 @@
 	~\\\newline
 		Where Section \ref{Implementation} discusses the functional implementations of each module of the framework, Section \ref{imp_proc} is concerned with how these modules fit together to form an end to end system, from the data preparation to the output of a Probability of Backtest Overfitting (PBO) or DSR figure. This includes discussions of various considerations for individual aspects of the framework, as well as decisions around the combinations of these parts with their justifications and relevant advantages or disadvantages. In light of the configurable and modular system developed, potential alternatives and how they might be used are also discussed here.
 	~\\\newline
+		Section \ref{Software} discusses the implementation tools chosen as well as the libraries created in the process of developing the software for the framework. The libraries offer a generic set of tools with highly configurable parameters in order to train and assess neural networks, including ane extensive collection of visualizations of results.
+	~\\\newline
 		Section \ref{Datasets} provides a brief overview of the datasets used for the trials run, including both the synthetic and actual datasets. Visualisations for the individual asset prices are also included here.
 	~\\\newline
 		Finally, Section \ref{Results} discusses the full set of results from the experiments, and offers several key takeaways. It's shown that historical financial data is of limited use in financial model training, and predictions are served best by a recent cross sectional view on information. Section \ref{results_oos_pl} discusses the nature of prediction strategies learnt, showing that they're influenced heavily by the data horizon choices. Further, SAE based feature reduction is show to be both possible and effective, though with results also being subject to data horizons and recency. Online learning, and consequently network initializations, are shown to be of high importance, the results for which are covered in Section \ref{results_init}. The complexity of financial time series, and how it impacts both supervised and unsupervised learning, are discussed in Section \ref{results_data_hist}, with comparisons to synthetic data being made in Sections \ref{results_synth} and \ref{results_synth_summary}. The MMS returns are presented in Section \ref{results_mms}, and validated through the noted methods in Sections \ref{results_pbo} and \ref{results_dsr}, showing that the framework was able to deliver a profitable and verifiable set of strategies.
 	
-	%Chapter \ref{Software} discusses the implementation tools chosen as well as the libraries created in the process of developing the framework. The libraries offer a generic set of tools to train with highly configurable parameters in order to train and assess neural networks, including ane extensive collection of visualizations for said assessment.
 
 	
 	
@@ -965,7 +968,7 @@
 		\item [7] The returns and P\&L calculated by the MMS are used by the CSCV process, to estimate the probability of backtest overfitting.
 	\end{itemize}
 	~\\
-	The rest of this chapter will detail the algorithms used to train the relevant FFN, RBM and SAE networks, as well as the trading strategy and CSCV \& PBO testing procedures.
+	The rest of this section will detail the algorithms used to train the relevant FFN, RBM and SAE networks, as well as the trading strategy and CSCV \& PBO testing procedures.
 	
 	\subsection{Feedforward Neural Networks}\label{imp_ffn}
 	~\\
@@ -981,7 +984,7 @@
 	
 	\subsubsection{Notation and Network Representation}\label{imp_ffn_functions}
 	
-	For the purposes of this chapter, the following notation will be used:
+	For the purposes of this section, the following notation will be used:
 	
 	\begin{itemize}
 		\item[1] A network $N$ will be contructed with $L$ layers, each with $e$ nodes
@@ -1777,7 +1780,7 @@
 	\newpage
 	\section{Framework Implementation}\label{imp_proc}
 	
-	Having covered the technical implementations in Chapters \ref{Data} and \ref{Implementation}, a higher level overview of the end to end experimental process can be detailed. The process here rests on two key principles: implementing a generalised version of a system which could offer exploration of more complex techniques, and ensuring an effective modularisation of steps such that the process can be reconfigured accordingly while maintaining its integrity. In doing so, a separable system is created which brings together data reduction, deep learning with pre-training/weight initialization, online learning and back test overfitting validation.
+	Having covered the technical implementations in Sections \ref{Data} and \ref{Implementation}, a higher level overview of the end to end experimental process can be detailed. The process here rests on two key principles: implementing a generalised version of a system which could offer exploration of more complex techniques, and ensuring an effective modularisation of steps such that the process can be reconfigured accordingly while maintaining its integrity. In doing so, a separable system is created which brings together data reduction, deep learning with pre-training/weight initialization, online learning and back test overfitting validation.
 	
 	\subsection{Parameter Space Exploration}\label{proc_parameters}
 	
@@ -1891,12 +1894,111 @@
 	
 	
 	
+		\newpage
+		\section{Software Libraries and Development}\label{Software}
+	
+	A significant aspect of this dissertation was the implementation of software libraries that fulfilled the criteria of generalised training of neural networks, an implementation of the full process as described later in Section \ref{ProcessOverview}, the creation and management of database records for analysis and an extensive set of diagnostic tools in order to assess performance. This section details the implementation choices as well as the final libraries which were produced.
 	
 	
+	\subsection{Programming Languages}
+	
+	The libraries developed were primarily written in Julia, a relatively new scientific computing language (initially developed in 2009). The main motivation, both for Julia as a language as well as choosing it for this task, is its efficiency and speed. Julia was created with high performance tasks in mind, and with it's use of a Just-in-Time compiler, can approach similar benchmarks to C \cite{Perkel}. This stands in stark contrast to some of the more popular analytical languages used, such as R or Python, which often suffer from performance issues. In the context of a project which required extensive processing power, it was natural to prioritize this computational efficiency. \newline
+	
+	Julia's focus on technical computing is emphasised with it's built in support for mathematical and statistical work, composable functional base and dynamic and optional typing schemes. It's ability to fulfil general purpose programming, familiar syntax (which also works effectively for mathematical commands) and it's interactive (REPL) command line also make it a practical choice for the task at hand \cite{Perkel}.\newline
+	
+	SQLite was chosen as the database management language. Relational schemas were a fitting choice for the nature of the data being captured, and SQLite offers a fast, effective and free implementation of SQL.\newline
 	
 	
+	\subsection{Data Generation \& Processing}
+	
+	Data processing libraries were implemented to offer configurable processing for the steps outline in Section \ref{Data}. The \texttt{DataGenerator} module implemented Geometric Brownian Motion (GBM) generation for a set number of steps and assets with their mean and variances specified \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataGenerator.jl}}. \newline
+	
+	The \texttt{DataProcessor} module \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataProcessor.jl}} offers a more extensive set of operations in order to implement the processing laid out in Section \ref{data_processing}. The different scaling techniques (Normalize, Standardize, Limited-Normalize and Limited-Standardize) are implemented, as well as the methods to reverse scaling and reconstruct price predictions to the original format. The log differencing, aggregation of past and future horizons as well as dataset partitioning is also made available here, as per methodologies in Section \ref{Data}. The module also includes dataset encoding through SAE networks, and adding Gaussian noise for the purposes of denoising training, as per Section \ref{imp_denoising}.
 	
 	
+	\subsection{Network Training}
+	
+	Neural networks were implemented with highly configurable training, such that the parameters are easily specified within Julia types \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/TrainingStructures.jl}} and then passed onto the training functions. The parameters are grouped accordingly to the different aspects of the training that they pertain to. \newline
+	
+	The network structures are easily configurable in terms of layers and layer sizes, as well as having the activation functions specified at each layer (i.e. Linear, Sigmoid, ReLU, LeakyReLU, Softmax, Tanh as described in Section \ref{imp_activation_functions})\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ActivationFunctions.jl}}. The network weight initialiazation is also specifiable, with the noted initializations in Section \ref{imp_weights} available: Normal Random, Xavier, He, He-Adj \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/InitializationFunctions.jl}}.\newline
+	
+	The Stochastic Gradient Descent (SGD) and Contrastive Divergence-1 (CD-1) learning algorithms, as per Sections \ref{imp_backprop} and \ref{imp_CD}, can be specified according to minimum and maximum learning rates, and learning rate epoch cycles (as per the learning rate scheduling in Section \ref{imp_learning_rate_schedule}). Training length can be specified in terms ox maximum training epochs or a custom stopping function, which may rely on the Cost function hitting a particular point (with Mean Squared Error, Cross Entropy Error, Log Likelihood Error being made available \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/CostFunctions.jl}}). Learning optimization hyperparameters for L1 Regularization or Denoising are also set here (implemented as per Sections \ref{imp_regularization} and \ref{imp_denoising}). Dataset usage in terms of training / testing splits can also be specified accordingly.\newline
+	
+	The Online Gradient Descent (OGD) training parameters, as per OGD learning in Section \ref{imp_backprop}, are specifiable through the learning rate and cost functions available.\newline
+	
+	The \texttt{NetworkTrainer} \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/NetworkTrainer.jl}} module then offers 3 primary methods, given the relevant parameter configurations and dataset:
+	
+	\begin{itemize}
+		\item[1] Train a Feedforward Neural Network, using variance based weight initializations 
+		\item[2] Train an SAE, using variance based weight initializations
+		\item[3] Train an SAE, using RBM based pre-training for weight initialization
+	\end{itemize}
+	
+	These functions are supported by the following learning algorithm modules: \texttt{SGD}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/SGD.jl}}, \texttt{RBM}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/RBM.jl}} and  \texttt{GradientFunctions}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/GradientFunctions.jl}}
+	
+	\subsection{Process Implementation}
+	
+	The process implementation, as described in Section \ref{ProcessOverview}, is largely implemented in the \texttt{ExperimentProcess} module \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ExperimentProcess.jl}}.
+	
+	~\\
+	The \texttt{RunSAEConfigurationTest} method uses the \texttt{SAEExperimentConfig} Type to wrap up all necessary configurations and with a passed dataset runs through the following steps:
+	\begin{itemize}
+		\item[1] Either generate or process the raw dataset, according to the specified configuration
+		\item[2] Train the SAE, either by RBM or variance based weight initializations
+		\item[3] Pass back the SAE with original and reconstructed testing datasets
+		\item[4] Store the SAE as a bson object to be used later
+	\end{itemize}
+	
+	~\\
+	The \texttt{RunFFNConfigurationTest} method similarly uses the \texttt{FFNExperimentConfig} Type and a passed dataset to run through the following steps:
+	\begin{itemize}
+		\item[1] Either generate or process the raw dataset, according to the specified configuration
+		\item[2] Encode the datasets for the different steps of the process using the specified SAE
+		\item[3] Train the FFN using variance based weight initialization and SGD
+		\item[4] Use the FFN to generate predictions for IS data, reconstruct them and record them in the database
+		\item[5] Train the FFN using OGD on OOS data
+		\item[6] Use the FFN to generate predictions for OOS data, reconstruct them and record them in the database
+	\end{itemize}
+	
+	Two further modules allow the exploration of the configuration space, such that diagnostics can be performed on different aspects of the training. 	The \texttt{ConfigTestsFFN}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsFFN.jl}} and \texttt{ConfigTestsSAE}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsSAE.jl}} modules make use of the \texttt{ConfigGenerator}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/Generator.jl}} module in order to generate a full grid configuration space for a given range of values for any chosen parameters, as per Section \ref{proc_parameters}. Each of these combination configuration sets is then run as per the processes detailed above, with the various results recorded as usual. 
+	
+	\subsection{Database Implementation}
+	
+	As noted, the database platform chosen was SQLite, with Julia modules handling the creation and management. The \texttt{DatabaseCreator} module \footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/DatabaseCreator.jl}} creates the database with the schemas noted in Table \ref{tab_schemas}.\newline
+	
+	\begin{table}[h]
+		\begin{tabular}{|p{0.3\linewidth}|p{0.7\linewidth}|}
+			\hline
+			\textbf{Schema Name} &\textbf{Description}  \\\hline	
+			{configuration\_run} & {The primary record for any experiment process} \\\hline
+			{dataset\_config} & {The dataset configuration that may relate to an experiment} \\\hline
+			{network\_parameters} & {The network configuration for an experiment} \\\hline
+			{training\_parameters} & {The SGD/RBM/CD training configuration for an experiment}  \\\hline
+			{epoch\_records} & {Details relating to ongoing training performance for the duration of an experiment}  \\\hline
+			{backtest\_results} & {Predictions for IS data}  \\\hline
+			{prediction\_results} & {Predictions for OOS data}  \\\hline
+			{cscv\_returns} & {MMS level returns by timestep for an experiment}  \\\hline
+			{cscv\_cost\_returns} & {MMS level returns by timestep for an experiment with cost accounted for}  \\\hline
+			{config\_oos\_pl} & {The total OOS Profit \& Loss for an experiment}  \\\hline
+			{config\_oos\_pl\_cost} & {The total OOS Profit \& Loss for an experiment, with cost accounted for}  \\\hline
+			{config\_oos\_sharpe\_ratio} & {The OOS Sharpe Ratio for an experiment}  \\\hline
+			{config\_confusion} & {The percentages of correct trades made for an experiment}  \\\hline
+		\end{tabular}
+		\newline\newline
+		\caption{Database Schema Descriptions}\label{tab_schemas}
+	\end{table}
+	
+	The \texttt{DatabaseOps} \footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/DatabaseOps.jl}} module handles the creation of records for these schemas, as well as the writing and reading of bson files which are used to store actual networks.
+	
+	\subsection{Diagnostic Libraries}
+	
+	The diagnostic implementations were focused on 2 primary themes: Exploratory Data Analysis (EDA) through the use of visualizations of network results through configuration spaces, and formalised testing in the form of PBO and DSR.
+	
+	The EDA makes use of the PlotlyJS\footnote{\url{http://spencerlyon.com/PlotlyJS.jl/}} library, and allows the net performance of any set of networks to be plotted along a particular dimension in their configuration space. In the case of a set of SAE networks, this would typically be the MSE scores, and in the case of predictive FFN networks, this would typically be the P\&L values generated from the MMS. A full list of diagnostic charts can be viewed in Appendix \ref{appendix_diagnostics}. \newline
+	
+	The CSCV and PBO methodologies can be found in the \texttt{CSCV}\footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/CSCV.jl}} module, which encapsulates the generation and assessment of the logit distributions, as well as the PBO calculation.
+	
+	\todo{add DSR here}	
 	
 	\newpage
 	\section{Datasets Used}\label{Datasets}
@@ -2099,7 +2201,7 @@
 		\item[] Horizon Tuple 3. [10, 20, 60]
 	\end{itemize}
 	
-	By way of example using the 3rd configuration: the implementation of this is such that at each time point considered by a network the log difference changes for the past 10, 20 and 60 days are available for each asset. This is described more extensively in Chapter \ref{Data}.\newline
+	By way of example using the 3rd configuration: the implementation of this is such that at each time point considered by a network the log difference changes for the past 10, 20 and 60 days are available for each asset. This is described more extensively in Section \ref{Data}.\newline
 	
 	The predictive strategies learnt by the networks were determined by the data horizon aggregation chosen: predictions using short term fluctuations (with horizons of [1, 5, 20] days) and predictions using long term trends (with horizons of [5, 20, 60] or [10, 20, 60]). The differentiation between these groups is shown more robustly in Section \ref{results_dsr}, where it is shown to be the primary clustering attribute for trade correlations. It's shown that using short term fluctuations is a less reliable strategy, with higher variance in the returns delivered, but it is also able to deliver the highest P\&L when compared to the longer term strategies. This can be seen more fully in Figure \ref{figure-actual_aggregation_pl}. \newline
 
@@ -2920,141 +3022,6 @@
 	
 	
 	\newpage
-	\section{Software Libraries and Development}\label{Software}
-	
-	A significant aspect of this dissertation was the implementation of software libraries that fulfilled the criteria of generalised training of neural networks, an implementation of the full process as described later in Chapter \ref{ProcessOverview}, the creation and management of database records for analysis and an extensive set of diagnostic tools in order to assess performance. This Chapter details the implementation choices as well as the final libraries which were produced.
-	
-	
-	\subsection{Programming Languages}
-	
-	The libraries developed were primarily written in Julia, a relatively new scientific computing language (initially developed in 2009). The main motivation, both for Julia as a language as well as choosing it for this task, is its efficiency and speed. Julia was created with high performance tasks in mind, and with it's use of a Just-In-Time compiler, can approach similar benchmarks to C \cite{Perkel}. This stands in stark contrast to some of the more popular analytical languages used, such as R or Python, which often suffer from performance issues. In the context of a project which required extensive processing time, it was natural to prioritize this computational efficiency. \newline
-	
-	Julia's focus on technical computing is emphasised with it's built in support for mathematical and statistical work, composable functional base and dyamic and optional typing schemes. It's ability to fulfil general purpose programming, familiar syntax (which also works effectively for mathematical commands) and it's interactive (REPL) command line also make it a practical choice for the task at hand \cite{Perkel}.\newline
-	
-	SQLite was chosen as the database management language. Relational schemas were a fitting choice for the nature of the data being captured, and SQLite offers a fast, effective and free implementation of SQL.\newline
-	
-	
-	\subsection{Data Generation \& Processing}
-	
-	Data processing libraries were implemented to offer configurable processing for the steps outline in Chapter \ref{Data}. The \texttt{DataGenerator} module implemented Geometric Brownian Motion (GBM) generation for a set number of steps and assets with their mean and variances specified \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataGenerator.jl}}. \newline
-	
-	The \texttt{DataProcessor} module \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataProcessor.jl}} offers a more extensive set of operations in order to implement the processing laid out in Section \ref{data_processing}.
-	
-	
-	\begin{itemize}
-		\item[1] Dataset scaling. Available implementations: Normalize, Standardize, Limited-Normalize, Limited-Standardize	
-		\item[2] Log Differencing with rolling windows for past and future time point aggregations
-		\item[3] Partitioning and creating datasets for training processes
-		\item[4] Encoding datasets using Stacked Autoencoders
-		\item[5] Reverse scaling and price reconstruction (i.e. reversing the log differencing from 2) to process predictions into the original format
-		\item[6] Add noise to datasets for denoising training
-	\end{itemize}
-	
-	\subsection{Network Training}
-	
-	Neural networks were implemented with highly configurable training, such that the parameters are easily specified within Julia types \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/TrainingStructures.jl}} and then passed onto the training functions. The parameters are grouped accordingly to the different aspects of the training that they pertain to.
-	
-	\subsubsection{Network Parameters}
-	\begin{itemize}
-		\item[1] Network Structure: Number of layers, and size of each layer
-		\item[2] Activations: Activation functions for each layer. Available implementations: Linear, Sigmoid, ReLU, LeakyReLU, Softmax, Tanh\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ActivationFunctions.jl}}
-		\item[3] Network Initialization: The initialization method for the weights. Available implementations: Normal Random, Xavier, He, He-Adj \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/InitializationFunctions.jl}}
-	\end{itemize}
-	
-	\subsubsection{SGD \& CD-1 Training Parameters}
-	\begin{itemize}
-		\item[1] Maximum learning rate, minimum learning rate and learning rate epoch cycles
-		\item[2] Minibatch size
-		\item[3] Maximum training epochs, or stopping function
-		\item[4] L1 regularization lambda
-		\item[5] Cost function. Avaialable Implementations: Mean Squared Error, Cross Entropy Error, Log Likelihood Error \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/CostFunctions.jl}}
-		\item[6] Denoising variance
-		\item[7] Training / Testing data split
-	\end{itemize}	
-	
-	\subsubsection{OGD Training Parameters}
-	\begin{itemize}
-		\item[1] Maximum learning rate
-		\item[2] Cost function. Avaialable Implementations: Mean Squared Error, Cross Entropy Error, Log Likelihood Error \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/CostFunctions.jl}}
-	\end{itemize}	
-	
-	\subsubsection{Network Trainer Module}
-	
-	The \texttt{NetworkTrainer} \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/NetworkTrainer.jl}} module then offers 3 primary methods, given the relevant parameter configurations and dataset:
-	
-	\begin{itemize}
-		\item[1] Train a Feedforward Neural Network, using variance based weight initializations 
-		\item[2] Train an SAE, using variance based weight initializations
-		\item[3] Train an SAE, using RBM based pre-training for weight initialization
-	\end{itemize}
-	
-	These functions are supported by the following modules: \texttt{SGD}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/SGD.jl}}, \texttt{RBM}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/RBM.jl}} and \newline  \texttt{GradientFunctions}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/GradientFunctions.jl}}
-	
-	\subsection{Process Implementation}
-	
-	The process implementation, as described in Chapter \ref{ProcessOverview}, is largely implemented in the \texttt{ExperimentProcess} module \footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ExperimentProcess.jl}}.
-	
-	~\\
-	The \texttt{RunSAEConfigurationTest} method uses the \texttt{SAEExperimentConfig} Type to wrap up all necessary configurations and with a passed dataset runs through the following steps:
-	\begin{itemize}
-		\item[1] Either generate or process the raw dataset, according to the specified configuration
-		\item[2] Train the SAE, either by RBM or variance based weight initializations
-		\item[3] Passes back the SAE with original and reconstructed testing datasets
-		\item[4] Store the SAE as a bson object to be used later
-	\end{itemize}
-	
-	~\\
-	The \texttt{RunFFNConfigurationTest} method similarly uses the \texttt{FFNExperimentConfig} Type and a passed dataset to run through the following steps:
-	\begin{itemize}
-		\item[1] Either generate or process the raw dataset, according to the specified configuration
-		\item[2] Encodes the datasets for the different steps of the process using the specified SAE
-		\item[3] Train the FFN using variance based weight initialization and SGD
-		\item[4] Use the FFN to generate predictions for IS data, reconstruct them and record them in the database
-		\item[5] Train the FFN using OGD on OOS data
-		\item[6] Use the FFN to generate predictions for OOS data, reconstruct them and record them in the database
-	\end{itemize}
-	
-	Two further modules allow the exploration of the configuration space, such that diagnostics can be performed on different aspects of the training. 	The \texttt{ConfigTestsFFN}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsFFN.jl}} and \texttt{ConfigTestsSAE}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsSAE.jl}} modules make use of the \texttt{ConfigGenerator}\footnote{\url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/Generator.jl}} module in order to generate a full grid configuration space for a given range of values for any chosen parameters. Each of these combination configuration sets is then run as per the procsses detailed above, with the various results recorded as usual. 
-	
-	\subsection{Database Implementation}
-	
-	As noted, the database platform chosen was SQLite, with Julia modules handling the creation and management. The \texttt{DatabaseCreator} module \footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/DatabaseCreator.jl}} creates the database with the following schemas:
-	
-	\begin{table}[h]
-		\begin{tabular}{|p{0.3\linewidth}|p{0.7\linewidth}|}
-			\hline
-			\textbf{Schema Name} &\textbf{Description}  \\\hline	
-			{configuration\_run} & {The primary record for any experiment process} \\\hline
-			{dataset\_config} & {The dataset configuration that may relate to an experiment} \\\hline
-			{network\_parameters} & {The network configuration for an experiment} \\\hline
-			{training\_parameters} & {The SGD/RBM/CD training configuration for an experiment}  \\\hline
-			{epoch\_records} & {Details relating to ongoing training performance for the duration of an experiment}  \\\hline
-			{backtest\_results} & {predictions for IS data}  \\\hline
-			{prediction\_results} & {Predictions for OOS data}  \\\hline
-			{cscv\_returns} & {MMS level returns by timestep for an experiment}  \\\hline
-			{cscv\_cost\_returns} & {MMS level returns by timestep for an experiment with cost accounted for}  \\\hline
-			{config\_oos\_pl} & {The total OOS profit \& loss for an experiment}  \\\hline
-			{config\_oos\_pl\_cost} & {The total OOS profit \& loss for an experiment, with cost accounted for}  \\\hline
-			{config\_oos\_sharpe\_ratio} & {The OOS sharpe ratio for an experiment}  \\\hline
-			{config\_confusion} & {The percentages of correct trades made for an experiment}  \\\hline
-		\end{tabular}
-		\newline\newline
-		\caption{Database Schema Descriptions}\label{tab_schemas}
-	\end{table}
-	
-	The \texttt{DatabaseOps} \footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/DatabaseOps.jl}} module handles the creation of records for these schemas, as well as the writing and reading of bson files which are used to store actual networks.
-	
-	\subsection{Diagnostic Libraries}
-	
-	The diagnostic implementations were focused on 2 primary themes: Exploratory Data Analysis (EDA) through the use of visualizations of network results through configuration spaces, and formalised testing in the form of PBO and DSR.
-	
-	The EDA makes use of the PlotlyJS\footnote{\url{http://spencerlyon.com/PlotlyJS.jl/}} library, and allows the net performance of any set of networks to be plotted along a particular dimension in their configuration space. In the case of a set of SAE networks, this would typically be the MSE scores, and in the case of predictive FFN networks, this would typically be the P\&L values generated from the MMS. A full list of diagnostic charts can be view in Appendix \ref{appendix_diagnostics}. \newline
-	
-	The CSCV and PBO methodologies can be found in the \texttt{CSCV}\footnote{\url{https://github.com/joel11/Masters/tree/master/Code\%20Libraries/CSCV.jl}} module, which encapsulates the generation and assessment of the logit distributions, as well as the PBO calculation.
-	
-	\todo{add DSR here}
-	
-	\newpage
 	\section{Conclusion}\label{Conclusion}
 	
 	The work presented here builds on mechanistic machine learning approaches to financial market data, and in doing so provides a novel framework which is shown to be effective in both training and validation. The framework embodies a configurable approach, based on decoupled modules throughout the process, and incorporating several key techniques: deep learning neural networks for stock price fluctuation prediction, Stacked Autoencoders for the purpose of feature selection, both CSCV \& PBO in order to assess the returns from the MMS and the likelihood that backtest overfitting has taken place, and DSR in order to assess the likelihood of a positive Sharpe Ratio having been observed. The results from trials based on the presented framework highlight the efficacy of such an approach, whilst also developing a refined perspective on how these techniques behave within the phenomenology of financial markets.\newline 
@@ -3086,11 +3053,12 @@
 	
 	Several areas of the system have been highlighted as worthy of further work based on the results seen so far: 
 	\begin{itemize}
-		\item [1] The updating of SAE models is the most likely area of further development, possibly based on rolling time windows in order to fully take advantage of recent data benefits, or using a bootstrapped dataset in order to add time based weights to observations.
-		\item [2] While RBM pre-training was shown to be ineffective, it is possible that a greedy layerwise approach using variance based weight initialization could still be used in order to train more efficient SAE networks.
-		\item [3] Data processing methods such as the Error Function coudl be implemented in order to better deali with outliers, which are often prominent in financial data.
-		\item [4] Further exploration of using Masking denoising for price flucatuation prediction is warranted, in order to try and enforce correlation and relationship recognitition within the FNN.
-		\item [5] A more extensive exploration of historical vs. current data would be particularly beneficial, especially with its potential application outside of just the presented system.
+		\item [1] In light of the historical data redundancy seen, an improved and optimized online learning phase would be worth considering.
+		\item [2] The updating of SAE models is the another likely area of beneficial development, possibly based on rolling time windows in order to fully take advantage of recent data benefits, or using a bootstrapped dataset in order to add time based weights to observations.
+		\item [3] While RBM pre-training was shown to be ineffective, it is possible that a greedy layerwise approach using variance based weight initialization could still be used in order to train more efficient SAE networks.
+		\item [4] Data processing methods such as the Error Function could be implemented in order to better deal with outliers, which are shown to be prominent in financial data.
+		\item [5] Further exploration of using input Dropout for price fluctuation prediction is warranted, in order to try and enforce correlation and relationship recognitition within the FNN.
+		\item [6] A more extensive exploration of how to best benefit from historical data would be particularly beneficial, especially with its potential application outside of just the presented system.
 	\end{itemize}
 	
 	\newpage
