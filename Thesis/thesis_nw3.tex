@@ -1895,7 +1895,7 @@
 	
 	
 		\newpage
-		\section{Software Libraries and Development}\label{Software}
+	\section{Software Libraries and Development}\label{Software}
 	
 	A significant aspect of this dissertation was the implementation of software libraries that fulfilled the criteria of generalised training of neural networks, an implementation of the full process as described later in Section \ref{ProcessOverview}, the creation and management of database records for analysis and an extensive set of diagnostic tools in order to assess performance. This section details the implementation choices as well as the final libraries which were produced.
 	
@@ -2003,6 +2003,69 @@
 	\newpage
 	\section{Datasets Used}\label{Datasets}
 	
+	\subsection{Actual Datasets}
+	
+	Several datasets have been used using JSE closing price relative data for 2003-2018. They were processed following the steps set out in Section \ref{Data} and with a 60/40 split on the Training/Prediction datasets.
+	
+	\subsubsection{Actual10}\label{dataset_actual10}
+	
+	This is the primary closing price dataset that has been used through out the experiment process, which focused on choosing more prominent stocks from multiple sectors. The price fluctuations can be seen in Figure \ref{figure-actual10_prices}.
+	
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\textbf{Code} &\textbf{Company} & \textbf{Sector} \\\hline	
+			{AGL} & {Anglo American} & {Resources}  \\\hline
+			{BIL} & {BHP Billigton} & {Resources}  \\\hline
+			{IMP} & {Impala Platinum Holdings} & {Resources}  \\\hline
+			{FSR} & {FirstRand Limited} & {Finance}  \\\hline
+			{SBK} & {Standard Bank} & {Finance}  \\\hline
+			{REM} & {Remgro Limited} & {Finance}  \\\hline
+			{INP} & {Investec} & {Finance}  \\\hline
+			{SNH} & {Steinhoff International Holdings} & {Retail}    \\\hline
+			{MTN} & {MTN} & {Communication Services}  \\\hline
+			{DDT} & {Dimension Data} & {Tech} \\\hline
+		\end{tabular}
+		\newline\newline
+		\caption{Actual 10 Dataset Configuration}\label{tab_actual10}
+	\end{table}
+	
+	\subsubsection{Scaling10}\label{dataset_scaling10}
+	
+	 This dataset was used specifically to test scaling techniques, and consisted of the following JSE closing price relatives: ACL, AGL, AMS, AOD, BAW, BIL, BVT, CFR, CRH, DDT. The price fluctuations can be seen in Figure \ref{figure-aglacl_prices}.
+	
+	\subsubsection{AGL, AGL\&ACL}\label{dataset_agl}\label{dataset_aglacl}
+	
+	The AGL and ACL data from JSE closing price relatives was used for some limited framework testing. The price fluctuations can be seen in Figure \ref{figure-aglacl_prices}.
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{Actual 10 Price Relatives}
+		\includegraphics[scale=0.45]{images/results/prices/actual10_prices.png} 
+		\caption[Actual 10 Price Relatives]{The primary dataset for actual price relatives is displayed here, as noted in Table \ref{tab_actual10}. There is a varied collection of behaviours amongst assess, with upwards, downwards and sideways trends over the full period, as well as assets with very high and low variances. The dataset contains assets from most major sectors, and show some strong correlatons amongst groups of assets (e.g. AGL, REM and SNH). }
+		\label{figure-actual10_prices}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{Scaling 10 Price Relatives}
+		\includegraphics[scale=0.45]{images/results/prices/scaling10_prices.png} 
+		\caption[Scaling 10 Price Relatives]{The figure here shows the prices relatives for the Scaling10 Dataset \ref{dataset_scaling10}. The group of assets show a wide variety of behaviours, which was appropriate for the testing of training techniques on SAE networks. These results can be seen in Section \ref{results_activations_scaling}.}
+		\label{figure-scaling10_prices}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\textbf{AGL \& ACL Price Relatives}
+		\includegraphics[scale=0.45]{images/results/prices/aglacl_prices.png} 
+		\caption[AGL \& ACL Price Relatives]{The figure here shows price relatives for AGL and ACL which make up the AGL and AGL\&ACL datasets (\ref{dataset_agl}, \ref{dataset_aglacl}), which were used for some limited testing.}
+		\label{figure-aglacl_prices}
+	\end{figure}
+	
+
+	
+	
 	\subsection{Synthetic Datasets}
 	
 	Data was generated and scaled, as per the methods detail in \ref{data_synthetic} and \ref{data_scaling}. The sets were generated with the following configurations, each for 5000 timesteps and with a 60/40 split on the Training and Prediction sets.
@@ -2027,14 +2090,6 @@
 		\newline\newline
 		\caption{Synthetic 6 Dataset Configuration}\label{tab_synth6}
 	\end{table}
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Synthetic 6 Price Relatives}
-		\includegraphics[scale=0.35]{images/results/prices/synthetic6_prices.png} 
-		\caption[Synthetic 6 Price Relatives]{This figure show the price relatives for the Synthetic6 dataset, generated with the attributes in Table \ref{tab_synth6}, with high and low variances of assets with upwards, downwards and sideways trends.}
-		\label{figure-synthetic6_prices}
-	\end{figure}
 	
 	\subsubsection{Synthetic10}\label{dataset_synthetic10}
 	
@@ -2063,82 +2118,23 @@
 	
 	\begin{figure}[H]
 		\centering
+		\textbf{Synthetic 6 Price Relatives}
+		\includegraphics[scale=0.45]{images/results/prices/synthetic6_prices.png} 
+		\caption[Synthetic 6 Price Relatives]{This figure show the price relatives for the Synthetic6 dataset, generated with the attributes in Table \ref{tab_synth6}, with high and low variances of assets with upwards, downwards and sideways trends.}
+		\label{figure-synthetic6_prices}
+	\end{figure}
+	
+	
+	
+	\begin{figure}[H]
+		\centering
 		\textbf{Synthetic 10 Price Relatives}
-		\includegraphics[scale=0.35]{images/results/prices/synthetic10_prices.png} 
+		\includegraphics[scale=0.45]{images/results/prices/synthetic10_prices.png} 
 		\caption[Synthetic 10 Price Relatives]{This figure show the price relatives for the Synthetic10 dataset, generated with the attributes in Table \ref{tab_synth10}, with a wide range of means and variances chosen, such that the data might be representative of an non-synthetic dataset.}
 		\label{figure-synthetic10_prices}
 	\end{figure}
 	
-	\subsection{Actual Datasets}
-	
-	Several datasets have been used using JSE closing price relative data for 2003-2018 \todo{add ref}. They were processed the same way as the Synthetic sets, following the steps set out in \ref{Data} and with a 60/40 split on the Training/Prediction datasets.
-	
-	\subsubsection{Actual10}\label{dataset_actual10}
-	
-	This is the primary closing price dataset that has been used through out the experiment process, which focused on choosing more prominent stocks from multiple sectors.
-	
-	\begin{table}[H]
-		\centering
-		\begin{tabular}{|c|c|c|}
-			\hline
-			\textbf{Code} &\textbf{Company} & \textbf{Sector} \\\hline	
-			{AGL} & {Anglo American} & {Resources}  \\\hline
-			{BIL} & {BHP Billigton} & {Resources}  \\\hline
-			{IMP} & {Impala Platinum Holdings} & {Resources}  \\\hline
-			{FSR} & {FirstRand Limited} & {Finance}  \\\hline
-			{SBK} & {Standard Bank} & {Finance}  \\\hline
-			{REM} & {Remgro Limited} & {Finance}  \\\hline
-			{INP} & {Investec} & {Finance}  \\\hline
-			{SNH} & {Steinhoff International Holdings} & {Retail}    \\\hline
-			{MTN} & {MTN} & {Communication Services}  \\\hline
-			{DDT} & {Dimension Data} & {Tech} \\\hline
-		\end{tabular}
-		\newline\newline
-		\caption{Actual 10 Dataset Configuration}\label{tab_actual10}
-	\end{table}
-	
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Actual 10 Price Relatives}
-		\includegraphics[scale=0.45]{images/results/prices/actual10_prices.png} 
-		\caption[Actual 10 Price Relatives]{The primary dataset for actual price relatives is displayed here, as noted in Table \ref{tab_actual10}. There is a varied collection of behaviours amongst assess, with upwards, downwards and sideways trends over the full period, as well as assets with very high and low variances. The dataset contains assets from most major sectors, and show some strong correlatons amongst groups of assets (e.g. AGL, REM and SNH). }
-		\label{figure-actual10_prices}
-	\end{figure}
-	
-	\subsubsection{AGL}\label{dataset_agl}
-	
-	Using AGL data from JSE close price relatives.
-	
-	\subsubsection{AGL\&ACL}\label{dataset_aglacl}
-	
-	Using AGL and ACL data from JSE close price relatives.
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{AGL \& ACL Price Relatives}
-		\includegraphics[scale=0.45]{images/results/prices/aglacl_prices.png} 
-		\caption[AGL \& ACL Price Relatives]{The figure here shows price relatives for AGL and ACL which make up the AGL and AGL\&ACL datasets (\ref{dataset_agl}, \ref{dataset_aglacl}), which were used for some limited testing.}
-		\label{figure-aglacl_prices}
-	\end{figure}
-	
-	
-	\subsubsection{Scaling10}\label{dataset_scaling10}
-	
-	Using the following assets from JSE close price relatives:
-	
-	\begin{itemize}
-		\item ACL, AGL, AMS, AOD, BAW, BIL, BVT, CFR, CRH, DDT
-	\end{itemize}
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{Scaling 10 Price Relatives}
-		\includegraphics[scale=0.45]{images/results/prices/scaling10_prices.png} 
-		\caption[Scaling 10 Price Relatives]{The figure here shows the prices relatives for the Scaling10 Dataset \ref{dataset_scaling10}. The group of assets show a wide variet of behaviours, which was appropriat for the testing of training techniques on SAE networks. These results can be seen in Section \ref{results_activations_scaling}.}
-		\label{figure-scaling0_prices}
-	\end{figure}
-	
+
 	
 	
 	
@@ -3066,6 +3062,36 @@
 	
 	\subsection{Additional Results}
 	
+	\subsubsection{Additional Results for Section \ref{results_oos_pl} - Feature Selection }\label{results_features_appendix}
+	
+	\begin{figure}[H]
+		\centering 
+		\textbf{MSE By Feature Selection Size (Synthetic Data)}
+		\includegraphics[scale=0.3]{images/results/feature_selection/synth_sae_mse.png} 
+		\caption[MSE By Feature Selection Size (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configuration 7 (\ref{config7})
+			\newline The MSE scores here show that while feature selection and reduction is possible through the SAE networks, the ability to reproduce input does decrease monotonically with the encoding layer size. This is not of real concern though unless exact reproduction (with noise included) is of interest.}
+		\label{figure-synth_sae_mse}
+	\end{figure}
+	
+	\subsubsection{Additional Results for Section \ref{results_init} - Weight Initialization Techniques }\label{results_init_appendix}
+	
+	\begin{figure}[H]
+		\centering 
+		\textbf{Prediction Accuracy by Training Epochs (MNIST Data)} 
+		\includegraphics[scale=0.2]{images/results/newinit/rbm_pretraining.png}
+		\caption[Prediction Accuracy by Training Epochs (MNIST Data)]{The plot above shows the prediction accuracy achieved on the MNIST dataset according to the number of pre-training epochs using the RBM greedy layerwise methodology as per Section \ref{imp_rbm}. There's a clear indication that pre-training allows the network to achieve much higher accuracy much quicker.}
+		\label{figure-rbm_pretraining}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering 
+		\textbf{SAE MSE by Initialization (Actual Data)} 
+		\includegraphics[scale=0.3]{images/results/newinit/actual_mse_init.png}
+		\caption[SAE MSE by Initialization (Actual Data)]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 12 (\ref{config12})
+			\newline The SAE MSE results here continue the trend seen for AGL, where He-Adj offers the best performance. Both He and He-Adj suffered with larger learning rates, resulting in dying ReLU's and networks with null outputs, hence the smaller sample sizes. It's possible a more suitable set of learning rates would lead to better results, though the results presented in \ref{results_init} lead to a favouring of He-Adj in any case.}
+		\label{figure-actual_mse_init}
+	\end{figure}
+	
 	\subsubsection{Additional Results for Section \ref{results_finance_data} - Complexity of Financial Time Series}\label{results_appendix_finance_data}
 	
 	\paragraph{Effects of Learning Rate Epoch Cycles}
@@ -3114,56 +3140,11 @@
 	
 	
 	
-	\subsubsection{Additional Results for Section \ref{results_activations_scaling} - Activation Functions and Scaling }\label{results_activations_appendix}
-	
-	\begin{figure}[H]
-		\centering 
-		\textbf{SAE: Leaky ReLU vs ReLU (Sythetic Data)} 
-		\includegraphics[scale=0.28]{images/results/activations/synthetic_mse_leakyrelu.png}
-		\caption[SAE: Leaky ReLU vs ReLU (Synthetic Data)]{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration 17 (\ref{config17})
-			\newline The plot above shows the SAE MSE, grouped by encoding size and activations, showing a marginal increase in performance for Leaky ReLU activations. }
-		\label{figure-synthetic_mse_leakyrelu}
-	\end{figure}
-	
-		\begin{figure}[H]
-		\textbf{P\&L by ReLU Activations (Synthetic Data)}
-		\centering
-		\includegraphics[scale=0.3]{images/results/activations/synthetic_pl_leakyrelu.png}
-		\caption[P\&L by ReLU Activations (Synthetic Data)]{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration 5 (\ref{config5})
-			\newline The plot shows the FFN P\&L, grouped by activation, showing some improvements from the Leaky ReLU activation. The effect is most noticeable in reducing the lower bounds of performance (±10.8\%), though has a clear benefit in the upper bounds as well (3.4\%).}
-		\label{figure-synthetic_pl_leakyrelu}
-	\end{figure}
-	
-	\subsubsection{Additional Results for Section \ref{results_init} - Weight Initialization Techniques }\label{results_init_appendix}
-	
-	\begin{figure}[H]
-		\centering 
-		\textbf{Prediction Accuracy by Training Epochs (MNIST Data)} 
-		\includegraphics[scale=0.2]{images/results/newinit/rbm_pretraining.png}
-		\caption[Prediction Accuracy by Training Epochs (MNIST Data)]{The plot above shows the prediction accuracy achieved on the MNIST dataset according to the number of pre-training epochs using the RBM greedy layerwise methodology as per Section \ref{imp_rbm}. There's a clear indication that pre-training allows the network to achieve much higher accuracy much quicker.}
-		\label{figure-rbm_pretraining}
-	\end{figure}
-	
-	\begin{figure}[H]
-		\centering 
-		\textbf{SAE MSE by Initialization (Actual Data)} 
-		\includegraphics[scale=0.3]{images/results/newinit/actual_mse_init.png}
-		\caption[SAE MSE by Initialization (Actual Data)]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 12 (\ref{config12})
-			\newline The SAE MSE results here continue the trend seen for AGL, where He-Adj offers the best performance. Both He and He-Adj suffered with larger learning rates, resulting in dying ReLU's and networks with null outputs, hence the smaller sample sizes. It's possible a more suitable set of learning rates would lead to better results, though the results presented in \ref{results_init} lead to a favouring of He-Adj in any case.}
-		\label{figure-actual_mse_init}
-	\end{figure}
 	
 	
-	\subsubsection{Additional Results for Section \ref{results_reduction} - Feature Selection }\label{results_features_appendix}
 	
-	\begin{figure}[H]
-		\centering 
-		\textbf{MSE By Feature Selection Size (Synthetic Data)}
-		\includegraphics[scale=0.3]{images/results/feature_selection/synth_sae_mse.png} 
-		\caption[MSE By Feature Selection Size (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configuration 7 (\ref{config7})
-			\newline The MSE scores here show that while feature selection and reduction is possible through the SAE networks, the ability to reproduce input does decrease monotonically with the encoding layer size. This is not of real concern though unless exact reproduction (with noise included) is of interest.}
-		\label{figure-synth_sae_mse}
-	\end{figure}
+	
+	
 	
 	\subsubsection{Additional Results for Section \ref{results_network} - Network Structure and Training }\label{results_network_appendix}
 	
@@ -3221,8 +3202,23 @@
 		\label{figure-synth_pl_reg}
 	\end{figure}
 	
+		\begin{figure}[H]
+		\centering 
+		\textbf{SAE: Leaky ReLU vs ReLU (Sythetic Data)} 
+		\includegraphics[scale=0.28]{images/results/activations/synthetic_mse_leakyrelu.png}
+		\caption[SAE: Leaky ReLU vs ReLU (Synthetic Data)]{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration 17 (\ref{config17})
+			\newline The plot above shows the SAE MSE, grouped by encoding size and activations, showing a marginal increase in performance for Leaky ReLU activations. }
+		\label{figure-synthetic_mse_leakyrelu}
+	\end{figure}
 	
-	
+	\begin{figure}[H]
+		\textbf{P\&L by ReLU Activations (Synthetic Data)}
+		\centering
+		\includegraphics[scale=0.3]{images/results/activations/synthetic_pl_leakyrelu.png}
+		\caption[P\&L by ReLU Activations (Synthetic Data)]{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration 5 (\ref{config5})
+			\newline The plot shows the FFN P\&L, grouped by activation, showing some improvements from the Leaky ReLU activation. The effect is most noticeable in reducing the lower bounds of performance (±10.8\%), though has a clear benefit in the upper bounds as well (3.4\%).}
+		\label{figure-synthetic_pl_leakyrelu}
+	\end{figure}
 	
 	
 	

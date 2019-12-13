@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  13 DEC 2019 16:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  13 DEC 2019 16:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1246,7 +1246,7 @@ Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count296
 
-<UCT-logo.pdf, id=737, 171.64125pt x 174.6525pt>
+<UCT-logo.pdf, id=729, 171.64125pt x 174.6525pt>
 File: UCT-logo.pdf Graphic file (type pdf)
  <use UCT-logo.pdf>
 Package pdftex.def Info: UCT-logo.pdf used on input line 187.
@@ -1274,12 +1274,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 190--191
 
 {/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./UCT-l
 ogo.pdf>] [2] (./thesis_nw3.toc [3] [4] [5]
-
-LaTeX Warning: Reference `results_reduction' on page 6 undefined on input line 
-161.
-
-
-Overfull \hbox (2.4594pt too wide) in paragraph at lines 162--162
+Overfull \hbox (2.4594pt too wide) in paragraph at lines 160--160
  [][] []\OT1/cmr/m/n/10 Additional Re-sults for Sec-tion [][]8.7[][] - Net-work
  Struc-ture and Train- 
  []
@@ -1501,7 +1496,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 490--499
 
  []
 
-[16] <images/DBN-RBM-process.png, id=1290, 483.8075pt x 389.455pt>
+[16] <images/DBN-RBM-process.png, id=1280, 483.8075pt x 389.455pt>
 File: images/DBN-RBM-process.png Graphic file (type png)
 
 <use images/DBN-RBM-process.png>
@@ -1773,7 +1768,7 @@ $[]$
  []
 
 [28] [29]
-<images/implementation/neural_network_diagram.png, id=1485, 387.4475pt x 261.97
+<images/implementation/neural_network_diagram.png, id=1475, 387.4475pt x 261.97
 874pt>
 File: images/implementation/neural_network_diagram.png Graphic file (type png)
  <use images/implementation/neural_network_diagram.png>
@@ -1841,7 +1836,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1203--1204
  []
 
 
-<images/implementation/CyclicalLearningRates.png, id=1552, 981.6675pt x 896.348
+<images/implementation/CyclicalLearningRates.png, id=1541, 981.6675pt x 896.348
 75pt>
 File: images/implementation/CyclicalLearningRates.png Graphic file (type png)
  <use images/implementation/CyclicalLearningRates.png>
@@ -1854,7 +1849,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1226--1227
  []
 
 [36 <./images/implementation/CyclicalLearningRates.png>]
-<images/implementation/rbm_network_diagram.png, id=1562, 320.19624pt x 328.2262
+<images/implementation/rbm_network_diagram.png, id=1552, 320.19624pt x 328.2262
 6pt>
 File: images/implementation/rbm_network_diagram.png Graphic file (type png)
  <use images/implementation/rbm_network_diagram.png>
@@ -2156,7 +2151,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1862--1863
  []
 
 [55]
-<images/process_implementation/process_flow.png, id=1767, 768.8725pt x 1024.828
+<images/process_implementation/process_flow.png, id=1757, 768.8725pt x 1024.828
 75pt>
 File: images/process_implementation/process_flow.png Graphic file (type png)
  <use images/process_implementation/process_flow.png>
@@ -2263,55 +2258,61 @@ Underfull \hbox (badness 10000) in paragraph at lines 1997--1998
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
 ine 2001.
  [61]
-<images/results/prices/synthetic6_prices.png, id=1874, 861.2175pt x 527.9725pt>
-File: images/results/prices/synthetic6_prices.png Graphic file (type png)
-<use images/results/prices/synthetic6_prices.png>
-Package pdftex.def Info: images/results/prices/synthetic6_prices.png used on in
-put line 2034.
-(pdftex.def)             Requested size: 301.43063pt x 184.79314pt.
- [62 <./images/results/prices/synthetic6_prices.png>]
-<images/results/prices/synthetic10_prices.png, id=1882, 875.27pt x 546.04pt>
-File: images/results/prices/synthetic10_prices.png Graphic file (type png)
-
-<use images/results/prices/synthetic10_prices.png>
-Package pdftex.def Info: images/results/prices/synthetic10_prices.png used on i
-nput line 2067.
-(pdftex.def)             Requested size: 306.34909pt x 191.11685pt.
- [63] [64 <./images/results/prices/synthetic10_prices.png>]
-<images/results/prices/actual10_prices.png, id=1896, 865.2325pt x 539.01375pt>
+<images/results/prices/actual10_prices.png, id=1866, 865.2325pt x 539.01375pt>
 File: images/results/prices/actual10_prices.png Graphic file (type png)
 
 <use images/results/prices/actual10_prices.png>
 Package pdftex.def Info: images/results/prices/actual10_prices.png used on inpu
-t line 2104.
+t line 2045.
 (pdftex.def)             Requested size: 389.35103pt x 242.55394pt.
- [65]
-<images/results/prices/aglacl_prices.png, id=1903, 861.2175pt x 543.02875pt>
-File: images/results/prices/aglacl_prices.png Graphic file (type png)
-
-<use images/results/prices/aglacl_prices.png>
-Package pdftex.def Info: images/results/prices/aglacl_prices.png used on input 
-line 2120.
-(pdftex.def)             Requested size: 387.5443pt x 244.36067pt.
- [66 <./images/results/prices/actual10_prices.png>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 2131
-.
- (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 2131.
-
-
-<images/results/prices/scaling10_prices.png, id=1913, 857.2025pt x 531.9875pt>
+ [62]
+<images/results/prices/scaling10_prices.png, id=1873, 857.2025pt x 531.9875pt>
 File: images/results/prices/scaling10_prices.png Graphic file (type png)
 
 <use images/results/prices/scaling10_prices.png>
 Package pdftex.def Info: images/results/prices/scaling10_prices.png used on inp
-ut line 2137.
+ut line 2053.
 (pdftex.def)             Requested size: 385.73756pt x 239.39217pt.
- [67 <./images/results/prices/aglacl_prices.png>] [68 <./images/results/prices/
-scaling10_prices.png>]
+
+<images/results/prices/aglacl_prices.png, id=1878, 861.2175pt x 543.02875pt>
+File: images/results/prices/aglacl_prices.png Graphic file (type png)
+
+<use images/results/prices/aglacl_prices.png>
+Package pdftex.def Info: images/results/prices/aglacl_prices.png used on input 
+line 2061.
+(pdftex.def)             Requested size: 387.5443pt x 244.36067pt.
+ [63 <./images/results/prices/actual10_prices.png> <./images/results/prices/sca
+ling10_prices.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[64 <./images/results/prices/aglacl_prices.png>]
+<images/results/prices/synthetic6_prices.png, id=1896, 861.2175pt x 527.9725pt>
+File: images/results/prices/synthetic6_prices.png Graphic file (type png)
+<use images/results/prices/synthetic6_prices.png>
+Package pdftex.def Info: images/results/prices/synthetic6_prices.png used on in
+put line 2122.
+(pdftex.def)             Requested size: 387.5443pt x 237.58542pt.
+ [65]
+<images/results/prices/synthetic10_prices.png, id=1903, 875.27pt x 546.04pt>
+File: images/results/prices/synthetic10_prices.png Graphic file (type png)
+
+<use images/results/prices/synthetic10_prices.png>
+Package pdftex.def Info: images/results/prices/synthetic10_prices.png used on i
+nput line 2132.
+(pdftex.def)             Requested size: 393.86786pt x 245.71573pt.
+ [66 <./images/results/prices/synthetic6_prices.png> <./images/results/prices/s
+ynthetic10_prices.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 2151--2152
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2153--2154
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 2155--2156
 
  []
@@ -2337,12 +2338,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 2163--2164
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2165--2166
+Underfull \hbox (badness 10000) in paragraph at lines 2169--2170
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 2167--2168
+[67]
+Underfull \hbox (badness 10000) in paragraph at lines 2171--2172
 
  []
 
@@ -2351,789 +2352,793 @@ Underfull \hbox (badness 10000) in paragraph at lines 2173--2174
 
  []
 
-[69]
-Underfull \hbox (badness 10000) in paragraph at lines 2175--2176
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2177--2178
-
- []
-
-<images/results/intro/ogdmse_pl.png, id=1950, 870.25125pt x 540.0175pt>
+<images/results/intro/ogdmse_pl.png, id=1934, 870.25125pt x 540.0175pt>
 File: images/results/intro/ogdmse_pl.png Graphic file (type png)
 
 <use images/results/intro/ogdmse_pl.png>
 Package pdftex.def Info: images/results/intro/ogdmse_pl.png used on input line 
-2182.
+2178.
 (pdftex.def)             Requested size: 391.60945pt x 243.00562pt.
- [70 <./images/results/intro/ogdmse_pl.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2191--2192
+ [68 <./images/results/intro/ogdmse_pl.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 2187--2188
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2204--2205
+Underfull \hbox (badness 10000) in paragraph at lines 2200--2201
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2206--2207
+Underfull \hbox (badness 10000) in paragraph at lines 2202--2203
 
  []
 
 
-<images/results/data/actual_aggregate_dist.png, id=1964, 846.16125pt x 522.9537
+<images/results/data/actual_aggregate_dist.png, id=1948, 846.16125pt x 522.9537
 5pt>
 File: images/results/data/actual_aggregate_dist.png Graphic file (type png)
  <use images/results/data/actual_aggregate_dist.png>
 Package pdftex.def Info: images/results/data/actual_aggregate_dist.png used on 
-input line 2216.
+input line 2212.
 (pdftex.def)             Requested size: 245.38048pt x 151.6527pt.
 
-Overfull \hbox (57.59126pt too wide) in paragraph at lines 2216--2218
+Overfull \hbox (57.59126pt too wide) in paragraph at lines 2212--2214
  [][] 
  []
 
 
-<images/results/data/actual_aggregation_mse.png, id=1965, 870.25125pt x 497.86p
+<images/results/data/actual_aggregation_mse.png, id=1949, 870.25125pt x 497.86p
 t>
 File: images/results/data/actual_aggregation_mse.png Graphic file (type png)
  <use images/results/data/actual_aggregation_mse.png>
 Package pdftex.def Info: images/results/data/actual_aggregation_mse.png used on
- input line 2223.
+ input line 2219.
 (pdftex.def)             Requested size: 261.0774pt x 149.35915pt.
 
-Overfull \hbox (47.68173pt too wide) in paragraph at lines 2223--2225
+Overfull \hbox (47.68173pt too wide) in paragraph at lines 2219--2221
  [][] 
  []
 
-[71]
-<images/results/data/actual_aggregation_pl.png, id=1975, 867.24pt x 570.13pt>
+[69]
+<images/results/data/actual_aggregation_pl.png, id=1958, 867.24pt x 570.13pt>
 File: images/results/data/actual_aggregation_pl.png Graphic file (type png)
 
 <use images/results/data/actual_aggregation_pl.png>
 Package pdftex.def Info: images/results/data/actual_aggregation_pl.png used on 
-input line 2239.
+input line 2235.
 (pdftex.def)             Requested size: 346.88986pt x 228.04796pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2249--2250
+Underfull \hbox (badness 10000) in paragraph at lines 2245--2246
 
  []
 
-[72 <./images/results/data/actual_aggregate_dist.png> <./images/results/data/ac
+[70 <./images/results/data/actual_aggregate_dist.png> <./images/results/data/ac
 tual_aggregation_mse.png> <./images/results/data/actual_aggregation_pl.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2251--2252
+Underfull \hbox (badness 10000) in paragraph at lines 2247--2248
 
  []
 
 
-<images/results/network/lr/actual_ogd_lr.png, id=1990, 869.2475pt x 581.17125pt
+<images/results/network/lr/actual_ogd_lr.png, id=1974, 869.2475pt x 581.17125pt
 >
 File: images/results/network/lr/actual_ogd_lr.png Graphic file (type png)
  <use images/results/network/lr/actual_ogd_lr.png>
 Package pdftex.def Info: images/results/network/lr/actual_ogd_lr.png used on in
-put line 2256.
+put line 2252.
 (pdftex.def)             Requested size: 391.15776pt x 261.52464pt.
 
-<images/results/primary/OOS_OGDLR_Delta_PL_median.png, id=1995, 884.30376pt x 5
+<images/results/primary/OOS_OGDLR_Delta_PL_median.png, id=1979, 884.30376pt x 5
 61.09625pt>
 File: images/results/primary/OOS_OGDLR_Delta_PL_median.png Graphic file (type p
 ng)
  <use images/results/primary/OOS_OGDLR_Delta_PL_median.png>
 Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_PL_median.png u
-sed on input line 2266.
+sed on input line 2262.
 (pdftex.def)             Requested size: 397.93301pt x 252.49098pt.
- [73 <./images/results/network/lr/actual_ogd_lr.png>]
+ [71 <./images/results/network/lr/actual_ogd_lr.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 2271--2272
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2273--2274
+
+ []
+
+[72 <./images/results/primary/OOS_OGDLR_Delta_PL_median.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 2275--2276
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2277--2278
-
- []
-
-[74 <./images/results/primary/OOS_OGDLR_Delta_PL_median.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2279--2280
-
- []
-
-
-<images/results/feature_selection/actual_sae_mse.png, id=2016, 861.2175pt x 541
+<images/results/feature_selection/actual_sae_mse.png, id=1999, 861.2175pt x 541
 .02126pt>
 File: images/results/feature_selection/actual_sae_mse.png Graphic file (type pn
 g)
  <use images/results/feature_selection/actual_sae_mse.png>
 Package pdftex.def Info: images/results/feature_selection/actual_sae_mse.png us
-ed on input line 2286.
+ed on input line 2282.
 (pdftex.def)             Requested size: 215.30385pt x 135.25497pt.
 
-Overfull \hbox (6.17375pt too wide) in paragraph at lines 2286--2287
+Overfull \hbox (6.17375pt too wide) in paragraph at lines 2282--2283
  [][] 
  []
 
 
-<images/results/primary/IS_Encoding_PL_median.png, id=2017, 841.1425pt x 555.07
+<images/results/primary/IS_Encoding_PL_median.png, id=2000, 841.1425pt x 555.07
 375pt>
 File: images/results/primary/IS_Encoding_PL_median.png Graphic file (type png)
  <use images/results/primary/IS_Encoding_PL_median.png>
 Package pdftex.def Info: images/results/primary/IS_Encoding_PL_median.png used 
-on input line 2292.
+on input line 2288.
 (pdftex.def)             Requested size: 218.6919pt x 144.31577pt.
 
-Overfull \hbox (9.5618pt too wide) in paragraph at lines 2292--2293
+Overfull \hbox (9.5618pt too wide) in paragraph at lines 2288--2289
  [][] 
  []
 
 
-<images/results/primary/OOS_Encoding_PL_Box.png, id=2024, 832.10875pt x 578.16p
+<images/results/primary/OOS_Encoding_PL_Box.png, id=2007, 832.10875pt x 578.16p
 t>
 File: images/results/primary/OOS_Encoding_PL_Box.png Graphic file (type png)
  <use images/results/primary/OOS_Encoding_PL_Box.png>
 Package pdftex.def Info: images/results/primary/OOS_Encoding_PL_Box.png used on
- input line 2305.
+ input line 2301.
 (pdftex.def)             Requested size: 332.8376pt x 231.2599pt.
 
-<images/results/feature_selection/encoding_pl_median.png, id=2025, 868.24374pt 
+<images/results/feature_selection/encoding_pl_median.png, id=2008, 868.24374pt 
 x 538.01pt>
 File: images/results/feature_selection/encoding_pl_median.png Graphic file (typ
 e png)
  <use images/results/feature_selection/encoding_pl_median.png>
 Package pdftex.def Info: images/results/feature_selection/encoding_pl_median.pn
-g used on input line 2310.
+g used on input line 2306.
 (pdftex.def)             Requested size: 434.1208pt x 269.00433pt.
 
-Overfull \hbox (7.32947pt too wide) in paragraph at lines 2310--2311
+Overfull \hbox (7.32947pt too wide) in paragraph at lines 2306--2307
 [][] 
  []
 
-[75 <./images/results/feature_selection/actual_sae_mse.png> <./images/results/p
+[73 <./images/results/feature_selection/actual_sae_mse.png> <./images/results/p
 rimary/IS_Encoding_PL_median.png>]
 Overfull \vbox (75.03694pt too high) has occurred while \output is active []
 
 
-[76 <./images/results/primary/OOS_Encoding_PL_Box.png> <./images/results/featur
+[74 <./images/results/primary/OOS_Encoding_PL_Box.png> <./images/results/featur
 e_selection/encoding_pl_median.png>]
-<images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png, id=2046, 874.26
+<images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png, id=2030, 874.26
 625pt x 551.05875pt>
 File: images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png Graphic fil
 e (type png)
 
 <use images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png>
 Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_Encoding_25_med
-ian.png used on input line 2324.
+ian.png used on input line 2320.
 (pdftex.def)             Requested size: 262.28189pt x 165.3189pt.
 
-Overfull \hbox (80.89427pt too wide) in paragraph at lines 2324--2325
+Overfull \hbox (80.89427pt too wide) in paragraph at lines 2320--2321
  [][] 
  []
 
 
-<images/results/primary/OOS_OGDLR_Delta_Encoding_20_median.png, id=2047, 884.30
+<images/results/primary/OOS_OGDLR_Delta_Encoding_20_median.png, id=2031, 884.30
 376pt x 552.0625pt>
 File: images/results/primary/OOS_OGDLR_Delta_Encoding_20_median.png Graphic fil
 e (type png)
 
 <use images/results/primary/OOS_OGDLR_Delta_Encoding_20_median.png>
 Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_Encoding_20_med
-ian.png used on input line 2328.
+ian.png used on input line 2324.
 (pdftex.def)             Requested size: 265.29317pt x 165.62003pt.
 
-Overfull \hbox (56.16307pt too wide) in paragraph at lines 2328--2329
+Overfull \hbox (56.16307pt too wide) in paragraph at lines 2324--2325
  [][] 
  []
 
 
-<images/results/primary/OOS_OGDLR_Delta_Encoding_10_median.png, id=2048, 886.31
+<images/results/primary/OOS_OGDLR_Delta_Encoding_10_median.png, id=2032, 886.31
 125pt x 568.1225pt>
 File: images/results/primary/OOS_OGDLR_Delta_Encoding_10_median.png Graphic fil
 e (type png)
 
 <use images/results/primary/OOS_OGDLR_Delta_Encoding_10_median.png>
 Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_Encoding_10_med
-ian.png used on input line 2333.
+ian.png used on input line 2329.
 (pdftex.def)             Requested size: 265.89542pt x 170.43805pt.
 
-Overfull \hbox (78.1062pt too wide) in paragraph at lines 2333--2334
+Overfull \hbox (78.1062pt too wide) in paragraph at lines 2329--2330
  [][] 
  []
 
 
-<images/results/primary/OOS_OGDLR_Delta_Encoding_5_median.png, id=2049, 885.307
+<images/results/primary/OOS_OGDLR_Delta_Encoding_5_median.png, id=2033, 885.307
 5pt x 559.08875pt>
 File: images/results/primary/OOS_OGDLR_Delta_Encoding_5_median.png Graphic file
  (type png)
 
 <use images/results/primary/OOS_OGDLR_Delta_Encoding_5_median.png>
 Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_Encoding_5_medi
-an.png used on input line 2337.
+an.png used on input line 2333.
 (pdftex.def)             Requested size: 265.5943pt x 167.7279pt.
 
-Overfull \hbox (56.4642pt too wide) in paragraph at lines 2337--2338
+Overfull \hbox (56.4642pt too wide) in paragraph at lines 2333--2334
  [][] 
  []
 
-[77 <./images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png> <./images
+[75 <./images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png> <./images
 /results/primary/OOS_OGDLR_Delta_Encoding_20_median.png> <./images/results/prim
 ary/OOS_OGDLR_Delta_Encoding_10_median.png> <./images/results/primary/OOS_OGDLR
 _Delta_Encoding_5_median.png>]
-<images/results/data/max_epochs.png, id=2066, 868.24374pt x 584.1825pt>
+<images/results/data/max_epochs.png, id=2050, 868.24374pt x 584.1825pt>
 File: images/results/data/max_epochs.png Graphic file (type png)
 
 <use images/results/data/max_epochs.png>
 Package pdftex.def Info: images/results/data/max_epochs.png used on input line 
-2358.
+2354.
 (pdftex.def)             Requested size: 347.29134pt x 233.66885pt.
 
-<images/results/data/training_data_excluded.png, id=2071, 874.26625pt x 580.167
+<images/results/data/training_data_excluded.png, id=2055, 874.26625pt x 580.167
 5pt>
 File: images/results/data/training_data_excluded.png Graphic file (type png)
  <use images/results/data/training_data_excluded.png>
 Package pdftex.def Info: images/results/data/training_data_excluded.png used on
- input line 2371.
+ input line 2367.
 (pdftex.def)             Requested size: 349.7003pt x 232.06288pt.
- [78 <./images/results/data/max_epochs.png>] [79 <./images/results/data/trainin
+ [76 <./images/results/data/max_epochs.png>] [77 <./images/results/data/trainin
 g_data_excluded.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2387--2388
+Underfull \hbox (badness 10000) in paragraph at lines 2383--2384
 
  []
 
 
-<images/results/newinit/actual_sigmoid_pt.png, id=2094, 896.34875pt x 609.27625
+<images/results/newinit/actual_sigmoid_pt.png, id=2077, 896.34875pt x 609.27625
 pt>
 File: images/results/newinit/actual_sigmoid_pt.png Graphic file (type png)
  <use images/results/newinit/actual_sigmoid_pt.png>
 Package pdftex.def Info: images/results/newinit/actual_sigmoid_pt.png used on i
-nput line 2392.
+nput line 2388.
 (pdftex.def)             Requested size: 403.35321pt x 274.17177pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2395--2395
+Underfull \hbox (badness 10000) in paragraph at lines 2391--2391
 
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 2395--2396
+
+ []
+
+[78 <./images/results/newinit/actual_sigmoid_pt.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 2399--2400
 
  []
 
-[80 <./images/results/newinit/actual_sigmoid_pt.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2403--2404
 
- []
-
-
-<images/results/newinit/synthetic_mse_init.png, id=2108, 759.83875pt x 596.2275
+<images/results/newinit/synthetic_mse_init.png, id=2091, 759.83875pt x 596.2275
 pt>
 File: images/results/newinit/synthetic_mse_init.png Graphic file (type png)
  <use images/results/newinit/synthetic_mse_init.png>
 Package pdftex.def Info: images/results/newinit/synthetic_mse_init.png used on 
-input line 2410.
+input line 2406.
 (pdftex.def)             Requested size: 212.75339pt x 166.94255pt.
 
-<images/results/newinit/agl_mse_init.png, id=2109, 788.9475pt x 609.27625pt>
+<images/results/newinit/agl_mse_init.png, id=2092, 788.9475pt x 609.27625pt>
 File: images/results/newinit/agl_mse_init.png Graphic file (type png)
 
 <use images/results/newinit/agl_mse_init.png>
 Package pdftex.def Info: images/results/newinit/agl_mse_init.png used on input 
-line 2417.
+line 2413.
 (pdftex.def)             Requested size: 220.90378pt x 170.59618pt.
 
-Overfull \hbox (7.50812pt too wide) in paragraph at lines 2417--2419
+Overfull \hbox (7.50812pt too wide) in paragraph at lines 2413--2415
  [][] 
  []
 
-<images/results/newinit/synth_pl_init.png, id=2120, 798.985pt x 597.23125pt>
+<images/results/newinit/synth_pl_init.png, id=2103, 798.985pt x 597.23125pt>
 File: images/results/newinit/synth_pl_init.png Graphic file (type png)
 
 <use images/results/newinit/synth_pl_init.png>
 Package pdftex.def Info: images/results/newinit/synth_pl_init.png used on input
- line 2434.
+ line 2430.
 (pdftex.def)             Requested size: 223.71426pt x 167.2236pt.
 
-Overfull \hbox (10.3186pt too wide) in paragraph at lines 2434--2436
+Overfull \hbox (10.3186pt too wide) in paragraph at lines 2430--2432
  [][] 
  []
 
-<images/results/newinit/agl_pl_init.png, id=2121, 776.9025pt x 571.13374pt>
+<images/results/newinit/agl_pl_init.png, id=2104, 776.9025pt x 571.13374pt>
 File: images/results/newinit/agl_pl_init.png Graphic file (type png)
 
 <use images/results/newinit/agl_pl_init.png>
 Package pdftex.def Info: images/results/newinit/agl_pl_init.png used on input l
-ine 2441.
+ine 2437.
 (pdftex.def)             Requested size: 217.5312pt x 159.91635pt.
 
-Overfull \hbox (4.13554pt too wide) in paragraph at lines 2441--2443
+Overfull \hbox (4.13554pt too wide) in paragraph at lines 2437--2439
  [][] 
  []
 
-[81 <./images/results/newinit/synthetic_mse_init.png> <./images/results/newinit
+[79 <./images/results/newinit/synthetic_mse_init.png> <./images/results/newinit
 /agl_mse_init.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2453--2454
+Underfull \hbox (badness 10000) in paragraph at lines 2449--2450
 
  []
 
-[82 <./images/results/newinit/synth_pl_init.png> <./images/results/newinit/agl_
+[80 <./images/results/newinit/synth_pl_init.png> <./images/results/newinit/agl_
 pl_init.png>]
-<images/results/data/test_aggregate_dist.png, id=2148, 856.19875pt x 512.91624p
+<images/results/data/test_aggregate_dist.png, id=2131, 856.19875pt x 512.91624p
 t>
 File: images/results/data/test_aggregate_dist.png Graphic file (type png)
  <use images/results/data/test_aggregate_dist.png>
 Package pdftex.def Info: images/results/data/test_aggregate_dist.png used on in
-put line 2469.
+put line 2465.
 (pdftex.def)             Requested size: 214.04916pt x 128.22874pt.
 
-Overfull \hbox (0.6535pt too wide) in paragraph at lines 2469--2471
+Overfull \hbox (0.6535pt too wide) in paragraph at lines 2465--2467
  [][] 
  []
 
 
-<images/results/data/test_aggregation_mse.png, id=2149, 841.1425pt x 500.87125p
+<images/results/data/test_aggregation_mse.png, id=2132, 841.1425pt x 500.87125p
 t>
 File: images/results/data/test_aggregation_mse.png Graphic file (type png)
  <use images/results/data/test_aggregation_mse.png>
 Package pdftex.def Info: images/results/data/test_aggregation_mse.png used on i
-nput line 2476.
+nput line 2472.
 (pdftex.def)             Requested size: 218.6919pt x 130.22345pt.
 
-Overfull \hbox (5.29623pt too wide) in paragraph at lines 2476--2478
+Overfull \hbox (5.29623pt too wide) in paragraph at lines 2472--2474
  [][] 
  []
 
 
-<images/results/data/test_aggregation_pl.png, id=2158, 866.23625pt x 571.13374p
+<images/results/data/test_aggregation_pl.png, id=2141, 866.23625pt x 571.13374p
 t>
 File: images/results/data/test_aggregation_pl.png Graphic file (type png)
  <use images/results/data/test_aggregation_pl.png>
 Package pdftex.def Info: images/results/data/test_aggregation_pl.png used on in
-put line 2493.
+put line 2489.
 (pdftex.def)             Requested size: 259.87288pt x 171.34145pt.
- [83 <./images/results/data/test_aggregate_dist.png> <./images/results/data/tes
+ [81 <./images/results/data/test_aggregate_dist.png> <./images/results/data/tes
 t_aggregation_mse.png>]
-<images/results/feature_selection/synthetic_median.png, id=2172, 874.26625pt x 
+<images/results/feature_selection/synthetic_median.png, id=2156, 874.26625pt x 
 525.965pt>
 File: images/results/feature_selection/synthetic_median.png Graphic file (type 
 png)
  <use images/results/feature_selection/synthetic_median.png>
 Package pdftex.def Info: images/results/feature_selection/synthetic_median.png 
-used on input line 2505.
+used on input line 2501.
 (pdftex.def)             Requested size: 262.28189pt x 157.79071pt.
- [84 <./images/results/data/test_aggregation_pl.png> <./images/results/feature_
+ [82 <./images/results/data/test_aggregation_pl.png> <./images/results/feature_
 selection/synthetic_median.png>]
-<images/results/complexity/mse_scaling.png, id=2188, 700.6175pt x 579.16376pt>
+<images/results/complexity/mse_scaling.png, id=2172, 700.6175pt x 579.16376pt>
 File: images/results/complexity/mse_scaling.png Graphic file (type png)
 
 <use images/results/complexity/mse_scaling.png>
 Package pdftex.def Info: images/results/complexity/mse_scaling.png used on inpu
-t line 2538.
+t line 2534.
 (pdftex.def)             Requested size: 280.24203pt x 231.66139pt.
 
-<images/results/complexity/oos_scaling.png, id=2197, 647.41875pt x 550.055pt>
+<images/results/complexity/oos_scaling.png, id=2181, 647.41875pt x 550.055pt>
 File: images/results/complexity/oos_scaling.png Graphic file (type png)
 
 <use images/results/complexity/oos_scaling.png>
 Package pdftex.def Info: images/results/complexity/oos_scaling.png used on inpu
-t line 2548.
+t line 2544.
 (pdftex.def)             Requested size: 220.11946pt x 187.01622pt.
- [85 <./images/results/complexity/mse_scaling.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2558--2559
+ [83 <./images/results/complexity/mse_scaling.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 2554--2555
 
  []
 
 
-<images/results/network/reg/actual_mse_reg.png, id=2223, 749.80125pt x 566.115p
+<images/results/network/reg/actual_mse_reg.png, id=2206, 749.80125pt x 566.115p
 t>
 File: images/results/network/reg/actual_mse_reg.png Graphic file (type png)
  <use images/results/network/reg/actual_mse_reg.png>
 Package pdftex.def Info: images/results/network/reg/actual_mse_reg.png used on 
-input line 2567.
+input line 2563.
 (pdftex.def)             Requested size: 224.94211pt x 169.8358pt.
 
-Overfull \hbox (15.81201pt too wide) in paragraph at lines 2567--2569
+Overfull \hbox (15.81201pt too wide) in paragraph at lines 2563--2565
  [][] 
  []
 
 
-<images/results/network/reg/actual_sae_mse_by_encoding.png, id=2224, 894.34125p
+<images/results/network/reg/actual_sae_mse_by_encoding.png, id=2207, 894.34125p
 t x 553.06625pt>
 File: images/results/network/reg/actual_sae_mse_by_encoding.png Graphic file (t
 ype png)
 
 <use images/results/network/reg/actual_sae_mse_by_encoding.png>
 Package pdftex.def Info: images/results/network/reg/actual_sae_mse_by_encoding.
-png used on input line 2574.
+png used on input line 2570.
 (pdftex.def)             Requested size: 268.30444pt x 165.92114pt.
 
-Overfull \hbox (59.17435pt too wide) in paragraph at lines 2574--2576
+Overfull \hbox (59.17435pt too wide) in paragraph at lines 2570--2572
  [][] 
  []
 
-[86 <./images/results/complexity/oos_scaling.png>]
-<images/results/network/denoising/actual_mse_gaussian.png, id=2236, 872.25874pt
+[84 <./images/results/complexity/oos_scaling.png>]
+<images/results/network/denoising/actual_mse_gaussian.png, id=2219, 872.25874pt
  x 590.205pt>
 File: images/results/network/denoising/actual_mse_gaussian.png Graphic file (ty
 pe png)
  <use images/results/network/denoising/actual_mse_gaussian.png>
 Package pdftex.def Info: images/results/network/denoising/actual_mse_gaussian.p
-ng used on input line 2591.
+ng used on input line 2587.
 (pdftex.def)             Requested size: 218.06415pt x 147.55089pt.
 
-Overfull \hbox (4.66849pt too wide) in paragraph at lines 2591--2593
+Overfull \hbox (4.66849pt too wide) in paragraph at lines 2587--2589
  [][] 
  []
 
 
-<images/results/network/denoising/actual_mse_masking.png, id=2237, 804.00375pt 
+<images/results/network/denoising/actual_mse_masking.png, id=2220, 804.00375pt 
 x 603.25375pt>
 File: images/results/network/denoising/actual_mse_masking.png Graphic file (typ
 e png)
  <use images/results/network/denoising/actual_mse_masking.png>
 Package pdftex.def Info: images/results/network/denoising/actual_mse_masking.pn
-g used on input line 2598.
+g used on input line 2594.
 (pdftex.def)             Requested size: 201.00044pt x 150.81306pt.
 
-<images/results/network/lr/synth_mse_minmax_lr.png, id=2244, 727.71875pt x 561.
+<images/results/network/lr/synth_mse_minmax_lr.png, id=2227, 727.71875pt x 561.
 09625pt>
 File: images/results/network/lr/synth_mse_minmax_lr.png Graphic file (type png)
 
  <use images/results/network/lr/synth_mse_minmax_lr.png>
 Package pdftex.def Info: images/results/network/lr/synth_mse_minmax_lr.png used
- on input line 2615.
+ on input line 2611.
 (pdftex.def)             Requested size: 218.3173pt x 168.33017pt.
 
-Overfull \hbox (4.92165pt too wide) in paragraph at lines 2615--2617
+Overfull \hbox (4.92165pt too wide) in paragraph at lines 2611--2613
  [][] 
  []
 
 
-<images/results/network/lr/actual_mse_minmax_lr.png, id=2245, 749.80125pt x 563
+<images/results/network/lr/actual_mse_minmax_lr.png, id=2228, 749.80125pt x 563
 .10374pt>
 File: images/results/network/lr/actual_mse_minmax_lr.png Graphic file (type png
 )
  <use images/results/network/lr/actual_mse_minmax_lr.png>
 Package pdftex.def Info: images/results/network/lr/actual_mse_minmax_lr.png use
-d on input line 2622.
+d on input line 2618.
 (pdftex.def)             Requested size: 224.94211pt x 168.93242pt.
 
-Overfull \hbox (11.54645pt too wide) in paragraph at lines 2622--2624
+Overfull \hbox (11.54645pt too wide) in paragraph at lines 2618--2620
  [][] 
  []
 
-[87 <./images/results/network/reg/actual_mse_reg.png> <./images/results/network
+[85 <./images/results/network/reg/actual_mse_reg.png> <./images/results/network
 /reg/actual_sae_mse_by_encoding.png> <./images/results/network/denoising/actual
 _mse_gaussian.png> <./images/results/network/denoising/actual_mse_masking.png>]
-[88 <./images/results/network/lr/synth_mse_minmax_lr.png> <./images/results/net
+[86 <./images/results/network/lr/synth_mse_minmax_lr.png> <./images/results/net
 work/lr/actual_mse_minmax_lr.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2648--2649
+Underfull \hbox (badness 10000) in paragraph at lines 2644--2645
 
  []
 
 
-<images/results/complexity/IS_actual_pl_lr_epochs.png, id=2281, 655.44875pt x 6
+<images/results/complexity/IS_actual_pl_lr_epochs.png, id=2265, 655.44875pt x 6
 01.24625pt>
 File: images/results/complexity/IS_actual_pl_lr_epochs.png Graphic file (type p
 ng)
  <use images/results/complexity/IS_actual_pl_lr_epochs.png>
 Package pdftex.def Info: images/results/complexity/IS_actual_pl_lr_epochs.png u
-sed on input line 2658.
+sed on input line 2654.
 (pdftex.def)             Requested size: 209.74788pt x 192.40273pt.
 
-<images/results/complexity/OOS_actual_pl_lr_epochs.png, id=2282, 658.46pt x 578
+<images/results/complexity/OOS_actual_pl_lr_epochs.png, id=2266, 658.46pt x 578
 .16pt>
 File: images/results/complexity/OOS_actual_pl_lr_epochs.png Graphic file (type 
 png)
  <use images/results/complexity/OOS_actual_pl_lr_epochs.png>
 Package pdftex.def Info: images/results/complexity/OOS_actual_pl_lr_epochs.png 
-used on input line 2665.
+used on input line 2661.
 (pdftex.def)             Requested size: 210.7115pt x 185.01497pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2674--2674
+Underfull \hbox (badness 10000) in paragraph at lines 2670--2670
 
  []
 
 
-<images/results/complexity/is_actual_pl_reg.png, id=2291, 906.38625pt x 587.193
+<images/results/complexity/is_actual_pl_reg.png, id=2275, 906.38625pt x 587.193
 76pt>
 File: images/results/complexity/is_actual_pl_reg.png Graphic file (type png)
  <use images/results/complexity/is_actual_pl_reg.png>
 Package pdftex.def Info: images/results/complexity/is_actual_pl_reg.png used on
- input line 2682.
+ input line 2678.
 (pdftex.def)             Requested size: 271.91797pt x 176.15948pt.
 
-Overfull \hbox (58.52231pt too wide) in paragraph at lines 2682--2683
+Overfull \hbox (58.52231pt too wide) in paragraph at lines 2678--2679
 [][] 
  []
 
 
-<images/results/complexity/oos_actual_pl_reg.png, id=2292, 748.7975pt x 573.141
+<images/results/complexity/oos_actual_pl_reg.png, id=2276, 748.7975pt x 573.141
 25pt>
 File: images/results/complexity/oos_actual_pl_reg.png Graphic file (type png)
  <use images/results/complexity/oos_actual_pl_reg.png>
 Package pdftex.def Info: images/results/complexity/oos_actual_pl_reg.png used o
-n input line 2687.
+n input line 2683.
 (pdftex.def)             Requested size: 224.64098pt x 171.9437pt.
 
-Overfull \hbox (11.24532pt too wide) in paragraph at lines 2687--2688
+Overfull \hbox (11.24532pt too wide) in paragraph at lines 2683--2684
 [][] 
  []
 
-[89 <./images/results/complexity/IS_actual_pl_lr_epochs.png> <./images/results/
+[87 <./images/results/complexity/IS_actual_pl_lr_epochs.png> <./images/results/
 complexity/OOS_actual_pl_lr_epochs.png>]
-<images/results/complexity/is_actual_pl_masking.png, id=2306, 788.9475pt x 566.
+<images/results/complexity/is_actual_pl_masking.png, id=2289, 788.9475pt x 566.
 115pt>
 File: images/results/complexity/is_actual_pl_masking.png Graphic file (type png
 )
  <use images/results/complexity/is_actual_pl_masking.png>
 Package pdftex.def Info: images/results/complexity/is_actual_pl_masking.png use
-d on input line 2702.
+d on input line 2698.
 (pdftex.def)             Requested size: 236.68607pt x 169.8358pt.
 
-Overfull \hbox (23.2904pt too wide) in paragraph at lines 2702--2703
+Overfull \hbox (23.2904pt too wide) in paragraph at lines 2698--2699
  [][] 
  []
 
 
-<images/results/complexity/oos_actual_pl_masking.png, id=2307, 807.015pt x 571.
+<images/results/complexity/oos_actual_pl_masking.png, id=2290, 807.015pt x 571.
 13374pt>
 File: images/results/complexity/oos_actual_pl_masking.png Graphic file (type pn
 g)
  <use images/results/complexity/oos_actual_pl_masking.png>
 Package pdftex.def Info: images/results/complexity/oos_actual_pl_masking.png us
-ed on input line 2708.
+ed on input line 2704.
 (pdftex.def)             Requested size: 242.10637pt x 171.34145pt.
 
-Overfull \hbox (28.71071pt too wide) in paragraph at lines 2708--2709
+Overfull \hbox (28.71071pt too wide) in paragraph at lines 2704--2705
  [][] 
  []
 
-[90 <./images/results/complexity/is_actual_pl_reg.png> <./images/results/comple
+[88 <./images/results/complexity/is_actual_pl_reg.png> <./images/results/comple
 xity/oos_actual_pl_reg.png> <./images/results/complexity/is_actual_pl_masking.p
 ng> <./images/results/complexity/oos_actual_pl_masking.png>]
-<images/results/network/actual_mse_lines.png, id=2321, 882.29625pt x 550.055pt>
+<images/results/network/actual_mse_lines.png, id=2305, 882.29625pt x 550.055pt>
 File: images/results/network/actual_mse_lines.png Graphic file (type png)
 <use images/results/network/actual_mse_lines.png>
 Package pdftex.def Info: images/results/network/actual_mse_lines.png used on in
-put line 2730.
+put line 2726.
 (pdftex.def)             Requested size: 220.57352pt x 137.51341pt.
 
-Overfull \hbox (7.17786pt too wide) in paragraph at lines 2730--2732
+Overfull \hbox (7.17786pt too wide) in paragraph at lines 2726--2728
  [][] 
  []
 
 
-<images/results/network/actual_pl_lines.png, id=2322, 878.28125pt x 551.05875pt
+<images/results/network/actual_pl_lines.png, id=2306, 878.28125pt x 551.05875pt
 >
 File: images/results/network/actual_pl_lines.png Graphic file (type png)
  <use images/results/network/actual_pl_lines.png>
 Package pdftex.def Info: images/results/network/actual_pl_lines.png used on inp
-ut line 2737.
+ut line 2733.
 (pdftex.def)             Requested size: 228.34773pt x 143.27188pt.
 
-Overfull \hbox (14.95207pt too wide) in paragraph at lines 2737--2739
+Overfull \hbox (14.95207pt too wide) in paragraph at lines 2733--2735
  [][] 
  []
 
-[91 <./images/results/network/actual_mse_lines.png> <./images/results/network/a
+[89 <./images/results/network/actual_mse_lines.png> <./images/results/network/a
 ctual_pl_lines.png>]
-<images/results/activations/actual_mse_output.png, id=2341, 711.65875pt x 589.2
+<images/results/activations/actual_mse_output.png, id=2324, 711.65875pt x 589.2
 0125pt>
 File: images/results/activations/actual_mse_output.png Graphic file (type png)
  <use images/results/activations/actual_mse_output.png>
 Package pdftex.def Info: images/results/activations/actual_mse_output.png used 
-on input line 2763.
+on input line 2759.
 (pdftex.def)             Requested size: 284.65845pt x 235.67632pt.
 
-<images/results/activations/actual_mse_encoding.png, id=2346, 892.33376pt x 570
+<images/results/activations/actual_mse_encoding.png, id=2329, 892.33376pt x 570
 .13pt>
 File: images/results/activations/actual_mse_encoding.png Graphic file (type png
 )
  <use images/results/activations/actual_mse_encoding.png>
 Package pdftex.def Info: images/results/activations/actual_mse_encoding.png use
-d on input line 2776.
+d on input line 2772.
 (pdftex.def)             Requested size: 267.7022pt x 171.04031pt.
 
-Overfull \hbox (54.30653pt too wide) in paragraph at lines 2776--2778
+Overfull \hbox (54.30653pt too wide) in paragraph at lines 2772--2774
  [][] 
  []
 
 
-<images/results/activations/actual_mse_hidden.png, id=2347, 891.33pt x 562.1pt>
+<images/results/activations/actual_mse_hidden.png, id=2330, 891.33pt x 562.1pt>
 File: images/results/activations/actual_mse_hidden.png Graphic file (type png)
 <use images/results/activations/actual_mse_hidden.png>
 Package pdftex.def Info: images/results/activations/actual_mse_hidden.png used 
-on input line 2783.
+on input line 2779.
 (pdftex.def)             Requested size: 267.40106pt x 168.6313pt.
 
-Overfull \hbox (54.0054pt too wide) in paragraph at lines 2783--2785
+Overfull \hbox (54.0054pt too wide) in paragraph at lines 2779--2781
  [][] 
  []
 
-[92 <./images/results/activations/actual_mse_output.png>]
-<images/results/activations/synth_pl_hidden.png, id=2361, 782.925pt x 560.0925p
+[90 <./images/results/activations/actual_mse_output.png>]
+<images/results/activations/synth_pl_hidden.png, id=2344, 782.925pt x 560.0925p
 t>
 File: images/results/activations/synth_pl_hidden.png Graphic file (type png)
  <use images/results/activations/synth_pl_hidden.png>
 Package pdftex.def Info: images/results/activations/synth_pl_hidden.png used on
- input line 2806.
+ input line 2802.
 (pdftex.def)             Requested size: 195.73077pt x 140.02278pt.
- [93 <./images/results/activations/actual_mse_encoding.png> <./images/results/a
-ctivations/actual_mse_hidden.png>] [94 <./images/results/activations/synth_pl_h
-idden.png>]
+ [91 <./images/results/activations/actual_mse_encoding.png> <./images/results/a
+ctivations/actual_mse_hidden.png>]
+
+LaTeX Warning: Reference `results_activations_appendix' on page 92 undefined on
+ input line 2818.
+
+[92 <./images/results/activations/synth_pl_hidden.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 2823--2824
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2825--2826
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 2827--2828
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 2829--2830
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2831--2832
-
- []
-
-<images/results/mms/profits_nocost.png, id=2389, 893.3375pt x 567.11874pt>
+<images/results/mms/profits_nocost.png, id=2372, 893.3375pt x 567.11874pt>
 File: images/results/mms/profits_nocost.png Graphic file (type png)
 
 <use images/results/mms/profits_nocost.png>
 Package pdftex.def Info: images/results/mms/profits_nocost.png used on input li
-ne 2841.
+ne 2837.
 (pdftex.def)             Requested size: 268.00331pt x 170.13693pt.
 
-Overfull \hbox (80.2141pt too wide) in paragraph at lines 2841--2842
+Overfull \hbox (80.2141pt too wide) in paragraph at lines 2837--2838
  [][] 
  []
 
-<images/results/mms/profits_cost.png, id=2390, 884.30376pt x 551.05875pt>
+<images/results/mms/profits_cost.png, id=2373, 884.30376pt x 551.05875pt>
 File: images/results/mms/profits_cost.png Graphic file (type png)
 
 <use images/results/mms/profits_cost.png>
 Package pdftex.def Info: images/results/mms/profits_cost.png used on input line
- 2846.
+ 2842.
 (pdftex.def)             Requested size: 274.13133pt x 170.82643pt.
 
-Overfull \hbox (60.73567pt too wide) in paragraph at lines 2846--2847
+Overfull \hbox (60.73567pt too wide) in paragraph at lines 2842--2843
 [][] 
  []
 
-[95] <images/results/mms/sharpe_ratios.png, id=2399, 839.135pt x 527.9725pt>
+[93] <images/results/mms/sharpe_ratios.png, id=2382, 839.135pt x 527.9725pt>
 File: images/results/mms/sharpe_ratios.png Graphic file (type png)
 
 <use images/results/mms/sharpe_ratios.png>
 Package pdftex.def Info: images/results/mms/sharpe_ratios.png used on input lin
-e 2862.
+e 2858.
 (pdftex.def)             Requested size: 192.99698pt x 121.4311pt.
 
-Overfull \hbox (5.20776pt too wide) in paragraph at lines 2862--2863
+Overfull \hbox (5.20776pt too wide) in paragraph at lines 2858--2859
  [][] 
  []
 
-<images/results/mms/confusion_dist.png, id=2400, 849.1725pt x 541.02126pt>
+<images/results/mms/confusion_dist.png, id=2383, 849.1725pt x 541.02126pt>
 File: images/results/mms/confusion_dist.png Graphic file (type png)
 
 <use images/results/mms/confusion_dist.png>
 Package pdftex.def Info: images/results/mms/confusion_dist.png used on input li
-ne 2867.
+ne 2863.
 (pdftex.def)             Requested size: 186.81853pt x 119.02504pt.
- [96 <./images/results/mms/profits_nocost.png> <./images/results/mms/profits_co
+ [94 <./images/results/mms/profits_nocost.png> <./images/results/mms/profits_co
 st.png> <./images/results/mms/sharpe_ratios.png> <./images/results/mms/confusio
 n_dist.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2884--2885
+Underfull \hbox (badness 10000) in paragraph at lines 2880--2881
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2894--2896
+Underfull \hbox (badness 10000) in paragraph at lines 2890--2892
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2897--2898
+Underfull \hbox (badness 10000) in paragraph at lines 2893--2894
 
  []
 
-[97]
-Underfull \hbox (badness 10000) in paragraph at lines 2899--2900
+[95]
+Underfull \hbox (badness 10000) in paragraph at lines 2895--2896
 
  []
 
-<images/results/pbo/PBO_by_Split.png, id=2426, 1562.83875pt x 552.0625pt>
+<images/results/pbo/PBO_by_Split.png, id=2408, 1562.83875pt x 552.0625pt>
 File: images/results/pbo/PBO_by_Split.png Graphic file (type png)
 
 <use images/results/pbo/PBO_by_Split.png>
 Package pdftex.def Info: images/results/pbo/PBO_by_Split.png used on input line
- 2906.
+ 2902.
 (pdftex.def)             Requested size: 390.70872pt x 138.01527pt.
 
-<images/results/pbo/combination_sizes.png, id=2427, 1614.03pt x 587.19376pt>
+<images/results/pbo/combination_sizes.png, id=2409, 1614.03pt x 587.19376pt>
 File: images/results/pbo/combination_sizes.png Graphic file (type png)
 
 <use images/results/pbo/combination_sizes.png>
 Package pdftex.def Info: images/results/pbo/combination_sizes.png used on input
- line 2915.
+ line 2911.
 (pdftex.def)             Requested size: 403.50652pt x 146.79808pt.
- [98 <./images/results/pbo/PBO_by_Split.png>]
-<images/results/pbo/all_sets_dist.png, id=2436, 1550.79375pt x 547.04375pt>
+ [96 <./images/results/pbo/PBO_by_Split.png>]
+<images/results/pbo/all_sets_dist.png, id=2418, 1550.79375pt x 547.04375pt>
 File: images/results/pbo/all_sets_dist.png Graphic file (type png)
 
 <use images/results/pbo/all_sets_dist.png>
 Package pdftex.def Info: images/results/pbo/all_sets_dist.png used on input lin
-e 2930.
+e 2926.
 (pdftex.def)             Requested size: 387.6975pt x 136.76059pt.
- [99 <./images/results/pbo/combination_sizes.png> <./images/results/pbo/all_set
+ [97 <./images/results/pbo/combination_sizes.png> <./images/results/pbo/all_set
 s_dist.png>]
-<images/results/pbo/subset_dist.png, id=2448, 1585.925pt x 576.1525pt>
+<images/results/pbo/subset_dist.png, id=2430, 1585.925pt x 576.1525pt>
 File: images/results/pbo/subset_dist.png Graphic file (type png)
 
 <use images/results/pbo/subset_dist.png>
 Package pdftex.def Info: images/results/pbo/subset_dist.png used on input line 
-2946.
+2942.
 (pdftex.def)             Requested size: 396.48029pt x 144.03777pt.
- [100 <./images/results/pbo/subset_dist.png>]
+ [98 <./images/results/pbo/subset_dist.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 2964--2965
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2966--2967
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 2968--2969
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2970--2971
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2972--2973
-
- []
-
-
-<images/results/dsr/cluster_distributions.png, id=2467, 871.255pt x 530.98375pt
+<images/results/dsr/cluster_distributions.png, id=2449, 871.255pt x 530.98375pt
 >
 File: images/results/dsr/cluster_distributions.png Graphic file (type png)
  <use images/results/dsr/cluster_distributions.png>
 Package pdftex.def Info: images/results/dsr/cluster_distributions.png used on i
-nput line 2977.
+nput line 2973.
 (pdftex.def)             Requested size: 304.94382pt x 185.84709pt.
- [101]
-<images/results/dsr/cluster_distributions_mse.png, id=2473, 867.24pt x 523.9575
+ [99]
+<images/results/dsr/cluster_distributions_mse.png, id=2456, 867.24pt x 523.9575
 pt>
 File: images/results/dsr/cluster_distributions_mse.png Graphic file (type png)
  <use images/results/dsr/cluster_distributions_mse.png>
 Package pdftex.def Info: images/results/dsr/cluster_distributions_mse.png used 
-on input line 2986.
+on input line 2982.
 (pdftex.def)             Requested size: 303.53854pt x 183.38786pt.
- [102 <./images/results/dsr/cluster_distributions.png> <./images/results/dsr/cl
+ [100 <./images/results/dsr/cluster_distributions.png> <./images/results/dsr/cl
 uster_distributions_mse.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2996--2997
+Underfull \hbox (badness 10000) in paragraph at lines 2992--2993
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2998--2999
+Underfull \hbox (badness 10000) in paragraph at lines 2994--2995
 
  []
 
-[103]
+[101]
+Underfull \hbox (badness 10000) in paragraph at lines 3004--3005
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3006--3007
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 3008--3009
 
  []
@@ -3148,17 +3153,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 3012--3013
 
  []
 
+[102]
+Underfull \hbox (badness 10000) in paragraph at lines 3023--3024
 
-Underfull \hbox (badness 10000) in paragraph at lines 3014--3015
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3025--3026
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3016--3017
-
- []
-
-[104]
 Underfull \hbox (badness 10000) in paragraph at lines 3027--3028
 
  []
@@ -3173,7 +3178,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3031--3032
 
  []
 
-
+[103]
 Underfull \hbox (badness 10000) in paragraph at lines 3033--3034
 
  []
@@ -3183,7 +3188,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3035--3036
 
  []
 
-[105]
+
 Underfull \hbox (badness 10000) in paragraph at lines 3037--3038
 
  []
@@ -3193,7 +3198,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 3039--3040
 
  []
 
-
+[104]
 Underfull \hbox (badness 10000) in paragraph at lines 3041--3042
 
  []
@@ -3203,530 +3208,544 @@ Underfull \hbox (badness 10000) in paragraph at lines 3043--3044
 
  []
 
-[106]
-Underfull \hbox (badness 10000) in paragraph at lines 3045--3046
+[105] [106]
+<images/results/feature_selection/synth_sae_mse.png, id=2527, 842.14626pt x 560
+.0925pt>
+File: images/results/feature_selection/synth_sae_mse.png Graphic file (type png
+)
+ <use images/results/feature_selection/synth_sae_mse.png>
+Package pdftex.def Info: images/results/feature_selection/synth_sae_mse.png use
+d on input line 3070.
+(pdftex.def)             Requested size: 252.64583pt x 168.02904pt.
 
- []
+<images/results/newinit/rbm_pretraining.png, id=2533, 1670.24pt x 478.78876pt>
+File: images/results/newinit/rbm_pretraining.png Graphic file (type png)
 
+<use images/results/newinit/rbm_pretraining.png>
+Package pdftex.def Info: images/results/newinit/rbm_pretraining.png used on inp
+ut line 3081.
+(pdftex.def)             Requested size: 334.04208pt x 95.75604pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 3047--3048
-
- []
-
-[107] [108]
-<images/results/network/lr/actual_mse_lr_epochs.png, id=2544, 755.82375pt x 575
+<images/results/newinit/actual_mse_init.png, id=2536, 793.96625pt x 597.23125pt
+>
+File: images/results/newinit/actual_mse_init.png Graphic file (type png)
+ <use images/results/newinit/actual_mse_init.png>
+Package pdftex.def Info: images/results/newinit/actual_mse_init.png used on inp
+ut line 3089.
+(pdftex.def)             Requested size: 238.19171pt x 179.17075pt.
+ [107 <./images/results/feature_selection/synth_sae_mse.png> <./images/results/
+newinit/rbm_pretraining.png>]
+<images/results/network/lr/actual_mse_lr_epochs.png, id=2550, 755.82375pt x 575
 .14874pt>
 File: images/results/network/lr/actual_mse_lr_epochs.png Graphic file (type png
 )
  <use images/results/network/lr/actual_mse_lr_epochs.png>
 Package pdftex.def Info: images/results/network/lr/actual_mse_lr_epochs.png use
-d on input line 3076.
+d on input line 3102.
 (pdftex.def)             Requested size: 226.74887pt x 172.54594pt.
 
-<images/results/network/lr/synth_mse_lr_epochs.png, id=2547, 883.3pt x 578.16pt
+<images/results/network/lr/synth_mse_lr_epochs.png, id=2553, 883.3pt x 578.16pt
 >
 File: images/results/network/lr/synth_mse_lr_epochs.png Graphic file (type png)
 
  <use images/results/network/lr/synth_mse_lr_epochs.png>
 Package pdftex.def Info: images/results/network/lr/synth_mse_lr_epochs.png used
- on input line 3085.
+ on input line 3111.
 (pdftex.def)             Requested size: 264.99205pt x 173.44933pt.
-
-<images/results/network/lr/synth_pl_minmax_lr.png, id=2556, 733.74126pt x 556.0
+ [108 <./images/results/newinit/actual_mse_init.png> <./images/results/network/
+lr/actual_mse_lr_epochs.png>]
+<images/results/network/lr/synth_pl_minmax_lr.png, id=2569, 733.74126pt x 556.0
 775pt>
 File: images/results/network/lr/synth_pl_minmax_lr.png Graphic file (type png)
  <use images/results/network/lr/synth_pl_minmax_lr.png>
 Package pdftex.def Info: images/results/network/lr/synth_pl_minmax_lr.png used 
-on input line 3098.
+on input line 3124.
 (pdftex.def)             Requested size: 220.12407pt x 166.82454pt.
 
-Overfull \hbox (6.72841pt too wide) in paragraph at lines 3098--3100
+Overfull \hbox (6.72841pt too wide) in paragraph at lines 3124--3126
  [][] 
  []
 
 
-<images/results/network/lr/actual_pl_minmax_lr.png, id=2557, 723.70375pt x 588.
+<images/results/network/lr/actual_pl_minmax_lr.png, id=2570, 723.70375pt x 588.
 1975pt>
 File: images/results/network/lr/actual_pl_minmax_lr.png Graphic file (type png)
 
  <use images/results/network/lr/actual_pl_minmax_lr.png>
 Package pdftex.def Info: images/results/network/lr/actual_pl_minmax_lr.png used
- on input line 3105.
+ on input line 3131.
 (pdftex.def)             Requested size: 217.1128pt x 176.4606pt.
 
-Overfull \hbox (3.71713pt too wide) in paragraph at lines 3105--3107
+Overfull \hbox (3.71713pt too wide) in paragraph at lines 3131--3133
  [][] 
  []
 
-[109 <./images/results/network/lr/actual_mse_lr_epochs.png> <./images/results/n
-etwork/lr/synth_mse_lr_epochs.png>]
-<images/results/activations/synthetic_mse_leakyrelu.png, id=2575, 1498.59875pt 
+
+<images/results/network/actual_sae_mse_box.png, id=2580, 879.285pt x 585.18625p
+t>
+File: images/results/network/actual_sae_mse_box.png Graphic file (type png)
+ <use images/results/network/actual_sae_mse_box.png>
+Package pdftex.def Info: images/results/network/actual_sae_mse_box.png used on 
+input line 3154.
+(pdftex.def)             Requested size: 219.82071pt x 146.2962pt.
+ [109 <./images/results/network/lr/synth_mse_lr_epochs.png> <./images/results/n
+etwork/lr/synth_pl_minmax_lr.png> <./images/results/network/lr/actual_pl_minmax
+_lr.png>]
+<images/results/network/synth_mse_box.png, id=2595, 871.255pt x 566.115pt>
+File: images/results/network/synth_mse_box.png Graphic file (type png)
+
+<use images/results/network/synth_mse_box.png>
+Package pdftex.def Info: images/results/network/synth_mse_box.png used on input
+ line 3163.
+(pdftex.def)             Requested size: 217.81322pt x 141.5284pt.
+
+<images/results/network/actual_pl_box.png, id=2602, 853.1875pt x 582.175pt>
+File: images/results/network/actual_pl_box.png Graphic file (type png)
+
+<use images/results/network/actual_pl_box.png>
+Package pdftex.def Info: images/results/network/actual_pl_box.png used on input
+ line 3172.
+(pdftex.def)             Requested size: 255.95822pt x 174.65384pt.
+ [110 <./images/results/network/actual_sae_mse_box.png> <./images/results/netwo
+rk/synth_mse_box.png>]
+<images/results/network/synth_pl_box.png, id=2613, 863.225pt x 577.15625pt>
+File: images/results/network/synth_pl_box.png Graphic file (type png)
+
+<use images/results/network/synth_pl_box.png>
+Package pdftex.def Info: images/results/network/synth_pl_box.png used on input 
+line 3181.
+(pdftex.def)             Requested size: 258.9695pt x 173.14821pt.
+
+<images/results/network/lr/synth_ogd_lr.png, id=2618, 887.315pt x 602.25pt>
+File: images/results/network/lr/synth_ogd_lr.png Graphic file (type png)
+
+<use images/results/network/lr/synth_ogd_lr.png>
+Package pdftex.def Info: images/results/network/lr/synth_ogd_lr.png used on inp
+ut line 3190.
+(pdftex.def)             Requested size: 266.19655pt x 180.67639pt.
+
+
+LaTeX Warning: Reference `results_lr' on page 111 undefined on input line 3192.
+
+
+
+LaTeX Warning: Reference `results_lr' on page 111 undefined on input line 3192.
+
+
+[111 <./images/results/network/actual_pl_box.png> <./images/results/network/syn
+th_pl_box.png>]
+<images/results/network/reg/synth_pl_reg.png, id=2629, 877.2775pt x 603.25375pt
+>
+File: images/results/network/reg/synth_pl_reg.png Graphic file (type png)
+ <use images/results/network/reg/synth_pl_reg.png>
+Package pdftex.def Info: images/results/network/reg/synth_pl_reg.png used on in
+put line 3199.
+(pdftex.def)             Requested size: 263.18527pt x 180.97751pt.
+
+<images/results/activations/synthetic_mse_leakyrelu.png, id=2634, 1498.59875pt 
 x 432.61626pt>
 File: images/results/activations/synthetic_mse_leakyrelu.png Graphic file (type
  png)
  <use images/results/activations/synthetic_mse_leakyrelu.png>
 Package pdftex.def Info: images/results/activations/synthetic_mse_leakyrelu.png
- used on input line 3122.
+ used on input line 3208.
 (pdftex.def)             Requested size: 419.6048pt x 121.13171pt.
 
-<images/results/activations/synthetic_pl_leakyrelu.png, id=2580, 751.80875pt x 
+[112 <./images/results/network/lr/synth_ogd_lr.png> <./images/results/network/r
+eg/synth_pl_reg.png>]
+<images/results/activations/synthetic_pl_leakyrelu.png, id=2645, 751.80875pt x 
 564.1075pt>
 File: images/results/activations/synthetic_pl_leakyrelu.png Graphic file (type 
 png)
  <use images/results/activations/synthetic_pl_leakyrelu.png>
 Package pdftex.def Info: images/results/activations/synthetic_pl_leakyrelu.png 
-used on input line 3131.
+used on input line 3217.
 (pdftex.def)             Requested size: 225.54436pt x 169.23355pt.
 Missing character: There is no Â in font cmr9!
 Missing character: There is no ± in font cmr9!
 Missing character: There is no Â in font cmr9!
 Missing character: There is no ± in font cmr9!
 
-[110 <./images/results/network/lr/synth_pl_minmax_lr.png> <./images/results/net
-work/lr/actual_pl_minmax_lr.png> <./images/results/activations/synthetic_mse_le
-akyrelu.png>]
-<images/results/newinit/rbm_pretraining.png, id=2593, 1670.24pt x 478.78876pt>
-File: images/results/newinit/rbm_pretraining.png Graphic file (type png)
+Underfull \hbox (badness 10000) in paragraph at lines 3236--3238
 
-<use images/results/newinit/rbm_pretraining.png>
-Package pdftex.def Info: images/results/newinit/rbm_pretraining.png used on inp
-ut line 3142.
-(pdftex.def)             Requested size: 334.04208pt x 95.75604pt.
+ []
 
-<images/results/newinit/actual_mse_init.png, id=2596, 793.96625pt x 597.23125pt
->
-File: images/results/newinit/actual_mse_init.png Graphic file (type png)
- <use images/results/newinit/actual_mse_init.png>
-Package pdftex.def Info: images/results/newinit/actual_mse_init.png used on inp
-ut line 3150.
-(pdftex.def)             Requested size: 238.19171pt x 179.17075pt.
- [111 <./images/results/activations/synthetic_pl_leakyrelu.png> <./images/resul
-ts/newinit/rbm_pretraining.png>]
+[113 <./images/results/activations/synthetic_mse_leakyrelu.png> <./images/resul
+ts/activations/synthetic_pl_leakyrelu.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 3250--3251
 
-LaTeX Warning: Reference `results_reduction' on page 112 undefined on input lin
-e 3157.
+ []
 
 
-<images/results/feature_selection/synth_sae_mse.png, id=2609, 842.14626pt x 560
-.0925pt>
-File: images/results/feature_selection/synth_sae_mse.png Graphic file (type png
+Underfull \hbox (badness 10000) in paragraph at lines 3264--3265
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3279--3280
+
+ []
+
+[114]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 3313
+.
+ (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
- <use images/results/feature_selection/synth_sae_mse.png>
-Package pdftex.def Info: images/results/feature_selection/synth_sae_mse.png use
-d on input line 3162.
-(pdftex.def)             Requested size: 252.64583pt x 168.02904pt.
-
-<images/results/network/actual_sae_mse_box.png, id=2615, 879.285pt x 585.18625p
-t>
-File: images/results/network/actual_sae_mse_box.png Graphic file (type png)
- <use images/results/network/actual_sae_mse_box.png>
-Package pdftex.def Info: images/results/network/actual_sae_mse_box.png used on 
-input line 3173.
-(pdftex.def)             Requested size: 219.82071pt x 146.2962pt.
- [112 <./images/results/newinit/actual_mse_init.png> <./images/results/feature_
-selection/synth_sae_mse.png>]
-<images/results/network/synth_mse_box.png, id=2628, 871.255pt x 566.115pt>
-File: images/results/network/synth_mse_box.png Graphic file (type png)
-
-<use images/results/network/synth_mse_box.png>
-Package pdftex.def Info: images/results/network/synth_mse_box.png used on input
- line 3182.
-(pdftex.def)             Requested size: 217.81322pt x 141.5284pt.
-
-<images/results/network/actual_pl_box.png, id=2635, 853.1875pt x 582.175pt>
-File: images/results/network/actual_pl_box.png Graphic file (type png)
-
-<use images/results/network/actual_pl_box.png>
-Package pdftex.def Info: images/results/network/actual_pl_box.png used on input
- line 3191.
-(pdftex.def)             Requested size: 255.95822pt x 174.65384pt.
- [113 <./images/results/network/actual_sae_mse_box.png> <./images/results/netwo
-rk/synth_mse_box.png>]
-<images/results/network/synth_pl_box.png, id=2646, 863.225pt x 577.15625pt>
-File: images/results/network/synth_pl_box.png Graphic file (type png)
-
-<use images/results/network/synth_pl_box.png>
-Package pdftex.def Info: images/results/network/synth_pl_box.png used on input 
-line 3200.
-(pdftex.def)             Requested size: 258.9695pt x 173.14821pt.
-
-<images/results/network/lr/synth_ogd_lr.png, id=2651, 887.315pt x 602.25pt>
-File: images/results/network/lr/synth_ogd_lr.png Graphic file (type png)
-
-<use images/results/network/lr/synth_ogd_lr.png>
-Package pdftex.def Info: images/results/network/lr/synth_ogd_lr.png used on inp
-ut line 3209.
-(pdftex.def)             Requested size: 266.19655pt x 180.67639pt.
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 3313.
 
 
-LaTeX Warning: Reference `results_lr' on page 114 undefined on input line 3211.
-
-
-
-LaTeX Warning: Reference `results_lr' on page 114 undefined on input line 3211.
-
-
-[114 <./images/results/network/actual_pl_box.png> <./images/results/network/syn
-th_pl_box.png>]
-<images/results/network/reg/synth_pl_reg.png, id=2662, 877.2775pt x 603.25375pt
->
-File: images/results/network/reg/synth_pl_reg.png Graphic file (type png)
- <use images/results/network/reg/synth_pl_reg.png>
-Package pdftex.def Info: images/results/network/reg/synth_pl_reg.png used on in
-put line 3218.
-(pdftex.def)             Requested size: 263.18527pt x 180.97751pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 3240--3242
-
- []
-
-[115 <./images/results/network/lr/synth_ogd_lr.png> <./images/results/network/r
-eg/synth_pl_reg.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 3254--3255
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3268--3269
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3283--3284
-
- []
-
-[116] [117]
-Overfull \hbox (43.34625pt too wide) in paragraph at lines 3325--3326
+Overfull \hbox (43.34625pt too wide) in paragraph at lines 3321--3322
 \OT1/cmr/m/n/10 (30,120,120,120,5); (30,60,15); (30,60,60,15); (30,60,60,60,15)
 ; (30,120,15); (30,120,120,15);
  []
 
 
-Overfull \hbox (48.34627pt too wide) in paragraph at lines 3325--3326
+Overfull \hbox (48.34627pt too wide) in paragraph at lines 3321--3322
 \OT1/cmr/m/n/10 (30,120,120,120,15); (30,60,25); (30,60,60,25); (30,60,60,60,25
 ); (30,120,25); (30,120,120,25);
  []
 
 
-Overfull \hbox (43.34625pt too wide) in paragraph at lines 3352--3353
+Overfull \hbox (43.34625pt too wide) in paragraph at lines 3348--3349
 \OT1/cmr/m/n/10 (30,120,120,120,5); (30,60,15); (30,60,60,15); (30,60,60,60,15)
 ; (30,120,15); (30,120,120,15);
  []
 
 
-Overfull \hbox (48.34627pt too wide) in paragraph at lines 3352--3353
+Overfull \hbox (48.34627pt too wide) in paragraph at lines 3348--3349
 \OT1/cmr/m/n/10 (30,120,120,120,15); (30,60,25); (30,60,60,25); (30,60,60,60,25
 ); (30,120,25); (30,120,120,25);
  []
 
-[118]
-Overfull \hbox (42.17761pt too wide) in paragraph at lines 3379--3380
+[115]
+Overfull \hbox (42.17761pt too wide) in paragraph at lines 3375--3376
 []\OT1/cmr/m/n/10 layer[]sizes: (15,40,6); (12,40,6); (9,40,6); (6,40,6); (3,40
 ,6); (15,40,40,40,6); (12,40,40,40,6);
  []
 
 
-Overfull \hbox (4.45724pt too wide) in paragraph at lines 3379--3380
+Overfull \hbox (4.45724pt too wide) in paragraph at lines 3375--3376
 \OT1/cmr/m/n/10 (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40,6); (15,80,6);(12,8
 0,6); (9,80,6); (6,80,6);
  []
 
 
-Overfull \hbox (16.6795pt too wide) in paragraph at lines 3379--3380
+Overfull \hbox (16.6795pt too wide) in paragraph at lines 3375--3376
 \OT1/cmr/m/n/10 (3,80,6); (15,80,80,80,6); (12,80,80,80,6); (9,80,80,80,6); (6,
 80,80,80,6); (3,80,80,80,6) 
  []
 
-[119]
-Overfull \hbox (42.17761pt too wide) in paragraph at lines 3409--3410
+[116]
+Overfull \hbox (42.17761pt too wide) in paragraph at lines 3405--3406
 []\OT1/cmr/m/n/10 layer[]sizes: (15,40,6); (12,40,6); (9,40,6); (6,40,6); (3,40
 ,6); (15,40,40,40,6); (12,40,40,40,6);
  []
 
 
-Overfull \hbox (4.45724pt too wide) in paragraph at lines 3409--3410
+Overfull \hbox (4.45724pt too wide) in paragraph at lines 3405--3406
 \OT1/cmr/m/n/10 (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40,6); (15,80,6);(12,8
 0,6); (9,80,6); (6,80,6);
  []
 
 
-Overfull \hbox (19.45729pt too wide) in paragraph at lines 3409--3410
+Overfull \hbox (19.45729pt too wide) in paragraph at lines 3405--3406
 \OT1/cmr/m/n/10 (3,80,6); (15,80,80,80,6); (12,80,80,80,6); (9,80,80,80,6); (6,
 80,80,80,6); (3,80,80,80,6);
  []
 
 
-Overfull \hbox (17.42023pt too wide) in paragraph at lines 3409--3410
+Overfull \hbox (17.42023pt too wide) in paragraph at lines 3405--3406
 \OT1/cmr/m/n/10 (15,20,6); (12,20,6); (9,20,6); (6,20,6); (3,20,6); (15,20,20,6
 ); (12,20,20,6); (9,20,20,6);
  []
 
 
-Overfull \hbox (19.45729pt too wide) in paragraph at lines 3409--3410
+Overfull \hbox (19.45729pt too wide) in paragraph at lines 3405--3406
 \OT1/cmr/m/n/10 (6,20,20,6); (3,20,20,6); (15,20,20,20,6); (12,20,20,20,6); (9,
 20,20,20,6); (6,20,20,20,6);
  []
 
 
-Overfull \hbox (42.17761pt too wide) in paragraph at lines 3438--3439
+Overfull \hbox (42.17761pt too wide) in paragraph at lines 3434--3435
 []\OT1/cmr/m/n/10 layer[]sizes: (15,40,6); (12,40,6); (9,40,6); (6,40,6); (3,40
 ,6); (15,40,40,40,6); (12,40,40,40,6);
  []
 
 
-Overfull \hbox (4.45724pt too wide) in paragraph at lines 3438--3439
+Overfull \hbox (4.45724pt too wide) in paragraph at lines 3434--3435
 \OT1/cmr/m/n/10 (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40,6); (15,80,6);(12,8
 0,6); (9,80,6); (6,80,6);
  []
 
 
-Overfull \hbox (16.6795pt too wide) in paragraph at lines 3438--3439
+Overfull \hbox (16.6795pt too wide) in paragraph at lines 3434--3435
 \OT1/cmr/m/n/10 (3,80,6); (15,80,80,80,6); (12,80,80,80,6); (9,80,80,80,6); (6,
 80,80,80,6); (3,80,80,80,6) 
  []
 
-[120] [121]
-Overfull \hbox (27.54796pt too wide) in paragraph at lines 3494--3495
+[117] [118]
+Overfull \hbox (27.54796pt too wide) in paragraph at lines 3490--3491
 []\OT1/cmr/m/n/10 layer[]sizes: (30,120,60,25); (30,120,60,20); (30,120,60,15);
  (30,120,60,10); (30,120,60,5);
  []
 
 
-Overfull \hbox (33.34622pt too wide) in paragraph at lines 3494--3495
+Overfull \hbox (33.34622pt too wide) in paragraph at lines 3490--3491
 \OT1/cmr/m/n/10 (30,120,90,20); (30,120,90,15); (30,120,90,10); (30,120,90,5); 
 (30,90,60,25); (30,90,60,20);
  []
 
 
-Overfull \hbox (51.67961pt too wide) in paragraph at lines 3494--3495
+Overfull \hbox (51.67961pt too wide) in paragraph at lines 3490--3491
 \OT1/cmr/m/n/10 (30,90,60,15); (30,90,60,10); (30,90,60,5); (30,90,60,30,25); (
 30,90,60,30,20); (30,90,60,30,15);
  []
 
 
-Overfull \hbox (30.75363pt too wide) in paragraph at lines 3494--3495
+Overfull \hbox (30.75363pt too wide) in paragraph at lines 3490--3491
 \OT1/cmr/m/n/10 (30,90,60,30,10); (30,90,60,30,5); (30,120,60,30,25); (30,120,6
 0,30,20); (30,120,60,30,15);
  []
 
 
-Overfull \hbox (25.75362pt too wide) in paragraph at lines 3494--3495
+Overfull \hbox (25.75362pt too wide) in paragraph at lines 3490--3491
 \OT1/cmr/m/n/10 (30,120,60,30,10); (30,120,60,30,5); (30,90,90,90,25); (30,90,9
 0,90,20); (30,90,90,90,15);
  []
 
 
-Overfull \hbox (36.3092pt too wide) in paragraph at lines 3494--3495
+Overfull \hbox (36.3092pt too wide) in paragraph at lines 3490--3491
 \OT1/cmr/m/n/10 (30,90,90,90,10); (30,90,90,90,5);(30,90,90,25); (30,90,90,20);
  (30,90,90,15); (30,90,90,10);
  []
 
 
-Overfull \hbox (28.28868pt too wide) in paragraph at lines 3523--3524
+Overfull \hbox (28.28868pt too wide) in paragraph at lines 3519--3520
 []\OT1/cmr/m/n/10 layer[]sizes: (3,12,6,2); (3,12,2); (3,12,12,2); (3,12,9,2); 
 (3,9,6,2); (3,9,6,3,2); (3,12,6,3,2);
  []
 
 
-Overfull \hbox (14.08688pt too wide) in paragraph at lines 3523--3524
+Overfull \hbox (14.08688pt too wide) in paragraph at lines 3519--3520
 \OT1/cmr/m/n/10 (3,9,9,9,2); (3,9,9,2); (3,12,6,1); (3,12,1); (3,12,12,1); (3,1
 2,9,1); (3,9,6,1); (3,9,6,3,1);
  []
 
-[122]
-Overfull \hbox (127.08353pt too wide) in paragraph at lines 3545--3546
+[119]
+Overfull \hbox (127.08353pt too wide) in paragraph at lines 3541--3542
 []\OT1/cmr/m/n/10 sae[]config[]id: 18140;18914;18259;18311;19481;20662;18917;18
 260;18314;18766;18119;18191;19343;18344;18751 
  []
 
 
-Overfull \hbox (72.97598pt too wide) in paragraph at lines 3552--3553
+Overfull \hbox (72.97598pt too wide) in paragraph at lines 3548--3549
 \OT1/cmr/m/n/10 (5,120,120,10); (25,120,120,120,10); (20,120,120,120,10); (15,1
 20,120,120,10); (10,120,120,120,10);
  []
 
 
-Overfull \hbox (9.82765pt too wide) in paragraph at lines 3552--3553
+Overfull \hbox (9.82765pt too wide) in paragraph at lines 3548--3549
 \OT1/cmr/m/n/10 (5,120,120,120,10); (25,120,90,90,60,10); (20,120,90,90,60,10);
  (15,120,90,90,60,10);
  []
 
 
-Overfull \hbox (66.3093pt too wide) in paragraph at lines 3552--3553
+Overfull \hbox (66.3093pt too wide) in paragraph at lines 3548--3549
 \OT1/cmr/m/n/10 (10,120,90,90,60,10); (5,120,90,90,60,10); (25,120,90,60,10); (
 20,120,90,60,10); (15,120,90,60,10);
  []
 
 
-Overfull \hbox (17.79062pt too wide) in paragraph at lines 3552--3553
+Overfull \hbox (17.79062pt too wide) in paragraph at lines 3548--3549
 \OT1/cmr/m/n/10 (10,120,90,60,10); (5,120,90,60,10); (25,120,10); (20,120,10); 
 (15,120,10); (10,120,10);
  []
 
 
-Overfull \hbox (22.79063pt too wide) in paragraph at lines 3552--3553
+Overfull \hbox (22.79063pt too wide) in paragraph at lines 3548--3549
 \OT1/cmr/m/n/10 (5,120,10); (25,120,60,10); (20,120,60,10); (15,120,60,10); (10
 ,120,60,10); (5,120,60,10) 
  []
 
-[123]
-Overfull \hbox (24.58498pt too wide) in paragraph at lines 3581--3582
+[120]
+Overfull \hbox (24.58498pt too wide) in paragraph at lines 3577--3578
 []\OT1/cmr/m/n/10 layer[]sizes: (2,12,6,1); (1,12,6,1); (2,12,12,1); (1,12,12,1
 ); (2,12,12,12,1); (1,12,12,12,1);
  []
 
 
-Overfull \hbox (37.08325pt too wide) in paragraph at lines 3603--3604
+Overfull \hbox (37.08325pt too wide) in paragraph at lines 3599--3600
 []\OT1/cmr/m/n/10 sae[]config[]id: 1533;1497;1554;1639;147;1534;1468;1501;318;1
 284;1535;1553;1059;1508;333 
  []
 
 
-Overfull \hbox (20.38321pt too wide) in paragraph at lines 3610--3611
+Overfull \hbox (20.38321pt too wide) in paragraph at lines 3606--3607
 \OT1/cmr/m/n/10 (20,120,10); (15,120,10); (10,120,10); (5,120,10); (25,240,10);
  (20,240,10); (15,240,10);
  []
 
 
-Overfull \hbox (37.79068pt too wide) in paragraph at lines 3610--3611
+Overfull \hbox (37.79068pt too wide) in paragraph at lines 3606--3607
 \OT1/cmr/m/n/10 (10,240,10); (5,240,10); (25,120,120,10); (20,120,120,10); (15,
 120,120,10); (10,120,120,10);
  []
 
 
-Overfull \hbox (1.86465pt too wide) in paragraph at lines 3610--3611
+Overfull \hbox (1.86465pt too wide) in paragraph at lines 3606--3607
 \OT1/cmr/m/n/10 (5,120,120,10); (25,240,240,10); (20,240,240,10); (15,240,240,1
 0); (10,240,240,10);
  []
 
 
-Overfull \hbox (18.34618pt too wide) in paragraph at lines 3610--3611
+Overfull \hbox (18.34618pt too wide) in paragraph at lines 3606--3607
 \OT1/cmr/m/n/10 (5,240,240,10); (25,60,60,10); (20,60,60,10); (15,60,60,10); (1
 0,60,60,10); (5,60,60,10);
  []
 
 
-Overfull \hbox (7.23503pt too wide) in paragraph at lines 3610--3611
+Overfull \hbox (7.23503pt too wide) in paragraph at lines 3606--3607
 \OT1/cmr/m/n/10 (30,60,10); (30,120,10); (30,240,10); (30,60,60,10); (30,120,12
 0,10); (30,240,240,10) 
  []
 
-[124]
-Overfull \hbox (35.14056pt too wide) in paragraph at lines 3640--3641
+[121]
+Overfull \hbox (35.14056pt too wide) in paragraph at lines 3636--3637
 []\OT1/cmr/m/n/10 layer[]sizes: (30,120,25); (30,120,20); (30,120,15); (30,120,
 10); (30,120,5); (30,120,120,25);
  []
 
 
-Overfull \hbox (19.64249pt too wide) in paragraph at lines 3640--3641
+Overfull \hbox (19.64249pt too wide) in paragraph at lines 3636--3637
 \OT1/cmr/m/n/10 (30,120,120,20); (30,120,120,15); (30,120,120,10); (30,120,120,
 5); (30,120,120,120,25);
  []
 
 
-Overfull \hbox (1.4943pt too wide) in paragraph at lines 3640--3641
+Overfull \hbox (1.4943pt too wide) in paragraph at lines 3636--3637
 \OT1/cmr/m/n/10 (30,120,120,120,20); (30,120,120,120,15); (30,120,120,120,10); 
 (30,120,120,120,5);
  []
 
 
-Overfull \hbox (77.60564pt too wide) in paragraph at lines 3640--3641
+Overfull \hbox (77.60564pt too wide) in paragraph at lines 3636--3637
 \OT1/cmr/m/n/10 (30,120,120,120,120,25); (30,120,120,120,120,20); (30,120,120,1
 20,120,15); (30,120,120,120,120,10);
  []
 
 
-Overfull \hbox (37.42032pt too wide) in paragraph at lines 3640--3641
+Overfull \hbox (37.42032pt too wide) in paragraph at lines 3636--3637
 \OT1/cmr/m/n/10 (30,120,120,120,120,5); (30,240,240,25); (30,240,240,20); (30,2
 40,240,15); (30,240,240,10);
  []
 
 
-Overfull \hbox (42.97589pt too wide) in paragraph at lines 3640--3641
+Overfull \hbox (42.97589pt too wide) in paragraph at lines 3636--3637
 \OT1/cmr/m/n/10 (30,240,240,5); (30,240,240,240,25); (30,120,90,60,25); (30,120
 ,90,60,20); (30,120,90,60,15);
  []
 
 
-Overfull \hbox (17.79062pt too wide) in paragraph at lines 3640--3641
+Overfull \hbox (17.79062pt too wide) in paragraph at lines 3636--3637
 \OT1/cmr/m/n/10 (30,120,90,60,10); (30,120,90,60,5); (30,240,25); (30,240,20); 
 (30,240,15); (30,240,10);
  []
 
 
-Overfull \hbox (47.42035pt too wide) in paragraph at lines 3640--3641
+Overfull \hbox (47.42035pt too wide) in paragraph at lines 3636--3637
 \OT1/cmr/m/n/10 (30,240,5); (30,240,240,240,20); (30,240,240,240,15); (30,240,2
 40,240,10); (30,240,240,240,5) 
  []
 
-[125]
-Overfull \hbox (37.08325pt too wide) in paragraph at lines 3663--3664
+[122]
+Overfull \hbox (37.08325pt too wide) in paragraph at lines 3659--3660
 []\OT1/cmr/m/n/10 sae[]config[]id: 1533;1497;1554;1639;147;1534;1468;1501;318;1
 284;1535;1553;1059;1508;333 
  []
 
 
-Overfull \hbox (20.38321pt too wide) in paragraph at lines 3670--3671
+Overfull \hbox (20.38321pt too wide) in paragraph at lines 3666--3667
 \OT1/cmr/m/n/10 (20,120,10); (15,120,10); (10,120,10); (5,120,10); (25,240,10);
  (20,240,10); (15,240,10);
  []
 
 
-Overfull \hbox (37.79068pt too wide) in paragraph at lines 3670--3671
+Overfull \hbox (37.79068pt too wide) in paragraph at lines 3666--3667
 \OT1/cmr/m/n/10 (10,240,10); (5,240,10); (25,120,120,10); (20,120,120,10); (15,
 120,120,10); (10,120,120,10);
  []
 
 
-Overfull \hbox (1.86465pt too wide) in paragraph at lines 3670--3671
+Overfull \hbox (1.86465pt too wide) in paragraph at lines 3666--3667
 \OT1/cmr/m/n/10 (5,120,120,10); (25,240,240,10); (20,240,240,10); (15,240,240,1
 0); (10,240,240,10);
  []
 
 
-Overfull \hbox (18.34618pt too wide) in paragraph at lines 3670--3671
+Overfull \hbox (18.34618pt too wide) in paragraph at lines 3666--3667
 \OT1/cmr/m/n/10 (5,240,240,10); (25,60,60,10); (20,60,60,10); (15,60,60,10); (1
 0,60,60,10); (5,60,60,10);
  []
 
 
-Overfull \hbox (10.01282pt too wide) in paragraph at lines 3670--3671
+Overfull \hbox (10.01282pt too wide) in paragraph at lines 3666--3667
 \OT1/cmr/m/n/10 (30,60,10); (30,120,10); (30,240,10); (30,60,60,10); (30,120,12
 0,10); (30,240,240,10);
  []
 
-[126]
-Overfull \hbox (28.3462pt too wide) in paragraph at lines 3700--3701
+[123]
+Overfull \hbox (28.3462pt too wide) in paragraph at lines 3696--3697
 \OT1/cmr/m/n/10 (30,60,60,60,5); (30,120,5); (30,120,120,5); (30,120,120,120,5)
 ; (30,60,15); (30,60,60,15);
  []
 
-[127]
-Overfull \hbox (39.95541pt too wide) in paragraph at lines 3759--3760
+[124]
+Overfull \hbox (39.95541pt too wide) in paragraph at lines 3755--3756
 []\OT1/cmr/m/n/10 layer[]sizes: (10,60,60,60,10); (10,120,120,120,10); (10,240,
 240,240,10); (10,60,60,60,60,10);
  []
 
-[128]
-Overfull \hbox (18.34618pt too wide) in paragraph at lines 3789--3790
+[125]
+Overfull \hbox (18.34618pt too wide) in paragraph at lines 3785--3786
 \OT1/cmr/m/n/10 (18,80,80,80,15); (18,40,12); (18,40,40,12); (18,40,40,40,12); 
 (18,80,12); (18,80,80,12);
  []
 
-[129]
-Underfull \hbox (badness 6978) in paragraph at lines 3813--3813
+[126]
+Underfull \hbox (badness 6978) in paragraph at lines 3809--3809
 []|\OT1/cmr/m/n/10 Scaling Method-ol-ogy, Net-work
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3809--3809
+[]|\OT1/cmr/m/n/10 Box
+ []
+
+
+Underfull \hbox (badness 6978) in paragraph at lines 3810--3810
+[]|\OT1/cmr/m/n/10 Scaling Method-ol-ogy, Net-work
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3810--3810
+[]|\OT1/cmr/m/n/10 Box
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3811--3811
+[]|\OT1/cmr/m/n/10 Box
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3812--3812
+[]|\OT1/cmr/m/n/10 Box
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 3813--3813
 []|\OT1/cmr/m/n/10 Box
- []
-
-
-Underfull \hbox (badness 6978) in paragraph at lines 3814--3814
-[]|\OT1/cmr/m/n/10 Scaling Method-ol-ogy, Net-work
  []
 
 
@@ -3771,12 +3790,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 3821--3821
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 3822--3822
-[]|\OT1/cmr/m/n/10 Box
+[]|\OT1/cmr/m/n/10 Line
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 3823--3823
-[]|\OT1/cmr/m/n/10 Box
+[]|\OT1/cmr/m/n/10 Line
  []
 
 
@@ -3786,91 +3805,96 @@ Underfull \hbox (badness 10000) in paragraph at lines 3824--3824
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 3825--3825
+[]|\OT1/cmr/m/n/10 Price Fluc-tu-a-tion Ag-gre-ga-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3825--3825
 []|\OT1/cmr/m/n/10 Box
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 3826--3826
-[]|\OT1/cmr/m/n/10 Line
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3827--3827
-[]|\OT1/cmr/m/n/10 Line
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3828--3828
 []|\OT1/cmr/m/n/10 Box
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3829--3829
-[]|\OT1/cmr/m/n/10 Price Fluc-tu-a-tion Ag-gre-ga-tion
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3829--3829
-[]|\OT1/cmr/m/n/10 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3830--3830
-[]|\OT1/cmr/m/n/10 Box
- []
-
-
-Underfull \hbox (badness 1348) in paragraph at lines 3831--3831
+Underfull \hbox (badness 1348) in paragraph at lines 3827--3827
 []|\OT1/cmr/m/n/10 OGD Learn-ing Rate and SGD
  []
 
 
-Overfull \hbox (2.51593pt too wide) in paragraph at lines 3831--3831
+Overfull \hbox (2.51593pt too wide) in paragraph at lines 3827--3827
 []|\OT1/cmr/m/n/10 Heatmap| 
  []
 
 
-Underfull \vbox (badness 10000) detected at line 3831
+Underfull \vbox (badness 10000) detected at line 3827
  []
 
 
-Overfull \hbox (9.06766pt too wide) in paragraph at lines 3832--3832
+Overfull \hbox (9.06766pt too wide) in paragraph at lines 3828--3828
 []|\OT1/cmtt/m/n/10 PL[]Heatmap[]NetworkSize[]DataAggregation| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3832--3832
+Underfull \hbox (badness 10000) in paragraph at lines 3828--3828
 \OT1/cmr/m/n/10 Price Fluc-tu-a-tion Ag-gre-ga-tion
  []
 
 
-Overfull \hbox (2.51593pt too wide) in paragraph at lines 3832--3832
+Overfull \hbox (2.51593pt too wide) in paragraph at lines 3828--3828
 []|\OT1/cmr/m/n/10 Heatmap| 
  []
 
 
-Underfull \hbox (badness 1087) in paragraph at lines 3833--3833
+Underfull \hbox (badness 1087) in paragraph at lines 3829--3829
 []|\OT1/cmr/m/n/10 Network Layer Sizes and Price
  []
 
 
-Overfull \hbox (2.51593pt too wide) in paragraph at lines 3833--3833
+Overfull \hbox (2.51593pt too wide) in paragraph at lines 3829--3829
 []|\OT1/cmr/m/n/10 Heatmap| 
  []
 
-[130]
+[127]
+Underfull \hbox (badness 10000) in paragraph at lines 3838--3838
+[]|\OT1/cmr/m/n/10 Box
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3839--3839
+[]|\OT1/cmr/m/n/10 Line
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3840--3840
+[]|\OT1/cmr/m/n/10 Box
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3841--3841
+[]|\OT1/cmr/m/n/10 Box
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 3842--3842
 []|\OT1/cmr/m/n/10 Box
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 3843--3843
-[]|\OT1/cmr/m/n/10 Line
+[]|\OT1/cmr/m/n/10 Box
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 3844--3844
 []|\OT1/cmr/m/n/10 Box
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3845--3845
+[]|\OT1/cmr/m/n/10 Price Fluc-tu-a-tion Ag-gre-ga-tion
  []
 
 
@@ -3895,17 +3919,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 3848--3848
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 3849--3849
-[]|\OT1/cmr/m/n/10 Price Fluc-tu-a-tion Ag-gre-ga-tion
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3849--3849
 []|\OT1/cmr/m/n/10 Box
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 3850--3850
 []|\OT1/cmr/m/n/10 Box
+ []
+
+
+Underfull \hbox (badness 1735) in paragraph at lines 3851--3851
+[]|\OT1/cmr/m/n/10 Hidden Layer Ac-ti-va-tion Func-
  []
 
 
@@ -3929,38 +3953,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 3854--3854
  []
 
 
-Underfull \hbox (badness 1735) in paragraph at lines 3855--3855
-[]|\OT1/cmr/m/n/10 Hidden Layer Ac-ti-va-tion Func-
+Underfull \vbox (badness 10000) detected at line 3858
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 3855--3855
-[]|\OT1/cmr/m/n/10 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3856--3856
-[]|\OT1/cmr/m/n/10 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3857--3857
-[]|\OT1/cmr/m/n/10 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3858--3858
-[]|\OT1/cmr/m/n/10 Box
- []
-
-
-Underfull \vbox (badness 10000) detected at line 3862
- []
-
-[131] [132] (./thesis_nw3.bbl
+[128] [129] (./thesis_nw3.bbl
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ³ in font cmr10!
- [133]
+ [130]
 Underfull \hbox (badness 2057) in paragraph at lines 193--197
 []\OT1/cmr/m/n/10 Y. Ben-gio and S. Ben-gio, ``Mod-el-ing high-dimensional
  []
@@ -3982,23 +3981,23 @@ Overfull \hbox (2.60118pt too wide) in paragraph at lines 193--197
 ]multi-[]layer-[]neural-[]networks .
  []
 
-[134]
+[131]
 Missing character: There is no Å in font cmr10!
 Missing character: There is no Ÿ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¤ in font cmr10!
- [135]
+ [132]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¼ in font cmr10!
- [136]) [137]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3875.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3875.
+ [133]) [134]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3871.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3871.
  (./thesis_nw3.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3875.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3875.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3871.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3871.
 
 Package rerunfilecheck Info: File `thesis_nw3.out' has not changed.
-(rerunfilecheck)             Checksum: C556D7B9A6A286AE34D0A64E11FD1347;14488.
+(rerunfilecheck)             Checksum: 778E03B05108572EB8C494C3260BA258;14295.
 
 
 LaTeX Warning: There were undefined references.
@@ -4009,13 +4008,13 @@ LaTeX Warning: There were undefined references.
 ### simple group (level 1) entered at line 1061 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 31229 strings out of 492995
- 587110 string characters out of 6132704
- 740214 words of memory out of 5000000
- 33534 multiletter control sequences out of 15000+600000
+ 31211 strings out of 492995
+ 586762 string characters out of 6132704
+ 737895 words of memory out of 5000000
+ 33522 multiletter control sequences out of 15000+600000
  20466 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 54i,19n,87p,1504b,11058s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,19n,87p,1504b,11026s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{Hfootnote.22} has been referenced b
 ut does not exist, replaced by a fixed one
 
@@ -4107,10 +4106,10 @@ ts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2017/texmf-dist/fonts
 type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2017/texmf-dist/fonts/typ
 e1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis_nw3.pdf (137 pages, 5258703 bytes).
+Output written on thesis_nw3.pdf (134 pages, 5256316 bytes).
 PDF statistics:
- 3015 PDF objects out of 3580 (max. 8388607)
- 2528 compressed objects within 26 object streams
- 609 named destinations out of 1000 (max. 500000)
- 1874 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2993 PDF objects out of 3580 (max. 8388607)
+ 2509 compressed objects within 26 object streams
+ 603 named destinations out of 1000 (max. 500000)
+ 1858 words of extra memory for PDF output out of 10000 (max. 10000000)
 
