@@ -69,12 +69,12 @@ savefig(plot(fig), string("/users/joeldacosta/desktop/PL Cluster Distributions.h
 
 ##########Sharpe Ratio Plot##############################################################################################################
 
-clusterOneQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio where configuration_id in ($clusterOneQ)"
-clusterTwoQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio where configuration_id in ($clusterTwoQ)"
+clusterOneQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio_cost where configuration_id in ($clusterOneQ)"
+clusterTwoQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio_cost where configuration_id in ($clusterTwoQ)"
 
 clusterOneResults = RunQuery(clusterOneQuery)
 clusterTwoResults = RunQuery(clusterTwoQuery)
-highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio")[1,1])
+highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio_cost")[1,1])
 
 opacity_value = 0.8
 
@@ -179,12 +179,12 @@ savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster MSE Distributions.
 
 ##########Sharpe Ratio Plot##############################################################################################################
 
-clusterOneQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio where configuration_id in ($clusterOneQ)"
-clusterTwoQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio where configuration_id in ($clusterTwoQ)"
+clusterOneQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio_cost where configuration_id in ($clusterOneQ)"
+clusterTwoQuery  = "select  sharpe_ratio from config_oos_sharpe_ratio_cost where configuration_id in ($clusterTwoQ)"
 
 clusterOneResults = RunQuery(clusterOneQuery)
 clusterTwoResults = RunQuery(clusterTwoQuery)
-highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio")[1,1])
+highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio_cost")[1,1])
 
 skewness(Array(clusterOneResults[:sharpe_ratio]))
 skewness(Array(clusterTwoResults[:sharpe_ratio]))
