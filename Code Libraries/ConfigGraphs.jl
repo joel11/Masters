@@ -140,9 +140,7 @@ category_query = "select min(configuration_id) minid,
        when experiment_set_name like 'Iteration13_1 Large FFN Actual10 %' then 'Iteration FFN Large Actual10 Tests'
        when experiment_set_name like 'Iteration14_1 Large FFN Actual10 %' then 'Iteration2 FFN Large Actual10 Tests'
 
-       when experiment_set_name like 'Iteration16_1%' then 'Iteration3 FFN Large Actual10 Tests'
-       when experiment_set_name like 'Iteration17_1%' then 'Iteration3 FFN Large Actual10 Tests'
-
+       when experiment_set_name like 'Iteration15%' then 'Iteration3 FFN Large Actual10 Tests'
 
        else null end as esn
     from configuration_run
@@ -268,6 +266,12 @@ function ResultsNew_1_PLDeterminants()
     OOS_PL_OGDLR_Delta_Encoding(ffn_config_ids, 30, "OOS Actual", "ActualPL", false, median, 20)
     OOS_PL_OGDLR_Delta_Encoding(ffn_config_ids, 30, "OOS Actual", "ActualPL", false, median, 25)
 
+
+
+    ffn_setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests", "Iteration2 FFN Large Actual10 Tests"]
+    ffn_setnames = ["Iteration2 FFN Large Actual10 Tests", "Iteration3 FFN Large Actual10 Tests"]
+    config_ids = SelectConfigIDs(ffn_setnames)
+    PrintConfig(ffn_setnames, false)
 end
 
 

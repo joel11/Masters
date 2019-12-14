@@ -1550,7 +1550,7 @@
 				\end{equation}	
 		
 			\item [11] The Sharpe Ratio
-				\begin{equation}
+				\begin{equation}\label{eq_sharperatio}
 					\mathbf{SR} = \frac{\mathtt{mean}(\mathbf{\tilde{R}})}{\mathtt{standard\_deviation}(\mathbf{\tilde{R}})} 
 				\end{equation}
 		
@@ -1649,7 +1649,7 @@
 		\begin{equation}
 			\mathbf{D_{ij}} = \sqrt{\frac{1}{2}\left(1 - \rho_{ij}\right)}
 		\end{equation} 
-		\item[3] \textbf{Calculate Global Distance Matrix}: The ONC algorithm works on a distance of distances matrix, such that the distances incorporate information about the entire set of returns, which in turn reduces noise and increases the robustness of the clustering\cite{LopezPrado2016a}. The distance matrix $\mathbf{\tilde{D}}$ is then calculated such that:
+		\item[3] \textbf{Calculate Global Distance Matrix}: The ONC algorithm works on a distance of distances matrix, such that the distances incorporate information about the entire set of returns, which in turn reduces noise and increases the robustness of the clustering \cite{LopezPrado2016a}. The distance matrix $\mathbf{\tilde{D}}$ is then calculated such that:
 				\begin{equation}
 				\mathbf{\tilde{D}_{ij}} = \sqrt{\sum_{k}\left(\mathbf{D}_{ik} - \mathbf{D}_{jk}\right)^2}
 				\end{equation} 
@@ -1672,7 +1672,7 @@
 	
 	\subsubsection{Sharpe Ratio Normality and Probabilistic Sharpe Ratio}\label{sr_normality}
 	
-	While if it has often been assumed in the past that strategy returns will follow a Normal distribution, it has been shown empirically that they often do not \cite{Brooks and Kat2002; Ingersoll 2007}, which may in turn lead to an underestimation of falst positive probability. Under the assumption of IID and non-normal returns, Mertens \cite{Mertens} was able to show the asymptotic distribution of $\widehat{SR}$ for a strategy with returns $r_t , t = 1, ..., T$,  as 
+	While if it has often been assumed in the past that strategy returns will follow a Normal distribution, it has been shown empirically that they often do not \cite{Brooks}, which may in turn lead to an underestimation of falst positive probability. Under the assumption of IID and non-normal returns, Mertens \cite{Mertens} was able to show the asymptotic distribution of $\widehat{SR}$ for a strategy with returns $r_t , t = 1, ..., T$,  as 
 	
 	\begin{equation}
 	(\widehat{S R}-S R) \stackrel{a}{\rightarrow} \mathcal{N}\left[0, \frac{1+\frac{1}{2} S R^{2}-\gamma_{3} S R+\frac{\gamma_{4}-3}{4} S R^{2}}{T}\right]
@@ -1702,7 +1702,7 @@
 		
 	\subsubsection{False Strategy Theorem}\label{imp_fst}
 	
-	Bailey et al. \cite{Baileyetal2014} provided a proof for the following statement, allowing for PSR to be properly adjusted for multiple trials.
+	Bailey et al. \cite{BaileySharpe} provided a proof for the following statement, allowing for PSR to be properly adjusted for multiple trials.
 	
 	\begin{equation}\label{eq_falsestrat}
 		\mathrm{E}\left[{\max_k}\{\widehat{SR_k}\}\right]\left(\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]\right)^{-1 / 2}\approx(1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]	
@@ -1738,7 +1738,7 @@
 	
 	\paragraph{Estimating $\mathbf{E}\left[\mathbf{K}\right]$ and $\mathbf{V}\left[\widehat{\mathbf{SR_k}}\right]$}\label{dsr_cluster_estimates}
 	
-	The results from the ONC algorithm, having already determined $\mathbf{E}\left[K\right]$ by clustering the trials into $K$ clusters, can then be used to estimate the variance of the cluster sharpe ratios. In order to do so, a single time series return needs to be constructed for the strategies in each cluster. The minimum variance allocation from Prado \cite{proadi2016a} is used in order to choose the best weightings and reduce the effects of strategies with large variances.\newline
+	The results from the ONC algorithm, having already determined $\mathbf{E}\left[K\right]$ by clustering the trials into $K$ clusters, can then be used to estimate the variance of the cluster sharpe ratios. In order to do so, a single time series return needs to be constructed for the strategies in each cluster. The minimum variance allocation from Prado \cite{LopezPrado2016a} is used in order to choose the best weightings and reduce the effects of strategies with large variances.\newline
 
 	For each cluster $k$, where $k = 1, ..., K$, with components $C_k$, the weightings for each component can be calculated using equation \ref{eq_onc_weights}:
 	
@@ -1777,7 +1777,7 @@
 		
 		
 		
-	\newpage
+	\newpage	
 	\section{Framework Implementation}\label{imp_proc}
 	
 	Having covered the technical implementations in Sections \ref{Data} and \ref{Implementation}, a higher level overview of the end to end experimental process can be detailed. The process here rests on two key principles: implementing a generalised version of a system which could offer exploration of more complex techniques, and ensuring an effective modularisation of steps such that the process can be reconfigured accordingly while maintaining its integrity. In doing so, a separable system is created which brings together data reduction, deep learning with pre-training/weight initialization, online learning and back test overfitting validation.
@@ -2033,7 +2033,7 @@
 	
 	\subsubsection{Scaling10}\label{dataset_scaling10}
 	
-	 This dataset was used specifically to test scaling techniques, and consisted of the following JSE closing price relatives: ACL, AGL, AMS, AOD, BAW, BIL, BVT, CFR, CRH, DDT. The price fluctuations can be seen in Figure \ref{figure-aglacl_prices}.
+	 This dataset was used specifically to test scaling techniques, and consisted of the following JSE closing price relatives: ACL, AGL, AMS, AOD, BAW, BIL, BVT, CFR, CRH, DDT. The price fluctuations can be seen in Figure \ref{figure-scaling10_prices}.
 	
 	\subsubsection{AGL, AGL\&ACL}\label{dataset_agl}\label{dataset_aglacl}
 	
@@ -2440,7 +2440,7 @@
 			\label{figure-agl_pl_init}
 		\end{subfigure}
 		\caption[OOS P\&L by Weight Initialization]
-		{Dataset: Synthetic10 (\ref{dataset_synthetic10}), AGL \ref{dataset_agl}, Configuration 9 (\ref{config9}) \& Configuration 10 (\ref{config10})
+		{Dataset: Synthetic10 (\ref{dataset_synthetic10}), AGL (\ref{dataset_agl}), Configuration 9 (\ref{config9}) \& Configuration 10 (\ref{config10})
 			\newline Figure (a) shows OOS P\&L performance for synthetic data. The networks with more consistent layer sizes result in the performance between He and He-Adj becoming comparable, while both outperform Xavier (as expected, with ReLU activations). In Figure (b), the P\&L results for AGL data shows clear outperformance of Xavier by the He based initializations, but a less clear comparison betwen He and He-Adj.}
 		\label{figure-pl_init}
 	\end{figure}
@@ -2664,7 +2664,7 @@
 			\label{figure-actual_oos_pl_lr_epochs}
 		\end{subfigure}
 		\caption[Effects of Epoch Cycle Lengths on P\&L]
-		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12}) \& Configuration 13 (\ref{config13})
+		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13})
 		\newline Figure (a) shows significant differences in the P\&L compared across different learning rate epochs, with 100 offering notable improvement over  a constant learning rate. The 10 epoch cycles were used for configurations which only ran for 10 epochs, and so the performance may just be indicative of the amount of training. As expected, the performance increase IS doesn't have significant impacts on the OOS performance, but it does given an indication that a more careful exploration of the complex solution space would be beneficial where possible.
 		\newline\newline
 		The learning rate ranges themselves were set to the best values seen for the data in the SAE training, and small variations did not results in notable changes. These can be seen in Appendix \ref{results_appendix_finance_data}.}
@@ -2685,7 +2685,7 @@
 			\label{figure-oos_actual_pl_reg}
 		\end{subfigure}
 		\caption[Effects of L1 Regularization on P\&L]
-		{Dataset: Actual10 dataset (\ref{dataset_actual10}),  Configurations 12 (\ref{config12}) \& Configuration 13 (\ref{config13})
+		{Dataset: Actual10 dataset (\ref{dataset_actual10}),  Configuration 13 (\ref{config13})
 			\newline L1 Regularization in Figure (a) shows a minor improvement in aggregate IS performance, though with lower maximum P\&L and with only detrimental follow through to the OOS performance, as seen in Figure (b). This highlights that even when a model generalises to IS data, the changing dynamics of financial time series means that it may not be generalising well to OOS data. L1 regularization is expected to work well in instances of IID data, but for time series financial data, where the model isn't overfitting, it is just affecting model fidelity. This effect is amplified both IS and OOS when $\lambda = 0.5$.}
 		\label{figure-results-reg}
 	\end{figure}
@@ -2815,7 +2815,7 @@
 	
 	\subsubsection{Leaky ReLU vs ReLU}
 	
-	Leaky ReLU activations were implemented, and showed negligible effects for SAE, which can be seen in Appendix \ref{results_activations_appendix}. For the predictive network, the LeakyReLU did offer some more significant improvements (3\% - 10\%) on OOS P\&L for Synthetic data, as seen in Figure \ref{figure-synthetic_pl_leakyrelu} in the appendix. Subsequently, Leaky ReLU was used as the hidden layer activation of choice for most trials.
+	Leaky ReLU activations were implemented, and showed negligible effects for SAE, which can be seen in Appendix \ref{results_network_appendix}. For the predictive network, the LeakyReLU did offer some more significant improvements (3\% - 10\%) on OOS P\&L for Synthetic data, as seen in Figure \ref{figure-synthetic_pl_leakyrelu} in the appendix. Subsequently, Leaky ReLU was used as the hidden layer activation of choice for most trials.
 	
 	\newpage
 	\subsection{Money Management Strategy}\label{results_mms}
@@ -2843,7 +2843,7 @@
 			\caption{\textbf{With Capital \& Trading Costs}}
 			\label{figure-results_pl_pdf_cost_capital}
 		\end{subfigure}
-		\caption[MMS OOS P\&L Distributions]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\caption[MMS OOS P\&L Distributions]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
 			\newline The distributions of all OOS P\&L values, with the benchmark P\&L indicated in orange, give an encouraging view of the results. There is a significant negative skew, with a proportionally small number of strategies resulting in negative returns, even with capital and trading costs applied (as per Equation \ref{eq_capital_costs}). There are a large proportion of strategies near the OOS upper bound, which in turn is within 22\% and 28\% of the benchmark for Figure (a) and (b), respectively (these percentages apply similarly to return rates as they do to OOS P\&L).
 		}
 		\label{results_pl_pdf_cost}
@@ -2864,7 +2864,7 @@
 			\caption{\textbf{Correct Trade Distribution}}
 			\label{figure-confusion_dist}
 		\end{subfigure}
-		\caption[MMS Sharpe Ratios and Correct Trades]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\caption[MMS Sharpe Ratios and Correct Trades]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
 			\newline Figure (a) shows the distribution of all strategies' Sharpe Ratios, with costs taken into account. Figure (b) shows the correct trade percentages made by the strategies (i.e. purchasing an asset when they should have). Naturally, theses are all highly correlated measures, showing the same overall distribution patterns as those seen in the OOS P\&L in Figure \ref{results_pl_pdf_cost}. This once again indicates the successful implementation of the underlying framework.
 		}
 		\label{results_mms_sr_conf}
@@ -2900,7 +2900,7 @@
 		\centering 
 		\textbf{PBO Scores by Split Values}
 		\includegraphics[scale=0.25]{images/results/pbo/PBO_by_Split.png} 
-		\caption[PBO Scores by Split Values]{
+		\caption[PBO Scores by Split Values]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
 			\newline The curve here shows the significant impact that the choice in the split parameters has for the PBO score calculated, with a monotonically decreasing score as S increases (these scores were for the same set of results). }
 		\label{figure-PBO_by_Split}
 	\end{figure}
@@ -2922,15 +2922,15 @@
 	
 	\begin{figure}[H]
 		\centering 
-		\textbf{Logit Distribution for All Configurations (n=22248)}
+		\textbf{Logit Distribution for All Configurations}
 		\includegraphics[scale=0.25]{images/results/pbo/all_sets_dist.png} 
-		\caption[Logit Distribution for All Configurations]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\caption[Logit Distribution for All Configurations]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
 			\newline The CSCV logit distribution for all configurations run, with a calculated PBO of 1.6\%.}
 		\label{figure-results_logits_all}
 	\end{figure}
 	
 	
-	It is of interest to note the dynamics and contribution towards the PBO results. The configuration process went through 2 primary phases: an extremely broad combinatorial grid search, consisting of 20880 configurations; and a second much narrower search of 1512 configurations. Assessing only the configurations from the second phase, results in a PBO score of 6.3\%, which is significantly higher than the overall PBO score, the logit distribution for which can be seen in Figure \ref{figure-results_logits_subset} below. The effect here highlights two important aspects of the PBO calculation:
+	It is of interest to note the dynamics and contribution towards the PBO results. The configuration process went through 2 primary phases: an extremely broad combinatorial grid search, consisting of 20736 configurations; and a second much narrower search of 1512 configurations. Assessing only the configurations from the second phase, results in a PBO score of 6.3\%, which is significantly higher than the overall PBO score, the logit distribution for which can be seen in Figure \ref{figure-results_logits_subset} below. The effect here highlights two important aspects of the PBO calculation:
 	\begin{itemize}
 		\item[1] The scores are much higher for the configurations which were picked more specifically after having already seen a large number of results, which is correctly indicative of increased likelihood to overfit.
 		\item[2] However, the PBO score is not monotonically increasing with N, as one would expect. This is counterintuitive and is in line with the concerns raised in \ref{results_pboconcerns} regarding the effects of increasing configuration sample size.
@@ -2938,9 +2938,9 @@
 	
 	\begin{figure}[H]
 		\centering 
-		\textbf{Logit Distribution for Subset of Configurations (n=1512)}
+		\textbf{Logit Distribution for Subset of Configurations}
 		\includegraphics[scale=0.25]{images/results/pbo/subset_dist.png} 
-		\caption[Logit Distribution for Subset of Configurations]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configurations )
+		\caption[Logit Distribution for Subset of Configurations]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 16 (\ref{config16})
 			\newline The CSCV logit distribution for a narrower of configurations run, with a calculated PBO of 6.3\%.}
 		\label{figure-results_logits_subset}
 	\end{figure}
@@ -2971,8 +2971,8 @@
 		\centering
 		\textbf{Sharpe Ratios for ONC Clusters and Best Strategy}
 		\includegraphics[scale=0.35]{images/results/dsr/cluster_distributions.png} 
-		\caption[Sharpe Ratios for ONC Clusters and Best Strategy]{
-			 The graph here shows the distributions of all Sharpe Ratios, grouped by the 2 clusters produced by the ONC algorithm, and an indication for the best sharpe ratio, which is in Cluster One. As note above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.546$, $\mu_{c2} = 0.556$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.48$, $\tilde{\mu}_{3,c2} = -0.67$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials.}
+		\caption[Sharpe Ratios for ONC Clusters and Best Strategy]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
+			 \newline The graph here shows the distributions of all Sharpe Ratios, grouped by the 2 clusters produced by the ONC algorithm, and an indication for the best sharpe ratio, which is in Cluster One. As note above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.546$, $\mu_{c2} = 0.556$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.48$, $\tilde{\mu}_{3,c2} = -0.67$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials.}
 		\label{figure-dsr_clusters}
 	\end{figure}
 
@@ -2980,8 +2980,8 @@
 		\centering
 		\textbf{OGD MSE Scores for ONC Clusters}
 		\includegraphics[scale=0.35]{images/results/dsr/cluster_distributions_mse.png} 
-		\caption[OGD MSE Scores for ONC Clusters]{
-			The distributions of OGD MSE scores can be seen for both clusters here, indicating how precise the predictions were. The patterns tie in with those seen in Figure \ref{figure-dsr_clusters}, with Cluster One having a higher variance which leads to more configurations at either end of the MSE range, and including the best performing one.}
+		\caption[OGD MSE Scores for ONC Clusters]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
+			\newline The distributions of OGD MSE scores can be seen for both clusters here, indicating how precise the predictions were. The patterns tie in with those seen in Figure \ref{figure-dsr_clusters}, with Cluster One having a higher variance which leads to more configurations at either end of the MSE range, and including the best performing one.}
 		\label{figure-dsr_clusters_mse}
 	\end{figure}
 	
@@ -3189,7 +3189,7 @@
 		\textbf{Predictive P\&L by OGD Learning Rate (Synthetic Data)}
 		\includegraphics[scale=0.3]{images/results/network/lr/synth_ogd_lr.png} 
 		\caption[Predictive P\&L by OGD Learning Rate (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ;  Configuration 9 (\ref{config9}) 
-			\newline The networks trained on Synthetic data showed a sharp P\&L increase as the OGD learning rate increased. It wasn't tested if they would experience the same turning point and begin to degrade as seen in networks for Actual data in \ref{results_lr}}.
+			\newline The networks trained on Synthetic data showed a sharp P\&L increase as the OGD learning rate increased. It wasn't tested if they would experience the same turning point and begin to degrade as seen in networks for Actual data in Section \ref{results_oos_pl}}.
 		\label{figure-synth_ogd_lr}
 	\end{figure}
 	
@@ -3742,7 +3742,7 @@
 	Samples: 73
 	
 	\subsubsection{Configuration 16}\label{config16}
-	
+	%["Iteration2 FFN Large Actual10 Tests", "Iteration3 FFN Large Actual10 Tests"]
 	\begin{itemize}
 		\item category: FFN
 		\item sae\_config\_id: 318;1508;1639
@@ -3752,24 +3752,24 @@
 		\item training\_splits: 0.8,1.0
 		\item prediction\_steps: 5
 		\item scaling\_function: LimitedNormalizeData
-		\item layer\_sizes: (10,60,60,60,10); (10,120,120,120,10); (10,240,240,240,10); (10,60,60,60,60,10); (10,120,120,120,120,10); (10,240,240,240,240,10)
+		\item layer\_sizes: (10,60,60,60,10); (10,120,120,120,10); (10,240,240,240,10); (10,60,60,60,60,10); (10,120,120,120,120,10); (10,240,240,240,240,10); (10,60,10); (10,120,10); (10,240,10); (10,60,60,10); (10,120,120,10); (10,240,240,10)
 		\item layer\_activations: SigmoidActivation,ReluActivation,LinearActivation
 		\item initialization: DCUniformInit
 		\item encoding\_activation: None
 		\item output\_activation: LinearActivation
 		\item learning\_rate: 0.01
 		\item minibatch\_size: 32
-		\item max\_epochs: 100;500;10
+		\item max\_epochs: 100;500;10;2000
 		\item l1\_lambda: 0.0
 		\item ifnull(tp.l2\_lambda,0): 0
-		\item min\_learning\_rate: 0.0001
+		\item min\_learning\_rate: 0.0001;0.001;1.0e-5
 		\item epoch\_cycle\_max: -1;100;10
 		\item is\_denoising: 0
 		\item denoising\_variance: 0.0
-		\item ogd\_learning\_rate: 0.01;0.05;0.1
+		\item ogd\_learning\_rate: 0.01;0.05;0.1;0.001
 	\end{itemize}
 	
-	Samples: 1296
+	Samples: 1512
 	
 	\subsubsection{Configuration 17}\label{config17}
 	

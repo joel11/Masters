@@ -29,6 +29,11 @@ D.~H. Bailey, J.~Borwein, M.~López~de Prado, and Q.~J. Zhu, ``The probability
   \url{https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf}
 \BIBentrySTDinterwordspacing
 
+\bibitem{PradoDSR}
+M.~Lopez~de Prado and M.~Lewis, ``Detection of false investment strategies
+  using unsupervised learning methods,'' \emph{Quantitative Finance}, vol.~19,
+  pp. 1--11, 07 2019.
+
 \bibitem{Murphy}
 J.~Murphy, ``Technical analysis of financial markets,'' 01 1999.
 
@@ -421,11 +426,6 @@ D.~Bailey and M.~Lopez~de Prado, ``The deflated sharpe ratio: Correcting for
   selection bias, backtest overfitting, and non-normality,'' \emph{The Journal
   of Portfolio Management}, vol.~40, pp. 94--107, 09 2014.
 
-\bibitem{PradoDSR}
-M.~Lopez~de Prado and M.~Lewis, ``Detection of false investment strategies
-  using unsupervised learning methods,'' \emph{Quantitative Finance}, vol.~19,
-  pp. 1--11, 07 2019.
-
 \bibitem{Harvey}
 C.~R. Harvey and Y.~Liu, ``Backtesting,'' \emph{The Journal of Portfolio
   Management}, vol.~42, pp. 13--28, 07 2015.
@@ -454,16 +454,34 @@ D.~H. Bailey, J.~Borwein, M.~Lopez~de Prado, and Q.~J. Zhu,
 G.~Hinton, ``A practical guide to training restricted boltzmann machines[j],''
   \emph{Momentum}, vol.~9, pp. 926--947, 01 2010.
 
+\bibitem{LopezPrado2016a}
+M.~Lopez~de Prado, ``Building diversified portfolios that outperform out of
+  sample:,'' \emph{The Journal of Portfolio Management}, vol.~42, pp. 59--69,
+  07 2016.
+
+\bibitem{Rousseeouw1987}
+R.~Peter, ``Silhouettes: a graphical aid to the interpretation and validation
+  of cluster analysis,'' \emph{J. Comput. Appl. Math.}, vol.~20, 01 1987.
+
+\bibitem{Brooks}
+C.~Brooks and H.~Kat, ``The statistical properties of hedge fund index
+  returns,'' \emph{Henley Business School, Reading University, ICMA Centre
+  Discussion Papers in Finance}, 01 2001.
+
+\bibitem{Mertens}
+E.~Mertens, ``Comments on variance of the iid estimator in lo (2002),''
+  \emph{Technical report, Working Paper University of Basel}, 11 2002.
+
 \bibitem{Wilcox}
 D.~Wilcox and T.~Gebbie, ``Hierarchical causality in financial economics,''
   \emph{SSRN Electronic Journal}, 08 2014.
 
-\bibitem{Peters}
-A.~A. Ole~Peters, \emph{Ergodicity Economics}.\hskip 1em plus 0.5em minus
-  0.4em\relax London Mathematical Laboratory, 2018.
-
 \bibitem{Perkel}
 J.~M. Perkel, ``Julia: come for the syntax, stay for the speed,''
   \emph{Nature}, vol. 572, pp. 141--142, 2019.
+
+\bibitem{Peters}
+A.~A. Ole~Peters, \emph{Ergodicity Economics}.\hskip 1em plus 0.5em minus
+  0.4em\relax London Mathematical Laboratory, 2018.
 
 \end{thebibliography}
