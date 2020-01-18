@@ -9,7 +9,7 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: thesis_bibliography.bib
 Warning--entry type for "MurphyGebbie" isn't style-file defined
---line 1081 of file thesis_bibliography.bib
+--line 1089 of file thesis_bibliography.bib
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
@@ -27,7 +27,6 @@ Warning--empty booktitle in Takeuchi
 Warning--empty journal in Troiano
 Warning--empty journal in Hsu
 Warning--missing publisher in LeCun
-Warning--empty booktitle in Zhang
 Warning--empty journal in Zeiler
 Warning--empty booktitle in Smith
 Warning--empty booktitle in Loshchilov
@@ -35,43 +34,43 @@ Warning--empty booktitle in Loshchilov
 Done.
 You've used 98 entries,
             4087 wiz_defined-function locations,
-            1424 strings with 21635 characters,
-and the built_in function-call counts, 59527 in all, are:
-= -- 4826
-> -- 1286
-< -- 401
-+ -- 706
-- -- 234
-* -- 2770
-:= -- 9468
+            1423 strings with 21440 characters,
+and the built_in function-call counts, 59122 in all, are:
+= -- 4799
+> -- 1269
+< -- 396
++ -- 697
+- -- 231
+* -- 2744
+:= -- 9426
 add.period$ -- 194
 call.type$ -- 98
-change.case$ -- 93
-chr.to.int$ -- 864
-cite$ -- 116
-duplicate$ -- 4631
-empty$ -- 4952
-format.name$ -- 296
-if$ -- 13777
+change.case$ -- 92
+chr.to.int$ -- 852
+cite$ -- 115
+duplicate$ -- 4603
+empty$ -- 4927
+format.name$ -- 292
+if$ -- 13680
 int.to.chr$ -- 0
 int.to.str$ -- 98
-missing$ -- 760
+missing$ -- 754
 newline$ -- 333
 num.names$ -- 100
-pop$ -- 1720
+pop$ -- 1702
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 4596
+skip$ -- 4572
 stack$ -- 0
-substring$ -- 2115
-swap$ -- 3600
-text.length$ -- 113
+substring$ -- 2087
+swap$ -- 3574
+text.length$ -- 112
 text.prefix$ -- 0
 top$ -- 5
 type$ -- 98
-warning$ -- 18
-while$ -- 235
+warning$ -- 17
+while$ -- 232
 width$ -- 100
-write$ -- 921
-(There were 19 warnings)
+write$ -- 920
+(There were 18 warnings)

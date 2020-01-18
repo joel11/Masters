@@ -8,10 +8,10 @@
 \BOOKMARK [3][-]{subsubsection.2.2.2}{Activation Functions}{subsection.2.2}% 8
 \BOOKMARK [3][-]{subsubsection.2.2.3}{Deep Learning}{subsection.2.2}% 9
 \BOOKMARK [3][-]{subsubsection.2.2.4}{Weight Initialization Improvements}{subsection.2.2}% 10
-\BOOKMARK [2][-]{subsection.2.3}{Stacked Autoencoders}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.3}{Stacked AutoEncoders}{section.2}% 11
 \BOOKMARK [3][-]{subsubsection.2.3.1}{High Dimensional Data Reduction}{subsection.2.3}% 12
 \BOOKMARK [3][-]{subsubsection.2.3.2}{Deep Belief Networks}{subsection.2.3}% 13
-\BOOKMARK [3][-]{subsubsection.2.3.3}{Stacked Denoising Autoencoders}{subsection.2.3}% 14
+\BOOKMARK [3][-]{subsubsection.2.3.3}{Stacked Denoising AutoEncoders}{subsection.2.3}% 14
 \BOOKMARK [3][-]{subsubsection.2.3.4}{Pre-training}{subsection.2.3}% 15
 \BOOKMARK [3][-]{subsubsection.2.3.5}{Time Series Applications}{subsection.2.3}% 16
 \BOOKMARK [3][-]{subsubsection.2.3.6}{Financial Applications}{subsection.2.3}% 17
@@ -56,10 +56,10 @@
 \BOOKMARK [2][-]{subsection.4.3}{Restricted Boltzmann Machines}{section.4}% 56
 \BOOKMARK [3][-]{subsubsection.4.3.1}{Contrastive Divergence}{subsection.4.3}% 57
 \BOOKMARK [3][-]{subsubsection.4.3.2}{CD-1 and SGD}{subsection.4.3}% 58
-\BOOKMARK [2][-]{subsection.4.4}{Stacked Autoencoders}{section.4}% 59
+\BOOKMARK [2][-]{subsection.4.4}{Stacked AutoEncoders}{section.4}% 59
 \BOOKMARK [3][-]{subsubsection.4.4.1}{Sigmoid based Greedy Layerwise SAE Training}{subsection.4.4}% 60
 \BOOKMARK [3][-]{subsubsection.4.4.2}{ReLU based SAE Training}{subsection.4.4}% 61
-\BOOKMARK [3][-]{subsubsection.4.4.3}{Denoising Autoencoders}{subsection.4.4}% 62
+\BOOKMARK [3][-]{subsubsection.4.4.3}{Denoising AutoEncoders}{subsection.4.4}% 62
 \BOOKMARK [4][-]{paragraph.4.4.3.1}{Additive Gaussian Noise}{subsubsection.4.4.3}% 63
 \BOOKMARK [4][-]{paragraph.4.4.3.2}{Masking Noise}{subsubsection.4.4.3}% 64
 \BOOKMARK [2][-]{subsection.4.5}{Variance Based Weight Initializations}{section.4}% 65

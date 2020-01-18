@@ -27,6 +27,7 @@
 \@writefile{toc}{\contentsline {section}{List of Tables}{8}{Doc-Start}}
 \newacro{BP}[\AC@hyperlink{BP}{BP}]{B}
 \newacro{CD1}[\AC@hyperlink{CD1}{CD1}]{C}
+\newacro{CLR}[\AC@hyperlink{CLR}{CLR}]{C}
 \newacro{CSCV}[\AC@hyperlink{CSCV}{CSCV}]{C}
 \newacro{DBN}[\AC@hyperlink{DBN}{DBN}]{D}
 \newacro{DSR}[\AC@hyperlink{DSR}{DSR}]{D}
@@ -40,6 +41,7 @@
 \newacro{MMS}[\AC@hyperlink{MMS}{MMS}]{M}
 \newacro{MSE}[\AC@hyperlink{MSE}{MSE}]{M}
 \newacro{NN}[\AC@hyperlink{NN}{NN}]{N}
+\newacro{OHLC}[\AC@hyperlink{OHLC}{OHLC}]{O}
 \newacro{OGD}[\AC@hyperlink{OGD}{OGD}]{O}
 \newacro{ONC}[\AC@hyperlink{ONC}{ONC}]{O}
 \newacro{OOS}[\AC@hyperlink{OOS}{OOS}]{O}
@@ -63,6 +65,7 @@
 \newlabel{Introduction@cref}{{[section][1][]1}{10}}
 \citation{Murphy}
 \citation{Murphy}
+\citation{LoHeretics}
 \citation{Griffioen}
 \citation{Kahn}
 \citation{Schwager}
@@ -130,18 +133,18 @@
 \citation{He}
 \citation{Hornik}
 \citation{Schaefer}
-\citation{Donoho}
-\citation{Fan1}
-\citation{Fan2}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}Weight Initialization Improvements}{18}{subsubsection.2.2.4}}
 \newlabel{lr_weight_init}{{2.2.4}{18}{Weight Initialization Improvements}{subsubsection.2.2.4}{}}
 \newlabel{lr_weight_init@cref}{{[subsubsection][4][2,2]2.2.4}{18}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Stacked Autoencoders}{18}{subsection.2.3}}
-\newlabel{lr_SAE}{{2.3}{18}{Stacked Autoencoders}{subsection.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Stacked AutoEncoders}{18}{subsection.2.3}}
+\newlabel{lr_SAE}{{2.3}{18}{Stacked AutoEncoders}{subsection.2.3}{}}
 \newlabel{lr_SAE@cref}{{[subsection][3][2]2.3}{18}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}High Dimensional Data Reduction}{18}{subsubsection.2.3.1}}
 \newlabel{HDDR}{{2.3.1}{18}{High Dimensional Data Reduction}{subsubsection.2.3.1}{}}
 \newlabel{HDDR@cref}{{[subsubsection][1][2,3]2.3.1}{18}}
+\citation{Donoho}
+\citation{Fan1}
+\citation{Fan2}
 \citation{Fama}
 \citation{Langkvist}
 \citation{Langkvist}
@@ -156,12 +159,12 @@
 \citation{Hinton2}
 \citation{Hinton2}
 \citation{Vincent}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The Autoencoder Training Steps}}{20}{figure.caption.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The AutoEncoder Training Steps}}{20}{figure.caption.1}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{figure-DBN-RBM}{{1}{20}{The Autoencoder Training Steps}{figure.caption.1}{}}
+\newlabel{figure-DBN-RBM}{{1}{20}{The AutoEncoder Training Steps}{figure.caption.1}{}}
 \newlabel{figure-DBN-RBM@cref}{{[figure][1][]1}{20}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising Autoencoders}{20}{subsubsection.2.3.3}}
-\newlabel{lr_SDAE}{{2.3.3}{20}{Stacked Denoising Autoencoders}{subsubsection.2.3.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising AutoEncoders}{20}{subsubsection.2.3.3}}
+\newlabel{lr_SDAE}{{2.3.3}{20}{Stacked Denoising AutoEncoders}{subsubsection.2.3.3}{}}
 \newlabel{lr_SDAE@cref}{{[subsubsection][3][2,3]2.3.3}{20}}
 \citation{Vincent}
 \citation{Vincent}
@@ -181,8 +184,6 @@
 \citation{LeCun}
 \citation{Bottou2}
 \citation{Bottou}
-\citation{Shalev}
-\citation{Zhang}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Online Learning Algorithms and Gradient Descent}{23}{subsection.2.4}}
 \newlabel{lr_OGD}{{2.4}{23}{Online Learning Algorithms and Gradient Descent}{subsection.2.4}{}}
 \newlabel{lr_OGD@cref}{{[subsection][4][2]2.4}{23}}
@@ -217,6 +218,7 @@
 \newlabel{lr_backtesting@cref}{{[subsection][6][2]2.6}{26}}
 \citation{Sharpe}
 \citation{BaileyFrontier}
+\citation{Lo}
 \citation{Christie}
 \citation{Opdyke}
 \citation{Christie}
@@ -236,8 +238,8 @@
 \newlabel{lr_backtest_cscv}{{2.6.2}{28}{Generalised Assessment Methodologies}{subsubsection.2.6.2}{}}
 \newlabel{lr_backtest_cscv@cref}{{[subsubsection][2][2,6]2.6.2}{28}}
 \citation{BaileyBTL}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.3}Test Data Length}{29}{subsubsection.2.6.3}}
 \citation{BaileyBTL}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.3}Test Data Length}{29}{subsubsection.2.6.3}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Data Processing and Generation }{31}{section.3}}
 \newlabel{Data}{{3}{31}{Data Processing and Generation }{section.3}{}}
 \newlabel{Data@cref}{{[section][3][]3}{31}}
@@ -381,8 +383,8 @@
 \newlabel{algo_cd1@cref}{{[line][3][]3}{45}}
 \@writefile{loa}{\contentsline {algocf}{\numberline {3}{\ignorespaces CD-1\relax }}{45}{algocf.3}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{45}{subsubsection.4.3.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{45}{subsection.4.4}}
-\newlabel{imp_SAE}{{4.4}{45}{Stacked Autoencoders}{subsection.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Stacked AutoEncoders}{45}{subsection.4.4}}
+\newlabel{imp_SAE}{{4.4}{45}{Stacked AutoEncoders}{subsection.4.4}{}}
 \newlabel{imp_SAE@cref}{{[subsection][4][4]4.4}{45}}
 \citation{Hinton2}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1}Sigmoid based Greedy Layerwise SAE Training}{46}{subsubsection.4.4.1}}
@@ -393,18 +395,18 @@
 \newlabel{imp_relusae@cref}{{[subsubsection][2][4,4]4.4.2}{46}}
 \citation{He}
 \citation{Glorot}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{47}{subsubsection.4.4.3}}
-\newlabel{imp_denoising}{{4.4.3}{47}{Denoising Autoencoders}{subsubsection.4.4.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.3}Denoising AutoEncoders}{47}{subsubsection.4.4.3}}
+\newlabel{imp_denoising}{{4.4.3}{47}{Denoising AutoEncoders}{subsubsection.4.4.3}{}}
 \newlabel{imp_denoising@cref}{{[subsubsection][3][4,4]4.4.3}{47}}
 \@writefile{toc}{\contentsline {paragraph}{\numberline {4.4.3.1}Additive Gaussian Noise}{47}{paragraph.4.4.3.1}}
 \@writefile{toc}{\contentsline {paragraph}{\numberline {4.4.3.2}Masking Noise}{47}{paragraph.4.4.3.2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{47}{subsection.4.5}}
 \newlabel{imp_weights}{{4.5}{47}{Variance Based Weight Initializations}{subsection.4.5}{}}
 \newlabel{imp_weights@cref}{{[subsection][5][4]4.5}{47}}
-\newlabel{func_uniform_init}{{38}{47}{Variance Based Weight Initializations}{equation.4.38}{}}
-\newlabel{func_uniform_init@cref}{{[equation][38][]38}{47}}
 \citation{Glorot}
 \citation{He}
+\newlabel{func_uniform_init}{{38}{48}{Variance Based Weight Initializations}{equation.4.38}{}}
+\newlabel{func_uniform_init@cref}{{[equation][38][]38}{48}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.1}Initialization Rationale}{48}{subsubsection.4.5.1}}
 \newlabel{eq_init_var}{{42}{48}{Initialization Rationale}{equation.4.42}{}}
 \newlabel{eq_init_var@cref}{{[equation][42][]42}{48}}
@@ -1055,87 +1057,87 @@
 \bibcite{BailyPBO}{1}
 \bibcite{PradoDSR}{2}
 \bibcite{Murphy}{3}
-\bibcite{Griffioen}{4}
-\bibcite{Kahn}{5}
-\bibcite{Schwager}{6}
-\bibcite{Johnson}{7}
-\bibcite{Arthur}{8}
-\bibcite{Crutchfield}{9}
-\bibcite{Packard}{10}
-\bibcite{Takens}{11}
-\bibcite{Skabar}{12}
-\bibcite{Loonat}{13}
-\bibcite{MurphyGebbie}{14}
-\bibcite{Schmidhuber}{15}
-\bibcite{Ivakhnenko}{16}
-\bibcite{Werbos}{17}
-\bibcite{Siegelmann}{18}
+\bibcite{LoHeretics}{4}
+\bibcite{Griffioen}{5}
+\bibcite{Kahn}{6}
+\bibcite{Schwager}{7}
+\bibcite{Johnson}{8}
+\bibcite{Arthur}{9}
+\bibcite{Crutchfield}{10}
+\bibcite{Packard}{11}
+\bibcite{Takens}{12}
+\bibcite{Skabar}{13}
+\bibcite{Loonat}{14}
+\bibcite{MurphyGebbie}{15}
+\bibcite{Schmidhuber}{16}
+\bibcite{Ivakhnenko}{17}
+\bibcite{Werbos}{18}
+\bibcite{Siegelmann}{19}
 \@writefile{toc}{\contentsline {section}{\numberline {12}References}{150}{section.12}}
-\bibcite{Hochreiter}{19}
-\bibcite{Minksy}{20}
-\bibcite{LeCun2}{21}
-\bibcite{Werbos2}{22}
-\bibcite{Rumelhart}{23}
-\bibcite{LeCun3}{24}
-\bibcite{Pascanu}{25}
-\bibcite{LeCun4}{26}
-\bibcite{Dauphin}{27}
-\bibcite{Ge}{28}
-\bibcite{Hornik}{29}
-\bibcite{Wu}{30}
-\bibcite{Glorot}{31}
-\bibcite{Glorot2}{32}
-\bibcite{Bengio1}{33}
-\bibcite{Hinton1}{34}
-\bibcite{Ranzato1}{35}
-\bibcite{Hinton2}{36}
-\bibcite{LeRoux}{37}
-\bibcite{Bengio2}{38}
-\bibcite{Sermanet}{39}
-\bibcite{ImageNet}{40}
-\bibcite{WaveNet}{41}
-\bibcite{Ciresan}{42}
-\bibcite{Bengio3}{43}
-\bibcite{He}{44}
-\bibcite{Schaefer}{45}
-\bibcite{Donoho}{46}
-\bibcite{Fan1}{47}
-\bibcite{Fan2}{48}
-\bibcite{Fama}{49}
-\bibcite{Langkvist}{50}
-\bibcite{Hinton3}{51}
-\bibcite{Vincent}{52}
-\bibcite{Erhan}{53}
-\bibcite{Lv}{54}
-\bibcite{Takeuchi}{55}
-\bibcite{Zhao}{56}
-\bibcite{Troiano}{57}
-\bibcite{Bao}{58}
-\bibcite{Hsu}{59}
-\bibcite{Albers}{60}
-\bibcite{Bottou}{61}
-\bibcite{LeCun}{62}
-\bibcite{Bottou2}{63}
-\bibcite{Shalev}{64}
-\bibcite{Zhang}{65}
-\bibcite{Tseng}{66}
-\bibcite{Bartlett}{67}
-\bibcite{Langford}{68}
-\bibcite{Duchi}{69}
-\bibcite{Zeiler}{70}
-\bibcite{Hinton4}{71}
-\bibcite{Goodfellow}{72}
-\bibcite{Wang2}{73}
-\bibcite{Smith}{74}
-\bibcite{Loshchilov}{75}
-\bibcite{Ioannidis}{76}
-\bibcite{McLean}{77}
-\bibcite{Schorfheide}{78}
-\bibcite{Weiss}{79}
-\bibcite{Hawkins}{80}
-\bibcite{Prado}{81}
-\bibcite{Sharpe}{82}
-\bibcite{BaileyFrontier}{83}
+\bibcite{Hochreiter}{20}
+\bibcite{Minksy}{21}
+\bibcite{LeCun2}{22}
+\bibcite{Werbos2}{23}
+\bibcite{Rumelhart}{24}
+\bibcite{LeCun3}{25}
+\bibcite{Pascanu}{26}
+\bibcite{LeCun4}{27}
+\bibcite{Dauphin}{28}
+\bibcite{Ge}{29}
+\bibcite{Hornik}{30}
+\bibcite{Wu}{31}
+\bibcite{Glorot}{32}
+\bibcite{Glorot2}{33}
+\bibcite{Bengio1}{34}
+\bibcite{Hinton1}{35}
+\bibcite{Ranzato1}{36}
+\bibcite{Hinton2}{37}
+\bibcite{LeRoux}{38}
+\bibcite{Bengio2}{39}
+\bibcite{Sermanet}{40}
+\bibcite{ImageNet}{41}
+\bibcite{WaveNet}{42}
+\bibcite{Ciresan}{43}
+\bibcite{Bengio3}{44}
+\bibcite{He}{45}
+\bibcite{Schaefer}{46}
+\bibcite{Donoho}{47}
+\bibcite{Fan1}{48}
+\bibcite{Fan2}{49}
+\bibcite{Fama}{50}
+\bibcite{Langkvist}{51}
+\bibcite{Hinton3}{52}
+\bibcite{Vincent}{53}
+\bibcite{Erhan}{54}
+\bibcite{Lv}{55}
+\bibcite{Takeuchi}{56}
+\bibcite{Zhao}{57}
+\bibcite{Troiano}{58}
+\bibcite{Bao}{59}
+\bibcite{Hsu}{60}
+\bibcite{Albers}{61}
+\bibcite{Bottou}{62}
+\bibcite{LeCun}{63}
+\bibcite{Bottou2}{64}
+\bibcite{Tseng}{65}
+\bibcite{Bartlett}{66}
+\bibcite{Langford}{67}
+\bibcite{Duchi}{68}
+\bibcite{Zeiler}{69}
+\bibcite{Hinton4}{70}
+\bibcite{Goodfellow}{71}
+\bibcite{Wang2}{72}
+\bibcite{Smith}{73}
+\bibcite{Loshchilov}{74}
+\bibcite{Ioannidis}{75}
+\bibcite{McLean}{76}
+\bibcite{Schorfheide}{77}
+\bibcite{Weiss}{78}
+\bibcite{Hawkins}{79}
+\bibcite{Prado}{80}
+\bibcite{Sharpe}{81}
+\bibcite{BaileyFrontier}{82}
+\bibcite{Lo}{83}
 \bibcite{Christie}{84}
 \bibcite{Opdyke}{85}
 \bibcite{BaileySharpe}{86}

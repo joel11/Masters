@@ -9,10 +9,10 @@
 \contentsline {subsubsection}{\numberline {2.2.2}Activation Functions}{16}{subsubsection.2.2.2}
 \contentsline {subsubsection}{\numberline {2.2.3}Deep Learning}{17}{subsubsection.2.2.3}
 \contentsline {subsubsection}{\numberline {2.2.4}Weight Initialization Improvements}{18}{subsubsection.2.2.4}
-\contentsline {subsection}{\numberline {2.3}Stacked Autoencoders}{18}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.3}Stacked AutoEncoders}{18}{subsection.2.3}
 \contentsline {subsubsection}{\numberline {2.3.1}High Dimensional Data Reduction}{18}{subsubsection.2.3.1}
 \contentsline {subsubsection}{\numberline {2.3.2}Deep Belief Networks}{19}{subsubsection.2.3.2}
-\contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising Autoencoders}{20}{subsubsection.2.3.3}
+\contentsline {subsubsection}{\numberline {2.3.3}Stacked Denoising AutoEncoders}{20}{subsubsection.2.3.3}
 \contentsline {subsubsection}{\numberline {2.3.4}Pre-training}{21}{subsubsection.2.3.4}
 \contentsline {subsubsection}{\numberline {2.3.5}Time Series Applications}{21}{subsubsection.2.3.5}
 \contentsline {subsubsection}{\numberline {2.3.6}Financial Applications}{22}{subsubsection.2.3.6}
@@ -58,10 +58,10 @@
 \contentsline {subsection}{\numberline {4.3}Restricted Boltzmann Machines}{43}{subsection.4.3}
 \contentsline {subsubsection}{\numberline {4.3.1}Contrastive Divergence}{44}{subsubsection.4.3.1}
 \contentsline {subsubsection}{\numberline {4.3.2}CD-1 and SGD}{45}{subsubsection.4.3.2}
-\contentsline {subsection}{\numberline {4.4}Stacked Autoencoders}{45}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.4}Stacked AutoEncoders}{45}{subsection.4.4}
 \contentsline {subsubsection}{\numberline {4.4.1}Sigmoid based Greedy Layerwise SAE Training}{46}{subsubsection.4.4.1}
 \contentsline {subsubsection}{\numberline {4.4.2}ReLU based SAE Training}{46}{subsubsection.4.4.2}
-\contentsline {subsubsection}{\numberline {4.4.3}Denoising Autoencoders}{47}{subsubsection.4.4.3}
+\contentsline {subsubsection}{\numberline {4.4.3}Denoising AutoEncoders}{47}{subsubsection.4.4.3}
 \contentsline {paragraph}{\numberline {4.4.3.1}Additive Gaussian Noise}{47}{paragraph.4.4.3.1}
 \contentsline {paragraph}{\numberline {4.4.3.2}Masking Noise}{47}{paragraph.4.4.3.2}
 \contentsline {subsection}{\numberline {4.5}Variance Based Weight Initializations}{47}{subsection.4.5}

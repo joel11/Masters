@@ -37,6 +37,10 @@ M.~Lopez~de Prado and M.~Lewis, ``Detection of false investment strategies
 \bibitem{Murphy}
 J.~Murphy, ``Technical analysis of financial markets,'' 01 1999.
 
+\bibitem{LoHeretics}
+J.~H. Andrew W.~Lo, \emph{Heretics of Finance}.\hskip 1em plus 0.5em minus
+  0.4em\relax Bloomberg Press, 2009.
+
 \bibitem{Griffioen}
 G.~Griffioen, ``Technical analysis in financial markets,'' \emph{SSRN
   Electronic Journal}, 03 2003.
@@ -320,15 +324,6 @@ L.~Bottou and N.~Murata, \emph{Stochastic Approximations and Efficient
   Learning, The Handbook of Brain Theory and Neural Networks}, 2nd~ed.\hskip
   1em plus 0.5em minus 0.4em\relax The MIT Press, 2019.
 
-\bibitem{Shalev}
-S.~Shalev-Shwartz, Y.~Singer, N.~Srebro, and A.~Cotter, ``Pegasos: Primal
-  estimated sub-gradient solver for svm,'' \emph{Math. Program.}, vol. 127, pp.
-  3--30, 03 2011.
-
-\bibitem{Zhang}
-T.~Zhang, ``Solving large scale linear prediction problems using stochastic
-  gradient descent algorithms,'' 01 2004.
-
 \bibitem{Tseng}
 P.~Tseng, ``An incremental gradient(-projection) method with momentum term and
   adaptive stepsize rule,'' \emph{SIAM Journal on Optimization}, vol.~8, 04
@@ -412,6 +407,10 @@ W.~Sharpe, ``Mutual fund performance,'' \emph{Journal of Buisiness}, vol.~39,
 \bibitem{BaileyFrontier}
 D.~Bailey and M.~Lopez~de Prado, ``The sharpe ratio efficient frontier,''
   \emph{The Journal of Risk}, vol.~15, pp. 3--44, 12 2012.
+
+\bibitem{Lo}
+A.~Lo, ``The statistics of sharpe ratios,'' \emph{Financial Analysts Journal},
+  vol.~58, 02 2003.
 
 \bibitem{Christie}
 S.~Christie, ``Is the sharpe ratio useful in asset allocation?'' \emph{SSRN

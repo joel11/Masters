@@ -271,6 +271,12 @@ function ResultsNew_1_PLDeterminants()
     ffn_setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests", "Iteration2 FFN Large Actual10 Tests"]
     ffn_setnames = ["Iteration2 FFN Large Actual10 Tests", "Iteration3 FFN Large Actual10 Tests"]
     config_ids = SelectConfigIDs(ffn_setnames)
+
+    minimum(config_ids)
+    maximum(config_ids)
+
+    28880:51688
+
     PrintConfig(ffn_setnames, false)
 end
 
