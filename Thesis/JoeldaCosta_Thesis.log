@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  18 JAN 2020 19:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  20 JAN 2020 19:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1252,2897 +1252,2133 @@ LaTeX Info: Redefining \ref on input line 186.
 LaTeX Info: Redefining \pageref on input line 186.
 LaTeX Info: Redefining \nameref on input line 186.
 
-(./JoeldaCosta_Thesis.out) (./JoeldaCosta_Thesis.out)
-\@outlinefile=\write7
-\openout7 = `JoeldaCosta_Thesis.out'.
+(./JoeldaCosta_Thesis.out
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.31 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
 
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: listings package is loaded.
-Package caption Info: rotating package is loaded.
-Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count298
+! Use of \def doesn't match its definition.
+l.32 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
 
-<UCT-logo.pdf, id=729, 171.64125pt x 174.6525pt>
-File: UCT-logo.pdf Graphic file (type pdf)
- <use UCT-logo.pdf>
-Package pdftex.def Info: UCT-logo.pdf used on input line 188.
-(pdftex.def)             Requested size: 171.64081pt x 174.65207pt.
-LaTeX Font Info:    Try loading font information for U+msa on input line 188.
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.32 ...ssignment \let \protect \@@protect \edef P
+                                                  rice Reconstruction{[1][-]...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
 
-(/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.32 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \def doesn't match its definition.
+l.33 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.33 ...ssignment \let \protect \@@protect \edef P
+                                                  rice Reconstruction{[1][-]...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.33 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \def doesn't match its definition.
+l.34 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.34 ...ssignment \let \protect \@@protect \edef P
+                                                  rice Reconstruction{[1][-]...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.34 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \def doesn't match its definition.
+l.35 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.35 ...ssignment \let \protect \@@protect \edef P
+                                                  rice Reconstruction{[1][-]...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.35 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \def doesn't match its definition.
+l.36 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.36 ...ssignment \let \protect \@@protect \edef P
+                                                  rice Reconstruction{[1][-]...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.36 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \def doesn't match its definition.
+l.37 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.37 ...ssignment \let \protect \@@protect \edef P
+                                                  rice Reconstruction{[1][-]...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.37 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 188.
+! Extra }, or forgotten \endgroup.
+\reserved@a ... \@filef@und \scr@load@hook {after}
+                                                  {\jobname .out}
+l.186 \begin{document}
+                      
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
 
-(/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+! Use of \def doesn't match its definition.
+<argument> ...okmarks \relax \fi \def \@@BOOKMARK 
+                                                  [##1][##2]##3##4##5{\def \...
+l.186 \begin{document}
+                      
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...arks \relax \fi \def \@@BOOKMARK [##
+                                                  1][##2]##3##4##5{\def \Hy@...
+l.186 \begin{document}
+                      
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...\relax \fi \def \@@BOOKMARK [##1][##
+                                                  2]##3##4##5{\def \Hy@temp ...
+l.186 \begin{document}
+                      
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...ax \fi \def \@@BOOKMARK [##1][##2]##
+                                                  3##4##5{\def \Hy@temp {##4...
+l.186 \begin{document}
+                      
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...\fi \def \@@BOOKMARK [##1][##2]##3##
+                                                  4##5{\def \Hy@temp {##4}\H...
+l.186 \begin{document}
+                      
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ... \def \@@BOOKMARK [##1][##2]##3##4##
+                                                  5{\def \Hy@temp {##4}\Hy@p...
+l.186 \begin{document}
+                      
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Use of \def doesn't match its definition.
+<argument> ...K [##1][##2]##3##4##5{\def \Hy@temp 
+                                                  {##4}\Hy@pstringdef \Hy@ps...
+l.186 \begin{document}
+                      
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! You can't use `macro parameter character #' in horizontal mode.
+<argument> ...##1][##2]##3##4##5{\def \Hy@temp {##
+                                                  4}\Hy@pstringdef \Hy@pstri...
+l.186 \begin{document}
+                      
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing number, treated as zero.
+<to be read again> 
+                   ##
+l.186 \begin{document}
+                      
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Missing { inserted.
+<to be read again> 
+                   ##
+l.186 \begin{document}
+                      
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Use of \def doesn't match its definition.
+<argument> ... }}\begingroup \def \WriteBookmarks 
+                                                  {0}\InputIfFileExists {\jo...
+l.186 \begin{document}
+                      
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\IfFileExists ...@filef@und {#1 }\def \reserved@a 
+                                                  {#2}\fi \reserved@a 
+l.186 \begin{document}
+                      
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+(./JoeldaCosta_Thesis.out
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.1 \BOOKMARK
+              [1][-]{Doc-Start}{List of Figures}{}% 1
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.1 \BOOKMARK
+              [1][-]{Doc-Start}{List of Figures}{}% 1
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.1 \BOOKMARK
+              [1][-]{Doc-Start}{List of Figures}{}% 1
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.1 \BOOKMARK
+              [1][-]{Doc-Start}{List of Figures}{}% 1
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.1 \BOOKMARK
+              [1][-]{Doc-Start}{List of Figures}{}% 1
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+
+Overfull \hbox (79.82935pt too wide) in paragraph at lines 32--1
+[]\OT1/cmr/m/n/10.95 [=[rice Reconstruction[1][-][=[rice Reconstruction[1][-][=
+[rice Reconstruction[1][-][=[rice Reconstruction[1][-
+ []
+
+
+Overfull \hbox (154.53276pt too wide) in paragraph at lines 32--1
+\OT1/cmr/m/n/10.95 ][=[rice Reconstruction[1][-][=[rice Reconstruction[1][-]aft
+erJoeldaCosta_Thesis.out[1][2]34540beforeJoeldaCosta_Thesis.out 
+ []
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.2 \BOOKMARK
+              [1][-]{Doc-Start}{List of Tables}{}% 2
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.2 \BOOKMARK
+              [1][-]{Doc-Start}{List of Tables}{}% 2
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.2 \BOOKMARK
+              [1][-]{Doc-Start}{List of Tables}{}% 2
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.2 \BOOKMARK
+              [1][-]{Doc-Start}{List of Tables}{}% 2
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.2 \BOOKMARK
+              [1][-]{Doc-Start}{List of Tables}{}% 2
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.3 \BOOKMARK
+              [1][-]{section.1}{Introduction}{}% 3
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.3 \BOOKMARK
+              [1][-]{section.1}{Introduction}{}% 3
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.3 \BOOKMARK
+              [1][-]{section.1}{Introduction}{}% 3
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.3 \BOOKMARK
+              [1][-]{section.1}{Introduction}{}% 3
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.3 \BOOKMARK
+              [1][-]{section.1}{Introduction}{}% 3
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.4 \BOOKMARK
+              [1][-]{section.2}{Literature Review}{}% 4
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.4 \BOOKMARK
+              [1][-]{section.2}{Literature Review}{}% 4
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.4 \BOOKMARK
+              [1][-]{section.2}{Literature Review}{}% 4
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.4 \BOOKMARK
+              [1][-]{section.2}{Literature Review}{}% 4
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.4 \BOOKMARK
+              [1][-]{section.2}{Literature Review}{}% 4
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.5 \BOOKMARK
+              [2][-]{subsection.2.1}{Technical Analysis}{section.2}% 5
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.5 \BOOKMARK
+              [2][-]{subsection.2.1}{Technical Analysis}{section.2}% 5
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.5 \BOOKMARK
+              [2][-]{subsection.2.1}{Technical Analysis}{section.2}% 5
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.5 \BOOKMARK
+              [2][-]{subsection.2.1}{Technical Analysis}{section.2}% 5
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.5 \BOOKMARK
+              [2][-]{subsection.2.1}{Technical Analysis}{section.2}% 5
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.6 \BOOKMARK
+              [2][-]{subsection.2.2}{Neural Networks}{section.2}% 6
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.6 \BOOKMARK
+              [2][-]{subsection.2.2}{Neural Networks}{section.2}% 6
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.6 \BOOKMARK
+              [2][-]{subsection.2.2}{Neural Networks}{section.2}% 6
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.6 \BOOKMARK
+              [2][-]{subsection.2.2}{Neural Networks}{section.2}% 6
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.6 \BOOKMARK
+              [2][-]{subsection.2.2}{Neural Networks}{section.2}% 6
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.7 \BOOKMARK
+              [3][-]{subsubsection.2.2.1}{Training and Backpropagation}{subs...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.7 \BOOKMARK
+              [3][-]{subsubsection.2.2.1}{Training and Backpropagation}{subs...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.7 \BOOKMARK
+              [3][-]{subsubsection.2.2.1}{Training and Backpropagation}{subs...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.7 \BOOKMARK
+              [3][-]{subsubsection.2.2.1}{Training and Backpropagation}{subs...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.7 \BOOKMARK
+              [3][-]{subsubsection.2.2.1}{Training and Backpropagation}{subs...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.8 \BOOKMARK
+              [3][-]{subsubsection.2.2.2}{Activation Functions}{subsection.2...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.8 \BOOKMARK
+              [3][-]{subsubsection.2.2.2}{Activation Functions}{subsection.2...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.8 \BOOKMARK
+              [3][-]{subsubsection.2.2.2}{Activation Functions}{subsection.2...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.8 \BOOKMARK
+              [3][-]{subsubsection.2.2.2}{Activation Functions}{subsection.2...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.8 \BOOKMARK
+              [3][-]{subsubsection.2.2.2}{Activation Functions}{subsection.2...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.9 \BOOKMARK
+              [3][-]{subsubsection.2.2.3}{Deep Learning}{subsection.2.2}% 9
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.9 \BOOKMARK
+              [3][-]{subsubsection.2.2.3}{Deep Learning}{subsection.2.2}% 9
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.9 \BOOKMARK
+              [3][-]{subsubsection.2.2.3}{Deep Learning}{subsection.2.2}% 9
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.9 \BOOKMARK
+              [3][-]{subsubsection.2.2.3}{Deep Learning}{subsection.2.2}% 9
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.9 \BOOKMARK
+              [3][-]{subsubsection.2.2.3}{Deep Learning}{subsection.2.2}% 9
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.10 \BOOKMARK
+               [3][-]{subsubsection.2.2.4}{Weight Initialization Improvement...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.10 \BOOKMARK
+               [3][-]{subsubsection.2.2.4}{Weight Initialization Improvement...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.10 \BOOKMARK
+               [3][-]{subsubsection.2.2.4}{Weight Initialization Improvement...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.10 \BOOKMARK
+               [3][-]{subsubsection.2.2.4}{Weight Initialization Improvement...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.10 \BOOKMARK
+               [3][-]{subsubsection.2.2.4}{Weight Initialization Improvement...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.11 \BOOKMARK
+               [2][-]{subsection.2.3}{Stacked AutoEncoders}{section.2}% 11
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.11 \BOOKMARK
+               [2][-]{subsection.2.3}{Stacked AutoEncoders}{section.2}% 11
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.11 \BOOKMARK
+               [2][-]{subsection.2.3}{Stacked AutoEncoders}{section.2}% 11
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.11 \BOOKMARK
+               [2][-]{subsection.2.3}{Stacked AutoEncoders}{section.2}% 11
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.11 \BOOKMARK
+               [2][-]{subsection.2.3}{Stacked AutoEncoders}{section.2}% 11
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.12 \BOOKMARK
+               [3][-]{subsubsection.2.3.1}{High Dimensional Data Reduction}{...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.12 \BOOKMARK
+               [3][-]{subsubsection.2.3.1}{High Dimensional Data Reduction}{...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.12 \BOOKMARK
+               [3][-]{subsubsection.2.3.1}{High Dimensional Data Reduction}{...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.12 \BOOKMARK
+               [3][-]{subsubsection.2.3.1}{High Dimensional Data Reduction}{...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.12 \BOOKMARK
+               [3][-]{subsubsection.2.3.1}{High Dimensional Data Reduction}{...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.13 \BOOKMARK
+               [3][-]{subsubsection.2.3.2}{Deep Belief Networks}{subsection....
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.13 \BOOKMARK
+               [3][-]{subsubsection.2.3.2}{Deep Belief Networks}{subsection....
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.13 \BOOKMARK
+               [3][-]{subsubsection.2.3.2}{Deep Belief Networks}{subsection....
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.13 \BOOKMARK
+               [3][-]{subsubsection.2.3.2}{Deep Belief Networks}{subsection....
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.13 \BOOKMARK
+               [3][-]{subsubsection.2.3.2}{Deep Belief Networks}{subsection....
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.14 \BOOKMARK
+               [3][-]{subsubsection.2.3.3}{Stacked Denoising AutoEncoders}{s...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.14 \BOOKMARK
+               [3][-]{subsubsection.2.3.3}{Stacked Denoising AutoEncoders}{s...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.14 \BOOKMARK
+               [3][-]{subsubsection.2.3.3}{Stacked Denoising AutoEncoders}{s...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.14 \BOOKMARK
+               [3][-]{subsubsection.2.3.3}{Stacked Denoising AutoEncoders}{s...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.14 \BOOKMARK
+               [3][-]{subsubsection.2.3.3}{Stacked Denoising AutoEncoders}{s...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.15 \BOOKMARK
+               [3][-]{subsubsection.2.3.4}{Pre-training}{subsection.2.3}% 15
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.15 \BOOKMARK
+               [3][-]{subsubsection.2.3.4}{Pre-training}{subsection.2.3}% 15
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.15 \BOOKMARK
+               [3][-]{subsubsection.2.3.4}{Pre-training}{subsection.2.3}% 15
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.15 \BOOKMARK
+               [3][-]{subsubsection.2.3.4}{Pre-training}{subsection.2.3}% 15
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.15 \BOOKMARK
+               [3][-]{subsubsection.2.3.4}{Pre-training}{subsection.2.3}% 15
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.16 \BOOKMARK
+               [3][-]{subsubsection.2.3.5}{Time Series Applications}{subsect...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.16 \BOOKMARK
+               [3][-]{subsubsection.2.3.5}{Time Series Applications}{subsect...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.16 \BOOKMARK
+               [3][-]{subsubsection.2.3.5}{Time Series Applications}{subsect...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.16 \BOOKMARK
+               [3][-]{subsubsection.2.3.5}{Time Series Applications}{subsect...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.16 \BOOKMARK
+               [3][-]{subsubsection.2.3.5}{Time Series Applications}{subsect...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.17 \BOOKMARK
+               [3][-]{subsubsection.2.3.6}{Financial Applications}{subsectio...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.17 \BOOKMARK
+               [3][-]{subsubsection.2.3.6}{Financial Applications}{subsectio...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.17 \BOOKMARK
+               [3][-]{subsubsection.2.3.6}{Financial Applications}{subsectio...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.17 \BOOKMARK
+               [3][-]{subsubsection.2.3.6}{Financial Applications}{subsectio...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.17 \BOOKMARK
+               [3][-]{subsubsection.2.3.6}{Financial Applications}{subsectio...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.18 \BOOKMARK
+               [2][-]{subsection.2.4}{Online Learning Algorithms and Gradien...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.18 \BOOKMARK
+               [2][-]{subsection.2.4}{Online Learning Algorithms and Gradien...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.18 \BOOKMARK
+               [2][-]{subsection.2.4}{Online Learning Algorithms and Gradien...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.18 \BOOKMARK
+               [2][-]{subsection.2.4}{Online Learning Algorithms and Gradien...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.18 \BOOKMARK
+               [2][-]{subsection.2.4}{Online Learning Algorithms and Gradien...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.19 \BOOKMARK
+               [2][-]{subsection.2.5}{Gradient Learning Improvements}{sectio...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.19 \BOOKMARK
+               [2][-]{subsection.2.5}{Gradient Learning Improvements}{sectio...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.19 \BOOKMARK
+               [2][-]{subsection.2.5}{Gradient Learning Improvements}{sectio...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.19 \BOOKMARK
+               [2][-]{subsection.2.5}{Gradient Learning Improvements}{sectio...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.19 \BOOKMARK
+               [2][-]{subsection.2.5}{Gradient Learning Improvements}{sectio...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.20 \BOOKMARK
+               [3][-]{subsubsection.2.5.1}{Gradient Adjustments and Regulari...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.20 \BOOKMARK
+               [3][-]{subsubsection.2.5.1}{Gradient Adjustments and Regulari...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.20 \BOOKMARK
+               [3][-]{subsubsection.2.5.1}{Gradient Adjustments and Regulari...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.20 \BOOKMARK
+               [3][-]{subsubsection.2.5.1}{Gradient Adjustments and Regulari...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.20 \BOOKMARK
+               [3][-]{subsubsection.2.5.1}{Gradient Adjustments and Regulari...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.21 \BOOKMARK
+               [3][-]{subsubsection.2.5.2}{Dropout}{subsection.2.5}% 21
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.21 \BOOKMARK
+               [3][-]{subsubsection.2.5.2}{Dropout}{subsection.2.5}% 21
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.21 \BOOKMARK
+               [3][-]{subsubsection.2.5.2}{Dropout}{subsection.2.5}% 21
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.21 \BOOKMARK
+               [3][-]{subsubsection.2.5.2}{Dropout}{subsection.2.5}% 21
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.21 \BOOKMARK
+               [3][-]{subsubsection.2.5.2}{Dropout}{subsection.2.5}% 21
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.22 \BOOKMARK
+               [3][-]{subsubsection.2.5.3}{Learning Rate Schedules}{subsecti...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.22 \BOOKMARK
+               [3][-]{subsubsection.2.5.3}{Learning Rate Schedules}{subsecti...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.22 \BOOKMARK
+               [3][-]{subsubsection.2.5.3}{Learning Rate Schedules}{subsecti...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.22 \BOOKMARK
+               [3][-]{subsubsection.2.5.3}{Learning Rate Schedules}{subsecti...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.22 \BOOKMARK
+               [3][-]{subsubsection.2.5.3}{Learning Rate Schedules}{subsecti...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.23 \BOOKMARK
+               [2][-]{subsection.2.6}{Backtesting and Model Validation}{sect...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.23 \BOOKMARK
+               [2][-]{subsection.2.6}{Backtesting and Model Validation}{sect...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.23 \BOOKMARK
+               [2][-]{subsection.2.6}{Backtesting and Model Validation}{sect...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.23 \BOOKMARK
+               [2][-]{subsection.2.6}{Backtesting and Model Validation}{sect...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.23 \BOOKMARK
+               [2][-]{subsection.2.6}{Backtesting and Model Validation}{sect...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.24 \BOOKMARK
+               [3][-]{subsubsection.2.6.1}{Sharpe Ratio Assessment Methodolo...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.24 \BOOKMARK
+               [3][-]{subsubsection.2.6.1}{Sharpe Ratio Assessment Methodolo...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.24 \BOOKMARK
+               [3][-]{subsubsection.2.6.1}{Sharpe Ratio Assessment Methodolo...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.24 \BOOKMARK
+               [3][-]{subsubsection.2.6.1}{Sharpe Ratio Assessment Methodolo...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.24 \BOOKMARK
+               [3][-]{subsubsection.2.6.1}{Sharpe Ratio Assessment Methodolo...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.25 \BOOKMARK
+               [3][-]{subsubsection.2.6.2}{Generalised Assessment Methodolog...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.25 \BOOKMARK
+               [3][-]{subsubsection.2.6.2}{Generalised Assessment Methodolog...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.25 \BOOKMARK
+               [3][-]{subsubsection.2.6.2}{Generalised Assessment Methodolog...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.25 \BOOKMARK
+               [3][-]{subsubsection.2.6.2}{Generalised Assessment Methodolog...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.25 \BOOKMARK
+               [3][-]{subsubsection.2.6.2}{Generalised Assessment Methodolog...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.26 \BOOKMARK
+               [3][-]{subsubsection.2.6.3}{Test Data Length}{subsection.2.6}...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.26 \BOOKMARK
+               [3][-]{subsubsection.2.6.3}{Test Data Length}{subsection.2.6}...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.26 \BOOKMARK
+               [3][-]{subsubsection.2.6.3}{Test Data Length}{subsection.2.6}...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.26 \BOOKMARK
+               [3][-]{subsubsection.2.6.3}{Test Data Length}{subsection.2.6}...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.26 \BOOKMARK
+               [3][-]{subsubsection.2.6.3}{Test Data Length}{subsection.2.6}...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.27 \BOOKMARK
+               [1][-]{section.3}{Data Processing and Generation }{}% 27
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.27 \BOOKMARK
+               [1][-]{section.3}{Data Processing and Generation }{}% 27
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.27 \BOOKMARK
+               [1][-]{section.3}{Data Processing and Generation }{}% 27
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.27 \BOOKMARK
+               [1][-]{section.3}{Data Processing and Generation }{}% 27
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.27 \BOOKMARK
+               [1][-]{section.3}{Data Processing and Generation }{}% 27
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.28 \BOOKMARK
+               [2][-]{subsection.3.1}{Data Processing}{section.3}% 28
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.28 \BOOKMARK
+               [2][-]{subsection.3.1}{Data Processing}{section.3}% 28
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.28 \BOOKMARK
+               [2][-]{subsection.3.1}{Data Processing}{section.3}% 28
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.28 \BOOKMARK
+               [2][-]{subsection.3.1}{Data Processing}{section.3}% 28
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.28 \BOOKMARK
+               [2][-]{subsection.3.1}{Data Processing}{section.3}% 28
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.29 \BOOKMARK
+               [3][-]{subsubsection.3.1.1}{Log Difference Transformation and...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.29 \BOOKMARK
+               [3][-]{subsubsection.3.1.1}{Log Difference Transformation and...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.29 \BOOKMARK
+               [3][-]{subsubsection.3.1.1}{Log Difference Transformation and...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.29 \BOOKMARK
+               [3][-]{subsubsection.3.1.1}{Log Difference Transformation and...
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.29 \BOOKMARK
+               [3][-]{subsubsection.3.1.1}{Log Difference Transformation and...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ...t \reserved@d =#1\def \reserved@a 
+                                                  {#2}\def \reserved@b {#3}\...
+l.30 \BOOKMARK
+               [3][-]{subsubsection.3.1.2}{Data Scaling}{subsection.3.1}% 30
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \@BOOKMARK doesn't match its definition.
+\@ifnextchar ...eserved@d =#1\def \reserved@a {#2}
+                                                  \def \reserved@b {#3}\futu...
+l.30 \BOOKMARK
+               [3][-]{subsubsection.3.1.2}{Data Scaling}{subsection.3.1}% 30
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+\@ifnextchar ... \reserved@a {#2}\def \reserved@b 
+                                                  {#3}\futurelet \@let@token...
+l.30 \BOOKMARK
+               [3][-]{subsubsection.3.1.2}{Data Scaling}{subsection.3.1}% 30
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Argument of \@@BOOKMARK has an extra }.
+<inserted text> 
+                \par 
+l.30 \BOOKMARK
+               [3][-]{subsubsection.3.1.2}{Data Scaling}{subsection.3.1}% 30
+I've run across a `}' that doesn't seem to match anything.
+For example, `\def\a#1{...}' and `\a}' would produce
+this error. If you simply proceed now, the `\par' that
+I've just inserted will cause me to report a runaway
+argument that might be the root of the problem. But if
+your `}' was spurious, just type `2' and it will go away.
+
+Runaway argument?
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.30 \BOOKMARK
+               [3][-]{subsubsection.3.1.2}{Data Scaling}{subsection.3.1}% 30
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Use of \def doesn't match its definition.
+l.31 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.31 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \protect doesn't match its definition.
+l.32 \protect \let \reserved@d
+                               =[\def \def \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+l.32 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.32 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \protect doesn't match its definition.
+l.33 \protect \let \reserved@d
+                               =[\def \def \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+l.33 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.33 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \protect doesn't match its definition.
+l.34 \protect \let \reserved@d
+                               =[\def \def \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+l.34 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.34 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \protect doesn't match its definition.
+l.35 \protect \let \reserved@d
+                               =[\def \def \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+l.35 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.35 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \protect doesn't match its definition.
+l.36 \protect \let \reserved@d
+                               =[\def \def \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+l.36 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.36 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
+! Use of \protect doesn't match its definition.
+l.37 \protect \let \reserved@d
+                               =[\def \def \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Use of \def doesn't match its definition.
+l.37 \protect \let \reserved@d =[\def \def
+                                           \begingroup \let \@@protect \prot...
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
+! Missing control sequence inserted.
+<inserted text> 
+                \inaccessible 
+l.37 ... \edef Price Reconstruction{[1][-]}\edef {
+                                                  \futurelet }\toks@ {\endgr...
+Please don't say `\def cs{...}', say `\def\cs{...}'.
+I've inserted an inaccessible control sequence so that your
+definition will be completed without mixing me up too badly.
+You can recover graciously from this error, if you're
+careful; see exercise 27.2 in The TeXbook.
+
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 188.
+Runaway argument?
+{3}]\endgroup \endgroup \ifx \WriteBookmarks \relax \else \if@filesw \ETC.
+! Paragraph ended before \@@BOOKMARK was complete.
+<to be read again> 
+                   \par 
+l.186 \begin{document}
+                      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
 
-(/usr/local/texlive/2017/texmf-dist/tex/latex/jknapltx/ursfs.fd
-File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+
+Overfull \hbox (47.61816pt too wide) in paragraph at lines 30--186
+[]\OT1/cmr/m/n/10.95 subsubsection.3.1.2Data Scal-ing-sub-sec-tion.3.1=[[[=[[[=
+[[[=[[[=[[[=[[[=[[[afterJoeldaCosta_Thesis.out 
+ []
+
+! Use of \protect doesn't match its definition.
+\normalfont ->\protect \normalfont  
+                                    
+l.186 \begin{document}
+                      
+If you say, e.g., `\def\a1{...}', then you must always
+put `1' after `\a', since control sequence names are
+made up of letters only. The macro here has not been
+followed by the required stuff, so I'm ignoring it.
+
 )
-Underfull \hbox (badness 10000) in paragraph at lines 191--192
-
- []
-
-[1
-
-{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./UCT-l
-ogo.pdf>] [2] (./JoeldaCosta_Thesis.toc [3] [4] [5]
-Overfull \hbox (2.4594pt too wide) in paragraph at lines 160--160
- [][] []\OT1/cmr/m/n/10 Additional Re-sults for Sec-tion [][]8.7[][] - Net-work
- Struc-ture and Train- 
- []
-
-)
-\tf@toc=\write8
-\openout8 = `JoeldaCosta_Thesis.toc'.
-
- (./JoeldaCosta_Thesis.lof [6] [7])
-\tf@lof=\write9
-\openout9 = `JoeldaCosta_Thesis.lof'.
-
- (./JoeldaCosta_Thesis.lot)
-\tf@lot=\write10
-\openout10 = `JoeldaCosta_Thesis.lot'.
-
- [8] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 256--274
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 256--274
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 256--274
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 256--274
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 256--274
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 256--274
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 256--274
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 256--274
-
- []
-
-[10] [11] [12]
-Underfull \hbox (badness 10000) in paragraph at lines 282--290
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 291--302
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 303--309
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 310--324
-
- []
-
-[13]
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 335--344
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 345--350
-
- []
-
-[14]
-Underfull \hbox (badness 10000) in paragraph at lines 351--363
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 364--370
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 373--380
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 381--386
-
- []
-
-[15]
-Underfull \hbox (badness 10000) in paragraph at lines 387--396
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 397--406
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 409--417
-
- []
-
-[16]
-Underfull \hbox (badness 10000) in paragraph at lines 427--432
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 433--444
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 433--444
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 445--451
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 452--461
-
- []
-
-[17]
-Underfull \hbox (badness 10000) in paragraph at lines 464--470
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 481--488
-
- []
-
-[18]
-Underfull \hbox (badness 10000) in paragraph at lines 489--497
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 498--504
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 505--511
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 520--524
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 525--533
-
- []
-
-[19]
-Underfull \hbox (badness 10000) in paragraph at lines 534--543
-
- []
-
-<images/DBN-RBM-process.png, id=1327, 483.8075pt x 389.455pt>
-File: images/DBN-RBM-process.png Graphic file (type png)
-
-<use images/DBN-RBM-process.png>
-Package pdftex.def Info: images/DBN-RBM-process.png used on input line 545.
-(pdftex.def)             Requested size: 241.90315pt x 194.72702pt.
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ú in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 552--557
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 558--564
-
- []
-
-[20 <./images/DBN-RBM-process.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 576--582
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 590--597
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 598--605
-
- []
-
-[21]
-Underfull \hbox (badness 10000) in paragraph at lines 613--619
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 620--626
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 627--635
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 636--644
-
- []
-
-[22]
-Underfull \hbox (badness 10000) in paragraph at lines 653--659
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 660--666
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 667--682
-
- []
-
-[23]
-Underfull \hbox (badness 10000) in paragraph at lines 691--697
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 698--708
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 711--721
-
- []
-
-[24]
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 722--729
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 734--740
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 741--748
-
- []
-
-[25]
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 759--767
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 768--772
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 773--776
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 782--790
-
- []
-
-[26]
-Underfull \hbox (badness 10000) in paragraph at lines 799--805
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 806--808
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 809--811
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 812--814
-
- []
-
-[27]
-Underfull \hbox (badness 10000) in paragraph at lines 817--818
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 821--830
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 831--834
-
- []
-
-[28]
-Underfull \hbox (badness 10000) in paragraph at lines 835--845
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 848--857
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 858--863
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 864--870
-
- []
-
-[29] [30]
-Underfull \hbox (badness 10000) in paragraph at lines 888--892
-
- []
-
-[31]
-
-LaTeX Warning: Reference `eq_price_recon' on page 32 undefined on input line 95
-7.
-
-[32]
-Underfull \hbox (badness 10000) in paragraph at lines 973--974
-
- []
-
-
-Overfull \hbox (54.75012pt too wide) in paragraph at lines 976--991
-$[]$ 
- []
-
-[33] [34]
-<images/implementation/neural_network_diagram.png, id=1530, 387.4475pt x 261.97
-874pt>
-File: images/implementation/neural_network_diagram.png Graphic file (type png)
- <use images/implementation/neural_network_diagram.png>
-Package pdftex.def Info: images/implementation/neural_network_diagram.png used 
-on input line 1027.
-(pdftex.def)             Requested size: 193.72327pt x 130.98904pt.
- [35] [36 <./images/implementation/neural_network_diagram.png>] [37]
-Underfull \hbox (badness 10000) in paragraph at lines 1124--1126
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1127--1128
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1129--1131
-
- []
-
-[38]
-Underfull \hbox (badness 10000) in paragraph at lines 1144--1146
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 1160--1161
-
- []
-
-
-Overfull \hbox (54.75012pt too wide) in paragraph at lines 1163--1202
-$[]$ 
- []
-
-[39]
-Underfull \hbox (badness 10000) in paragraph at lines 1209--1210
-
- []
-
-[40]
-Underfull \hbox (badness 10000) in paragraph at lines 1220--1221
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1233--1234
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1250--1251
-
- []
-
-[41]
-<images/implementation/CyclicalLearningRates.png, id=1602, 981.6675pt x 896.348
-75pt>
-File: images/implementation/CyclicalLearningRates.png Graphic file (type png)
- <use images/implementation/CyclicalLearningRates.png>
-Package pdftex.def Info: images/implementation/CyclicalLearningRates.png used o
-n input line 1262.
-(pdftex.def)             Requested size: 196.33002pt x 179.26657pt.
- [42 <./images/implementation/CyclicalLearningRates.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1273--1274
-
- []
-
-
-<images/implementation/rbm_network_diagram.png, id=1610, 320.19624pt x 328.2262
-6pt>
-File: images/implementation/rbm_network_diagram.png Graphic file (type png)
- <use images/implementation/rbm_network_diagram.png>
-Package pdftex.def Info: images/implementation/rbm_network_diagram.png used on 
-input line 1277.
-(pdftex.def)             Requested size: 160.09772pt x 164.11272pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 1282--1283
-
- []
-
-[43 <./images/implementation/rbm_network_diagram.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1319--1320
-
- []
-
-
-Overfull \hbox (54.75012pt too wide) in paragraph at lines 1322--1344
-$[]$ 
- []
-
-[44]
-Underfull \hbox (badness 10000) in paragraph at lines 1355--1358
-
- []
-
-[45] [46]
-Underfull \hbox (badness 10000) in paragraph at lines 1407--1410
-
- []
-
-[47]
-Underfull \hbox (badness 10000) in paragraph at lines 1442--1444
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1442--1444
-
- []
-
-[48]
-Underfull \hbox (badness 10000) in paragraph at lines 1460--1462
-
- []
-
-[49]
-Underfull \hbox (badness 10000) in paragraph at lines 1540--1541
-
- []
-
-[50]
-Underfull \hbox (badness 10000) in paragraph at lines 1605--1606
-
- []
-
-[51]
-Overfull \hbox (9.38828pt too wide) in paragraph at lines 1607--1607
-|[]\OT1/cmr/bx/n/14.4 Combinatorially Sym-met-ric Cross-Validation and
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1609--1610
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1624--1628
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ò in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 1629--1631
-
- []
-
-[52]
-Overfull \hbox (17.0pt too wide) detected at line 1660
-[][] 
- []
-
-
-Overfull \hbox (54.75012pt too wide) in paragraph at lines 1632--1660
-$[]$ 
- []
-
-[53]
-Underfull \hbox (badness 10000) in paragraph at lines 1664--1668
-
- []
-
-[54]
-Underfull \hbox (badness 10000) in paragraph at lines 1673--1679
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1688--1689
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1693--1695
-
- []
-
-[55]
-Underfull \hbox (badness 10000) in paragraph at lines 1705--1706
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1716--1717
-
- []
-
-[56] [57]
-Overfull \hbox (3.46779pt too wide) in paragraph at lines 1764--1766
-\OT1/cmr/m/n/10.95 The crit-i-cal take-away from this, is that un-less $[][]\OM
-S/cmsy/m/n/10.95 f[]g \OML/cmm/m/it/10.95 >> \OT1/cmr/bx/n/10.95 E []$\OT1/cmr/
-m/n/10.95 ,
- []
-
-[58]
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\left' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\right' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\left' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\setbox' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\z@' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\hbox' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\frozen@everymath' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\@emptytoks' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\mathsurround' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\z@' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\textstyle' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\mathaccent' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\right' on input line 1786.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1786.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1788--1789
-
- []
-
-[59] [60] [61]
-Underfull \hbox (badness 10000) in paragraph at lines 1864--1865
-
- []
-
-[62]
-Underfull \hbox (badness 10000) in paragraph at lines 1870--1871
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1881--1882
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1887--1888
-
- []
-
-[63]
-Underfull \hbox (badness 10000) in paragraph at lines 1889--1890
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1891--1892
-
- []
-
-
-Overfull \hbox (3.37332pt too wide) in paragraph at lines 1893--1893
-|[]\OT1/cmr/bx/n/14.4 Supervised Learn-ing: Pre-dic-tion Net-work Train-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1895--1896
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1897--1898
-
- []
-
-
-LaTeX Warning: Reference `eq_price_recon' on page 64 undefined on input line 19
-01.
-
-[64]
-Underfull \hbox (badness 10000) in paragraph at lines 1905--1906
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1907--1908
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1909--1910
-
- []
-
-[65]
-<images/process_implementation/process_flow.png, id=1840, 768.8725pt x 1024.828
-75pt>
-File: images/process_implementation/process_flow.png Graphic file (type png)
- <use images/process_implementation/process_flow.png>
-Package pdftex.def Info: images/process_implementation/process_flow.png used on
- input line 1925.
-(pdftex.def)             Requested size: 461.32706pt x 614.902pt.
-
-Overfull \hbox (34.53572pt too wide) in paragraph at lines 1925--1926
- [][] 
- []
-
-[66]
-Overfull \vbox (9.94138pt too high) has occurred while \output is active []
-
-
-[67 <./images/process_implementation/process_flow.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1952--1953
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1954--1955
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1956--1957
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1961--1962
-
- []
-
-[68]
-Underfull \hbox (badness 10000) in paragraph at lines 1968--1969
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1970--1970
-[][][][]$\OT1/cmtt/m/n/9 https : / / github . com / joel11 / Masters / blob / m
-aster / Code % 20Libraries /
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1970--1971
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1972--1973
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1974--1975
-
- []
-
-[69]
-Overfull \hbox (15.00845pt too wide) in paragraph at lines 1999--2001
-\OT1/cmr/m/n/10.95 The \OT1/cmtt/m/n/10.95 RunFFNConfigurationTest \OT1/cmr/m/n
-/10.95 method sim-i-larly uses the \OT1/cmtt/m/n/10.95 FFNExperimentConfig
- []
-
-
-Overfull \hbox (42.79715pt too wide) in paragraph at lines 2010--2011
-\OT1/cmtt/m/n/10.95 ConfigTestsFFN[][][][][] \OT1/cmr/m/n/10.95 and \OT1/cmtt/m
-/n/10.95 ConfigTestsSAE[][][][][] \OT1/cmr/m/n/10.95 mod-ules make use of the \
-OT1/cmtt/m/n/10.95 ConfigGenerator[][][][][]
- []
-
-[70]
-Underfull \hbox (badness 10000) in paragraph at lines 2014--2015
-
- []
-
-
-Overfull \hbox (25.19997pt too wide) in paragraph at lines 2017--2035
-[][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2017--2035
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2017--2035
-
- []
-
-
-Overfull \hbox (7.62065pt too wide) in paragraph at lines 2038--2039
-[]\OT1/cmr/m/n/10.95 The \OT1/cmtt/m/n/10.95 DatabaseOps [][][][][] \OT1/cmr/m/
-n/10.95 mod-ule han-dles the cre-ation of records for these schemas,
- []
-
-[71]
-Overfull \hbox (3.54428pt too wide) in paragraph at lines 2042--2043
-\OT1/cmr/m/n/10.95 The di-ag-nos-tic im-ple-men-ta-tions were fo-cused on 2 pri
--mary themes: Ex-ploratory
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2044--2045
-
- []
-
-Package hyperref Info: bookmark level for unknown todo defaults to 0 on input l
-ine 2048.
-[72]
-<images/results/prices/actual10_prices.png, id=1953, 865.2325pt x 539.01375pt>
-File: images/results/prices/actual10_prices.png Graphic file (type png)
-
-<use images/results/prices/actual10_prices.png>
-Package pdftex.def Info: images/results/prices/actual10_prices.png used on inpu
-t line 2092.
-(pdftex.def)             Requested size: 389.35103pt x 242.55394pt.
- [73]
-<images/results/prices/scaling10_prices.png, id=1961, 857.2025pt x 531.9875pt>
-File: images/results/prices/scaling10_prices.png Graphic file (type png)
-
-<use images/results/prices/scaling10_prices.png>
-Package pdftex.def Info: images/results/prices/scaling10_prices.png used on inp
-ut line 2100.
-(pdftex.def)             Requested size: 385.73756pt x 239.39217pt.
-
-<images/results/prices/aglacl_prices.png, id=1966, 861.2175pt x 543.02875pt>
-File: images/results/prices/aglacl_prices.png Graphic file (type png)
-
-<use images/results/prices/aglacl_prices.png>
-Package pdftex.def Info: images/results/prices/aglacl_prices.png used on input 
-line 2108.
-(pdftex.def)             Requested size: 387.5443pt x 244.36067pt.
- [74 <./images/results/prices/actual10_prices.png> <./images/results/prices/sca
-ling10_prices.png>]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[75 <./images/results/prices/aglacl_prices.png>]
-<images/results/prices/synthetic6_prices.png, id=1985, 861.2175pt x 527.9725pt>
-File: images/results/prices/synthetic6_prices.png Graphic file (type png)
-<use images/results/prices/synthetic6_prices.png>
-Package pdftex.def Info: images/results/prices/synthetic6_prices.png used on in
-put line 2169.
-(pdftex.def)             Requested size: 387.5443pt x 237.58542pt.
- [76]
-<images/results/prices/synthetic10_prices.png, id=1992, 875.27pt x 546.04pt>
-File: images/results/prices/synthetic10_prices.png Graphic file (type png)
-
-<use images/results/prices/synthetic10_prices.png>
-Package pdftex.def Info: images/results/prices/synthetic10_prices.png used on i
-nput line 2179.
-(pdftex.def)             Requested size: 393.86786pt x 245.71573pt.
- [77 <./images/results/prices/synthetic6_prices.png> <./images/results/prices/s
-ynthetic10_prices.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2198--2199
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2200--2201
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2202--2203
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2204--2205
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2206--2207
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2208--2209
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2210--2211
-
- []
-
-[78]
-Underfull \hbox (badness 10000) in paragraph at lines 2216--2217
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2218--2219
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2220--2221
-
- []
-
-<images/results/intro/ogdmse_pl.png, id=2022, 870.25125pt x 540.0175pt>
-File: images/results/intro/ogdmse_pl.png Graphic file (type png)
-
-<use images/results/intro/ogdmse_pl.png>
-Package pdftex.def Info: images/results/intro/ogdmse_pl.png used on input line 
-2225.
-(pdftex.def)             Requested size: 391.60945pt x 243.00562pt.
- [79] [80 <./images/results/intro/ogdmse_pl.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2234--2235
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2247--2248
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2249--2250
-
- []
-
-
-<images/results/data/actual_aggregate_dist.png, id=2041, 846.16125pt x 522.9537
-5pt>
-File: images/results/data/actual_aggregate_dist.png Graphic file (type png)
- <use images/results/data/actual_aggregate_dist.png>
-Package pdftex.def Info: images/results/data/actual_aggregate_dist.png used on 
-input line 2259.
-(pdftex.def)             Requested size: 245.38048pt x 151.6527pt.
-
-Overfull \hbox (57.59126pt too wide) in paragraph at lines 2259--2261
- [][] 
- []
-
-
-<images/results/data/actual_aggregation_mse.png, id=2042, 870.25125pt x 497.86p
-t>
-File: images/results/data/actual_aggregation_mse.png Graphic file (type png)
- <use images/results/data/actual_aggregation_mse.png>
-Package pdftex.def Info: images/results/data/actual_aggregation_mse.png used on
- input line 2266.
-(pdftex.def)             Requested size: 261.0774pt x 149.35915pt.
-
-Overfull \hbox (47.68173pt too wide) in paragraph at lines 2266--2268
- [][] 
- []
-
-[81]
-<images/results/data/actual_aggregation_pl.png, id=2051, 867.24pt x 570.13pt>
-File: images/results/data/actual_aggregation_pl.png Graphic file (type png)
-
-<use images/results/data/actual_aggregation_pl.png>
-Package pdftex.def Info: images/results/data/actual_aggregation_pl.png used on 
-input line 2282.
-(pdftex.def)             Requested size: 346.88986pt x 228.04796pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 2292--2293
-
- []
-
-[82 <./images/results/data/actual_aggregate_dist.png> <./images/results/data/ac
-tual_aggregation_mse.png> <./images/results/data/actual_aggregation_pl.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2294--2295
-
- []
-
-
-<images/results/network/lr/actual_ogd_lr.png, id=2065, 869.2475pt x 581.17125pt
->
-File: images/results/network/lr/actual_ogd_lr.png Graphic file (type png)
- <use images/results/network/lr/actual_ogd_lr.png>
-Package pdftex.def Info: images/results/network/lr/actual_ogd_lr.png used on in
-put line 2299.
-(pdftex.def)             Requested size: 391.15776pt x 261.52464pt.
-
-<images/results/primary/OOS_OGDLR_Delta_PL_median.png, id=2070, 884.30376pt x 5
-61.09625pt>
-File: images/results/primary/OOS_OGDLR_Delta_PL_median.png Graphic file (type p
-ng)
- <use images/results/primary/OOS_OGDLR_Delta_PL_median.png>
-Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_PL_median.png u
-sed on input line 2309.
-(pdftex.def)             Requested size: 397.93301pt x 252.49098pt.
- [83 <./images/results/network/lr/actual_ogd_lr.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2318--2319
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2320--2321
-
- []
-
-[84 <./images/results/primary/OOS_OGDLR_Delta_PL_median.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2322--2323
-
- []
-
-
-<images/results/feature_selection/actual_sae_mse.png, id=2090, 861.2175pt x 541
-.02126pt>
-File: images/results/feature_selection/actual_sae_mse.png Graphic file (type pn
-g)
- <use images/results/feature_selection/actual_sae_mse.png>
-Package pdftex.def Info: images/results/feature_selection/actual_sae_mse.png us
-ed on input line 2329.
-(pdftex.def)             Requested size: 215.30385pt x 135.25497pt.
-
-Overfull \hbox (6.17375pt too wide) in paragraph at lines 2329--2330
- [][] 
- []
-
-
-<images/results/primary/IS_Encoding_PL_median.png, id=2091, 841.1425pt x 555.07
-375pt>
-File: images/results/primary/IS_Encoding_PL_median.png Graphic file (type png)
- <use images/results/primary/IS_Encoding_PL_median.png>
-Package pdftex.def Info: images/results/primary/IS_Encoding_PL_median.png used 
-on input line 2335.
-(pdftex.def)             Requested size: 218.6919pt x 144.31577pt.
-
-Overfull \hbox (9.5618pt too wide) in paragraph at lines 2335--2336
- [][] 
- []
-
-
-<images/results/primary/OOS_Encoding_PL_Box.png, id=2098, 832.10875pt x 578.16p
-t>
-File: images/results/primary/OOS_Encoding_PL_Box.png Graphic file (type png)
- <use images/results/primary/OOS_Encoding_PL_Box.png>
-Package pdftex.def Info: images/results/primary/OOS_Encoding_PL_Box.png used on
- input line 2348.
-(pdftex.def)             Requested size: 332.8376pt x 231.2599pt.
-
-<images/results/feature_selection/encoding_pl_median.png, id=2099, 868.24374pt 
-x 538.01pt>
-File: images/results/feature_selection/encoding_pl_median.png Graphic file (typ
-e png)
- <use images/results/feature_selection/encoding_pl_median.png>
-Package pdftex.def Info: images/results/feature_selection/encoding_pl_median.pn
-g used on input line 2353.
-(pdftex.def)             Requested size: 434.1208pt x 269.00433pt.
-
-Overfull \hbox (7.32947pt too wide) in paragraph at lines 2353--2354
-[][] 
- []
-
-[85 <./images/results/feature_selection/actual_sae_mse.png> <./images/results/p
-rimary/IS_Encoding_PL_median.png>]
-Overfull \vbox (75.03694pt too high) has occurred while \output is active []
-
-
-[86 <./images/results/primary/OOS_Encoding_PL_Box.png> <./images/results/featur
-e_selection/encoding_pl_median.png>]
-<images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png, id=2122, 874.26
-625pt x 551.05875pt>
-File: images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png Graphic fil
-e (type png)
-
-<use images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png>
-Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_Encoding_25_med
-ian.png used on input line 2367.
-(pdftex.def)             Requested size: 262.28189pt x 165.3189pt.
-
-Overfull \hbox (80.89427pt too wide) in paragraph at lines 2367--2368
- [][] 
- []
-
-
-<images/results/primary/OOS_OGDLR_Delta_Encoding_20_median.png, id=2123, 884.30
-376pt x 552.0625pt>
-File: images/results/primary/OOS_OGDLR_Delta_Encoding_20_median.png Graphic fil
-e (type png)
-
-<use images/results/primary/OOS_OGDLR_Delta_Encoding_20_median.png>
-Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_Encoding_20_med
-ian.png used on input line 2371.
-(pdftex.def)             Requested size: 265.29317pt x 165.62003pt.
-
-Overfull \hbox (56.16307pt too wide) in paragraph at lines 2371--2372
- [][] 
- []
-
-
-<images/results/primary/OOS_OGDLR_Delta_Encoding_10_median.png, id=2124, 886.31
-125pt x 568.1225pt>
-File: images/results/primary/OOS_OGDLR_Delta_Encoding_10_median.png Graphic fil
-e (type png)
-
-<use images/results/primary/OOS_OGDLR_Delta_Encoding_10_median.png>
-Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_Encoding_10_med
-ian.png used on input line 2376.
-(pdftex.def)             Requested size: 265.89542pt x 170.43805pt.
-
-Overfull \hbox (78.1062pt too wide) in paragraph at lines 2376--2377
- [][] 
- []
-
-
-<images/results/primary/OOS_OGDLR_Delta_Encoding_5_median.png, id=2125, 885.307
-5pt x 559.08875pt>
-File: images/results/primary/OOS_OGDLR_Delta_Encoding_5_median.png Graphic file
- (type png)
-
-<use images/results/primary/OOS_OGDLR_Delta_Encoding_5_median.png>
-Package pdftex.def Info: images/results/primary/OOS_OGDLR_Delta_Encoding_5_medi
-an.png used on input line 2380.
-(pdftex.def)             Requested size: 265.5943pt x 167.7279pt.
-
-Overfull \hbox (56.4642pt too wide) in paragraph at lines 2380--2381
- [][] 
- []
-
-[87 <./images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png> <./images
-/results/primary/OOS_OGDLR_Delta_Encoding_20_median.png> <./images/results/prim
-ary/OOS_OGDLR_Delta_Encoding_10_median.png> <./images/results/primary/OOS_OGDLR
-_Delta_Encoding_5_median.png>]
-<images/results/data/max_epochs.png, id=2142, 868.24374pt x 584.1825pt>
-File: images/results/data/max_epochs.png Graphic file (type png)
-
-<use images/results/data/max_epochs.png>
-Package pdftex.def Info: images/results/data/max_epochs.png used on input line 
-2401.
-(pdftex.def)             Requested size: 347.29134pt x 233.66885pt.
-
-<images/results/data/training_data_excluded.png, id=2147, 874.26625pt x 580.167
-5pt>
-File: images/results/data/training_data_excluded.png Graphic file (type png)
- <use images/results/data/training_data_excluded.png>
-Package pdftex.def Info: images/results/data/training_data_excluded.png used on
- input line 2414.
-(pdftex.def)             Requested size: 349.7003pt x 232.06288pt.
- [88 <./images/results/data/max_epochs.png>] [89 <./images/results/data/trainin
-g_data_excluded.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2430--2431
-
- []
-
-
-<images/results/newinit/actual_sigmoid_pt.png, id=2169, 896.34875pt x 609.27625
-pt>
-File: images/results/newinit/actual_sigmoid_pt.png Graphic file (type png)
- <use images/results/newinit/actual_sigmoid_pt.png>
-Package pdftex.def Info: images/results/newinit/actual_sigmoid_pt.png used on i
-nput line 2435.
-(pdftex.def)             Requested size: 403.35321pt x 274.17177pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 2438--2438
-
- []
-
-[90]
-Underfull \hbox (badness 10000) in paragraph at lines 2442--2443
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2446--2447
-
- []
-
-[91 <./images/results/newinit/actual_sigmoid_pt.png>]
-<images/results/newinit/synthetic_mse_init.png, id=2189, 759.83875pt x 596.2275
-pt>
-File: images/results/newinit/synthetic_mse_init.png Graphic file (type png)
- <use images/results/newinit/synthetic_mse_init.png>
-Package pdftex.def Info: images/results/newinit/synthetic_mse_init.png used on 
-input line 2453.
-(pdftex.def)             Requested size: 212.75339pt x 166.94255pt.
-
-<images/results/newinit/agl_mse_init.png, id=2190, 788.9475pt x 609.27625pt>
-File: images/results/newinit/agl_mse_init.png Graphic file (type png)
-
-<use images/results/newinit/agl_mse_init.png>
-Package pdftex.def Info: images/results/newinit/agl_mse_init.png used on input 
-line 2460.
-(pdftex.def)             Requested size: 220.90378pt x 170.59618pt.
-
-Overfull \hbox (7.50812pt too wide) in paragraph at lines 2460--2462
- [][] 
- []
-
-<images/results/newinit/synth_pl_init.png, id=2201, 798.985pt x 597.23125pt>
-File: images/results/newinit/synth_pl_init.png Graphic file (type png)
-
-<use images/results/newinit/synth_pl_init.png>
-Package pdftex.def Info: images/results/newinit/synth_pl_init.png used on input
- line 2477.
-(pdftex.def)             Requested size: 223.71426pt x 167.2236pt.
-
-Overfull \hbox (10.3186pt too wide) in paragraph at lines 2477--2479
- [][] 
- []
-
-<images/results/newinit/agl_pl_init.png, id=2202, 776.9025pt x 571.13374pt>
-File: images/results/newinit/agl_pl_init.png Graphic file (type png)
-
-<use images/results/newinit/agl_pl_init.png>
-Package pdftex.def Info: images/results/newinit/agl_pl_init.png used on input l
-ine 2484.
-(pdftex.def)             Requested size: 217.5312pt x 159.91635pt.
-
-Overfull \hbox (4.13554pt too wide) in paragraph at lines 2484--2486
- [][] 
- []
-
-[92 <./images/results/newinit/synthetic_mse_init.png> <./images/results/newinit
-/agl_mse_init.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2496--2497
-
- []
-
-[93 <./images/results/newinit/synth_pl_init.png> <./images/results/newinit/agl_
-pl_init.png>]
-<images/results/data/test_aggregate_dist.png, id=2227, 856.19875pt x 512.91624p
-t>
-File: images/results/data/test_aggregate_dist.png Graphic file (type png)
- <use images/results/data/test_aggregate_dist.png>
-Package pdftex.def Info: images/results/data/test_aggregate_dist.png used on in
-put line 2512.
-(pdftex.def)             Requested size: 214.04916pt x 128.22874pt.
-
-Overfull \hbox (0.6535pt too wide) in paragraph at lines 2512--2514
- [][] 
- []
-
-
-<images/results/data/test_aggregation_mse.png, id=2228, 841.1425pt x 500.87125p
-t>
-File: images/results/data/test_aggregation_mse.png Graphic file (type png)
- <use images/results/data/test_aggregation_mse.png>
-Package pdftex.def Info: images/results/data/test_aggregation_mse.png used on i
-nput line 2519.
-(pdftex.def)             Requested size: 218.6919pt x 130.22345pt.
-
-Overfull \hbox (5.29623pt too wide) in paragraph at lines 2519--2521
- [][] 
- []
-
-
-<images/results/data/test_aggregation_pl.png, id=2237, 866.23625pt x 571.13374p
-t>
-File: images/results/data/test_aggregation_pl.png Graphic file (type png)
- <use images/results/data/test_aggregation_pl.png>
-Package pdftex.def Info: images/results/data/test_aggregation_pl.png used on in
-put line 2536.
-(pdftex.def)             Requested size: 259.87288pt x 171.34145pt.
- [94 <./images/results/data/test_aggregate_dist.png> <./images/results/data/tes
-t_aggregation_mse.png>]
-<images/results/feature_selection/synthetic_median.png, id=2251, 874.26625pt x 
-525.965pt>
-File: images/results/feature_selection/synthetic_median.png Graphic file (type 
-png)
- <use images/results/feature_selection/synthetic_median.png>
-Package pdftex.def Info: images/results/feature_selection/synthetic_median.png 
-used on input line 2548.
-(pdftex.def)             Requested size: 262.28189pt x 157.79071pt.
- [95 <./images/results/data/test_aggregation_pl.png> <./images/results/feature_
-selection/synthetic_median.png>]
-<images/results/complexity/mse_scaling.png, id=2267, 700.6175pt x 579.16376pt>
-File: images/results/complexity/mse_scaling.png Graphic file (type png)
-
-<use images/results/complexity/mse_scaling.png>
-Package pdftex.def Info: images/results/complexity/mse_scaling.png used on inpu
-t line 2581.
-(pdftex.def)             Requested size: 280.24203pt x 231.66139pt.
-
-<images/results/complexity/oos_scaling.png, id=2276, 647.41875pt x 550.055pt>
-File: images/results/complexity/oos_scaling.png Graphic file (type png)
-
-<use images/results/complexity/oos_scaling.png>
-Package pdftex.def Info: images/results/complexity/oos_scaling.png used on inpu
-t line 2591.
-(pdftex.def)             Requested size: 220.11946pt x 187.01622pt.
- [96 <./images/results/complexity/mse_scaling.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2601--2602
-
- []
-
-
-<images/results/network/reg/actual_mse_reg.png, id=2302, 749.80125pt x 566.115p
-t>
-File: images/results/network/reg/actual_mse_reg.png Graphic file (type png)
- <use images/results/network/reg/actual_mse_reg.png>
-Package pdftex.def Info: images/results/network/reg/actual_mse_reg.png used on 
-input line 2610.
-(pdftex.def)             Requested size: 224.94211pt x 169.8358pt.
-
-Overfull \hbox (15.81201pt too wide) in paragraph at lines 2610--2612
- [][] 
- []
-
-
-<images/results/network/reg/actual_sae_mse_by_encoding.png, id=2303, 894.34125p
-t x 553.06625pt>
-File: images/results/network/reg/actual_sae_mse_by_encoding.png Graphic file (t
-ype png)
-
-<use images/results/network/reg/actual_sae_mse_by_encoding.png>
-Package pdftex.def Info: images/results/network/reg/actual_sae_mse_by_encoding.
-png used on input line 2617.
-(pdftex.def)             Requested size: 268.30444pt x 165.92114pt.
-
-Overfull \hbox (59.17435pt too wide) in paragraph at lines 2617--2619
- [][] 
- []
-
-[97 <./images/results/complexity/oos_scaling.png>]
-<images/results/network/denoising/actual_mse_gaussian.png, id=2316, 872.25874pt
- x 590.205pt>
-File: images/results/network/denoising/actual_mse_gaussian.png Graphic file (ty
-pe png)
- <use images/results/network/denoising/actual_mse_gaussian.png>
-Package pdftex.def Info: images/results/network/denoising/actual_mse_gaussian.p
-ng used on input line 2634.
-(pdftex.def)             Requested size: 218.06415pt x 147.55089pt.
-
-Overfull \hbox (4.66849pt too wide) in paragraph at lines 2634--2636
- [][] 
- []
-
-
-<images/results/network/denoising/actual_mse_masking.png, id=2317, 804.00375pt 
-x 603.25375pt>
-File: images/results/network/denoising/actual_mse_masking.png Graphic file (typ
-e png)
- <use images/results/network/denoising/actual_mse_masking.png>
-Package pdftex.def Info: images/results/network/denoising/actual_mse_masking.pn
-g used on input line 2641.
-(pdftex.def)             Requested size: 201.00044pt x 150.81306pt.
-
-<images/results/network/lr/synth_mse_minmax_lr.png, id=2324, 727.71875pt x 561.
-09625pt>
-File: images/results/network/lr/synth_mse_minmax_lr.png Graphic file (type png)
-
- <use images/results/network/lr/synth_mse_minmax_lr.png>
-Package pdftex.def Info: images/results/network/lr/synth_mse_minmax_lr.png used
- on input line 2658.
-(pdftex.def)             Requested size: 218.3173pt x 168.33017pt.
-
-Overfull \hbox (4.92165pt too wide) in paragraph at lines 2658--2660
- [][] 
- []
-
-
-<images/results/network/lr/actual_mse_minmax_lr.png, id=2325, 749.80125pt x 563
-.10374pt>
-File: images/results/network/lr/actual_mse_minmax_lr.png Graphic file (type png
-)
- <use images/results/network/lr/actual_mse_minmax_lr.png>
-Package pdftex.def Info: images/results/network/lr/actual_mse_minmax_lr.png use
-d on input line 2665.
-(pdftex.def)             Requested size: 224.94211pt x 168.93242pt.
-
-Overfull \hbox (11.54645pt too wide) in paragraph at lines 2665--2667
- [][] 
- []
-
-[98 <./images/results/network/reg/actual_mse_reg.png> <./images/results/network
-/reg/actual_sae_mse_by_encoding.png> <./images/results/network/denoising/actual
-_mse_gaussian.png> <./images/results/network/denoising/actual_mse_masking.png>]
-[99 <./images/results/network/lr/synth_mse_minmax_lr.png> <./images/results/net
-work/lr/actual_mse_minmax_lr.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2691--2692
-
- []
-
-
-<images/results/complexity/IS_actual_pl_lr_epochs.png, id=2361, 655.44875pt x 6
-01.24625pt>
-File: images/results/complexity/IS_actual_pl_lr_epochs.png Graphic file (type p
-ng)
- <use images/results/complexity/IS_actual_pl_lr_epochs.png>
-Package pdftex.def Info: images/results/complexity/IS_actual_pl_lr_epochs.png u
-sed on input line 2701.
-(pdftex.def)             Requested size: 209.74788pt x 192.40273pt.
-
-<images/results/complexity/OOS_actual_pl_lr_epochs.png, id=2362, 658.46pt x 578
-.16pt>
-File: images/results/complexity/OOS_actual_pl_lr_epochs.png Graphic file (type 
-png)
- <use images/results/complexity/OOS_actual_pl_lr_epochs.png>
-Package pdftex.def Info: images/results/complexity/OOS_actual_pl_lr_epochs.png 
-used on input line 2708.
-(pdftex.def)             Requested size: 210.7115pt x 185.01497pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 2717--2717
-
- []
-
-[100]
-<images/results/complexity/is_actual_pl_reg.png, id=2373, 906.38625pt x 587.193
-76pt>
-File: images/results/complexity/is_actual_pl_reg.png Graphic file (type png)
- <use images/results/complexity/is_actual_pl_reg.png>
-Package pdftex.def Info: images/results/complexity/is_actual_pl_reg.png used on
- input line 2725.
-(pdftex.def)             Requested size: 271.91797pt x 176.15948pt.
-
-Overfull \hbox (58.52231pt too wide) in paragraph at lines 2725--2726
-[][] 
- []
-
-
-<images/results/complexity/oos_actual_pl_reg.png, id=2374, 748.7975pt x 573.141
-25pt>
-File: images/results/complexity/oos_actual_pl_reg.png Graphic file (type png)
- <use images/results/complexity/oos_actual_pl_reg.png>
-Package pdftex.def Info: images/results/complexity/oos_actual_pl_reg.png used o
-n input line 2730.
-(pdftex.def)             Requested size: 224.64098pt x 171.9437pt.
-
-Overfull \hbox (11.24532pt too wide) in paragraph at lines 2730--2731
-[][] 
- []
-
-[101 <./images/results/complexity/IS_actual_pl_lr_epochs.png> <./images/results
-/complexity/OOS_actual_pl_lr_epochs.png>]
-<images/results/complexity/is_actual_pl_masking.png, id=2385, 788.9475pt x 566.
-115pt>
-File: images/results/complexity/is_actual_pl_masking.png Graphic file (type png
-)
- <use images/results/complexity/is_actual_pl_masking.png>
-Package pdftex.def Info: images/results/complexity/is_actual_pl_masking.png use
-d on input line 2745.
-(pdftex.def)             Requested size: 236.68607pt x 169.8358pt.
-
-Overfull \hbox (23.2904pt too wide) in paragraph at lines 2745--2746
- [][] 
- []
-
-
-<images/results/complexity/oos_actual_pl_masking.png, id=2386, 807.015pt x 571.
-13374pt>
-File: images/results/complexity/oos_actual_pl_masking.png Graphic file (type pn
-g)
- <use images/results/complexity/oos_actual_pl_masking.png>
-Package pdftex.def Info: images/results/complexity/oos_actual_pl_masking.png us
-ed on input line 2751.
-(pdftex.def)             Requested size: 242.10637pt x 171.34145pt.
-
-Overfull \hbox (28.71071pt too wide) in paragraph at lines 2751--2752
- [][] 
- []
-
-[102 <./images/results/complexity/is_actual_pl_reg.png> <./images/results/compl
-exity/oos_actual_pl_reg.png> <./images/results/complexity/is_actual_pl_masking.
-png> <./images/results/complexity/oos_actual_pl_masking.png>]
-<images/results/network/actual_mse_lines.png, id=2400, 882.29625pt x 550.055pt>
-File: images/results/network/actual_mse_lines.png Graphic file (type png)
-<use images/results/network/actual_mse_lines.png>
-Package pdftex.def Info: images/results/network/actual_mse_lines.png used on in
-put line 2773.
-(pdftex.def)             Requested size: 220.57352pt x 137.51341pt.
-
-Overfull \hbox (7.17786pt too wide) in paragraph at lines 2773--2775
- [][] 
- []
-
-
-<images/results/network/actual_pl_lines.png, id=2401, 878.28125pt x 551.05875pt
->
-File: images/results/network/actual_pl_lines.png Graphic file (type png)
- <use images/results/network/actual_pl_lines.png>
-Package pdftex.def Info: images/results/network/actual_pl_lines.png used on inp
-ut line 2780.
-(pdftex.def)             Requested size: 228.34773pt x 143.27188pt.
-
-Overfull \hbox (14.95207pt too wide) in paragraph at lines 2780--2782
- [][] 
- []
-
-[103 <./images/results/network/actual_mse_lines.png> <./images/results/network/
-actual_pl_lines.png>]
-<images/results/activations/actual_mse_output.png, id=2420, 711.65875pt x 589.2
-0125pt>
-File: images/results/activations/actual_mse_output.png Graphic file (type png)
- <use images/results/activations/actual_mse_output.png>
-Package pdftex.def Info: images/results/activations/actual_mse_output.png used 
-on input line 2806.
-(pdftex.def)             Requested size: 284.65845pt x 235.67632pt.
-
-<images/results/activations/actual_mse_encoding.png, id=2425, 892.33376pt x 570
-.13pt>
-File: images/results/activations/actual_mse_encoding.png Graphic file (type png
-)
- <use images/results/activations/actual_mse_encoding.png>
-Package pdftex.def Info: images/results/activations/actual_mse_encoding.png use
-d on input line 2819.
-(pdftex.def)             Requested size: 267.7022pt x 171.04031pt.
-
-Overfull \hbox (54.30653pt too wide) in paragraph at lines 2819--2821
- [][] 
- []
-
-
-<images/results/activations/actual_mse_hidden.png, id=2426, 891.33pt x 562.1pt>
-File: images/results/activations/actual_mse_hidden.png Graphic file (type png)
-<use images/results/activations/actual_mse_hidden.png>
-Package pdftex.def Info: images/results/activations/actual_mse_hidden.png used 
-on input line 2826.
-(pdftex.def)             Requested size: 267.40106pt x 168.6313pt.
-
-Overfull \hbox (54.0054pt too wide) in paragraph at lines 2826--2828
- [][] 
- []
-
-[104 <./images/results/activations/actual_mse_output.png>]
-<images/results/activations/synth_pl_hidden.png, id=2441, 782.925pt x 560.0925p
-t>
-File: images/results/activations/synth_pl_hidden.png Graphic file (type png)
- <use images/results/activations/synth_pl_hidden.png>
-Package pdftex.def Info: images/results/activations/synth_pl_hidden.png used on
- input line 2849.
-(pdftex.def)             Requested size: 195.73077pt x 140.02278pt.
- [105 <./images/results/activations/actual_mse_encoding.png> <./images/results/
-activations/actual_mse_hidden.png>] [106 <./images/results/activations/synth_pl
-_hidden.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2870--2871
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2872--2873
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2874--2875
-
- []
-
-<images/results/mms/profits_nocost.png, id=2469, 893.3375pt x 567.11874pt>
-File: images/results/mms/profits_nocost.png Graphic file (type png)
-
-<use images/results/mms/profits_nocost.png>
-Package pdftex.def Info: images/results/mms/profits_nocost.png used on input li
-ne 2884.
-(pdftex.def)             Requested size: 268.00331pt x 170.13693pt.
-
-Overfull \hbox (80.2141pt too wide) in paragraph at lines 2884--2885
- [][] 
- []
-
-<images/results/mms/profits_cost.png, id=2470, 884.30376pt x 551.05875pt>
-File: images/results/mms/profits_cost.png Graphic file (type png)
-
-<use images/results/mms/profits_cost.png>
-Package pdftex.def Info: images/results/mms/profits_cost.png used on input line
- 2889.
-(pdftex.def)             Requested size: 274.13133pt x 170.82643pt.
-
-Overfull \hbox (60.73567pt too wide) in paragraph at lines 2889--2890
-[][] 
- []
-
-[107] <images/results/mms/sharpe_ratios.png, id=2483, 839.135pt x 527.9725pt>
-File: images/results/mms/sharpe_ratios.png Graphic file (type png)
-
-<use images/results/mms/sharpe_ratios.png>
-Package pdftex.def Info: images/results/mms/sharpe_ratios.png used on input lin
-e 2905.
-(pdftex.def)             Requested size: 192.99698pt x 121.4311pt.
-
-Overfull \hbox (5.20776pt too wide) in paragraph at lines 2905--2906
- [][] 
- []
-
-<images/results/mms/confusion_dist.png, id=2484, 849.1725pt x 541.02126pt>
-File: images/results/mms/confusion_dist.png Graphic file (type png)
-
-<use images/results/mms/confusion_dist.png>
-Package pdftex.def Info: images/results/mms/confusion_dist.png used on input li
-ne 2910.
-(pdftex.def)             Requested size: 186.81853pt x 119.02504pt.
- [108 <./images/results/mms/profits_nocost.png> <./images/results/mms/profits_c
-ost.png> <./images/results/mms/sharpe_ratios.png> <./images/results/mms/confusi
-on_dist.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 2927--2928
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2937--2939
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2940--2941
-
- []
-
-[109]
-Underfull \hbox (badness 10000) in paragraph at lines 2942--2943
-
- []
-
-<images/results/pbo/PBO_by_Split.png, id=2514, 1562.83875pt x 552.0625pt>
-File: images/results/pbo/PBO_by_Split.png Graphic file (type png)
-
-<use images/results/pbo/PBO_by_Split.png>
-Package pdftex.def Info: images/results/pbo/PBO_by_Split.png used on input line
- 2949.
-(pdftex.def)             Requested size: 390.70872pt x 138.01527pt.
- [110]
-<images/results/pbo/combination_sizes.png, id=2525, 1614.03pt x 587.19376pt>
-File: images/results/pbo/combination_sizes.png Graphic file (type png)
-
-<use images/results/pbo/combination_sizes.png>
-Package pdftex.def Info: images/results/pbo/combination_sizes.png used on input
- line 2958.
-(pdftex.def)             Requested size: 403.50652pt x 146.79808pt.
-
-<images/results/pbo/all_sets_dist.png, id=2529, 1550.79375pt x 547.04375pt>
-File: images/results/pbo/all_sets_dist.png Graphic file (type png)
-
-<use images/results/pbo/all_sets_dist.png>
-Package pdftex.def Info: images/results/pbo/all_sets_dist.png used on input lin
-e 2973.
-(pdftex.def)             Requested size: 387.6975pt x 136.76059pt.
- [111 <./images/results/pbo/PBO_by_Split.png> <./images/results/pbo/combination
-_sizes.png>]
-<images/results/pbo/subset_dist.png, id=2544, 1585.925pt x 576.1525pt>
-File: images/results/pbo/subset_dist.png Graphic file (type png)
-
-<use images/results/pbo/subset_dist.png>
-Package pdftex.def Info: images/results/pbo/subset_dist.png used on input line 
-2989.
-(pdftex.def)             Requested size: 396.48029pt x 144.03777pt.
- [112 <./images/results/pbo/all_sets_dist.png> <./images/results/pbo/subset_dis
-t.png>] [113]
-Underfull \hbox (badness 10000) in paragraph at lines 3007--3008
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3013--3014
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3015--3016
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3017--3018
-
- []
-
-[114]
-<images/results/dsr/cluster_distributions.png, id=2576, 870.25125pt x 518.93875
-pt>
-File: images/results/dsr/cluster_distributions.png Graphic file (type png)
- <use images/results/dsr/cluster_distributions.png>
-Package pdftex.def Info: images/results/dsr/cluster_distributions.png used on i
-nput line 3022.
-(pdftex.def)             Requested size: 348.09433pt x 207.57182pt.
-
-<images/results/dsr/cluster_distributions_mse.png, id=2583, 867.24pt x 523.9575
-pt>
-File: images/results/dsr/cluster_distributions_mse.png Graphic file (type png)
- <use images/results/dsr/cluster_distributions_mse.png>
-Package pdftex.def Info: images/results/dsr/cluster_distributions_mse.png used 
-on input line 3031.
-(pdftex.def)             Requested size: 346.88986pt x 209.57928pt.
- [115 <./images/results/dsr/cluster_distributions.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 3041--3042
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3043--3044
-
- []
-
-[116 <./images/results/dsr/cluster_distributions_mse.png>] [117]
-Underfull \hbox (badness 10000) in paragraph at lines 3053--3054
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3055--3056
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3057--3058
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3059--3060
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3061--3062
-
- []
-
-[118]
-Underfull \hbox (badness 10000) in paragraph at lines 3072--3073
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3074--3075
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3076--3077
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3078--3079
-
- []
-
-[119]
-Underfull \hbox (badness 10000) in paragraph at lines 3080--3081
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3082--3083
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3084--3085
-
- []
-
-[120]
-Underfull \hbox (badness 10000) in paragraph at lines 3086--3087
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3088--3089
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3090--3091
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3092--3093
-
- []
-
-[121] [122] [123]
-<images/results/feature_selection/synth_sae_mse.png, id=2669, 842.14626pt x 560
-.0925pt>
-File: images/results/feature_selection/synth_sae_mse.png Graphic file (type png
-)
- <use images/results/feature_selection/synth_sae_mse.png>
-Package pdftex.def Info: images/results/feature_selection/synth_sae_mse.png use
-d on input line 3119.
-(pdftex.def)             Requested size: 252.64583pt x 168.02904pt.
-
-<images/results/newinit/rbm_pretraining.png, id=2675, 1670.24pt x 478.78876pt>
-File: images/results/newinit/rbm_pretraining.png Graphic file (type png)
-
-<use images/results/newinit/rbm_pretraining.png>
-Package pdftex.def Info: images/results/newinit/rbm_pretraining.png used on inp
-ut line 3130.
-(pdftex.def)             Requested size: 334.04208pt x 95.75604pt.
-
-<images/results/newinit/actual_mse_init.png, id=2678, 793.96625pt x 597.23125pt
->
-File: images/results/newinit/actual_mse_init.png Graphic file (type png)
- <use images/results/newinit/actual_mse_init.png>
-Package pdftex.def Info: images/results/newinit/actual_mse_init.png used on inp
-ut line 3138.
-(pdftex.def)             Requested size: 238.19171pt x 179.17075pt.
- [124 <./images/results/feature_selection/synth_sae_mse.png> <./images/results/
-newinit/rbm_pretraining.png>]
-<images/results/network/lr/actual_mse_lr_epochs.png, id=2692, 755.82375pt x 575
-.14874pt>
-File: images/results/network/lr/actual_mse_lr_epochs.png Graphic file (type png
-)
- <use images/results/network/lr/actual_mse_lr_epochs.png>
-Package pdftex.def Info: images/results/network/lr/actual_mse_lr_epochs.png use
-d on input line 3151.
-(pdftex.def)             Requested size: 226.74887pt x 172.54594pt.
-
-<images/results/network/lr/synth_mse_lr_epochs.png, id=2695, 883.3pt x 578.16pt
->
-File: images/results/network/lr/synth_mse_lr_epochs.png Graphic file (type png)
-
- <use images/results/network/lr/synth_mse_lr_epochs.png>
-Package pdftex.def Info: images/results/network/lr/synth_mse_lr_epochs.png used
- on input line 3160.
-(pdftex.def)             Requested size: 264.99205pt x 173.44933pt.
- [125 <./images/results/newinit/actual_mse_init.png> <./images/results/network/
-lr/actual_mse_lr_epochs.png>]
-<images/results/network/lr/synth_pl_minmax_lr.png, id=2711, 733.74126pt x 556.0
-775pt>
-File: images/results/network/lr/synth_pl_minmax_lr.png Graphic file (type png)
- <use images/results/network/lr/synth_pl_minmax_lr.png>
-Package pdftex.def Info: images/results/network/lr/synth_pl_minmax_lr.png used 
-on input line 3173.
-(pdftex.def)             Requested size: 220.12407pt x 166.82454pt.
-
-Overfull \hbox (6.72841pt too wide) in paragraph at lines 3173--3175
- [][] 
- []
-
-
-<images/results/network/lr/actual_pl_minmax_lr.png, id=2712, 723.70375pt x 588.
-1975pt>
-File: images/results/network/lr/actual_pl_minmax_lr.png Graphic file (type png)
-
- <use images/results/network/lr/actual_pl_minmax_lr.png>
-Package pdftex.def Info: images/results/network/lr/actual_pl_minmax_lr.png used
- on input line 3180.
-(pdftex.def)             Requested size: 217.1128pt x 176.4606pt.
-
-Overfull \hbox (3.71713pt too wide) in paragraph at lines 3180--3182
- [][] 
- []
-
-
-<images/results/network/actual_sae_mse_box.png, id=2722, 879.285pt x 585.18625p
-t>
-File: images/results/network/actual_sae_mse_box.png Graphic file (type png)
- <use images/results/network/actual_sae_mse_box.png>
-Package pdftex.def Info: images/results/network/actual_sae_mse_box.png used on 
-input line 3203.
-(pdftex.def)             Requested size: 219.82071pt x 146.2962pt.
- [126 <./images/results/network/lr/synth_mse_lr_epochs.png> <./images/results/n
-etwork/lr/synth_pl_minmax_lr.png> <./images/results/network/lr/actual_pl_minmax
-_lr.png>]
-<images/results/network/synth_mse_box.png, id=2736, 871.255pt x 566.115pt>
-File: images/results/network/synth_mse_box.png Graphic file (type png)
-
-<use images/results/network/synth_mse_box.png>
-Package pdftex.def Info: images/results/network/synth_mse_box.png used on input
- line 3212.
-(pdftex.def)             Requested size: 217.81322pt x 141.5284pt.
-
-<images/results/network/actual_pl_box.png, id=2743, 853.1875pt x 582.175pt>
-File: images/results/network/actual_pl_box.png Graphic file (type png)
-
-<use images/results/network/actual_pl_box.png>
-Package pdftex.def Info: images/results/network/actual_pl_box.png used on input
- line 3221.
-(pdftex.def)             Requested size: 255.95822pt x 174.65384pt.
- [127 <./images/results/network/actual_sae_mse_box.png> <./images/results/netwo
-rk/synth_mse_box.png>]
-<images/results/network/synth_pl_box.png, id=2755, 863.225pt x 577.15625pt>
-File: images/results/network/synth_pl_box.png Graphic file (type png)
-
-<use images/results/network/synth_pl_box.png>
-Package pdftex.def Info: images/results/network/synth_pl_box.png used on input 
-line 3230.
-(pdftex.def)             Requested size: 258.9695pt x 173.14821pt.
-
-<images/results/network/lr/synth_ogd_lr.png, id=2760, 887.315pt x 602.25pt>
-File: images/results/network/lr/synth_ogd_lr.png Graphic file (type png)
-
-<use images/results/network/lr/synth_ogd_lr.png>
-Package pdftex.def Info: images/results/network/lr/synth_ogd_lr.png used on inp
-ut line 3239.
-(pdftex.def)             Requested size: 266.19655pt x 180.67639pt.
- [128 <./images/results/network/actual_pl_box.png> <./images/results/network/sy
-nth_pl_box.png>]
-<images/results/network/reg/synth_pl_reg.png, id=2773, 877.2775pt x 603.25375pt
->
-File: images/results/network/reg/synth_pl_reg.png Graphic file (type png)
- <use images/results/network/reg/synth_pl_reg.png>
-Package pdftex.def Info: images/results/network/reg/synth_pl_reg.png used on in
-put line 3248.
-(pdftex.def)             Requested size: 263.18527pt x 180.97751pt.
-
-<images/results/activations/synthetic_mse_leakyrelu.png, id=2778, 1498.59875pt 
-x 432.61626pt>
-File: images/results/activations/synthetic_mse_leakyrelu.png Graphic file (type
- png)
- <use images/results/activations/synthetic_mse_leakyrelu.png>
-Package pdftex.def Info: images/results/activations/synthetic_mse_leakyrelu.png
- used on input line 3257.
-(pdftex.def)             Requested size: 419.6048pt x 121.13171pt.
-
-[129 <./images/results/network/lr/synth_ogd_lr.png> <./images/results/network/r
-eg/synth_pl_reg.png>]
-<images/results/activations/synthetic_pl_leakyrelu.png, id=2789, 751.80875pt x 
-564.1075pt>
-File: images/results/activations/synthetic_pl_leakyrelu.png Graphic file (type 
-png)
- <use images/results/activations/synthetic_pl_leakyrelu.png>
-Package pdftex.def Info: images/results/activations/synthetic_pl_leakyrelu.png 
-used on input line 3266.
-(pdftex.def)             Requested size: 225.54436pt x 169.23355pt.
-Missing character: There is no ¬ in font cmr9!
-Missing character: There is no ± in font cmr9!
-Missing character: There is no ¬ in font cmr9!
-Missing character: There is no ± in font cmr9!
-
-Underfull \hbox (badness 10000) in paragraph at lines 3285--3287
-
- []
-
-[130 <./images/results/activations/synthetic_mse_leakyrelu.png> <./images/resul
-ts/activations/synthetic_pl_leakyrelu.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 3299--3300
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3313--3314
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3328--3329
-
- []
-
-[131] [132]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 3362
-.
- (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 3362.
-
-
-Overfull \hbox (16.37813pt too wide) in paragraph at lines 3370--3371
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (30,60,5); (30,60,60,5); (30,60,60,60,5); (3
-0,120,5); (30,120,120,5);
- []
-
-
-Overfull \hbox (2.24657pt too wide) in paragraph at lines 3370--3371
-\OT1/cmr/m/n/10.95 (30,120,120,120,5); (30,60,15); (30,60,60,15); (30,60,60,60,
-15); (30,120,15);
- []
-
-
-Overfull \hbox (27.18826pt too wide) in paragraph at lines 3370--3371
-\OT1/cmr/m/n/10.95 (30,120,120,15); (30,120,120,120,15); (30,60,25); (30,60,60,
-25); (30,60,60,60,25);
- []
-
-
-Overfull \hbox (16.37813pt too wide) in paragraph at lines 3397--3398
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (30,60,5); (30,60,60,5); (30,60,60,60,5); (3
-0,120,5); (30,120,120,5);
- []
-
-
-Overfull \hbox (2.24657pt too wide) in paragraph at lines 3397--3398
-\OT1/cmr/m/n/10.95 (30,120,120,120,5); (30,60,15); (30,60,60,15); (30,60,60,60,
-15); (30,120,15);
- []
-
-
-Overfull \hbox (27.18826pt too wide) in paragraph at lines 3397--3398
-\OT1/cmr/m/n/10.95 (30,120,120,15); (30,120,120,120,15); (30,60,25); (30,60,60,
-25); (30,60,60,60,25);
- []
-
-[133]
-Overfull \hbox (3.40036pt too wide) in paragraph at lines 3424--3425
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (15,40,6); (12,40,6); (9,40,6); (6,40,6); (3
-,40,6); (15,40,40,40,6);
- []
-
-
-Overfull \hbox (29.01329pt too wide) in paragraph at lines 3424--3425
-\OT1/cmr/m/n/10.95 (12,40,40,40,6); (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40
-,6); (15,80,6);(12,80,6);
- []
-
-[134]
-Overfull \hbox (3.40036pt too wide) in paragraph at lines 3454--3455
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (15,40,6); (12,40,6); (9,40,6); (6,40,6); (3
-,40,6); (15,40,40,40,6);
- []
-
-
-Overfull \hbox (29.01329pt too wide) in paragraph at lines 3454--3455
-\OT1/cmr/m/n/10.95 (12,40,40,40,6); (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40
-,6); (15,80,6);(12,80,6);
- []
-
-
-Overfull \hbox (12.79108pt too wide) in paragraph at lines 3454--3455
-\OT1/cmr/m/n/10.95 (6,80,80,80,6); (3,80,80,80,6); (15,20,6); (12,20,6); (9,20,
-6); (6,20,6); (3,20,6);
- []
-
-
-Overfull \hbox (17.8605pt too wide) in paragraph at lines 3454--3455
-\OT1/cmr/m/n/10.95 (15,20,20,6); (12,20,20,6); (9,20,20,6); (6,20,20,6); (3,20,
-20,6); (15,20,20,20,6);
- []
-
-[135]
-Overfull \hbox (3.40036pt too wide) in paragraph at lines 3483--3484
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (15,40,6); (12,40,6); (9,40,6); (6,40,6); (3
-,40,6); (15,40,40,40,6);
- []
-
-
-Overfull \hbox (29.01329pt too wide) in paragraph at lines 3483--3484
-\OT1/cmr/m/n/10.95 (12,40,40,40,6); (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40
-,6); (15,80,6);(12,80,6);
- []
-
-[136]
-Overfull \hbox (5.08548pt too wide) in paragraph at lines 3539--3540
-\OT1/cmr/m/n/10.95 (30,120,60,5); (30,120,25); (30,120,20); (30,120,15); (30,12
-0,10); (30,120,5);
- []
-
-
-Overfull \hbox (35.0966pt too wide) in paragraph at lines 3539--3540
-\OT1/cmr/m/n/10.95 (30,120,120,25); (30,120,120,20); (30,120,120,15); (30,120,1
-20,10); (30,120,120,5);
- []
-
-
-Overfull \hbox (7.72157pt too wide) in paragraph at lines 3539--3540
-\OT1/cmr/m/n/10.95 (30,120,90,25); (30,120,90,20); (30,120,90,15); (30,120,90,1
-0); (30,120,90,5);
- []
-
-
-Overfull \hbox (61.66055pt too wide) in paragraph at lines 3539--3540
-\OT1/cmr/m/n/10.95 (30,90,60,25); (30,90,60,20); (30,90,60,15); (30,90,60,10); 
-(30,90,60,5); (30,90,60,30,25);
- []
-
-
-Overfull \hbox (55.77997pt too wide) in paragraph at lines 3539--3540
-\OT1/cmr/m/n/10.95 (30,90,60,30,20); (30,90,60,30,15); (30,90,60,30,10); (30,90
-,60,30,5); (30,120,60,30,25);
- []
-
-
-Overfull \hbox (114.78839pt too wide) in paragraph at lines 3539--3540
-\OT1/cmr/m/n/10.95 (30,90,90,90,25); (30,90,90,90,20); (30,90,90,90,15); (30,90
-,90,90,10); (30,90,90,90,5);(30,90,90,25);
- []
-
-[137]
-Overfull \hbox (4.61703pt too wide) in paragraph at lines 3568--3569
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (3,12,6,2); (3,12,2); (3,12,12,2); (3,12,9,2
-); (3,9,6,2); (3,9,6,3,2);
- []
-
-
-Overfull \hbox (8.53275pt too wide) in paragraph at lines 3568--3569
-\OT1/cmr/m/n/10.95 (3,12,6,3,2); (3,9,9,9,2); (3,9,9,2); (3,12,6,1); (3,12,1); 
-(3,12,12,1); (3,12,9,1);
- []
-
-
-Overfull \hbox (172.2109pt too wide) in paragraph at lines 3590--3591
-[]\OT1/cmr/m/n/10.95 sae[]config[]id: 18140;18914;18259;18311;19481;20662;18917
-;18260;18314;18766;18119;18191;19343;18344;18751 
- []
-
-[138]
-Overfull \hbox (17.79755pt too wide) in paragraph at lines 3597--3598
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (25,120,120,10); (20,120,120,10); (15,120,12
-0,10); (10,120,120,10);
- []
-
-
-Overfull \hbox (15.22433pt too wide) in paragraph at lines 3597--3598
-\OT1/cmr/m/n/10.95 (5,120,120,10); (25,120,120,120,10); (20,120,120,120,10); (1
-5,120,120,120,10);
- []
-
-
-Overfull \hbox (40.77437pt too wide) in paragraph at lines 3597--3598
-\OT1/cmr/m/n/10.95 (10,120,120,120,10); (5,120,120,120,10); (25,120,90,90,60,10
-); (20,120,90,90,60,10);
- []
-
-
-Overfull \hbox (32.86603pt too wide) in paragraph at lines 3597--3598
-\OT1/cmr/m/n/10.95 (15,120,90,90,60,10); (10,120,90,90,60,10); (5,120,90,90,60,
-10); (25,120,90,60,10);
- []
-
-
-Overfull \hbox (10.56049pt too wide) in paragraph at lines 3597--3598
-\OT1/cmr/m/n/10.95 (25,120,10); (20,120,10); (15,120,10); (10,120,10); (5,120,1
-0); (25,120,60,10);
- []
-
-
-Overfull \hbox (16.64384pt too wide) in paragraph at lines 3626--3627
-\OT1/cmr/m/n/10.95 (1,12,12,12,1); (2,12,9,9,6,1); (1,12,9,9,6,1); (2,12,9,6,1)
-; (1,12,9,6,1); (2,12,1);
- []
-
-[139]
-Overfull \hbox (73.6608pt too wide) in paragraph at lines 3648--3649
-[]\OT1/cmr/m/n/10.95 sae[]config[]id: 1533;1497;1554;1639;147;1534;1468;1501;31
-8;1284;1535;1553;1059;1508;333 
- []
-
-
-Overfull \hbox (24.69205pt too wide) in paragraph at lines 3655--3656
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (25,60,10); (20,60,10); (15,60,10); (10,60,1
-0); (5,60,10); (25,120,10);
- []
-
-
-Overfull \hbox (54.96887pt too wide) in paragraph at lines 3655--3656
-\OT1/cmr/m/n/10.95 (15,240,10); (10,240,10); (5,240,10); (25,120,120,10); (20,1
-20,120,10); (15,120,120,10);
- []
-
-
-Overfull \hbox (35.0966pt too wide) in paragraph at lines 3655--3656
-\OT1/cmr/m/n/10.95 (10,120,120,10); (5,120,120,10); (25,240,240,10); (20,240,24
-0,10); (15,240,240,10);
- []
-
-
-Overfull \hbox (2.24657pt too wide) in paragraph at lines 3655--3656
-\OT1/cmr/m/n/10.95 (10,240,240,10); (5,240,240,10); (25,60,60,10); (20,60,60,10
-); (15,60,60,10);
- []
-
-
-Overfull \hbox (16.64383pt too wide) in paragraph at lines 3655--3656
-\OT1/cmr/m/n/10.95 (10,60,60,10); (5,60,60,10); (30,60,10); (30,120,10); (30,24
-0,10); (30,60,60,10);
- []
-
-[140]
-Overfull \hbox (35.0966pt too wide) in paragraph at lines 3685--3686
-\OT1/cmr/m/n/10.95 (30,120,120,25); (30,120,120,20); (30,120,120,15); (30,120,1
-20,10); (30,120,120,5);
- []
-
-
-Overfull \hbox (40.16603pt too wide) in paragraph at lines 3685--3686
-\OT1/cmr/m/n/10.95 (30,120,120,120,25); (30,120,120,120,20); (30,120,120,120,15
-); (30,120,120,120,10);
- []
-
-
-Overfull \hbox (93.0911pt too wide) in paragraph at lines 3685--3686
-\OT1/cmr/m/n/10.95 (30,120,120,120,5); (30,120,120,120,120,25); (30,120,120,120
-,120,20); (30,120,120,120,120,15);
- []
-
-
-Overfull \hbox (34.69102pt too wide) in paragraph at lines 3685--3686
-\OT1/cmr/m/n/10.95 (30,120,120,120,120,10); (30,120,120,120,120,5); (30,240,240
-,25); (30,240,240,20);
- []
-
-
-Overfull \hbox (63.07997pt too wide) in paragraph at lines 3685--3686
-\OT1/cmr/m/n/10.95 (30,240,240,15); (30,240,240,10); (30,240,240,5); (30,240,24
-0,240,25); (30,120,90,60,25);
- []
-
-
-Overfull \hbox (35.50218pt too wide) in paragraph at lines 3685--3686
-\OT1/cmr/m/n/10.95 (30,240,25); (30,240,20); (30,240,15); (30,240,10); (30,240,
-5); (30,240,240,240,20);
- []
-
-[141]
-Overfull \hbox (73.6608pt too wide) in paragraph at lines 3708--3709
-[]\OT1/cmr/m/n/10.95 sae[]config[]id: 1533;1497;1554;1639;147;1534;1468;1501;31
-8;1284;1535;1553;1059;1508;333 
- []
-
-
-Overfull \hbox (24.69205pt too wide) in paragraph at lines 3715--3716
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (25,60,10); (20,60,10); (15,60,10); (10,60,1
-0); (5,60,10); (25,120,10);
- []
-
-
-Overfull \hbox (54.96887pt too wide) in paragraph at lines 3715--3716
-\OT1/cmr/m/n/10.95 (15,240,10); (10,240,10); (5,240,10); (25,120,120,10); (20,1
-20,120,10); (15,120,120,10);
- []
-
-
-Overfull \hbox (35.0966pt too wide) in paragraph at lines 3715--3716
-\OT1/cmr/m/n/10.95 (10,120,120,10); (5,120,120,10); (25,240,240,10); (20,240,24
-0,10); (15,240,240,10);
- []
-
-
-Overfull \hbox (2.24657pt too wide) in paragraph at lines 3715--3716
-\OT1/cmr/m/n/10.95 (10,240,240,10); (5,240,240,10); (25,60,60,10); (20,60,60,10
-); (15,60,60,10);
- []
-
-
-Overfull \hbox (16.64383pt too wide) in paragraph at lines 3715--3716
-\OT1/cmr/m/n/10.95 (10,60,60,10); (5,60,60,10); (30,60,10); (30,120,10); (30,24
-0,10); (30,60,60,10);
- []
-
-
-Overfull \hbox (82.54666pt too wide) in paragraph at lines 3715--3716
-\OT1/cmr/m/n/10.95 (30,120,120,10); (30,240,240,10); (10,60,60,60,10); (10,120,
-120,120,10); (10,240,240,240,10);
- []
-
-[142]
-Overfull \hbox (11.91704pt too wide) in paragraph at lines 3745--3746
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (6,30,5); (6,30,30,5); (6,30,3); (6,30,30,3)
-; (30,60,5); (30,60,60,5);
- []
-
-
-Overfull \hbox (32.66327pt too wide) in paragraph at lines 3745--3746
-\OT1/cmr/m/n/10.95 (30,60,60,15); (30,60,60,60,15); (30,120,15); (30,120,120,15
-); (30,120,120,120,15);
- []
-
-[143]
-Overfull \hbox (15.76979pt too wide) in paragraph at lines 3775--3776
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (30,60,25); (30,60,60,25); (30,120,25); (30,
-120,120,25); (30,60,15);
- []
-
-
-Overfull \hbox (16.64383pt too wide) in paragraph at lines 3775--3776
-\OT1/cmr/m/n/10.95 (30,60,60,15); (30,120,15); (30,120,120,15); (30,60,5); (30,
-60,60,5); (30,120,5);
- []
-
-
-Overfull \hbox (76.80595pt too wide) in paragraph at lines 3804--3805
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (10,60,60,60,10); (10,120,120,120,10); (10,2
-40,240,240,10); (10,60,60,60,60,10);
- []
-
-[144]
-Overfull \hbox (27.32814pt too wide) in paragraph at lines 3834--3835
-[]\OT1/cmr/m/n/10.95 layer[]sizes: (18,40,15); (18,40,40,15); (18,40,40,40,15);
- (18,80,15); (18,80,80,15);
- []
-
-
-Overfull \hbox (20.29384pt too wide) in paragraph at lines 3834--3835
-\OT1/cmr/m/n/10.95 (18,80,9); (18,80,80,9); (18,80,80,80,9); (18,40,6); (18,40,
-40,6); (18,40,40,40,6);
- []
-
-
-Overfull \hbox (20.29384pt too wide) in paragraph at lines 3834--3835
-\OT1/cmr/m/n/10.95 (18,80,6); (18,80,80,6); (18,80,80,80,6); (18,40,3); (18,40,
-40,3); (18,40,40,40,3);
- []
-
-[145] [146]
-Underfull \hbox (badness 10000) in paragraph at lines 3858--3858
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3859--3859
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3860--3860
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3861--3861
-[]|\OT1/cmr/m/n/10.95 SGD L1 Reg-u-lar-iza-tion
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3861--3861
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 4429) in paragraph at lines 3862--3862
-[]|\OT1/cmr/m/n/10.95 Percentage of SGD dataset
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3862--3862
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3863--3863
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3864--3864
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3865--3865
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 1769) in paragraph at lines 3866--3866
-[]|\OT1/cmr/m/n/10.95 SGD Learn-ing Rate Epochg
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3866--3866
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Overfull \hbox (11.9642pt too wide) in paragraph at lines 3867--3867
-[]|\OT1/cmtt/m/n/10.95 PL[]LayerActivation[]OutputActivation| 
- []
-
-
-Underfull \hbox (badness 4266) in paragraph at lines 3867--3867
-[]|\OT1/cmr/m/n/10.95 Network Hid-den Ac-ti-va-tions
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3867--3867
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3868--3868
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 4266) in paragraph at lines 3869--3869
-[]|\OT1/cmr/m/n/10.95 Network Hid-den Ac-ti-va-tions
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3869--3869
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3870--3870
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3871--3871
-[]|\OT1/cmr/m/n/10.95 Line
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3872--3872
-[]|\OT1/cmr/m/n/10.95 Line
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3873--3873
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3874--3874
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3875--3875
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Overfull \hbox (6.2895pt too wide) in paragraph at lines 3876--3876
-[]|\OT1/cmr/m/n/10.95 Heatmap| 
- []
-
-
-Underfull \vbox (badness 10000) detected at line 3876
- []
-
-
-Overfull \hbox (27.60063pt too wide) in paragraph at lines 3877--3877
-[]|\OT1/cmtt/m/n/10.95 PL[]Heatmap[]NetworkSize[]DataAggregation| 
- []
-
-
-Overfull \hbox (6.2895pt too wide) in paragraph at lines 3877--3877
-[]|\OT1/cmr/m/n/10.95 Heatmap| 
- []
-
-
-Overfull \hbox (16.10326pt too wide) in paragraph at lines 3878--3878
-[]|\OT1/cmtt/m/n/10.95 PL[]Heatmap[]LayerSize[]DataAggregation| 
- []
-
-
-Overfull \hbox (6.2895pt too wide) in paragraph at lines 3878--3878
-[]|\OT1/cmr/m/n/10.95 Heatmap| 
- []
-
-[147]
-Underfull \hbox (badness 10000) in paragraph at lines 3887--3887
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3888--3888
-[]|\OT1/cmr/m/n/10.95 Line
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3889--3889
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3890--3890
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3891--3891
-[]|\OT1/cmr/m/n/10.95 SGD L1 Reg-u-lar-iza-tion
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3891--3891
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 1769) in paragraph at lines 3892--3892
-[]|\OT1/cmr/m/n/10.95 SGD Learn-ing Rate Epochg
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3892--3892
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3893--3893
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3894--3894
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3895--3895
-[]|\OT1/cmr/m/n/10.95 Encoding Layer Ac-ti-va-tion
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3895--3895
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3896--3896
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Overfull \hbox (16.10326pt too wide) in paragraph at lines 3897--3897
-[]|\OT1/cmtt/m/n/10.95 MSE[]OutputActivation[]Scaling[]Filters| 
- []
-
-
-Underfull \hbox (badness 5908) in paragraph at lines 3897--3897
-[]|\OT1/cmr/m/n/10.95 Output Ac-ti-va-tion Func-tion
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3897--3897
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3898--3898
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3899--3899
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3900--3900
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3901--3901
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3902--3902
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 3903--3903
-[]|\OT1/cmr/m/n/10.95 Box
- []
-
-
-Underfull \vbox (badness 10000) detected at line 3907
- []
-
-[148] [149] (./JoeldaCosta_Thesis.bbl
-Missing character: There is no √ in font cmr10!
-Missing character: There is no ≥ in font cmr10!
- [150] [151]
-Underfull \hbox (badness 1215) in paragraph at lines 202--206
-\OT1/cmr/m/n/10.95 dis-crete data with multi-layer neu-ral net-works,'' 02
- []
-
-
-Underfull \hbox (badness 2460) in paragraph at lines 202--206
-\OT1/cmr/m/n/10.95 2001. [On-line]. Avail-able: [][]$http : / / papers . nips .
- cc / paper /
- []
-
-
-Overfull \hbox (37.19669pt too wide) in paragraph at lines 202--206
-\OT1/cmr/m/n/10.95 1679-[]modeling-[]high-[]dimensional-[]discrete-[]data-[]wit
-h-[]multi-[]layer-[]neural-[]networks .
- []
-
-Missing character: There is no ≈ in font cmr10!
-Missing character: There is no ü in font cmr10!
-[152]
-Missing character: There is no √ in font cmr10!
-Missing character: There is no § in font cmr10!
-Missing character: There is no √ in font cmr10!
-Missing character: There is no º in font cmr10!
- [153] [154]) [155]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3920.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 3920.
- (./JoeldaCosta_Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3920.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3920.
-
-Package rerunfilecheck Info: File `JoeldaCosta_Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 39B925542EDB5ACF957FABF01EC169DA;14295.
-
-
-LaTeX Warning: There were undefined references.
-
- )
-(\end occurred inside a group at level 1)
-
-### simple group (level 1) entered at line 1061 ({)
-### bottom level 
+! Incomplete \iffalse; all text was ignored after line 186.
+<inserted text> 
+                \fi 
+<*> JoeldaCosta_Thesis.tex
+                          
+The file ended while I was skipping conditional text.
+This kind of error happens when you say `\if...' and forget
+the matching `\fi'. I've inserted a `\fi'; this might work.
+
+! Emergency stop.
+<*> JoeldaCosta_Thesis.tex
+                          
+*** (job aborted, no legal \end found)
+
+ 
 Here is how much of TeX's memory you used:
- 32429 strings out of 492995
- 608193 string characters out of 6132704
- 749386 words of memory out of 5000000
- 34670 multiletter control sequences out of 15000+600000
- 20469 words of font info for 83 fonts, out of 8000000 for 9000
+ 28873 strings out of 492995
+ 529007 string characters out of 6132704
+ 697695 words of memory out of 5000000
+ 31937 multiletter control sequences out of 15000+600000
+ 3940 words of font info for 15 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 54i,19n,87p,1512b,11679s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Hfootnote.22} has been referenced b
-ut does not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.21} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.20} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.19} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.18} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.17} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.16} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.15} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.14} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.13} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.12} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.11} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.10} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.9} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.8} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.7} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.6} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.5} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.4} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
-, replaced by a fixed one
-
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
-/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
-usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></us
-r/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/
-local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/lo
-cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/loc
-al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/loca
-l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/
-texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/te
-xlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texl
-ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texliv
-e/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/
-2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/201
-7/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2017/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2017/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2017/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2017/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2017/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2017/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2017/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2017/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2017/texmf-dist/font
-s/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on JoeldaCosta_Thesis.pdf (155 pages, 5253699 bytes).
-PDF statistics:
- 3159 PDF objects out of 3580 (max. 8388607)
- 2640 compressed objects within 27 object streams
- 659 named destinations out of 1000 (max. 500000)
- 1858 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+ 54i,0n,73p,1512b,9369s stack positions out of 5000i,500n,10000p,200000b,80000s
+!  ==> Fatal error occurred, no output PDF file produced!

@@ -875,33 +875,33 @@
 	
 	The datasets used go through several transformations throughout the training and prediction process:
 	
-	\begin{itemize}
-		\item [1] The raw data is log differenced and aggregated to rolling windows
-		\item [2] The transformed data is split into Training and Prediction subsets
-		\item [3] The predicted outputs have the scaling and log differencing reversed in order to reconstruct the actual price points
-	\end{itemize}
-	
+	\begin{enumerate}
+		\item The raw data is log differenced and aggregated to rolling windows,
+		\item The transformed data is split into Training and Prediction subsets,
+		\item The predicted outputs have the scaling and log differencing reversed in order to reconstruct the actual price points.
+	\end{enumerate}
+		
 	\subsubsection{Log Difference Transformation and Aggregation}\label{ldata_og_difference}
 	All datasets are transformed into log feature fluctuation values, and were then aggregated to include fluctuations over rolling window periods. The log feature fluctuation for measured prices $\tilde{p}$ at timepoint $t$ is calculated using \eqref{eq_logdiff}:
 	\begin{equation}\label{eq_logdiff}
-	\mathbf{p}_i = \mathrm{ln(\tilde{p}_i) - \mathrm{ln}(\tilde{p}_{i-1})}
+	\Delta\mathbf{p}_i = \mathrm{ln(\tilde{p}_i) - \mathrm{ln}(\tilde{p}_{i-1})}
 	\end{equation}
 	This log feature fluctuation,  is processed for each asset's closing price and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and are symmetric in terms of gains and losses.
 	\newline\newline
 	The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. A typical example would be past data aggregation windows of 1, 5 and 20, and a future prediction point of 5. These are calculated as summations of the log differences, such that for $d$ days:
 	
-	\begin{equation}
-	\Delta \mathbf{p^{-}_{(d,t)}} = \sum_{i = t-d}^{t} \mathbf{p}_i
+	\begin{equation}\label{eq_price_agg_past}
+	 \mathbf{p^{-}_{(d,t)}} = \sum_{i = t-d}^{t} \Delta\mathbf{p}_i
 	\end{equation}
 	
-	\begin{equation}
-	\Delta \mathbf{p^{+}_{(t,d)}} = \sum_{i = t+1}^{t+d} \mathbf{p}_i
+	\begin{equation}\label{eq_price_agg_future}
+	 \mathbf{p^{+}_{(t,d)}} = \sum_{i = t+1}^{t+d} \Delta\mathbf{p}_i
 	\end{equation}
 	
 	Only data points with a full set of features are used for training and prediction later on in the framework.
 	
 	\subsubsection{Data Scaling}\label{data_scaling}
-	Once the log difference data has been processed, the datasets are either standardized or normalized to allow for better learning. This is implemented typically, as detailed below.
+	Once the log difference data has been aggregated using equations \ref{eq_price_agg_past} and \ref{eq_price_agg_future}, the datasets are either standardized or normalized to allow for better learning. Typical implementations of these methods are detailed below:
 	
 	\paragraph{Standardization}
 	\begin{equation}
@@ -911,11 +911,11 @@
 	\paragraph{Normalization}
 	
 	\begin{equation}\label{eq_ltd_normalization}
-	\mathbf{n_i}= \frac{\mathrm{\mathbf{p}_i - min(\mathbf{p}) }}{\mathrm{max(\mathbf{p}) -{min}(\mathbf{p})}}
+	\mathbf{n_i}= \frac{\mathrm{\mathbf{p}_i - \min(\mathbf{p}) }}{\mathrm{\max(\mathbf{p}) -{\min}(\mathbf{p})}}
 	\end{equation}
 	
 	~\\
-	Two extensions of these are used later on, dubbed ``Limited Standardization'' and ``Limited Normalization'', which are used when the data is split up into the Training and Prediction sets. In this case all the data needs to be scaled, but the variance or range should not be travelling from the Prediction set to the Training set through the use of aggregated measures such as $\bar{x}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:
+	The framework presented here only uses the suggested variations, dubbed ``Limited Standardization'' and ``Limited Normalization'', which are used when the data is split up into the Training and Prediction sets. In this case all the data needs to be scaled, but the variance or range should not be travelling from the Prediction set to the Training set through the use of aggregated measures such as $\bar{x}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:
 	
 	\paragraph{Limited Standardization}
 	
@@ -926,7 +926,7 @@
 	\paragraph{Limited Normalization}
 	
 	\begin{equation}
-	\mathbf{v_{(i, t)}}  = \mathrm{ \frac{\mathbf{p}_i - min(\mathbf{p}_{1:t}) }{max(\mathbf{p}_{1:t}) - min(\mathbf{p}_{1:t})} , \forall  i \in (1, n)}
+	\mathbf{v_{(i, t)}}  = \mathrm{ \frac{\mathbf{p}_i - \min(\mathbf{p}_{1:t}) }{\max(\mathbf{p}_{1:t}) - \min_{\mathbf{p_1}\dots\mathbf{p_t}}} , \forall  i \in (1, n)}
 	\end{equation}
 	
 	
