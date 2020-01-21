@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  20 JAN 2020 19:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.1.31)  21 JAN 2020 18:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -977,6 +977,13 @@ Package cleveref Info: always capitalise cross-reference names on input line 74
 Package cleveref Info: always capitalise cross-reference names on input line 74
 93.
 )
+(/usr/local/texlive/2017/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip97
+\bibsep=\skip98
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count182
+)
 (/usr/local/texlive/2017/texmf-dist/tex/latex/svg/svg.sty
 Package: svg 2017/03/28 v2.00a (include SVG pictures)
 
@@ -994,8 +1001,8 @@ Package scrlfile, 2017/04/13 v3.23 KOMA-Script package (loading files)
 Package: shellesc 2016/06/07 v0.02a unified shell escape interface for LaTeX
 Package shellesc Info: Restricted shell escape enabled on input line 69.
 )
-\c@svg@param@lastpage=\count182
-\c@svg@param@currpage=\count183
+\c@svg@param@lastpage=\count183
+\c@svg@param@currpage=\count184
 )
 (/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/transparent.sty
 Package: transparent 2016/05/16 v1.1 Transparency via pdfTeX's color stack (HO)
@@ -1012,10 +1019,10 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 \XKV@toks=\toks54
 \XKV@tempa@toks=\toks55
 )
-\XKV@depth=\count184
+\XKV@depth=\count185
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
-\xargs@max=\count185
+\xargs@max=\count186
 \xargs@toksa=\toks56
 \xargs@toksb=\toks57
 )
@@ -1045,7 +1052,7 @@ Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
 (/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothan
 dlers.code.tex
 File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
-\pgf@plot@mark@count=\count186
+\pgf@plot@mark@count=\count187
 \pgfplotmarksize=\dimen287
 )
 \tikz@lastx=\dimen288
@@ -1058,19 +1065,19 @@ File: pgflibraryplothandlers.code.tex 2013/08/31 v3.0.1a (rcs-revision 1.20)
 \tikz@figbox@bg=\box96
 \tikz@tempbox=\box97
 \tikz@tempbox@bg=\box98
-\tikztreelevel=\count187
-\tikznumberofchildren=\count188
-\tikznumberofcurrentchild=\count189
-\tikz@fig@count=\count190
+\tikztreelevel=\count188
+\tikznumberofchildren=\count189
+\tikznumberofcurrentchild=\count190
+\tikz@fig@count=\count191
 
 (/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.cod
 e.tex
 File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
-\pgfmatrixcurrentrow=\count191
-\pgfmatrixcurrentcolumn=\count192
-\pgf@matrix@numberofcolumns=\count193
+\pgfmatrixcurrentrow=\count192
+\pgfmatrixcurrentcolumn=\count193
+\pgf@matrix@numberofcolumns=\count194
 )
-\tikz@expandcount=\count194
+\tikz@expandcount=\count195
 
 (/usr/local/texlive/2017/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibrarytopaths.code.tex
@@ -1080,28 +1087,28 @@ File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
 s/tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
 )
-\c@@todonotes@numberoftodonotes=\count195
+\c@@todonotes@numberoftodonotes=\count196
 )
-\c@thm=\count196
+\c@thm=\count197
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count197
+\lst@mode=\count198
 \lst@gtempboxa=\box99
 \lst@token=\toks60
-\lst@length=\count198
+\lst@length=\count199
 \lst@currlwidth=\dimen294
-\lst@column=\count199
-\lst@pos=\count266
+\lst@column=\count266
+\lst@pos=\count267
 \lst@lostspace=\dimen295
 \lst@width=\dimen296
-\lst@newlines=\count267
-\lst@lineno=\count268
+\lst@newlines=\count268
+\lst@lineno=\count269
 \lst@maxwidth=\dimen297
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
-\c@lstnumber=\count269
-\lst@skipnumbers=\count270
+\c@lstnumber=\count270
+\lst@skipnumbers=\count271
 \lst@framebox=\box100
 )
 (/usr/local/texlive/2017/texmf-dist/tex/latex/listings/listings.cfg
@@ -1111,24 +1118,24 @@ Package: listings 2015/06/04 1.6 (Carsten Heinz)
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/blindtext/blindtext.sty
 Package: blindtext 2012/01/06 V2.0 blindtext-Package
-\c@blindtext=\count271
-\c@Blindtext=\count272
-\c@blind@countparstart=\count273
-\blind@countxx=\count274
-\blindtext@numBlindtext=\count275
-\blind@countyy=\count276
-\c@blindlist=\count277
-\c@blindlistlevel=\count278
-\c@blindlist@level=\count279
-\blind@listitem=\count280
-\c@blind@listcount=\count281
-\c@blind@levelcount=\count282
-\blind@mathformula=\count283
-\blind@Mathformula=\count284
-\c@blind@randomcount=\count285
-\c@blind@randommax=\count286
-\c@blind@pangramcount=\count287
-\c@blind@pangrammax=\count288
+\c@blindtext=\count272
+\c@Blindtext=\count273
+\c@blind@countparstart=\count274
+\blind@countxx=\count275
+\blindtext@numBlindtext=\count276
+\blind@countyy=\count277
+\c@blindlist=\count278
+\c@blindlistlevel=\count279
+\c@blindlist@level=\count280
+\blind@listitem=\count281
+\c@blind@listcount=\count282
+\c@blind@levelcount=\count283
+\blind@mathformula=\count284
+\blind@Mathformula=\count285
+\c@blind@randomcount=\count286
+\c@blind@randommax=\count287
+\c@blind@pangramcount=\count288
+\c@blind@pangrammax=\count289
 )
 (/usr/local/texlive/2017/texmf-dist/tex/latex/acronym/acronym.sty
 Package: acronym 2015/03/21 v1.41 Support for acronyms (Tobias Oetiker)
@@ -1139,8 +1146,8 @@ Package: suffix 2006/07/15 1.5a Variant command support
 (/usr/local/texlive/2017/texmf-dist/tex/generic/xstring/xstring.sty
 (/usr/local/texlive/2017/texmf-dist/tex/generic/xstring/xstring.tex
 \@xs@message=\write6
-\integerpart=\count289
-\decimalpart=\count290
+\integerpart=\count290
+\decimalpart=\count291
 )
 Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
 )
@@ -1208,16 +1215,16 @@ LaTeX Font Info:    ... okay on input line 186.
 
 (/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count291
+\scratchcounter=\count292
 \scratchdimen=\dimen298
 \scratchbox=\box101
-\nofMPsegments=\count292
-\nofMParguments=\count293
+\nofMPsegments=\count293
+\nofMParguments=\count294
 \everyMPshowfont=\toks62
-\MPscratchCnt=\count294
+\MPscratchCnt=\count295
 \MPscratchDim=\dimen299
-\MPnumerator=\count295
-\makeMPintoPDFobject=\count296
+\MPnumerator=\count296
+\makeMPintoPDFobject=\count297
 \everyMPtoPDFconversion=\toks63
 ) (/usr/local/texlive/2017/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -1246,7 +1253,7 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count297
+\c@section@level=\count298
 )
 LaTeX Info: Redefining \ref on input line 186.
 LaTeX Info: Redefining \pageref on input line 186.
@@ -3374,11 +3381,11 @@ the matching `\fi'. I've inserted a `\fi'; this might work.
 
  
 Here is how much of TeX's memory you used:
- 28873 strings out of 492995
- 529007 string characters out of 6132704
- 697695 words of memory out of 5000000
- 31937 multiletter control sequences out of 15000+600000
+ 29099 strings out of 492995
+ 531566 string characters out of 6132704
+ 703503 words of memory out of 5000000
+ 32159 multiletter control sequences out of 15000+600000
  3940 words of font info for 15 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 54i,0n,73p,1512b,9369s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 54i,0n,73p,1512b,9656s stack positions out of 5000i,500n,10000p,200000b,80000s
 !  ==> Fatal error occurred, no output PDF file produced!

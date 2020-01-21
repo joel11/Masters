@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+Inline mode:
+$\displaystyle \min_{x_1,\dots x_T}$
+$\min\limits_{x_1,\dots x_T}$
+
+\bigskip
+Display mode:
+\begin{equation}
+\mathbf{v_{(i, t)}}  = 
+	\mathrm{ \frac{\mathbf{p}_i - \min\limits_{\mathbf{p_1},\dots\mathbf{p_t}}} 
+						  {\max\limits_{\mathbf{p_1},\dots\mathbf{p_t}} - \min\limits_{\mathbf{p_1},\dots\mathbf{p_t}}} 
+			      , \forall  i \in (1, n)}
+\end{equation}
+
+
+\begin{equation}\label{eq_ltd_normalization}
+	\mathbf{n_i}= 
+		\frac{\mathrm{\mathbf{p}_i - \min\limits_{\mathbf{p}}}}
+		{\mathrm{\max\limits_{\mathbf{p}} -\min\limits_{\mathbf{p}}}}
+\end{equation}yout\cite{LeCun3}
+
+
+	\begin{equation}
+\mathbf{n^{*}_i} = \mathrm{\mathbf{n}_i * \left(\max_{\mathbf{p}} - \min_{\mathbf{p}}\right) + \min_{\mathbf{p}}}
+\end{equation}
+
+\end{document}
