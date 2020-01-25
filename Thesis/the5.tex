@@ -145,6 +145,11 @@
 
 \allowdisplaybreaks[1]
 
+
+\newcommand{\Var}{\mathbf{Var}}
+
+
+
 % THEOREM STYLES -------------------------------------------------
 
 \theoremstyle{plain}
@@ -217,6 +222,8 @@
 
 	\normalsize
 	\begin{acronym}[OCSVM]  % [] in square bracket specify abbreviation which has more words than others
+	
+	\section*{I}
 		
 	\acro{BP}		Backpropagation
 	\acro{CD1}		Contrastive Divergence 1
@@ -229,7 +236,9 @@
 	\acro{FST}		False Strategy Theorem
 	\acro{FWER}		Family Wise Error Rate
 	\acro{GBM}		Geometric Brownian Motion
+	\acro{IID}			Independently and Identically Distributed
 	\acro{IS}			In Sample
+	\acro{LSTM}		Long Short Term Memory
 	\acro{MCS}		Model Confidence Set
 	\acro{MMS}		Money Management Strategy
 	\acro{MSE}		Mean Squared Error
@@ -243,11 +252,14 @@
 	\acro{PCA}		Principal Components Analysis
 	\acro{PSR}		Probabilistic Sharpe Ratio
 	\acro{RBM}		Restricted Boltzmann Machine
+	\acro{RNN}		Recurrent Neural Network
 	\acro{SAE}		Stacked AutoEncoder
 	\acro{(S)DAE} (Stacked) Denoising AutoEncoder
 	\acro{SGD}		Stochastic Gradient Descent
 	\acro{SL}			Supervised Learning
 	\acro{SR}			Sharpe Ratio
+	\acro{SVM}			Support Vector Machine
+	\acro{SVR}			Support Vector Regression
 	\acro{UL}			Unsupervised Learning
 		
 		
@@ -299,7 +311,8 @@
 	One of the primary methods in technical analysis is the use of charts in order to identify price patterns. 
 	These charts will be produced using the available market data and a known design, such as the popular candle-bar 
 	plot, which can then be compared to historical data to match it to a particular pattern. These patterns are thus 
-	indicative that the stock is likely to take on a particular price trend, or is in a particular state \citep{Murphy, LoHeretics}.  
+	indicative that the stock is likely to take on a partigm
+%	cular price trend, or is in a particular state \citep{Murphy, LoHeretics}.  
 	There is a certain amount of controversy around technical analysis, where many argue that it is contradictory 
 	to the random walk and weak form efficient market hypotheses, and as such is not valuable or useful \citep{Griffioen}. 
 	The argument against this, is that technical analysis does not rely on past action to predict the the future, but is 
@@ -317,9 +330,9 @@
 	
 	Financial markets have been shown to be complex and adaptive systems, where the effects of interaction 
 	between participants can be highly non-linear \citep{Arthur}. Complex and dynamic systems such as these may 
-	often exist at the 'order-disorder border' - they will generate certain non-random patterns and internal organisation, 
+	often exist at the `order-disorder border' - they will generate certain non-random patterns and internal organisation, 
 	which can be assessed and identified, however they will also exhibit a certain amount of randomness in their behaviours, 
-	or 'chaos' \citep{Crutchfield}. Further, it's been shown that there is enough signal to reconstruct 
+	or `chaos' \citep{Crutchfield}. Further, it's been shown that there is enough signal to reconstruct 
 	the phase space of chaotic systems from singular observations, encouraging that we might be able to perform 
 	effective technical analysis in the context of financial markets \citep{Packard, Takens}. As a result, trying to identify these patterns and structures is a simultaneously 
 	reasonable and notoriously difficult goal. While it is often clear in hindsight that the patterns exist, the amount of 
@@ -333,10 +346,10 @@
 	The work presented here fits into the growing body of work which considers mechanistic and brute-force approaches of applying 
 	machine learning models to financial market data. In doing so, the financial market complexity in terms of non-linearity, noise and stability are highlighted through 
 	both the successes and challenges found in training these machine learning models. These difficult dynamics, and their notable difference when 
-	compared to other popular areas of ML research (which are often around IID datasets), present fundamental problems to be explored, both 
+	compared to other popular areas of ML research - which are often around Independently and Identically Distributed (IID) datasets - present fundamental problems to be explored, both 
 	in terms of prediction efficacy as well as validation. \citet{Loonat} have explored the application of online learning models in this space
 	 in the South African market, showing that direct online learning approaches would be able to identify and exploit trading opportunities on the JSE through assessment 
-	 of OHLC data. \citet{MurphyGebbie} later explore the use of online learning as applied to optimizing parameters which apply to maximising wealth trading zero-cost portfolio strategies, also in the JSE. They consider validation in terms of statistical arbitrage, as well the non-parametric Probability of Backtest Overfitting (PBO). Similar ideas are explored here, in the use of mechanistic batch and online learning in order to identify patterns in JSE closing data, as well as the use of non-parametric validation techniques for return assessment.
+	 of Open High Low Close (OHLC) data. \citet{MurphyGebbie} later explore the use of online learning as applied to optimizing parameters which apply to maximising wealth trading zero-cost portfolio strategies, also in the JSE. They consider validation in terms of statistical arbitrage, as well the non-parametric Probability of Backtest Overfitting (PBO). Similar ideas are explored here, in the use of mechanistic batch and online learning in order to identify patterns in JSE closing data, as well as the use of non-parametric validation techniques for return assessment.
 	
 	\subsection{Neural Networks}\label{lr_nn}
 	
@@ -373,7 +386,7 @@
 	where the network is trained on inputs with known outputs; Unsupervised Learning (UL), where the network is 
 	trained to identify unknown structures as an output; and Reinforcement Learning (RL), where environmental
 	reactions are used as inputs to train a network for certain outputs \citep{Schmidhuber}. While all of these configurations and paradigms 
-	have their benefits and uses, this paper will largely focus on FNN and RNNs, trained through SL and UL.
+	have their benefits and uses, this paper will largely focus on FNNs and RNNs, trained through SL and UL.
 	\hfill \break 
 	
 	\subsubsection{Training and Backpropagation}\label{lr_trainingbackprop}
@@ -452,7 +465,7 @@
 	
 	FNNs had been shown to be effective in modelling high dimensional data even prior to the breakthroughs in 
 	deep networks \citep{Bengio2}, so it fits that the deep networks were shown to be extremely effective in high dimensional 
-	data classification. Early implementations shown increased efficacy in handwriting recognition, as well as pedestrian 
+	data classification. Early implementations resulted in increased efficacy in handwriting recognition, as well as pedestrian 
 	recognition \citep{Sermanet}. When it came to data types such as sound and images, CNNs were implemented on several 
 	occasions with record breaking model performances in recognition, notably in ImageNet and WaveNet \citep{ImageNet, WaveNet}.
 	\hfill \break 
@@ -472,12 +485,12 @@
 	One of the more critical innovations to allow effective training of deep networks without using pre-training was the development of more sophisticated techniques for weight initialization. One of the first and most popular of these was presented by \citet{Glorot} for use in Sigmoid based networks, 
 	and is commonly referred to as Xavier/Glorot initialization. The technique is layer specific and based on a linear activation
 	hypothesis, such that the initial weights would maintain the same variance for input for information that is passed backwards as in 
-	accordance with the nature of the activation function. While the assumption of linearity is not entirely applicable, they point out that as the 
+	accordance with the nature of the activation function. While the assumption of linearity is not entirely applicable, they point out that at the 
 	start of the learning process, it is typically the area of the activations where the gradient is close to 1 which is being explored, thus initially approximating 
 	a linear effect. The effect is a technique that increases learning efficacy and optima found \citep{Glorot}. \newline
 	
 	This same methodology was extended for the ReLU activation by \citet{He}, once again based on the linearity hypothesis around the 
-	relevant activation function, (Parametric Rectified Linear Units in this case). The combination of ReLU activations, which are computationally inexpensive and do not suffer from learning slowdown, as well as an effective weight initialization technique such that pre-training was not necessary produced a seminal FNN training framework. \citet{He} were able to 
+	relevant activation function (Parametric Rectified Linear Units in this case). The combination of ReLU activations, which are computationally inexpensive and do not suffer from learning slowdown, as well as an effective weight initialization technique such that pre-training was not necessary, produced a seminal FNN training framework. \citet{He} were able to 
 	achieve state of the art performance and produced the best known error rate at the time on the ImageNet dataset. The efficacy of these techniques has established 
 	them as norms in the training of deep neural networks.
 	
@@ -529,7 +542,7 @@
 	performance of deep belief networks.
 	\hfill \break 
 	
-	One of the more prominent classical techniques for dimension reduction is principal components analysis (PCA), 
+	One of the more prominent classical techniques for dimension reduction is Principal Components Analysis (PCA), 
 	which uses linear algebra to find the directions of greatest variance, and represent the observation samples 
 	features along each of these directions, thus maximising the variational representation. Hinton et al. show that 
 	AutoEncoders are a non-linear generalization of PCA. The structure and training algorithms of the AutoEncoder 
@@ -544,7 +557,7 @@
 	Boltzmann machines (RBM) in order to initialise the weights. For each layer of the desired AutoEncoder, a RBM is 
 	formed and trained with the previous layer (or RBM). Once all the layers have been 
 	trained in this way, they are mirrored to form the decoder network. This then forms the initial weights to be fine 
-	tuned further, as per the Fine-tuning step in Section \ref{figure-DBN-RBM}. They showed the deep AutoEncoder networks were significantly more 
+	tuned further, as per the `Fine-tuning' step in Figure \ref{figure-DBN-RBM}. They showed the deep AutoEncoder networks were significantly more 
 	effective than PCA or shallow AutoEncoders on multiple dataset types. 
 	\hfill \break 
 	
@@ -557,8 +570,8 @@
 	\subsubsection{Stacked Denoising AutoEncoders}\label{lr_SDAE}
 	
 	The second important piece of work was the development of a Denoising AutoEncoder (DAE), by \citet{Vincent}. 
-	One of the problems identified in the DBN model describedin Section \ref{DBN} (and those similar), is that if the encoder dimensions were too high, 
-	it is likely that the encoder would learn a trivial encoding - essentially creating a “copy the input” model. The one way
+	One of the problems identified in the DBN model described in Section \ref{DBN} (and those similar), is that if the encoder dimensions were too high, 
+	it is likely that the encoder would learn a trivial encoding - essentially creating a ``copy the input'' model. The one way
 	of tackling this issue is to constrain the representation with bottlenecks and sparse AutoEncoder layers, which can be seen in Figure \ref{figure-DBN-RBM}.
 	\hfill \break 
 	
@@ -626,7 +639,7 @@
 	
 	\citet{Zhao} used SDAEs and combined them with the bootstrap aggregation ensemble method (‘bagging’) in a 
 	study of predicting the crude oil price. They compared the proposed model to a variety of benchmarks, including 
-	standard SAE, bagged and standard feedforward networks and SVRs. The results indicated that the SAE models 
+	standard SAE, bagged and standard feedforward networks and Support Vector Regression (SVR) models. The results indicated that the SAE models 
 	were more accurate, with the bagged SAE model performing the best, though at a significant increase in 
 	computational costs in comparison to standard SAE.
 	\hfill \break 
@@ -634,16 +647,16 @@
 	While much of the financial literature has focused on the use of RBM based models, AutoEncoders and SAEs have 
 	recently been gaining popularity in performing feature reduction. \citet{Troiano} specifically investigate the use of 
 	different feature reduction models for trend prediction in finance. In line with being primarily 
-	interested in the effect of feature reduction techniques, rather than the classification performance itself, only an 
-	SVM model was used to test results. Using various periods from historical S\&P 500 data, they were able to show 
+	interested in the effect of feature reduction techniques, rather than the classification performance itself, only a Support 
+	Vector Machine (SVM) model was used to test results. Using various periods from historical S\&P 500 data, they were able to show 
 	that AE outperformed the RBM model significantly in numerous accuracy measures, and was able to do so at a 
 	fraction of the training time.
 	\hfill \break 
 	
 	\citet{Bao} note that the research has been lacking with regards to whether SAEs should be used for 
 	financial prediction models or not. They suggest a novel model which combines Wavelet Transformation, SAEs 
-	and a Long Short Term Memory (LSTM) network. Using data from several financial exchanges (considering a 
-	range of ‘developed’ and ‘undeveloped’ markets), they assess the model’s applicability to Open High Low Close (OHLC) prediction. 
+	and a LSTM network. Using data from several financial exchanges (considering a 
+	range of ‘developed’ and ‘undeveloped’ markets), they assess the model’s applicability to OHLC prediction. 
 	Comparing the model to configurations without the SAE layers, and a RNN model as benchmark, they showed 
 	that the inclusion of SAEs resulted in less volatility and greater accuracy, which in turn offered higher profitabilities 
 	in a buy-and-hold trading strategy.
@@ -675,7 +688,7 @@
 	them outperforming offline models, despite any initial drawbacks. Previous research had shown that online 
 	algorithms typically perform as fast as batch algorithms during the ‘search’ phase of parameter optimization, but 
 	that ‘final’ phase convergence tended to fluctuate around the optima due to the noise present in single sample 
-	gradients \citep{LeCun, Bottou2}. \citet{Bottou} showed in fact, that it is more practical to consider the convergence towards
+	gradients \citep{LeCun, Bottou2}. \citet{Bottou} showed that it is actually more practical to consider the convergence towards
 	the parameters of the optima, rather than the optima itself (as defined by the cost function) - the difference 
 	between the learning speed and optimization speed, respectively. 
 %	Theoretical and empirical findings were 
@@ -687,8 +700,8 @@
 %	successful \citep{Shalev, Zhang}. 
 	\hfill\break
 	
-	Online learning methods are thus well suited to financial market modelling using neural networks. They allow effective and efficient incremental updates as more recent 
-	data becomes available. Further, the increased learning speed over optima convergence makes them a fitting choice when data is non-IID and 
+	Online learning methods are thus well suited to financial market modelling using neural networks. They allow effective and efficient incremental updates as more recent (and relevant) data 
+	becomes available. Further, the increased learning speed over optima convergence makes them a fitting choice when data is non-IID and 
 	constantly changing.
 	
 	\subsection{Gradient Learning Improvements}\label{lr_grad_improv}
@@ -716,7 +729,7 @@
 	\subsubsection{Dropout}
 	
 	One of the instrumental improvements in further achievements, was to modify the backpropagation 
-	algorithm using the ‘dropout’ technique, as suggested by \citet{Hinton4}. When training of large networks is 
+	algorithm using the ``dropout'' technique, as suggested by \citet{Hinton4}. When training of large networks is 
 	attempted on small datasets, it often results in overfitting and poor results on out of sample data. Dropout helps 
 	resolve this by randomly excluding a certain percentage (usually 0.5) of feature detectors on each training iteration. 
 	The effect is to stop co-adaptations of feature detectors, and by rather training each neuron in a wide variety of 
@@ -726,8 +739,8 @@
 	using dropout was able to achieve near comparable performance for the ImageNet dataset.
 	\hfill \break 
 	
-	\citet{Goodfellow} used the dropout technique as the basis for their ‘maxout’ activation function technique, which 
-	leverages and improves on dropout’s fast optimisation and accuracy through averaging characteristics. The 
+	\citet{Goodfellow} used the dropout technique as the basis for their ``maxout'' activation function technique, which 
+	leverages and improves on dropout\textsc{\char13}s fast optimisation and accuracy through averaging characteristics. The 
 	maxout model was shown to achieve state of the art performance on benchmark datasets, as well as have a 
 	strong theoretical grounding. Further work was done by \citet{Wang2}, which improved on the dropout 
 	(and potentially maxout) techniques through fast sampling, resulting in an order of magnitude speed-up in
@@ -816,7 +829,7 @@
 	It is worth emphasising the distinction in investment strategies between a Family Wise Error Rate (FWER), which is the  probability that one or more false positives occur, and a False Discovery Rate (FDR), which is the ratio of false positives to predicted positives. Where an FDR based approach may be applicable to a manufacturing process where there is an acceptable defect rate, investment strategy generations will tend to rely on the single best approach produced. Necessarily then, the FWER must be controlled for. Further work by \citet{BaileySharpe} developed the False Strategy Theorem (FST) with this in mind, allowing the assessment of whether a presented strategy is a false positive or not.
 		\hfill \break 
 	
-	 This allowed the development of the Deflated Sharpe Ratio (DSR) which calculates the likelihood that the true SR is positive under consideration of numerous trials being tested \citep{BaileySharpe}. The DSR can be estimate using the PSR methodology as $\widehat{PSR}[SR^*]$ where the benchmark $SR^{*}$ (SR) is no longer user defined, but rather calculated based on the False Strategy Theorem. That said, the calculation of $SR^{*}$ requires both the variance of trial SR values the number of independent trials, which are usually unknown on accounts of being meta-research variables which cannot be estimated from the selected strategy. It is not typical for researchers to track and report on these variables, and even if they were to, the trials would not typically be independent, thus further complicating the practical realities around calculating $SR^{*}$. \citet{PradoDSR} provide critical work to this end with the Optimal Number Clusters (ONC) algorithm. They present a modified K-means methodology of clustering strategies and trial results, such that the dependent returns are categorised into subgroups with high intra-cluster correlations and low inter-cluster correlations. This clustering allows an estimation then of both the variance and number of trials, which in turn allows the DSR to be calculated. With this as a confidence level, one can accept or reject the notion that the observed $\widehat{SR}$ is positive.
+	 This allowed the development of the Deflated Sharpe Ratio (DSR) which calculates the likelihood that the true SR is positive under consideration of numerous trials being tested \citep{BaileySharpe}. The DSR can be estimated using the PSR methodology as $\widehat{PSR}[SR^*]$ where the benchmark $SR^{*}$ (SR) is no longer user defined, but rather calculated based on the False Strategy Theorem. That said, the calculation of $SR^{*}$ requires both the variance of trial SR values the number of independent trials, which are usually unknown on accounts of being meta-research variables which cannot be estimated from the selected strategy. It is not typical for researchers to track and report on these variables, and even if they were to, the trials would not typically be independent, thus further complicating the practical realities around calculating $SR^{*}$. \citet{PradoDSR} provide critical work to this end with the Optimal Number Clusters (ONC) algorithm. They present a modified K-means methodology of clustering strategies and trial results, such that the dependent returns are categorised into subgroups with high intra-cluster correlations and low inter-cluster correlations. This clustering allows an estimation then of both the variance and number of trials, which in turn allows the DSR to be calculated. With this as a confidence level, one can accept or reject the notion that the observed $\widehat{SR}$ is positive.
 		\hfill \break 
 		
 	The approach developed by \citet{PradoDSR} (of combining PSR, FST, DSR and ONC) relies on several principles which may differ from prior methods suggested (such as those by \citet{Harvey}). The first is that returns do not always follow a normal distribution, which is supported by empirical evidence, and so their method rather takes into account the skewness and kurtosis of observed returns. The second is that Extreme Value Theory is a more appropriate technique than something such as Sidak's correction, due to the incorporation of return variance when a non-normal distribution is present. The third is that they do not assume a  constant average correlation across trials, noting that there is often a hierarchical structure amongst returns where there may be highly correlated clusters of strategies. Failing to take this into account would then bias the expected number of independent trials and so the false positive probability. 
@@ -836,7 +849,7 @@
 	\hfill \break
 	
 	\citet{BailyPBO} have developed a more robust approach to backtesting and how overfitting during strategy 
-	selection might be avoided, called Combinatorially Symmetric Cross-validation (CSCV). Their research defines backtest overfitting as having occurred when the strategy selection which maximizes IS performance systematically underperforms median OOS in comparison to the remaining configurations. They use this definition to develop a framework which measures the probability of such an event occurring, where the sample space is the combined pairs of IS and OOS performance of the available configurations. The Probability of Backtest Overfitting (PBO) is then established as the likelihood of a configuration underperforming the median IS while outperforming IS. 
+	selection might be avoided, called Combinatorially Symmetric Cross-Validation (CSCV). Their research defines backtest overfitting as having occurred when the strategy selection which maximizes IS performance systematically underperforms median OOS in comparison to the remaining configurations. They use this definition to develop a framework which measures the probability of such an event occurring, where the sample space is the combined pairs of IS and OOS performance of the available configurations. The Probability of Backtest Overfitting (PBO) is then established as the likelihood of a configuration underperforming the median IS while outperforming IS. 
 	\hfill \break 
 	
 	The CSCV methodology provides several important benefits over traditional testing 
@@ -1004,7 +1017,7 @@
 	
 	\subsubsection{GBM Data Distributions}
 	
-	An important aspect of GBM generated data is that the price changes follow a Log-Normal distribution. If this data is then processed as per the steps above in Section \ref{data_processing}, then after taking the log differenced values using equation \eqref{eq_logdiff}, the values will follow a Normal distribution. Once scaled using standardization or normalization, these values will become centred and possibly be following a standard normal distribution. However, due to the effect of the limited scaling techniques used, only the Training dataset will be consistent in following this distribution, with the Prediction dataset having an increasing number of outliers as the timepoint moves further away from the Training set demarcations. These issues have notable impacts through out the results, and are discussed more in Section \ref{Results}.
+	An important aspect of GBM generated data is that the price changes follow a Log-Normal distribution. If this data is then processed as per the steps above in Section \ref{data_processing}, then after taking the log differenced values using equation \eqref{eq_logdiff}, the values will follow a Normal distribution. Once scaled using standardization or normalization, these values will become centred and possibly be following a standard normal distribution. However, due to the effect of the limited scaling techniques used, only the Training dataset will be consistent in following this distribution, with the Prediction dataset having an increasing number of outliers as the timepoint moves further away from the Training set demarcations. These issues have notable impacts throughout the results, and are discussed more in Section \ref{Results}.
 	
 	\subsection{Price Considerations}\label{data_prices}
 	
@@ -1017,15 +1030,15 @@
 	
 	The implementation focuses on bringing together several ideas: data reduction, deep learning with pre-training/weight initialization, online learning and backtest overfitting validation for the purposes of stock price prediction. The process implementation is discussed fully in Section \ref{proc_dataprep}, but can be summarised as the following:
 	
-	\begin{itemize}
-		\item [1] The dataset is split into 2 subsets: the Training portion, and the Prediction portion.
-		\item [2] The Training set is used to train the SAE and predictive FFN using the SGD algorithm. These networks are constructed with pre-training or weight initialization techniques.
-		\item [3] Once the SGD training is complete for the predictive network, the same Training dataset is used to generate the IS predictions to be used for the CSCV process.
-		\item [4] The Prediction set of data is used to continue training the network in an online manner using OGD.
-		\item [5] The predictions made during steps [3] and [4] are descaled and prices are reconstructed.
-		\item [6] These reconstructed price predictions are used by the MMS to calculate returns and P\&L.
-		\item [7] The returns and P\&L calculated by the MMS are used by the CSCV process, to estimate the probability of backtest overfitting.
-	\end{itemize}
+	\begin{enumerate}
+		\item The dataset is split into 2 subsets: the Training portion, and the Prediction portion.
+		\item The Training set is used to train the SAE and predictive FFN using the SGD algorithm. These networks are constructed with pre-training or weight initialization techniques.
+		\item Once the SGD training is complete for the predictive network, the same Training dataset is used to generate the IS predictions to be used for the CSCV process.
+		\item The Prediction set of data is used to continue training the network in an online manner using OGD.
+		\item The predictions made during steps [3] and [4] are descaled and prices are reconstructed.
+		\item These reconstructed price predictions are used by the MMS to calculate returns and P\&L.
+		\item The returns and P\&L calculated by the MMS are used by the CSCV process, to estimate the probability of backtest overfitting.
+	\end{enumerate}
 	~\\
 	The rest of this section will detail the algorithms used to train the relevant FFN, RBM and SAE networks, as well as the trading strategy and CSCV \& PBO testing procedures.
 	
@@ -1047,12 +1060,16 @@
 	
 	\begin{itemize}
 		\item[1] A network $N$ will be constructed with $L$ layers, each with $e$ nodes
-		\item[2] The weights from the $j^{th}$ node in the $l^{th}$ layer from the $k^{th}$ node in the $(l-1)^{th}$ layer are represented by $\mathbf{w}^l_{jk}$
-		\item[3] The bias for the $j^{th}$ node in layer $l$ is represented by $\mathbf{w}^l_0j$
-		\item[4] The output for the $j^{th}$ node is defined as $\mathbf{a} = \mathrm{o}(\mathbf{z}_j)$, for an activation function $o$ (with inverse $\mathrm{o^{\prime}}$) and weighted input $z$
+		\item[2] The weights from the $j^{th}$ node in the $\ell^{th}$ layer from the $k^{th}$ node in the $(\ell-1)^{th}$ layer are represented by $\mathbf{w}^\ell_{jk}$
+		\item[3] The bias for the $j^{th}$ node in layer $\ell$ is represented by $\mathbf{w}^\ell_0j$
+		\item[4] The output for the $j^{th}$ node is defined as 
+		\begin{equation}\label{eq_activation_output}
+		\mathbf{a} = \theta(\mathbf{z}_j) ,
+		\end{equation} 
+		for an activation function $\theta$ (with inverse $\mathrm{\theta^{\prime}}$) and weighted input $z$.
 		\item[5] The weighted input for the $j^{th}$ neuron in a layer is 
 		\begin{equation}\label{eq_weighted_input}
-		\mathbf{z^l_j}=\sum_{i=1}^{e^{l-1}}{\mathbf{a}^{l-1}_i\mathbf{w}_{ij}} + \mathbf{w}_{0j}
+		\mathbf{z^\ell_j}=\sum_{i=1}^{e^{\ell-1}}{\mathbf{a}^{\ell-1}_i\mathbf{w}_{ij}} + \mathbf{w}_{0j}
 		\end{equation}
 	\end{itemize}
 	~\\
@@ -1066,11 +1083,11 @@
 	
 	The sigmoid, or logistic, function is one of the most popular and widely used activation functions historically, and is defined as 
 	\begin{equation}\label{func_sigmoid}
-	\mathrm{o}(x) = \frac{1}{1 + e^{-x}}
+	\theta(x) = \frac{1}{1 + e^{-x}}
 	\end{equation}
 	
 	\begin{equation}\label{func_sigmoidprime}
-	\mathrm{o}^\prime(x) = \mathrm{o}(x)(1-\mathrm{o}(x))
+	\theta^\prime(x) = \mathrm{o}(x)(1-\mathrm{o}(x))
 	\end{equation}
 	
 	The Sigmoid function is in the range [0,1], making it a suitable choice for problems requiring a probabilistic output. The slope of the function curve is both a boon and a drawback: it allows for fast learning initially, but results in learning slowdown later (often causing what is referred to as node 'saturation'). The exponent calculation is also computationally expensive, relatively speaking.
@@ -1080,12 +1097,12 @@
 	The Rectified Linear Unit (ReLU) is a newer activation function which has been shown to be effective in deep learning networks. It is defined as
 	
 	\begin{equation}\label{func_relu}
-	\mathrm{o}(x) = \texttt{max}(0, x)
+	\theta(x) = \max(0, x)
 	\end{equation}
 	
 	\begin{equation}\end{equation}\label{func_relu_prime}
 	\[
-	\mathrm{o}^\prime(x)= 
+	\theta^\prime(x)= 
 	\begin{cases}
 	1,& \text{if } x\geq 0\\
 	0,              & \text{otherwise}
@@ -1096,19 +1113,22 @@
 	
 	\paragraph{Leaky ReLU}
 	
-	The Leaky ReLU resolves the dying ReLU problem by adding a small gradient to the negative range of the function. This results in a slow learning being applied to 'dead' ReLU's, which may in turn result in them being used again if necessary.
-	\begin{equation}\end{equation}\label{func_leaky_relu}
+	The Leaky ReLU resolves the dying ReLU problem by adding a small gradient to the negative range of the function. This results in a slow learning being applied to 'dead' ReLU's, which may in turn result in them being used again if necessary. The choice of 0.01 as the negative range gradient in equations \eqref{func_leaky_relu} and \eqref{func_leaky_relu_prime} has been shown to be generally effective \citep{Maas}, though further work might investigate different parameter values for this.
+	
+	\begin{equation}\label{func_leaky_relu}
+	\end{equation}
 	\[
-	\mathrm{o}(x)= 
+	\theta(x)= 
 	\begin{cases}
 	x,& \text{if } x\geq 0\\
 	0.01x,              & \text{otherwise}
 	\end{cases}
 	\]
 	
-	\begin{equation}\end{equation}\label{func_leaky_relu_prime}
+	\begin{equation}\label{func_leaky_relu_prime}
+	\end{equation}
 	\[
-	\mathrm{o}^\prime(x)= 
+	\theta^\prime(x)= 
 	\begin{cases}
 	1,& \text{if } x\geq 0\\
 	0.01,              & \text{otherwise}
@@ -1120,11 +1140,11 @@
 	Linear activations don't transform the input, and have a constant gradient, which can be useful for key layers where no loss in error signal is desired, such as the output or encoding layers.
 	
 	\begin{equation}\label{func_linear}
-	\mathrm{o}(x) = x
+	\theta(x) = x
 	\end{equation}
 	
 	\begin{equation}\label{func_linear_prime}
-	\mathrm{o}^\prime(x) = 1
+	\theta^\prime(x) = 1
 	\end{equation}
 	
 	\subsubsection{Backpropagation}\label{imp_backprop}
@@ -1132,39 +1152,42 @@
 	The backpropagation algorithm, as discussed in Section \ref{lr_trainingbackprop}, has allowed for effective training of FNNs for given data. The algorithm relies on incremental improvements of the model, as defined by decreasing the cost function. A common choice for cost is Mean Squared Errors (MSE):
 	
 	\begin{equation}\label{func_MSE}
-	\mathbf{C} = \frac{1}{2} \rVert \mathbf{y} - \mathbf{a}^L \rVert^2
+	\mathbf{C} = \frac{1}{2} \rVert \mathbf{y} - \mathbf{a}^L \rVert^2 .
 	\end{equation}
 	~\\
 	
-	A technical definition of the backpropagation algorithm is given in Algorithm \ref{algo_backprop}, though the three primary steps of the algorithm are:\newline
+	The conceptual steps for the backpropagation (fully detailed in Algorithm \ref{algo_backprop}) are :\newline
 	\begin{itemize}
-		\item [1] \textbf{Forward Pass}: The samples are propagated through the network, in order to generate the output $\hat{y}_s$. Vectorization is typically used to calculate the results for multiple samples at once, though conceptually each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input, using equation \eqref{eq_weighted_input} for the weighted output and the equations defined in \ref{imp_activation_functions} for the activation functions.
+		\item [1] \textbf{Forward Pass}: The samples are propagated through the network, in order to generate the output $\hat{y}_s$. Vectorization is typically used to calculate the results for multiple samples at once, though conceptually each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input, using equation \ref{eq_weighted_input} for the weighted output and the equations defined in \ref{imp_activation_functions} for the activation functions.
 		\newline
-		\item [2] \textbf{Calculate Cost}: The cost between the training output $y_s$ and the model output $\hat{y}_s$ is calculated. Using this cost function, the rate of change for the error in the output layer by the rate of change in the activation function in the last layer. This is captured in equation \eqref{eq_lambda1}:	
+		\item [2] \textbf{Calculate Cost}: The cost between the training output $y_s$ and the model output $\hat{y}_s$ is calculated. Using this cost function, the rate of change for the error in the output layer by the rate of change in the activation function in the last layer. This rate of change for the error is expressed as:	
 		
 		\begin{equation}\label{eq_lambda1}
-		\mathbf{\delta}_{j}^{L}=\frac{\partial \mathbf{C}}{\partial \mathbf{a}_{j}^{L}} \mathrm{o}^{\prime}\left(\mathbf{z}_{j}^{L}\right)
+		\mathbf{\delta}_{j}^{L}=\frac{\partial \mathbf{C}}{\partial \mathbf{a}_{j}^{L}} \theta^{\prime}\left(\mathbf{z}_{j}^{L}\right) .
 		\end{equation}
 		
-		The vectorized version of this is often used, and expressed in \eqref{eq_lambda2}, where $\nabla_a C$ represents a vector of components which represent the partial derivatives, such that they represent the rate of change of C relative to the activation functions' outputs.
+		The vectorized version of this is often used, and expressed in equation \ref{eq_lambda2}, where $\nabla_a C$ represents a vector of components which represent the partial derivatives, such that they represent the rate of change of C relative to the activation functions' outputs.
 		\begin{equation}\label{eq_lambda2}
-		\mathbf{\delta}_{j}^{L}=\nabla_a \mathbf{C} \otimes \mathrm{o}^{\prime}(\mathbf{z}^L)
+		\mathbf{\delta}_{j}^{L}=\nabla_a \mathbf{C} \otimes \theta^{\prime}(\mathbf{z}^L), 
 		\end{equation}
+		where $\otimes$ is the Hadamard (or element-wise) matrix product.\newline
+		
 		If using quadratic cost, as per equation \ref{func_MSE}, then the term $\frac{\partial C}{\partial a_{j}^{L}}$ can be reduced to $(a^L - y)$, such that the equation for the output layer error is
 		\begin{equation}\label{eq_lambda3}
-		\mathbf{\lambda}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \mathrm{o}^{\prime}(\mathbf{z}^L)
+		\mathbf{\lambda}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \theta^{\prime}(\mathbf{z}^L) .
 		\end{equation}
 		\newline		
 		\item [3] \textbf{Backwards Pass}: The backwards pass consists of 2 steps, where the errors for each previous layer are calculated, and the weights for that layers are then adjusted accordingly:
 		\begin{itemize}
-			\item [3.1] The activation values are propagated back through the network to calculate the delta values based on the cost value. This uses the same rationale as \eqref{eq_lambda1}, but rather uses $(w^{l+1})^T$ by the next layers error in order to get an indication of how the error rate and how it moves backwards through the network.
+			\item [3.1] The activation values are propagated back through the network to calculate the delta values based on the cost value. This uses the same rationale as equation \ref{eq_lambda1}, but rather uses $(w^{\ell+1})^T$ by the next layers error in order to get an indication of how the error rate and how it moves backwards through the network.
 			\begin{equation}\label{eq_lambda4}
-			\mathbf{\lambda}^l = ((\mathbf{w}^{l+1})^T\mathbf{\lambda}^{l+1})  \otimes \mathrm{o}^{\prime}(\mathbf{z}^l)
+			\mathbf{\lambda}^\ell = ((\mathbf{w}^{\ell+1})^T\mathbf{\lambda}^{\ell+1})  \otimes \theta^{\prime}(\mathbf{z}^\ell) .
 			\end{equation}
 			\item [3.2] In order to update the network, each weights output error and input activation are multiplied to find the weight’s gradient and this gradient is reduced by a factor of the ‘learning rate’ $\eta$, which is then subtracted from the network weights to update them proportionately to the error observed and chosen learning rate.
 			\begin{equation}\label{eq_bp_weightupdate}
-			\mathbf{w}^l \rightarrow \mathbf{w}^l - {\eta}\mathbf{\lambda}^{l} (\mathbf{a}^{l - 1})^T
+			\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - {\eta}\mathbf{\lambda}^{\ell} (\mathbf{a}^{\ell - 1})^T ,
 			\end{equation}
+			where $\eta$, the learning rate, is a configured parameter.
 		\end{itemize}
 		
 	\end{itemize}
@@ -1173,7 +1196,7 @@
 	
 	\RestyleAlgo{algoruled}
 	\begin{algorithm}[H]
-		\KwIn{Neural Network $N$, with randomly initialized weights $\mathbf{w}$, $L$ layers, and activation functions $o$ and learning rate $\eta$}
+		\KwIn{Neural Network $N$, with randomly initialized weights $\mathbf{w}$, $L$ layers, and activation functions $\theta$ and learning rate $\eta$}
 		\KwData{Testing set with inputs $\mathbf{x}$, and outputs $\mathbf{y}$}
 		
 		\texttt{\\}
@@ -1184,27 +1207,27 @@
 			\tcp{Perform the Forward Pass,  to calculate the network output, $y_s$, for input sample $x_s$}
 			$a_0$ =  $x_s$;
 			\texttt{\\}
-			\ForEach{l in 1:L}
+			\ForEach{$\ell$ in 1:L}
 			{
-				\ForEach{j in 1:$e^l$}
+				\ForEach{j in 1:$e^\ell$}
 				{
-					$\mathbf{z}^{l}_j=\sum_{i=1}^{e^{l-1}}{\mathbf{a}^{{l-1}}_i\mathbf{w}_{ij}} + \mathbf{w}_{0j}$;
+					$\mathbf{z}^{\ell}_j=\sum_{i=1}^{e^{\ell-1}}{\mathbf{a}^{{\ell-1}}_i\mathbf{w}_{ij}} + \mathbf{w}_{0j}$;
 					\newline
-					$\mathbf{a}^{l}_j$ = $\mathrm{o}(\mathbf{z}^{l}_j)$;
+					$\mathbf{a}^{\ell}_j$ = $\theta(\mathbf{z}^{\ell}_j)$;
 				}
 			} 
 			\tcp{Calculate the error term (aka cost), as}
-			$\mathbf{\lambda}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \mathrm{o'}(\mathbf{z}^L)$;
+			$\mathbf{\lambda}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \theta^\prime(\mathbf{z}^L)$;
 			
 			\texttt{\\}
 			\tcp{Perform the Backward Pass, to propagate the errors back and update the network accordingly}
-			\ForEach{l in (L-1):1}
+			\ForEach{$\ell$ in (L-1):1}
 			{
 				\tcp{Calculate the delta values}
-				$\mathbf{\lambda}^l = ((\mathbf{w}^{l+1})^T\mathbf{\lambda}^{l+1})  \otimes \mathrm{o'}(\mathbf{z}^l)$;
+				$\mathbf{\lambda}^\ell = ((\mathbf{w}^{\ell+1})^T\mathbf{\lambda}^{\ell+1})  \otimes \theta^\prime(\mathbf{z}^\ell)$;
 				
 				\tcp{Update the weights}
-				$\mathbf{w}^l \rightarrow \mathbf{w}^l - {\eta}\mathbf{\lambda}^{l} (\mathbf{a}^{l - 1})^T$;
+				$\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - {\eta}\mathbf{\lambda}^{\ell} (\mathbf{a}^{\ell - 1})^T$;
 			}
 		}
 		
@@ -1218,42 +1241,56 @@
 	
 	\subsubsection{Gradient Descent Algorithms}\label{imp_sgd}
 	
-	The backpropagation algorithm is defined at a single sample level, and the learning from a dataset is usually repeated for a number of 'epochs'. As noted though, implementation is often implemented using a vectorized version of the algorithm which either samples the entire dataset at once (batch), or a subset of samples (minibatch). The latter is the Stochastic Gradient Descent (SGD), as discussed in Section \ref{lr_OGD}, which has been shown to increase the speed and stability at which the backpropagation algorithm can converge to a minima in terms of cost. The algorithm runs backpropagation over the entire dataset for the number of epochs, and updates the network incrementally through the epoch. The stopping condition for the algorithm is usually defined as either a particular number of epochs being reached, or cost no longer decreasing for some number of epochs (i.e. a minima has been reached).\newline
+	The backpropagation algorithm is defined at a single sample level, and the learning from a dataset is usually repeated for a number of ``epochs''. As noted though, implementation is often implemented using a vectorized version of the algorithm which either samples the entire dataset at once (batch), or a subset of samples (mini-batch). The latter is the Stochastic Gradient Descent (SGD), as discussed in Section \ref{lr_OGD}, which has been shown to increase the speed and stability at which the backpropagation algorithm can converge to a minima in terms of cost. The algorithm runs backpropagation over the entire dataset for the number of epochs, and updates the network incrementally through the epoch. The stopping condition for the algorithm is usually defined as either a particular number of epochs being reached, or cost no longer decreasing for some number of epochs (i.e. a minima has been reached).\newline
 	
 	The changes to the initial backprop algorithm, detailed in Algorithm \ref{algo_backprop}, are relatively minor:
 	\begin{itemize}
-		\item [1] Selection is now performed such that at each epoch $m$ samples $x_s$ are selected from $x$ which have not yet been sampled.
+		\item [1] Selection is now performed such that at each epoch $m$, $s$ new samples are from $x$, formning the subset $x_s$.
 		\item [2] The weight update is now performed such that it represents an aggregate update according the $m$ samples that were selected:
 		\begin{equation}\label{eq_backprop_weightupdate_sgd}
-		\mathbf{w}^l \rightarrow \mathbf{w}^l - \frac{\eta}{m} \sum_{x} \mathbf{\lambda}^{x, l} (\mathbf{a}^{x, l - 1})^T
+		\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - \frac{\eta}{m} \sum_{x} \mathbf{\lambda}^{x, \ell} (\mathbf{a}^{x, \ell - 1})^T , 
 		\end{equation}
+		where
+		\begin{enumerate}
+			\item $w^\ell$ is the $\ell^{th}$ layer's weights,
+			\item $\eta$ is the configured learning rate parameters, 
+			\item $m$ is the size of the mini-batch,
+			\item $\lambda$ is the rate of change in the error (calculated using equation \ref{eq_lambda4}),
+			\item $a$ is the output of the activation function for the weighted input (calculated using equation \ref{eq_activation_output})
+		\end{enumerate}
 	\end{itemize}
-	
-	\texttt{}\newline 
 	
 	\subparagraph{Online Gradient Descent}
 	Where SGD is appropriate and effective for scenarios where the entire dataset is available, Online Gradient Descent (OGD) is applicable for when the model is learning in an online fashion. In this case, the backpropagation is run as defined above in Algorithm \ref{algo_backprop} but with no repetition (i.e. only 1 epoch).
 	
 	\subsubsection{Regularization}\label{imp_regularization}
 	
-	Regularization is a commonly used technique in machine learning used to reduce a model's capacity to overfit to the data, and in so doing reduces the variance in the model results. One of the typical methods, $L2$ (or ``weight decay''), is implemented by adding an extra term to the cost function which is itself a function of the weights in the model. This extra term forces the learning process to favour smaller weights, and only allows large weights to occur if they are able to offer an appropriate increase in performance. The modified cost function is displayed below in equation \ref{func_l2reg}.
+	Regularization is a commonly used technique in machine learning used to reduce a model's capacity to overfit to the data, and in so doing reduces the variance in the model results. One of the typical methods, ``$L2$'' (or ``weight decay''), is implemented by adding an extra term to the cost function which is itself a function of the weights in the model. This extra term forces the learning process to favour smaller weights, and only allows large weights to occur if they are able to offer an appropriate increase in performance. The modified cost function is calculated as:
 	
 	\begin{equation}\label{func_l2reg}
-	\mathbf{C}=\frac{1}{2 n} \sum_{x}\left\|\mathbf{y}-\mathbf{a}^{L}\right\|^{2}+\frac{\mathbf{\lambda}}{2 n} \sum_{w} \mathbf{w}^{2}
+	\mathbf{C}=\frac{1}{2 n} \sum_{x}\left\|\mathbf{y}-\mathbf{a}^{L}\right\|^{2}+\frac{\mathrm{\Gamma}}{2 n} \sum_{w} \mathbf{w}^{2}
 	\end{equation}
+	where
+	\begin{enumerate}
+		\item $n$ is the dataset sample size,
+		\item $y$ is the input data,
+		\item $a$ is the output of the activation function in the $L^{th}$ layer (calculated using equation \ref{eq_activation_output}),
+		\item $\Gamma$ is the configured regularization rate, and
+		\item $w$ is a layer's weights.
+	\end{enumerate}
 	
-	The additional term is scaled by the configurable regularization parameter, $\lambda$, which if small approximates the original cost function or if large will increase the degree of regularization used. \newline
+	The additional term is scaled by the configurable regularization parameter, $\Gamma$, which if small approximates the original cost function or if large will increase the degree of regularization used. \newline
 	
 	In order to implement this in backpropagation, the weight update rule is changed to the following (while biases remain the same):
 	
 	\begin{equation}\label{func_l2_weight_update}
-	\mathbf{w} \rightarrow \mathbf{w}-\eta \frac{\partial \mathbf{C}_{0}}{\partial \mathbf{w}}-\frac{\eta \mathbf{\lambda}}{n} \mathbf{w}
+	\mathbf{w} \rightarrow \mathbf{w}-\eta \frac{\partial \mathbf{C}_{0}}{\partial \mathbf{w}}-\frac{\eta \mathrm{\Gamma}}{n} \mathbf{w}
 	\end{equation}
 	
 	For SGD, this can be simplified to the following: 
 	
 	\begin{equation}\label{func_sgd_l2}
-	\mathbf{w} \rightarrow\left(1-\frac{\eta \mathbf{\lambda}}{n}\right) \mathbf{w}-\frac{\eta}{m} \sum_{x} \frac{\partial \mathbf{C}_{x}}{\partial \mathbf{w}}
+	\mathbf{w} \rightarrow\left(1-\frac{\eta \mathrm{\Gamma}}{n}\right) \mathbf{w}-\frac{\eta}{m} \sum_{x} \frac{\partial \mathbf{C}_{x}}{\partial \mathbf{w}}
 	\end{equation}
 	
 	
@@ -1261,10 +1298,10 @@
 	
 	Learning rates schedules are implemented to allow for a more dynamic exploration of the possible solution space, and allow fine tuning around an optima. With a constant learning rate implementation, one has to choose between a larger learning rate which allows faster progress but less optimisation, or a smaller learning rate which learns slower but is more effective at optimising (by avoiding the learning algorithm from bouncing around a minima valley). Learning rate schedules aim to get the best of both scenarios by cycling through a minimum and maximum range across epochs.\newline
 	
-	The learning rate schedule is specified to cycle through from min to max every $i$ epochs, from $\eta_{\min}$ to $\eta_{\max}$. Thus for the current epoch $T$, the learning rate is calculated using equation \ref{func_learning_rate_sched} below:
+	The learning rate schedule is specified to cycle through from the minimum value to the maximum value every $T$ epochs, from $\eta_{\min}$ to $\eta_{\max}$. Thus for the current epoch $i$, the learning rate is calculated as:
 	
 	\begin{equation}\label{func_learning_rate_sched}
-	\eta_{t}=\eta_{\min }^{i}+\frac{1}{2}\left(\eta_{\max }^{i}-\eta_{\min }^{i}\right)\left(1+\cos \left(\frac{T_{\text {current}}}{T_{i}} \pi\right)\right)
+	\eta_{i}=\eta_{\min }+\frac{1}{2}\left(\eta_{\max }-\eta_{\min }\right)\left(1+\cos \left(\frac{i}{T} \pi\right)\right) .
 	\end{equation}
 	
 	This is the Cyclical Learning Rates approach, though using sinusoidal form rather than linear \citep{Smith}. For a minimum learning rate of 0.1, a maximum of 1.0 and an epoch cycle of 100, it will produce learning rates as displayed in Figure \ref{figure-SGDRLearningRates} below.
@@ -1370,20 +1407,20 @@
 	
 	\subsubsection{Sigmoid based Greedy Layerwise SAE Training}\label{imp_sigmoidsae}
 	
-	The steps for implementing the SAE training suggested \citet{Hinton2} is as follows
+	The steps for implementing the SAE training, suggested by \citet{Hinton2}, are as follows:
 	
-	\begin{itemize}
-		\item [1] Define a network structure which conforms to the requirements of an SAE, with $L$ layers
-		\item [2] For the first hidden layer, train as you would for an RBM with 2 layers - with the input layer, and the first layer as the hidden layer, using CD-1 and SGD
-		\item [3] For each layer $l$ in $(2, L/2)$:
-		\begin{itemize}
-			\item [3.1] Process the data through the previously trained layers using the forward propagation as defined in Section \ref{imp_ffn_functions}
-			\item [3.2] This processed data then forms the input to the $l^{th}$ layer, which can be trained once again using CD-1 and SGD as if it were two layers
-		\end{itemize}
-		\item[4] Once all the layers up until the encoder layer have been trained in this greedy layerwise fashion, mirror the weights and layers structures after the encoder to create a fully $L$ layered FFN with pre-trained weights
-		\item [5] This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised
-		\item [6] Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE
-	\end{itemize}
+	\begin{enumerate}
+		\item \textbf{Define Network:}Define a network structure which conforms to the requirements of an SAE, with $L$ layers.
+		\item \textbf{Train First Layer:} For the first hidden layer, train as you would for an RBM with 2 layers - with the input layer, and the first layer as the hidden layer, using CD-1 and SGD.
+		\item \textbf{Train Subsequent Layers:} For each layer $\ell$ in $(2, L/2)$:
+		\begin{enumerate}
+			\item Process the data through the previously trained layers using the forward propagation as defined in Section \ref{imp_ffn_functions}.
+			\item This processed data then forms the input to the $\ell^{th}$ layer, which can be trained once again using CD-1 and SGD as if it were two layers.
+		\end{enumerate}
+		\item \textbf{Mirror Network:} Once all the layers up until the encoder layer have been trained in this greedy layerwise fashion, mirror the weights and layers structures after the encoder to create a fully $L$ layered FFN with pre-trained weights.
+		\item \textbf{Train Full AutoEncoder:} This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised.
+		\item \textbf{Split to Encoder:} Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE.
+	\end{enumerate}
 	
 	Notably, this weight initialization will only be effective if the RBM and SAE networks use the same activation function, which due to the RBM implementation, needs to be a function that can output a probabilistic value in [0,1].
 	
@@ -1391,12 +1428,12 @@
 	
 	ReLU activations differ from Sigmoid in that they are not fitting for probability estimations, which makes the algorithm suggest by Hinton et al. unsuitable. The process used here relies on effective weight initialization, and is a simplification of the above.
 	
-	\begin{itemize}
-		\item [1] Define a network structure which conforms to the requirements of an SAE, with $L$ layers
-		\item [2] Use an effective weight initialization, such as Xavier or He (discussed fully in Section \ref{imp_weights})
-		\item [3] This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised
-		\item [4] Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE
-	\end{itemize}
+	\begin{enumerate}
+		\item \textbf{Define Network:} Define a network structure which conforms to the requirements of an SAE, with $L$ layers.
+		\item \textbf{Initialize Network Weights:} Use an effective weight initialization for all $L$ layers, such as Xavier or He (discussed fully in Section \ref{imp_weights}).
+		\item  \textbf{Train Full AutoEncoder:} This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised.
+		\item \textbf{Split to Encoder:} Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE.
+	\end{enumerate}
 	
 	\subsubsection{Denoising AutoEncoders}\label{imp_denoising}
 	
@@ -1407,7 +1444,7 @@
 	With Gaussian noise, samples are corrupted such that a degree of variance is added to the input according to a parameterized Gaussian distribution. In this case, the distribution variance is a configurable training parameter.
 	
 	\begin{equation}
-	\tilde{{x}} | {x} \sim \mathcal{N}\left({x}, \sigma^{2} I\right)
+	\mathbf{\tilde{{x}}} | \mathbf{x} \sim \mathcal{N}\left(\mathbf{x}, \sigma^{2} I\right) .
 	\end{equation}
 	
 	\paragraph{Masking Noise}
@@ -1421,65 +1458,69 @@
 	A common initialization heuristic is to use a uniform, and but not layer agnostic, initialization such as equation \ref{func_uniform_init} below. While simple enough, it's been shown that this does not always lead to the best training results, and can be outperformed by variance based initializations \citep{Glorot}.
 	
 	\begin{equation}\label{func_uniform_init}
-	\mathbf{w} \sim U\left[-\frac{1}{\sqrt{n}}, \frac{1}{\sqrt{n}}\right] \textit{ , for a layer with n nodes}
+	\mathbf{w} \sim U\left[-\frac{1}{\sqrt{n}}, \frac{1}{\sqrt{n}}\right] ,
 	\end{equation}
+	
+	where $n$ is the number of nodes in the layer.
 	
 	\subsubsection{Initialization Rationale}
 	
-	The variance balancing methodology is based on balancing the variance of a linear network. For input $X$, with $n$ components and linear neurons with weights $W$, and output $Y$,
+	The variance balancing methodology is based on balancing the variance of a linear network. For input $X$, with $n$ components and linear neurons with weights $W$, and output $Y$:
 	\begin{equation}
-	\mathbf{Y} = \mathbf{W}_1\mathbf{X}_1 + \mathbf{W}_2\mathbf{X}_2 + ... + \mathbf{X}_n\mathbf{W}_n
+	\mathbf{Y} = \mathbf{W}_1\mathbf{X}_1 + \mathbf{W}_2\mathbf{X}_2 + ... + \mathbf{X}_n\mathbf{W}_n .
 	\end{equation}
-	It can thus be shown, that for $i.i.id$ samples with mean $0$, then
+	It can thus be shown, that for $IID$ samples with mean $0$:
 	\begin{equation}
-	\mathbf{Var(Y)} = n\mathbf{Var}(\mathbf{W}_i)\mathbf{Var}(\mathbf{X}_i)
+	\mathbf{\Var(Y)} = n{\Var}(\mathbf{W}_i){\Var}(\mathbf{X}_i) .
 	\end{equation}
 	For the variance of both input $X$ and output $Y$ to be balanced on the forward and backward propagation, then it is necessary for
 	\begin{equation}
-	\mathbf{Var}(\mathbf{W}_i) = \frac{1}{n_{in}}= \frac{1}{n_{out}}
+	{\Var}(\mathbf{W}_i) = \frac{1}{n_{\mathrm{in}}}= \frac{1}{n_{\mathrm{out}}}
 	\end{equation}
 	
 	In the instance where there are not an equal number of nodes in the two layers, the average can be taken, such that
 	\begin{equation}\label{eq_init_var}
-	\mathbf{Var}(\mathbf{W}_i) = \frac{2}{n_{in} + n_{out}}
+	{\Var}(\mathbf{W}_i) = \frac{2}{n_{\mathrm{in}} + n_{\mathrm{out}}}
 	\end{equation}
 	
 	\subsubsection{Initializations}
 	
-	\paragraph{Xavier} Considering that  $Var(U(-a, a)) = a^2/3$, then ensuring balance variance for weights as per equation \eqref{eq_init_var} provides us with the Xavier Glorot initialization \citep{Glorot} which can be used for Sigmoid activations, and is defined as follows
+	\paragraph{``Xavier'' Initialization} Considering that  $\Var(U(-a, a)) = a^2/3$, then ensuring balance variance for weights as per equation \eqref{eq_init_var} provides us with the Xavier Glorot initialization \citep{Glorot} which can be used for Sigmoid activations, and is defined as follows
 	\begin{equation}
-	\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}}
+	\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}} ,
 	\end{equation}
 	
-	where $n$ is the number of nodes in the $i^{th}$ or $j^{th}$ layer.
+	where $n$ is the number of nodes in the $i^{\mathrm{th}}$ or $j^{\mathrm{th}}$ layer.
 	\newline\newline
-	\paragraph{He} The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He \citep{He} initialization is used
+	\paragraph{``He'' Initialization} The initialization for ReLU is different on accounts of the function being equal to zero for half it's potential input range - in this case it makes sense to double the weight variance, and so the He \citep{He} initialization is used:
 	
 	\begin{equation}
-	\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}}
+	\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i}} .
 	\end{equation}
 	
 	
-	\paragraph{He-Adjusted} An adjusted initialization is presented here, dubbed ``He-Adjusted'', where the ReLU initialization uses a mean of the input and output layers in order to scale the weight variance. For networks with constant layer sizes, the initialization is the same as He, though for SAE networks which have layer size changes by definition, the He-Adjusted initialization will result in more appropriately sized weights.
+	\paragraph{``He-Adjusted'' Initialization} An adjusted initialization is presented here, dubbed ``He-Adjusted'', where the ReLU initialization uses a mean of the input and output layers in order to scale the weight variance. For networks with constant layer sizes, the initialization is the same as He, though for SAE networks which have layer size changes by definition, the He-Adjusted initialization will result in more appropriately sized weights:
 	
 	\begin{equation}
-	\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}}
+	\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{(n_i + n_j)/2}} .
 	\end{equation}
 	
 	
 	\subsection{Money Management Strategy and Returns}\label{imp_mms}
 	
-	In line with the general approach here, the Money Management Strategy (MMS) has been designed to be relatively simple, such that the results are more indicative of the underlying modelling rather than intricate trading strategies. The MMS follows an arithmetic long strategy of buying any asset for which the predicted ${t+D}$ price is above the current price, and selling the stock at ${t+D}$. Trading costs have been included at 10\% capital costs per annum for borrowing to purchase, and 0.45\% for transaction costs. Results are compared to a benchmark model which has exact knowledge of the price in $D$ days, which represents an upper bound on performance. This MMS implementation does not make any attempt to account for volume in the trades, and only trades one asset unit at a time.
+	In line with the general approach here, the Money Management Strategy (MMS) has been designed to be relatively simple, such that the results are more indicative of the underlying modelling rather than intricate trading strategies. \newline
+	
+	The MMS follows an arithmetic long strategy of buying any asset for which the predicted ${t+D}$ price is above the current price, and selling the stock at ${t+D}$. Trading costs have been included at 10\% capital costs per annum for borrowing to purchase, and 0.45\% for transaction costs as per \citep{Loonat}. This model does not take liquidity affects into account, though these can be accounted for in the costs. Results are compared to a benchmark model which has exact knowledge of the price in $D$ days, which represents an upper bound on performance. This MMS implementation does not make any attempt to account for volume in the trades, and only trades one asset unit at a time.
 	\hfill\break
 	
 	\subsubsection{Input Variables}
 	
 	The MMS takes the following values as input for each time point $t$  and prediction point $D$
-	\begin{itemize}
-		\item [1] {$\mathbf{\tilde{p}}_t$}, the closing price at time $t$
-		\item [2] $\mathbf{\tilde{p}}_{t+D}$, the closing price in $D$ days
-		\item [3] $\hat{\mathbf{p}}_{t+D}$, the predicted closing price in $D$ days
-	\end{itemize}
+	\begin{enumerate}
+		\item {$\mathbf{\tilde{p}}_t$}, the closing price at time $t$, 
+		\item $\mathbf{\tilde{p}}_{t+D}$, the closing price in $D$ days, and
+		\item $\hat{\mathbf{p}}_{t+D}$, the predicted closing price in $D$ days.
+	\end{enumerate}
 	
 	\subsubsection{Calculated Asset Variables}
 	
@@ -1487,9 +1528,17 @@
 	
 	\begin{itemize}
 		\item [1] A flag indicating whether a trade will take place on $t$
-		\begin{equation}
-				\mathbf{s}_t = \mathrm{bool}(\mathbf{\hat{p}}_{t+5} > \mathbf{p}_t) \in (0, 1)
-		\end{equation}
+		\begin{equation}		\end{equation}
+			\[
+				\mathbf{s}_t= 
+				\begin{cases}
+				1,& \text{if } \mathbf{\hat{p}}_{t+5} > \mathbf{p}_t\\
+				0,              & \text{otherwise}
+				\end{cases}
+				\]
+		
+%				\mathbf{s}_t = \mathrm{bool}(\mathbf{\hat{p}}_{t+5} > \mathbf{p}_t) \in (0, 1)
+
 		\item [2] A flag indicating whether a trade will take place on $t$ in the benchmark model
 		\begin{equation}
 				\mathbf{s}^b_{t} = \mathrm{bool}({\mathbf{p}}_{t+5} > \mathbf{p}_t) \in (0, 1)

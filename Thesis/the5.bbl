@@ -13,12 +13,6 @@ Susanne Albers.
 \newblock URL
   \url{https://link.springer.com/content/pdf/10.1007%2Fs10107-003-0436-0.pdf}.
 
-\bibitem[Andrew W.~Lo(2009)]{LoHeretics}
-Jasmina~Hasanhodzic Andrew W.~Lo.
-\newblock \emph{Heretics of Finance}.
-\newblock Bloomberg Press, 2009.
-\newblock ISBN 978-1-57660-316-1.
-
 \bibitem[Aparicio and Lopez~de Prado(2018)]{Aparicio}
 Diego Aparicio and Marcos Lopez~de Prado.
 \newblock How hard is it to pick the right model? mcs and backtest overfitting.
@@ -342,6 +336,13 @@ John Langford, Lihong Li, and Tong Zhang.
 \newblock \emph{Journal of Machine Learning Research}, 10, 07 2008.
 \newblock \doi{10.1145/1577069.1577097}.
 
+\bibitem[Langkvist et~al.(2014)Langkvist, Karlsson, and Loutfi]{Langkvist}
+Martin Langkvist, Lars Karlsson, and Amy Loutfi.
+\newblock A review of unsupervised feature learning and deep learning for
+  time-series modeling.
+\newblock \emph{Pattern Recognition Letters}, 42, 06 2014.
+\newblock \doi{10.1016/j.patrec.2014.01.008}.
+
 \bibitem[Lecun(1992)]{LeCun2}
 Yann Lecun.
 \newblock A theoretical framework for back-propagation.
@@ -398,12 +399,13 @@ Ilya Loshchilov and Frank Hutter.
 \newblock Sgdr: Stochastic gradient descent with warm restarts.
 \newblock 08 2016.
 
-\bibitem[Längkvist et~al.(2014)Längkvist, Karlsson, and Loutfi]{Langkvist}
-Martin Längkvist, Lars Karlsson, and Amy Loutfi.
-\newblock A review of unsupervised feature learning and deep learning for
-  time-series modeling.
-\newblock \emph{Pattern Recognition Letters}, 42, 06 2014.
-\newblock \doi{10.1016/j.patrec.2014.01.008}.
+\bibitem[Maas et~al.(2013)Maas, Hannun, and Ng]{Maas}
+A.~Maas, A.~Hannun, and A.~Ng.
+\newblock Rectifier nonlinearities improve neural network acoustic models.
+\newblock \emph{Proceedings of the 30 th International Conference on Machine
+  Learning,}, 28, 2013.
+\newblock URL
+  \url{https://ai.stanford.edu/~amaas/papers/relu_hybrid_icml2013_final.pdf}.
 
 \bibitem[Mclean and Pontiff(2013)]{McLean}
 R.~Mclean and Jeffrey Pontiff.

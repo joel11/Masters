@@ -2,7 +2,7 @@ This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: the5.aux
 The style file: plainnat.bst
-Illegal, another \bibstyle command---line 1148 of file the5.aux
+Illegal, another \bibstyle command---line 1156 of file the5.aux
  : \bibstyle
  :          {IEEEtran}
 I'm skipping whatever remains of this command
@@ -29,43 +29,43 @@ Warning--empty journal in Werbos
 Warning--empty journal in Zeiler
 You've used 98 entries,
             2773 wiz_defined-function locations,
-            1260 strings with 20404 characters,
-and the built_in function-call counts, 41819 in all, are:
-= -- 3710
-> -- 2287
-< -- 72
-+ -- 787
-- -- 689
-* -- 3340
-:= -- 6619
+            1260 strings with 20542 characters,
+and the built_in function-call counts, 41945 in all, are:
+= -- 3723
+> -- 2307
+< -- 71
++ -- 793
+- -- 695
+* -- 3361
+:= -- 6639
 add.period$ -- 364
 call.type$ -- 98
-change.case$ -- 515
+change.case$ -- 518
 chr.to.int$ -- 98
 cite$ -- 214
 duplicate$ -- 2005
-empty$ -- 3449
-format.name$ -- 839
-if$ -- 8732
+empty$ -- 3448
+format.name$ -- 845
+if$ -- 8756
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 106
+missing$ -- 105
 newline$ -- 567
 num.names$ -- 394
-pop$ -- 966
+pop$ -- 964
 preamble$ -- 1
-purify$ -- 425
+purify$ -- 427
 quote$ -- 0
-skip$ -- 1437
+skip$ -- 1441
 stack$ -- 0
 substring$ -- 1095
 swap$ -- 224
 text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1033
+type$ -- 1038
 warning$ -- 18
 while$ -- 346
 width$ -- 0
-write$ -- 1379
+write$ -- 1380
 (There was 1 error message)
