@@ -944,7 +944,7 @@
 	\paragraph{Limited Standardization}
 	
 	\begin{equation}
-	\mathbf{q_{(i, t)}} =\mathrm{ \frac{(\mathbf{p}_i - \bar{\mathbf{p}_{1:t}}) }{\sigma_{p_{1:t}}} , \forall  i \in (1, n)}
+	\mathbf{q_{(i, t)}} =\mathrm{ \frac{(\mathbf{p}_i - \bar{\mathbf{p}}_{1:t}) }{\sigma_{p_{1:t}}} , \forall  i \in (1, n)}
 	\end{equation}
 	
 	\paragraph{Limited Normalization}
@@ -961,21 +961,32 @@
 	
 	\subsubsection{Reverse Data Scaling}\label{data_reverse_scaling}
 	
-	The predicted data points are transformed back into actual prices for returns analysis. The first step is to reverse the scaling that is done in Section \ref{data_scaling} in order to retrieve the log difference fluctuations.
+	The predicted data points are transformed back into actual prices for returns analysis. The first step is to reverse the scaling that is done in Section \ref{data_scaling} in order to retrieve the log difference fluctuations. The reverse scaling equations are for a dataset of $n$ observations, which has been split at point $t$.
 	
 	\paragraph{Reverse Standardization}
 	
 	\begin{equation}
-	\mathbf{z^{*}_i} = \mathrm{{\mathbf{z}_i} * \sigma_p + \mathbf{\bar{p}}}
+	\mathbf{z^{*}_i} = \mathrm{{\mathbf{z}_i} \cdot \sigma_p + \mathbf{\bar{p}}}
 	\end{equation}
 	
 	\paragraph{Reverse Normalization}
 	
 	\begin{equation}
-	\mathbf{n^{*}_i} = \mathrm{\mathbf{n}_i * \left(\max_{\mathbf{p}} - \min_{\mathbf{p}}\right) + \min_{\mathbf{p}}}
+	\mathbf{n^{*}_i} = \mathrm{\mathbf{n}_i \cdot \left(\max_{\mathbf{p}} - \min_{\mathbf{p}}\right) + \min_{\mathbf{p}}}
 	\end{equation}
 	
-	These are applied similarly for the limited variations.
+	\paragraph{Reverse Limited Standardization}
+	
+	\begin{equation}
+	\mathbf{q^{*}_i} = \mathrm{{\mathbf{q}_i} \cdot \sigma_{p_{1:t}} + \bar{\mathbf{p}}_{1:t}},  \forall  i \in (1, \mathrm{n})
+	\end{equation}
+	
+	\paragraph{Reverse Limited Normalization}
+	
+	\begin{equation}
+	\mathbf{v^{*}_i} = \mathrm{\mathbf{v}_i \cdot \left(\max\limits_{\mathbf{p_1},\dots\mathbf{p_t}} - \min\limits_{\mathbf{p_1},\dots\mathbf{p_t}}\right) + \min\limits_{\mathbf{p_1},\dots\mathbf{p_t}}},  \forall  i \in (1, \mathrm{n})
+	\end{equation}
+	
 	
 	\subsubsection{Price Reconstruction}\label{data_price_recon}
 	
@@ -994,6 +1005,10 @@
 	\end{itemize}
 	\texttt{}\newline
 	These reconstructed prices are then used to assess model returns later in the Money Management Strategy (Section \ref{imp_mms}).
+	
+	\subsubsection{Decorrelation}
+	
+	The data processing does not incorporate any sort of decorrelation processes or data ``whitening'' transformations, thus keeping all correlation relationships between asset price fluctuations intact.
 	
 	\subsection{Synthetic Data Generation}\label{data_synthetic}
 	
@@ -1062,14 +1077,14 @@
 	
 	\begin{itemize}
 		\item[1] A network $N$ will be constructed with $L$ layers, each with $e$ nodes
-		\item[2] The weights from the $j^{th}$ node in the $\ell^{th}$ layer from the $k^{th}$ node in the $(\ell-1)^{th}$ layer are represented by $\mathbf{w}^\ell_{jk}$
-		\item[3] The bias for the $j^{th}$ node in layer $\ell$ is represented by $\mathbf{w}^\ell_0j$
-		\item[4] The output for the $j^{th}$ node is defined as 
+		\item[2] The weights from the $j^{th}$ node in the $\ell^{th}$ layer to the $k^{th}$ node in the $(\ell-1)^{th}$ layer are represented by $\mathbf{w}^\ell_{jk}$
+		\item[3] The bias for the $j^{th}$ node in layer $\ell$ is represented by $\mathbf{w}^\ell_{0j}$
+		\item[4] The output for the $j^{th}$ node in layer $\ell$ is 
 		\begin{equation}\label{eq_activation_output}
-		\mathbf{a} = \theta(\mathbf{z}_j) ,
+		\mathbf{a}^\ell_j = \theta(\mathbf{z}_j) ,
 		\end{equation} 
 		for an activation function $\theta$ (with inverse $\mathrm{\theta^{\prime}}$) and weighted input $z$.
-		\item[5] The weighted input for the $j^{th}$ neuron in a layer is 
+		\item[5] The weighted input for the $j^{th}$ neuron in layer $\ell$ is 
 		\begin{equation}\label{eq_weighted_input}
 		\mathbf{z^\ell_j}=\sum_{i=1}^{e^{\ell-1}}{\mathbf{a}^{\ell-1}_i\mathbf{w}_{ij}} + \mathbf{w}_{0j}
 		\end{equation}
@@ -1151,48 +1166,60 @@
 	
 	\subsubsection{Backpropagation}\label{imp_backprop}
 	
-	The backpropagation algorithm, as discussed in Section \ref{lr_trainingbackprop}, has allowed for effective training of FNNs for given data. The algorithm relies on incremental improvements of the model, as defined by decreasing the cost function. A common choice for cost is Mean Squared Errors (MSE):
+	The backpropagation algorithm, as discussed in Section \ref{lr_trainingbackprop}, has allowed for effective training of FNNs for given data. The algorithm relies on incremental improvements of the model, as defined by decreasing the cost function. A common choice for cost ($C$) is Mean Squared Errors (MSE):
 	
 	\begin{equation}\label{func_MSE}
-	\mathbf{C} = \frac{1}{2} \rVert \mathbf{y} - \mathbf{a}^L \rVert^2 .
+	{C} = \frac{1}{2} \rVert \mathbf{y} - \mathbf{a}^L \rVert^2 .
 	\end{equation}
 	~\\
 	
-	The conceptual steps for the backpropagation (fully detailed in Algorithm \ref{algo_backprop}) are :\newline
-	\begin{itemize}
-		\item [1] \textbf{Forward Pass}: The samples are propagated through the network, in order to generate the output $\hat{y}_s$. Vectorization is typically used to calculate the results for multiple samples at once, though conceptually each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input, using equation \ref{eq_weighted_input} for the weighted output and the equations defined in Section \ref{imp_activation_functions} for the activation functions.
+	The conceptual steps for the backpropagation (fully detailed in Algorithm \ref{algo_backprop}) are: \newline
+	\begin{enumerate}
+		\item \textbf{Forward Pass}: The samples are propagated through the network, in order to generate the output $\mathbf{a}^L$. \newline 
+		
+		Vectorization is typically used to calculate the results for multiple samples at once, though conceptually each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input.\newline 
+		
+		Equation \ref{eq_weighted_input} is used to calculate the weighted output and the equations defined in Section \ref{imp_activation_functions} are used for the activation functions.
 		\newline
-		\item [2] \textbf{Calculate Cost}: The cost between the training output $y_s$ and the model output $\hat{y}_s$ is calculated. Using this cost function, the rate of change for the error in the output layer by the rate of change in the activation function in the last layer. This rate of change for the error is expressed as:	
+		
+		\item \textbf{Calculate Cost}: The cost between the training output $\mathbf{y}$ and the model output $\mathbf{a}^L$ is calculated. \newline
+		
+		Using a cost function such as MSE (equation \ref{func_MSE}), the rate of change for the error in the output layer by the rate of change in the activation function in the last layer, $L$, is calculated. This rate of change for the error for the $j^{th}$ node, $\delta_j$, is expressed as:	
 		
 		\begin{equation}\label{eq_lambda1}
 		\mathbf{\delta}_{j}^{L}=\frac{\partial \mathbf{C}}{\partial \mathbf{a}_{j}^{L}} \theta^{\prime}\left(\mathbf{z}_{j}^{L}\right) .
 		\end{equation}
 		
-		The vectorized version of this is often used, and expressed in equation \ref{eq_lambda2}, where $\nabla_a C$ represents a vector of components which represent the partial derivatives, such that they represent the rate of change of C relative to the activation functions' outputs.
+		The vectorized version of this is often used, and expressed in equation \ref{eq_lambda2}. $\nabla_a C$ is a vector of components which are the partial derivatives, such that they represent the rate of change of cost $C$ relative to the activation functions' outputs.
 		\begin{equation}\label{eq_lambda2}
-		\mathbf{\delta}_{j}^{L}=\nabla_a \mathbf{C} \otimes \theta^{\prime}(\mathbf{z}^L), 
+		\mathbf{\delta}^{L}=\nabla_a \mathbf{C} \otimes \theta^{\prime}(\mathbf{z}^L), 
 		\end{equation}
 		where $\otimes$ is the Hadamard (or element-wise) matrix product.\newline
 		
-		If using quadratic cost, as per equation \ref{func_MSE}, then the term $\frac{\partial C}{\partial a_{j}^{L}}$ can be reduced to $(a^L - y)$, such that the equation for the output layer error is
+		If using quadratic cost, as per equation \ref{func_MSE}, then the term $\frac{\partial C}{\partial a_{j}^{L}}$ can be reduced to $(a^L - y)$. The equation for the output layer error rate of change is then:
 		\begin{equation}\label{eq_lambda3}
-		\mathbf{\lambda}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \theta^{\prime}(\mathbf{z}^L) .
+		\mathbf{\delta}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \theta^{\prime}(\mathbf{z}^L) .
 		\end{equation}
 		\newline		
-		\item [3] \textbf{Backwards Pass}: The backwards pass consists of 2 steps, where the errors for each previous layer are calculated, and the weights for that layers are then adjusted accordingly:
-		\begin{itemize}
-			\item [3.1] The activation values are propagated back through the network to calculate the delta values based on the cost value. This uses the same rationale as equation \ref{eq_lambda1}, but rather uses $(w^{\ell+1})^T$ by the next layers error in order to get an indication of how the error rate and how it moves backwards through the network.
+		\item \textbf{Backwards Pass}: 
+		\begin{enumerate}
+			\item \textbf{Calculate Errors For Previous Layers:} The activation values are propagated back through the network to calculate the delta values at each layer. \newline
+			
+			This uses the same rationale as equation \ref{eq_lambda1}, but rather uses $(w^{\ell+1})^T$ by the next layers error in order to get an indication of how the error rate and how it moves backwards through the network.
 			\begin{equation}\label{eq_lambda4}
-			\mathbf{\lambda}^\ell = ((\mathbf{w}^{\ell+1})^T\mathbf{\lambda}^{\ell+1})  \otimes \theta^{\prime}(\mathbf{z}^\ell) .
+			\mathbf{\delta}^\ell = ((\mathbf{w}^{\ell+1})^T\mathbf{\delta}^{\ell+1})  \otimes \theta^{\prime}(\mathbf{z}^\ell) .
 			\end{equation}
-			\item [3.2] In order to update the network, each weights output error and input activation are multiplied to find the weight’s gradient and this gradient is reduced by a factor of the ‘learning rate’ $\eta$, which is then subtracted from the network weights to update them proportionately to the error observed and chosen learning rate.
+			
+			\item \textbf{Adjust Network Weights:} Network weights are adjusted in proportion to the error observed and chosen learning rate.\newline
+			
+			Each weights output error and input activation are multiplied to find the weight’s gradient, which is then reduced by a factor of the ‘learning rate’ $\eta$. This adjustment value is subtracted from the current network weights:
 			\begin{equation}\label{eq_bp_weightupdate}
-			\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - {\eta}\mathbf{\lambda}^{\ell} (\mathbf{a}^{\ell - 1})^T ,
+			\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - {\eta}\mathbf{\delta}^{\ell} (\mathbf{a}^{\ell - 1})^T ,
 			\end{equation}
 			where $\eta$, the learning rate, is a configured parameter.
-		\end{itemize}
+		\end{enumerate}
 		
-	\end{itemize}
+	\end{enumerate}
 	
 	Choices regarding the learning rates are discussed in Section \ref{imp_learning_rate_schedule} and the full algorithm is presented below in Algorithm \ref{algo_backprop}.\newline
 	
@@ -1219,17 +1246,17 @@
 				}
 			} 
 			\tcp{Calculate the error term (aka cost), as}
-			$\mathbf{\lambda}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \theta^\prime(\mathbf{z}^L)$;
+			$\mathbf{\delta}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \theta^\prime(\mathbf{z}^L)$;
 			
 			\texttt{\\}
 			\tcp{Perform the Backward Pass, to propagate the errors back and update the network accordingly}
 			\ForEach{$\ell$ in (L-1):1}
 			{
 				\tcp{Calculate the delta values}
-				$\mathbf{\lambda}^\ell = ((\mathbf{w}^{\ell+1})^T\mathbf{\lambda}^{\ell+1})  \otimes \theta^\prime(\mathbf{z}^\ell)$;
+				$\mathbf{\delta}^\ell = ((\mathbf{w}^{\ell+1})^T\mathbf{\delta}^{\ell+1})  \otimes \theta^\prime(\mathbf{z}^\ell)$;
 				
 				\tcp{Update the weights}
-				$\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - {\eta}\mathbf{\lambda}^{\ell} (\mathbf{a}^{\ell - 1})^T$;
+				$\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - {\eta}\mathbf{\delta}^{\ell} (\mathbf{a}^{\ell - 1})^T$;
 			}
 		}
 		
@@ -1250,14 +1277,14 @@
 		\item [1] Selection is now performed such that at each epoch $m$, $s$ new samples are from $x$, formning the subset $x_s$.
 		\item [2] The weight update is now performed such that it represents an aggregate update according the $m$ samples that were selected:
 		\begin{equation}\label{eq_backprop_weightupdate_sgd}
-		\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - \frac{\eta}{m} \sum_{x} \mathbf{\lambda}^{x, \ell} (\mathbf{a}^{x, \ell - 1})^T , 
+		\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - \frac{\eta}{m} \sum_{x} \mathbf{\delta}^{x, \ell} (\mathbf{a}^{x, \ell - 1})^T , 
 		\end{equation}
 		where
 		\begin{enumerate}
 			\item $w^\ell$ is the $\ell^{th}$ layer's weights,
 			\item $\eta$ is the configured learning rate parameters, 
 			\item $m$ is the size of the mini-batch,
-			\item $\lambda$ is the rate of change in the error (calculated using equation \ref{eq_lambda4}), and
+			\item $\delta$ is the rate of change in the error (calculated using equation \ref{eq_lambda4}), and
 			\item $a$ is the output of the activation function for the weighted input (calculated using equation \ref{eq_activation_output}).
 		\end{enumerate}
 	\end{itemize}
@@ -1270,29 +1297,29 @@
 	Regularization is a commonly used technique in machine learning used to reduce a model's capacity to overfit to the data, and in so doing reduces the variance in the model results. One of the typical methods, ``$L2$'' (or ``weight decay''), is implemented by adding an extra term to the cost function which is itself a function of the weights in the model. This extra term forces the learning process to favour smaller weights, and only allows large weights to occur if they are able to offer an appropriate increase in performance. The modified cost function is calculated as:
 	
 	\begin{equation}\label{func_l2reg}
-	\mathbf{C}=\frac{1}{2 n} \sum_{x}\left\|\mathbf{y}-\mathbf{a}^{L}\right\|^{2}+\frac{\mathrm{\Gamma}}{2 n} \sum_{w} \mathbf{w}^{2},
+	\mathbf{C}=\frac{1}{2 n} \sum_{x}\left\|\mathbf{y}-\mathbf{a}^{L}\right\|^{2}+\frac{\mathrm{\lambda}}{2 n} \sum_{w} \mathbf{w}^{2},
 	\end{equation}
 	where
 	\begin{enumerate}
 		\item $n$ is the dataset sample size,
 		\item $y$ is the input data,
 		\item $a$ is the output of the activation function in the $L^{th}$ layer (calculated using equation \ref{eq_activation_output}),
-		\item $\Gamma$ is the configured regularization rate, and
+		\item $\lambda$ is the configured regularization rate, and
 		\item $w$ is a layer's weights.
 	\end{enumerate}
 	
-	The additional term is scaled by the configurable regularization parameter, $\Gamma$, which if small approximates the original cost function or if large will increase the degree of regularization used. \newline
+	The additional term is scaled by the configurable regularization parameter, $\lambda$, which if small approximates the original cost function or if large will increase the degree of regularization used. \newline
 	
 	In order to implement this in backpropagation, the weight update rule is changed to the following (while biases remain the same):
 	
 	\begin{equation}\label{func_l2_weight_update}
-	\mathbf{w} \rightarrow \mathbf{w}-\eta \frac{\partial \mathbf{C}_{0}}{\partial \mathbf{w}}-\frac{\eta \mathrm{\Gamma}}{n} \mathbf{w}
+	\mathbf{w} \rightarrow \mathbf{w}-\eta \frac{\partial \mathbf{C}_{0}}{\partial \mathbf{w}}-\frac{\eta \mathrm{\lambda}}{n} \mathbf{w}
 	\end{equation}
 	
 	For SGD, this can be simplified to the following: 
 	
 	\begin{equation}\label{func_sgd_l2}
-	\mathbf{w} \rightarrow\left(1-\frac{\eta \mathrm{\Gamma}}{n}\right) \mathbf{w}-\frac{\eta}{m} \sum_{x} \frac{\partial \mathbf{C}_{x}}{\partial \mathbf{w}}
+	\mathbf{w} \rightarrow\left(1-\frac{\eta \mathrm{\lambda}}{n}\right) \mathbf{w}-\frac{\eta}{m} \sum_{x} \frac{\partial \mathbf{C}_{x}}{\partial \mathbf{w}}
 	\end{equation}
 	
 	
@@ -1321,7 +1348,9 @@
 	
 	\subsection{Restricted Boltzmann Machines}\label{imp_rbm}
 	
-	Restricted Boltzmann machines (RBM) are generative networks which can be trained to learn probability distributions over a dataset. They are structurally different from a FFN in that they have a recurrent weight function - a typical RBM has one visible layer (input/output), and one hidden layer. A sample will be processed from the input layer to the hidden layer, and the activation values from the hidden layer will be used by the input layer to provide a reconstruction. The hidden units thus correspond to feature detection of the visible unit data structures, and the learning process of the network results in effective parameter estimation. \newline
+	Restricted Boltzmann machines (RBM) are generative networks which can be trained to learn probability distributions over a dataset. They are structurally different from a FFN in that they have a recurrent weight structure and stochastic unit determination. Specifically, a typical RBM has one visible layer (input/output), and one hidden layer, and the values in the hidden layer will take on a binary value with a probabilistic likelihood.  \newline
+	
+	Thus, the input and output have the same structure, and the processing from the hidden layer creates the generative process learned by the RBM. The hidden units correspond to feature detection of the visible unit data structures, and the learning process of the network results in effective parameter estimation. \newline
 	
 	\begin{figure}[H]
 		\centering 
@@ -1330,15 +1359,30 @@
 		\label{figure-rbm_network_diagram}
 	\end{figure}		
 	
-	One of the primary differences from a FFN lies in the stochastic unit determination - the values in a hidden layer will typically be implemented such that the take on a binary value with a probabilistic likelihood. Thus, the input and output have the same structure, and the processing from the hidden layer creates the generative process learned by the RBM. \newline
+	RBM input processing goes through the following steps:
 	
-	The joint configuration $(v,h)$ of the visible and hidden units has an energy given by:
+	\begin{enumerate}
+		\item An input sample, $\mathbf{y}$, is processed from the visible layer to the hidden layer using typical feedforward functions.
+		\item Each node in the hidden layer takes on a value of 1 with a probability of it's activation function output, or else is equal to 0.
+		\item The visible layer nodes are reconstructed to provide $\mathbf{\hat{y}}$, using the hidden layer values as the input.
+	\end{enumerate}
+	
+	\subsubsection{RBM Stochastic Descent}
+	
+	\citet{Hinton5} shows that the joint configuration $(v,h)$ of the visible and hidden units has an energy given by :
 	
 	\begin{equation}\label{func_rbmenergy}
-	E(\mathbf{v},\mathbf{h}) = - \sum_{i \in visible} \mathbf{a}_i\mathbf{v}_i - \sum_{j \in hidden} \mathbf{b}_j\mathbf{h}_j - \sum_{i,j}\mathbf{v}_i\mathbf{h}_j\mathbf{w}_ij
+	E(\mathbf{v},\mathbf{h}) = - \sum_{i \in visible} \mathbf{a}_i\mathbf{v}_i - \sum_{j \in hidden} \mathbf{b}_j\mathbf{h}_j - \sum_{i,j}\mathbf{v}_i\mathbf{h}_j\mathbf{w}_{ij}
 	\end{equation}
 	
-	where $v,h$ correspond to the binary states of the visible and hidden units, with biases $a,b$, and weights $w$ \citep{Hinton5}. It can be shown, that network weights can be adjusted to change the probabilities assigned to a particular training sample \citep{Hinton5}. The derivations of equation \ref{func_rbmenergy} show that performing a stochastic descent for the log probability of the data can be implemented through the following weight adjustment:
+	, where
+	\begin{enumerate}
+		\item $\mathbf{v}$ and $\mathbf{h}$ are the binary state vectors of the visible and hidden units respectively, 
+		\item $\mathbf{a}$ and $\mathbf{b}$ are the bias value vectors for the visible and hidden units respectively, and
+		\item $\mathbf{w}$ is the weights vector for the 2 visible and hidden layers.
+	\end{enumerate}
+	~\\
+	It can be shown, that network weights can be adjusted to change the probabilities assigned to a particular training sample . The derivations of equation \ref{func_rbmenergy} show that performing a stochastic descent for the log probability of the data can be implemented through the following weight adjustment:
 	
 	\begin{equation}
 	\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{data} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{model})
@@ -1347,17 +1391,17 @@
 	The angular brackets here indicate expectations under the distribution specified by the following subscript. Due to the probabilistic nature of RBMs, the [0,1] ranged Sigmoid activation function is typically used. Thus, for hidden nodes and a data sample $v$, it is easy to get unbiased sampling of $\langle v_ih_j \rangle_{data}$
 	
 	\begin{equation}
-	p(\mathbf{h}_j=1) = \sigma(\mathbf{w}_{0j} +  \sum_{i=1}\mathbf{v}_i\mathbf{w}_{ij})
+	\mathrm{P}(\mathbf{h}_j=1) = \sigma(\mathbf{w}_{0j} +  \sum_{i=1}\mathbf{v}_i\mathbf{w}_{ij})
 	\end{equation}
 	
 	Similarly, the visible states (or reconstruction), can then be calculated as 
 	
 	\begin{equation}
-	p(\mathbf{v}_i=1) = \sigma(\mathbf{w}_{0i} + \sum_{j=1}\mathbf{h}_j\mathbf{w}_{ij})
+	\mathrm{P}(\mathbf{v}_i=1) = \sigma(\mathbf{w}_{0i} + \sum_{j=1}\mathbf{h}_j\mathbf{w}_{ij})
 	\end{equation}
 	
 	
-	Getting an unbiased sample of $\langle v_i h_j \rangle$ proves more problematic, and so the model reconstructions via Gibbs sampling are used instead (this is explained below), resulting in the weight updates of
+	Getting an unbiased sample of $\langle v_i h_j \rangle$ proves more problematic, and so the model reconstructions via Gibbs sampling are used instead (this is expanded on below), resulting in the weight updates of
 	
 	\begin{equation}
 	\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{data} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{reconstruction})
@@ -1367,38 +1411,66 @@
 	
 	\subsubsection{Contrastive Divergence}\label{imp_CD}
 	
-	The process of sampling and resampling may be run for many iterations between the two layers before finishing on an output - this potentially long running and stochastic process results in the generative aspect of the network, and constitutes a Gibbs sampling chain. Multiple sampling steps in this chain is known as Contrastive Divergence, or CD-n, where $n$ represents the number of steps, and which allows for effective parameter estimation. Thus, CD-1 is the following:\newline
+	The process of sampling and resampling may be run for many iterations between the two layers before finishing on an output - this potentially long running and stochastic process results in the generative aspect of the network, and constitutes a Gibbs sampling chain. Multiple sampling steps in this chain is known as Contrastive Divergence, or CD-n, where $n$ represents the number of steps, and which allows for effective parameter estimation. CD-1 is detailed in Algorithm \ref{algo_cd1}.\newline
 	
 	
 	\begin{algorithm}[H]
-		\KwIn{RBM Network $N$, with visible nodes $N$ and hidden nodes $H$ and distribution $\langle vh \rangle$}
-		\KwData{Training sample dataset $V'$}
+		\KwIn{RBM Network $N$, with visible nodes $\mathbf{v}$ and hidden nodes $\mathbf{h}$ and weight distribution $\mathbf{w}$ (representing $\langle vh\rangle$)}
+		\KwData{Training sample dataset $D$}
 		
 		\texttt{}\newline
 		
-		For a random training sample $V'$, sample $H'$ from $P(V|H)$;\newline
-		Sample $V$ from $P(V|H')$;\newline
-		Sample H from $P(H|V)$;\newline
-		Return $(V,H) \sim R $, where R is the reconstructed distribution for $\langle vh \rangle$;\newline
+		\ForEach{$\mathbf{V^D}$ in $D$}
+		{
+			~\\
+			\tcp{Sample $\mathrm{H^D}$ from $\mathrm{P(H^D|V^D)}$}
+			\ForEach{$n$ in (1:j)}
+			{
+				$\mathrm{P}(\mathbf{H^D}_n=1) = \sigma(\mathbf{w}_{0j} +  \sum_{i=1}\mathbf{V^D}_i\mathbf{w}_{in})$
+			}
+			~\\
+			\tcp{Sample $\mathrm{V}$ from $\mathrm{P(V|H^D)}$}
+			\ForEach{$n$ in (1:i)}
+			{
+				$\mathrm{P}(\mathbf{V}_n=1) = \sigma(\mathbf{w}_{0i} + \sum_{j=1}\mathbf{H^D}_j\mathbf{w}_{ij})$
+			}
+			~\\
+
+			\tcp{Sample $\mathrm{H}$ from $\mathrm{P(H|V)}$}
+			\ForEach{$n$ in (1:j)}
+			{
+				$\mathrm{P}(\mathbf{H}_n=1) = \sigma(\mathbf{w}_{0j} +  \sum_{i=1}\mathbf{V}_i\mathbf{w}_{in})$
+			}
+			~\\
+
+			\tcp{Calculate Change in Weights Using Reconstructed Distribution}
+			\tcp{$\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{data} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{reconstruction})$}
+			$\Delta \mathbf{w} = \eta ([{\mathbf{V}^D}{\mathbf{H}^{DT}}] - [\mathbf{V}\mathbf{H}^T])$
+
+			\texttt{}\newline
+			
+			\tcp{Update the weights}
+			$\mathbf{w} \rightarrow \mathbf{w} - \Delta \mathbf{w}$
+		}
+
 		
-		\tcp{Using the reconstructed distribution $R(V,H)$, the weight update for CD-1 is, as above, then}
-		
-		\begin{equation}
-		\Delta CD(W) = \eta( E_{P(H|V)D(V)}[VH^T] - E_{R(V,H)}[VH^T])
-		\end{equation}
-		
-		
-		\KwResult{Reconstructed distribution for $\langle vh \rangle$}
+		%For a random training sample $V'$, sample $H'$ from $P(V|H)$;
+		%Sample $V$ from $P(V|H')$;\newline
+		%Sample H from $P(H|V)$;\newline
+		%Return $(V,H) \sim R $, where R is the reconstructed distribution for $\langle vh \rangle$;\newline		
+		%\tcp{Using the reconstructed distribution $R(V,H)$, the weight update for CD-1 is, as above, then}
+		%\Delta CD(W) = \eta( E_{P(H|V)D(V)}[VH^T] - E_{R(V,H)}[VH^T])		
+		\KwResult{Network $N$ with weights $\mathbf{w}$ updated for dataset $D$}
 		
 		\label{algo_cd1}
 		\caption{CD-1}
 	\end{algorithm}
-	
+	~\\
 	There's no upper bound on the iterations used for CD, and running for many can prove more effective for certain purposes. In this case however, where RBMs are used for the purposes of weight initialization, CD-1 is usually deemed sufficient.
 	
 	\subsubsection{CD-1 and SGD}
 	
-	In the same way that the backpropagation learning algorithm in Section \ref{imp_backprop} can be implemented in an SGD process for FFNs, so can the CD learning algorithm for RBMs. The framework is kept the same, with the implementation of epochs and weight updates based on stochastically chosen minibatches, but the calculation used to update the weights is CD-1 instead.
+	In the same way that the backpropagation learning algorithm in Section \ref{imp_backprop} can be implemented in a mini-batch SGD process for FFNs, so can the CD learning algorithm for RBMs. The framework is kept the same, with the implementation of epochs and weight updates based on stochastically chosen minibatches, but the calculation used to update the weights is CD-1 instead.
 	
 	
 	\subsection{Stacked AutoEncoders}\label{imp_SAE}
@@ -1407,35 +1479,52 @@
 	\newline\newline
 	Stacked AutoEncoders follow a similar structure, but with multiple hidden layers. The only strict requirement of the hidden layers is that the middle one, which will be used as the encoder layer, still has fewer nodes than the input. This structure can still be trained using backpropagation, but with more layers, it is likely to begin suffering from the vanishing or exploding gradient problem. As noted, the work by Hinton et al. for initialization of weights helps resolve this.
 	
-	\subsubsection{Sigmoid based Greedy Layerwise SAE Training}\label{imp_sigmoidsae}
+	\subsubsection{Sigmoid Based Greedy Layerwise SAE Training}\label{imp_sigmoidsae}
 	
-	The steps for implementing the SAE training, suggested by \citet{Hinton2}, are as follows:
+	The steps for implementing the SAE training suggested by \citet{Hinton2} are detailed in Algorithm \ref{algo_sae_rbm}.\newline
 	
-	\begin{enumerate}
-		\item \textbf{Define Network:}Define a network structure which conforms to the requirements of an SAE, with $L$ layers.
+	\begin{algorithm}[H]
+		\KwIn{Network structure $N$, which conforms to the requirements of an SAE with $L$ layers; Input dataset $X$.}
+		\texttt{\\}
+		
+		\begin{enumerate}
 		\item \textbf{Train First Layer:} For the first hidden layer, train as you would for an RBM with 2 layers - with the input layer, and the first layer as the hidden layer, using CD-1 and SGD.
 		\item \textbf{Train Subsequent Layers:} For each layer $\ell$ in $(2, L/2)$:
 		\begin{enumerate}
-			\item Process the data through the previously trained layers using the forward propagation as defined in Section \ref{imp_ffn_functions}.
+			\item Process data $X$ through the previously trained layers using the forward propagation as defined in Section \ref{imp_ffn_functions}.
 			\item This processed data then forms the input to the $\ell^{th}$ layer, which can be trained once again using CD-1 and SGD as if it were two layers.
 		\end{enumerate}
 		\item \textbf{Mirror Network:} Once all the layers up until the encoder layer have been trained in this greedy layerwise fashion, mirror the weights and layers structures after the encoder to create a fully $L$ layered FFN with pre-trained weights.
-		\item \textbf{Train Full AutoEncoder:} This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised.
+		\item \textbf{Train Full AutoEncoder:} This network can then be trained using the backpropagation and SGD algorithms on dataset $X$, where cost of reproducing the network input is minimised.
 		\item \textbf{Split to Encoder:} Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE.
 	\end{enumerate}
-	
-	Notably, this weight initialization will only be effective if the RBM and SAE networks use the same activation function, which due to the RBM implementation, needs to be a function that can output a probabilistic value in [0,1].
+		
+		\KwResult{Trained SAE network.}
+		\label{algo_sae_rbm}
+		\caption{SAE Training - Sigmoid Greedy Layerwise}
+	\end{algorithm}
+	~\\
+	 Notably, this weight initialization will only be effective if the RBM and SAE networks use the same activation function, which due to the RBM implementation, needs to be a function that can output a probabilistic value in [0,1].
 	
 	\subsubsection{ReLU based SAE Training}\label{imp_relusae}
 	
-	ReLU activations differ from Sigmoid in that they are not fitting for probability estimations, which makes the algorithm suggest by Hinton et al. unsuitable. The process used here relies on effective weight initialization, and is a simplification of the above.
+	ReLU activations differ from Sigmoid in that they are not fitting for probability estimations, which makes the algorithm suggest by Hinton et al. unsuitable. The process used here relies on effective weight initialization, and is a simplification of the greedy layerwise trianing (Section \ref{imp_sigmoidsae}), as detailed in Algorithm \ref{algo_sae_bp}. \newline 
 	
+	\begin{algorithm}[H]
+		\KwIn{Network structure $N$, which conforms to the requirements of an SAE with $L$ layers; Input dataset $X$.}
+		\texttt{\\}
+		
 	\begin{enumerate}
-		\item \textbf{Define Network:} Define a network structure which conforms to the requirements of an SAE, with $L$ layers.
-		\item \textbf{Initialize Network Weights:} Use an effective weight initialization for all $L$ layers, such as Xavier or He (discussed fully in Section \ref{imp_weights}).
-		\item  \textbf{Train Full AutoEncoder:} This network can then be trained using the backpropagation and SGD algorithms, where cost of reproducing the network input is minimised.
+		\item \textbf{Initialize Network Weights:} Use an effective weight initialization for all $L$ layers, such as the Xavier or He Initializations (discussed fully in Section \ref{imp_weights}).
+		\item  \textbf{Train Full AutoEncoder:} This network can then be trained using the backpropagation and SGD algorithms for dataset $X$, where cost of reproducing the network input is minimised.
 		\item \textbf{Split to Encoder:} Once a minima or acceptable level of reconstruction has been reached, the network can be truncated as the encoder layer, and so the first $L/2$ layers are used as the SAE.
 	\end{enumerate}
+		
+		\KwResult{Trained SAE network.}
+		\label{algo_sae_bp}
+		\caption{SAE Training - ReLU Backpropagation}
+	\end{algorithm}
+	~\\
 	
 	\subsubsection{Denoising AutoEncoders}\label{imp_denoising}
 	
@@ -1886,7 +1975,7 @@
 	These annualizd sharpe ratios for each cluster can now be used to calculate the inter-cluster variance using equation \ref{eq_onc_nc_var}, with their frequency adjusted to match the $\mathrm{SR}^*$ presented for DSR in equation \ref{eq_dsr}:
 		
 	\begin{equation}\label{eq_onc_nc_var}
-	\mathrm{\E}\left[\mathrm{V}\left[\left\{\widehat{\mathrm{SR}}_{k}\right\}\right]\right]=\frac{\mathrm{\Var}\left[\left\{\widehat{\mathrm{aSR}}_{k}\right\}\right]}{\text {Frequency}_{k^{*}}} .
+	\mathrm{\E}\left[\mathrm{\Var}\left[\left\{\widehat{\mathrm{SR}}_{k}\right\}\right]\right]=\frac{\mathrm{\Var}\left[\left\{\widehat{\mathrm{aSR}}_{k}\right\}\right]}{\text {Frequency}_{k^{*}}} .
 	\end{equation}
 	~\\
 	The results from equation \ref{eq_onc_nc_var} and $K$ can then be plugged into equation \ref{eq_dsr} in order to calculate $\mathrm{SR}^*$, the expected maximum SR from the set of trials. This $\mathrm{SR}^*$ with the observed maximum $\widehat{\mathrm{SR}}$ can then be plugged into equation \ref{eq_psr} to calculate PSR, and assess the likelihood of the observed $\widehat{\mathrm{SR}}$ being a false positive.
