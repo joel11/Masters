@@ -1184,19 +1184,19 @@
 		
 		\item \textbf{Calculate Cost}: The cost between the training output $\mathbf{y}$ and the model output $\mathbf{a}^L$ is calculated. \newline
 		
-		Using a cost function such as MSE (equation \ref{func_MSE}), the rate of change for the error in the output layer by the rate of change in the activation function in the last layer, $L$, is calculated. This rate of change for the error for the $j^{th}$ node, $\delta_j$, is expressed as:	
+		Using a cost function such as MSE (equation \eqref{func_MSE}), the rate of change for the error in the output layer by the rate of change in the activation function in the last layer, $L$, is calculated. This rate of change for the error for the $j^{th}$ node, $\delta_j$, is expressed as:	
 		
 		\begin{equation}\label{eq_lambda1}
 		\mathbf{\delta}_{j}^{L}=\frac{\partial \mathbf{C}}{\partial \mathbf{a}_{j}^{L}} \theta^{\prime}\left(\mathbf{z}_{j}^{L}\right) .
 		\end{equation}
 		
-		The vectorized version of this is often used, and expressed in equation \ref{eq_lambda2}. $\nabla_a C$ is a vector of components which are the partial derivatives, such that they represent the rate of change of cost $C$ relative to the activation functions' outputs.
+		The vectorized version of this is often used, and expressed in equation \eqref{eq_lambda2}. $\nabla_a C$ is a vector of components which are the partial derivatives, such that they represent the rate of change of cost $C$ relative to the activation functions' outputs.
 		\begin{equation}\label{eq_lambda2}
 		\mathbf{\delta}^{L}=\nabla_a \mathbf{C} \otimes \theta^{\prime}(\mathbf{z}^L), 
 		\end{equation}
 		where $\otimes$ is the Hadamard (or element-wise) matrix product.\newline
 		
-		If using quadratic cost, as per equation \ref{func_MSE}, then the term $\frac{\partial C}{\partial a_{j}^{L}}$ can be reduced to $(a^L - y)$. The equation for the output layer error rate of change is then:
+		If using quadratic cost, as per equation \eqref{func_MSE}, then the term $\frac{\partial C}{\partial a_{j}^{L}}$ can be reduced to $(a^L - y)$. The equation for the output layer error rate of change is then:
 		\begin{equation}\label{eq_lambda3}
 		\mathbf{\delta}^L = (\mathbf{a}^L - \mathbf{y}) \otimes \theta^{\prime}(\mathbf{z}^L) .
 		\end{equation}
@@ -1205,7 +1205,7 @@
 		\begin{enumerate}
 			\item \textbf{Calculate Errors For Previous Layers:} The activation values are propagated back through the network to calculate the delta values at each layer. \newline
 			
-			This uses the same rationale as equation \ref{eq_lambda1}, but rather uses $(w^{\ell+1})^T$ by the next layers error in order to get an indication of how the error rate and how it moves backwards through the network.
+			This uses the same rationale as equation \eqref{eq_lambda1}, but rather uses $(w^{\ell+1})^T$ by the next layers error in order to get an indication of how the error rate and how it moves backwards through the network.
 			\begin{equation}\label{eq_lambda4}
 			\mathbf{\delta}^\ell = ((\mathbf{w}^{\ell+1})^T\mathbf{\delta}^{\ell+1})  \otimes \theta^{\prime}(\mathbf{z}^\ell) .
 			\end{equation}
@@ -1284,8 +1284,8 @@
 			\item $w^\ell$ is the $\ell^{th}$ layer's weights,
 			\item $\eta$ is the configured learning rate parameters, 
 			\item $m$ is the size of the mini-batch,
-			\item $\delta$ is the rate of change in the error (calculated using equation \ref{eq_lambda4}), and
-			\item $a$ is the output of the activation function for the weighted input (calculated using equation \ref{eq_activation_output}).
+			\item $\delta$ is the rate of change in the error (calculated using equation \eqref{eq_lambda4}), and
+			\item $a$ is the output of the activation function for the weighted input (calculated using equation \eqref{eq_activation_output}).
 		\end{enumerate}
 	\end{itemize}
 	
@@ -1303,7 +1303,7 @@
 	\begin{enumerate}
 		\item $n$ is the dataset sample size,
 		\item $y$ is the input data,
-		\item $a$ is the output of the activation function in the $L^{th}$ layer (calculated using equation \ref{eq_activation_output}),
+		\item $a$ is the output of the activation function in the $L^{th}$ layer (calculated using equation \eqref{eq_activation_output}),
 		\item $\lambda$ is the configured regularization rate, and
 		\item $w$ is a layer's weights.
 	\end{enumerate}
@@ -1382,7 +1382,7 @@
 		\item $\mathbf{w}$ is the weights vector for the 2 visible and hidden layers.
 	\end{enumerate}
 	~\\
-	It can be shown, that network weights can be adjusted to change the probabilities assigned to a particular training sample . The derivations of equation \ref{func_rbmenergy} show that performing a stochastic descent for the log probability of the data can be implemented through the following weight adjustment:
+	It can be shown, that network weights can be adjusted to change the probabilities assigned to a particular training sample . The derivations of equation \eqref{func_rbmenergy} show that performing a stochastic descent for the log probability of the data can be implemented through the following weight adjustment:
 	
 	\begin{equation}
 	\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{data} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{model})
@@ -1546,7 +1546,7 @@
 	
 	Recent research by \citet{He} has shown that weights can be initialized to maintain expected variance between the input and output layers. These methodologies have the immediate advantages of simpler implementation, as well as faster computation (as no pre-training is required). The also allow for effective weight initialization of non-probabilistic activation functions, such as ReLU. Whether they result in better reconstructions or predictions is less clear (especially as the linearity assumption would prove faulty), and so the methods are tested here as well. 
 	\newline\newline
-	A common initialization heuristic is to use a uniform, and but not layer agnostic, initialization such as equation \ref{func_uniform_init} below. While simple enough, it's been shown that this does not always lead to the best training results, and can be outperformed by variance based initializations \citep{Glorot}.
+	A common initialization heuristic is to use a uniform, and but not layer agnostic, initialization such as equation \eqref{func_uniform_init} below. While simple enough, it's been shown that this does not always lead to the best training results, and can be outperformed by variance based initializations \citep{Glorot}.
 	
 	\begin{equation}\label{func_uniform_init}
 	\mathbf{w} \sim U\left[-\frac{1}{\sqrt{n}}, \frac{1}{\sqrt{n}}\right] ,
@@ -1576,7 +1576,7 @@
 	
 	\subsubsection{Initializations}
 	
-	\paragraph{``Xavier'' Initialization} Considering that  $\Var(U(-a, a)) = a^2/3$, then ensuring balance variance for weights as per equation \ref{eq_init_var} provides us with the Xavier Glorot initialization \citep{Glorot} which can be used for Sigmoid activations, and is defined as follows
+	\paragraph{``Xavier'' Initialization} Considering that  $\Var(U(-a, a)) = a^2/3$, then ensuring balance variance for weights as per equation \eqref{eq_init_var} provides us with the Xavier Glorot initialization \citep{Glorot} which can be used for Sigmoid activations, and is defined as follows
 	\begin{equation}
 	\mathbf{w}_{ij} \sim U(-r, r), r = \sqrt{\frac{6}{n_i + n_j}} ,
 	\end{equation}
@@ -1877,7 +1877,7 @@
 	\mathbf{q} = \frac{\E[{\mathbf{S}_i}]}{\sqrt{\Var[{\mathbf{S}_i}]}} .
 	\end{equation} 
 	
-	The initialization problem is, in part, addressed through the use of nested clustering. Typical K-means clustering is run for k = 2, ..., N-1 clusters, for which each clustering is evaluated according to $\mathbf{q}$ (equation \ref{eq_cluster_q}). This process is itself repeated a number of times, thus obtaining the results for different random initializations. Naturally, the clustering results with the highest $\mathbf{q}$ are used for the steps that follow. \newline
+	The initialization problem is, in part, addressed through the use of nested clustering. Typical K-means clustering is run for k = 2, ..., N-1 clusters, for which each clustering is evaluated according to $\mathbf{q}$ (equation \eqref{eq_cluster_q}). This process is itself repeated a number of times, thus obtaining the results for different random initializations. Naturally, the clustering results with the highest $\mathbf{q}$ are used for the steps that follow. \newline
 	
 	A final modification is made in order to address lower quality clusters that may have occured as a result of the initial clustering capturing larger and broader clusters, but missing smaller and more distinct ones. In order to assess this, any cluster $k$ where $\mathbf{q}_k < \mathbf{\bar{q}}$ has its components aggregated into a partition, $K_1$, with the remaining components in $K_0$. The components in $K_1$ are then run through the full ONC algorithm. This resursive approach may produce a better clustering, and so the  $\mathbf{\bar{q}}$  for the cluster before and after the recursive step are compared. If the new clustering is better, then the new clusters for $K_1$ are combined with the original $K_0$ clustrers. If not, then the original clustering is used as the final result. These clusterings will be used below, where both the number and variances thereof will be used.
 	
@@ -1932,7 +1932,7 @@
 	
 	\subsubsection{Deflated Sharpe Ratio}\label{imp_dsr_detail}
 	
-	Prado and Lewis use the Probabilistic Sharpe Ratio and the False Strategy Theorem (FST) to define the Deflated Sharpe Ratio (DSR) as $\widehat{PSR}[\mathrm{SR}^*]$: the probability that the true SR exceeds $\mathrm{SR}^*$, which no longer needs to be user defined. Following from the FST statement in equation \ref{eq_falsestrat}, 
+	Prado and Lewis use the Probabilistic Sharpe Ratio and the False Strategy Theorem (FST) to define the Deflated Sharpe Ratio (DSR) as $\widehat{PSR}[\mathrm{SR}^*]$: the probability that the true SR exceeds $\mathrm{SR}^*$, which no longer needs to be user defined. Following from the FST statement in equation \eqref{eq_falsestrat}, 
 	
 	\begin{equation}\label{eq_dsr}
 	\mathrm{SR}^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{\mathrm{SR}}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right), 
@@ -1945,20 +1945,20 @@
 		\item $\gamma$ is the Euler-Mascheroni constant.
 	\end{enumerate}
 	~\\
-	For any set of trials with strategy returns, it is expected that there will be some maximum $\widehat{\mathrm{SR}}$ that is more than zero, even if the true $\mathrm{SR}$ is zero. This maximum can be defined using equation \ref{eq_dsr} for $\mathrm{SR}^*$. The PSR from equation \ref{eq_psr} can then be used to assess if the observed SR is statistically signficicantly larger than the expected maximum, and in doing so possibly reject the null hypothesis that $H_0: \mathrm{SR} = 0$. Thus, DSR gives us a confidence level as to whether the observed SR is legitimate and not just a false positive.
+	For any set of trials with strategy returns, it is expected that there will be some maximum $\widehat{\mathrm{SR}}$ that is more than zero, even if the true $\mathrm{SR}$ is zero. This maximum can be defined using equation \eqref{eq_dsr} for $\mathrm{SR}^*$. The PSR from equation \eqref{eq_psr} can then be used to assess if the observed SR is statistically signficicantly larger than the expected maximum, and in doing so possibly reject the null hypothesis that $H_0: \mathrm{SR} = 0$. Thus, DSR gives us a confidence level as to whether the observed SR is legitimate and not just a false positive.
 	
 	\paragraph{Estimating $\mathbf{\E}\left[\mathbf{K}\right]$ and $\mathbf{\Var}\left[\widehat{\mathbf{SR_k}}\right]$}\label{dsr_cluster_estimates}
 	
 	The results from the ONC algorithm, having already determined $\mathbf{\E}\left[K\right]$ by clustering the trials into $K$ clusters, can then be used to estimate the variance of the cluster sharpe ratios. In order to do so, a single time series return needs to be constructed for the strategies in each cluster. The minimum variance allocation from \citet{LopezPrado2016a} is used in order to choose the best weightings and reduce the effects of strategies with large variances.\newline
 
-	For each cluster $k$, where $k = 1, ..., K$, with components $C_k$, the weightings for each component can be calculated using equation \ref{eq_onc_weights}:
+	For each cluster $k$, where $k = 1, ..., K$, with components $C_k$, the weightings for each component can be calculated using equation \eqref{eq_onc_weights}:
 	
 	\begin{equation}\label{eq_onc_weights}
 	\mathbf{w_{k}}=\frac{\Sigma_{k}^{-1} 1}{1^{\prime} \Sigma_{k}^{-1} 1}, 
 	\end{equation}
 		where $\Sigma_k$ is the covariance matrix for the components of $C_k$.\newline
 	~\\
-	Using these weights, the cluster return time series can then be calculated using equation \ref{eq_onc_returns}:
+	Using these weights, the cluster return time series can then be calculated using equation \eqref{eq_onc_returns}:
 	
 	\begin{equation}\label{eq_onc_returns}
 	\mathbf{S_{k, t}}=\sum_{i \in C_{k}} \mathbf{w_{k, i}} \mathbf{r_{i, t}}, 
@@ -1966,19 +1966,19 @@
 
 	where $r_{i,t}$ is the return series for component $i$.\newline
 	~\\
-	With a single time series for each cluster $k$, $\widehat{\mathrm{SR}_k}$ can be calculated normally (as per equation \ref{eq_sharperatio}), and then annualized using equation \ref{eq_asr}. In this paper, all strategies have the same trading frequency of $\frac{T_k}{Years_k}$ (as per the MMS presented in Section \ref{imp_mms}), though other implementations may need to adjust the frequency for each cluster. The annualized Sharpe Ratio (aSR) is calculated as:
+	With a single time series for each cluster $k$, $\widehat{\mathrm{SR}_k}$ can be calculated normally (as per equation \eqref{eq_sharperatio}), and then annualized using equation \eqref{eq_asr}. In this paper, all strategies have the same trading frequency of $\frac{T_k}{Years_k}$ (as per the MMS presented in Section \ref{imp_mms}), though other implementations may need to adjust the frequency for each cluster. The annualized Sharpe Ratio (aSR) is calculated as:
 		
 	\begin{equation}\label{eq_asr}
 	\widehat{\mathrm{aSR}}_{k}=\frac{\mathrm{\E}\left[\left\{S_{k, t}\right\}\right] \text { Frequency }_{k}}{\sqrt{\mathrm{\Var}\left[\left\{S_{k, t}\right\}\right] \text { Frequency }_{k}}}=\widehat{\mathrm{SR}}_{k} \sqrt{\text {Frequency}_{k}} .
 	\end{equation}
 	~\\
-	These annualizd sharpe ratios for each cluster can now be used to calculate the inter-cluster variance using equation \ref{eq_onc_nc_var}, with their frequency adjusted to match the $\mathrm{SR}^*$ presented for DSR in equation \ref{eq_dsr}:
+	These annualizd sharpe ratios for each cluster can now be used to calculate the inter-cluster variance using equation \eqref{eq_onc_nc_var}, with their frequency adjusted to match the $\mathrm{SR}^*$ presented for DSR in equation \eqref{eq_dsr}:
 		
 	\begin{equation}\label{eq_onc_nc_var}
 	\mathrm{\E}\left[\mathrm{\Var}\left[\left\{\widehat{\mathrm{SR}}_{k}\right\}\right]\right]=\frac{\mathrm{\Var}\left[\left\{\widehat{\mathrm{aSR}}_{k}\right\}\right]}{\text {Frequency}_{k^{*}}} .
 	\end{equation}
 	~\\
-	The results from equation \ref{eq_onc_nc_var} and $K$ can then be plugged into equation \ref{eq_dsr} in order to calculate $\mathrm{SR}^*$, the expected maximum SR from the set of trials. This $\mathrm{SR}^*$ with the observed maximum $\widehat{\mathrm{SR}}$ can then be plugged into equation \ref{eq_psr} to calculate PSR, and assess the likelihood of the observed $\widehat{\mathrm{SR}}$ being a false positive.
+	The results from equation \eqref{eq_onc_nc_var} and $K$ can then be plugged into equation \eqref{eq_dsr} in order to calculate $\mathrm{SR}^*$, the expected maximum SR from the set of trials. This $\mathrm{SR}^*$ with the observed maximum $\widehat{\mathrm{SR}}$ can then be plugged into equation \eqref{eq_psr} to calculate PSR, and assess the likelihood of the observed $\widehat{\mathrm{SR}}$ being a false positive.
 		
 		
 		
@@ -2371,7 +2371,7 @@
 	
 	\subsubsection{Technical Notes}
 	
-	While the predictive networks are trained using an MSE loss function, the performance will mostly be reported on according to the P\&L they were able to achieve through the MMS. Looking at Figure \ref{figure-ogdmse_pl}, we can see that while there is a strong correlation between predictive accuracy and P\&L achieved, it is not absolute and there are many ``worse'' configurations according to OGD MSE which have higher P\&L. This is due in part to OGD's potential to oscillate wildly in the beginning of training while it adjusts, and also representative of lower variance models being able to achieve competitive P\&L. Also, in consideration of the task at hand, P\&L is the primary metric of interest and so is a sensible analysis choice. It is worth noting though that this P\&L is a relative unit measurement, rather than a particular currency (as noted in Section \ref{data_prices}), and that the MMS, as described in Section \ref{imp_mms}, only trades 1 stock unit at a time, and so any P\&L figures are relative indications rather than absolute limits. It is also usually reported without capital and trading costs (as per equation \ref{eq_capital_costs}) applied, though these costs are taken into account for the PBO and DSR validations. \newline
+	While the predictive networks are trained using an MSE loss function, the performance will mostly be reported on according to the P\&L they were able to achieve through the MMS. Looking at Figure \ref{figure-ogdmse_pl}, we can see that while there is a strong correlation between predictive accuracy and P\&L achieved, it is not absolute and there are many ``worse'' configurations according to OGD MSE which have higher P\&L. This is due in part to OGD's potential to oscillate wildly in the beginning of training while it adjusts, and also representative of lower variance models being able to achieve competitive P\&L. Also, in consideration of the task at hand, P\&L is the primary metric of interest and so is a sensible analysis choice. It is worth noting though that this P\&L is a relative unit measurement, rather than a particular currency (as noted in Section \ref{data_prices}), and that the MMS, as described in Section \ref{imp_mms}, only trades 1 stock unit at a time, and so any P\&L figures are relative indications rather than absolute limits. It is also usually reported without capital and trading costs (as per equation \eqref{eq_capital_costs}) applied, though these costs are taken into account for the PBO and DSR validations. \newline
 
 	The results for synthetic data are compared against actual data when appropriate, such that it might guide when synthetic data can and should be used for parameter space exploration (as discussed in Section \ref{proc_synthetic}). These results are discussed more completely in Sections \ref{results_synth} and \ref{results_synth_summary}.\newline
 
@@ -3049,7 +3049,7 @@
 			\label{figure-results_pl_pdf_cost_capital}
 		\end{subfigure}
 		\caption[MMS OOS P\&L Distributions]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
-			\newline The distributions of all OOS P\&L values, with the benchmark P\&L indicated in orange, give an encouraging view of the results. There is a significant negative skew, with a proportionally small number of strategies resulting in negative returns, even with capital and trading costs applied (as per equation \ref{eq_capital_costs}). There are a large proportion of strategies near the OOS upper bound, which in turn is within 22\% and 28\% of the benchmark for Figure (a) and (b), respectively (these percentages apply similarly to return rates as they do to OOS P\&L).
+			\newline The distributions of all OOS P\&L values, with the benchmark P\&L indicated in orange, give an encouraging view of the results. There is a significant negative skew, with a proportionally small number of strategies resulting in negative returns, even with capital and trading costs applied (as per equation \eqref{eq_capital_costs}). There are a large proportion of strategies near the OOS upper bound, which in turn is within 22\% and 28\% of the benchmark for Figure (a) and (b), respectively (these percentages apply similarly to return rates as they do to OOS P\&L).
 		}
 		\label{results_pl_pdf_cost}
 	\end{figure}
@@ -3192,7 +3192,7 @@
 		\label{figure-dsr_clusters_mse}
 	\end{figure}
 	
-	The lack of further clusterings was probed manually for Cluster One, running the algorithm for a range of values between 2 and 7000 \footnote{[2,3,...,49,50,500,1000,1500,2000,2250,2400,2500,2600,2750,3000,4000,5000,6000]}. It was found that while there were sub-clusterings which resulted in a higher mean silhouette score (as per equation \ref{eq_silhouette}), the variance of the silhouette scores also increased dramatically. This in turn, resulted in a lower score for the cost function $\mathbf{q}$ (as per equation \ref{eq_cluster_q}), and so the ONC algorithm did not cluster further.
+	The lack of further clusterings was probed manually for Cluster One, running the algorithm for a range of values between 2 and 7000 \footnote{[2,3,...,49,50,500,1000,1500,2000,2250,2400,2500,2600,2750,3000,4000,5000,6000]}. It was found that while there were sub-clusterings which resulted in a higher mean silhouette score (as per equation \eqref{eq_silhouette}), the variance of the silhouette scores also increased dramatically. This in turn, resulted in a lower score for the cost function $\mathbf{q}$ (as per equation \eqref{eq_cluster_q}), and so the ONC algorithm did not cluster further.
 	
 	\subsubsection{DSR and PSR Results}\label{results_dsr2}
 	
@@ -3456,7 +3456,7 @@
 
 		\item [3] \textbf{Estimate the Variance of Strategy Sharpe Ratios:} \newline
 
-		Using equation \ref{eq_onc_nc_var}, the cluster strategy Sharpe ratios can be used to estimate the SR variance. 
+		Using equation \eqref{eq_onc_nc_var}, the cluster strategy Sharpe ratios can be used to estimate the SR variance. 
 		
 		\begin{equation}
 		\mathrm{E}\left[\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]\right]=\frac{\mathrm{V}\left[\left\{\widehat{aSR}_{k}\right\}\right]}{\text {Frequency}_{k^{*}}}
@@ -3470,7 +3470,7 @@
 		
 		\item [4] \textbf{Calculate the Benchmark $\mathbf{SR^*}$:} \newline
 		
-		Using the estimated variance and equation \ref{eq_dsr}, the benchmark $SR^*$ can then be calculated (where $Z[.]$ is the CDF of the standard Normal Distribution 
+		Using the estimated variance and equation \eqref{eq_dsr}, the benchmark $SR^*$ can then be calculated (where $Z[.]$ is the CDF of the standard Normal Distribution 
 		and $\gamma$ is the Euler-Mascheroni constant).
 		
 		\begin{equation}
@@ -3485,7 +3485,7 @@
 		
 		\item [5] \textbf{Calculate DSR:} \newline
 		
-		Using the benchmark, the final DSR calculation can be done with equation \ref{eq_psr} (where $T$ is the number of observed returns, $\hat{\gamma_3}$ is the skewness of $r_t$ and $\hat{\gamma_4}$ is the kurtosis of $r_t$	())
+		Using the benchmark, the final DSR calculation can be done with equation \eqref{eq_psr} (where $T$ is the number of observed returns, $\hat{\gamma_3}$ is the skewness of $r_t$ and $\hat{\gamma_4}$ is the kurtosis of $r_t$	())
 		
 		\begin{equation}
 		\widehat{SR}=0.641676
