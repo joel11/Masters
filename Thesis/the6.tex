@@ -904,11 +904,11 @@
 	\end{enumerate}
 		
 	\subsubsection{Log Difference Transformation and Aggregation}\label{ldata_og_difference}
-	All datasets are transformed into log feature fluctuation values, and were then aggregated to include fluctuations over rolling window periods. The log feature fluctuation for measured prices $\tilde{p}$ at timepoint $t$ is calculated using \eqref{eq_logdiff}:
+	All datasets are transformed into log feature fluctuation values, and are then aggregated to include fluctuations over rolling window periods. The log feature fluctuation for measured prices $\tilde{p}$ at timepoint $t$ is calculated using \eqref{eq_logdiff}:
 	\begin{equation}\label{eq_logdiff}
 	\Delta\mathbf{p}_i = \mathrm{ln(\tilde{p}_i) - \mathrm{ln}(\tilde{p}_{i-1})}
 	\end{equation}
-	This log feature fluctuation,  is processed for each asset's closing price and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and are symmetric in terms of gains and losses.
+	This log feature fluctuation,  is processed for each asset's closing price and for each time point (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and are symmetric in terms of gains and losses. Further, the log transformation provides an ergodic time series which is indicative what will happen to $\mathbf{\tilde{p}}$ over time, and has been shown to be the correct optimization choice \citep{Peters}.
 	\newline\newline
 	The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. A typical example would be past data aggregation windows of 1, 5 and 20, and a future prediction point of 5. These are calculated as summations of the log differences, such that for $d$ days:
 	
@@ -2203,7 +2203,9 @@
 	
 	The CSCV and PBO methodologies can be found in the \texttt{CSCV} module \citep{DCCSCV}, which encapsulates the generation and assessment of the logit distributions, as well as the PBO calculation.
 	
-	\todo{add DSR here}	
+	\subsubsection{DSR Libraries}
+	
+	Unlike the rest of the framework implementation, the DSR process was written in Python \citep{Python}. This was done so the code provided by \citet{PradoDSR} for the ONC algorithm (see Section \ref{imp_onc}) could be used. The \texttt{DSR\_PradoLewis} module \citep{DCDSR_PradoLewis} contains all the python code used which was presented in \citep{PradoDSR}. Modules \texttt{DSR\_dataproc} \citep{DCDSR_Dataproc} and \texttt{DSR\_proc} \citep{DCDSR_proc} contain the code for returns processing and DSR calculations, respectively.
 	
 	\newpage
 	\section{Datasets Used}\label{Datasets}
@@ -3255,14 +3257,15 @@
 	\section{Future Work}
 	
 	Several areas of the system have been highlighted as worthy of further work based on the results seen so far: 
-	\begin{itemize}
-		\item [1] In light of the historical data redundancy seen, an improved and optimized online learning phase would be worth considering.
-		\item [2] The updating of SAE models is the another likely area of beneficial development, possibly based on rolling time windows in order to fully take advantage of recent data benefits, or using a bootstrapped dataset in order to add time based weights to observations.
-		\item [3] While RBM pre-training was shown to be ineffective, it is possible that a greedy layerwise approach using variance based weight initialization could still be used in order to train more efficient SAE networks.
-		\item [4] Data processing methods such as the Error Function could be implemented in order to better deal with outliers, which are shown to be prominent in financial data.
-		\item [5] Further exploration of using input Dropout for price fluctuation prediction is warranted, in order to try and enforce correlation and relationship recognition within the FNN.
-		\item [6] A more extensive exploration of how to best benefit from historical data would be particularly beneficial, especially with its potential application outside of just the presented system.
-	\end{itemize}
+	\begin{enumerate}
+		\item The incorporation of Open, High, Low and Volume data into the feature set would likely offer significantly beneficial signal gains for the predictive networks.
+		\item In light of the historical data redundancy seen, an improved and optimized online learning phase would be worth considering.
+		\item The updating of SAE models is the another likely area of beneficial development, possibly based on rolling time windows in order to fully take advantage of recent data benefits, or using a bootstrapped dataset in order to add time based weights to observations.
+		\item While RBM pre-training was shown to be ineffective, it is possible that a greedy layerwise approach using variance based weight initialization could still be used in order to train more efficient SAE networks.
+		\item Data processing methods such as the Error Function could be implemented in order to better deal with outliers, which are shown to be prominent in financial data.
+		\item Further exploration of using input Dropout for price fluctuation prediction is warranted, in order to try and enforce correlation and relationship recognition within the FNN.
+		\item A more extensive exploration of how to best benefit from historical data would be particularly beneficial, especially with its potential application outside of just the presented system.
+	\end{enumerate}
 	
 	\newpage
 	\section{Appendix}\label{Appendix}

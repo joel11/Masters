@@ -2,53 +2,61 @@ This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: the6.aux
 The style file: plainnat.bst
-Illegal, another \bibstyle command---line 1204 of file the6.aux
+Illegal, another \bibstyle command---line 1221 of file the6.aux
  : \bibstyle
  :          {IEEEtran}
 I'm skipping whatever remains of this command
 Database file #1: thesis_bibliography.bib
 Warning--entry type for "MurphyGebbie" isn't style-file defined
 --line 1089 of file thesis_bibliography.bib
+Warning--entry type for "Python" isn't style-file defined
+--line 1160 of file thesis_bibliography.bib
 Warning--entry type for "Julia" isn't style-file defined
---line 1157 of file thesis_bibliography.bib
+--line 1167 of file thesis_bibliography.bib
 Warning--entry type for "DCRoot" isn't style-file defined
---line 1164 of file thesis_bibliography.bib
+--line 1174 of file thesis_bibliography.bib
 Warning--entry type for "DCDataGenerator" isn't style-file defined
---line 1171 of file thesis_bibliography.bib
+--line 1181 of file thesis_bibliography.bib
 Warning--entry type for "DCDataProcessor" isn't style-file defined
---line 1178 of file thesis_bibliography.bib
+--line 1188 of file thesis_bibliography.bib
 Warning--entry type for "DCActivationFunctions" isn't style-file defined
---line 1185 of file thesis_bibliography.bib
+--line 1195 of file thesis_bibliography.bib
 Warning--entry type for "DCTrainingStructures" isn't style-file defined
---line 1192 of file thesis_bibliography.bib
+--line 1202 of file thesis_bibliography.bib
 Warning--entry type for "DCInitializationFunctions" isn't style-file defined
---line 1199 of file thesis_bibliography.bib
+--line 1209 of file thesis_bibliography.bib
 Warning--entry type for "DCCostFunctions" isn't style-file defined
---line 1206 of file thesis_bibliography.bib
+--line 1216 of file thesis_bibliography.bib
 Warning--entry type for "DCNetworkTrainer" isn't style-file defined
---line 1213 of file thesis_bibliography.bib
+--line 1223 of file thesis_bibliography.bib
 Warning--entry type for "DCSGD" isn't style-file defined
---line 1220 of file thesis_bibliography.bib
+--line 1230 of file thesis_bibliography.bib
 Warning--entry type for "DCRBM" isn't style-file defined
---line 1227 of file thesis_bibliography.bib
+--line 1237 of file thesis_bibliography.bib
 Warning--entry type for "DCGradientFunctions" isn't style-file defined
---line 1234 of file thesis_bibliography.bib
+--line 1244 of file thesis_bibliography.bib
 Warning--entry type for "DCExperimentProcess" isn't style-file defined
---line 1241 of file thesis_bibliography.bib
+--line 1251 of file thesis_bibliography.bib
 Warning--entry type for "DCConfigTestsFFN" isn't style-file defined
---line 1248 of file thesis_bibliography.bib
+--line 1258 of file thesis_bibliography.bib
 Warning--entry type for "DCConfigTestsSAE" isn't style-file defined
---line 1255 of file thesis_bibliography.bib
+--line 1265 of file thesis_bibliography.bib
 Warning--entry type for "DCGenerator" isn't style-file defined
---line 1262 of file thesis_bibliography.bib
+--line 1272 of file thesis_bibliography.bib
 Warning--entry type for "DCDatabaseCreator" isn't style-file defined
---line 1269 of file thesis_bibliography.bib
+--line 1279 of file thesis_bibliography.bib
 Warning--entry type for "PlotlyJS" isn't style-file defined
---line 1277 of file thesis_bibliography.bib
+--line 1287 of file thesis_bibliography.bib
 Warning--entry type for "DCDatabaseOps" isn't style-file defined
---line 1284 of file thesis_bibliography.bib
+--line 1294 of file thesis_bibliography.bib
 Warning--entry type for "DCCSCV" isn't style-file defined
---line 1291 of file thesis_bibliography.bib
+--line 1301 of file thesis_bibliography.bib
+Warning--entry type for "DCDSR_PradoLewis" isn't style-file defined
+--line 1309 of file thesis_bibliography.bib
+Warning--entry type for "DCDSR_Dataproc" isn't style-file defined
+--line 1316 of file thesis_bibliography.bib
+Warning--entry type for "DCDSR_proc" isn't style-file defined
+--line 1323 of file thesis_bibliography.bib
 Warning--empty journal in Bengio2
 Warning--empty journal in Ge
 Warning--empty journal in Hsu
@@ -67,45 +75,45 @@ Warning--can't use both volume and number fields in Wang2
 Warning--empty publisher in Werbos2
 Warning--empty journal in Werbos
 Warning--empty journal in Zeiler
-You've used 118 entries,
+You've used 122 entries,
             2773 wiz_defined-function locations,
-            1342 strings with 23266 characters,
-and the built_in function-call counts, 47921 in all, are:
-= -- 4243
-> -- 2507
-< -- 91
-+ -- 890
-- -- 755
-* -- 3697
-:= -- 7523
-add.period$ -- 424
-call.type$ -- 118
-change.case$ -- 598
-chr.to.int$ -- 101
-cite$ -- 254
-duplicate$ -- 2305
-empty$ -- 4088
-format.name$ -- 925
-if$ -- 10036
-int.to.chr$ -- 18
+            1358 strings with 23751 characters,
+and the built_in function-call counts, 49182 in all, are:
+= -- 4353
+> -- 2558
+< -- 95
++ -- 912
+- -- 770
+* -- 3773
+:= -- 7710
+add.period$ -- 436
+call.type$ -- 122
+change.case$ -- 615
+chr.to.int$ -- 102
+cite$ -- 262
+duplicate$ -- 2365
+empty$ -- 4216
+format.name$ -- 946
+if$ -- 10306
+int.to.chr$ -- 21
 int.to.str$ -- 1
 missing$ -- 105
-newline$ -- 667
-num.names$ -- 474
-pop$ -- 1204
+newline$ -- 687
+num.names$ -- 490
+pop$ -- 1253
 preamble$ -- 1
-purify$ -- 487
+purify$ -- 500
 quote$ -- 0
-skip$ -- 1702
+skip$ -- 1756
 stack$ -- 0
-substring$ -- 1135
-swap$ -- 262
+substring$ -- 1143
+swap$ -- 270
 text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1258
+type$ -- 1302
 warning$ -- 18
-while$ -- 406
+while$ -- 418
 width$ -- 0
-write$ -- 1620
+write$ -- 1668
 (There was 1 error message)
