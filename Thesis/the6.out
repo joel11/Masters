@@ -84,102 +84,105 @@
 \BOOKMARK [3][-]{subsubsection.4.8.4}{Deflated Sharpe Ratio}{subsection.4.8}% 84
 \BOOKMARK [4][-]{paragraph.4.8.4.1}{Estimating `39`42`"613A``45`47`"603AE[K] and Var[SRk"0362SRk]}{subsubsection.4.8.4}% 85
 \BOOKMARK [1][-]{section.5}{Framework Implementation}{}% 86
-\BOOKMARK [2][-]{subsection.5.1}{Parameter Space Exploration}{section.5}% 87
-\BOOKMARK [2][-]{subsection.5.2}{Synthetic Data}{section.5}% 88
-\BOOKMARK [2][-]{subsection.5.3}{Data Preparation}{section.5}% 89
-\BOOKMARK [3][-]{subsubsection.5.3.1}{Data Window Aggregations}{subsection.5.3}% 90
-\BOOKMARK [3][-]{subsubsection.5.3.2}{Point Predictions}{subsection.5.3}% 91
-\BOOKMARK [3][-]{subsubsection.5.3.3}{Scaling}{subsection.5.3}% 92
-\BOOKMARK [2][-]{subsection.5.4}{Data Segregation}{section.5}% 93
-\BOOKMARK [2][-]{subsection.5.5}{Unsupervised Learning: SAE Training}{section.5}% 94
-\BOOKMARK [2][-]{subsection.5.6}{Supervised Learning: Prediction Network Training}{section.5}% 95
-\BOOKMARK [2][-]{subsection.5.7}{Price Reconstruction}{section.5}% 96
-\BOOKMARK [2][-]{subsection.5.8}{Money Management Strategy}{section.5}% 97
-\BOOKMARK [2][-]{subsection.5.9}{Probability of Backtest Overfitting}{section.5}% 98
-\BOOKMARK [2][-]{subsection.5.10}{Deflated Sharpe Ratio}{section.5}% 99
-\BOOKMARK [2][-]{subsection.5.11}{Process Diagram}{section.5}% 100
-\BOOKMARK [1][-]{section.6}{Software Libraries and Development}{}% 101
-\BOOKMARK [2][-]{subsection.6.1}{Programming Languages}{section.6}% 102
-\BOOKMARK [2][-]{subsection.6.2}{Data Generation \046 Processing}{section.6}% 103
-\BOOKMARK [2][-]{subsection.6.3}{Network Training}{section.6}% 104
-\BOOKMARK [2][-]{subsection.6.4}{Process Implementation}{section.6}% 105
-\BOOKMARK [2][-]{subsection.6.5}{Database Implementation}{section.6}% 106
-\BOOKMARK [2][-]{subsection.6.6}{Diagnostic Libraries}{section.6}% 107
-\BOOKMARK [3][-]{subsubsection.6.6.1}{DSR Libraries}{subsection.6.6}% 108
-\BOOKMARK [1][-]{section.7}{Datasets Used}{}% 109
-\BOOKMARK [2][-]{subsection.7.1}{Actual Datasets}{section.7}% 110
-\BOOKMARK [3][-]{subsubsection.7.1.1}{``Actual10''}{subsection.7.1}% 111
-\BOOKMARK [3][-]{subsubsection.7.1.2}{``Scaling10''}{subsection.7.1}% 112
-\BOOKMARK [3][-]{subsubsection.7.1.3}{``AGL'' and ``AGL\046ACL''}{subsection.7.1}% 113
-\BOOKMARK [2][-]{subsection.7.2}{Synthetic Datasets}{section.7}% 114
-\BOOKMARK [3][-]{subsubsection.7.2.1}{``Synthetic6''}{subsection.7.2}% 115
-\BOOKMARK [3][-]{subsubsection.7.2.2}{``Synthetic10''}{subsection.7.2}% 116
-\BOOKMARK [1][-]{section.8}{Results}{}% 117
-\BOOKMARK [2][-]{subsection.8.1}{Introduction}{section.8}% 118
-\BOOKMARK [3][-]{subsubsection.8.1.1}{Technical Notes}{subsection.8.1}% 119
-\BOOKMARK [2][-]{subsection.8.2}{Primary Determinants of OOS P\046L}{section.8}% 120
-\BOOKMARK [3][-]{subsubsection.8.2.1}{Effects of Data Horizon Aggregations}{subsection.8.2}% 121
-\BOOKMARK [3][-]{subsubsection.8.2.2}{OGD Learning Rate}{subsection.8.2}% 122
-\BOOKMARK [3][-]{subsubsection.8.2.3}{Feature Selection}{subsection.8.2}% 123
-\BOOKMARK [2][-]{subsection.8.3}{Value of Historical Signal}{section.8}% 124
-\BOOKMARK [2][-]{subsection.8.4}{Weight Initializaton Techniques}{section.8}% 125
-\BOOKMARK [3][-]{subsubsection.8.4.1}{RBM Pretraining for Sigmoid Networks}{subsection.8.4}% 126
-\BOOKMARK [3][-]{subsubsection.8.4.2}{Variance Based Weight Initialization Techniques}{subsection.8.4}% 127
-\BOOKMARK [2][-]{subsection.8.5}{Synthetic Data}{section.8}% 128
-\BOOKMARK [3][-]{subsubsection.8.5.1}{GBM Generated Data}{subsection.8.5}% 129
-\BOOKMARK [3][-]{subsubsection.8.5.2}{Synthetic Data Horizon Effects}{subsection.8.5}% 130
-\BOOKMARK [3][-]{subsubsection.8.5.3}{Synthetic Data Feature Selection}{subsection.8.5}% 131
-\BOOKMARK [2][-]{subsection.8.6}{Complexity of Financial Time Series}{section.8}% 132
-\BOOKMARK [3][-]{subsubsection.8.6.1}{Data Scaling}{subsection.8.6}% 133
-\BOOKMARK [3][-]{subsubsection.8.6.2}{SAE Reproduction}{subsection.8.6}% 134
-\BOOKMARK [3][-]{subsubsection.8.6.3}{FFN Prediction}{subsection.8.6}% 135
-\BOOKMARK [2][-]{subsection.8.7}{Network Structure}{section.8}% 136
-\BOOKMARK [3][-]{subsubsection.8.7.1}{Effects of Network Size}{subsection.8.7}% 137
-\BOOKMARK [4][-]{paragraph.8.7.1.1}{SAE Network Structures}{subsubsection.8.7.1}% 138
-\BOOKMARK [3][-]{subsubsection.8.7.2}{Effects of Activation Functions}{subsection.8.7}% 139
-\BOOKMARK [3][-]{subsubsection.8.7.3}{Predictive FFN Activations and Scaling}{subsection.8.7}% 140
-\BOOKMARK [3][-]{subsubsection.8.7.4}{Sigmoid Activation Functions}{subsection.8.7}% 141
-\BOOKMARK [3][-]{subsubsection.8.7.5}{Leaky ReLU vs ReLU}{subsection.8.7}% 142
-\BOOKMARK [2][-]{subsection.8.8}{Money Management Strategy}{section.8}% 143
-\BOOKMARK [2][-]{subsection.8.9}{Probability of Backtest Overfitting}{section.8}% 144
-\BOOKMARK [3][-]{subsubsection.8.9.1}{Concerns Regarding the PBO Calculation}{subsection.8.9}% 145
-\BOOKMARK [3][-]{subsubsection.8.9.2}{PBO Results}{subsection.8.9}% 146
-\BOOKMARK [3][-]{subsubsection.8.9.3}{Framework Success}{subsection.8.9}% 147
-\BOOKMARK [2][-]{subsection.8.10}{Deflated Sharpe Ratio}{section.8}% 148
-\BOOKMARK [3][-]{subsubsection.8.10.1}{Computational Complexity}{subsection.8.10}% 149
-\BOOKMARK [3][-]{subsubsection.8.10.2}{ONC Results}{subsection.8.10}% 150
-\BOOKMARK [3][-]{subsubsection.8.10.3}{DSR and PSR Results}{subsection.8.10}% 151
-\BOOKMARK [3][-]{subsubsection.8.10.4}{Framework Success}{subsection.8.10}% 152
-\BOOKMARK [2][-]{subsection.8.11}{Summary of Actual and Synthetic Data Effects}{section.8}% 153
-\BOOKMARK [1][-]{section.9}{Conclusion}{}% 154
-\BOOKMARK [1][-]{section.10}{Future Work}{}% 155
-\BOOKMARK [1][-]{section.11}{Appendix}{}% 156
-\BOOKMARK [2][-]{subsection.11.1}{Additional Results}{section.11}% 157
-\BOOKMARK [3][-]{subsubsection.11.1.1}{Additional Results for Section 8.2 - Feature Selection }{subsection.11.1}% 158
-\BOOKMARK [3][-]{subsubsection.11.1.2}{Additional Results for Section 8.4 - Weight Initialization Techniques }{subsection.11.1}% 159
-\BOOKMARK [3][-]{subsubsection.11.1.3}{Additional Results for Section 8.6 - Complexity of Financial Time Series}{subsection.11.1}% 160
-\BOOKMARK [4][-]{paragraph.11.1.3.1}{Effects of Learning Rate Epoch Cycles}{subsubsection.11.1.3}% 161
-\BOOKMARK [4][-]{paragraph.11.1.3.2}{Effects of Learning Rate Epoch Cycles}{subsubsection.11.1.3}% 162
-\BOOKMARK [3][-]{subsubsection.11.1.4}{Additional Results for Section 8.7 - Network Structure and Training }{subsection.11.1}% 163
-\BOOKMARK [2][-]{subsection.11.2}{Additional Calculations for Section 8.10 - DSR and ONC}{section.11}% 164
-\BOOKMARK [3][-]{subsubsection.11.2.1}{DSR and PSR calculations}{subsection.11.2}% 165
-\BOOKMARK [2][-]{subsection.11.3}{Configuration Sets Used}{section.11}% 166
-\BOOKMARK [3][-]{subsubsection.11.3.1}{Configuration 1}{subsection.11.3}% 167
-\BOOKMARK [3][-]{subsubsection.11.3.2}{Configuration 2}{subsection.11.3}% 168
-\BOOKMARK [3][-]{subsubsection.11.3.3}{Configuration 3}{subsection.11.3}% 169
-\BOOKMARK [3][-]{subsubsection.11.3.4}{Configuration 4}{subsection.11.3}% 170
-\BOOKMARK [3][-]{subsubsection.11.3.5}{Configuration 5}{subsection.11.3}% 171
-\BOOKMARK [3][-]{subsubsection.11.3.6}{Configuration 6}{subsection.11.3}% 172
-\BOOKMARK [3][-]{subsubsection.11.3.7}{Configuration 7}{subsection.11.3}% 173
-\BOOKMARK [3][-]{subsubsection.11.3.8}{Configuration 8}{subsection.11.3}% 174
-\BOOKMARK [3][-]{subsubsection.11.3.9}{Configuration 9}{subsection.11.3}% 175
-\BOOKMARK [3][-]{subsubsection.11.3.10}{Configuration 10}{subsection.11.3}% 176
-\BOOKMARK [3][-]{subsubsection.11.3.11}{Configuration 11}{subsection.11.3}% 177
-\BOOKMARK [3][-]{subsubsection.11.3.12}{Configuration 12}{subsection.11.3}% 178
-\BOOKMARK [3][-]{subsubsection.11.3.13}{Configuration 13}{subsection.11.3}% 179
-\BOOKMARK [3][-]{subsubsection.11.3.14}{Configuration 14}{subsection.11.3}% 180
-\BOOKMARK [3][-]{subsubsection.11.3.15}{Configuration 15}{subsection.11.3}% 181
-\BOOKMARK [3][-]{subsubsection.11.3.16}{Configuration 16}{subsection.11.3}% 182
-\BOOKMARK [3][-]{subsubsection.11.3.17}{Configuration 17}{subsection.11.3}% 183
-\BOOKMARK [2][-]{subsection.11.4}{Diagnostic Charts}{section.11}% 184
-\BOOKMARK [1][-]{section.12}{References}{}% 185
+\BOOKMARK [2][-]{subsection.5.1}{Full Framework Process}{section.5}% 87
+\BOOKMARK [2][-]{subsection.5.2}{Process Diagram}{section.5}% 88
+\BOOKMARK [2][-]{subsection.5.3}{Parameter Space Exploration}{section.5}% 89
+\BOOKMARK [2][-]{subsection.5.4}{Reproducibility}{section.5}% 90
+\BOOKMARK [2][-]{subsection.5.5}{Synthetic Data}{section.5}% 91
+\BOOKMARK [2][-]{subsection.5.6}{Data Preparation}{section.5}% 92
+\BOOKMARK [3][-]{subsubsection.5.6.1}{Data Window Aggregations}{subsection.5.6}% 93
+\BOOKMARK [3][-]{subsubsection.5.6.2}{Point Predictions}{subsection.5.6}% 94
+\BOOKMARK [3][-]{subsubsection.5.6.3}{Scaling}{subsection.5.6}% 95
+\BOOKMARK [2][-]{subsection.5.7}{Data Segregation}{section.5}% 96
+\BOOKMARK [2][-]{subsection.5.8}{Unsupervised Learning: SAE Training}{section.5}% 97
+\BOOKMARK [2][-]{subsection.5.9}{Supervised Learning: Prediction Network Training}{section.5}% 98
+\BOOKMARK [2][-]{subsection.5.10}{Price Reconstruction}{section.5}% 99
+\BOOKMARK [2][-]{subsection.5.11}{Money Management Strategy}{section.5}% 100
+\BOOKMARK [2][-]{subsection.5.12}{Probability of Backtest Overfitting}{section.5}% 101
+\BOOKMARK [2][-]{subsection.5.13}{Deflated Sharpe Ratio}{section.5}% 102
+\BOOKMARK [1][-]{section.6}{Software Libraries and Development}{}% 103
+\BOOKMARK [2][-]{subsection.6.1}{Programming Languages}{section.6}% 104
+\BOOKMARK [2][-]{subsection.6.2}{Data Generation \046 Processing}{section.6}% 105
+\BOOKMARK [2][-]{subsection.6.3}{Network Training}{section.6}% 106
+\BOOKMARK [2][-]{subsection.6.4}{Process Implementation}{section.6}% 107
+\BOOKMARK [2][-]{subsection.6.5}{Process Reproducibility}{section.6}% 108
+\BOOKMARK [2][-]{subsection.6.6}{Database Implementation}{section.6}% 109
+\BOOKMARK [2][-]{subsection.6.7}{Diagnostic Libraries}{section.6}% 110
+\BOOKMARK [3][-]{subsubsection.6.7.1}{DSR Libraries}{subsection.6.7}% 111
+\BOOKMARK [1][-]{section.7}{Datasets Used}{}% 112
+\BOOKMARK [2][-]{subsection.7.1}{Actual Datasets}{section.7}% 113
+\BOOKMARK [3][-]{subsubsection.7.1.1}{``Actual10''}{subsection.7.1}% 114
+\BOOKMARK [3][-]{subsubsection.7.1.2}{``Scaling10''}{subsection.7.1}% 115
+\BOOKMARK [3][-]{subsubsection.7.1.3}{``AGL'' and ``AGL\046ACL''}{subsection.7.1}% 116
+\BOOKMARK [2][-]{subsection.7.2}{Synthetic Datasets}{section.7}% 117
+\BOOKMARK [3][-]{subsubsection.7.2.1}{``Synthetic6''}{subsection.7.2}% 118
+\BOOKMARK [3][-]{subsubsection.7.2.2}{``Synthetic10''}{subsection.7.2}% 119
+\BOOKMARK [1][-]{section.8}{Results}{}% 120
+\BOOKMARK [2][-]{subsection.8.1}{Introduction}{section.8}% 121
+\BOOKMARK [3][-]{subsubsection.8.1.1}{Technical Notes}{subsection.8.1}% 122
+\BOOKMARK [2][-]{subsection.8.2}{Primary Determinants of OOS P\046L}{section.8}% 123
+\BOOKMARK [3][-]{subsubsection.8.2.1}{Effects of Data Horizon Aggregations}{subsection.8.2}% 124
+\BOOKMARK [3][-]{subsubsection.8.2.2}{OGD Learning Rate}{subsection.8.2}% 125
+\BOOKMARK [3][-]{subsubsection.8.2.3}{Feature Selection}{subsection.8.2}% 126
+\BOOKMARK [2][-]{subsection.8.3}{Value of Historical Signal}{section.8}% 127
+\BOOKMARK [2][-]{subsection.8.4}{Weight Initializaton Techniques}{section.8}% 128
+\BOOKMARK [3][-]{subsubsection.8.4.1}{RBM Pretraining for Sigmoid Networks}{subsection.8.4}% 129
+\BOOKMARK [3][-]{subsubsection.8.4.2}{Variance Based Weight Initialization Techniques}{subsection.8.4}% 130
+\BOOKMARK [2][-]{subsection.8.5}{Synthetic Data}{section.8}% 131
+\BOOKMARK [3][-]{subsubsection.8.5.1}{GBM Generated Data}{subsection.8.5}% 132
+\BOOKMARK [3][-]{subsubsection.8.5.2}{Synthetic Data Horizon Effects}{subsection.8.5}% 133
+\BOOKMARK [3][-]{subsubsection.8.5.3}{Synthetic Data Feature Selection}{subsection.8.5}% 134
+\BOOKMARK [2][-]{subsection.8.6}{Complexity of Financial Time Series}{section.8}% 135
+\BOOKMARK [3][-]{subsubsection.8.6.1}{Data Scaling}{subsection.8.6}% 136
+\BOOKMARK [3][-]{subsubsection.8.6.2}{SAE Reproduction}{subsection.8.6}% 137
+\BOOKMARK [3][-]{subsubsection.8.6.3}{FFN Prediction}{subsection.8.6}% 138
+\BOOKMARK [2][-]{subsection.8.7}{Network Structure}{section.8}% 139
+\BOOKMARK [3][-]{subsubsection.8.7.1}{Effects of Network Size}{subsection.8.7}% 140
+\BOOKMARK [4][-]{paragraph.8.7.1.1}{SAE Network Structures}{subsubsection.8.7.1}% 141
+\BOOKMARK [3][-]{subsubsection.8.7.2}{Effects of Activation Functions}{subsection.8.7}% 142
+\BOOKMARK [3][-]{subsubsection.8.7.3}{Predictive FFN Activations and Scaling}{subsection.8.7}% 143
+\BOOKMARK [3][-]{subsubsection.8.7.4}{Sigmoid Activation Functions}{subsection.8.7}% 144
+\BOOKMARK [3][-]{subsubsection.8.7.5}{Leaky ReLU vs ReLU}{subsection.8.7}% 145
+\BOOKMARK [2][-]{subsection.8.8}{Money Management Strategy}{section.8}% 146
+\BOOKMARK [2][-]{subsection.8.9}{Probability of Backtest Overfitting}{section.8}% 147
+\BOOKMARK [3][-]{subsubsection.8.9.1}{Concerns Regarding the PBO Calculation}{subsection.8.9}% 148
+\BOOKMARK [3][-]{subsubsection.8.9.2}{PBO Results}{subsection.8.9}% 149
+\BOOKMARK [3][-]{subsubsection.8.9.3}{Framework Success}{subsection.8.9}% 150
+\BOOKMARK [2][-]{subsection.8.10}{Deflated Sharpe Ratio}{section.8}% 151
+\BOOKMARK [3][-]{subsubsection.8.10.1}{Computational Complexity}{subsection.8.10}% 152
+\BOOKMARK [3][-]{subsubsection.8.10.2}{ONC Results}{subsection.8.10}% 153
+\BOOKMARK [3][-]{subsubsection.8.10.3}{DSR and PSR Results}{subsection.8.10}% 154
+\BOOKMARK [3][-]{subsubsection.8.10.4}{Framework Success}{subsection.8.10}% 155
+\BOOKMARK [2][-]{subsection.8.11}{Summary of Actual and Synthetic Data Effects}{section.8}% 156
+\BOOKMARK [1][-]{section.9}{Conclusion}{}% 157
+\BOOKMARK [1][-]{section.10}{Future Work}{}% 158
+\BOOKMARK [1][-]{section.11}{Appendix}{}% 159
+\BOOKMARK [2][-]{subsection.11.1}{Additional Results}{section.11}% 160
+\BOOKMARK [3][-]{subsubsection.11.1.1}{Additional Results for Section 8.2 - Feature Selection }{subsection.11.1}% 161
+\BOOKMARK [3][-]{subsubsection.11.1.2}{Additional Results for Section 8.4 - Weight Initialization Techniques }{subsection.11.1}% 162
+\BOOKMARK [3][-]{subsubsection.11.1.3}{Additional Results for Section 8.6 - Complexity of Financial Time Series}{subsection.11.1}% 163
+\BOOKMARK [4][-]{paragraph.11.1.3.1}{Effects of Learning Rate Epoch Cycles}{subsubsection.11.1.3}% 164
+\BOOKMARK [4][-]{paragraph.11.1.3.2}{Effects of Learning Rate Epoch Cycles}{subsubsection.11.1.3}% 165
+\BOOKMARK [3][-]{subsubsection.11.1.4}{Additional Results for Section 8.7 - Network Structure and Training }{subsection.11.1}% 166
+\BOOKMARK [2][-]{subsection.11.2}{Additional Calculations for Section 8.10 - DSR and ONC}{section.11}% 167
+\BOOKMARK [3][-]{subsubsection.11.2.1}{DSR and PSR calculations}{subsection.11.2}% 168
+\BOOKMARK [2][-]{subsection.11.3}{Configuration Sets Used}{section.11}% 169
+\BOOKMARK [3][-]{subsubsection.11.3.1}{Configuration 1}{subsection.11.3}% 170
+\BOOKMARK [3][-]{subsubsection.11.3.2}{Configuration 2}{subsection.11.3}% 171
+\BOOKMARK [3][-]{subsubsection.11.3.3}{Configuration 3}{subsection.11.3}% 172
+\BOOKMARK [3][-]{subsubsection.11.3.4}{Configuration 4}{subsection.11.3}% 173
+\BOOKMARK [3][-]{subsubsection.11.3.5}{Configuration 5}{subsection.11.3}% 174
+\BOOKMARK [3][-]{subsubsection.11.3.6}{Configuration 6}{subsection.11.3}% 175
+\BOOKMARK [3][-]{subsubsection.11.3.7}{Configuration 7}{subsection.11.3}% 176
+\BOOKMARK [3][-]{subsubsection.11.3.8}{Configuration 8}{subsection.11.3}% 177
+\BOOKMARK [3][-]{subsubsection.11.3.9}{Configuration 9}{subsection.11.3}% 178
+\BOOKMARK [3][-]{subsubsection.11.3.10}{Configuration 10}{subsection.11.3}% 179
+\BOOKMARK [3][-]{subsubsection.11.3.11}{Configuration 11}{subsection.11.3}% 180
+\BOOKMARK [3][-]{subsubsection.11.3.12}{Configuration 12}{subsection.11.3}% 181
+\BOOKMARK [3][-]{subsubsection.11.3.13}{Configuration 13}{subsection.11.3}% 182
+\BOOKMARK [3][-]{subsubsection.11.3.14}{Configuration 14}{subsection.11.3}% 183
+\BOOKMARK [3][-]{subsubsection.11.3.15}{Configuration 15}{subsection.11.3}% 184
+\BOOKMARK [3][-]{subsubsection.11.3.16}{Configuration 16}{subsection.11.3}% 185
+\BOOKMARK [3][-]{subsubsection.11.3.17}{Configuration 17}{subsection.11.3}% 186
+\BOOKMARK [2][-]{subsection.11.4}{Diagnostic Charts}{section.11}% 187
+\BOOKMARK [1][-]{section.12}{References}{}% 188

@@ -1045,16 +1045,16 @@
 	\subsection{Process Overview}\label{ProcessOverview}\label{imp_overview}
 	
 	
-	The implementation focuses on bringing together several ideas: data reduction, deep learning with pre-training/weight initialization, online learning and backtest overfitting validation for the purposes of stock price prediction. The process implementation is discussed fully in Section \ref{proc_dataprep}, but can be summarised as the following:
+	The implementation focuses on bringing together several ideas: data reduction, deep learning with pre-training/weight initialization, online learning and backtest overfitting validation for the purposes of stock price prediction. The process implementation is discussed fully in Section \ref{imp_fullproc}, but can be summarised as the following:
 	
 	\begin{enumerate}
 		\item The dataset is split into 2 subsets: the Training portion, and the Prediction portion.
 		\item The Training set is used to train the SAE and predictive FFN using the SGD algorithm. These networks are constructed with pre-training or weight initialization techniques.
 		\item Once the SGD training is complete for the predictive network, the same Training dataset is used to generate the IS predictions to be used for the CSCV process.
 		\item The Prediction set of data is used to continue training the network in an online manner using OGD.
-		\item The predictions made during steps [3] and [4] are descaled and prices are reconstructed.
+		\item The predictions made during steps 3 and 4 are descaled and prices are reconstructed.
 		\item These reconstructed price predictions are used by the MMS to calculate returns and P\&L.
-		\item The returns and P\&L calculated by the MMS are used by the CSCV process, to estimate the probability of backtest overfitting.
+		\item The returns and P\&L calculated by the MMS are used by the CSCV process, to estimate the PBO or DSR figures.
 	\end{enumerate}
 	~\\
 	The rest of this section will detail the algorithms used to train the relevant FFN, RBM and SAE networks, as well as the trading strategy and CSCV \& PBO testing procedures.
@@ -1930,10 +1930,10 @@
 		
 		
 	
-	\subsubsection{Deflated Sharpe Ratio}\label{imp_dsr_detail}
-	
+
+	 
 	Prado and Lewis use the Probabilistic Sharpe Ratio and the False Strategy Theorem (FST) to define the Deflated Sharpe Ratio (DSR) as $\widehat{PSR}[\mathrm{SR}^*]$: the probability that the true SR exceeds $\mathrm{SR}^*$, which no longer needs to be user defined. Following from the FST statement in equation \eqref{eq_falsestrat}, 
-	
+		\subsubsection{Deflated Sharpe Ratio}\label{imp_dsr_detail}
 	\begin{equation}\label{eq_dsr}
 	\mathrm{SR}^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{\mathrm{SR}}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right), 
 	\end{equation}
@@ -1985,7 +1985,45 @@
 	\newpage	
 	\section{Framework Implementation}\label{imp_proc}
 	
-	Having covered the technical implementations in Sections \ref{Data} and \ref{Implementation}, a higher level overview of the end to end experimental process can be detailed. The process here rests on two key principles: implementing a generalised version of a system which could offer exploration of more complex techniques, and ensuring an effective modularisation of steps such that the process can be reconfigured accordingly while maintaining its integrity. In doing so, a separable system is created which brings together data reduction, deep learning with pre-training/weight initialization, online learning and back test overfitting validation.
+	\subsection{Full Framework Process}\label{imp_fullproc}
+	
+	Having covered the technical implementations in Sections \ref{Data} and \ref{Implementation}, a full overview of the end to end experimental process can be detailed and discussed. The process here rests on two key principles: implementing a generalised version of a system which could offer exploration of more complex techniques, and ensuring an effective modularisation of steps such that the process can be reconfigured accordingly while maintaining its integrity. In doing so, a separable system is created which brings together data reduction, deep learning with pre-training/weight initialization, online learning and back test overfitting validation.\newline 
+
+	The steps below detail the conceptual stages for the full end to end process. These are also shown visually in Figure \ref{figure-proc_diagram}, with the diagram numbers corresponding to stages or items produced by each of the steps below.
+	
+	\begin{enumerate}
+		\item \textbf{Process Data:} The raw market data, $\mathbf{\tilde{P}}$ from the JSE (see Section \ref{dataset_actual10}), goes through data processing, as per the steps below in Section \ref{proc_dataprep}, to form $\mathbf{L}$ (a log differenced and aggregated time series).
+		\item \textbf{Split Data:}  $\mathbf{L}$ is split to form the Training and Prediction datasets, $\mathbf{L}^\mathrm{I}$ and $\mathbf{L}^\mathrm{O}$.
+		\item \textbf{Train SAE Networks:} 
+		\begin{enumerate}
+			\item Either RBM pre-training or variance based techniques are used to initialize the network weights (see Sections \ref{imp_rbm} and \ref{imp_weights}, respectively).
+			\item $\mathbf{L}^\mathrm{I}$ is split into two datasets: $\mathbf{S}^\mathrm{T}$ and $\mathbf{S}^\mathrm{V}$, used to train and validate the SAE networks, respectively.
+			\item The networks are trained using SGD (see Section \ref{imp_backprop}) and $\mathbf{S}^\mathrm{T}$, and validated using the MSE score on $\mathbf{S}^\mathrm{V}$.
+		\end{enumerate}
+		\item \textbf{Select Best SAE Network(s):} The network MSE scores can be used to select the best SAE networks to be used for the following steps. Only the best need be selected out of each configuration category that is desired to be carried forward (e.g. 1 for each configuration of data horizon aggregations used).
+		\item \textbf{Encode Datasets:} The Training and Prediction datasets, $\mathbf{L}^\mathrm{I}$ and $\mathbf{L}^\mathrm{O}$, are encoded using the SAE networks to form $\mathbf{E}^\mathrm{I}$ and $\mathbf{E}^\mathrm{O}$.
+		\item \textbf{Train Predictive Network on IS Data:} The predictive network is initialized using variance based techniques, and trained using SGD on $\mathbf{E}^\mathrm{I}$.
+		\begin{enumerate}
+			\item After training, $\mathbf{E}^\mathrm{I}$ is used to generate and record the IS predictions, $\mathbf{\hat{L}}^\mathrm{I}$.
+		\end{enumerate}
+		\item \textbf{Train Predictive Network on OOS Data:} The predictive network is trained on $\mathbf{E}^\mathrm{O}$ using OGD (see section \ref{imp_sgd}). The predicted outputs from the training, denoted $\mathbf{\hat{L}}^\mathrm{O}$, are also recorded.
+		\item \textbf{Reconstruct Price Predictions:} Price prediction sets $\mathbf{\hat{L}}^\mathrm{I}$ and $\mathbf{\hat{L}}^\mathrm{O}$ are processed to reconstruct actual timepoint prices using the steps in Section \ref{data_price_recon}, denoted $\mathbf{\hat{P}}^\mathrm{I}$ and $\mathbf{\hat{P}}^\mathrm{O}$, respectively.
+		\item \textbf{Calculate MMS Variables:} $\mathbf{\hat{P}}^\mathrm{I}$ and $\mathbf{\hat{P}}^\mathrm{O}$ are used by the MMS to calculate variable at each time point, as per Section \ref{imp_mms}. One of the primary calculations is the daily return rates, which can be used to calculate the Sharpe Ratio.
+		\item \textbf{Calculate CSCV and PBO:} The CSCV algorithm is run using both the $\mathbf{\hat{P}}^\mathrm{I}$ and $\mathbf{\hat{P}}^\mathrm{O}$ MMS rates in order to calculate a PBO score, as detailed in Section \ref{imp_cscv}.
+		\item \textbf{Calculate DSR:} The CSCV algorithm is run using $\mathbf{\hat{P}}^\mathrm{O}$ MMS rates to calculate a DSR score, as detailed in Section \ref{imp_dsr}.
+	\end{enumerate}
+	
+	
+	\subsection{Process Diagram}\label{proc_diagram}
+	
+	The flow diagram below provides a graphical representation of this process described above in Section \ref{imp_fullproc} (the MMS calculations and CSCV process are not included). The process may be repeated accordingly in terms of SAE structures that are desired for testing, such that the ``Best SAE Network'' is different for different encoding layer sizes, or data aggregations used (as was the case in many of the experiments which will be discussed in Section \ref{Results}).
+	
+	\begin{figure}[H]
+		\centering \includegraphics[scale=0.6]{images/process_implementation/process_flow.png}
+		\caption[Overall Process Flow Diagram]{Overall Process Flow
+		\newline The flow diagram here offers a visual representation of the process set out in Section \ref{imp_fullproc}, with the numbers corresponding to the steps of the process.}
+		\label{figure-proc_diagram}
+	\end{figure}
 	
 	\subsection{Parameter Space Exploration}\label{proc_parameters}
 	
@@ -1995,6 +2033,10 @@
 		\item \textbf{Stage 1:} The data configuration (i.e. data windows, prediction point, scaling, data split points) as well as the SAE configuration (network size, learning rates, learning optimization parameters, SGD epochs) are set in Stage 1 and used to train the SAE networks.
 		\item \textbf{Stage 2:} The preferred SAEs are chosen from Stage 1 manually, and determine the data configuration used for Stage 2. These are then used to encode the datasets, which will be used for FFN training. The FFN SGD and OGD parameters are set in this stage (network size, learning rates, SGD epochs etc.), and will be combined combinatorially with the SAEs that were chosen for testing as well.
 	\end{enumerate}
+	
+	\subsection{Reproducibility}\label{proc_reproducibility}
+	
+	Reproducible results were ensured with the use of set random data seeds and a Mersenne Twister pseudorandom number generator. Each SAE training process is initialized with a dataseed which is recorded in the \texttt{dataset\_config} schema (see Section \ref{Software} for more details). These are propagated through to the FFN training, such that any of the results presented could be reproduced using the data seeds and configurations noted in Appendix \ref{appendix_configs} (which are all detailed in the relevant figure captions as well).
 	
 	\subsection{Synthetic Data}\label{proc_synthetic}
 	
@@ -2081,18 +2123,6 @@
 	
 	The DSR calculations are a straight forward implementation of the process described in Section \ref{imp_dsr}, with only minor changes from the authors recommendations. Unlike the CSCV process, the DSR calculation only uses returns generated from the predictive model and MMS on OOS data. As with the CSCV \& PBO calculations, the DSR now offers an effective assessment of the experimentations results and their legitimacy. The value of a modularised approach is highlighted again, where the DSR process is not coupled to any aspect of the neural network training.
 	
-	\subsection{Process Diagram}\label{proc_diagram}
-	
-	The flow diagram below provides a graphical representation of this process from the raw market data up until the price prediction points (the MMS calculations and CSCV process are not included). The process may be repeated accordingly in terms of SAE structures that are desired for testing, such that the ``Best SAE Network'' is different for different encoding layer sizes, or data aggregations used (as was the case in many of the experiments which will be discussed in Section \ref{Results}).
-	
-	\begin{figure}[H]
-		\centering \includegraphics[scale=0.6]{images/process_implementation/process_flow.png}
-		\caption[Overall Process Flow Diagram]{Overall Process Flow}
-		\label{figure-proc_diagram}
-	\end{figure}
-	
-	
-	
 	
 	
 	
@@ -2149,7 +2179,7 @@
 	
 	\subsection{Process Implementation}
 	
-	The process implementation, as described in Section \ref{ProcessOverview}, is largely implemented in the \texttt{ExperimentProcess} module \citep{DCExperimentProcess}.
+	The process implementation, as described in detail in Section \ref{ProcessOverview}, is largely implemented in the \texttt{ExperimentProcess} module \citep{DCExperimentProcess}.
 	
 	~\\
 	The \texttt{RunSAEConfigurationTest} method uses the \texttt{SAEExperimentConfig} Type to wrap up all necessary configurations and with a passed dataset runs through the following steps:
@@ -2172,6 +2202,10 @@
 	\end{enumerate}
 	
 	Two further modules allow the exploration of the configuration space, such that diagnostics can be performed on different aspects of the training. 	The \texttt{ConfigTestsFFN} \citep{DCConfigTestsFFN} and \texttt{ConfigTestsSAE} \citep{DCConfigTestsSAE} modules make use of the \texttt{ConfigGenerator} module \citep{DCGenerator} in order to generate a full grid configuration space for a given range of values for any chosen parameters, as per Section \ref{proc_parameters}. Each of these combination configuration sets is then run as per the processes detailed above, with the various results recorded as usual. 
+
+	\subsection{Process Reproducibility}
+	
+	As noted in Section \ref{proc_reproducibility}, it was ensured that the full process and results were reproducible. A Mersenne Twister pseudorandom number generator was set with a particular seed, which is recorded in the \texttt{dataset\_config} schema in the database. This seed is propagated through from the SAE training process to the FFN training process. Consequently, any configuration set with the same parameters and random seed can be used to reproduce the results presented in this paper and otherwise.
 	
 	\subsection{Database Implementation}
 	
@@ -3520,7 +3554,7 @@
 	\end{itemize}
 	
 	\newpage
-	\subsection{Configuration Sets Used}
+	\subsection{Configuration Sets Used}\label{appendix_configs}
 	
 	\subsubsection{Configuration 1}\label{config1}
 	
