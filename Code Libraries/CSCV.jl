@@ -371,10 +371,9 @@ end
 function ExperimentCSCVProcess(config_ids)
 
         cscv_returns = RunQuery("select configuration_id, time_step, ifnull(total_profit_rate_observed, 0.0) total_profit_rate_observed
-                                     from cscv_returns
-                                     where configuration_id not between 50249 and 50392")
-                                     #where configuration_id >= 50393")
-                                     #where configuration_id >= 51689")
+                                     from cscv_returns")
+                                     #where configuration_id >= 50393") #Large
+                                     #where configuration_id >= 51689") #PBO test
 
         cscv_groups = by(cscv_returns, [:configuration_id], df -> [df[:,[:time_step, :total_profit_rate_observed]]])
 

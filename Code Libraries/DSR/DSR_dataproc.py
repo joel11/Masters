@@ -8,6 +8,7 @@ Created on Thu Oct 17 15:18:40 2019
 
 import numpy as np
 import pandas as pd 
+import pickle 
 
 def save_obj(obj, name ):
     with open('/users/joeldacosta/desktop/obj/'+ name + '.pkl', 'wb') as f:
@@ -38,15 +39,30 @@ def getReturnsDF(data):
     
     return df
 
-def writeCoefficientMatrix(data, filename):
+def getCoefficientMatrix(data):#, filename):
     corr_df = data.corr()
-    corr_df.to_csv(filename)
+    #corr_df.to_csv(filename)
     return corr_df
 
-def getCoefficientMatrix(returns_File, corrFile):
-    returns = pd.read_csv(returns_File)
-    df_returns = getReturnsDF(returns)
-    df_corrMatrix = writeCoefficientMatric(df_returns, corrFile)
-    return dr_corrMatrix
+#def getCoefficientMatrix(returns_File, corrFile):
+#    returns = pd.read_csv(returns_File)
+#    df_returns = getReturnsDF(returns)
+##    df_corrMatrix = writeCoefficientMatrix(df_returns, corrFile)
+ #   return df_corrMatrix
 
 
+def generateSQLInsert(returns, clusters):
+
+    sql_scripts = list()
+    configs = pd.unique(returns['configuration_id'])    
+
+    for i in range(len(clusters)):
+        
+        cmd_string = "insert into clusters(cluster, configuration_id) values "
+        for c in clusters[i]:
+            cmd_string = cmd_string + "(" + str(i) + ", " + str(configs[c]) + "),"
+        
+        cmd_string = cmd_string[0:-1]        
+        sql_scripts.append(cmd_string)
+        
+    return sql_scripts

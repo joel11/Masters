@@ -1998,7 +1998,9 @@
 	
 	\subsection{Synthetic Data}\label{proc_synthetic}
 	
-	The use of synthetic GBM generated data offers a convenient way of exploring the parameter space without running configuration experiments on the actual data which might then raise the probability of backtest overfitting. The synthetic data has enough similarity that it can allow a broad exploration to get ideas of networks sizes, learning rates, data considerations and so on. This is paricularly useful in light of the concerns around increasing the number of particularly poor performing networks when it comes to calculating PBO, as discussed in Section \ref{results_pbo}. That said, there are characteristic differences between GBM generated data and actual financial time series. With these in mind, the results section will make comparisons of the two in order to offer a sufficient understanding for when synthetic data can be relied upon to guide future training.
+	The use of synthetic GBM generated data offers a way of exploring the parameter space without running configuration experiments on the actual data which might then raise the probability of backtest overfitting. The synthetic data has enough similarity that it can allow a broad exploration to get ideas of optimization usage and parameter choices. This is an appealing option in light of the concerns around increasing the number of particularly poor performing networks when it comes to calculating PBO, as discussed in Section \ref{results_pbo}. That said, there are characteristic differences between GBM generated data and actual financial time series. With these in mind, the results section will make comparisons of the two in order to offer a sufficient understanding for when synthetic data can be relied upon to guide future training.\newline
+	
+	The process for generating synthetic data is detailed in Algorithm \ref{algo_brownianmotion} (Section \ref{Data}).
 	
 	\subsection{Data Preparation}\label{proc_dataprep}
 	
@@ -2018,15 +2020,18 @@
 		\item Horizon Tuple 2: [5, 20, 60]
 		\item Horizon Tuple 3: [10, 20, 60]
 	\end{enumerate}
+	~\\
+	The calculations for the aggregated values can be seen in equations \eqref{eq_price_agg_past} and \eqref{eq_price_agg_future}.
 	
-	\subsubsection {Point Predictions} Various configurations were tested in terms of the historic summations used, while the fluctuation predictions were typically 5 days. It's worth noting that the prediction horizon is configurable, and in the case of implementing a more complex trading strategy, one would likely choose to predict multiple points across the horizon in order to to develop a distribution. In this case, the MMS was kept purposefully simple, and so didn't warrant the more intensive implementation. \newline
+	\subsubsection {Point Predictions} Various configurations were tested in terms of the historic summations used, while the fluctuation predictions were set at 5 days. It's worth noting that the prediction horizon is configurable, and in the case of implementing a more complex trading strategy, one would likely choose to predict multiple points across the horizon in order to to develop a distribution. In this case, the MMS was kept purposefully simple, and so didn't warrant the more intensive implementation. \newline
 	
-	One point of concern, is that point predictions at 2 or 5 days in advance could open the process up to aliasing error, as it is unlikely to be predicting at the Nyquist frequency, and may end up fitting to the band ripple rather than the underlying signal. Conversely, 1 day predictions for closing price might offer a high degree of accuracy, but are not practical for trading due to market auction and bidding structures. The system implementation veered on the side of practicality in this case, and was configured for longer term predictions despite the risk of aliasing. While some of the configurations were run with 2 day predictions, it was seen that once costs were considered it was difficult for even the benchmark to produce desired P\&L figures and so a 5 day prediction was generally implemented in subsequent tests.
+	One point of concern is that point predictions at 5 days in advance could open the process up to aliasing error, as it is unlikely to be predicting at the Nyquist frequency, and may end up fitting to the band ripple rather than the underlying signal. Conversely, 1 day predictions for closing price might offer a high degree of accuracy, but are not practical for trading due to market auction and bidding structures. The system implementation veered on the side of practicality in this case, and was configured for longer term predictions despite the risk of aliasing. While some of the configurations were run with 2 day predictions, it was seen that once costs were considered it was difficult for even the benchmark to produce desired P\&L figures and so a 5 day prediction was implemented in subsequent tests.
 	
 	
 	
-	\subsubsection {Scaling} When testing the two limited scaling methodologies, standardization and normalization, it was found that the results for standardizing tended to be notably worse than normalization (discussed in Section \ref{results_finance_data}). It's possible that outliers in price fluctuations and changing variance through time (which is not captured effectively through the limited variation) resulted in a less informative representation and worse performance of the FNN models which can be prone to error maximisation. As a result of this, the limited normalization process was used for most of the tests run. It's worth noting that an implementation which incorporates processing the data through the Error Function in order to reduce the impact of outliers would likely prove a worthwhile endevour, and could be easily swapped in due to the systems modularity.\newline
+	\subsubsection {Scaling} When testing the two limited scaling methodologies, standardization and normalization, it was found that the results for standardizing tended to be notably worse than normalization (discussed in Section \ref{results_finance_data}). It's possible that outliers in price fluctuations and changing variance through time (which is not captured effectively through the limited variation) resulted in a less informative representation and worse performance of the FNN models which can be prone to error maximisation. As a result of this, the limited normalization process was used for most of the tests run. It's worth noting that an implementation which incorporates processing of the data through the Error Function in order to reduce the impact of outliers would likely prove a worthwhile endevour, and could be easily swapped in due to the systems modularity.\newline
 	
+	The implementation for ``Limited Normalization'' can be seen in equation \eqref{eq_ltd_normalization}.
 	
 	\subsection{Data Segregation}\label{proc_dataseg}
 	
@@ -2036,9 +2041,9 @@
 		\item Prediction: The second set is used only for the OGD training in order to generate returns from the predictive network. This is the OOS dataset and is used as what would typically be the testing / validation set.
 	\end{enumerate}
 	
-	The predictions from both the Training and the Prediction sets are used by Bailey's CSCV method to assess overfitting (the use of the CSCV technique negates the need for a hold-out portion of the dataset \citep{BailyPBO}), however only the OOS prediction returns are used in order to assess model P\&L figures and performance. \newline
+	The predictions from both the Training and the Prediction sets are used by Bailey's CSCV method to assess overfitting (the use of the CSCV technique negates the need for a hold-out portion of the dataset \citep{BailyPBO}), however only the OOS prediction returns are used in order to assess DSR or model P\&L figures and performance. \newline
 	
-	In this case, a simple split point of 60:40 was chosen for the Training and Prediction sets respectively. In a more restrictive case, where there is less data to work with, it would be advised to consider a method such as MinBTL as developed by \citet{BaileyBTL} and the estimated number of configurations to be tested in order to decide an appropriate split point.
+	In this case, a simple split point of 60:40 was chosen for the Training and Prediction sets, respectively. In a more restrictive case, where there is less data to work with, it would be advised to consider a method such as MinBTL as developed by \citet{BaileyBTL} and the estimated number of configurations to be tested in order to decide an appropriate split point.
 	
 	\subsection{Unsupervised Learning: SAE Training}\label{proc_sae}
 	
@@ -2046,17 +2051,17 @@
 	
 	Once the SAE networks have been defined and chosen, they can be used to reprocess both the Training and Prediction datasets such that the input is encoded, and the output is as before. These encoded datasets can then be used for the following steps in the process. \newline
 	
-	In a productionized system, where data is updated daily, there would be a set period after which the SAE network would be retrained to reflect more recent data. This step wasn't deemed necessary at the outset of developing this process, but results detailed in Section \ref{results_oos_pl} suggest that it is a necessary implementation step.\newline
+	In a productionized system, where data is updated daily, there would be a set period after which the SAE network would be retrained to reflect more recent data. This step wasn't deemed necessary at the outset of developing this process, but results detailed in Section \ref{results_oos_pl} suggest that it is an important implementation step.\newline
 	
 	\subsection{Supervised Learning: Prediction Network Training}\label{proc_predictionnetwork}
 	
 	Typically, the SAE and predictive network might be presented as one and the same, however in the process presented we are able to separate the two and optimise for feature extraction prior to training for predictions. Having done so, the datasets can have their input encoded, but retain the same output. The predictive network is then trained using the Training set, as detailed in Section \ref{imp_backprop}. There's no requirement to validate this part of the training, so the dataset is not split into subportions as it was for SAE training. \newline
 	
-	Once the predictive network is trained, the OGD process is run through the encoded Prediction dataset in order to generate the predictions for the assets prices that the model produces - thus emulating what would have occured in a live environment. \newline
+	Once the predictive network is trained, the OGD process (as per Section \ref{imp_sgd}) is run through the encoded Prediction dataset in order to generate the predictions for the assets prices that the model produces - thus emulating what would have occured in a live environment. \newline
 	
 	\subsection{Price Reconstruction}\label{proc_precerecon}
 	
-	In the interest of more intepretable results for figures such as P\&L, the prices fluctuations for both IS and OOS predictions are re-scaled back to their original price fluctuation predictions using the reverse scaling detailed in Section \ref{data_reverse_scaling}. These prices are then recostructed using equation \eqref{eq_price_recon}, such that they represent a predicted future price of the asset which can then be used by the MMS. It's worth nothing that the price reconstruction applies the predicted fluctuation to the known original price, such that it would represent a system that is run daily, rather then a system that is making rolling predictions over a period of time. 
+	In the interest of more intepretable results for figures such as P\&L, the prices fluctuations for both IS and OOS predictions are re-scaled back to their original price fluctuation predictions using the reverse scaling detailed in Section \ref{data_reverse_scaling}. These prices are then reconstructed using equation \eqref{eq_price_recon}, such that they represent a predicted future price of the asset which can then be used by the MMS. It's worth nothing that the price reconstruction applies the predicted fluctuation to the known original price, such that it would represent a system that is run daily, rather then a system that is making rolling predictions over a period of time. 
 	
 	\subsection{Money Management Strategy}\label{proc_mms}
 	
@@ -2066,14 +2071,15 @@
 	
 	An effective production trading strategy would be likely to include stop losses or pyramiding stop losses for effective P\&L optimization. An ideal implementation, and possible area for further work, would include an MMS strategy where the bands for this are defined using a machine learning technique (rather than being chosen from domain knowledge or heuristics).\newline
 	
+	The calculated variables used by the MMS are fully detailed in Section \ref{imp_mms}.
 	
 	\subsection{Probability of Backtest Overfitting}\label{proc_cscv}
 	
-	The CSCV and PBO parts of the system are essentially just an implementation of the algorithm detailed in Section \ref{imp_cscv}, though with a somewhat novel application to the predictive network and MMS combination. The CSCV process uses the IS and OOS returns from the MMS, which in turn used the prices from the predictions network, which then constitutes the $M$ matrix used by the algorithm. Conceptually, the whole system comes into place here, as the results from the CSCV process are now indicative of not only backtest overfitting in the trading strategy, but also in the prediction network and without having to consider the impact of many configuration tests for feature extraction.
+	The CSCV and PBO parts of the system are essentially just an implementation of Algorithm \ref{algo_cscv} detailed in Section \ref{imp_cscv}, though with a somewhat novel application to the predictive network and MMS combination. The CSCV process uses the IS and OOS returns from the MMS, which in turn used the prices from the predictions network, which then constitutes the $M$ matrix used by the algorithm. Conceptually, the whole system comes into place here, as the results from the CSCV process are now indicative of not only backtest overfitting in the trading strategy, but also in the prediction network and without having to consider the impact of the many configuration tests for feature extraction.
 	
 	\subsection{Deflated Sharpe Ratio}\label{proc_dsr}
 	
-	The DSR calculations are a straight forward implementation of the process described in Section \ref{imp_dsr}, with no major changes from the authors recommendations. Unlike the CSCV process, the DSR calculation only uses returns generated from the predictive model and MMS on OOS data. As with the CSCV \& PBO calculations, the DSR now offers an effective assessment of the experimentations results and their legitimacy. The value of a modularised approach is highlighted again, where the DSR process is not coupled to any aspect of the neural network training.
+	The DSR calculations are a straight forward implementation of the process described in Section \ref{imp_dsr}, with only minor changes from the authors recommendations. Unlike the CSCV process, the DSR calculation only uses returns generated from the predictive model and MMS on OOS data. As with the CSCV \& PBO calculations, the DSR now offers an effective assessment of the experimentations results and their legitimacy. The value of a modularised approach is highlighted again, where the DSR process is not coupled to any aspect of the neural network training.
 	
 	\subsection{Process Diagram}\label{proc_diagram}
 	
@@ -3164,9 +3170,9 @@
 	
 	\subsubsection{Computational Complexity}
 	
-	One of the primary drawbacks of the DSR algorithm presented by \citet{PradoDSR} is the computational complexity which arises with the iterative K-means implementation. A standard Lloyds implementation of the K-means algorithm has a computational complexity of $\mathcal{O}(knt)$\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html}}, for $k$ clusters, $n$ components and $t$ iterations. The suggested implementation modification (as discussed in Section \ref{imp_onc}) would be for $t=10$ and to run the algorithm iteratively for $k=1,...,(n-1)$, which can in turn be expressed as $n(n+1)/2$. This leads to a computational complexity with an $\mathcal{O}(n^3)$ magnitude. Including the final modification suggested, which could run the algorithm recursively on subclusters, has the potential to increase this even further. This high degree of complexity presents a problem for cases where a large number of strategy permutations have been attempted, as is the case here (with $n> 20000$). With this in mind, the algorithm was implemented for a maximum of $k=10$, though the results do not suggest this hindered the findings.\newline
+	One of the primary drawbacks of the DSR algorithm presented by \citet{PradoDSR} is the computational complexity which arises with the iterative K-means implementation. A standard Lloyds implementation of the K-means algorithm has a computational complexity of $\mathcal{O}(knt)$, for $k$ clusters, $n$ components and $t$ iterations\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html}}. The suggested implementation modification (as discussed in Section \ref{imp_onc}) would be for $t=10$ and to run the algorithm iteratively for $k=1,...,(n-1)$, which can in turn be expressed as $n(n+1)/2$. This leads to a computational complexity with an $\mathcal{O}(n^3)$ magnitude. Including the final modification suggested, which could run the algorithm recursively on subclusters, has the potential to increase this even further. This high degree of complexity presents a problem for cases where a large number of strategy permutations have been attempted, as is the case here (with $n> 20000$). With this in mind, the algorithm was implemented for a maximum of $k=10$, though the results do not suggest this hindered the findings.\newline
 	
-	Trials with Sharpe Ratio's of 0 were exlcuded from the ONC clustering analysis due to divide by zero errors from the covariance matrix.
+	Trials with Sharpe Ratio's of 0 were excluded from the ONC clustering analysis due to divide by zero errors from the covariance matrix (this results in a sample size of 21815, rather than the larger 22248 available for the PBO process).
 	
 	\subsubsection{ONC Results}\label{results_onc}
 	
@@ -3174,14 +3180,14 @@
 	
 	Under consideration of a single and consistent MMS trading strategy, the clusters here then indicate that the networks adapted to at least two different general strategies for predicting prices: one which was more influenced by the short term fluctuations in the 1 day aggregation, and the second which was more influenced by the long term fluctuations in the 60 day aggregation. The results presented in Section \ref{results_oos_pl}, such as the effect of the OGD learning rate on P\&L, are then indicative of the networks ability to execute these overarching strategies effectively. \newline
 	
-	The best Sharpe Ratio value (with trading costs applied) was 0.64 and part of Cluster One, with the [1, 5, 10] price fluctuation horizon aggregations. The distributions seen in Figure \ref{figure-dsr_clusters} indicate that at a general level, Cluster Two has more consistent performance, with a higher mean ($\mu_{c1} = 0.374$, $\mu_{c2} = 0.387$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.54$, $\tilde{\mu}_{3,c2} = -0.74$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR. This shows that relying on the longer term trends for prediction can offer more reliable and consistent returns. Using shorter term fluctuations can offer higher rewards, though with more variance and risk involved, as per the efficacy of the implementation. These higher and lower variances in P\&L returns were seen more concretely in Figure \ref{figure-actual_aggregation_pl}. The same patterns are presented in the OGD MSE scores, as seen in Figure \ref{figure-dsr_clusters_mse} .This is perhaps not entirely surprising when the price prediction horizon was 5 days.\newline
+	The best Sharpe Ratio value (with trading costs applied) was 0.64 and part of Cluster One, with the [1, 5, 10] price fluctuation horizon aggregations. The distributions seen in Figure \ref{figure-dsr_clusters} indicate that at a general level, Cluster Two has more consistent performance, with a higher mean ($\mu_{c1} = 0.367$, $\mu_{c2} = 0.387$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.529$, $\tilde{\mu}_{3,c2} = -0.746$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.03$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR. This shows that relying on the longer term trends for prediction can offer more reliable and consistent returns. Using shorter term fluctuations can offer higher rewards, though with more variance and risk involved, as per the efficacy of the implementation. These higher and lower variances in P\&L returns were seen more concretely in Figure \ref{figure-actual_aggregation_pl}. The same patterns are presented in the OGD MSE scores, as seen in Figure \ref{figure-dsr_clusters_mse}. This is perhaps not entirely surprising when the price prediction horizon was 5 days.\newline
 
 	\begin{figure}[H]
 		\centering
 		\textbf{Sharpe Ratios for ONC Clusters and Best Strategy}
 		\includegraphics[scale=0.4]{images/results/dsr/cluster_distributions.png} 
 		\caption[Sharpe Ratios for ONC Clusters and Best Strategy]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16}) 
-			 \newline The graph here shows the distributions of all Sharpe Ratios, grouped by the 2 clusters produced by the ONC algorithm, and an indication for the best Sharpe ratio, which is in Cluster One. As note above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.374$, $\mu_{c2} = 0.387$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.54$, $\tilde{\mu}_{3,c2} = -0.74$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.027$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials.}
+			 \newline The graph here shows the distributions of all Sharpe Ratios, grouped by the 2 clusters produced by the ONC algorithm, and an indication for the best Sharpe ratio, which is in Cluster One. As note above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.367$, $\mu_{c2} = 0.387$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.529$, $\tilde{\mu}_{3,c2} = -0.746$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.03$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials.}
 		\label{figure-dsr_clusters}
 	\end{figure}
 
@@ -3194,13 +3200,13 @@
 		\label{figure-dsr_clusters_mse}
 	\end{figure}
 	
-	The lack of further clusterings was probed manually for Cluster One, running the algorithm for a range of values between 2 and 7000 \footnote{[2,3,...,49,50,500,1000,1500,2000,2250,2400,2500,2600,2750,3000,4000,5000,6000]}. It was found that while there were sub-clusterings which resulted in a higher mean silhouette score (as per equation \eqref{eq_silhouette}), the variance of the silhouette scores also increased dramatically. This in turn, resulted in a lower score for the cost function $\mathbf{q}$ (as per equation \eqref{eq_cluster_q}), and so the ONC algorithm did not cluster further.
+	The lack of further clusterings was probed manually for Cluster One, running the algorithm for a range of values between 2 and 7000\footnote{[2,3,...,49,50,500,1000,1500,2000,2250,2400,2500,2600,2750,3000,4000,5000,6000]}. It was found that while there were sub-clusterings which resulted in a higher mean silhouette score (as per equation \eqref{eq_silhouette}), the variance of the silhouette scores also increased dramatically. This in turn, resulted in a lower score for the cost function $\mathbf{q}$ (as per equation \eqref{eq_cluster_q}), and so the ONC algorithm did not cluster further.
 	
 	\subsubsection{DSR and PSR Results}\label{results_dsr2}
 	
 	Using the clusters produced by the ONC Algorithm (Section \ref{results_onc}), the DSR process as presented in Section \ref{imp_dsr} was followed. The aggregate cluster time series returns were calculated using equations \ref{eq_onc_weights} and \ref{eq_onc_returns} (Section \ref{dsr_cluster_estimates}). These are annualized, which allows their variance estimates to then be used to calculate $SR^*$, which represents the maximum expected observed Sharpe Ratio due to variance under the null hypothesis of $H_0:  \widehat{SR} = 0$ (as discussed in Sections \ref{sr_normality} and \ref{imp_fst}). Using this $SR^*$ as the benchmark, the PSR calculation ($\widehat{PSR}[SR^*]$) can then be used to determine if the observed $\widehat{SR}$ is a false positive or not (as per Section \ref{imp_dsr_detail}). This figure is the DSR as a confidence for whether the observed best $SR$ is actually positive. \newline
 	
-	In this case, the benchmark $SR^*$ calculated was 0.014079, and the best $\widehat{SR}$ observed was 0.64, leading to a $\widehat{PSR}[SR^*]$ of 1.0, thus indicating that the trials certainly contain a strategy which has a positive SR rate. This does seem like a reasonable conclusion, considering the SR distributions in Figure \ref{figure-dsr_clusters}. The calculations for all steps can be seen in Appendix \ref{results_dsr_appendix}. \newline
+	In this case, the benchmark $SR^*$ calculated was 0.023, and the best $\widehat{SR}$ observed was 0.64, leading to a $\widehat{PSR}[SR^*]$ of 1.0, thus indicating that the trials certainly contain a strategy which has a positive SR rate. This does seem like a reasonable conclusion, considering the SR distributions in Figure \ref{figure-dsr_clusters}. The calculations for all steps can be seen in Appendix \ref{results_dsr_appendix}. \newline
 
 	\subsubsection{Framework Success}
 	
@@ -3444,17 +3450,17 @@
 	
 	\begin{itemize}
 		\item [1] \textbf{Calculated the Aggregate Cluster Strategy Time Series Return:} \newline
-		Using the ONC results from Section \ref{results_onc}, as well as equations \ref{eq_onc_weights} and \ref{eq_onc_returns} from Section \ref{dsr_cluster_estimates}, the 2 cluster SR metrics were calculated to be $\widehat{SR}_{1}={0.598449}$ and 	$\widehat{SR}_{2}={0.544274}$. \newline
+		Using the ONC results from Section \ref{results_onc}, as well as equations \ref{eq_onc_weights} and \ref{eq_onc_returns} from Section \ref{dsr_cluster_estimates}, the 2 cluster SR metrics were calculated to be $\widehat{SR}_{1}={0.395059}$ and 	$\widehat{SR}_{2}={0.483543}$. \newline
 		
 		\item [2] \textbf{Annualize the Cluster Strategy Sharpe Ratios:} \newline
 		\begin{equation}
 		\widehat{aSR}_{k}=\widehat{SR}_{k}\sqrt{{Frequency_{k}}}
 		\end{equation}
 		\begin{equation}
-		\widehat{aSR}_{1}={0.598449}\sqrt{{365.25}}={11.437285}
+		\widehat{aSR}_{1}={0.395059}\sqrt{{365.25}}={7.550167}
 		\end{equation}
 		\begin{equation}
-		\widehat{aSR}_{2}={0.544274}\sqrt{{365.25}} ={10.401902}
+		\widehat{aSR}_{2}={0.483543}\sqrt{{365.25}} ={9.241242}
 		\end{equation}
 
 		\item [3] \textbf{Estimate the Variance of Strategy Sharpe Ratios:} \newline
@@ -3465,10 +3471,10 @@
 		\mathrm{E}\left[\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]\right]=\frac{\mathrm{V}\left[\left\{\widehat{aSR}_{k}\right\}\right]}{\text {Frequency}_{k^{*}}}
 		\end{equation}
 		\begin{equation}
-		=\frac{\mathrm{V}\left[\left\{{11.437285,10.401902} \right\}\right]}{\text {365.25}}
+		=\frac{\mathrm{V}\left[\left\{{7.550167,9.241242} \right\}\right]}{\text {365.25}}
 		\end{equation}
 		\begin{equation}
-		={0.0007337}
+		={0.001957}
 		\end{equation}
 		
 		\item [4] \textbf{Calculate the Benchmark $\mathbf{SR^*}$:} \newline
@@ -3480,10 +3486,10 @@
 		S R^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right)
 		\end{equation}
 		\begin{equation}
-		=\sqrt{{0.0007337}}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{2}\right]+\gamma Z^{-1}\left[1-\frac{1}{2 e}\right]\right)
+		=\sqrt{{0.001957}}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{2}\right]+\gamma Z^{-1}\left[1-\frac{1}{2 e}\right]\right)
 		\end{equation}
 		\begin{equation}
-		=0.014079
+		=0.022995
 		\end{equation}
 		
 		\item [5] \textbf{Calculate DSR:} \newline
@@ -3499,11 +3505,11 @@
 		\end{equation}
 		
 		\begin{equation}
-		=Z\left[\frac{\left({0.641676}-{0.014079}\right) \sqrt{1555-1}}{\sqrt{1-{1.860821}\ast{0.641676}+\frac{{9.083369}-1}{4}{0.641676}^{2}}}\right]
+		=Z\left[\frac{\left({0.641676}-{0.022995}\right) \sqrt{1555-1}}{\sqrt{1-{1.860821}\ast{0.641676}+\frac{{9.083369}-1}{4}{0.641676}^{2}}}\right]
 		\end{equation}
 		
 		\begin{equation}
-		=Z\left[\frac{24.740401}{0.798770}\right]
+		=Z\left[\frac{24.388922}{0.798770}\right]
 		\end{equation}
 		
 		\begin{equation}
