@@ -3127,12 +3127,12 @@
 	The CSCV and PBO techniques, as detailed in Section \ref{imp_cscv}, were developed by \citet{BailyPBO} in order to offer a robust methodology of assessing whether a selected strategy is likely to have been justified through backtest overfitting, a common and problematic phenomenon (as discussed in Section \ref{lr_backtesting}). The crux of the methodology lies on the idea that for overfitting to occur, the strategies that deliver the best IS performance will systematically underperform in the OOS datasets (thus reflecting the model having overfit to the IS noise).\newline
 	
 	Their methodology offers several key benefits:
-	\begin{itemize}
-		\item[1] The CSCV methodology is generic, model-free and non-parametric, allowing it to arguably be used in any model case.
-		\item[2] There is no requirement of a hold-out set, which removes potential credibility issues regarding whether the holdout set was treated appropriately or not.
-		\item[3] While the Sharpe Ratio is the typically chosen performance metric, the technique is generic enough to allow any performance measure to be used.
-		\item[4] The logit distribution developed through the assessment offers a useful view on the robustness of the strategies used and the nature of the PBO score.
-	\end{itemize}
+	\begin{enumerate}
+		\item The CSCV methodology is generic, model-free and non-parametric, allowing it to arguably be used in any model case.
+		\item There is no requirement of a hold-out set, which removes potential credibility issues regarding whether the holdout set was treated appropriately or not.
+		\item While the Sharpe Ratio is the typically chosen performance metric, the technique is generic enough to allow any performance measure to be used.
+		\item The logit distribution developed through the assessment offers a useful view on the robustness of the strategies used and the nature of the PBO score.
+	\end{enumerate}
 	
 	\texttt{}\newline
 	While the methodology is in substance a model free approach to assessing overfitting, the application in a machine learning context has highlighted some shortfalls and dynamics that are worth considering in its usage. Conceptually, overfitting occurs from model parameters being applied to the IS set which perform poorly OOS. For an online learning neural network though, the model parameters which are applied IS for prior training are not necessarily the same parameters that are used for the OOS results (i.e. one may not use the same learning rates for IS SGD training as for OOS OGD training). Further, the parameters of a neural network model are for the most part the weights of the network, which change and adapt during the online learning (OOS) phase. This is the primary strength of the model - while it may very well be overfit to the IS data, an effective learning implementation will result in the model adapting relatively quickly and so move out of the overfit solution space (evidence of IS overfitting can be seen in Section \ref{results_data_hist}). Notably, this behaviour would not occur in many static financial econometric models that might typically be more closely associated with backtest overfitting issues.\newline 
@@ -3148,7 +3148,7 @@
 		\textbf{PBO Scores by Split Values}
 		\includegraphics[scale=0.25]{images/results/pbo/PBO_by_Split.png} 
 		\caption[PBO Scores by Split Values]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
-			\newline The curve here shows the significant impact that the choice in the split parameters has for the PBO score calculated, with a monotonically decreasing score as S increases (these scores were for the same set of results). }
+			\newline The curve here shows the significant impact that the choice in the split parameter $S$ has for the PBO score calculated, with a monotonically decreasing score as S increases (these scores were for the same set of results). This highlights the contextual nature of a PBO score and the problems raised with score-wise comparisons as well as upfront configuration choices. }
 		\label{figure-PBO_by_Split}
 	\end{figure}
 	
@@ -3157,12 +3157,12 @@
 		\textbf{Number of CSCV Combinations by Split Value}
 		\includegraphics[scale=0.25]{images/results/pbo/combination_sizes.png} 
 		\caption[Number of CSCV Combinations by Split Value]{
-			\newline The number of combinations that have to be processed by the CSCV method according to the value of the split parameter ($S$) chosen}
+			\newline The number of combinations that have to be processed by the CSCV method according to the value of the split parameter ($S$) chosen. The exponential increase in combinations to be processd as $S$ crosses a value of 16 once again highlights configuration choice challenges. It is unlikely higher splits than 16 will be chosen, regardless of whether they are more appropriate or not.}
 		\label{figure-s_combinations}
 	\end{figure}
 	
 	
-	\subsubsection{PBO Results}
+	\subsubsection{PBO Results}\label{results_pbo_stats}
 	
 	
 	The full set of tests run (n = 22248) on the Actual10 (\ref{dataset_actual10}) dataset had a final PBO of 1.6\%, having been run with a split of 16. There were 15 years of data, making it a reasonable choice as the split parameter (which needs to be even). Ideally, the splits would represent shorter periods, but the exponential increase in computational time (as seen in Figure \ref{figure-s_combinations}) made this impractical, and 16 also happens to be the typical choice recommended by the authors. The full logit distribution can be seen below in Figure \ref{figure-results_logits_all}.
@@ -3172,23 +3172,23 @@
 		\textbf{Logit Distribution for All Configurations}
 		\includegraphics[scale=0.25]{images/results/pbo/all_sets_dist.png} 
 		\caption[Logit Distribution for All Configurations]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
-			\newline The CSCV logit distribution for all configurations run, with a calculated PBO of 1.6\%.}
+			\newline The CSCV logit distribution for all 22248 configurations run, with a calculated PBO of 1.6\%. The strong negative skew is indicative of IS and OOS strategy returns being closely matched in rank, thus resulting in the low PBO score. This is a favourable assessment for the efficacy of the full framework presented here, showing that training was able to occur without much risk of backtest overfitting. }
 		\label{figure-results_logits_all}
 	\end{figure}
 	
 	
 	It is of interest to note the dynamics and contribution towards the PBO results. The configuration process went through 2 primary phases: an extremely broad combinatorial grid search, consisting of 20736 configurations; and a second much narrower search of 1512 configurations. Assessing only the configurations from the second phase, results in a PBO score of 6.3\%, which is significantly higher than the overall PBO score, the logit distribution for which can be seen in Figure \ref{figure-results_logits_subset} below. The effect here highlights two important aspects of the PBO calculation:
-	\begin{itemize}
-		\item[1] The scores are much higher for the configurations which were picked more specifically after having already seen a large number of results, which is correctly indicative of increased likelihood to overfit.
-		\item[2] However, the PBO score is not monotonically increasing with N, as one would expect. This is counterintuitive and is in line with the concerns raised in Section \ref{results_pboconcerns} regarding the effects of increasing configuration sample size.
-	\end{itemize}
+	\begin{enumerate}
+		\item The scores are much higher for the configurations which were picked more specifically after having already seen a large number of results, which is correctly indicative of increased likelihood to overfit.
+		\item However, the PBO score is not monotonically increasing with N, as one would expect. This is counterintuitive and is in line with the concerns raised in Section \ref{results_pboconcerns} regarding the effects of increasing configuration sample size.
+	\end{enumerate}
 	
 	\begin{figure}[H]
 		\centering 
 		\textbf{Logit Distribution for Subset of Configurations}
 		\includegraphics[scale=0.25]{images/results/pbo/subset_dist.png} 
 		\caption[Logit Distribution for Subset of Configurations]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 16 (\ref{config16})
-			\newline The CSCV logit distribution for a narrower of configurations run, with a calculated PBO of 6.3\%.}
+			\newline The CSCV logit distribution for a narrower subset of configurations run, with a calculated PBO of 6.3\%. This subset consists of 1512 configurations, out of the total 22248 configurations run (presented in Figure \ref{figure-results_logits_all}). The higher PBO score (compared to the 1.6\% for all configurations) is indicative of both a higher risk of PBO for the second phase of configurations tested, as well as a potential issues with PBO scoring, as raised above in Section \ref{results_pbo_stats}.}
 		\label{figure-results_logits_subset}
 	\end{figure}
 	
