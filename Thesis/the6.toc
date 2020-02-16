@@ -125,66 +125,66 @@
 \contentsline {subsection}{\numberline {8.2}Primary Determinants of OOS P\&L}{87}{subsection.8.2}
 \contentsline {subsubsection}{\numberline {8.2.1}Effects of Data Horizon Aggregations}{87}{subsubsection.8.2.1}
 \contentsline {subsubsection}{\numberline {8.2.2}OGD Learning Rate}{89}{subsubsection.8.2.2}
-\contentsline {subsubsection}{\numberline {8.2.3}Feature Selection}{90}{subsubsection.8.2.3}
-\contentsline {subsection}{\numberline {8.3}Value of Historical Signal}{94}{subsection.8.3}
-\contentsline {subsection}{\numberline {8.4}Weight Initializaton Techniques}{96}{subsection.8.4}
-\contentsline {subsubsection}{\numberline {8.4.1}RBM Pretraining for Sigmoid Networks}{96}{subsubsection.8.4.1}
-\contentsline {subsubsection}{\numberline {8.4.2}Variance Based Weight Initialization Techniques}{97}{subsubsection.8.4.2}
-\contentsline {subsection}{\numberline {8.5}Synthetic Data}{100}{subsection.8.5}
-\contentsline {subsubsection}{\numberline {8.5.1}GBM Generated Data}{100}{subsubsection.8.5.1}
-\contentsline {subsubsection}{\numberline {8.5.2}Synthetic Data Horizon Effects}{100}{subsubsection.8.5.2}
-\contentsline {subsubsection}{\numberline {8.5.3}Synthetic Data Feature Selection}{101}{subsubsection.8.5.3}
-\contentsline {subsection}{\numberline {8.6}Complexity of Financial Time Series}{102}{subsection.8.6}
-\contentsline {subsubsection}{\numberline {8.6.1}Data Scaling}{102}{subsubsection.8.6.1}
-\contentsline {subsubsection}{\numberline {8.6.2}SAE Reproduction}{103}{subsubsection.8.6.2}
-\contentsline {subsubsection}{\numberline {8.6.3}FFN Prediction}{106}{subsubsection.8.6.3}
-\contentsline {subsection}{\numberline {8.7}Network Structure}{109}{subsection.8.7}
-\contentsline {subsubsection}{\numberline {8.7.1}Effects of Network Size}{109}{subsubsection.8.7.1}
-\contentsline {paragraph}{\numberline {8.7.1.1}SAE Network Structures}{109}{paragraph.8.7.1.1}
-\contentsline {subsubsection}{\numberline {8.7.2}Effects of Activation Functions}{110}{subsubsection.8.7.2}
-\contentsline {subsubsection}{\numberline {8.7.3}Predictive FFN Activations and Scaling}{111}{subsubsection.8.7.3}
-\contentsline {subsubsection}{\numberline {8.7.4}Sigmoid Activation Functions}{112}{subsubsection.8.7.4}
-\contentsline {subsubsection}{\numberline {8.7.5}Leaky ReLU vs ReLU}{112}{subsubsection.8.7.5}
-\contentsline {subsection}{\numberline {8.8}Money Management Strategy}{113}{subsection.8.8}
-\contentsline {subsection}{\numberline {8.9}Probability of Backtest Overfitting}{115}{subsection.8.9}
-\contentsline {subsubsection}{\numberline {8.9.1}Concerns Regarding the PBO Calculation}{115}{subsubsection.8.9.1}
-\contentsline {subsubsection}{\numberline {8.9.2}PBO Results}{117}{subsubsection.8.9.2}
-\contentsline {subsubsection}{\numberline {8.9.3}Framework Success}{119}{subsubsection.8.9.3}
-\contentsline {subsection}{\numberline {8.10}Deflated Sharpe Ratio}{120}{subsection.8.10}
-\contentsline {subsubsection}{\numberline {8.10.1}Computational Complexity}{120}{subsubsection.8.10.1}
-\contentsline {subsubsection}{\numberline {8.10.2}ONC Results}{120}{subsubsection.8.10.2}
-\contentsline {subsubsection}{\numberline {8.10.3}DSR and PSR Results}{122}{subsubsection.8.10.3}
-\contentsline {subsubsection}{\numberline {8.10.4}Framework Success}{123}{subsubsection.8.10.4}
-\contentsline {subsection}{\numberline {8.11}Summary of Actual and Synthetic Data Effects}{124}{subsection.8.11}
-\contentsline {section}{\numberline {9}Conclusion}{125}{section.9}
-\contentsline {section}{\numberline {10}Future Work}{129}{section.10}
-\contentsline {section}{\numberline {11}Appendix}{130}{section.11}
-\contentsline {subsection}{\numberline {11.1}Additional Results}{130}{subsection.11.1}
-\contentsline {subsubsection}{\numberline {11.1.1}Additional Results for Section \ref {results_oos_pl} - Feature Selection }{130}{subsubsection.11.1.1}
-\contentsline {subsubsection}{\numberline {11.1.2}Additional Results for Section \ref {results_init} - Weight Initialization Techniques }{130}{subsubsection.11.1.2}
-\contentsline {subsubsection}{\numberline {11.1.3}Additional Results for Section \ref {results_finance_data} - Complexity of Financial Time Series}{131}{subsubsection.11.1.3}
-\contentsline {paragraph}{\numberline {11.1.3.1}Effects of Learning Rate Epoch Cycles}{131}{paragraph.11.1.3.1}
-\contentsline {paragraph}{\numberline {11.1.3.2}Effects of Learning Rate Epoch Cycles}{132}{paragraph.11.1.3.2}
-\contentsline {subsubsection}{\numberline {11.1.4}Additional Results for Section \ref {results_network} - Network Structure and Training }{133}{subsubsection.11.1.4}
-\contentsline {subsection}{\numberline {11.2}Additional Calculations for Section \ref {results_dsr} - DSR and ONC}{136}{subsection.11.2}
-\contentsline {subsubsection}{\numberline {11.2.1}DSR and PSR calculations}{136}{subsubsection.11.2.1}
-\contentsline {subsection}{\numberline {11.3}Configuration Sets Used}{139}{subsection.11.3}
-\contentsline {subsubsection}{\numberline {11.3.1}Configuration 1}{139}{subsubsection.11.3.1}
-\contentsline {subsubsection}{\numberline {11.3.2}Configuration 2}{139}{subsubsection.11.3.2}
-\contentsline {subsubsection}{\numberline {11.3.3}Configuration 3}{140}{subsubsection.11.3.3}
-\contentsline {subsubsection}{\numberline {11.3.4}Configuration 4}{141}{subsubsection.11.3.4}
-\contentsline {subsubsection}{\numberline {11.3.5}Configuration 5}{142}{subsubsection.11.3.5}
-\contentsline {subsubsection}{\numberline {11.3.6}Configuration 6}{142}{subsubsection.11.3.6}
-\contentsline {subsubsection}{\numberline {11.3.7}Configuration 7}{143}{subsubsection.11.3.7}
-\contentsline {subsubsection}{\numberline {11.3.8}Configuration 8}{144}{subsubsection.11.3.8}
-\contentsline {subsubsection}{\numberline {11.3.9}Configuration 9}{145}{subsubsection.11.3.9}
-\contentsline {subsubsection}{\numberline {11.3.10}Configuration 10}{145}{subsubsection.11.3.10}
-\contentsline {subsubsection}{\numberline {11.3.11}Configuration 11}{146}{subsubsection.11.3.11}
-\contentsline {subsubsection}{\numberline {11.3.12}Configuration 12}{147}{subsubsection.11.3.12}
-\contentsline {subsubsection}{\numberline {11.3.13}Configuration 13}{148}{subsubsection.11.3.13}
-\contentsline {subsubsection}{\numberline {11.3.14}Configuration 14}{149}{subsubsection.11.3.14}
-\contentsline {subsubsection}{\numberline {11.3.15}Configuration 15}{150}{subsubsection.11.3.15}
-\contentsline {subsubsection}{\numberline {11.3.16}Configuration 16}{150}{subsubsection.11.3.16}
-\contentsline {subsubsection}{\numberline {11.3.17}Configuration 17}{151}{subsubsection.11.3.17}
-\contentsline {subsection}{\numberline {11.4}Diagnostic Charts}{153}{subsection.11.4}
-\contentsline {section}{\numberline {12}References}{156}{section.12}
+\contentsline {subsubsection}{\numberline {8.2.3}Feature Selection}{91}{subsubsection.8.2.3}
+\contentsline {subsection}{\numberline {8.3}Value of Historical Signal}{95}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.4}Weight Initializaton Techniques}{97}{subsection.8.4}
+\contentsline {subsubsection}{\numberline {8.4.1}RBM Pretraining for Sigmoid Networks}{97}{subsubsection.8.4.1}
+\contentsline {subsubsection}{\numberline {8.4.2}Variance Based Weight Initialization Techniques}{98}{subsubsection.8.4.2}
+\contentsline {subsection}{\numberline {8.5}Synthetic Data}{101}{subsection.8.5}
+\contentsline {subsubsection}{\numberline {8.5.1}GBM Generated Data}{101}{subsubsection.8.5.1}
+\contentsline {subsubsection}{\numberline {8.5.2}Synthetic Data Horizon Effects}{101}{subsubsection.8.5.2}
+\contentsline {subsubsection}{\numberline {8.5.3}Synthetic Data Feature Selection}{102}{subsubsection.8.5.3}
+\contentsline {subsection}{\numberline {8.6}Complexity of Financial Time Series}{103}{subsection.8.6}
+\contentsline {subsubsection}{\numberline {8.6.1}Data Scaling}{103}{subsubsection.8.6.1}
+\contentsline {subsubsection}{\numberline {8.6.2}SAE Reproduction}{104}{subsubsection.8.6.2}
+\contentsline {subsubsection}{\numberline {8.6.3}FFN Prediction}{107}{subsubsection.8.6.3}
+\contentsline {subsection}{\numberline {8.7}Network Structure}{110}{subsection.8.7}
+\contentsline {subsubsection}{\numberline {8.7.1}Effects of Network Size}{110}{subsubsection.8.7.1}
+\contentsline {paragraph}{\numberline {8.7.1.1}SAE Network Structures}{110}{paragraph.8.7.1.1}
+\contentsline {subsubsection}{\numberline {8.7.2}Effects of Activation Functions}{111}{subsubsection.8.7.2}
+\contentsline {subsubsection}{\numberline {8.7.3}Predictive FFN Activations}{112}{subsubsection.8.7.3}
+\contentsline {subsubsection}{\numberline {8.7.4}Sigmoid Activation Functions}{113}{subsubsection.8.7.4}
+\contentsline {subsubsection}{\numberline {8.7.5}Leaky ReLU vs ReLU}{113}{subsubsection.8.7.5}
+\contentsline {subsection}{\numberline {8.8}Money Management Strategy}{114}{subsection.8.8}
+\contentsline {subsection}{\numberline {8.9}Probability of Backtest Overfitting}{116}{subsection.8.9}
+\contentsline {subsubsection}{\numberline {8.9.1}Concerns Regarding the PBO Calculation}{116}{subsubsection.8.9.1}
+\contentsline {subsubsection}{\numberline {8.9.2}PBO Results}{118}{subsubsection.8.9.2}
+\contentsline {subsubsection}{\numberline {8.9.3}Framework Success}{120}{subsubsection.8.9.3}
+\contentsline {subsection}{\numberline {8.10}Deflated Sharpe Ratio}{121}{subsection.8.10}
+\contentsline {subsubsection}{\numberline {8.10.1}Computational Complexity}{121}{subsubsection.8.10.1}
+\contentsline {subsubsection}{\numberline {8.10.2}ONC Results}{121}{subsubsection.8.10.2}
+\contentsline {subsubsection}{\numberline {8.10.3}DSR and PSR Results}{123}{subsubsection.8.10.3}
+\contentsline {subsubsection}{\numberline {8.10.4}Framework Success}{124}{subsubsection.8.10.4}
+\contentsline {subsection}{\numberline {8.11}Summary of Actual and Synthetic Data Effects}{125}{subsection.8.11}
+\contentsline {section}{\numberline {9}Conclusion}{126}{section.9}
+\contentsline {section}{\numberline {10}Future Work}{130}{section.10}
+\contentsline {section}{\numberline {11}Appendix}{131}{section.11}
+\contentsline {subsection}{\numberline {11.1}Additional Results}{131}{subsection.11.1}
+\contentsline {subsubsection}{\numberline {11.1.1}Additional Results for Section \ref {results_oos_pl} - Feature Selection }{131}{subsubsection.11.1.1}
+\contentsline {subsubsection}{\numberline {11.1.2}Additional Results for Section \ref {results_init} - Weight Initialization Techniques }{131}{subsubsection.11.1.2}
+\contentsline {subsubsection}{\numberline {11.1.3}Additional Results for Section \ref {results_finance_data} - Complexity of Financial Time Series}{132}{subsubsection.11.1.3}
+\contentsline {paragraph}{\numberline {11.1.3.1}Effects of Learning Rate Epoch Cycles}{132}{paragraph.11.1.3.1}
+\contentsline {paragraph}{\numberline {11.1.3.2}Effects of Learning Rate Epoch Cycles}{133}{paragraph.11.1.3.2}
+\contentsline {subsubsection}{\numberline {11.1.4}Additional Results for Section \ref {results_network} - Network Structure and Training }{134}{subsubsection.11.1.4}
+\contentsline {subsection}{\numberline {11.2}Additional Calculations for Section \ref {results_dsr} - DSR and ONC}{137}{subsection.11.2}
+\contentsline {subsubsection}{\numberline {11.2.1}DSR and PSR calculations}{137}{subsubsection.11.2.1}
+\contentsline {subsection}{\numberline {11.3}Configuration Sets Used}{140}{subsection.11.3}
+\contentsline {subsubsection}{\numberline {11.3.1}Configuration 1}{140}{subsubsection.11.3.1}
+\contentsline {subsubsection}{\numberline {11.3.2}Configuration 2}{140}{subsubsection.11.3.2}
+\contentsline {subsubsection}{\numberline {11.3.3}Configuration 3}{141}{subsubsection.11.3.3}
+\contentsline {subsubsection}{\numberline {11.3.4}Configuration 4}{142}{subsubsection.11.3.4}
+\contentsline {subsubsection}{\numberline {11.3.5}Configuration 5}{143}{subsubsection.11.3.5}
+\contentsline {subsubsection}{\numberline {11.3.6}Configuration 6}{143}{subsubsection.11.3.6}
+\contentsline {subsubsection}{\numberline {11.3.7}Configuration 7}{144}{subsubsection.11.3.7}
+\contentsline {subsubsection}{\numberline {11.3.8}Configuration 8}{145}{subsubsection.11.3.8}
+\contentsline {subsubsection}{\numberline {11.3.9}Configuration 9}{146}{subsubsection.11.3.9}
+\contentsline {subsubsection}{\numberline {11.3.10}Configuration 10}{146}{subsubsection.11.3.10}
+\contentsline {subsubsection}{\numberline {11.3.11}Configuration 11}{147}{subsubsection.11.3.11}
+\contentsline {subsubsection}{\numberline {11.3.12}Configuration 12}{148}{subsubsection.11.3.12}
+\contentsline {subsubsection}{\numberline {11.3.13}Configuration 13}{149}{subsubsection.11.3.13}
+\contentsline {subsubsection}{\numberline {11.3.14}Configuration 14}{150}{subsubsection.11.3.14}
+\contentsline {subsubsection}{\numberline {11.3.15}Configuration 15}{151}{subsubsection.11.3.15}
+\contentsline {subsubsection}{\numberline {11.3.16}Configuration 16}{151}{subsubsection.11.3.16}
+\contentsline {subsubsection}{\numberline {11.3.17}Configuration 17}{152}{subsubsection.11.3.17}
+\contentsline {subsection}{\numberline {11.4}Diagnostic Charts}{154}{subsection.11.4}
+\contentsline {section}{\numberline {12}References}{157}{section.12}

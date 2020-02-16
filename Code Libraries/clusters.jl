@@ -82,11 +82,11 @@ end
 
 function OGDvsMSEPlot()
 
-    ogdpl_data = RunQuery("select training_cost, total_pl
+    ogdpl_data = RunQuery("select training_cost --, total_pl
     from clusters c
     inner join epoch_records er on er.configuration_id = c.configuration_id and category = 'OGD'
-    inner join config_oos_pl pl on pl.configuration_id = c.configuration_id and total_pl is not null and training_cost is not null
-    where training_cost < 0.02")
+    --inner join config_oos_pl pl on pl.configuration_id = c.configuration_id and total_pl is not null and training_cost is not null
+    --where training_cost < 0.02")
 
     #cor(Array(ogdpl_data[:training_cost]),Array(ogdpl_data[:total_pl]))
 

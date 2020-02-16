@@ -19,13 +19,15 @@ using MLBase
 using ColorBrewer
 using PlotlyJS
 
-export PL_Scaling, PL_Heatmap_NetworkSize_DataAggregation, PL_SAE_Encoding_SizeLines, PL_Activations, PL_ScalingOutputActivation, MSE_OutputActivation_Scaling_Filters, MSE_Min_EncodingSize_Activation, MSE_Encoding_Activation, MSE_Output_Activation, MSE_Hidden_Activation, MSE_Scaling_Filters, PL_Heatmap_LearningRate_MaxEpochs, MSE_EpochCycle, MSE_LearningRate_MaxMin, MSE_LayerSizesLines, PL_NetworkSizeLines, MSE_LayerSizes3, PL_LearningRates_MaxMin, GenerateDeltaDistribution, BestStrategyVsBenchmark, AllProfitsPDF, ReadProfits, OGD_Heatmap_LayerSizes_Epochs, PL_EpochCycle, AllProfitsPDF, TransformConfigIDs, ConfigStrategyOutput, PL_MaxEpochs, PL_Denoising, ReadProfits, UpdateTotalProfits, MSE_Pretraining, OGD_ScalingOutputActivation_Profits_Bx, MSE_Activation_Scaling_Filters, FFN_LR_Sched_BxProfit, PL_SAE_Encoding_Size, PL_L1Reg, PL_NetworkSize, PL_Init, MSE_LayerSizes, SAE_EncodingSizes_MinMSE, MSE_Deltas, MSE_Init, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, PL_DataDeltas, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,MSE_Lambda1, MSE_Denoising, PL_ValidationSplit, MSE_MaxLearningRate_Activation, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, PL_OGD_LearningRate, PL_LayerActivation_OutputActivation, OGD_SAE_Selection_Profits_bx, PL_Activations_NetworkSize, SAE_ActivationsNetworkSizes_MinMSE, MSE_ActivationsEncodingSizes
+export OOS_PL_OGDLR_Delta_Encoding, IS_PL_Encoding, OOS_PL_OGDLR_Deltas, PL_Scaling, PL_Heatmap_NetworkSize_DataAggregation, PL_SAE_Encoding_SizeLines, PL_Activations, PL_ScalingOutputActivation, MSE_OutputActivation_Scaling_Filters, MSE_Min_EncodingSize_Activation, MSE_Encoding_Activation, MSE_Output_Activation, MSE_Hidden_Activation, MSE_Scaling_Filters, PL_Heatmap_LearningRate_MaxEpochs, MSE_EpochCycle, MSE_LearningRate_MaxMin, MSE_LayerSizesLines, PL_NetworkSizeLines, MSE_LayerSizes3, PL_LearningRates_MaxMin, GenerateDeltaDistribution, BestStrategyVsBenchmark, AllProfitsPDF, ReadProfits, OGD_Heatmap_LayerSizes_Epochs, PL_EpochCycle, AllProfitsPDF, TransformConfigIDs, ConfigStrategyOutput, PL_MaxEpochs, PL_Denoising, ReadProfits, UpdateTotalProfits, MSE_Pretraining, OGD_ScalingOutputActivation_Profits_Bx, MSE_Activation_Scaling_Filters, FFN_LR_Sched_BxProfit, PL_SAE_Encoding_Size, PL_L1Reg, PL_NetworkSize, PL_Init, MSE_LayerSizes, SAE_EncodingSizes_MinMSE, MSE_Deltas, MSE_Init, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, PL_DataDeltas, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,MSE_Lambda1, MSE_Denoising, PL_ValidationSplit, MSE_MaxLearningRate_Activation, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, PL_OGD_LearningRate, PL_LayerActivation_OutputActivation, OGD_SAE_Selection_Profits_bx, PL_Activations_NetworkSize, SAE_ActivationsNetworkSizes_MinMSE, MSE_ActivationsEncodingSizes
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
 end
 
 ##Generic Plot Functions##############################################################################
+
+const default_fontsize = 18
 
 const colourSets = Dict("SyntheticMSE" => "Pastel2",
                   "SyntheticPL" => "Pastel1",
@@ -54,7 +56,7 @@ function OrderDataFrame(groups, ordering)
     return new_frame
 end
 
-function general_boxplot(layer_groups, xaxis_label, filename, variable_name, yaxis_label, xlabels_show, colourSetChoice = "", font_size = 16)
+function general_boxplot(layer_groups, xaxis_label, filename, variable_name, yaxis_label, xlabels_show, colourSetChoice = "", font_size = 18)
     #Boxpoints = false, "all", "outliers", "suspectedoutliers"
 
     colors = ColorBrewer.palette(colourSets[colourSetChoice], 8)
@@ -90,11 +92,14 @@ function general_boxplot(layer_groups, xaxis_label, filename, variable_name, yax
                     )
         push!(data, trace)
     end
+
+    layout_x_axis_label = xaxis_label == nothing ? "" : string("<b>", xaxis_label, "</b><br><br>")
+
     l = Layout(width = 900, height = 600, margin = Dict(:b => 140, :l => 100)
         , yaxis = Dict(:title => string("<b>", yaxis_label, "<br> </b>"))
-        , xaxis = Dict(:title => string("<b>", xaxis_label, " </b><br><br><br><i> Sample Sizes: ", string(group_sizes), "</i>")
+        , xaxis = Dict(:title => string(layout_x_axis_label, "<br><i> Sample Sizes: ", string(group_sizes), "</i>")
                      , :showticklabels => xlabels_show)
-        , font = Dict(:size => font_size)
+        , font = Dict(:size => 18)
          )
 
 
@@ -230,7 +235,7 @@ function PL_LearningRates_MaxMin(config_ids, file_prefix = "", colourSetChoice =
                     and learning_rate != min_learning_rate
                 order by learning_rates"
 
-    ProfitBoxplot(lr_query, :learning_rates, "SGD Learning Rates", string(file_prefix, "PL SGD LearningRates MaxMin"), String, testDatabase, colourSetChoice, nothing, true, 16, nothing, in_sample)
+    ProfitBoxplot(lr_query, :learning_rates, "SGD Learning Rates", string(file_prefix, "PL SGD LearningRates MaxMin"), String, testDatabase, colourSetChoice, nothing, true, 18 , nothing, in_sample)
 end
 
 function PL_SAE_Size(config_ids)
@@ -258,7 +263,7 @@ function PL_L1Reg(config_ids, file_prefix = "", colourSetChoice = "", testDataba
                 where tp.configuration_id in ($ids)
                     and tp.category = \"FFN\""
 
-    ProfitBoxplot(lr_query, :lambda, "L1 Lambda ", string(file_prefix, "L1 Reg Effects on Profits"), String, testDatabase, colourSetChoice, nothing, true, 16, nothing, in_sample)
+    ProfitBoxplot(lr_query, :lambda, "L1 Lambda ", string(file_prefix, "L1 Reg Effects on Profits"), String, testDatabase, colourSetChoice, nothing, true, default_fontsize, nothing, in_sample)
 end
 
 function PL_L1Reg(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -292,11 +297,6 @@ end
 
 function PL_L1Reg_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
 
-    config_ids = 28880:50000
-    testDatabase = false
-    colourSetChoice = "ActualPL"
-    file_prefix = "Actual "
-    in_sample = true
     aggregation = median
 
     ids = TransformConfigIDs(config_ids)
@@ -335,7 +335,7 @@ function PL_L1Reg_Lines(config_ids, file_prefix = "", colourSetChoice = "", test
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> MSE (", string(aggregation), ")</br> </b>"))
         , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
-        , font = Dict(:size => 16)
+        , font = Dict(:size => default_fontsize)
          )
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/FFN PL by Lamda and Deltas ", string(aggregation), ".html"))
@@ -364,14 +364,14 @@ function PL_ValidationSplit(config_ids, file_prefix = "", colourSetChoice = "", 
 
     r = RunQuery(query, testDatabase)
 
-    ProfitBoxplot(query, :Validation_Percentage_Size, "% Training Data Excluded ", string(file_prefix, "Validation Set Effects on Profits"), String, testDatabase, colourSetChoice,  [], false, 5)
+    ProfitBoxplot(query, :Validation_Percentage_Size, "% Training Data Excluded ", string(file_prefix, "Validation Set Effects on Profits"), String, testDatabase, colourSetChoice,  [], false, 18, 5)
 end
 
 function PL_OGD_LearningRate(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
 
     ids = TransformConfigIDs(config_ids)
     lr_query = "select tp.configuration_id,
-                    'Learning Rate: ' || cast(learning_rate as string) learning_rate
+                    'Learning Rate:' || cast(learning_rate as string) learning_rate
                 from training_parameters tp
                 inner join network_parameters np on np.configuration_id = tp.configuration_id
                 where tp.configuration_id in ($ids)
@@ -379,7 +379,7 @@ function PL_OGD_LearningRate(config_ids, file_prefix = "", colourSetChoice = "",
                 order by learning_rate
                 "
 
-    ProfitBoxplot(lr_query, :learning_rate, "OGD Learning Rate", string(file_prefix, "OGD LR Profits"), String, testDatabase, colourSetChoice)
+     ProfitBoxplot(lr_query, :learning_rate, nothing, string(file_prefix, "OGD LR Profits"), String, testDatabase, colourSetChoice, nothing, false, 18)
 end
 
 function PL_Denoising(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
@@ -391,7 +391,7 @@ function PL_Denoising(config_ids, file_prefix = "", colourSetChoice = "", testDa
                 where tp.configuration_id in ($ids)
                     and tp.category = \"FFN\""
 
-    ProfitBoxplot(lr_query, :denoising_variance, "SGD Denoising Variance", string(file_prefix, "OGD Denoising Variance Profits"), Float64, testDatabase, colourSetChoice, nothing, true, 16, nothing, in_sample)
+    ProfitBoxplot(lr_query, :denoising_variance, "SGD Denoising Variance", string(file_prefix, "OGD Denoising Variance Profits"), Float64, testDatabase, colourSetChoice, nothing, true, default_fontsize, nothing, in_sample)
 end
 
 function PL_MaxEpochs(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -416,7 +416,7 @@ function PL_EpochCycle(config_ids, file_prefix = "", colourSetChoice = "", testD
                 where tp.configuration_id in ($ids)
                     and tp.category = \"FFN\""
 
-    ProfitBoxplot(lr_query, :max_epochs, "SGD Learning Rate Epoch Cycle", string(file_prefix, "PL SGD Epoch Cycle"), String, testDatabase, colourSetChoice, nothing, true, 16, nothing, in_sample)
+    ProfitBoxplot(lr_query, :max_epochs, "SGD Learning Rate Epoch Cycle", string(file_prefix, "PL SGD Epoch Cycle"), String, testDatabase, colourSetChoice, nothing, true, default_fontsize, nothing, in_sample)
 end
 
 function PL_LayerActivation_OutputActivation(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -541,7 +541,7 @@ function PL_NetworkSizeLines(config_ids, file_prefix = "", colourSetChoice = "",
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> P&L </br> </b>"))
         , xaxis = Dict(:dtick => 1.0, :title => string("<b> Number of Layers </b>"))
-        , font = Dict(:size => 16))
+        , font = Dict(:size => default_fontsize))
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Network Size Profits - Lines.html"))
 end
@@ -585,7 +585,7 @@ function PL_LearningRateReg_Lines(config_ids, file_prefix = "", colourSetChoice 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> P&L </br> </b>"))
         , xaxis = Dict(:dtick => 1.0, :title => string("<b> Learning Rate </b>"))
-        , font = Dict(:size => 16))
+        , font = Dict(:size => default_fontsize))
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " Learning Rate Lambda PL.html"))
 end
@@ -641,7 +641,7 @@ function PL_Init(config_ids, file_prefix = "", colourSetChoice = "", testDatase 
             from network_parameters
             where configuration_id in($ids)"
 
-    ProfitBoxplot(query, :initialization, "Initialization", string(file_prefix, "Init Profits"), String, testDatase, colourSetChoice, nothing, true, 16)
+    ProfitBoxplot(query, :initialization, "Initialization", string(file_prefix, "Init Profits"), String, testDatase, colourSetChoice, nothing, true, default_fontsize)
 end
 
 function PL_OGDLearningDeltas_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -689,7 +689,7 @@ function PL_OGDLearningDeltas_Lines(config_ids, file_prefix = "", colourSetChoic
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> P&L </br> </b>"))
         , xaxis = Dict(:dtick => 0.01, :title => string("<b> OGD Learning Rate </b>"), :showticklabels => true )
-        , font = Dict(:size => 16))
+        , font = Dict(:size => default_fontsize))
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " OGD Learning Rate Deltas PL.html"))
 end
@@ -698,12 +698,6 @@ end
 #MSE BoxPlots############################################################################
 
 function MSE_SAE_Encoding_Size_Deltas_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
-
-    config_ids = 1:1655
-    file_prefix = "actual"
-    colourSetChoice = "ActualMSE"
-    testDatabase = false
-
 
     ids = TransformConfigIDs(config_ids)
 
@@ -748,19 +742,12 @@ function MSE_SAE_Encoding_Size_Deltas_Lines(config_ids, file_prefix = "", colour
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> Median MSE </br> </b>"))
         , xaxis = Dict(:dtick => 5, :title => string("<b> Encoding Size </b>"), :showticklabels => true )
-        , font = Dict(:size => 16))
+        , font = Dict(:size => default_fontsize))
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " Encoding Size Deltas MSE.html"))
 end
 
 function OGDMSE_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, learning_rate = nothing, aggregation = maximum)
-
-    config_ids = 28880:49616
-    noneSize = 30
-    testDatabase = false
-    aggregation = mean
-    file_prefix = "actual"
-
 
     ids = TransformConfigIDs(config_ids)
 
@@ -920,7 +907,7 @@ function MSE_LayerSizesLines(config_ids, file_prefix = "", colourSetChoice = "",
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> MSE </br> </b>"))
         , xaxis = Dict(:dtick => 1.0, :title => string("<b> Number of Layers </b>"))
-        , font = Dict(:size => 16))
+        , font = Dict(:size => default_fontsize))
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Network Size MSE.html"))
 end
@@ -969,20 +956,12 @@ function MSE_LearningRateReg_Lines(config_ids, file_prefix = "", colourSetChoice
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> MSE </br> </b>"))
         , xaxis = Dict(:dtick => 1.0, :title => string("<b> Learning Rate </b>"))
-        , font = Dict(:size => 16))
+        , font = Dict(:size => default_fontsize))
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " Learning Rate Lambda MSE.html"))
 end
 
 function MSE_LearningRateInit_Lines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
-
-    config_ids = 1:1655
-    file_prefix = "actual"
-    colourSetChoice = "ActualMSE"
-    testDatabase = false
-
-
-
 
     ids = TransformConfigIDs(config_ids)
 
@@ -1027,7 +1006,7 @@ function MSE_LearningRateInit_Lines(config_ids, file_prefix = "", colourSetChoic
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> MSE </br> </b>"))
         , xaxis = Dict(:dtick => 1.0, :title => string("<b> Learning Rate </b>"))
-        , font = Dict(:size => 16))
+        , font = Dict(:size => default_fontsize))
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " Learning Rate Init MSe.html"))
 end
@@ -1106,17 +1085,10 @@ function MSE_LearningRate_MaxMin(config_ids, init, file_prefix = "", colourSetCh
 
     r = RunQuery(lr_msequery)
 
-    MSEBoxplot(lr_msequery, :learning_rates, "Max-Min Learning Rates", string(file_prefix, "SAE Max Learning Rate Min Test MSE"), String, colourSetChoice, testDatabase, true, 16)
+    MSEBoxplot(lr_msequery, :learning_rates, "Max-Min Learning Rates", string(file_prefix, "SAE Max Learning Rate Min Test MSE"), String, colourSetChoice, testDatabase, true, default_fontsize)
 end
 
 function MSE_LearningRate_MaxMin_Lines(config_ids, init, file_prefix = "", colourSetChoice = "", testDatabase = false)
-
-    config_ids = 1:1665
-    testDatabase = false
-    file_prefix = ""
-    colourSetChoice = "ActualMSE"
-    aggregation = mean
-    init = nothing
 
     ids = TransformConfigIDs(config_ids)
 
@@ -1165,7 +1137,7 @@ function MSE_LearningRate_MaxMin_Lines(config_ids, init, file_prefix = "", colou
         l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
             , yaxis = Dict(:title => string("<b> MSE (", string(aggregation), ")</br> </b>"))
             , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
-            , font = Dict(:size => 16)
+            , font = Dict(:size => default_fontsize)
              )
 
         savefig(plot(data, l), string("/users/joeldacosta/desktop/SAE MSE Learning Rates by Encoding ", string(aggregation), ".html"))
@@ -1208,12 +1180,6 @@ function MSE_EpochCycle(config_ids, file_prefix = "", colourSetChoice = "", test
 end
 
 function MSE_EpochCycle_EncodingLines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
-
-    config_ids = 1:1665
-    testDatabase = false
-    file_prefix = ""
-    colourSetChoice = "ActualMSE"
-    aggregation = median
 
     ids = TransformConfigIDs(config_ids)
 
@@ -1258,7 +1224,7 @@ function MSE_EpochCycle_EncodingLines(config_ids, file_prefix = "", colourSetCho
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> MSE (", string(aggregation), ")</br> </b>"))
         , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
-        , font = Dict(:size => 16)
+        , font = Dict(:size => default_fontsize)
          )
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/SAE MSE Epoch Cycles by Encoding ", string(aggregation), ".html"))
@@ -1267,10 +1233,6 @@ end
 
 function MSE_Reg_EncodingLines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
 
-    config_ids = 1:1665
-    testDatabase = false
-    file_prefix = ""
-    colourSetChoice = "ActualMSE"
     aggregation = minimum
 
     ids = TransformConfigIDs(config_ids)
@@ -1316,7 +1278,7 @@ function MSE_Reg_EncodingLines(config_ids, file_prefix = "", colourSetChoice = "
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> MSE (", string(aggregation), ")</br> </b>"))
         , xaxis = Dict(:title => string("<b> L1 Lambda </b>"))
-        , font = Dict(:size => 16)
+        , font = Dict(:size => default_fontsize)
          )
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/SAE MSE l1_lambda by Encoding ", string(aggregation), ".html"))
@@ -1350,7 +1312,7 @@ function MSE_Deltas(config_ids, file_prefix = "", colourSetChoice = "", testData
 
     ids = TransformConfigIDs(config_ids)
 
-    delta_query = string("select er.configuration_id, min(testing_cost) cost, ('[' || deltas || '] Data Windows') deltas
+    delta_query = string("select er.configuration_id, min(testing_cost) cost, ('[' || deltas || '] Horizons') deltas
                         from epoch_records er
                         inner join network_parameters np on np.configuration_id = er.configuration_id
                         inner join dataset_config dc on dc.configuration_id = er.configuration_id
@@ -1368,7 +1330,7 @@ function MSE_Deltas(config_ids, file_prefix = "", colourSetChoice = "", testData
 
     ordering = groups[[1,3,2],1]
 
-    MSEBoxplot(delta_query, :deltas, "Delta", string(file_prefix, "SAE Delta MSE"), String, colourSetChoice, testDatabase, false, ordering)
+    MSEBoxplot(delta_query, :deltas, "", string(file_prefix, "SAE Delta MSE"), String, colourSetChoice, testDatabase, false, 18, ordering)
 end
 
 function MSE_Min_EncodingSize_Activation(config_ids, activation_choice = "encoding", file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = minimum)
@@ -1781,7 +1743,7 @@ function GenerateDeltaDistribution(delta_values, variances, time_steps, dataset,
     training_data = PrepareData(data_config, dataset, nothing)[1]
     vals = mapreduce(i -> training_data.training_input[:, i], vcat, 1:size(training_data.training_input,2))
 
-    trace = histogram(;x=vals, name=string(string(delta_values[1]), " Data Windows"), marker = Dict(:color=>colours[1]), opacity=opacity_value)
+    trace = histogram(;x=vals, name=string(string(delta_values[1]), " Horizons"), marker = Dict(:color=>colours[1]), opacity=opacity_value)
     mean_dict[string(delta_values[1])] = mean(vals)
     std_dict[string(delta_values[1])] = std(vals)
 
@@ -1805,7 +1767,8 @@ function GenerateDeltaDistribution(delta_values, variances, time_steps, dataset,
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> Number of Observations </br> </b>"))
         , xaxis = Dict(:title => string("<b> Log Difference</b>"))
-        , barmode="overlay")
+        , barmode="overlay"
+        , font = Dict(:size => 18))
 
     fig = Plot(data, l)
     savefig(plot(fig), string("/users/joeldacosta/desktop/", file_prefix, " Aggregation Distributions.html"))
@@ -2245,7 +2208,7 @@ function OGD_MSE_vs_PL()
         , yaxis = Dict(:title => string("<b> P\&L <br> </b>"))
         , xaxis = Dict(:title => string("<b> OGD MSE </b><br><br><br><i> Sample Size: ", size(ogdpl_data,1), "</i>")
                      , :showticklabels => true)
-         )
+        , font = Dict(:size => 18))
 
 
     fig = Plot([trace1, trace2], l)
@@ -2438,7 +2401,7 @@ function OOS_PL_OGDLR_Deltas(config_ids, noneSize = -1, file_prefix = "", colour
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
         , xaxis = Dict(:title => string("<b> OGD Learning Rate</b>"))
-        , font = Dict(:size => 16)
+        , font = Dict(:size => 18)
          )
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS OGDLR-Delta P&L ", string(aggregation), ".html"))
@@ -2485,7 +2448,7 @@ function OOS_PL_OGDLR_Delta_Encoding(config_ids, noneSize = -1, file_prefix = ""
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> OOS P&L (", string(aggregation), ")</br> </b>"))
         , xaxis = Dict(:title => string("<b> OGD Learning Rate </b>"))
-        , font = Dict(:size => 16)
+        , font = Dict(:size => 18)
          )
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS OGDLR-Delta-Encoding ", string(encoding), "_", string(aggregation), ".html"))
@@ -2525,11 +2488,55 @@ function IS_PL_Encoding(config_ids, noneSize = -1, file_prefix = "", colourSetCh
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> IS P&L (", string(aggregation), ")</br> </b>"))
         , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
-        , font = Dict(:size => 16)
+        , font = Dict(:size => 18)
          )
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/IS Encoding P&L ", string(aggregation), ".html"))
 end
+
+function PL_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, learning_rate = nothing, aggregation = maximum)
+
+    ids = TransformConfigIDs(config_ids)
+
+    query = "select np.configuration_id,
+                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
+                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
+                tp.learning_rate
+            from network_parameters np
+                inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
+                inner join dataset_config dc on dc.configuration_id = np.configuration_id
+            where np.configuration_id in ($ids)
+            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
+
+    results = RunQuery(query, testDatabase)
+    results[:,1] = Array{Int64,1}(results[:,1])
+    results[:,2] = Array{Int64,1}(results[:,2])
+    results[:,3] = Array{Float64,1}(results[:,3])
+    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+
+    groups = by(pl_returns, [:encoding, :learning_rate], df -> aggregation(df[:profit]))
+
+    encoding_groups = by(groups, [:learning_rate], df -> [df])
+    data = Array{PlotlyBase.GenericTrace,1}()
+    colors = colors = ColorBrewer.palette(colourSets["ActualPL"], 8)
+
+    for i in 1:size(encoding_groups,1)
+        trace = scatter(;x=encoding_groups[i,2][:encoding],
+                         y=encoding_groups[i,2][:x1],
+                         name=string(encoding_groups[i,1],
+                         " OGD Learning Rate"),
+                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
+        push!(data, trace)
+    end
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> P&L (", string(aggregation), ")</br> </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
+        , font = Dict(:size => default_fontsize))
+
+    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Encoding PL Learning Rates", string(aggregation), ".html"))
+end
+
 
 ##New Graphs ####################################################################
 
@@ -2947,51 +2954,7 @@ function OOS_PL_Encoding_LR(config_ids, noneSize = -1, file_prefix = "", colourS
     savefig(plot(data, l), string("/users/joeldacosta/desktop/OOS OGDLR-Encoding  LR P&L ", string(aggregation), ".html"))
 end
 
-function PL_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false, learning_rate = nothing, aggregation = maximum)
 
-    aggregation = mean
-
-    ids = TransformConfigIDs(config_ids)
-
-    query = "select np.configuration_id,
-                case when substr(layer_sizes, 0, instr(layer_sizes, ',')) == '$noneSize' then 0
-                else cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT) end encoding,
-                tp.learning_rate
-            from network_parameters np
-                inner join training_parameters tp on tp.configuration_id = np.configuration_id and tp.category = 'FFN-OGD'
-                inner join dataset_config dc on dc.configuration_id = np.configuration_id
-            where np.configuration_id in ($ids)
-                --and deltas = '1,5,20'
-                and deltas = '10,20,60'
-            order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
-
-    results = RunQuery(query, testDatabase)
-    results[:,1] = Array{Int64,1}(results[:,1])
-    results[:,2] = Array{Int64,1}(results[:,2])
-    results[:,3] = Array{Float64,1}(results[:,3])
-    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
-
-    groups = by(pl_returns, [:encoding, :learning_rate], df -> aggregation(df[:profit]))
-
-    encoding_groups = by(groups, [:learning_rate], df -> [df])
-    data = Array{PlotlyBase.GenericTrace,1}()
-    colors = colors = ColorBrewer.palette(colourSets["ActualPL"], 8)
-
-    for i in 1:size(encoding_groups,1)
-        trace = scatter(;x=encoding_groups[i,2][:encoding],
-                         y=encoding_groups[i,2][:x1],
-                         name=string(encoding_groups[i,1],
-                         " OGD Learning Rate"),
-                        marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
-        push!(data, trace)
-    end
-
-    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> P&L (", string(aggregation), ")</br> </b>"))
-        , xaxis = Dict(:title => string("<b> Encoding Size </b>")))
-
-    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, "Encoding PL Learning Rates", string(aggregation), ".html"))
-end
 
 function IS_PL_SAE_Encoding_Size_Boxplot(config_ids, noneSize = -1, file_prefix = "", colourSetChoice = "", testDatabase = false)
 
