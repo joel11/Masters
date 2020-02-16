@@ -3557,7 +3557,7 @@
 	\subsubsection{Configuration 1}\label{config1}
 	
 	%["Linear Tests 1", "Linear Tests 2 Std"]
-\begin{table}[H]
+	\begin{table}[H]
 	\begin{tabular}{|p{0.2\linewidth}|p{0.8\linewidth}|} \hline \textbf{Parameter} &\textbf{Values} \\\hline
 		{category} & {SAE} \\\hline
 		{sae\_config\_id} & {0} \\\hline
@@ -3580,180 +3580,187 @@
 		{epoch\_cycle\_max} & {0} \\\hline
 		{ogd\_learning\_rate} & {0.0} \\\hline
 		{\textbf{Total Samples}} & {\textbf{1129}} \\\hline
-	\end{tabular} \newline \newline \end{table}
+	\end{tabular}
+	\end{table}
 	
 	
 	
 	\subsubsection{Configuration 2}\label{config2}
 	%["Linear Tests 1"]
-	\begin{itemize}
-		\item category: SAE
-		\item sae\_config\_id: 0
-		\item steps: 5000
-		\item deltas: 1,5,20
-		\item process\_splits: 0.6
-		\item training\_splits: 0.8,1.0
-		\item prediction\_steps: 2
-		\item scaling\_function: NormalizeData
-		\item layer\_sizes: (30,60,5); (30,60,60,5); (30,60,60,60,5); (30,120,5); (30,120,120,5); (30,120,120,120,5); (30,60,15); (30,60,60,15); (30,60,60,60,15); (30,120,15); (30,120,120,15); (30,120,120,120,15); (30,60,25); (30,60,60,25); (30,60,60,60,25); (30,120,25); (30,120,120,25); (30,120,120,120,25)
-		\item layer\_activations: SigmoidActivation,ReluActivation,LinearActivation
-		\item initialization: XavierGlorotUniformInit
-		\item encoding\_activation: LinearActivation;SigmoidActivation;ReluActivation
-		\item output\_activation: LinearActivation;SigmoidActivation;ReluActivation
-		\item learning\_rate: 0.001;0.1;1.0;0.01;0.05;0.25
-		\item minibatch\_size: 20
-		\item max\_epochs: 500
-		\item l1\_lambda: 0.0
-		\item min\_learning\_rate: 0.0
-		\item epoch\_cycle\_max: 0
-		\item ogd\_learning\_rate: 0.0
-	\end{itemize}
+
+	\begin{table}[H]
+	\begin{tabular}{|p{0.2\linewidth}|p{0.8\linewidth}|} \hline \textbf{Parameter} &\textbf{Values} \\\hline
+		{category} & {SAE} \\\hline
+		{sae\_config\_id} & {0} \\\hline
+		{steps} & {5000} \\\hline
+		{deltas} & {1,5,20} \\\hline
+		{process\_splits} & {0.6} \\\hline
+		{training\_splits} & {0.8,1.0} \\\hline
+		{prediction\_steps} & {2} \\\hline
+		{scaling\_function} & {NormalizeData} \\\hline
+		{layer\_sizes} & {(30,60,5); (30,60,60,5); (30,60,60,60,5); (30,120,5); (30,120,120,5); (30,120,120,120,5); (30,60,15); (30,60,60,15); (30,60,60,60,15); (30,120,15); (30,120,120,15); (30,120,120,120,15); (30,60,25); (30,60,60,25); (30,60,60,60,25); (30,120,25); (30,120,120,25); (30,120,120,120,25)} \\\hline
+		{layer\_activations} & {SigmoidActivation,ReluActivation,LinearActivation} \\\hline
+		{initialization} & {XavierGlorotUniformInit} \\\hline
+		{encoding\_activation} & {LinearActivation;SigmoidActivation;ReluActivation} \\\hline
+		{output\_activation} & {LinearActivation;SigmoidActivation;ReluActivation} \\\hline
+		{learning\_rate} & {0.001;0.1;1.0;0.01;0.05;0.25} \\\hline
+		{minibatch\_size} & {20} \\\hline
+		{max\_epochs} & {500} \\\hline
+		{l1\_lambda} & {0.0} \\\hline
+		{min\_learning\_rate} & {0.0} \\\hline
+		{epoch\_cycle\_max} & {0} \\\hline
+		{ogd\_learning\_rate} & {0.0} \\\hline
+		{\textbf{Total Samples}} & {\textbf{648}} \\\hline
+	\end{tabular}
+	\end{table}
 	
-	Samples: 648
 	
 	\subsubsection{Configuration 3}\label{config3}
-	
-	\begin{itemize}
-		\item category: FFN
-		\item sae\_config\_id: 3560;3574;3580;3590;3613;3620;3626;3638;3650;3671
-		\item steps: 5000
-		\item deltas: 1,5,20
-		\item process\_splits: 0.6
-		\item training\_splits: 0.8,1.0
-		\item prediction\_steps: 2
-		\item scaling\_function: NormalizeData;LimitedNormalizeData
-		\item layer\_sizes: (15,40,6); (12,40,6); (9,40,6); (6,40,6); (3,40,6); (15,40,40,40,6); (12,40,40,40,6); (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40,6); (15,80,6);(12,80,6); (9,80,6); (6,80,6); (3,80,6); (15,80,80,80,6); (12,80,80,80,6); (9,80,80,80,6); (6,80,80,80,6); (3,80,80,80,6)
-		\item layer\_activations: SigmoidActivation,ReluActivation,LinearActivation
-		\item initialization: XavierGlorotNormalInit
-		\item encoding\_activation: ;LinearActivation
-		\item output\_activation: LinearActivation;ReluActivation
-		\item learning\_rate: 1.0e-5;0.0001;0.001;0.01
-		\item minibatch\_size: 20
-		\item max\_epochs: 500
-		\item l1\_lambda: 0.0
-		\item min\_learning\_rate: 0.0
-		\item epoch\_cycle\_max: 0
-		\item is\_denoising: 0
-		\item denoising\_variance: 0.0
-		\item ogd\_learning\_rate: 0.0001;0.001
-	\end{itemize}
-	
-	Samples: 960
+	%["Iteration2_1 Tests FFN", "Iteration2_1 Linear Tests FFN"]
+	\begin{table}[H]
+	\begin{tabular}{|p{0.2\linewidth}|p{0.8\linewidth}|} \hline \textbf{Parameter} &\textbf{Values} \\\hline
+		{category} & {FFN} \\\hline
+		{sae\_config\_id} & {3560;3574;3580;3590;3613;3620;3626;3638;3650;3671} \\\hline
+		{steps} & {5000} \\\hline
+		{deltas} & {1,5,20} \\\hline
+		{process\_splits} & {0.6} \\\hline
+		{training\_splits} & {0.8,1.0} \\\hline
+		{prediction\_steps} & {2} \\\hline
+		{scaling\_function} & {NormalizeData;LimitedNormalizeData} \\\hline
+		{layer\_sizes} & {(15,40,6); (12,40,6); (9,40,6); (6,40,6); (3,40,6); (15,40,40,40,6); (12,40,40,40,6); (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40,6); (15,80,6); (12,80,6); (9,80,6); (6,80,6); (3,80,6); (15,80,80,80,6); (12,80,80,80,6); (9,80,80,80,6); (6,80,80,80,6); (3,80,80,80,6)} \\\hline
+		{layer\_activations} & {SigmoidActivation,ReluActivation,LinearActivation} \\\hline
+		{initialization} & {XavierGlorotNormalInit} \\\hline
+		{encoding\_activation} & {;LinearActivation} \\\hline
+		{output\_activation} & {LinearActivation;ReluActivation} \\\hline
+		{learning\_rate} & {1.0e-5;0.0001;0.001;0.01} \\\hline
+		{minibatch\_size} & {20} \\\hline
+		{max\_epochs} & {500} \\\hline
+		{l1\_lambda} & {0.0} \\\hline
+		{min\_learning\_rate} & {0.0} \\\hline
+		{epoch\_cycle\_max} & {0} \\\hline
+		{is\_denoising} & {0} \\\hline
+		{denoising\_variance} & {0.0} \\\hline
+		{ogd\_learning\_rate} & {0.0001;0.001} \\\hline
+		{\textbf{Total Samples}} & {\textbf{960}} \\\hline
+	\end{tabular}
+	\end{table}
 	
 	
 	\subsubsection{Configuration 4}\label{config4}
+	%["Iteration2_1 Tests FFN", "Iteration2_1 Linear Tests FFN","Iteration2_1 Smaller Linear Tests"]
+	\begin{table}[H]
+		\begin{tabular}{|p{0.2\linewidth}|p{0.8\linewidth}|} \hline \textbf{Parameter} &\textbf{Values} \\\hline
+			{category} & {FFN} \\\hline
+			{sae\_config\_id} & {3560;3574;3580;3590;3613;3620;3626;3638;3650;3671} \\\hline
+			{steps} & {5000} \\\hline
+			{deltas} & {1,5,20} \\\hline
+			{process\_splits} & {0.6} \\\hline
+			{training\_splits} & {0.8,1.0} \\\hline
+			{prediction\_steps} & {2} \\\hline
+			{scaling\_function} & {NormalizeData;LimitedNormalizeData} \\\hline
+			{layer\_sizes} & {(15,40,6); (12,40,6); (9,40,6); (6,40,6); (3,40,6); (15,40,40,40,6); (12,40,40,40,6); (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40,6); (15,80,6); (12,80,6); (9,80,6); (6,80,6); (3,80,6); (15,80,80,80,6); (12,80,80,80,6); (9,80,80,80,6); (6,80,80,80,6); (3,80,80,80,6); (15,20,6); (12,20,6); (9,20,6); (6,20,6); (3,20,6);(15,20,20,6); (12,20,20,6); (9,20,20,6); (6,20,20,6); (3,20,20,6); (15,20,20,20,6); (12,20,20,20,6); (9,20,20,20,6); (6,20,20,20,6); (3,20,20,20,6)} \\\hline
+			{layer\_activations} & {SigmoidActivation,ReluActivation,LinearActivation} \\\hline
+			{initialization} & {XavierGlorotNormalInit} \\\hline
+			{encoding\_activation} & {;LinearActivation} \\\hline
+			{output\_activation} & {LinearActivation;ReluActivation} \\\hline
+			{learning\_rate} & {1.0e-5;0.0001;0.001;0.01} \\\hline
+			{minibatch\_size} & {20} \\\hline
+			{max\_epochs} & {500} \\\hline
+			{l1\_lambda} & {0.0} \\\hline
+			{min\_learning\_rate} & {0.0} \\\hline
+			{epoch\_cycle\_max} & {0} \\\hline
+			{is\_denoising} & {0} \\\hline
+			{denoising\_variance} & {0.0} \\\hline
+			{ogd\_learning\_rate} & {0.0001;0.001} \\\hline
+			{\textbf{Total Samples}} & {\textbf{1680}} \\\hline
+		\end{tabular}
+		\end{table}
 	
-	\begin{itemize}
-		\item category: FFN
-		\item sae\_config\_id: 3560;3574;3580;3590;3613;3620;3626;3638;3650;3671
-		\item steps: 5000
-		\item deltas: 1,5,20
-		\item process\_splits: 0.6
-		\item training\_splits: 0.8,1.0
-		\item prediction\_steps: 2
-		\item scaling\_function: NormalizeData;LimitedNormalizeData
-		\item layer\_sizes: (15,40,6); (12,40,6); (9,40,6); (6,40,6); (3,40,6); (15,40,40,40,6); (12,40,40,40,6); (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40,6); (15,80,6);(12,80,6); (9,80,6); (6,80,6); (3,80,6); (15,80,80,80,6); (12,80,80,80,6); (9,80,80,80,6); (6,80,80,80,6); (3,80,80,80,6); (15,20,6); (12,20,6); (9,20,6); (6,20,6); (3,20,6); (15,20,20,6); (12,20,20,6); (9,20,20,6); (6,20,20,6); (3,20,20,6); (15,20,20,20,6); (12,20,20,20,6); (9,20,20,20,6); (6,20,20,20,6); (3,20,20,20,6)
-		\item layer\_activations: SigmoidActivation,ReluActivation,LinearActivation
-		\item initialization: XavierGlorotNormalInit
-		\item encoding\_activation: ;LinearActivation
-		\item output\_activation: LinearActivation;ReluActivation
-		\item learning\_rate: 1.0e-5;0.0001;0.001;0.01
-		\item minibatch\_size: 20
-		\item max\_epochs: 500
-		\item l1\_lambda: 0.0
-		\item min\_learning\_rate: 0.0
-		\item epoch\_cycle\_max: 0
-		\item is\_denoising: 0
-		\item denoising\_variance: 0.0
-		\item ogd\_learning\_rate: 0.0001;0.001
-	\end{itemize}
-	
-	Samples: 1680
-	
+	%["Iteration3_2 FFN LeakyRelu vs Relu"]
 	\subsubsection{Configuration 5}\label{config5}
-	
-	\begin{itemize}
-		\item category: FFN
-		\item sae\_config\_id: 8860;8872;8876;8888;8910;8800;8812;8816;8828;8850
-		\item steps: 5000
-		\item deltas: 1,5,20
-		\item process\_splits: 0.6
-		\item training\_splits: 0.8,1.0
-		\item prediction\_steps: 2
-		\item scaling\_function: LimitedNormalizeData
-		\item layer\_sizes: (15,40,6); (12,40,6); (9,40,6); (6,40,6); (3,40,6); (15,40,40,40,6); (12,40,40,40,6); (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40,6); (15,80,6);(12,80,6); (9,80,6); (6,80,6); (3,80,6); (15,80,80,80,6); (12,80,80,80,6); (9,80,80,80,6); (6,80,80,80,6); (3,80,80,80,6)
-		\item layer\_activations: SigmoidActivation,ReluActivation,LinearActivation
-		\item initialization: XavierGlorotNormalInit
-		\item encoding\_activation: LinearActivation
-		\item output\_activation: LinearActivation
-		\item learning\_rate: 0.001;0.01
-		\item minibatch\_size: 20
-		\item max\_epochs: 500
-		\item l1\_lambda: 0.0
-		\item min\_learning\_rate: 0.0
-		\item epoch\_cycle\_max: 0
-		\item is\_denoising: 0
-		\item denoising\_variance: 0.0
-		\item ogd\_learning\_rate: 0.001
-	\end{itemize}
-	
-	Samples: 80
-	
+	\begin{table}[H]
+	\begin{tabular}{|p{0.2\linewidth}|p{0.8\linewidth}|} \hline \textbf{Parameter} &\textbf{Values} \\\hline
+		{category} & {FFN} \\\hline
+		{sae\_config\_id} & {8860;8872;8876;8888;8910;8800;8812;8816;8828;8850} \\\hline
+		{steps} & {5000} \\\hline
+		{deltas} & {1,5,20} \\\hline
+		{process\_splits} & {0.6} \\\hline
+		{training\_splits} & {0.8,1.0} \\\hline
+		{prediction\_steps} & {2} \\\hline
+		{scaling\_function} & {LimitedNormalizeData} \\\hline
+		{layer\_sizes} & {(15,40,6); (12,40,6); (9,40,6); (6,40,6); (3,40,6); (15,40,40,40,6); (12,40,40,40,6); (9,40,40,40,6); (6,40,40,40,6); (3,40,40,40,6); (15,80,6); (12,80,6); (9,80,6); (6,80,6); (3,80,6); (15,80,80,80,6); (12,80,80,80,6); (9,80,80,80,6); (6,80,80,80,6); (3,80,80,80,6)} \\\hline
+		{layer\_activations} & {SigmoidActivation,ReluActivation,LinearActivation} \\\hline
+		{initialization} & {XavierGlorotNormalInit} \\\hline
+		{encoding\_activation} & {LinearActivation} \\\hline
+		{output\_activation} & {LinearActivation} \\\hline
+		{learning\_rate} & {0.001;0.01} \\\hline
+		{minibatch\_size} & {20} \\\hline
+		{max\_epochs} & {500} \\\hline
+		{l1\_lambda} & {0.0} \\\hline
+		{min\_learning\_rate} & {0.0} \\\hline
+		{epoch\_cycle\_max} & {0} \\\hline
+		{is\_denoising} & {0} \\\hline
+		{denoising\_variance} & {0.0} \\\hline
+		{ogd\_learning\_rate} & {0.001} \\\hline
+		{\textbf{Total Samples}} & {\textbf{80}} \\\hline
+	\end{tabular}\end{table}
+
+	%["Pretraining 3"]	
 	\subsubsection{Configuration 6}\label{config6}
-	%["Pretraining 3"]
-	\begin{itemize}
-		\item category: SAE
-		\item sae\_config\_id: 0
-		\item steps: 5000
-		\item deltas: 1,5,20
-		\item process\_splits: 0.6
-		\item training\_splits: 0.8,1.0
-		\item prediction\_steps: 2
-		\item scaling\_function: NormalizeData
-		\item layer\_sizes: (6,15,5); (6,15,15,5)
-		\item layer\_activations: SigmoidActivation,ReluActivation,LinearActivation
-		\item initialization: XavierGlorotNormalInit
-		\item encoding\_activation: LinearActivation;SigmoidActivation
-		\item output\_activation: SigmoidActivation
-		\item learning\_rate: 1.0;2.0;4.0
-		\item minibatch\_size: 20
-		\item max\_epochs: 100
-		\item l1\_lambda: 0.0
-		\item min\_learning\_rate: 1.0
-		\item epoch\_cycle\_max: 1
-		\item ogd\_learning\_rate: 0.0
-	\end{itemize}
+	\begin{table}[H]
+	\begin{tabular}{|p{0.2\linewidth}|p{0.8\linewidth}|} \hline \textbf{Parameter} &\textbf{Values} \\\hline
+		{category} & {SAE} \\\hline
+		{sae\_config\_id} & {0} \\\hline
+		{steps} & {5000} \\\hline
+		{deltas} & {1,5,20} \\\hline
+		{process\_splits} & {0.6} \\\hline
+		{training\_splits} & {0.8,1.0} \\\hline
+		{prediction\_steps} & {2} \\\hline
+		{scaling\_function} & {NormalizeData} \\\hline
+		{layer\_sizes} & {(6,15,5); (6,15,15,5)} \\\hline
+		{layer\_activations} & {SigmoidActivation,ReluActivation,LinearActivation} \\\hline
+		{initialization} & {XavierGlorotNormalInit} \\\hline
+		{encoding\_activation} & {LinearActivation;SigmoidActivation} \\\hline
+		{output\_activation} & {SigmoidActivation} \\\hline
+		{learning\_rate} & {1.0;2.0;4.0} \\\hline
+		{minibatch\_size} & {20} \\\hline
+		{max\_epochs} & {100} \\\hline
+		{l1\_lambda} & {0.0} \\\hline
+		{min\_learning\_rate} & {1.0} \\\hline
+		{epoch\_cycle\_max} & {1} \\\hline
+		{ogd\_learning\_rate} & {0.0} \\\hline
+		{\textbf{Total Samples}} & {\textbf{192}} \\\hline
+	\end{tabular}\end{table}
 	
-	Samples: 192
-	
-	\subsubsection{Configuration 7}\label{config7}
 	%["Iteration4_1 SAE Tests"] 
-	\begin{itemize}
-		\item category: SAE
-		\item sae\_config\_id: 0
-		\item steps: 5000
-		\item deltas: 1,5,20;5,20,60;10,20,60
-		\item process\_splits: 0.6
-		\item training\_splits: 0.8,1.0
-		\item prediction\_steps: 5
-		\item scaling\_function: LimitedNormalizeData
-		\item layer\_sizes: (30,120,60,25); (30,120,60,20); (30,120,60,15); (30,120,60,10); (30,120,60,5); (30,120,25); (30,120,20); (30,120,15); (30,120,10); (30,120,5); (30,120,120,25); (30,120,120,20); (30,120,120,15); (30,120,120,10); (30,120,120,5); (30,120,90,25); (30,120,90,20); (30,120,90,15); (30,120,90,10); (30,120,90,5); (30,90,60,25); (30,90,60,20); (30,90,60,15); (30,90,60,10); (30,90,60,5); (30,90,60,30,25); (30,90,60,30,20); (30,90,60,30,15); (30,90,60,30,10); (30,90,60,30,5); (30,120,60,30,25); (30,120,60,30,20); (30,120,60,30,15); (30,120,60,30,10); (30,120,60,30,5); (30,90,90,90,25); (30,90,90,90,20); (30,90,90,90,15); (30,90,90,90,10); (30,90,90,90,5);(30,90,90,25); (30,90,90,20); (30,90,90,15); (30,90,90,10); (30,90,90,5)
-		\item layer\_activations: SigmoidActivation,ReluActivation,LinearActivation
-		\item initialization: XavierGlorotUniformInit;HeUniformInit;DCUniformInit
-		\item encoding\_activation: LinearActivation
-		\item output\_activation: LinearActivation
-		\item learning\_rate: 0.005;0.01;0.05;0.1
-		\item minibatch\_size: 20
-		\item max\_epochs: 400
-		\item l1\_lambda: 0.0
-		\item min\_learning\_rate: 0.0001
-		\item epoch\_cycle\_max: 100;300
-		\item is\_denoising: 0
-		\item denoising\_variance: 0.0
-		\item ogd\_learning\_rate: 0.0
-	\end{itemize}
-	
-	Samples: 3266
+	\subsubsection{Configuration 7}\label{config7}
+	\begin{longtable}[H]{|p{0.2\linewidth}|p{0.8\linewidth}|} 
+		\hline \textbf{Parameter} &\textbf{Values} \\\hline
+			{category} & {SAE} \\\hline
+			{sae\_config\_id} & {0} \\\hline
+			{steps} & {5000} \\\hline
+			{deltas} & {1,5,20;5,20,60;10,20,60} \\\hline
+			{process\_splits} & {0.6} \\\hline
+			{training\_splits} & {0.8,1.0} \\\hline
+			{prediction\_steps} & {5} \\\hline
+			{scaling\_function} & {LimitedNormalizeData} \\\hline
+			{layer\_sizes} & {(30,120,60,25); (30,120,60,20); (30,120,60,15); (30,120,60,10); (30,120,60,5); (30,120,25); (30,120,20); (30,120,15); (30,120,10); (30,120,5); (30,120,120,25); (30,120,120,20); (30,120,120,15); (30,120,120,10); (30,120,120,5); (30,120,90,25); (30,120,90,20); (30,120,90,15); (30,120,90,10); (30,120,90,5); (30,90,60,25); (30,90,60,20); (30,90,60,15); (30,90,60,10); (30,90,60,5); (30,90,60,30,25); (30,90,60,30,20); (30,90,60,30,15); (30,90,60,30,10); (30,90,60,30,5); (30,120,60,30,25); (30,120,60,30,20); (30,120,60,30,15); (30,120,60,30,10); (30,120,60,30,5); (30,90,90,90,25); (30,90,90,90,20); (30,90,90,90,15); (30,90,90,90,10); (30,90,90,90,5); (30,90,90,25); (30,90,90,20); (30,90,90,15); (30,90,90,10); (30,90,90,5)} \\\hline
+			{layer\_activations} & {SigmoidActivation,ReluActivation,LinearActivation} \\\hline
+			{initialization} & {XavierGlorotUniformInit;HeUniformInit;DCUniformInit} \\\hline
+			{encoding\_activation} & {LinearActivation} \\\hline
+			{output\_activation} & {LinearActivation} \\\hline
+			{learning\_rate} & {0.005;0.01;0.05;0.1} \\\hline
+			{minibatch\_size} & {20} \\\hline
+			{max\_epochs} & {400} \\\hline
+			{l1\_lambda} & {0.0} \\\hline
+			{min\_learning\_rate} & {0.0001} \\\hline
+			{epoch\_cycle\_max} & {100;300} \\\hline
+			{is\_denoising} & {0} \\\hline
+			{denoising\_variance} & {0.0} \\\hline
+			{ogd\_learning\_rate} & {0.0} \\\hline
+			{\textbf{Total Samples}} & {\textbf{3266}} \\\hline
+			\end{longtable}
+
 	
 	\subsubsection{Configuration 8}\label{config8}
 	%["Iteration5_1 SAE AGL Test"]

@@ -161,7 +161,7 @@ function Results_Linearity_1()
 
     setnames = ["Iteration2_1 Tests FFN", "Iteration2_1 Linear Tests FFN"]#, "Iteration2_1 MAPE Tests FFN"]
     config_ids = SelectConfigIDs(setnames, true)
-    #PrintConfig(setnames, true)
+    PrintConfigTable(setnames, true)
     PL_ScalingOutputActivation(config_ids, "Linear ", "SyntheticPL", true)
 
     setnames = ["Iteration3_2 SAE LeakyRelu vs Relu"]
@@ -261,7 +261,7 @@ function PrintConfigTable(setnames, testDatabase)
 
     l2lambda_clause = testDatabase ? "" : "ifnull(tp.l2_lambda,0),"
 
-    query = "select  tp.category, sae_config_id,
+    query = "select  tp.category, sae_config_id, cr.seed_used,
             steps, deltas, process_splits, training_splits, prediction_steps, scaling_function,
             ('(' || layer_sizes || ')') layer_sizes ,
             ('(' || layer_activations || ')') layer_activations, initialization, encoding_activation, output_activation,
@@ -276,7 +276,7 @@ function PrintConfigTable(setnames, testDatabase)
 
     configs = RunQuery(query, testDatabase)
 
-    config_string = "\\begin{table}[H] \n \\begin{tabular}{|p{0.2\\linewidth}|p{0.8\\linewidth}|} \\hline \\textbf{Parameter} &\\textbf{Values} \\\\\\hline \n"
+    config_string = "\\begin{longtable}[H]{|p{0.3\\linewidth}|p{0.7\\linewidth}|} \\hline \\textbf{Parameter} &\\textbf{Values} \\\\\\hline"
 
     for n in names(configs)
 
@@ -290,8 +290,9 @@ function PrintConfigTable(setnames, testDatabase)
     end
 
     config_string = string(config_string, "{\\textbf{Total Samples}} & {\\textbf{", size(configs,1), "}} \\\\\\hline \n")
-    config_string = string(config_string, "\\end{tabular} \\newline \\newline \\end{table}", '\n')
+    config_string = string(config_string, "\\end{longtable}")
 
+    println("\n\n")
     println(config_string)
 end
 
@@ -314,8 +315,9 @@ function ProcessLayerActivations(val_name, vals)
 end
 
 function LargerNetworks()
-    setnames = ["Iteration3 FFN Large Actual10 Tests"]
+    setnames = ["Iteration2 FFN Large Actual10 Tests"]#, "Iteration3 FFN Large Actual10 Tests"]
     config_ids = SelectConfigIDs(setnames, false)
+    PrintConfigTable(setnames, false)
 
     PL_MaxEpochs(config_ids, "Actual ", "ActualPL", false)
     PL_EpochCycle(config_ids, "Actual", "ActualPL", false)
@@ -340,9 +342,11 @@ function Results_8_2_PrimaryDeterminants()
     sae_setnames = ["Iteration1 SAE Actual10 Test", "Iteration2 SAE Actual10 Test", "Iteration3 SAE Actual10 Test",
                 "Iteration4 SAE Actual10 Test", "Iteration5 SAE Actual10 Test", "Iteration6 SAE Actual10 Test"]
     sae_config_ids = SelectConfigIDs(sae_setnames) #config12
+    PrintConfigTable(sae_setnames, false)
 
     ffn_setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests"]
     ffn_config_ids = SelectConfigIDs(ffn_setnames) #config13
+    PrintConfigTable(ffn_setnames, false)
 
     MSE_Deltas(sae_config_ids, "Actual  ", "ActualMSE", false)
     PL_DataDeltas(ffn_config_ids, "Actual", "ActualPL")
@@ -370,7 +374,7 @@ function Results_8_3_HistoricalData()
     ffn_config_ids = SelectConfigIDs(ffn_setnames) #config13
     large_ffn_names = ["Iteration2 FFN Large Actual10 Tests"]
     large_ffn_config_ids = SelectConfigIDs(large_ffn_names)
-    PrintConfig(large_ffn_names, false)
+    PrintConfigTable(large_ffn_names, false)
 
     PL_MaxEpochs(ffn_config_ids, "Actual ", "ActualPL", false)
     PL_ValidationSplit(large_ffn_config_ids, "Actual ", "ActualPL", false)
@@ -380,26 +384,28 @@ function Results_8_4_WeightInit()
 
     setnames = ["Pretraining 3"]#, "Pretraining 3"]
     config_ids = SelectConfigIDs(setnames, true)
-    PrintConfig(setnames, true)
+    PrintConfigTable(setnames, true)
     MSE_Pretraining(config_ids, "Actual Sigmoid PT", "ActualMSE", true)
 
 
     setnames = ["Iteration4_1 SAE Tests"] #3266 configurations
     config_ids = SelectConfigIDs(setnames, true)
+    PrintConfigTable(setnames, true)
     MSE_Init(config_ids, nothing, "Synthetic 10 ", "SyntheticMSE", true)
 
     setnames = ["Iteration5_1 SAE AGL Test"]
     config_ids = SelectConfigIDs(setnames, true)
+    PrintConfigTable(setnames, true)
     MSE_Init(config_ids, nothing, "AGL all ", "ActualMSE", true)
 
     setnames = ["Iteration4_2 FFN Tests"]
     config_ids = SelectConfigIDs(setnames, true)
-    #PrintConfig(setnames, true)
+    PrintConfigTable(setnames, true)
     PL_Init(config_ids, "Synthetic 10 ", "SyntheticPL", true)
 
     setnames = ["Iteration5_1 AGL FFN Tests"]
     config_ids = SelectConfigIDs(setnames, true)
-    #PrintConfig(setnames, true)
+    PrintConfigTable(setnames, true)
     PL_Init(config_ids, "AGL All ", "ActualPL", true)
 end
 
@@ -455,12 +461,12 @@ function Results_8_6_Complexity()
 
     gaussian_denoising_sets = ["Denoising 2" , "Denoising 1"]#, "Denoising tests"]
     gaussian_sae_ids = SelectConfigIDs(gaussian_denoising_sets, true)
-    #PrintConfig(gaussian_denoising_sets, true)
+    PrintConfigTable(gaussian_denoising_sets, true)
     MSE_Denoising(gaussian_sae_ids, "Actual Gaussian", "ActualMSE", true)
 
     masking_sets = ["Iteration3_2 Denoising On-Off Tests Real Data"]
     maskig_ids = SelectConfigIDs(masking_sets, true)
-    #PrintConfig(masking_sets, true)
+    PrintConfigTable(masking_sets, true)
     MSE_Denoising(maskig_ids, "Actual Masking ", "ActualMSE", true)
 
 
@@ -473,6 +479,7 @@ function Results_8_6_Complexity()
 
     ffn_setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests", "Iteration2 FFN Large Actual10 Tests"]
     ffn_config_ids = SelectConfigIDs(ffn_setnames) #config13
+    PrintConfigTable(ffn_setnames, false)
 
     PL_EpochCycle(ffn_config_ids, "IS Actual", "ActualPL", false, true)
     PL_EpochCycle(ffn_config_ids, "OOS Actual", "ActualPL", false, false)
@@ -503,13 +510,14 @@ function Results_8_7_Network()
 
     setnames = ["Linear Tests 1"]
     config_ids = SelectConfigIDs(setnames, true)
-    #PrintConfig(setnames, true)
+    PrintConfigTable(setnames, true)
+
     MSE_Min_EncodingSize_Activation(config_ids, "encoding", "Encoding ", "ActualMSE", true)
     MSE_Min_EncodingSize_Activation(config_ids, "hidden", "Hidden ", "ActualMSE", true)
 
     setnames = ["Iteration2_1 Tests FFN", "Iteration2_1 Linear Tests FFN","Iteration2_1 Smaller Linear Tests"]
     config_ids = SelectConfigIDs(setnames, true)
-    #PrintConfig(setnames, true)
+    PrintConfigTable(setnames, true)
     PL_Activations(config_ids, "Linear Small ", "SyntheticPL", true)
 end
 
@@ -576,10 +584,11 @@ function Appendix()
 
     setnames = ["Iteration3_2 SAE LeakyRelu vs Relu"]
     config_ids = SelectConfigIDs(setnames, true)
+    PrintConfigTable(setnames, true)
     MSE_ActivationsEncodingSizes(config_ids, nothing, "Leaky Relu v Relu ", "SyntheticMSE", true)
 
     setnames = ["Iteration3_2 FFN LeakyRelu vs Relu"]
     config_ids = SelectConfigIDs(setnames, true)
-    #PrintConfig(setnames, true)
+    PrintConfigTable(setnames, true)
     PL_Activations(config_ids, "Leaky Relu v Relu ", "SyntheticPL", true)
 end
