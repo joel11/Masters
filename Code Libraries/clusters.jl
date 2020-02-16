@@ -40,44 +40,6 @@ function PrintClusterAnalysis()
     println(string("Cluster Two Variance: ", string(var(Array(clusterTwoResults[:sharpe_ratio])))))
 end
 
-##########Sharpe Ratio Plot##############################################################################################################
-
-function ClusterDistributionPlot()
-
-    clusterOneResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0 where sharpe_ratio is not null")
-    clusterTwoResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1 where sharpe_ratio is not null")
-    highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio_cost")[1,1])
-
-    clusterOneResults[:grouping] = round.(Array(clusterOneResults[:sharpe_ratio]), 2)
-    clusterTwoResults[:grouping] = round.(Array(clusterTwoResults[:sharpe_ratio]), 2)
-
-    one_groups = by(clusterOneResults, [:grouping], df -> size(df, 1))
-    two_groups = by(clusterTwoResults, [:grouping], df -> size(df, 1))
-
-    one_groups[:x1] = one_groups[:x1]./size(clusterOneResults, 1).*100
-    two_groups[:x1] = two_groups[:x1]./size(clusterTwoResults, 1).*100
-
-    opacity_value = 0.8
-
-    br_max = max(maximum(one_groups[:x1]),
-                maximum(two_groups[:x1])) + 0.1
-
-    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Cluster One [n=", size(clusterOneResults,1),"]"), opacity=opacity_value, xbins=Dict(:size=>0.001))
-    trace_two = bar(;y=two_groups[:x1], x=two_groups[:grouping], name=string("Cluster Two [n=", size(clusterTwoResults,1),"]"), opacity=opacity_value, xbins=Dict(:size=>0.001))
-    bm  = scatter(;x=[highestSR, highestSR],y=[0, br_max], name="Highest SR", marker = Dict(:color=>"green"))
-
-    data = [trace_one, trace_two, bm]
-
-    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> Percentage of Trials in Cluster </br> </b>"))
-        , xaxis = Dict(:title => string("<b> Sharpe Ratio </b>"))
-        , barmode="overlay")
-
-    fig = Plot(data, l)
-    savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster Distributions.html"))
-end
-
-
 ##OGD vs PL graph###############################################################################################################
 
 function OGDvsMSEPlot()
@@ -102,49 +64,4 @@ function OGDvsMSEPlot()
 
     fig = Plot([trace1, trace2])
     savefig(plot(fig), string("/users/joeldacosta/desktop/msepl.html"))
-end
-
-
-##########OGD MSE Plot##############################################################################################################
-
-function ClusterOGDMSEPlot()
-
-    clusterOneResults = RunQuery("select training_cost
-                                    from epoch_records p
-                                    inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0
-                                    inner join config_oos_sharpe_ratio_cost s on s.configuration_id = c.configuration_id and sharpe_ratio is not null
-                                    where category = 'OGD'
-                                    --and training_cost is not null
-                                    and training_cost < 0.05")
-    clusterTwoResults = RunQuery("select training_cost
-                                from epoch_records p
-                                inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1
-                                inner join config_oos_sharpe_ratio_cost s on s.configuration_id = c.configuration_id and sharpe_ratio is not null
-                                where category = 'OGD'
-                                --and training_cost is not null
-                                and training_cost < 0.05")
-
-    clusterOneResults[:grouping] = round.(Array(clusterOneResults[:training_cost]), 3)
-    clusterTwoResults[:grouping] = round.(Array(clusterTwoResults[:training_cost]), 3)
-
-    one_groups = by(clusterOneResults, [:grouping], df -> size(df, 1))
-    two_groups = by(clusterTwoResults, [:grouping], df -> size(df, 1))
-
-    one_groups[:x1] = one_groups[:x1]./size(clusterOneResults, 1).*100
-    two_groups[:x1] = two_groups[:x1]./size(clusterTwoResults, 1).*100
-
-    opacity_value = 0.8
-
-    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Cluster One [n=7415]"), opacity=opacity_value, xbins=Dict(:size=>0.0001))
-    trace_two = bar(;y=two_groups[:x1], x=two_groups[:grouping], name=string("Cluster Two [n=14400]"), opacity=opacity_value, xbins=Dict(:size=>0.0001))
-
-    data = [trace_one, trace_two]#, bm]
-
-    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> Percentage of Trials </br> </b>"))
-        , xaxis = Dict(:title => string("<b> OGD MSE </b>"))
-        , barmode="overlay")
-
-    fig = Plot(data, l)
-    savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster MSE Distributions.html"))
 end

@@ -2252,7 +2252,7 @@
 	
 	\subsection{Actual Datasets}
 	
-	Several datasets have been used using JSE closing price relative data for 2003-2018. They were processed following the steps set out in Section \ref{Data} and with a 60/40 split on the Training/Prediction datasets.
+	Several datasets have been used using JSE closing price relative data for 2003-2018 (more soruce information and a data snapshot are available in Appendix \ref{appendix_dataset}). They were processed following the steps set out in Section \ref{Data} and with a 60/40 split on the Training/Prediction datasets.
 	
 	\subsubsection{``Actual10''}\label{dataset_actual10}
 	
@@ -2457,21 +2457,21 @@
 		\textbf{SAE MSE Scores by Data Aggregations}
 		\begin{subfigure}{.99\textwidth}
 			\centering 
-			\includegraphics[scale=0.4]{images/results/8_2_determinants/actual_aggregate_dist.png}
+			\includegraphics[scale=0.45]{images/results/8_2_determinants/actual_aggregate_dist.png}
 			\caption{\textbf{Log Difference Distribution}
 				\newline }
 			\label{figure-actual_aggregate_dist}
 		\end{subfigure}
 		\begin{subfigure}{.99\textwidth}
 			\centering 
-			\includegraphics[scale=0.4]{images/results/8_2_determinants/actual_aggregation_mse.png}
+			\includegraphics[scale=0.45]{images/results/8_2_determinants/actual_aggregation_mse.png}
 			\caption{\textbf{SAE MSE Scores} 
 				\newline }
 			\label{figure-actual_aggregation_mse}
 		\end{subfigure}
 		\caption[SAE MSE Scores by Data Aggregations]
 		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12})
-			\newline \newline Figure (a) shows the distribution of values to be replicated by the SAE for actual data. Variances are quite different across the configurations ($\sigma_{[1,5,20]} = 0.118$, $\sigma_{[5,20,60]} = 0.146$, $\sigma_{[10,20,60]} = 0.150$). Smaller data windows are less likely to capture larger fundamental price changes, thus leading to these lower variances. This in turn, makes for easier replication for the SAE networks due to less variety in the sample set, which is seen in Figure (b) with the noticeably better performance in the [1, 5, 20] configuration.}
+			\newline  Figure (a) shows the distribution of values to be replicated by the SAE for actual data. Variances are quite different across the configurations ($\sigma_{[1,5,20]} = 0.118$, $\sigma_{[5,20,60]} = 0.146$, $\sigma_{[10,20,60]} = 0.150$). Smaller data windows are less likely to capture larger fundamental price changes, thus leading to these lower variances. This in turn, makes for easier replication for the SAE networks due to less variety in the sample set, which is seen in Figure (b) with the noticeably better performance in the [1, 5, 20] configuration.}
 		\label{fig_data_sae_actual}
 	\end{figure}
 	
@@ -2480,11 +2480,11 @@
 		\begin{figure}[H]
 		\centering 
 		\textbf{OOS P\&L by Data Aggregations}
-		\includegraphics[scale=0.4]{images/results/8_2_determinants/actual_aggregation_pl.png}
+		\includegraphics[scale=0.45]{images/results/8_2_determinants/actual_aggregation_pl.png}
 		\caption[OOS P\&L by Data Aggregations]
 		{
 			Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13})
-			\newline \newline The OOS P\&L by data horizon configurations show a more complex view than the SAE performance. At a mean level, predictive performance is increasing as the span of the windows increase, but with a decrease in the lower and upper bounds. The highest P\&L occurs for the shortest window configuration ([1, 5, 20]). This is a clear view on a consistent dynamic in the results: focusing on short term fluctuations for predictions has a higher risk and reward, whereas focusing on longer term trends with the longer horizons offers a more reliable, though less profitable, return.}
+			\newline The OOS P\&L by data horizon configurations show a more complex view than the SAE performance. At a mean level, predictive performance is increasing as the span of the windows increase, but with a decrease in the lower and upper bounds. The highest P\&L occurs for the shortest window configuration ([1, 5, 20]). This is a clear view on a consistent dynamic in the results: focusing on short term fluctuations for predictions has a higher risk and reward, whereas focusing on longer term trends with the longer horizons offers a more reliable, though less profitable, return.}
 		\label{figure-actual_aggregation_pl}
 	\end{figure}
 	
@@ -2497,7 +2497,7 @@
 	\begin{figure}[H]
 		\textbf{OOS P\&L by OGD Learning Rates}
 		\centering
-		\includegraphics[scale=0.45]{images/results/network/lr/actual_ogd_lr.png}
+		\includegraphics[scale=0.4]{images/results/8_2_determinants/actual_ogd_lr.png}
 		\caption[OOS P\&L by OGD Learning Rates]
 		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13})
 			\newline The OOS P\&L performance for OGD learning rates is expectedly non-linear, with performance increasing significantly from 0.001 up until 0.05 where the network, and degrading thereafter as the network overcorrects to noise and short term changes picked up in the online learning period. The higher learning rates, with networks more able to adapt to changing signal dynamics also result in significantly lower variance in the P\&L delivered. }
@@ -2507,7 +2507,7 @@
 	\begin{figure}[H]
 		\textbf{OOS P\&L by OGD Learning Rates and Data Aggregations}
 		\centering
-		\includegraphics[scale=0.45]{images/results/primary/OOS_OGDLR_Delta_PL_median.png}
+		\includegraphics[scale=0.4]{images/results/8_2_determinants/OOS_OGDLR_Delta_PL_median.png}
 		\caption[OOS P\&L by OGD Learning Rates and Data Aggregations]
 		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13})
 			\newline The median OOS P\&L by learning rate and data aggregation highlights the nature of the different prediction strategies. At lower learning rates, networks using long term changes and trends perform better as they benefit from smaller adjustments from one observation to the next. At high learning rates, networks using short term fluctuations perform better as they are able to more quickly adapt to changing dynamics and signals.}
@@ -2525,15 +2525,15 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{IS SAE Performance for MSE and P\&L by Encoding Size}
-		\begin{subfigure}{0.49\linewidth}
+		\begin{subfigure}{0.99\linewidth}
 			\centering 
-			\includegraphics[scale=0.25]{images/results/feature_selection/actual_sae_mse.png}
+			\includegraphics[scale=0.4]{images/results/8_2_determinants/actual_sae_mse.png}
 			\caption[MSE By Feature Selection Size]{MSE By Feature Selection Size}
 			\label{figure-actual_sae_mse}
 		\end{subfigure}
-		\begin{subfigure}{0.49\linewidth}
+		\begin{subfigure}{0.99\linewidth}
 		\centering 
-		\includegraphics[scale=0.26]{images/results/primary/IS_Encoding_PL_median.png} 
+		\includegraphics[scale=0.4]{images/results/8_2_determinants/IS_Encoding_PL_median.png} 
 		\caption[IS P\&L by Encoding Size]{IS P\&L by Encoding Size}
 		\label{figure-IS Encoding_PL_median}
 		\end{subfigure}
@@ -2546,12 +2546,12 @@
 		\centering 
 		\textbf{OOS P\&L By Feature Selection Size and OGD Learning Rate}
 		\begin{subfigure}{1.0\linewidth}
-			\includegraphics[scale=0.4]{images/results/primary/OOS_Encoding_PL_Box.png} 
+			\includegraphics[scale=0.45]{images/results/8_2_determinants/OOS_Encoding_PL_Box.png} 
 			\caption[OOS P\&L by Encoding Size]{OOS P\&L by Encoding Size}
 			\label{figure_OOS_Encoding_PL_Box}
 		\end{subfigure}	
 		\begin{subfigure}{1.0\linewidth}
-			\includegraphics[scale=0.5]{images/results/feature_selection/encoding_pl_median.png} 
+			\includegraphics[scale=0.45]{images/results/8_2_determinants/encoding_pl_median.png} 
 			\caption[OOS P\&L by Encoding Size and Learning Rate]{OOS P\&L by Encoding Size and Learning Rate}
 		\end{subfigure}	
 		\caption[OOS P\&L By Feature Selection Size and OGD Learning Rate]
@@ -2564,21 +2564,21 @@
 		\begin{figure}[H]
 			\centering
 			\textbf{OOS P\&L By Feature Selection Size, OGD Learning Rate and Data Horizons}
-			\begin{subfigure}{0.425\linewidth}
-				\centering\includegraphics[scale=0.3]{images/results/primary/OOS_OGDLR_Delta_Encoding_25_median.png}
+			\begin{subfigure}{0.48\linewidth}
+				\centering\includegraphics[scale=0.33]{images/results/8_2_determinants/OOS_OGDLR_Delta_Encoding_25_median.png}
 				\caption{Encoding Size of 25}
 			\end{subfigure}
 			\begin{subfigure}{0.49\linewidth}
-				\centering\includegraphics[scale=0.3]{images/results/primary/OOS_OGDLR_Delta_Encoding_20_median.png}
+				\centering\includegraphics[scale=0.33]{images/results/8_2_determinants/OOS_OGDLR_Delta_Encoding_20_median.png}
 				\caption{Encoding size of 20}
 			\end{subfigure}%\vspace{10pt}
 			
-			\begin{subfigure}{0.44\linewidth}
-				\centering\includegraphics[scale=0.3]{images/results/primary/OOS_OGDLR_Delta_Encoding_10_median.png}
+			\begin{subfigure}{0.48\linewidth}
+				\centering\includegraphics[scale=0.33]{images/results/8_2_determinants/OOS_OGDLR_Delta_Encoding_10_median.png}
 				\caption{Encoding Size of 10}
 			\end{subfigure}%
 			\begin{subfigure}{0.49\linewidth}
-				\centering\includegraphics[scale=0.3]{images/results/primary/OOS_OGDLR_Delta_Encoding_5_median.png}
+				\centering\includegraphics[scale=0.33]{images/results/8_2_determinants/OOS_OGDLR_Delta_Encoding_5_median.png}
 				\caption{Encoding Size of 5}
 			\end{subfigure}
 		\caption[OOS P\&L By Feature Selection Size, OGD Learning Rate and Data Horizons]
@@ -2599,7 +2599,7 @@
 	\begin{figure}[H]
 		\centering 
 		\textbf{OOS P\&L by IS Training Epochs}
-		\includegraphics[scale=0.4]{images/results/data/max_epochs.png}
+		\includegraphics[scale=0.4]{images/results/8_3_historical/max_epochs.png}
 		\caption[OOS P\&L by IS Training Epochs]
 		{
 			Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13}) 
@@ -2612,7 +2612,7 @@
 	\begin{figure}[H]
 		\centering 
 		\textbf{OOS P\&L by IS Training Dataset Size}
-		\includegraphics[scale=0.4]{images/results/data/training_data_excluded.png}
+		\includegraphics[scale=0.4]{images/results/8_3_historical/training_data_excluded.png}
 		\caption[OOS P\&L by IS Training Dataset Size]{
 			Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 16 (\ref{config16}) (some samples with 0 P\&L were excluded for more effective visualization)
 			\newline To further explore the effect of IS training on historical data, configurations were run with a percentage of the usual training data excluded, with the P\&L results grouped above. The exclusion of up to 80\% of the IS training data resulted in only a 2.2\% drop in median OOS P\&L for those networks. The training in these instances were not adjusted to increase the number of epochs according to the size of IS data, and so the configurations with more data excluded were also in essence trained less. These results, combined with those in Figure \ref{figure-results_pl_max_epochs} show the limited use in training on historical data, and hence the far greater value in current cross sectional information.}
@@ -2633,7 +2633,7 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{Pre-training Effects on SAE MSE Scores} 
-		\includegraphics[scale=0.45]{images/results/newinit/actual_sigmoid_pt.png}
+		\includegraphics[scale=0.45]{images/results/8_4_weight_init/actual_sigmoid_pt.png}
 		\caption[Pre-training Effects on SAE MSE Scores]
 		{Dataset AGL\&ACL (\ref{dataset_aglacl}); Configuration 6 (\ref{config6})
 			\newline \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs which the network had. There is an evident benefit to having no pre-training in this scenario as there is a clear decrease in performance as the number of epochs increase (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs).}
@@ -2651,14 +2651,14 @@
 		\textbf{SAE MSE by Weight Initialization}
 		\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.28]{images/results/newinit/synthetic_mse_init.png}
+			\includegraphics[scale=0.29]{images/results/8_4_weight_init/synthetic_mse_init.png}
 			\caption{\textbf{Synthetic Data} 
 				\newline }
 			\label{figure-synthetic_mse_init}
 		\end{subfigure}%
 		\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.28]{images/results/newinit/agl_mse_init.png}
+			\includegraphics[scale=0.28]{images/results/8_4_weight_init/agl_mse_init.png}
 			\caption{\textbf{AGL} 
 				\newline }
 			\label{figure-agl_mse_init}
@@ -2675,14 +2675,14 @@
 		\textbf{OOS P\&L by Weight Initialization}
 		\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.28]{images/results/newinit/synth_pl_init.png}
+			\includegraphics[scale=0.28]{images/results/8_4_weight_init/synth_pl_init.png}
 			\caption{\textbf{Synthetic Data} 
 				\newline }
 			\label{figure-synthetic_pl_init}
 		\end{subfigure}%
 		\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.28]{images/results/newinit/agl_pl_init.png}
+			\includegraphics[scale=0.28]{images/results/8_4_weight_init/agl_pl_init.png}
 			\caption{\textbf{AGL} 
 				\newline }
 			\label{figure-agl_pl_init}
@@ -2708,16 +2708,16 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{SAE MSE Scores for Synthetic Data}
-		\begin{subfigure}{.5\textwidth}
+		\begin{subfigure}{.99\textwidth}
 			\centering 
-			\includegraphics[scale=0.25]{images/results/data/test_aggregate_dist.png}
+			\includegraphics[scale=0.4]{images/results/8_5_synthetic_data/test_aggregate_dist.png}
 			\caption{\textbf{Log Difference Distributions} 
 				\newline }
 			\label{figure-test_aggregate_dist}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
+		\end{subfigure}
+		\begin{subfigure}{.99\textwidth}
 			\centering 
-			\includegraphics[scale=0.26]{images/results/data/test_aggregation_mse.png}
+			\includegraphics[scale=0.4]{images/results/8_5_synthetic_data/test_aggregation_mse.png}
 			\caption{\textbf{SAE MSE Scores} 
 				\newline }
 			\label{figure-test_aggregation_mse}
@@ -2734,22 +2734,19 @@
 	\begin{figure}[H]
 		\centering 
 		\textbf{OOS P\&L by Data Horizon (Synthetic Data)}
-		\includegraphics[scale=0.3]{images/results/data/test_aggregation_pl.png}
-		\caption[OOS P\&L by Data Aggregation (Synthetic Data)]{
+		\includegraphics[scale=0.36]{images/results/8_5_synthetic_data/test_aggregation_pl.png}
+		\caption[OOS P\&L by Data Aggregation for Synthetic Data]{
 			Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Configuration 9 (\ref{config9})
 			\newline  The boxplots here show the P\&L from the MMS grouped by the data horizon configurations. There's a clear trend of P\&L increasing as the length of the windows increase. Shorter term GBM data would be more likely to represent fluctuations, whereas the longer term windows will be more representative of the constant mean in the asset price fluctuations, leading to easier predictive performance and higher P\&L. This is in clear contrast to the effects seen in actual data, where both long term and short term strategies are present, with the highest strategies occuring for shorter horizon aggregations (these can be seen in Figure \ref{figure-actual_aggregation_pl}).}
 		\label{figure-test_aggregation_pl}
 	\end{figure}
 	
-	\subsubsection{Synthetic Data Feature Selection}\label{results_synthdata_feature_selection}
-	
 	\begin{figure}[H]
 		\centering 
 		\textbf{OOS P\&L by Feature Selection Size and OGD Learning Rate}
-		\includegraphics[scale=0.3]{images/results/feature_selection/synthetic_median.png} 
+		\includegraphics[scale=0.36]{images/results/8_5_synthetic_data/synthetic_median.png} 
 		\caption[OOS P\&L by Feature Selection Size and OGD Learning Rate (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configurations 9 (\ref{config9})
-			\newline The trends in the synthetic data are relatively straightforward in comparison to actual data. Feature reduction is possible, with OOS P\&L increasing as encoding size increases. There does however appear to be an optimal point around 15, after which performance plateaus. Given the stabler nature of GBM data, this is to be expected. The results seen for synthetic data here offer a nice counterpoint to what is seen in the actual data. With the GBM data having constant characteristics throughout the whole dataset, there is no potential for the SAE to overfit to IS data and have a potentially detrimental effect as the learning rate increases (as was the case with actual data).
-			\newline Results for SAE MSE were largely the same, which can be seen in Appendix \ref{results_features_appendix}.
+			\newline The trends in the synthetic data are relatively straightforward in comparison to actual data. Feature reduction is possible, with OOS P\&L increasing as encoding size increases. There does however appear to be an optimal point around 15, after which performance plateaus. Given the stabler nature of GBM data, this is to be expected. The results seen for synthetic data here offer a nice counterpoint to what is seen in the actual data. With the GBM data having constant characteristics throughout the whole dataset, there is no potential for the SAE to overfit to IS data and have a potentially detrimental effect as the learning rate increases (as was the case with actual data). Results for SAE MSE were largely the same, which can be seen in Appendix \ref{results_features_appendix}.
 		}
 		\label{figure-synthetic_median}
 	\end{figure}
@@ -2779,7 +2776,7 @@
 	\begin{figure}[H]
 		\centering 
 		\textbf{SAE MSE by Scaling Function}
-		\includegraphics[scale=0.4]{images/results/complexity/mse_scaling.png}
+		\includegraphics[scale=0.4]{images/results/8_6_complexity/mse_scaling.png}
 		\caption[SAE MSE by Scaling Function]
 		{Dataset: Scaling10 dataset (\ref{dataset_scaling10}), Configuration 1 (\ref{config1})
 			\newline The figure here shows SAE MSE performance according to the scaling techniques as described in Section \ref{data_scaling}. As discussed more fully in Section \ref{proc_dataprep}, the use of standardization for scaling the data doesn't allow for effective outlier treatments, resulting in the significantly worse performance seen here. This again shows the difficulty of dealing with financial time series, which are likely to have many outliers.}
@@ -2789,7 +2786,7 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{OOS P\&L by Scaling (Synthetic Data)} 
-		\includegraphics[scale=0.34]{images/results/complexity/oos_scaling.png}
+		\includegraphics[scale=0.4]{images/results/8_6_complexity/oos_scaling.png}
 		\caption[OOS P\&L by Scaling (Synthetic Data)]{Dataset Synthetic6  (\ref{dataset_synthetic6}), Configuration 3 (\ref{config3}) \& Configuration 4 (\ref{config4})
 				\newline The figure here shows the impact of the limited scaling technique (as described in Section \ref{data_scaling}) in comparison to the non-limited version. There is a minor detrimental effect as a result of OOS no longer falling within the defined bounds for the scaling used, though the use of a Linear output layer has been shown to assist in reducing the impact of this effect, as in Figure \ref{figure-actual_mse_output}. The implementation of this is not a choice when interested in simulating a real world implementation, and with real assets which have changing variance over time it is expected the impact is actually more signficant. }
 		\label{figure-synth_pl_scaling}
@@ -2806,16 +2803,16 @@
 	\begin{figure}[H]
 	\centering
 	\textbf{SAE MSE by L1 Regularization}
-	\begin{subfigure}{.49\textwidth}
+	\begin{subfigure}{.99\textwidth}
 		\centering 
-		\includegraphics[scale=0.3]{images/results/network/reg/actual_mse_reg.png}
+		\includegraphics[scale=0.4]{images/results/8_6_complexity/actual_mse_reg.png}
 		\caption{\textbf{All Encodings} 
 			\newline }
 		\label{figure-actual_mse_reg}
-	\end{subfigure}%
-	\begin{subfigure}{.49\textwidth}
+	\end{subfigure}
+	\begin{subfigure}{.99\textwidth}
 		\centering 
-		\includegraphics[scale=0.3]{images/results/network/reg/actual_sae_mse_by_encoding.png}
+		\includegraphics[scale=0.4]{images/results/8_6_complexity/actual_sae_mse_by_encoding.png}
 		\caption{\textbf{Split by Encoding Size} 
 			\newline }
 		\label{figure-actual_sae_mse_by_encoding}
@@ -2825,21 +2822,21 @@
 		\newline Figure (a) shows the aggregate performance of SAE networks at different degrees of regularization, with a generally detrimental trend. Figure (b) however, grouping by encoding size, provides a better understanding. As per the results in Section \ref{results_oos_pl}, encodings of 5 are learning highly generalisable features, and so benefit from regularization with their best performance at $\lambda = 0.5$. Encodings of 10 have their best performance at $\lambda = 0.1$, learning less generalisable features . Higher encoding levels are operating in a different solution space, and do not benefit from the regularization.
 	}
 	\label{figure-mse_reg}
-\end{figure}
+	\end{figure}
 
 	\begin{figure}[H]
 	\centering
 	\textbf{SAE MSE by Denoising Variance}
-	\begin{subfigure}{.5\textwidth}
+	\begin{subfigure}{.49\textwidth}
 		\centering 
-		\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_gaussian.png}
+		\includegraphics[scale=0.3]{images/results/8_6_complexity/actual_mse_gaussian.png}
 		\caption{\textbf{Gaussian Denoising} 
 			\newline }
 		\label{figure-actual_mse_gaussian}
 	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
+	\begin{subfigure}{.49\textwidth}
 		\centering 
-		\includegraphics[scale=0.25]{images/results/network/denoising/actual_mse_masking.png}
+		\includegraphics[scale=0.3]{images/results/8_6_complexity/actual_mse_masking.png}
 		\caption{\textbf{Masking Denoising} 
 			\newline }
 		\label{figure-actual_mse_masking}
@@ -2848,7 +2845,7 @@
 	{Dataset: Scaling 10 (\ref{dataset_scaling10}) , Configuration 14 (\ref{config14}) \& Configuration 15 (\ref{config15})
 		\newline Figure (a) shows the effects of gaussian denoising on SAE MSE scores, with scores becoming worse as the denoising increases. This may once again reflect the differences between IID datasets with a model that is likely to overfit in comparison to financial time series data which already have a significant amount of noise present. Figure (b), with masking denoising, was not expected to have a beneficial effect on SAE performance from a conceptual perspective, which the results are certainly in line with. }
 	\label{figure-results_mse_denoising}
-\end{figure}
+	\end{figure}
 
 	
 	\begin{figure}[H]
@@ -2856,21 +2853,21 @@
 		\textbf{SAE MSE by Learning Rate Schedule Ranges}
 		\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/synth_mse_minmax_lr.png}
+			\includegraphics[scale=0.3]{images/results/8_6_complexity/synth_mse_minmax_lr.png}
 			\caption{\textbf{Synthetic Data} 
 				\newline }
 			\label{figure-synth_mse_minmax_lr}
 		\end{subfigure}%
 		\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/actual_mse_minmax_lr.png}
+			\includegraphics[scale=0.3]{images/results/8_6_complexity/actual_mse_minmax_lr.png}
 			\caption{\textbf{Actual Data} 
 				\newline }
 			\label{figure-actual_mse_minmax_lr}
 		\end{subfigure}
 		\caption[SAE MSE by Learning Rate Schedule Ranges]
-		{Dataset: Synthetic10 dataset (\ref{dataset_synthetic10}), Actual10 dataset (\ref{dataset_actual10}), Configuration 7 (\ref{config7}) \& Configuration 12 (\ref{config12})
-			\newline It is interesting to  note that the effects here are quite different for Synthetic and Actual data, with networks for Synthetic data favouring learning rate ranges with a higher upper bound, and Actual data networks trending in favour of lower upper bound ranges. The synthetic data is structurally less complex, as discussed further in Sections \ref{results_gbm_data} and \ref{results_data_hist}, and so the larger learning rates will allow for quicker optimisation. Conversely, SAE networks for actual data benefit from a more careful exploration of the solution space. The effects of the epoch length had a marginal effect, which can be viewed in Appendix \ref{results_appendix_finance_data}.}
+		{Dataset: Synthetic10 (\ref{dataset_synthetic10}), Actual10 (\ref{dataset_actual10}), Configuration 7 (\ref{config7}) \& Configuration 12 (\ref{config12})
+			\newline It is interesting to  note that the effects here are quite different for Synthetic and Actual data, with networks for Synthetic data favouring learning rate ranges with a higher upper bound, and Actual data networks trending in favour of lower upper bound ranges. The synthetic data is structurally less complex, as discussed further in Sections \ref{results_gbm_data} and \ref{results_data_hist}, and so the larger learning rates will allow for quicker optimisation. Conversely, SAE networks for actual data benefit from a more careful exploration of the solution space. The differenc epoch lengths had a marginal effect, as seen in Appendix \ref{results_appendix_finance_data}.}
 		\label{figure-mse_lr}
 	\end{figure}
 
@@ -2897,16 +2894,16 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{Effects of Epoch Cycle Lengths on P\&L}
-		\begin{subfigure}{.5\textwidth}
+		\begin{subfigure}{.46\textwidth}
 			\centering 
-			\includegraphics[scale=0.32]{images/results/complexity/IS_actual_pl_lr_epochs.png}
+			\includegraphics[scale=0.33]{images/results/8_6_complexity/IS_actual_pl_lr_epochs.png}
 			\caption{\textbf{IS P\&L} 
 				\newline }
 			\label{figure-actual_is_pl_lr_epochs}
 		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
+		\begin{subfigure}{.48\textwidth}
 			\centering 
-			\includegraphics[scale=0.32]{images/results/complexity/OOS_actual_pl_lr_epochs.png}
+			\includegraphics[scale=0.32]{images/results/8_6_complexity/OOS_actual_pl_lr_epochs.png}
 			\caption{\textbf{OOS P\&L} 
 				\newline }
 			\label{figure-actual_oos_pl_lr_epochs}
@@ -2923,12 +2920,12 @@
 		\centering
 		\textbf{Effects of L1 Regularization on P\&L}
 		\begin{subfigure}{.5\textwidth}
-			\includegraphics[scale=0.3]{images/results/complexity/is_actual_pl_reg.png}
+			\includegraphics[scale=0.3]{images/results/8_6_complexity/is_actual_pl_reg.png}
 			\caption{\textbf{IS P\&L} }
 			\label{figure-is_actual_pl_reg}
 		\end{subfigure}%
 		\begin{subfigure}{.5\textwidth}
-			\includegraphics[scale=0.3]{images/results/complexity/oos_actual_pl_reg.png}
+			\includegraphics[scale=0.3]{images/results/8_6_complexity/oos_actual_pl_reg.png}
 			\caption{\textbf{OOS P\&L} }
 			\label{figure-oos_actual_pl_reg}
 		\end{subfigure}
@@ -2943,13 +2940,13 @@
 		\textbf{Effects of Dropout on P\&L}
 				\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.3]{images/results/complexity/is_actual_pl_masking.png}
+			\includegraphics[scale=0.3]{images/results/8_6_complexity/is_actual_pl_masking.png}
 			\caption{\textbf{IS P\&L} }
 			\label{figure-is_actual_pl_masking}
 		\end{subfigure}%
 		\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.3]{images/results/complexity/oos_actual_pl_masking.png}
+			\includegraphics[scale=0.3]{images/results/8_6_complexity/oos_actual_pl_masking.png}
 			\caption{\textbf{OOS P\&L} }
 			\label{figure-oos_actual_pl_masking}
 		\end{subfigure}
@@ -2966,19 +2963,38 @@
 	
 	The effects of networks size on SAE MSE performance and the predictive P\&L performance are shown in Figure \ref{figure-network_size} below. The trends for both actual and synthetic data were largely the same, and so only actual data has been considered here.
 	
+	\paragraph{SAE Network Structures}
+	
+	It was interesting to note that the typically accepted SAE network structure, where layers decrease in size between the input layer and the encoding layer, resulted in worse performance when compared to the same number of layers with constant numbers of nodes. As detailed in Section \ref{results_init}, the RBM based greedy layerwise pre-training proved to be ineffective, and so weight initialization with SGD training on the entire network was used instead. It is possible that a greedy layerwise training using these methods (rather than RBM initialization) may have shown increased performance in the decreasing layer size structure, but for SGD training it was clear that larger layers at all stages increased performance. The box plots showing these trends can be seen for actual and synthetic data in Appendix \ref{results_network_appendix}.
+	
+	\subsubsection{Effects of Activation Functions}\label{results_activations_scaling}
+	
+	A range of activation functions (Linear, ReLU and Sigmoid) (as described in Section \ref{imp_activation_functions}) were tested on actual data for SAE networks in order to determine the best configuration choices going forward. It's shown that Linear activations are best for the encoding and output layers, and that ReLU activations largely outperform Sigmoid or Linear activations for the hidden layers (Figures \ref{figure-actual_mse_output} and \ref{figure-mse_encoding_activations}). This makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers. These results were used for subsequent parameter choices.
+	
+	\subsubsection{Predictive FFN Activations}
+	
+	In the interest of reducing likelihood of backtest overfitting, as well as having seen results for SAE networks on actual data, predictive network activation functions were only tested with Synthetic data.	The effect seen, and discussed more below, is that reconstruction of aggregated GBM data was able to be performed quite effectively through linear activations, so long as the network (and encoding layers) were large enough to allow for sufficient transformations. Linear activations weren't tested further on actual data, as there is no reason to believe the time series would continue to exhibit the constant drift with non-independent price jumps over time. 
+	
+	\subsubsection{Sigmoid Activation Functions} 
+	Due to the poor performance seen in Sigmoid function based SAE's, as well as the poorer results when compared to ReLU activations, Sigmoid functions were largely excluded from further configuration testing.
+	
+	\subsubsection{Leaky ReLU vs ReLU}
+	
+	Leaky ReLU activations were implemented, and showed negligible effects for SAE, which can be seen in Appendix \ref{results_network_appendix}. For the predictive network, the LeakyReLU did offer some more significant improvements (3\% - 10\%) on OOS P\&L for Synthetic data, as seen in Figure \ref{figure-synthetic_pl_leakyrelu} in the appendix. Subsequently, Leaky ReLU was used as the hidden layer activation of choice for most trials.
+	
 	\begin{figure}[H]
 		\centering
 		\textbf{Network Performance by Size}
-		\begin{subfigure}{.5\textwidth}
+		\begin{subfigure}{.99\textwidth}
 			\centering 
-			\includegraphics[scale=0.25]{images/results/network/actual_mse_lines.png}
+			\includegraphics[scale=0.4]{images/results/8_7_network/actual_mse_lines.png}
 			\caption{\textbf{SAE MSE Scores} 
 				\newline }
 			\label{figure-actual_mse_lines}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
+		\end{subfigure}
+		\begin{subfigure}{.99\textwidth}
 			\centering 
-			\includegraphics[scale=0.26]{images/results/network/actual_pl_lines.png}
+			\includegraphics[scale=0.4]{images/results/8_7_network/actual_pl_lines.png}
 			\caption{\textbf{Predictive P\&L Scores} 
 				\newline }
 			\label{figure-actual_pl_lines}
@@ -2991,40 +3007,20 @@
 		\label{figure-network_size}
 	\end{figure}
 	
-	\paragraph{SAE Network Structures}
-	
-	It was interesting to note that the typically accepted SAE network structure, where layers decrease in size between the input layer and the encoding layer, resulted in worse performance when compared to the same number of layers with constant numbers of nodes. As detailed in Section \ref{results_init}, the RBM based greedy layerwise pre-training proved to be ineffective, and so weight initialization with SGD training on the entire network was used instead. It is possible that a greedy layerwise training using these methods (rather than RBM initialization) may have shown increased performance in the decreasing layer size structure, but for SGD training it was clear that larger layers at all stages increased performance. The box plots showing these trends can be seen for actual and synthetic data in Appendix \ref{results_network_appendix}.
-
-	
-	
-	\subsubsection{Effects of Activation Functions}\label{results_activations_scaling}
-	
-	A range of activation functions (Linear, ReLU and Sigmoid) (as described in Section \ref{imp_activation_functions}) were tested on actual data for SAE networks in order to determine the best configuration choices going forward. It's shown that Linear activations are best for the encoding and output layers, and that ReLU activations largely outperform Sigmoid or Linear activations for the hidden layers (Figures \ref{figure-actual_mse_output} and \ref{figure-mse_encoding_activations}). This makes sense with the non-linear benefit at hidden layers but with less loss of error signal and information at the output and encoding layers. These results were used for subsequent parameter choices.
-	
-	\begin{figure}[H]
-		\centering
-		\textbf{MSE by Output Activations}
-		\includegraphics[scale=0.4]{images/results/activations/actual_mse_output.png}
-		\caption[MSE by Output Activations]
-		{Dataset: Scaling10 dataset (\ref{dataset_scaling10}), Configuration 1 (\ref{config1})
-		\newline This figure shows the effects of the output activation for configurations using Normalized scaling. The ReLU activations also seemed to result in very poor performance, most likely due to the loss of error signal in the output layer where it is most critical. }
-		\label{figure-actual_mse_output}
-	\end{figure}%
-	
-	
+	\newpage
 	\begin{figure}[H]
 		\centering
 		\textbf{MSE by Activations and Encoding Layer Size}
-		\begin{subfigure}{.5\textwidth}
+		\begin{subfigure}{.99\textwidth}
 			\centering 
-			\includegraphics[scale=0.3]{images/results/activations/actual_mse_encoding.png}
+			\includegraphics[scale=0.4]{images/results/8_7_network/actual_mse_encoding.png}
 			\caption[MSE by Activations and Encoding Layer Size - Encoding Activations]{\textbf{Encoding Activations} 
 				\newline }
 			\label{figure-actual_mse_encoding_activations}
-		\end{subfigure}%
-		\begin{subfigure}{.5\textwidth}
+		\end{subfigure}
+		\begin{subfigure}{.99\textwidth}
 			\centering 
-			\includegraphics[scale=0.3]{images/results/activations/actual_mse_hidden.png}
+			\includegraphics[scale=0.4]{images/results/8_7_network/actual_mse_hidden.png}
 			\caption[MSE by Activations and Encoding Layer Size - Hidden Activations]{\textbf{Hidden Activations} 
 				\newline }
 			\label{figure-actual_mse_hidden_activations}
@@ -3036,34 +3032,29 @@
 		\label{figure-mse_encoding_activations}
 	\end{figure}
 	
-	
-	\subsubsection{Predictive FFN Activations}
-	
-	In the interest of reducing likelihood of backtest overfitting, as well as having seen results for SAE networks on actual data, predictive network activation functions were only tested with Synthetic data.	The effect seen, and discussed more below, is that reconstruction of aggregated GBM data was able to be performed quite effectively through linear activations, so long as the network (and encoding layers) were large enough to allow for sufficient transformations. Linear activations weren't tested further on actual data, as there is no reason to believe the time series would continue to exhibit the constant drift with non-independent price jumps over time. 
-	
+	\begin{figure}[H]
+		\begin{center}
+			\centering
+			\textbf{SAE MSE by Output Activations}
+			\includegraphics[scale=0.4]{images/results/8_7_network/actual_mse_output.png}
+			\caption[MSE by Output Activations]
+			{Dataset: Scaling10 dataset (\ref{dataset_scaling10}), Configuration 1 (\ref{config1})
+				\newline This figure shows the effects of the output activation for configurations using Normalized scaling. The ReLU activations also seemed to result in very poor performance, most likely due to the loss of error signal in the output layer where it is most critical. }
+			\label{figure-actual_mse_output}
+		\end{center}
+	\end{figure}
+		
 	\begin{figure}[H]
 		\centering
-		\textbf{P\&L by Activations (Synthetic Data)}
-
-		\begin{subfigure}{.5\textwidth}
-			\centering 
-			\includegraphics[scale=0.25]{images/results/activations/synth_pl_hidden.png}
-			\caption[P\&L by Scaling and Activations (Synthetic Data) - Hidden Activations]{\textbf{Hidden Activations} 
-				\newline }
-			\label{figure-synth_pl_hidden}
-		\end{subfigure}
-		\caption[P\&L by Activations (Synthetic Data)]
+		\textbf{P\&L by Hidden Layer Activations (Synthetic Data)}
+		\includegraphics[scale=0.35]{images/results/8_7_network/synth_pl_hidden.png}
+		\caption[P\&L by Hidden Layer Activations (Synthetic Data)]
 		{Dataset Synthetic6  (\ref{dataset_synthetic6})), Configuration 3 (\ref{config3}) \& Configuration 4 (\ref{config4})
 			\newline This figure offers a comparison of Linear and ReLU hidden layer activations on P\&L, with the linear activations resulting in notably better P\&L when compared to ReLU activations. Unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per Section \ref{results_gbm_data}, whereas we would see actual asset data benefit from a non-linear representation. Linear configurations for actual data were not run, as real stock data is not expected to follow patterns that are linear through time, thus offering little value.}
-		\label{figure-pl_activations_scaling}
+		\label{figure-synth_pl_hidden}
 	\end{figure}
 	
-	\subsubsection{Sigmoid Activation Functions} 
-	Due to the poor performance seen in Sigmoid function based SAE's, as well as the poorer results when compared to ReLU activations, Sigmoid functions were largely excluded from further configuration testing.
 	
-	\subsubsection{Leaky ReLU vs ReLU}
-	
-	Leaky ReLU activations were implemented, and showed negligible effects for SAE, which can be seen in Appendix \ref{results_network_appendix}. For the predictive network, the LeakyReLU did offer some more significant improvements (3\% - 10\%) on OOS P\&L for Synthetic data, as seen in Figure \ref{figure-synthetic_pl_leakyrelu} in the appendix. Subsequently, Leaky ReLU was used as the hidden layer activation of choice for most trials.
 	
 	\newpage
 	\subsection{Money Management Strategy}\label{results_mms}
@@ -3082,12 +3073,12 @@
 		\textbf{MMS OOS P\&L Distributions}
 		\begin{subfigure}{.44\textwidth}
 			\centering 
-			\includegraphics[scale=0.3]{images/results/mms/profits_nocost.png} 
+			\includegraphics[scale=0.312]{images/results/8_8_mms/profits_nocost.png} 
 			\caption{\textbf{Without Capital \& Trading Costs}}
 			\label{figure-results_pl_pdf_nocapital}
 		\end{subfigure}%
 		\begin{subfigure}{.5\textwidth}
-			\includegraphics[scale=0.31]{images/results/mms/profits_cost.png} 
+			\includegraphics[scale=0.313]{images/results/8_8_mms/profits_cost.png} 
 			\caption{\textbf{With Capital \& Trading Costs}}
 			\label{figure-results_pl_pdf_cost_capital}
 		\end{subfigure}
@@ -3103,12 +3094,12 @@
 		\textbf{MMS Sharpe Ratios and Correct Trades}
 		\begin{subfigure}{.44\textwidth}
 			\centering 
-			\includegraphics[scale=0.23]{images/results/mms/sharpe_ratios.png} 
+			\includegraphics[scale=0.23]{images/results/8_8_mms/sharpe_ratios.png} 
 			\caption{\textbf{Sharpe Ratios (With Costs)}}
 			\label{figure-sharpe_ratios}
 		\end{subfigure}%
 		\begin{subfigure}{.5\textwidth}
-			\includegraphics[scale=0.22]{images/results/mms/confusion_dist.png} 
+			\includegraphics[scale=0.245]{images/results/8_8_mms/confusion_dist.png} 
 			\caption{\textbf{Correct Trade Distribution}}
 			\label{figure-confusion_dist}
 		\end{subfigure}
@@ -3147,7 +3138,7 @@
 	\begin{figure}[H]
 		\centering 
 		\textbf{PBO Scores by Split Values}
-		\includegraphics[scale=0.25]{images/results/pbo/PBO_by_Split.png} 
+		\includegraphics[scale=0.4]{images/results/8_9_pbo/combination_sizes.png} 
 		\caption[PBO Scores by Split Values]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
 			\newline The curve here shows the significant impact that the choice in the split parameter $S$ has for the PBO score calculated, with a monotonically decreasing score as S increases (these scores were for the same set of results). This highlights the contextual nature of a PBO score and the problems raised with score-wise comparisons as well as upfront configuration choices. }
 		\label{figure-PBO_by_Split}
@@ -3156,7 +3147,7 @@
 	\begin{figure}[H]
 		\centering 
 		\textbf{Number of CSCV Combinations by Split Value}
-		\includegraphics[scale=0.25]{images/results/pbo/combination_sizes.png} 
+		\includegraphics[scale=0.4]{images/results/8_9_pbo/PBO_by_Split.png} 
 		\caption[Number of CSCV Combinations by Split Value]{
 			\newline The number of combinations that have to be processed by the CSCV method according to the value of the split parameter ($S$) chosen. The exponential increase in combinations to be processd as $S$ crosses a value of 16 once again highlights configuration choice challenges. It is unlikely higher splits than 16 will be chosen, regardless of whether they are more appropriate or not.}
 		\label{figure-s_combinations}
@@ -3220,7 +3211,7 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{Sharpe Ratios for ONC Clusters and Best Strategy}
-		\includegraphics[scale=0.4]{images/results/dsr/cluster_distributions.png} 
+		\includegraphics[scale=0.45]{images/results/8_10_dsr/cluster_distributions.png} 
 		\caption[Sharpe Ratios for ONC Clusters and Best Strategy]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16}) 
 			 \newline The graph here shows the distributions of all Sharpe Ratios, grouped by the 2 clusters produced by the ONC algorithm, and an indication for the best Sharpe ratio, which is in Cluster One. As note above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.367$, $\mu_{c2} = 0.387$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.529$, $\tilde{\mu}_{3,c2} = -0.746$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.03$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials.}
 		\label{figure-dsr_clusters}
@@ -3229,7 +3220,7 @@
 	\begin{figure}[H]
 		\centering
 		\textbf{OGD MSE Scores for ONC Clusters}
-		\includegraphics[scale=0.4]{images/results/dsr/cluster_distributions_mse.png} 
+		\includegraphics[scale=0.45]{images/results/8_10_dsr/cluster_distributions_mse.png} 
 		\caption[OGD MSE Scores for ONC Clusters]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
 			\newline The distributions of OGD MSE scores can be seen for both clusters here, indicating how precise the predictions were. The patterns tie in with those seen in Figure \ref{figure-dsr_clusters}, with Cluster One having a higher variance which leads to more configurations at either end of the MSE range, and including the best performing one.}
 		\label{figure-dsr_clusters_mse}
@@ -3318,7 +3309,7 @@
 	\begin{figure}[H]
 		\centering 
 		\textbf{MSE By Feature Selection Size (Synthetic Data)}
-		\includegraphics[scale=0.3]{images/results/feature_selection/synth_sae_mse.png} 
+		\includegraphics[scale=0.3]{images/results/8_appendix/synth_sae_mse.png} 
 		\caption[MSE By Feature Selection Size (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configuration 7 (\ref{config7})
 			\newline The MSE scores here show that while feature selection and reduction is possible through the SAE networks, the ability to reproduce input does decrease monotonically with the encoding layer size. This is not of real concern though unless exact reproduction (with noise included) is of interest.}
 		\label{figure-synth_sae_mse}
@@ -3329,7 +3320,7 @@
 	\begin{figure}[H]
 		\centering 
 		\textbf{Prediction Accuracy by Training Epochs (MNIST Data)} 
-		\includegraphics[scale=0.2]{images/results/newinit/rbm_pretraining.png}
+		\includegraphics[scale=0.2]{images/results/8_appendix/rbm_pretraining.png}
 		\caption[Prediction Accuracy by Training Epochs (MNIST Data)]{The plot above shows the prediction accuracy achieved on the MNIST dataset according to the number of pre-training epochs using the RBM greedy layerwise methodology as per Section \ref{imp_rbm}. There's a clear indication that pre-training allows the network to achieve much higher accuracy much quicker.}
 		\label{figure-rbm_pretraining}
 	\end{figure}
@@ -3337,9 +3328,9 @@
 	\begin{figure}[H]
 		\centering 
 		\textbf{SAE MSE by Initialization (Actual Data)} 
-		\includegraphics[scale=0.3]{images/results/newinit/actual_mse_init.png}
+		\includegraphics[scale=0.3]{images/results/8_appendix/actual_mse_init.png}
 		\caption[SAE MSE by Initialization (Actual Data)]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 12 (\ref{config12})
-			\newline The SAE MSE results here continue the trend seen for AGL, where He-Adj offers the best performance. Both He and He-Adj suffered with larger learning rates, resulting in dying ReLU's and networks with null outputs, hence the smaller sample sizes. It's possible a more suitable set of learning rates would lead to better results, though the results presented in Section \ref{results_init} lead to a favouring of He-Adj in any case.}
+			\newline The SAE MSE results here continue the trend seen for AGL (as seen in Section \ref{results_init}), where He-Adj offers the best performance. Both He and He-Adj suffered with larger learning rates, resulting in dying ReLU's and networks with null outputs, hence the smaller sample sizes. It's possible a more suitable set of learning rates would lead to better results, though the results presented in Section \ref{results_init} lead to a favouring of He-Adj in any case.}
 		\label{figure-actual_mse_init}
 	\end{figure}
 	
@@ -3350,7 +3341,7 @@
 		\begin{figure}[H]
 		\centering 
 		\textbf{SAE MSE by Learning Rate Epoch Cycles (Actual Data)}
-		\includegraphics[scale=0.3]{images/results/network/lr/actual_mse_lr_epochs.png}
+		\includegraphics[scale=0.3]{images/results/8_appendix/actual_mse_lr_epochs.png}
 		\caption[SAE MSE by Learning Rate Epoch Cycles (Actual Data)]{\textbf{MSE for SAE Networks} 
 			\newline This figure shows the MSE scores for SAE networks, with the shorter epoch cycle offering the best (and the worst) results. Synthetic data for the SAE MSE scores behaved similarly, as seen in Figure \ref{figure-synth_mse_lr_epochs}.}
 		\label{figure-actual_mse_lr_epochs}
@@ -3359,7 +3350,7 @@
 		\begin{figure}[H]
 		\centering 
 		\textbf{SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)}
-		\includegraphics[scale=0.3]{images/results/network/lr/synth_mse_lr_epochs.png} 
+		\includegraphics[scale=0.3]{images/results/8_appendix/synth_mse_lr_epochs.png} 
 		\caption[SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configuration 7 (\ref{config7})
 			\newline The SAE networks didn't show significant differences according to the epoch cycles. As discussed in Sections \ref{results_gbm_data} and \ref{results_data_hist}, the structure of synthetic data for SAE replication is structurally less complex, and so learning optimizations are less likely to produce large differences.}
 		\label{figure-synth_mse_lr_epochs}
@@ -3372,14 +3363,14 @@
 		\textbf{P\&L by Learning Rates}
 		\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/synth_pl_minmax_lr.png}
+			\includegraphics[scale=0.3]{images/results/8_appendix/synth_pl_minmax_lr.png}
 			\caption{\textbf{Synthetic Data} 
 				\newline }
 			\label{figure-synth_pl_minmax_lr}
 		\end{subfigure}%
 		\begin{subfigure}{.5\textwidth}
 			\centering 
-			\includegraphics[scale=0.3]{images/results/network/lr/actual_pl_minmax_lr.png}
+			\includegraphics[scale=0.3]{images/results/8_appendix/actual_pl_minmax_lr.png}
 			\caption{\textbf{Actual Data} 
 				\newline }
 			\label{figure-actual_pl_minmax_lr}
@@ -3399,46 +3390,48 @@
 	
 	\subsubsection{Additional Results for Section \ref{results_network} - Network Structure and Training }\label{results_network_appendix}
 	
+	Figures \ref{figure-actual_sae_mse_box} - \ref{figure-results_synth_pl_box} show the effect of network layer sizes on SAE MSE and OOS P\&L figures, for both actual and synthetic data. Training parameters such as number of SGD epochs were not adjusted for network size, and so some smaller networks achieved higher performance as they had more accommodating training. The general trends should be focused on as the indicator for more tailored training.
+	
 	\begin{figure}[H]
 		\centering 
 		\textbf{MSE By Network Sizes (Actual Data)}
-		\includegraphics[scale=0.25]{images/results/network/actual_sae_mse_box.png} 
+		\includegraphics[scale=0.4]{images/results/8_appendix/actual_sae_mse_box.png} 
 		\caption[MSE By Network Sizes (Actual Data)]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 12 (\ref{config12})
-			\newline This figure shows the MSE achieved by SAE networks with the indicated sizes, showing a general increase in performance as both layers and layer sizes increase. The network sizes here indicate the final $N$ layers for the SAE, rather than the $2N + 1$ that are present in training. Training parameters such as number of SGD epochs were not adjusted for network size, and so some smaller networks achieved higher performance as they had more accommodating training. The general trends should be focused on as the indicator for more tailored training. As noted in Section \ref{results_network}, the more typical structure of SAEs with descending layer sizes did not show better performance.}
+			\newline This figure shows the MSE achieved by SAE networks with the indicated sizes, showing a general increase in performance as both layers and layer sizes increase. The network sizes here indicate the final $N$ layers for the SAE, rather than the $2N + 1$ that are present in training. As noted in Section \ref{results_network}, the more typical structure of SAEs with descending layer sizes did not show better performance.}
 		\label{figure-actual_sae_mse_box}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering 
 		\textbf{MSE By Network Sizes (Synthetic Data)}
-		\includegraphics[scale=0.25]{images/results/network/synth_mse_box.png} 
+		\includegraphics[scale=0.4]{images/results/8_appendix/synth_mse_box.png} 
 		\caption[MSE By Network Sizes (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configuration 7 (\ref{config7})
-			\newline This figure shows the MSE achieved by networks with the indicated sizes, showing a general increase in performance as both layers and layer sizes increase. The network sizes here indicate the final $N$ layers for the SAE, rather than the $2N + 1$ that are present in training. Training parameters such as number of SGD epochs were not adjusted for network size, and so some smaller networks achieved higher performance as they had more accommodating training. The general trends should be focused on as the indicator for more tailored training. As noted in Section \ref{results_network}, the more typical structure of SAEs with descending layer sizes did not show better performance.}
+			\newline This figure shows the MSE achieved by networks with the indicated sizes, showing a general increase in performance as both layers and layer sizes increase. The network sizes here indicate the final $N$ layers for the SAE, rather than the $2N + 1$ that are present in training. As noted in Section \ref{results_network}, the more typical structure of SAEs with descending layer sizes did not show better performance.}
 		\label{figure-synth_mse_box}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering 
 		\textbf{P\&L By Network Sizes (Actual Data)}
-		\includegraphics[scale=0.3]{images/results/network/actual_pl_box.png} 
+		\includegraphics[scale=0.4]{images/results/8_appendix/actual_pl_box.png} 
 		\caption[P\&L By Network Sizes (Actual Data)]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 13 (\ref{config13})
-			\newline This figure shows the P\&L achieved by networks with the indicated sizes, showing a general increase in performance as both layers and layer sizes increase. Networks that suffered from exploding ReLU's (and hence have approximately 0 P\&L) have been excluded for the more effective visualization. Training parameters such as number of SGD epochs were not adjusted for network size, and so some smaller networks achieved higher performance as they had more accommodating training. The general trends should be focused on as the indicator for more tailored training.}
+			\newline This figure shows the P\&L achieved by networks with the indicated sizes, showing a general increase in performance as both layers and layer sizes increase. Networks that suffered from exploding ReLU's (and hence have approximately 0 P\&L) have been excluded for the more effective visualization. }
 		\label{figure-results_actual_pl_box}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering 
 		\textbf{P\&L By Network Sizes (Synthetic Data)}
-		\includegraphics[scale=0.3]{images/results/network/synth_pl_box.png} 
+		\includegraphics[scale=0.4]{images/results/8_appendix/synth_pl_box.png} 
 		\caption[P\&L By Network Sizes (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configuration 9 (\ref{config9})
-			\newline This figure shows the P\&L achieved by networks with the indicated sizes, showing a general increase in performance as both layers and layer sizes increase. Networks that suffered from exploding ReLU's (and hence have approximately 0 P\&L) have been excluded for the more effective visualization. Training parameters such as number of SGD epochs were not adjusted for network size, and so some smaller networks achieved higher performance as they had more accommodating training. The general trends should be focused on as the indicator for more tailored training.}
+			\newline This figure shows the P\&L achieved by networks with the indicated sizes, showing a general increase in performance as both layers and layer sizes increase. Networks that suffered from exploding ReLU's (and hence have approximately 0 P\&L) have been excluded for the more effective visualization. }
 		\label{figure-results_synth_pl_box}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering 
 		\textbf{Predictive P\&L by OGD Learning Rate (Synthetic Data)}
-		\includegraphics[scale=0.3]{images/results/network/lr/synth_ogd_lr.png} 
+		\includegraphics[scale=0.4]{images/results/8_appendix/synth_ogd_lr.png} 
 		\caption[Predictive P\&L by OGD Learning Rate (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ;  Configuration 9 (\ref{config9}) 
 			\newline The networks trained on Synthetic data showed a sharp P\&L increase as the OGD learning rate increased. It wasn't tested if they would experience the same turning point and begin to degrade as seen in networks for Actual data in Section \ref{results_oos_pl}}.
 		\label{figure-synth_ogd_lr}
@@ -3446,17 +3439,8 @@
 	
 	\begin{figure}[H]
 		\centering 
-		\textbf{Predictive P\&L by L1 Regularization (Synthetic Data)}
-		\includegraphics[scale=0.3]{images/results/network/reg/synth_pl_reg.png} 
-		\caption[Predictive P\&L by L1 Regularization (Synthetic Data)]{Dataset: Synthetic10 (\ref{dataset_synthetic10}) ; Configuration 9 (\ref{config9})  
-			\newline }.
-		\label{figure-synth_pl_reg}
-	\end{figure}
-	
-		\begin{figure}[H]
-		\centering 
 		\textbf{SAE: Leaky ReLU vs ReLU (Sythetic Data)} 
-		\includegraphics[scale=0.28]{images/results/activations/synthetic_mse_leakyrelu.png}
+		\includegraphics[scale=0.4]{images/results/8_appendix/synthetic_mse_leakyrelu.png}
 		\caption[SAE: Leaky ReLU vs ReLU (Synthetic Data)]{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration 17 (\ref{config17})
 			\newline The plot above shows the SAE MSE, grouped by encoding size and activations, showing a marginal increase in performance for Leaky ReLU activations. }
 		\label{figure-synthetic_mse_leakyrelu}
@@ -3465,7 +3449,7 @@
 	\begin{figure}[H]
 		\textbf{P\&L by ReLU Activations (Synthetic Data)}
 		\centering
-		\includegraphics[scale=0.3]{images/results/activations/synthetic_pl_leakyrelu.png}
+		\includegraphics[scale=0.4]{images/results/8_appendix/synthetic_pl_leakyrelu.png}
 		\caption[P\&L by ReLU Activations (Synthetic Data)]{Dataset Synthetic6  (\ref{dataset_synthetic6}) ; Configuration 5 (\ref{config5})
 			\newline The plot shows the FFN P\&L, grouped by activation, showing some improvements from the Leaky ReLU activation. The effect is most noticeable in reducing the lower bounds of performance (±10.8\%), though has a clear benefit in the upper bounds as well (3.4\%).}
 		\label{figure-synthetic_pl_leakyrelu}
@@ -3477,7 +3461,7 @@
 	
 	
 	
-	
+	\newpage
 	\subsection{Additional Calculations for Section \ref{results_dsr} - DSR and ONC}\label{results_dsr_appendix}
 	
 	
@@ -3555,35 +3539,50 @@
 	\end{itemize}
 	
 	\newpage
+	\subsection{Dataset Information}\label{appendix_dataset}
+	
+	The ``Actual10'' dataset (as per Section \ref{dataset_actual10}) was used for the testing and validation of the framework presented. It was produced by \citet{Gant} using Bloomberg data and consists of daily price relative share price data for the constituents of the JSE Top 40 (as of January 2003) from 2003 to 2018. A snapshot of the data can be seen in Figure \ref{figure-dataset_snapshot} below. \newline
+	
+	\begin{figure}[H]
+		\centering 
+		\textbf{Snapshot of JSE Top 40 Dataset}
+		\includegraphics[scale=0.5]{images/data/dataset_snapshot.png}
+		\caption[Snapshot of JSE Top 40 Dataset]{This figure shows a snapshot of the dataset used as a source for the  ``Actual10'' dataset (as per Section \ref{dataset_actual10}), showing the first month of closing prices for 7 out of the 40 assets.}
+		\label{figure-dataset_snapshot}
+	\end{figure}
+	
+	\newpage
 	\subsection{Configuration Sets Used}\label{appendix_configs}
 	
 	\subsubsection{Configuration 1}\label{config1}
 	
 	%["Linear Tests 1", "Linear Tests 2 Std"]
-	\begin{itemize}
-		\item category: SAE
-		\item sae\_config\_id: 0
-		\item steps: 5000
-		\item deltas: 1,5,20
-		\item process\_splits: 0.6
-		\item training\_splits: 0.8,1.0
-		\item prediction\_steps: 2
-		\item scaling\_function: NormalizeData;StandardizeData
-		\item layer\_sizes: (30,60,5); (30,60,60,5); (30,60,60,60,5); (30,120,5); (30,120,120,5); (30,120,120,120,5); (30,60,15); (30,60,60,15); (30,60,60,60,15); (30,120,15); (30,120,120,15); (30,120,120,120,15); (30,60,25); (30,60,60,25); (30,60,60,60,25); (30,120,25); (30,120,120,25); (30,120,120,120,25)
-		\item layer\_activations: SigmoidActivation,ReluActivation,LinearActivation
-		\item initialization: XavierGlorotUniformInit
-		\item encoding\_activation: LinearActivation;SigmoidActivation;ReluActivation
-		\item output\_activation: LinearActivation;SigmoidActivation;ReluActivation
-		\item learning\_rate: 0.001;0.1;1.0;0.01;0.05;0.25;2.0
-		\item minibatch\_size: 20
-		\item max\_epochs: 500
-		\item l1\_lambda: 0.0
-		\item min\_learning\_rate: 0.0
-		\item epoch\_cycle\_max: 0
-		\item ogd\_learning\_rate: 0.0
-	\end{itemize}
+\begin{table}[H]
+	\begin{tabular}{|p{0.2\linewidth}|p{0.8\linewidth}|} \hline \textbf{Parameter} &\textbf{Values} \\\hline
+		{category} & {SAE} \\\hline
+		{sae\_config\_id} & {0} \\\hline
+		{steps} & {5000} \\\hline
+		{deltas} & {1,5,20} \\\hline
+		{process\_splits} & {0.6} \\\hline
+		{training\_splits} & {0.8,1.0} \\\hline
+		{prediction\_steps} & {2} \\\hline
+		{scaling\_function} & {NormalizeData;StandardizeData} \\\hline
+		{layer\_sizes} & {(30,60,5); (30,60,60,5); (30,60,60,60,5); (30,120,5); (30,120,120,5); (30,120,120,120,5); (30,60,15); (30,60,60,15); (30,60,60,60,15); (30,120,15); (30,120,120,15); (30,120,120,120,15); (30,60,25); (30,60,60,25); (30,60,60,60,25); (30,120,25); (30,120,120,25); (30,120,120,120,25)} \\\hline
+		{layer\_activations} & {SigmoidActivation,ReluActivation,LinearActivation} \\\hline
+		{initialization} & {XavierGlorotUniformInit} \\\hline
+		{encoding\_activation} & {LinearActivation;SigmoidActivation;ReluActivation} \\\hline
+		{output\_activation} & {LinearActivation;SigmoidActivation;ReluActivation} \\\hline
+		{learning\_rate} & {0.001;0.1;1.0;0.01;0.05;0.25;2.0} \\\hline
+		{minibatch\_size} & {20} \\\hline
+		{max\_epochs} & {500} \\\hline
+		{l1\_lambda} & {0.0} \\\hline
+		{min\_learning\_rate} & {0.0} \\\hline
+		{epoch\_cycle\_max} & {0} \\\hline
+		{ogd\_learning\_rate} & {0.0} \\\hline
+		{\textbf{Total Samples}} & {\textbf{1129}} \\\hline
+	\end{tabular} \newline \newline \end{table}
 	
-	Samples: 1129
+	
 	
 	\subsubsection{Configuration 2}\label{config2}
 	%["Linear Tests 1"]

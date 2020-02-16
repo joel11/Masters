@@ -1,4 +1,4 @@
-\begin{thebibliography}{122}
+\begin{thebibliography}{123}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -308,6 +308,13 @@ Jianqing Fan and Runze Li.
 Python~Software Foundation.
 \newblock Python, 2019.
 \newblock URL \url{https://www.python.org/}.
+
+\bibitem[Gant(2019)]{Gant}
+Michale Gant.
+\newblock Jse top 40 constituents daily price relatives 2003-2018 (bloomberg).
+\newblock 2019.
+\newblock \doi{10.17632/3nbgc4cygk.1}.
+\newblock URL \url{http://dx.doi.org/10.17632/3nbgc4cygk.1}.
 
 \bibitem[Ge et~al.(2015)Ge, Huang, Jin, and Yuan]{Ge}
 Rong Ge, Furong Huang, Chi Jin, and Yang Yuan.

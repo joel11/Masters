@@ -2,7 +2,7 @@ This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: the6.aux
 The style file: plainnat.bst
-Illegal, another \bibstyle command---line 1221 of file the6.aux
+Illegal, another \bibstyle command---line 1227 of file the6.aux
  : \bibstyle
  :          {IEEEtran}
 I'm skipping whatever remains of this command
@@ -58,6 +58,7 @@ Warning--entry type for "DCDSR_Dataproc" isn't style-file defined
 Warning--entry type for "DCDSR_proc" isn't style-file defined
 --line 1323 of file thesis_bibliography.bib
 Warning--empty journal in Bengio2
+Warning--empty journal in Gant
 Warning--empty journal in Ge
 Warning--empty journal in Hsu
 Warning--empty booktitle in LeCun2
@@ -75,45 +76,45 @@ Warning--can't use both volume and number fields in Wang2
 Warning--empty publisher in Werbos2
 Warning--empty journal in Werbos
 Warning--empty journal in Zeiler
-You've used 122 entries,
+You've used 123 entries,
             2773 wiz_defined-function locations,
-            1358 strings with 23751 characters,
-and the built_in function-call counts, 49182 in all, are:
-= -- 4353
-> -- 2558
-< -- 95
-+ -- 912
-- -- 770
-* -- 3773
-:= -- 7710
-add.period$ -- 436
-call.type$ -- 122
-change.case$ -- 615
-chr.to.int$ -- 102
-cite$ -- 262
-duplicate$ -- 2365
-empty$ -- 4216
-format.name$ -- 946
-if$ -- 10306
+            1364 strings with 23898 characters,
+and the built_in function-call counts, 49507 in all, are:
+= -- 4384
+> -- 2568
+< -- 96
++ -- 916
+- -- 773
+* -- 3792
+:= -- 7764
+add.period$ -- 441
+call.type$ -- 123
+change.case$ -- 619
+chr.to.int$ -- 103
+cite$ -- 265
+duplicate$ -- 2384
+empty$ -- 4246
+format.name$ -- 950
+if$ -- 10373
 int.to.chr$ -- 21
 int.to.str$ -- 1
-missing$ -- 105
-newline$ -- 687
-num.names$ -- 490
-pop$ -- 1253
+missing$ -- 106
+newline$ -- 694
+num.names$ -- 494
+pop$ -- 1262
 preamble$ -- 1
-purify$ -- 500
+purify$ -- 503
 quote$ -- 0
-skip$ -- 1756
+skip$ -- 1769
 stack$ -- 0
-substring$ -- 1143
+substring$ -- 1145
 swap$ -- 270
 text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1302
-warning$ -- 18
-while$ -- 418
+type$ -- 1313
+warning$ -- 19
+while$ -- 421
 width$ -- 0
-write$ -- 1668
+write$ -- 1683
 (There was 1 error message)

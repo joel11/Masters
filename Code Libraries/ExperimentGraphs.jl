@@ -18,8 +18,9 @@ using MLBase
 
 using ColorBrewer
 using PlotlyJS
+using Combinatorics
 
-export OOS_PL_OGDLR_Delta_Encoding, IS_PL_Encoding, OOS_PL_OGDLR_Deltas, PL_Scaling, PL_Heatmap_NetworkSize_DataAggregation, PL_SAE_Encoding_SizeLines, PL_Activations, PL_ScalingOutputActivation, MSE_OutputActivation_Scaling_Filters, MSE_Min_EncodingSize_Activation, MSE_Encoding_Activation, MSE_Output_Activation, MSE_Hidden_Activation, MSE_Scaling_Filters, PL_Heatmap_LearningRate_MaxEpochs, MSE_EpochCycle, MSE_LearningRate_MaxMin, MSE_LayerSizesLines, PL_NetworkSizeLines, MSE_LayerSizes3, PL_LearningRates_MaxMin, GenerateDeltaDistribution, BestStrategyVsBenchmark, AllProfitsPDF, ReadProfits, OGD_Heatmap_LayerSizes_Epochs, PL_EpochCycle, AllProfitsPDF, TransformConfigIDs, ConfigStrategyOutput, PL_MaxEpochs, PL_Denoising, ReadProfits, UpdateTotalProfits, MSE_Pretraining, OGD_ScalingOutputActivation_Profits_Bx, MSE_Activation_Scaling_Filters, FFN_LR_Sched_BxProfit, PL_SAE_Encoding_Size, PL_L1Reg, PL_NetworkSize, PL_Init, MSE_LayerSizes, SAE_EncodingSizes_MinMSE, MSE_Deltas, MSE_Init, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, PL_DataDeltas, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,MSE_Lambda1, MSE_Denoising, PL_ValidationSplit, MSE_MaxLearningRate_Activation, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, PL_OGD_LearningRate, PL_LayerActivation_OutputActivation, OGD_SAE_Selection_Profits_bx, PL_Activations_NetworkSize, SAE_ActivationsNetworkSizes_MinMSE, MSE_ActivationsEncodingSizes
+export ClusterOGDMSEPlot, ClusterDistributionPlot, PlotPBOBySplits, PlotCombinationSizes, PlotConfusion, SharpeRatiosPDF, MSE_Reg_EncodingLines, OOS_PL_OGDLR_Delta_Encoding, IS_PL_Encoding, OOS_PL_OGDLR_Deltas, PL_Scaling, PL_Heatmap_NetworkSize_DataAggregation, PL_SAE_Encoding_SizeLines, PL_Activations, PL_ScalingOutputActivation, MSE_OutputActivation_Scaling_Filters, MSE_Min_EncodingSize_Activation, MSE_Encoding_Activation, MSE_Output_Activation, MSE_Hidden_Activation, MSE_Scaling_Filters, PL_Heatmap_LearningRate_MaxEpochs, MSE_EpochCycle, MSE_LearningRate_MaxMin, MSE_LayerSizesLines, PL_NetworkSizeLines, MSE_LayerSizes3, PL_LearningRates_MaxMin, GenerateDeltaDistribution, BestStrategyVsBenchmark, AllProfitsPDF, ReadProfits, OGD_Heatmap_LayerSizes_Epochs, PL_EpochCycle, AllProfitsPDF, TransformConfigIDs, ConfigStrategyOutput, PL_MaxEpochs, PL_Denoising, ReadProfits, UpdateTotalProfits, MSE_Pretraining, OGD_ScalingOutputActivation_Profits_Bx, MSE_Activation_Scaling_Filters, FFN_LR_Sched_BxProfit, PL_SAE_Encoding_Size, PL_L1Reg, PL_NetworkSize, PL_Init, MSE_LayerSizes, SAE_EncodingSizes_MinMSE, MSE_Deltas, MSE_Init, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, PL_DataDeltas, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,MSE_Lambda1, MSE_Denoising, PL_ValidationSplit, MSE_MaxLearningRate_Activation, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, PL_OGD_LearningRate, PL_LayerActivation_OutputActivation, OGD_SAE_Selection_Profits_bx, PL_Activations_NetworkSize, SAE_ActivationsNetworkSizes_MinMSE, MSE_ActivationsEncodingSizes
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -93,11 +94,11 @@ function general_boxplot(layer_groups, xaxis_label, filename, variable_name, yax
         push!(data, trace)
     end
 
-    layout_x_axis_label = xaxis_label == nothing ? "" : string("<b>", xaxis_label, "</b><br><br>")
+    layout_x_axis_label = (xaxis_label == nothing || xaxis_label == "") ? "" : string("<b>", xaxis_label, "</b><br><br><br>")
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 140, :l => 100)
         , yaxis = Dict(:title => string("<b>", yaxis_label, "<br> </b>"))
-        , xaxis = Dict(:title => string(layout_x_axis_label, "<br><i> Sample Sizes: ", string(group_sizes), "</i>")
+        , xaxis = Dict(:title => string(layout_x_axis_label, "<i> Sample Sizes: ", string(group_sizes), "</i>")
                      , :showticklabels => xlabels_show)
         , font = Dict(:size => 18)
          )
@@ -501,7 +502,7 @@ function PL_NetworkSize(config_ids, file_prefix = "", colourSetChoice = "", test
 
         ordering = map(i -> string("Layers: ", i), ordering)
 
-    ProfitBoxplot(query, :layer_sizes, "Network Layers", string(file_prefix, "Network Size Profits"), String, testDatabase, colourSetChoice, ordering, false, 5)
+    ProfitBoxplot(query, :layer_sizes, "Network Layers", string(file_prefix, "Network Size Profits"), String, testDatabase, colourSetChoice, ordering, false, 16, 5)
 end
 
 function PL_NetworkSizeLines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
@@ -605,7 +606,7 @@ function PL_SAE_Encoding_Size(config_ids, noneSize = -1, file_prefix = "", colou
                 $learning_rate_clause
             order by cast(substr(layer_sizes, 0, instr(layer_sizes, ',')) as INT)"
 
-    ProfitBoxplot(query, :encoding, "Encoding ", string(file_prefix, "Encoding Size Profits"), Int64, testDatabase, colourSetChoice)
+    ProfitBoxplot(query, :encoding, "Encoding Size", string(file_prefix, "Encoding Size Profits"), Int64, testDatabase, colourSetChoice)
 end
 
 function PL_DataDeltas(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
@@ -626,7 +627,7 @@ function PL_DataDeltas(config_ids, file_prefix = "", colourSetChoice = "", testD
     ordering = groups[[1,3,2],1]
 
 
-    ProfitBoxplot(query, :deltas, " ", string(file_prefix, "Data Deltas Profits"), String, testDatabase, colourSetChoice, ordering, false, 18, nothing, in_sample)
+    ProfitBoxplot(query, :deltas, "", string(file_prefix, "Data Deltas Profits"), String, testDatabase, colourSetChoice, ordering, false, 18, nothing, in_sample)
 end
 
 function PL_Init(config_ids, file_prefix = "", colourSetChoice = "", testDatase = false)
@@ -806,9 +807,10 @@ function MSE_ActivationsEncodingSizes(config_ids, encoding_size = nothing, file_
             push!(data, trace)
         end
         plot(data)
-        l = Layout(width = 1500, height = 500, margin = Dict(:b => 120, :l => 100)
+        l = Layout(width = 1200, height = 600, margin = Dict(:b => 120, :l => 100)
             , yaxis = Dict(:title => string("<b>", "MSE", "<br> </b>"))
-            , xaxis = Dict(:title => string("<b>", "Encoding-Activation", "<br> </b>")))
+            , xaxis = Dict(:title => string("<b>", "Encoding-Activation", "<br> </b>"))
+            , font = Dict(:size => 18))
 
         savefig(plot(data, l), string("/users/joeldacosta/desktop/", fn, ".html"))
     end
@@ -1228,12 +1230,9 @@ function MSE_EpochCycle_EncodingLines(config_ids, file_prefix = "", colourSetCho
          )
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/SAE MSE Epoch Cycles by Encoding ", string(aggregation), ".html"))
-
 end
 
-function MSE_Reg_EncodingLines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false)
-
-    aggregation = minimum
+function MSE_Reg_EncodingLines(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, aggregation = minimum)
 
     ids = TransformConfigIDs(config_ids)
 
@@ -1382,7 +1381,7 @@ function MSE_Min_EncodingSize_Activation(config_ids, activation_choice = "encodi
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> MSE (", string(aggregation), ")</br> </b>"))
-        , xaxis = Dict(:title => string("<b> Encoding Layer Size </b>"))
+        , xaxis = Dict(:title => string("<b> Encoding Size </b>"))
         , font = Dict(:size => 18))
 
     savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_prefix, " Encoding by Activation MSE.html"))
@@ -1755,7 +1754,7 @@ function GenerateDeltaDistribution(delta_values, variances, time_steps, dataset,
         training_data = PrepareData(data_config, dataset, nothing)[1]
         vals = mapreduce(i -> training_data.training_input[:, i], vcat, 1:size(training_data.training_input,2))
 
-        trace = histogram(;x=vals, name=string(string(delta_values[d]), " Data Windows"), marker = Dict(:color=>colours[d]), opacity=opacity_value)
+        trace = histogram(;x=vals, name=string(string(delta_values[d]), " Horizons"), marker = Dict(:color=>colours[d]), opacity=opacity_value)
 
         #trace = bar(;x=vals, name=string(string(delta_values[d]), " Data Windows"), marker = Dict(:color=>colours[d]), opacity=opacity_value)
         mean_dict[string(delta_values[d])] = mean(vals)
@@ -1991,7 +1990,8 @@ function PlotConfusion()
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> Number of Combinations </br> </b>"))
-        , xaxis = Dict(:title => string("<b> Percentage of Correct Trades </b>")))
+        , xaxis = Dict(:title => string("<b> Percentage of Correct Trades </b>"))
+        , font = Dict(:size => 18))
 
     data = [trace]
     savefig(plot(data, l), string("/users/joeldacosta/desktop/Confusion Distribution.html"))
@@ -2006,7 +2006,8 @@ function SharpeRatiosPDF()
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> Number of Combinations </br> </b>"))
-        , xaxis = Dict(:title => string("<b> Sharpe Ratio </b>")))
+        , xaxis = Dict(:title => string("<b> Sharpe Ratio </b>"))
+        , font = Dict(:size => 18))
 
     data = [trace]
     savefig(plot(data, l), string("/users/joeldacosta/desktop/Sharpe Ratios.html"))
@@ -2051,7 +2052,8 @@ function AllProfitsPDF(original_prices, cost = false, benchmark_yval = 1500)
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> Number of Combinations </br> </b>"))
-        , xaxis = Dict(:title => string("<b> P&L Observed </b>")))
+        , xaxis = Dict(:title => string("<b> P&L Observed </b>"))
+        , font = Dict(:size => 18))
 
     data = [trace, bm]
     savefig(plot(data, l), string("/users/joeldacosta/desktop/Profits PDF", string(cost), ".html"))
@@ -2115,7 +2117,6 @@ function ConfusionMatrix(config_id, stockreturns)
     names!(df, [:model_no_trade, :model_trade])
 
     writetable(string("/users/joeldacosta/desktop/", config_id, "_confusion.csv"), df)
-
 end
 
 function BestStrategyGraphs(config_ids, dataset)
@@ -2264,9 +2265,10 @@ function PlotCombinationSizes()
         push!(combSizes, size(set_pairs,1))
     end
 
-    l = Layout(width = 1600, height = 600, margin = Dict(:b => 100, :l => 100)
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> Number of Combinations </br> </b>"))
-        , xaxis = Dict(:title => string("<b> Number of Splits </b>")))
+        , xaxis = Dict(:title => string("<b> Number of Splits </b>"))
+        , font = Dict(:size => default_fontsize))
 
     xvals = splitPoints
     yvals = combSizes
@@ -2285,9 +2287,10 @@ function PlotPBOBySplits()
             02.380952380952382,
             01.6083916083916027)
 
-    l = Layout(width = 1600, height = 600, margin = Dict(:b => 100, :l => 100)
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> PBO % </br> </b>"))
-        , xaxis = Dict(:title => string("<b> Number of Splits </b>")))
+        , xaxis = Dict(:title => string("<b> Number of Splits </b>"))
+        , font = Dict(:size => default_fontsize))
 
 
     trace = scatter(;x=xvals,y=yvals, name="Combinations",
@@ -2295,6 +2298,87 @@ function PlotPBOBySplits()
                     marker = Dict(:line => Dict(:width => 2, :color => "darkred"), :color=>"darkred"))
     data = [trace]
     savefig(plot(data, l), string("/users/joeldacosta/desktop/PBO by S.html"))
+end
+
+##DSR Plots#####################################################################
+
+function ClusterOGDMSEPlot()
+
+    clusterOneResults = RunQuery("select training_cost
+                                    from epoch_records p
+                                    inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0
+                                    inner join config_oos_sharpe_ratio_cost s on s.configuration_id = c.configuration_id and sharpe_ratio is not null
+                                    where category = 'OGD'
+                                    --and training_cost is not null
+                                    and training_cost < 0.05")
+    clusterTwoResults = RunQuery("select training_cost
+                                from epoch_records p
+                                inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1
+                                inner join config_oos_sharpe_ratio_cost s on s.configuration_id = c.configuration_id and sharpe_ratio is not null
+                                where category = 'OGD'
+                                --and training_cost is not null
+                                and training_cost < 0.05")
+
+    clusterOneResults[:grouping] = round.(Array(clusterOneResults[:training_cost]), 3)
+    clusterTwoResults[:grouping] = round.(Array(clusterTwoResults[:training_cost]), 3)
+
+    one_groups = by(clusterOneResults, [:grouping], df -> size(df, 1))
+    two_groups = by(clusterTwoResults, [:grouping], df -> size(df, 1))
+
+    one_groups[:x1] = one_groups[:x1]./size(clusterOneResults, 1).*100
+    two_groups[:x1] = two_groups[:x1]./size(clusterTwoResults, 1).*100
+
+    opacity_value = 0.8
+
+    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Cluster One [n=7415]"), opacity=opacity_value, xbins=Dict(:size=>0.0001))
+    trace_two = bar(;y=two_groups[:x1], x=two_groups[:grouping], name=string("Cluster Two [n=14400]"), opacity=opacity_value, xbins=Dict(:size=>0.0001))
+
+    data = [trace_one, trace_two]#, bm]
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> Percentage of Trials </br> </b>"))
+        , xaxis = Dict(:title => string("<b> OGD MSE </b>"))
+        , barmode="overlay"
+        , font = Dict(:size => default_fontsize))
+
+    fig = Plot(data, l)
+    savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster MSE Distributions.html"))
+end
+
+function ClusterDistributionPlot()
+
+    clusterOneResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0 where sharpe_ratio is not null")
+    clusterTwoResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1 where sharpe_ratio is not null")
+    highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio_cost")[1,1])
+
+    clusterOneResults[:grouping] = round.(Array(clusterOneResults[:sharpe_ratio]), 2)
+    clusterTwoResults[:grouping] = round.(Array(clusterTwoResults[:sharpe_ratio]), 2)
+
+    one_groups = by(clusterOneResults, [:grouping], df -> size(df, 1))
+    two_groups = by(clusterTwoResults, [:grouping], df -> size(df, 1))
+
+    one_groups[:x1] = one_groups[:x1]./size(clusterOneResults, 1).*100
+    two_groups[:x1] = two_groups[:x1]./size(clusterTwoResults, 1).*100
+
+    opacity_value = 0.8
+
+    br_max = max(maximum(one_groups[:x1]),
+                maximum(two_groups[:x1])) + 0.1
+
+    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Cluster One [n=", size(clusterOneResults,1),"]"), opacity=opacity_value, xbins=Dict(:size=>0.001))
+    trace_two = bar(;y=two_groups[:x1], x=two_groups[:grouping], name=string("Cluster Two [n=", size(clusterTwoResults,1),"]"), opacity=opacity_value, xbins=Dict(:size=>0.001))
+    bm  = scatter(;x=[highestSR, highestSR],y=[0, br_max], name="Highest SR", marker = Dict(:color=>"green"))
+
+    data = [trace_one, trace_two, bm]
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> Percentage of Trials in Cluster </br> </b>"))
+        , xaxis = Dict(:title => string("<b> Sharpe Ratio </b>"))
+        , barmode="overlay"
+        , font = Dict(:size => default_fontsize))
+
+    fig = Plot(data, l)
+    savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster Distributions.html"))
 end
 
 ##General Plots#################################################################
@@ -2393,7 +2477,7 @@ function OOS_PL_OGDLR_Deltas(config_ids, noneSize = -1, file_prefix = "", colour
         trace = scatter(;x=encoding_groups[i,2][:learning_rate],
                          y=encoding_groups[i,2][:x1],
                          name=string(encoding_groups[i,1],
-                         " Data Horizons"),
+                         " Horizons"),
                         marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
         push!(data, trace)
     end
@@ -2440,7 +2524,7 @@ function OOS_PL_OGDLR_Delta_Encoding(config_ids, noneSize = -1, file_prefix = ""
         trace = scatter(;x=encoding_groups[i,2][:learning_rate],
                          y=encoding_groups[i,2][:x1],
                          name=string(encoding_groups[i,1],
-                         " Data Horizons"),
+                         " Horizons"),
                         marker = Dict(:line => Dict(:width => 2, :color => colors[i+1]), :color=>colors[i+1]))
         push!(data, trace)
     end
@@ -2512,7 +2596,7 @@ function PL_SAE_Encoding_SizeLines(config_ids, noneSize = -1, file_prefix = "", 
     results[:,1] = Array{Int64,1}(results[:,1])
     results[:,2] = Array{Int64,1}(results[:,2])
     results[:,3] = Array{Float64,1}(results[:,3])
-    pl_returns = join(GetProfits(false, false), results, on = :configuration_id)
+    pl_returns = join(GetProfits(testDatabase, false), results, on = :configuration_id)
 
     groups = by(pl_returns, [:encoding, :learning_rate], df -> aggregation(df[:profit]))
 
