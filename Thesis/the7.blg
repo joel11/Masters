@@ -2,7 +2,7 @@ This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: the7.aux
 The style file: plainnat.bst
-Illegal, another \bibstyle command---line 1109 of file the7.aux
+Illegal, another \bibstyle command---line 1300 of file the7.aux
  : \bibstyle
  :          {IEEEtran}
 I'm skipping whatever remains of this command
@@ -31,33 +31,40 @@ Warning--entry type for "DCNetworkTrainer" isn't style-file defined
 --line 1223 of file thesis_bibliography.bib
 Warning--entry type for "DCSGD" isn't style-file defined
 --line 1230 of file thesis_bibliography.bib
-Warning--entry type for "DCRBM" isn't style-file defined
+Warning--entry type for "DCOGD" isn't style-file defined
 --line 1237 of file thesis_bibliography.bib
-Warning--entry type for "DCGradientFunctions" isn't style-file defined
+Warning--entry type for "DCRBM" isn't style-file defined
 --line 1244 of file thesis_bibliography.bib
-Warning--entry type for "DCExperimentProcess" isn't style-file defined
+Warning--entry type for "DCGradientFunctions" isn't style-file defined
 --line 1251 of file thesis_bibliography.bib
-Warning--entry type for "DCConfigTestsFFN" isn't style-file defined
+Warning--entry type for "DCExperimentProcess" isn't style-file defined
 --line 1258 of file thesis_bibliography.bib
-Warning--entry type for "DCConfigTestsSAE" isn't style-file defined
+Warning--entry type for "DCExperimentGraph" isn't style-file defined
 --line 1265 of file thesis_bibliography.bib
-Warning--entry type for "DCGenerator" isn't style-file defined
+Warning--entry type for "DCExperimentProcessTrainFFN" isn't style-file defined
 --line 1272 of file thesis_bibliography.bib
-Warning--entry type for "DCDatabaseCreator" isn't style-file defined
+Warning--entry type for "DCExperimentProcessTrainSAE" isn't style-file defined
 --line 1279 of file thesis_bibliography.bib
+Warning--entry type for "DCGenerator" isn't style-file defined
+--line 1286 of file thesis_bibliography.bib
+Warning--entry type for "DCDatabaseCreator" isn't style-file defined
+--line 1293 of file thesis_bibliography.bib
 Warning--entry type for "PlotlyJS" isn't style-file defined
---line 1287 of file thesis_bibliography.bib
-Warning--entry type for "DCDatabaseOps" isn't style-file defined
---line 1294 of file thesis_bibliography.bib
-Warning--entry type for "DCCSCV" isn't style-file defined
 --line 1301 of file thesis_bibliography.bib
+Warning--entry type for "DCDatabaseOps" isn't style-file defined
+--line 1308 of file thesis_bibliography.bib
+Warning--entry type for "DCCSCV" isn't style-file defined
+--line 1315 of file thesis_bibliography.bib
 Warning--entry type for "DCDSR_PradoLewis" isn't style-file defined
---line 1309 of file thesis_bibliography.bib
-Warning--entry type for "DCDSR_Dataproc" isn't style-file defined
---line 1316 of file thesis_bibliography.bib
-Warning--entry type for "DCDSR_proc" isn't style-file defined
 --line 1323 of file thesis_bibliography.bib
+Warning--entry type for "DCDSR_Dataproc" isn't style-file defined
+--line 1330 of file thesis_bibliography.bib
+Warning--entry type for "DCDSR_proc" isn't style-file defined
+--line 1337 of file thesis_bibliography.bib
+Warning--entry type for "DCFFN" isn't style-file defined
+--line 1344 of file thesis_bibliography.bib
 Warning--empty journal in Bengio2
+Warning--empty journal in DCCodeBase
 Warning--empty journal in Gant
 Warning--empty journal in Ge
 Warning--empty journal in Hsu
@@ -76,45 +83,45 @@ Warning--can't use both volume and number fields in Wang2
 Warning--empty publisher in Werbos2
 Warning--empty journal in Werbos
 Warning--empty journal in Zeiler
-You've used 123 entries,
+You've used 128 entries,
             2773 wiz_defined-function locations,
-            1364 strings with 23898 characters,
-and the built_in function-call counts, 49507 in all, are:
-= -- 4384
-> -- 2568
-< -- 96
-+ -- 916
-- -- 773
-* -- 3792
-:= -- 7764
-add.period$ -- 441
-call.type$ -- 123
-change.case$ -- 619
-chr.to.int$ -- 103
-cite$ -- 265
-duplicate$ -- 2384
-empty$ -- 4246
-format.name$ -- 950
-if$ -- 10373
-int.to.chr$ -- 21
+            1387 strings with 24519 characters,
+and the built_in function-call counts, 51034 in all, are:
+= -- 4518
+> -- 2618
+< -- 101
++ -- 939
+- -- 788
+* -- 3878
+:= -- 8001
+add.period$ -- 459
+call.type$ -- 128
+change.case$ -- 638
+chr.to.int$ -- 105
+cite$ -- 276
+duplicate$ -- 2468
+empty$ -- 4404
+format.name$ -- 970
+if$ -- 10696
+int.to.chr$ -- 24
 int.to.str$ -- 1
-missing$ -- 106
-newline$ -- 694
-num.names$ -- 494
-pop$ -- 1262
+missing$ -- 109
+newline$ -- 722
+num.names$ -- 514
+pop$ -- 1318
 preamble$ -- 1
-purify$ -- 503
+purify$ -- 518
 quote$ -- 0
-skip$ -- 1769
+skip$ -- 1833
 stack$ -- 0
-substring$ -- 1145
-swap$ -- 270
+substring$ -- 1155
+swap$ -- 277
 text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1313
-warning$ -- 19
-while$ -- 421
+type$ -- 1363
+warning$ -- 20
+while$ -- 436
 width$ -- 0
-write$ -- 1683
+write$ -- 1748
 (There was 1 error message)

@@ -1,4 +1,4 @@
-\begin{thebibliography}{123}
+\begin{thebibliography}{128}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -12,6 +12,12 @@ Susanne Albers.
 \newblock \doi{10.1007/s10107-003-0436-0}.
 \newblock URL
   \url{https://link.springer.com/content/pdf/10.1007%2Fs10107-003-0436-0.pdf}.
+
+\bibitem[Andrew W.~Lo(2009)]{LoHeretics}
+Jasmina~Hasanhodzic Andrew W.~Lo.
+\newblock \emph{Heretics of Finance}.
+\newblock Bloomberg Press, 2009.
+\newblock ISBN 978-1-57660-316-1.
 
 \bibitem[Aparicio and Lopez~de Prado(2018)]{Aparicio}
 Diego Aparicio and Marcos Lopez~de Prado.
@@ -147,113 +153,139 @@ Joel da~Costa.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/CSCV.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{c}})]{DCConfigTestsFFN}
+\bibitem[da~Costa(2019{\natexlab{c}})]{DCCostFunctions}
 Joel da~Costa.
-\newblock Dissertation github - configtestsffn, 2019{\natexlab{c}}.
-\newblock URL
-  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsFFN.jl}.
-
-\bibitem[da~Costa(2019{\natexlab{d}})]{DCConfigTestsSAE}
-Joel da~Costa.
-\newblock Dissertation github - configtestssae, 2019{\natexlab{d}}.
-\newblock URL
-  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigTestsSAE.jl}.
-
-\bibitem[da~Costa(2019{\natexlab{e}})]{DCCostFunctions}
-Joel da~Costa.
-\newblock Dissertation github - costfunctions, 2019{\natexlab{e}}.
+\newblock Dissertation github - costfunctions, 2019{\natexlab{c}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/CostFunctions.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{f}})]{DCDSR_Dataproc}
+\bibitem[da~Costa(2019{\natexlab{d}})]{DCDSR_Dataproc}
 Joel da~Costa.
-\newblock Dissertation github - dsrdataproc, 2019{\natexlab{f}}.
+\newblock Dissertation github - dsrdataproc, 2019{\natexlab{d}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DSR/DSR_dataproc.py}.
 
-\bibitem[da~Costa(2019{\natexlab{g}})]{DCDSR_proc}
+\bibitem[da~Costa(2019{\natexlab{e}})]{DCDSR_proc}
 Joel da~Costa.
-\newblock Dissertation github - dsrproc, 2019{\natexlab{g}}.
+\newblock Dissertation github - dsrproc, 2019{\natexlab{e}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DSR/DSR_proc.py}.
 
-\bibitem[da~Costa(2019{\natexlab{h}})]{DCDataGenerator}
+\bibitem[da~Costa(2019{\natexlab{f}})]{DCDataGenerator}
 Joel da~Costa.
-\newblock Dissertation github - datagenerator, 2019{\natexlab{h}}.
+\newblock Dissertation github - datagenerator, 2019{\natexlab{f}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataGenerator.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{i}})]{DCDataProcessor}
+\bibitem[da~Costa(2019{\natexlab{g}})]{DCDataProcessor}
 Joel da~Costa.
-\newblock Dissertation github - dataprocessor, 2019{\natexlab{i}}.
+\newblock Dissertation github - dataprocessor, 2019{\natexlab{g}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DataProcessor.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{j}})]{DCDatabaseCreator}
+\bibitem[da~Costa(2019{\natexlab{h}})]{DCDatabaseCreator}
 Joel da~Costa.
-\newblock Dissertation github - databasecreator, 2019{\natexlab{j}}.
+\newblock Dissertation github - databasecreator, 2019{\natexlab{h}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DatabaseCreator.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{k}})]{DCDatabaseOps}
+\bibitem[da~Costa(2019{\natexlab{i}})]{DCDatabaseOps}
 Joel da~Costa.
-\newblock Dissertation github - databaseops, 2019{\natexlab{k}}.
+\newblock Dissertation github - databaseops, 2019{\natexlab{i}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/DatabaseOps.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{l}})]{DCExperimentProcess}
+\bibitem[da~Costa(2019{\natexlab{j}})]{DCExperimentGraph}
 Joel da~Costa.
-\newblock Dissertation github - experimentprocess, 2019{\natexlab{l}}.
+\newblock Dissertation github - experimentgraphs, 2019{\natexlab{j}}.
+\newblock URL
+  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ExperimentGraphs.jl}.
+
+\bibitem[da~Costa(2019{\natexlab{k}})]{DCExperimentProcess}
+Joel da~Costa.
+\newblock Dissertation github - experimentprocess, 2019{\natexlab{k}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ExperimentProcess.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{m}})]{DCGenerator}
+\bibitem[da~Costa(2019{\natexlab{l}})]{DCExperimentProcessTrainFFN}
 Joel da~Costa.
-\newblock Dissertation github - generator, 2019{\natexlab{m}}.
+\newblock Dissertation github - experimentprocesstrainffn, 2019{\natexlab{l}}.
+\newblock URL
+  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ExperimentProcessTrainFFN.jl}.
+
+\bibitem[da~Costa(2019{\natexlab{m}})]{DCExperimentProcessTrainSAE}
+Joel da~Costa.
+\newblock Dissertation github - experimentprocesstrainsae, 2019{\natexlab{m}}.
+\newblock URL
+  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ExperimentProcessTrainSAE.jl}.
+
+\bibitem[da~Costa(2019{\natexlab{n}})]{DCFFN}
+Joel da~Costa.
+\newblock Dissertation github - ffn, 2019{\natexlab{n}}.
+\newblock URL
+  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/FFN.jl}.
+
+\bibitem[da~Costa(2019{\natexlab{o}})]{DCGenerator}
+Joel da~Costa.
+\newblock Dissertation github - generator, 2019{\natexlab{o}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/Generator.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{n}})]{DCGradientFunctions}
+\bibitem[da~Costa(2019{\natexlab{p}})]{DCGradientFunctions}
 Joel da~Costa.
-\newblock Dissertation github - gradientfunctions, 2019{\natexlab{n}}.
+\newblock Dissertation github - gradientfunctions, 2019{\natexlab{p}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/GradientFunctions.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{o}})]{DCInitializationFunctions}
+\bibitem[da~Costa(2019{\natexlab{q}})]{DCInitializationFunctions}
 Joel da~Costa.
-\newblock Dissertation github - initializationfunctions, 2019{\natexlab{o}}.
+\newblock Dissertation github - initializationfunctions, 2019{\natexlab{q}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/InitializationFunctions.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{p}})]{DCNetworkTrainer}
+\bibitem[da~Costa(2019{\natexlab{r}})]{DCNetworkTrainer}
 Joel da~Costa.
-\newblock Dissertation github - networktrainer, 2019{\natexlab{p}}.
+\newblock Dissertation github - networktrainer, 2019{\natexlab{r}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/NetworkTrainer.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{q}})]{DCRBM}
+\bibitem[da~Costa(2019{\natexlab{s}})]{DCOGD}
 Joel da~Costa.
-\newblock Dissertation github - rbm, 2019{\natexlab{q}}.
+\newblock Dissertation github - ogd, 2019{\natexlab{s}}.
+\newblock URL
+  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/OGD.jl}.
+
+\bibitem[da~Costa(2019{\natexlab{t}})]{DCRBM}
+Joel da~Costa.
+\newblock Dissertation github - rbm, 2019{\natexlab{t}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/RBM.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{r}})]{DCRoot}
+\bibitem[da~Costa(2019{\natexlab{u}})]{DCRoot}
 Joel da~Costa.
-\newblock Dissertation github root, 2019{\natexlab{r}}.
+\newblock Dissertation github root, 2019{\natexlab{u}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries}.
 
-\bibitem[da~Costa(2019{\natexlab{s}})]{DCSGD}
+\bibitem[da~Costa(2019{\natexlab{v}})]{DCSGD}
 Joel da~Costa.
-\newblock Dissertation github - sgd, 2019{\natexlab{s}}.
+\newblock Dissertation github - sgd, 2019{\natexlab{v}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/SGD.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{t}})]{DCTrainingStructures}
+\bibitem[da~Costa(2019{\natexlab{w}})]{DCTrainingStructures}
 Joel da~Costa.
-\newblock Dissertation github - trainingstructures, 2019{\natexlab{t}}.
+\newblock Dissertation github - trainingstructures, 2019{\natexlab{w}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/TrainingStructures.jl}.
+
+\bibitem[da~Costa(2020)]{DCCodeBase}
+Joel da~Costa.
+\newblock Dissertation github.
+\newblock 2020.
+\newblock \doi{10.25375/uct.11897358}.
+\newblock URL
+  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries}.
 
 \bibitem[Dauphin et~al.(2014)Dauphin, Pascanu, Gulcehre, Cho, Ganguli, and
   Bengio]{Dauphin}
