@@ -138,51 +138,50 @@
 \BOOKMARK [3][-]{subsubsection.8.6.3}{FFN Prediction}{subsection.8.6}% 138
 \BOOKMARK [2][-]{subsection.8.7}{Network Structure}{section.8}% 139
 \BOOKMARK [3][-]{subsubsection.8.7.1}{Effects of Network Size}{subsection.8.7}% 140
-\BOOKMARK [4][-]{paragraph.8.7.1.1}{SAE Network Structures}{subsubsection.8.7.1}% 141
-\BOOKMARK [3][-]{subsubsection.8.7.2}{Effects of Activation Functions}{subsection.8.7}% 142
-\BOOKMARK [3][-]{subsubsection.8.7.3}{Predictive FFN Activations}{subsection.8.7}% 143
-\BOOKMARK [3][-]{subsubsection.8.7.4}{Sigmoid Activation Functions}{subsection.8.7}% 144
-\BOOKMARK [3][-]{subsubsection.8.7.5}{Leaky ReLU vs. ReLU}{subsection.8.7}% 145
-\BOOKMARK [2][-]{subsection.8.8}{Money Management Strategy}{section.8}% 146
-\BOOKMARK [2][-]{subsection.8.9}{Probability of Backtest Overfitting}{section.8}% 147
-\BOOKMARK [3][-]{subsubsection.8.9.1}{Concerns Regarding the PBO Calculation}{subsection.8.9}% 148
-\BOOKMARK [3][-]{subsubsection.8.9.2}{PBO Results}{subsection.8.9}% 149
-\BOOKMARK [3][-]{subsubsection.8.9.3}{Framework Success}{subsection.8.9}% 150
-\BOOKMARK [2][-]{subsection.8.10}{Deflated Sharpe Ratio}{section.8}% 151
-\BOOKMARK [3][-]{subsubsection.8.10.1}{Computational Complexity}{subsection.8.10}% 152
-\BOOKMARK [3][-]{subsubsection.8.10.2}{ONC Results}{subsection.8.10}% 153
-\BOOKMARK [3][-]{subsubsection.8.10.3}{DSR and PSR Results}{subsection.8.10}% 154
-\BOOKMARK [3][-]{subsubsection.8.10.4}{Framework Success}{subsection.8.10}% 155
-\BOOKMARK [2][-]{subsection.8.11}{Summary of Actual and Synthetic Data Effects}{section.8}% 156
-\BOOKMARK [1][-]{section.9}{Conclusion}{}% 157
-\BOOKMARK [1][-]{section.10}{Future Work}{}% 158
-\BOOKMARK [1][-]{section.11}{Appendix}{}% 159
-\BOOKMARK [2][-]{subsection.11.1}{Additional Results}{section.11}% 160
-\BOOKMARK [3][-]{subsubsection.11.1.1}{Additional Results for Section 8.2 - Feature Selection }{subsection.11.1}% 161
-\BOOKMARK [3][-]{subsubsection.11.1.2}{Additional Results for Section 8.4 - Weight Initialization Techniques }{subsection.11.1}% 162
-\BOOKMARK [3][-]{subsubsection.11.1.3}{Additional Results for Section 8.6 - Complexity of Financial Time Series}{subsection.11.1}% 163
-\BOOKMARK [3][-]{subsubsection.11.1.4}{Additional Results for Section 8.7 - Network Structure and Training }{subsection.11.1}% 164
-\BOOKMARK [2][-]{subsection.11.2}{Additional Calculations for Section 8.10 - DSR and ONC}{section.11}% 165
-\BOOKMARK [3][-]{subsubsection.11.2.1}{DSR and PSR calculations}{subsection.11.2}% 166
-\BOOKMARK [2][-]{subsection.11.3}{Relational Database Schema Diagram}{section.11}% 167
-\BOOKMARK [2][-]{subsection.11.4}{Dataset Information}{section.11}% 168
-\BOOKMARK [2][-]{subsection.11.5}{Configuration Sets Used}{section.11}% 169
-\BOOKMARK [3][-]{subsubsection.11.5.1}{Configuration 1}{subsection.11.5}% 170
-\BOOKMARK [3][-]{subsubsection.11.5.2}{Configuration 2}{subsection.11.5}% 171
-\BOOKMARK [3][-]{subsubsection.11.5.3}{Configuration 3}{subsection.11.5}% 172
-\BOOKMARK [3][-]{subsubsection.11.5.4}{Configuration 4}{subsection.11.5}% 173
-\BOOKMARK [3][-]{subsubsection.11.5.5}{Configuration 5}{subsection.11.5}% 174
-\BOOKMARK [3][-]{subsubsection.11.5.6}{Configuration 6}{subsection.11.5}% 175
-\BOOKMARK [3][-]{subsubsection.11.5.7}{Configuration 7}{subsection.11.5}% 176
-\BOOKMARK [3][-]{subsubsection.11.5.8}{Configuration 8}{subsection.11.5}% 177
-\BOOKMARK [3][-]{subsubsection.11.5.9}{Configuration 9}{subsection.11.5}% 178
-\BOOKMARK [3][-]{subsubsection.11.5.10}{Configuration 10}{subsection.11.5}% 179
-\BOOKMARK [3][-]{subsubsection.11.5.11}{Configuration 11}{subsection.11.5}% 180
-\BOOKMARK [3][-]{subsubsection.11.5.12}{Configuration 12}{subsection.11.5}% 181
-\BOOKMARK [3][-]{subsubsection.11.5.13}{Configuration 13}{subsection.11.5}% 182
-\BOOKMARK [3][-]{subsubsection.11.5.14}{Configuration 14}{subsection.11.5}% 183
-\BOOKMARK [3][-]{subsubsection.11.5.15}{Configuration 15}{subsection.11.5}% 184
-\BOOKMARK [3][-]{subsubsection.11.5.16}{Configuration 16}{subsection.11.5}% 185
-\BOOKMARK [3][-]{subsubsection.11.5.17}{Configuration 17}{subsection.11.5}% 186
-\BOOKMARK [2][-]{subsection.11.6}{Diagnostic Charts}{section.11}% 187
-\BOOKMARK [1][-]{section.12}{References}{}% 188
+\BOOKMARK [3][-]{subsubsection.8.7.2}{Effects of Activation Functions}{subsection.8.7}% 141
+\BOOKMARK [3][-]{subsubsection.8.7.3}{Predictive FFN Activations}{subsection.8.7}% 142
+\BOOKMARK [3][-]{subsubsection.8.7.4}{Sigmoid Activation Functions}{subsection.8.7}% 143
+\BOOKMARK [3][-]{subsubsection.8.7.5}{Leaky ReLU vs. ReLU}{subsection.8.7}% 144
+\BOOKMARK [2][-]{subsection.8.8}{Money Management Strategy}{section.8}% 145
+\BOOKMARK [2][-]{subsection.8.9}{Probability of Backtest Overfitting}{section.8}% 146
+\BOOKMARK [3][-]{subsubsection.8.9.1}{Concerns Regarding the PBO Calculation}{subsection.8.9}% 147
+\BOOKMARK [3][-]{subsubsection.8.9.2}{PBO Results}{subsection.8.9}% 148
+\BOOKMARK [3][-]{subsubsection.8.9.3}{Framework Success}{subsection.8.9}% 149
+\BOOKMARK [2][-]{subsection.8.10}{Deflated Sharpe Ratio}{section.8}% 150
+\BOOKMARK [3][-]{subsubsection.8.10.1}{Computational Complexity}{subsection.8.10}% 151
+\BOOKMARK [3][-]{subsubsection.8.10.2}{ONC Results}{subsection.8.10}% 152
+\BOOKMARK [3][-]{subsubsection.8.10.3}{DSR and PSR Results}{subsection.8.10}% 153
+\BOOKMARK [3][-]{subsubsection.8.10.4}{Framework Success}{subsection.8.10}% 154
+\BOOKMARK [2][-]{subsection.8.11}{Summary of Actual and Synthetic Data Effects}{section.8}% 155
+\BOOKMARK [1][-]{section.9}{Conclusion}{}% 156
+\BOOKMARK [1][-]{section.10}{Future Work}{}% 157
+\BOOKMARK [1][-]{section.11}{Appendix}{}% 158
+\BOOKMARK [2][-]{subsection.11.1}{Additional Results}{section.11}% 159
+\BOOKMARK [3][-]{subsubsection.11.1.1}{Additional Results for Section 8.2 - Feature Selection }{subsection.11.1}% 160
+\BOOKMARK [3][-]{subsubsection.11.1.2}{Additional Results for Section 8.4 - Weight Initialization Techniques }{subsection.11.1}% 161
+\BOOKMARK [3][-]{subsubsection.11.1.3}{Additional Results for Section 8.6 - Complexity of Financial Time Series}{subsection.11.1}% 162
+\BOOKMARK [3][-]{subsubsection.11.1.4}{Additional Results for Section 8.7 - Network Structure and Training }{subsection.11.1}% 163
+\BOOKMARK [2][-]{subsection.11.2}{Additional Calculations for Section 8.10 - DSR and ONC}{section.11}% 164
+\BOOKMARK [3][-]{subsubsection.11.2.1}{DSR and PSR calculations}{subsection.11.2}% 165
+\BOOKMARK [2][-]{subsection.11.3}{Relational Database Schema Diagram}{section.11}% 166
+\BOOKMARK [2][-]{subsection.11.4}{Dataset Information}{section.11}% 167
+\BOOKMARK [2][-]{subsection.11.5}{Configuration Sets Used}{section.11}% 168
+\BOOKMARK [3][-]{subsubsection.11.5.1}{Configuration 1}{subsection.11.5}% 169
+\BOOKMARK [3][-]{subsubsection.11.5.2}{Configuration 2}{subsection.11.5}% 170
+\BOOKMARK [3][-]{subsubsection.11.5.3}{Configuration 3}{subsection.11.5}% 171
+\BOOKMARK [3][-]{subsubsection.11.5.4}{Configuration 4}{subsection.11.5}% 172
+\BOOKMARK [3][-]{subsubsection.11.5.5}{Configuration 5}{subsection.11.5}% 173
+\BOOKMARK [3][-]{subsubsection.11.5.6}{Configuration 6}{subsection.11.5}% 174
+\BOOKMARK [3][-]{subsubsection.11.5.7}{Configuration 7}{subsection.11.5}% 175
+\BOOKMARK [3][-]{subsubsection.11.5.8}{Configuration 8}{subsection.11.5}% 176
+\BOOKMARK [3][-]{subsubsection.11.5.9}{Configuration 9}{subsection.11.5}% 177
+\BOOKMARK [3][-]{subsubsection.11.5.10}{Configuration 10}{subsection.11.5}% 178
+\BOOKMARK [3][-]{subsubsection.11.5.11}{Configuration 11}{subsection.11.5}% 179
+\BOOKMARK [3][-]{subsubsection.11.5.12}{Configuration 12}{subsection.11.5}% 180
+\BOOKMARK [3][-]{subsubsection.11.5.13}{Configuration 13}{subsection.11.5}% 181
+\BOOKMARK [3][-]{subsubsection.11.5.14}{Configuration 14}{subsection.11.5}% 182
+\BOOKMARK [3][-]{subsubsection.11.5.15}{Configuration 15}{subsection.11.5}% 183
+\BOOKMARK [3][-]{subsubsection.11.5.16}{Configuration 16}{subsection.11.5}% 184
+\BOOKMARK [3][-]{subsubsection.11.5.17}{Configuration 17}{subsection.11.5}% 185
+\BOOKMARK [2][-]{subsection.11.6}{Diagnostic Charts}{section.11}% 186
+\BOOKMARK [1][-]{section.12}{References}{}% 187

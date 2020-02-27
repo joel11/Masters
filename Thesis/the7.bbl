@@ -1,4 +1,4 @@
-\begin{thebibliography}{128}
+\begin{thebibliography}{129}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -286,6 +286,11 @@ Joel da~Costa.
 \newblock \doi{10.25375/uct.11897358}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries}.
+
+\bibitem[Data()]{JSEData}
+JSE~Top40 Data.
+\newblock Price relative from 2003-2018.
+\newblock \doi{10.25375/uct.11897628}.
 
 \bibitem[Dauphin et~al.(2014)Dauphin, Pascanu, Gulcehre, Cho, Ganguli, and
   Bengio]{Dauphin}
