@@ -2,7 +2,7 @@ This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: the7.aux
 The style file: plainnat.bst
-Illegal, another \bibstyle command---line 1302 of file the7.aux
+Illegal, another \bibstyle command---line 1304 of file the7.aux
  : \bibstyle
  :          {IEEEtran}
 I'm skipping whatever remains of this command
@@ -63,6 +63,8 @@ Warning--entry type for "DCDSR_proc" isn't style-file defined
 --line 1337 of file thesis_bibliography.bib
 Warning--entry type for "DCFFN" isn't style-file defined
 --line 1344 of file thesis_bibliography.bib
+Warning--entry type for "DCDatabaseBatchProcesses" isn't style-file defined
+--line 1351 of file thesis_bibliography.bib
 Warning--empty journal in Bengio2
 Warning--empty journal in DCCodeBase
 Warning--empty journal in JSEData
@@ -86,45 +88,45 @@ Warning--can't use both volume and number fields in Wang2
 Warning--empty publisher in Werbos2
 Warning--empty journal in Werbos
 Warning--empty journal in Zeiler
-You've used 129 entries,
+You've used 130 entries,
             2773 wiz_defined-function locations,
-            1392 strings with 24597 characters,
-and the built_in function-call counts, 51344 in all, are:
-= -- 4544
-> -- 2628
-< -- 102
-+ -- 943
-- -- 791
-* -- 3899
-:= -- 8050
-add.period$ -- 462
-call.type$ -- 129
-change.case$ -- 642
+            1396 strings with 24778 characters,
+and the built_in function-call counts, 51643 in all, are:
+= -- 4570
+> -- 2638
+< -- 103
++ -- 948
+- -- 794
+* -- 3916
+:= -- 8094
+add.period$ -- 465
+call.type$ -- 130
+change.case$ -- 646
 chr.to.int$ -- 106
-cite$ -- 281
-duplicate$ -- 2487
-empty$ -- 4434
-format.name$ -- 974
-if$ -- 10758
-int.to.chr$ -- 24
+cite$ -- 283
+duplicate$ -- 2502
+empty$ -- 4466
+format.name$ -- 978
+if$ -- 10822
+int.to.chr$ -- 25
 int.to.str$ -- 1
 missing$ -- 110
-newline$ -- 727
-num.names$ -- 518
-pop$ -- 1332
+newline$ -- 732
+num.names$ -- 522
+pop$ -- 1344
 preamble$ -- 1
-purify$ -- 521
+purify$ -- 524
 quote$ -- 0
-skip$ -- 1843
+skip$ -- 1856
 stack$ -- 0
-substring$ -- 1157
-swap$ -- 277
+substring$ -- 1159
+swap$ -- 279
 text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1374
+type$ -- 1385
 warning$ -- 23
-while$ -- 439
+while$ -- 442
 width$ -- 0
-write$ -- 1759
+write$ -- 1771
 (There was 1 error message)

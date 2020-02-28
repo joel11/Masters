@@ -295,27 +295,28 @@
 	\section{Introduction}\label{Introduction}
 	
 	
-	This paper presents a novel framework with a non-linear and mechanistic approach to asset price fluctuation prediction in financial markets. The complexity and unstable dynamics of financial time series are explored through the use of predictive deep neural networks. The results from numerous experiments emphasise that while historical financial data has value, the real benefit to predictive modelling lies in recent cross sectional data. The ability to perform feature reduction using neural networks is shown (despite the dynamic nature of financial data), and the success of the deep learning framework developed is confirmed through the use of sophisticated financial strategy assessments. 
-	~\\\newline
-	The framework developed combines several concepts to this end: the training of deep neural networks, feature selection through the use of Stacked AutoEncoders and unsupervised learning, supervised learning through both batch and online methods for asset price fluctuation prediction and current assessment techniques such as Combinatorially Symmetric Cross-Validation (CSCV) and the Deflated Sharpe Ratio (DSR). In doing so, a modular process is presented, where individual components are decoupled and can be configured as necessary. This delivers a simplest high complexity framework which allows further adaptation for the exploration of a high dimensional solution space. The framework is developed under a scientific process and data implementation, such that all results presented are fully reproducible using the configurations noted in Appendix \ref{appendix_configs}.
-	~\\\newline
-	As Bailey et al. have noted, and which is discussed more fully in Section \ref{lr_backtesting}, backtest overfitting for trading strategies has become problematically widespread in financial literature \citep{BailyPBO}. Neural networks, in their capacity as universal function approximators with few model limitations, offer an effective and appropriate methodology to generate predictions in an environment as complex as financial markets. However, the increased complexity and nature of backtest overfitting leaves traditional validation methods such as hold-out or cross validation falling short. The framework presented investigates how more rigorous validation techniques can be applied to deep learning models in order to avoid such overfitting. Further validation takes place in assessing the potential profitability of the model in a live market.
-	~\\\newline
-	The literature review in Section \ref{lr_LiteratureReview} has a fuller discussion of work that precedes the various techniques which have been implemented. A brief introduction to technical analysis in the financial sector, with its perspective and history, is discussed and forms the basis for proposing and using the technical analysis methods throughout this paper (Section \ref{lr_TechnicalAnalysis}). The literature review then moves onto covering the usage and history of Neural Networks, which has progressed enormously in recent years. This section covers both the basic foundations, and also discusses the recent work which has resulted in the widespread use of deep learning models (Section \ref{lr_nn}). This is extended to the coverage of Stacked AutoEncoders, and their efficacy in data reduction for complex systems, which has lead them to be pivotal tools in deep learning models (Section \ref{lr_SAE}). Online learning methods are discussed in Section \ref{lr_OGD} with a coverage of both the historical basis as well as the more recent developments which have allowed for further improvement in the algorithms. The section finishes off with discussing the impact of backtest overfitting and results validation. 
-	The Probability of Backtest Overfitting (PBO) and Deflated Sharpe Ratio (DSR), as developed by \citet{BailyPBO} and \citet{PradoDSR} respectively, are presented as validation techniques for the framework as a whole (Section \ref{lr_backtesting}).	
-	~\\\newline
-	Section \ref{Data} provides the details regarding data processing that takes place prior to training, discussing both the scaling and fluctuation aggregation techniques used. A discussion of Geometric Brownian motion, which is used for the generation of synthetic data, is included with notes around its characteristics and usage in financial prediction models.
-	~\\\newline
-		Section \ref{Implementation} provides more in-depth details on the algorithms and structures used to implement the framework. The structure of feedforward neural networks is discussed, as well as how they are trained using the backpropagation algorithm, and how that can be applied in a stochastic descent framework (Section \ref{imp_ffn}). This section also provides details for how network weight initializations can impact performance, and how this can be affected through RBM pre-training (as per Section \ref{imp_rbm}) or through variance based techniques (Section \ref{imp_weights}) - this includes the structures and training techniques used for the Stacked AutoEncoders (Section \ref{imp_SAE}). The Money Management Strategy (MMS) constitutes the implementation of trading decisions and actions based on the network model predictions and is detailed in Section \ref{imp_mms}. The CSCV techniques suggested by \citet{BailyPBO} are implemented and used to derive a Probability of Backtest Overfitting (PBO) figure for the full training and testing processes is detailed in Section \ref{imp_cscv}. Finally, the implementation of the Optimal Number of Clusters (ONC) and DSR calculations are covered in Section \ref{imp_dsr}.
-	~\\\newline
-		Where Section \ref{Implementation} discusses the functional implementations of each module of the framework, Section \ref{imp_proc} is concerned with how these modules fit together to form an end to end system, from the data preparation to the output of a Probability of Backtest Overfitting (PBO) or DSR figure. This includes discussions of various considerations for individual aspects of the framework, as well as decisions around the combinations of these parts with their justifications and relevant advantages or disadvantages. In light of the configurable and modular system developed, potential alternatives and how they might be used are also discussed here.
-	~\\\newline
-		Section \ref{Software} discusses the implementation tools chosen as well as the libraries created in the process of developing the software for the framework. The libraries offer a generic set of tools with highly configurable parameters in order to train and assess neural networks, including an extensive collection of diagnostic visualizations.
-	~\\\newline
-		Section \ref{Datasets} provides a brief overview of the datasets used for the trials run, including both the synthetic and actual datasets. Visualisations for the individual asset prices are also included here.
-	~\\\newline
-		Finally, Section \ref{Results} discusses the full set of results from the experiments, and offers several key takeaways. It's shown that historical financial data is of limited use in financial model training, and predictions are served best by a recent cross sectional view on information. Section \ref{results_oos_pl} discusses the nature of prediction strategies learnt, showing that they're influenced heavily by the data horizon choices. Further, SAE based feature reduction is show to be both possible and effective, though with results also being subject to data horizons and recency. Online learning, and consequently network initializations, are shown to be of high importance, the results for which are covered in Section \ref{results_init}. The complexity of financial time series, and how it impacts both supervised and unsupervised learning, are discussed in Section \ref{results_data_hist}, with comparisons to synthetic data being made in Sections \ref{results_synth} and \ref{results_synth_summary}. The MMS returns are presented in Section \ref{results_mms}, and validated through the noted methods in Sections \ref{results_pbo} and \ref{results_dsr}, showing that the framework was able to deliver a profitable and verifiable set of strategies.
+	In this paper, we present a novel framework with a non-linear and mechanistic approach to asset price fluctuation prediction in financial markets. We set out to test two primary hypotheses: whether such an approach can be profitable and incur a low chance of backtest overfitting, and whether feature selecton on financial time series is possible and effective. In doing so, we also explore the complexity and unstable dynamics of financial time series.\newline
 	
+	We found compelling results for both our hypotheses. A large set of neural networks were trained, and had profitable results verified through the use of sophisticated financial strategy assessments. We also found  that feature selection was effective, despite the dynamic nature of financial data. Further, we saw the results from numerous experiments emphasise that while historical financial data has value, the real benefit to predictive modelling lies in recent cross sectional data.\newline
+
+	The framework developed combined several concepts to achieve this: the training of deep neural networks, feature selection through the use of Stacked AutoEncoders and unsupervised learning, supervised learning through both batch and online methods for asset price fluctuation prediction and current assessment techniques such as Combinatorially Symmetric Cross-Validation (CSCV) and the Deflated Sharpe Ratio (DSR). In doing so, a modular process was constructed, where individual components are decoupled and can be configured as necessary. This delivers a simplest high complexity framework which allows further adaptation for the exploration of a high dimensional solution space. The framework was developed under a scientific process and data implementation, such that all results presented are fully reproducible using the configurations noted in Appendix \ref{appendix_configs}.\newline
+
+	As Bailey et al. have noted, and which is discussed more fully in Section \ref{lr_backtesting}, backtest overfitting for trading strategies has become problematically widespread in financial literature \citep{BailyPBO}. Neural networks, in their capacity as universal function approximators with few model limitations, offer an effective and appropriate methodology to generate predictions in an environment as complex as financial markets. However, the increased complexity and nature of backtest overfitting leaves traditional validation methods such as hold-out or cross validation falling short. The framework presented investigates how more rigorous validation techniques can be applied to deep learning models in order to avoid such overfitting. Further validation takes place in assessing the potential profitability of the model in a live market.\newline
+
+	The literature review in Section \ref{lr_LiteratureReview} has a fuller discussion of work that precedes the various techniques which have been implemented. A brief introduction to technical analysis in the financial sector is discussed and forms the basis for proposing and using the technical analysis methods throughout this paper (Section \ref{lr_TechnicalAnalysis}). The usage and history of Neural Networks is discussed, covering the key areas of development which led to widespread use of deep learning models (Section \ref{lr_nn}). The efficacy of Stacked AutoEncoders in data reduction for complex systems has led them to be pivotal tools in deep learning models, which is discussed in Section \ref{lr_SAE}. Online learning methods are discussed in Section \ref{lr_OGD} with a coverage of both the historical basis as well as the developments which have resulted in algorithmic improvements. The section finishes off with discussing the impact of backtest overfitting and results validation. The Probability of Backtest Overfitting (PBO) and Deflated Sharpe Ratio (DSR), as developed by \citet{BailyPBO} and \citet{PradoDSR} respectively, are presented as validation techniques for the framework as a whole (Section \ref{lr_backtesting}).\newline
+
+	Section \ref{Data} provides the details of data processing that takes place prior to training, discussing both the scaling and fluctuation aggregation techniques used. Geometric Brownian motion has been used for the generation of synthetic data, and the section includes a discussion of its characteristics and usage in financial prediction models.\newline
+
+	Section \ref{Implementation} provides more in-depth details on the algorithms and structures used to implement the framework. The structure of feedforward neural networks is discussed, including how they are trained using the backpropagation algorithm, and how that can be applied in a stochastic descent framework (Section \ref{imp_ffn}). This section also provides details for how network weight initializations can impact performance, and how this can be affected through RBM pre-training (as per Section \ref{imp_rbm}) or through variance based techniques (Section \ref{imp_weights}). This includes the structures and training techniques used for the Stacked AutoEncoders (Section \ref{imp_SAE}). The Money Management Strategy (MMS) constitutes the implementation of trading decisions and actions based on the network model predictions and is detailed in Section \ref{imp_mms}. The CSCV techniques suggested by \citet{BailyPBO} were implemented and used to derive a PBO figure for the full training and testing processes, as detailed in Section \ref{imp_cscv}. Finally, the implementation of the Optimal Number of Clusters (ONC) and DSR calculations are covered in Section \ref{imp_dsr}.\newline
+
+	Where Section \ref{Implementation} discusses the functional implementations of each module of the framework, Section \ref{imp_proc} is concerned with how these modules fit together to form an end to end system. The framework detailed considers all steps from the data preparation to the output of a PBO or DSR figure. This includes discussions of various considerations for individual aspects of the framework, as well as decisions around the combinations of these parts with their justifications and relevant advantages or disadvantages. In light of the configurable and modular system developed, potential alternatives and how they might be used are also discussed here.\newline
+
+	Section \ref{Software} discusses the implementation tools chosen and the libraries created in the process of developing the software for the framework. The libraries offer a generic set of tools with highly configurable parameters in order to train and assess neural networks, including an extensive collection of diagnostic visualizations.\newline
+
+	Section \ref{Datasets} provides a brief overview of the datasets used for the trials run, including both the synthetic and actual datasets. Visualisations for the individual asset prices are also included here.\newline
+
+	Finally, Section \ref{Results} discusses the full set of results we found from the experiments, and offers several key takeaways. In Section \ref{results_oos_pl}, we discuss the nature of prediction strategies learnt, and show they were influenced heavily by the data horizon choices. Further, we show that SAE based feature reduction is both possible and effective, though with results that were also subject to data horizons and recency. In Section \ref{results_data_hist}, we show that historical financial data is of limited use in financial model training, and predictions are served best by a recent cross sectional view of information. Online learning, and consequently network initializations, are shown to be of high importance, the results for which are covered in Section \ref{results_init}. The complexity of financial time series, and how it impacts both supervised and unsupervised learning, are discussed in Section \ref{results_finance_data}, with comparisons to synthetic data being made in Sections \ref{results_synth} and \ref{results_synth_summary}. The MMS returns are presented in Section \ref{results_mms}, and validated through the noted methods in Sections \ref{results_pbo} and \ref{results_dsr}, showing that the framework was able to deliver a profitable and verifiable set of strategies.
+
 
 	
 	
@@ -2174,8 +2175,9 @@
 	
 	Data processing libraries were implemented to offer configurable processing for the steps outlined in Section \ref{Data}. The \texttt{DataGenerator} module \citep{DCDataGenerator} implements Geometric Brownian Motion (GBM) generation for a set number of steps and assets with their mean and variances specified. \newline
 	
-	The \texttt{DataProcessor} module \citep{DCDataProcessor} offers a more extensive set of operations in order to implement the processing laid out in Section \ref{data_processing}. The different scaling techniques (Normalize, Standardize, Limited-Normalize and Limited-Standardize) are implemented, as well as the methods to reverse scaling and reconstruct price predictions to the original format. The log differencing, aggregation of past and future horizons as well as dataset partitioning is also made available here, as per methodologies in Section \ref{Data}. The module also includes dataset encoding through SAE networks, and adding Gaussian noise for the purposes of denoising training, as per Section \ref{imp_denoising}.
-	
+	The \texttt{DataProcessor} module \citep{DCDataProcessor} offers a more extensive set of operations in order to implement the processing laid out in Section \ref{data_processing}. The different scaling techniques (Normalize, Standardize, Limited-Normalize and Limited-Standardize) are implemented, as well as the methods to reverse scaling and reconstruct price predictions to the original format. The log differencing, aggregation of past and future horizons as well as dataset partitioning is also made available here, as per methodologies in Section \ref{Data}. The module also includes dataset encoding through SAE networks, and adding Gaussian noise for the purposes of denoising training, as per Section \ref{imp_denoising}.\newline
+		
+	The \texttt{DatabaseBatchProcesses} module \citep{DCDatabaseBatchProcesses} performs the analytical processing of asset price fluctuation predictions. The \texttt{RunBatchTradeProcess} function processes all predictions made, and writes the individual P\&L observed and returns rates for each trade to the \texttt{config\_is\_trade\_returns} and \texttt{config\_oos\_trade\_returns} tables (detailed more in \ref{software_database} below). The \texttt{RunBatchAnalyticsProcess} function uses the trade information to aggregate all strategy metrics, such as P\&L and Sharpe ratios and also writes them to tables (e.g. \texttt{config\_oos\_pl} or \texttt{config\_oos\_sharpe\_ratio}). These aggregate metrics are then used to perform the diagnostics and analyses in the rest of the paper.
 	
 	\subsection{Network Training}
 	
@@ -2421,25 +2423,27 @@
 	\section{Results}\label{Results}
 	\subsection{Introduction}\label{results_into}
 	
-	This section offers a full discussion of the results seen at all stages in the framework, providing numerous takeaways both in terms of technical training as well developing a perspective on the phenomenology of financial markets, and how these influence mechanistic learning approaches to pattern prediction. \newline
+	In this section we discuss the results see at all stages of the framework. We provide takeaways in terms of technical training, as well developing a perspective on the phenomenology of financial markets, and how these both influence mechanistic learning approaches to pattern prediction. \newline
 	
-	\textbf{OOS P\&L:} Section \ref{results_oos_pl} discusses the primary determinants of OOS P\&L seen in actual data results, covering data horizon aggregations, SAE feature reduction and the OGD learning phase. It's shown that data horizon aggregations form the primary determinant of the prediction strategies learnt, and that SAE networks learn different classes of features according to the encoding size (which may differ in suitability for different prediction strategies). These are both considered in the context of the online OOS learning, which proves to be critical in effective learning. This is expanded on in Section \ref{results_data_hist}, which shows the negligible impact of extensive training on historical data, noting that reducing training epochs and datasets has limited effect, and that the online learning phase is most impactful for OOS P\&L. \newline
+	\textbf{OOS P\&L:} Section \ref{results_oos_pl} discusses the primary determinants of OOS P\&L seen in actual data results, covering data horizon aggregations, SAE feature reduction and the OGD learning phase. We found that data horizon aggregations formed the primary determinant of the prediction strategies learnt, and that SAE networks learnt different classes of features according to the encoding size (which may differ in suitability for different prediction strategies). These are both considered in the context of the online OOS learning, which proved to be critical in effective learning. This is expanded on in Section \ref{results_data_hist}, which shows the negligible impact that extensive training had on historical data, noting that reducing training epochs and datasets had limited effect, and that the online learning phase was most impactful for OOS P\&L. \newline
 	
-	\textbf{Network Initializations:} Section \ref{results_init} discusses network weight initialization techniques, noting their importance in context of financial time series where the value of extensive batch training has been shown to be of limited value (or even detrimental to performance).\newline
+	\textbf{Network Initializations:} Section \ref{results_init} discusses network weight initialization techniques, noting their importance in context of financial time series where the value of extensive batch training was found to be of limited value (or even detrimental to performance).\newline
 	
-	\textbf{Synthetic Data OOS P\&L:} Section \ref{results_synth} discusses the nature of Synthetic data, and how it differs in the key OOS determinants. The fundamental differences in data distributions result in P\&L performing better over longer data horizons (which is not definitive in actual data), and less complex features being learnt in SAE networks.\newline
+	\textbf{Synthetic Data OOS P\&L:} Section \ref{results_synth} discusses the nature of Synthetic data, and how it differs in the key OOS determinants. We found that the fundamental differences in data distributions resulted in P\&L performing better over longer data horizons (which was not definitive in actual data), and less complex features being learnt in SAE networks.\newline
 	
-	\textbf{Complexity:} The complexity of actual financial time series is discussed further in Section \ref{results_finance_data}, where results for data scaling and SGD learning optimizations are shown to be affected be the unstable nature of dynamics in financial markets.\newline
+	\textbf{Complexity:} The complexity of actual financial time series is discussed further in Section \ref{results_finance_data}, where we found that results for data scaling and SGD learning optimizations were affected by the unstable nature of dynamics in financial markets.\newline
 	
-	\textbf{Network Configuration:} Section \ref{results_network} gives an overview of the more typical network training components such as layer sizes and activation functions.\newline
+	\textbf{Network Configuration:} Section \ref{results_network} gives an overview of the more typical network training components such as layer sizes and activation functions, and how the affected our performance results.\newline
 	
-	\textbf{Trial Validation:} The financial returns and Sharpe ratios from the prediction networks, as used by the MMS, are discussed in Section \ref{results_mms} with overall distributions shown with the relative benchmark. These results are validated, showing a low likelihood of backtest overfitting in Section \ref{results_pbo}, and showing a confidently positive Deflated Sharpe Ratio in Section \ref{results_dsr}.  \newline
+	\textbf{Trial Validation:} The financial returns and Sharpe ratios from the prediction networks, as used by the MMS, are discussed in Section \ref{results_mms} with overall distributions shown with the relative benchmark. These results were validated and showed a low likelihood of backtest overfitting in Section \ref{results_pbo}, and a confidently positive Deflated Sharpe Ratio in Section \ref{results_dsr}.  \newline
 	
 	\textbf{Synthetica Data Assessment:} Lastly, Section \ref{results_synth_summary} summarises the results presented for synthetic data throughout the framework, and notes its limited value in assessing behaviours for actual data.
 	
 	\subsubsection{Technical Notes}
 	
-	While the predictive networks are trained using an MSE loss function, the performance will mostly be reported on according to the P\&L they were able to achieve through the MMS. Looking at Figure \ref{figure-ogdmse_pl}, we can see that while there is a strong correlation between predictive accuracy and P\&L achieved, it is not absolute and there are many ``worse'' configurations according to OGD MSE which have higher P\&L. This is due in part to OGD's potential to oscillate wildly in the beginning of training while it adjusts, and also representative of lower variance models being able to achieve competitive P\&L. Also, in consideration of the task at hand, P\&L is the primary metric of interest and so is a sensible analysis choice. It is worth noting though that this P\&L is a relative unit measurement, rather than a particular currency (as noted in Section \ref{data_prices}), and that the MMS, as described in Section \ref{imp_mms}, only trades 1 stock unit at a time, and so any P\&L figures are relative indications rather than absolute limits. It is also usually reported without capital and trading costs (as per equation \eqref{eq_capital_costs}) applied, though these costs are taken into account for the PBO and DSR validations. \newline
+	While the predictive networks are trained using an MSE loss function, the performance will mostly be reported on according to the P\&L they were able to achieve through the MMS. Looking at Figure \ref{figure-ogdmse_pl}, we can see that while there is a strong correlation between predictive accuracy and P\&L achieved, it is not absolute and there are many ``worse'' configurations according to OGD MSE which have higher P\&L. This is due in part to OGD's potential to oscillate wildly in the beginning of training while it adjusts, and also representative of lower variance models being able to achieve competitive P\&L. Also, in consideration of the task at hand, P\&L is the primary metric of interest and so is a sensible analysis choice. \newline
+	
+	It is worth noting though that this P\&L is a relative unit measurement, rather than a particular currency (as noted in Section \ref{data_prices}), and that the MMS, as described in Section \ref{imp_mms}, only trades 1 stock unit at a time. As a result, P\&L figures are relative indications rather than absolute limits. It is also usually reported without capital and trading costs (as per equation \eqref{eq_capital_costs}) applied, though these costs are taken into account for the PBO and DSR validations. \newline
 
 	The results for synthetic data are compared against actual data when appropriate, such that it might guide when synthetic data can and should be used for parameter space exploration (as discussed in Section \ref{proc_synthetic}). These results are discussed more completely in Sections \ref{results_synth} and \ref{results_synth_summary}.\newline
 
@@ -2451,7 +2455,7 @@
 		\includegraphics[scale=0.45]{images/results/intro/ogdmse_pl.png}
 		\caption[OGD MSE vs. OOS P\&L]
 		{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16}) \newline 
-			The figure here shows the paired OGD MSE score and OOS P\&L achieved for all 22248 trials run, excluding networks with null returns (a result of exploding gradients). There is a very strong correlation with $\rho = -0.74$, indicating the relationship of P\&L increasing as OGD MSE decreases (or, as predictive accuracy increases). As can be seen however, there are still many configurations which outperform in P\&L despite having a worse OGD MSE score (reasons are noted above in Section \ref{results_into}). As a result, and with the end goal in mind, P\&L is chosen as the primary reporting assessment metric for the analyses on predictive networks. }
+			The figure here shows the paired OGD MSE score and OOS P\&L achieved for all 22248 trials run, excluding networks with null returns (a result of exploding gradients). There is a very strong correlation with $\rho = -0.74$, indicating the relationship of P\&L increasing as OGD MSE decreases (or, as predictive accuracy increases). However, there are still many configurations which outperform in P\&L despite having a worse OGD MSE score (reasons are noted above in Section \ref{results_into}). As a result, P\&L is chosen as the primary reporting assessment metric for the analyses on predictive networks. }
 		\label{figure-ogdmse_pl}
 	\end{figure}
 	
@@ -3179,30 +3183,29 @@
 	
 	\subsubsection{PBO Results}\label{results_pbo_stats}
 	
-	The full set of tests run (n = 22248) on the Actual10 (see Section \ref{dataset_actual10}) dataset had a final PBO of 2.97\%, having been run with a split of 16. There were 15 years of data, making it a reasonable choice as the split parameter (which needs to be even). Ideally, the splits would represent shorter periods, but the exponential increase in computational time (as seen in Figure \ref{figure-s_combinations}) made this impractical, and 16 also happens to be the typical choice recommended by the authors. The full logit distribution can be seen below in Figure \ref{figure-results_logits_all}.
+	We ran the CSCV algorithm on the majority of the configurations tested on the Actual10 (see Section \ref{dataset_actual10}) dataset, which resulted in a final PBO value of 1.7\%. A subset of networks were excluded on accounts of `null' predictions, resulting in a sample size of 21653 (out of a total of 22248 configurations). The CSCV algorithm was run with a split value of 16. There were 15 years of data, making 16 a reasonable choice as the split parameter (which needs to be even). Ideally, the splits would represent shorter periods, but the exponential increase in computational time (as seen in Figure \ref{figure-s_combinations}) made this impractical, and 16 is also the typical choice recommended by the authors. The full logit distribution can be seen below in Figure \ref{figure-results_logits_all}.
 	
 	\begin{figure}[H]
 		\centering 
 		\textbf{Logit Distribution for All Configurations}
-		\includegraphics[scale=0.3]{images/results/8_9_pbo/all_sets_dist.png} 
+		\includegraphics[scale=0.4]{images/results/8_9_pbo/all_sets_dist.png} 
 		\caption[Logit Distribution for All Configurations]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
-			\newline The CSCV logit distribution for all 22248 configurations run, with a calculated PBO of 2.97\%. The strong negative skew is indicative of IS and OOS strategy returns being closely matched in rank, thus resulting in the low PBO score. This is a favourable assessment for the efficacy of the full framework presented here, showing that training was able to occur without much risk of backtest overfitting. }
+			\newline The CSCV logit distribution for the 21653 configurations run, with a calculated PBO of 1.7\%. The strong negative skew is indicative of IS and OOS strategy returns being closely matched in rank, thus resulting in the low PBO score. This is a favourable assessment for the efficacy of the full framework presented here, showing that training was able to occur without much risk of backtest overfitting. }
 		\label{figure-results_logits_all}
 	\end{figure}
 	
-	
-	It is of interest to note the dynamics and contribution towards the PBO results. The configuration process went through 2 primary phases: an extremely broad combinatorial grid search, consisting of 20736 configurations; and a second much narrower search of 1512 configurations. Assessing only the configurations from the second phase, results in a PBO score of 6.3\%, which is significantly higher than the overall PBO score, the logit distribution for which can be seen in Figure \ref{figure-results_logits_subset} below. The effect here highlights two important aspects of the PBO calculation:
+	We found interesting dynamics around the calculation of PBO, and the configurations contributing to the figure. The configuration process went through 2 primary phases: an extremely broad combinatorial grid search, consisting of 20471 configurations; and a second much narrower search of 1182 configurations. Assessing only the configurations from the second phase resulted in a PBO score of 6.3\%, which was significantly higher than the overall PBO score. The logit distribution for the second phase can be seen in Figure \ref{figure-results_logits_subset} below. The effect here highlights two important aspects of the PBO calculation:
 	\begin{enumerate}
-		\item The scores are much higher for the configurations which were picked more specifically after having already seen a large number of results, which is correctly indicative of increased likelihood to overfit.
+		\item The PBO score was much higher for the configurations which were picked more specifically after having already seen a large number of results, which is correctly indicative of increased likelihood to overfit.
 		\item However, the PBO score is not monotonically increasing with N, as one would expect. This is counterintuitive and is in line with the concerns raised in Section \ref{results_pboconcerns} regarding the effects of increasing configuration sample size.
 	\end{enumerate}
 	
 	\begin{figure}[H]
 		\centering 
 		\textbf{Logit Distribution for Subset of Configurations}
-		\includegraphics[scale=0.3]{images/results/8_9_pbo/subset_dist.png} 
+		\includegraphics[scale=0.4]{images/results/8_9_pbo/subset_dist.png} 
 		\caption[Logit Distribution for Subset of Configurations]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 16 (\ref{config16})
-			\newline The CSCV logit distribution for a narrower subset of configurations run, with a calculated PBO of 6.3\%. This subset consists of 1512 configurations, out of the total 22248 configurations run (presented in Figure \ref{figure-results_logits_all}). The higher PBO score (compared to the 1.6\% for all configurations) is indicative of both a higher risk of PBO for the second phase of configurations tested, as well as a potential issues with PBO scoring, as raised above in Section \ref{results_pbo_stats}.}
+			\newline The CSCV logit distribution for a narrower subset of configurations run, with had a calculated PBO of 6.3\%. This subset consisted of 1182 configurations, out of the total 21653 configurations run (presented in Figure \ref{figure-results_logits_all}). The higher PBO score (compared to the 1.7\% for all configurations) is indicative of both a higher risk of PBO for the second phase of configurations tested, as well as a potential issues with PBO scoring, as raised above in Section \ref{results_pbo_stats}.}
 		\label{figure-results_logits_subset}
 	\end{figure}
 	
@@ -3210,7 +3213,7 @@
 	\subsubsection{Framework Success}
 	
 	
-	While the CSCV and PBO implementations do raise some concerns, the results here do also highlight the efficacy of the framework which has been implemented. The low PBO scores presented here show that the combinatorial search approach combined with an online machine learning model allows researchers to take on a broad exploration of the possible solution space while maintaining a low risk of backtest overfitting, and such that P\&L results which are comparable to the benchmark are achieved, as seen in Section \ref{results_mms}.
+	While the CSCV and PBO implementations do raise some concerns, the results here also highlight the efficacy of the framework which has been implemented. The low PBO scores presented here show that the combinatorial search approach combined with an online machine learning model allows researchers to take on a broad exploration of the possible solution space while maintaining a low risk of backtest overfitting, and such that P\&L results which are comparable to the benchmark are achieved, as seen in Section \ref{results_mms}.
 	
 	\newpage
 
@@ -3220,31 +3223,42 @@
 	
 	One of the primary drawbacks of the DSR algorithm presented by \citet{PradoDSR} is the computational complexity which arises with the iterative K-means implementation. A standard Lloyds implementation of the K-means algorithm has a computational complexity of $\mathcal{O}(knt)$, for $k$ clusters, $n$ components and $t$ iterations\footnote{\url{https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html}}. The suggested implementation modification (as discussed in Section \ref{imp_onc}) would be for $t=10$ and to run the algorithm iteratively for $k=1,...,(n-1)$, which can in turn be expressed as $n(n+1)/2$. This leads to a computational complexity with an $\mathcal{O}(n^3)$ magnitude. Including the final modification suggested, which could run the algorithm recursively on subclusters, has the potential to increase this even further. This high degree of complexity presents a problem for cases where a large number of strategy permutations have been attempted, as is the case here (with $n = 22248$). With this in mind, the algorithm was implemented for a maximum of $k=10$, though the results do not suggest this hindered the findings.\newline
 	
-	Trials with Sharpe Ratio's of 0 were excluded from the ONC clustering analysis due to divide by zero errors from the covariance matrix (this results in a sample size of 21815, rather than the larger 22248 available for the PBO process).
-	
 	\subsubsection{ONC Results}\label{results_onc}
 	
-	The ONC algorithm produced only 2 clusters for the components, which were partitioned exactly by the choice in input price fluctuation horizon aggregations (as per the calculations in Section \ref{Data}). Cluster One contains all the trials with horizon aggregations of [1, 5, 10], and Cluster Two contains all trials with horizon aggregations of [5, 20, 60] and [10, 20, 60]. The nature of the experimentation process, with the combinatorial parameter space exploration (as detailed in Section \ref{proc_parameters}), is such that other parameters are evenly split across the 2 clusters (e.g. OGD learning rate, network sizes, initializations and so on).\newline
+	The ONC algorithm produced three clusters: one consisting primarily of the negative Sharpe ratio configurations, and two containing the remaining configurations which were partitioned exactly by their data horizon configurations (as per the calculations in Section \ref{Data}). The distributions for all three clusters' Sharpe ratios can be see below in Figure \ref{figure-dsr_clusters}.\newline
+		
+	If we consider the two primary clusters, we see that Cluster One contained all the trials with horizon aggregations of [1, 5, 10], and Cluster Two contained all trials with horizon aggregations of [5, 20, 60] and [10, 20, 60]. The nature of the experimentation process, with the combinatorial parameter space exploration (as detailed in Section \ref{proc_parameters}), is such that other parameters were evenly split across the 2 clusters (e.g. OGD learning rate, network sizes, initializations and so on).\newline
 	
-	Under consideration of a single and consistent MMS trading strategy, the clusters here then indicate that the networks adapted to at least two different general strategies for predicting prices: one which was more influenced by the short term fluctuations in the 1 day aggregation, and the second which was more influenced by the long term fluctuations in the 60 day aggregation. The results presented in Section \ref{results_oos_pl}, such as the effect of the OGD learning rate on P\&L, are then indicative of the networks ability to execute these overarching strategies effectively. \newline
+	Under consideration of a single and consistent MMS trading strategy, the clusters here indicate that the networks adapted to at least two different general strategies for predicting prices: one which was more influenced by the short term fluctuations in the one day aggregation, and the second which was more influenced by the long term fluctuations in the sixty day aggregation. The results presented in Section \ref{results_oos_pl}, such as the effect of the OGD learning rate on P\&L, are then indicative of the networks ability to execute these overarching strategies effectively. \newline
 	
-	The best Sharpe Ratio value (with trading costs applied) was 0.64 and part of Cluster One, with the [1, 5, 10] price fluctuation horizon aggregations. The distributions seen in Figure \ref{figure-dsr_clusters} indicate that at a general level, Cluster Two has more consistent performance, with a higher mean ($\mu_{c1} = 0.367$, $\mu_{c2} = 0.387$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.529$, $\tilde{\mu}_{3,c2} = -0.746$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.03$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR. This shows that relying on the longer term trends for prediction can offer more reliable and consistent returns. Using shorter term fluctuations can offer higher rewards, though with more variance and risk involved, as per the efficacy of the implementation. These higher and lower variances in P\&L returns were seen more concretely in Figure \ref{figure-actual_aggregation_pl}. The same patterns are presented in the OGD MSE scores, as seen in Figure \ref{figure-dsr_clusters_mse}.\newline
+	The best Sharpe ratio value (with trading costs applied) was 0.64 and part of Cluster One, with the [1, 5, 10] price fluctuation horizon aggregations. The distributions seen in Figure \ref{figure-dsr_clusters} indicate that at a general level, Cluster Two has more consistent performance, with a higher mean ($\mu_{c1} = 0.375$, $\mu_{c2} = 0.393$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.543$, $\tilde{\mu}_{3,c2} = -0.736$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.028$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR. This shows that relying on the longer term trends for prediction can offer more reliable and consistent returns. Using shorter term fluctuations can offer higher rewards, though with more variance and risk involved, as per the efficacy of the implementation. These higher and lower variances in P\&L returns were also seen in Figure \ref{figure-actual_aggregation_pl}. The same patterns are presented in the OGD MSE scores, as seen in Figure \ref{figure-dsr_clusters_mse}.\newline
 
-	\begin{figure}[H]
+		\begin{figure}[H]
 		\centering
 		\textbf{Sharpe Ratios for ONC Clusters and Best Strategy}
-		\includegraphics[scale=0.45]{images/results/8_10_dsr/cluster_distributions.png} 
-		\caption[Sharpe Ratios for ONC Clusters and Best Strategy]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16}) 
-			 \newline The graph here shows the distributions of all Sharpe Ratios, grouped by the 2 clusters produced by the ONC algorithm, and an indication for the best Sharpe ratio, which is in Cluster One. As note above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.367$, $\mu_{c2} = 0.387$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.529$, $\tilde{\mu}_{3,c2} = -0.746$ ). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.03$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials.}
+		\begin{subfigure}{.45\textwidth}
+			\centering 
+			\includegraphics[scale=0.4]{images/results/8_10_dsr/cluster_distributions_2.png} 
+			\caption{\textbf{Primary Two Clusters}}
+			\label{figure-dsr_clusters_3}
+		\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\includegraphics[scale=0.4]{images/results/8_10_dsr/cluster_distributions_3.png} 
+			\caption{\textbf{All Clusters}}
+			\label{figure-dsr_clusters_2}
+		\end{subfigure}
+		\caption[Sharpe Ratios for ONC Clusters and Best Strategy]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
+			\newline Figure (a) shows shows the distributions of all Sharpe Ratios, grouped by the 2 primary clusters produced by the ONC algorithm, and an indication for the best Sharpe ratio, which is in Cluster One. As noted above, Cluster Two has more consistent SR values, with a higher mean ($\mu_{c1} = 0.375$, $\mu_{c2} = 0.393$) and more negative skewness ($\tilde{\mu}_{3,c1} = -0.543$, $\tilde{\mu}_{3,c2} = -0.736$). Cluster One on the other hand has higher variance ($\sigma_{c1} = 0.028$, $\sigma_{c2} = 0.022$), with more strategies at both the lower and higher range of SR, including the highest SR from all trials. Figure (b) shows all three clusters produced, highlighting the comparison to the poorly performing configurations.
+		}
 		\label{figure-dsr_clusters}
 	\end{figure}
 
 	\begin{figure}[H]
 		\centering
-		\textbf{OGD MSE Scores for ONC Clusters}
+		\textbf{OGD MSE Scores for Primary ONC Clusters}
 		\includegraphics[scale=0.45]{images/results/8_10_dsr/cluster_distributions_mse.png} 
-		\caption[OGD MSE Scores for ONC Clusters]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
-			\newline The distributions of OGD MSE scores can be seen for both clusters here, indicating how precise the predictions were. The patterns tie in with those seen in Figure \ref{figure-dsr_clusters}, with Cluster One having a higher variance which leads to more configurations at either end of the MSE range, and including the best performing one.}
+		\caption[OGD MSE Scores for Primary ONC Clusters]{Dataset: Actual10 (\ref{dataset_actual10}) ; Configuration 11 (\ref{config11}) \&  Configuration 16 (\ref{config16})
+			\newline The distributions of OGD MSE scores can be seen for both primary clusters here, indicating how precise the predictions were. The patterns tie in with those seen in Figure \ref{figure-dsr_clusters}, with Cluster One having a higher variance which leads to more configurations at either end of the MSE range, and including the best performing one.}
 		\label{figure-dsr_clusters_mse}
 	\end{figure}
 	
@@ -3252,9 +3266,84 @@
 	
 	\subsubsection{DSR and PSR Results}\label{results_dsr2}
 	
-	Using the clusters produced by the ONC Algorithm (Section \ref{results_onc}), the DSR process as presented in Section \ref{imp_dsr} was followed. The aggregate cluster time series returns were calculated using equations \ref{eq_onc_weights} and \ref{eq_onc_returns} (Section \ref{dsr_cluster_estimates}). These are annualized, which allows their variance estimates to then be used to calculate $SR^*$, which represents the maximum expected observed Sharpe Ratio due to variance under the null hypothesis of $H_0:  \widehat{SR} = 0$ (as discussed in Sections \ref{sr_normality} and \ref{imp_fst}). Using this $SR^*$ as the benchmark, the PSR calculation ($\widehat{PSR}[SR^*]$) can then be used to determine if the observed $\widehat{SR}$ is a false positive or not (as per Section \ref{imp_dsr_detail}). This figure is the DSR as a confidence for whether the observed best $SR$ is actually positive. \newline
+	Using the clusters produced by the ONC Algorithm (Section \ref{results_onc}), the DSR process as presented in Section \ref{imp_dsr} was followed. The aggregate cluster time series returns were calculated using equations \ref{eq_onc_weights} and \ref{eq_onc_returns} (Section \ref{dsr_cluster_estimates}). These are annualized, which allows their variance estimates to then be used to calculate $SR^*$, which represents the maximum expected observed Sharpe Ratio due to variance under the null hypothesis of $H_0:  \widehat{SR} = 0$ (as discussed in Sections \ref{sr_normality} and \ref{imp_fst}). Using this $SR^*$ as the benchmark, the PSR calculation ($\widehat{PSR}[SR^*]$) can then be used to determine if the observed $\widehat{SR}$ is a false positive or not (as per Section \ref{imp_dsr_detail}). This figure is the DSR as a confidence for observing a positive best $SR$. These steps and calculations are all detailed below. \newline
 	
-	In this case, the benchmark $SR^*$ calculated was 0.023, and the best $\widehat{SR}$ observed was 0.64, leading to a $\widehat{PSR}[SR^*]$ of 1.0, thus indicating that the trials certainly contain a strategy which has a positive SR rate. This is a reasonable conclusion, considering the SR distributions in Figure \ref{figure-dsr_clusters}. The calculations for all steps can be seen in Appendix \ref{results_dsr_appendix}. \newline
+	\begin{itemize}
+		\item [1] \textbf{Calculate the Aggregate Cluster Strategy Time Series Return:} \newline
+		Using the ONC results from Section \ref{results_onc}, as well as equations \eqref{eq_onc_weights} and \eqref{eq_onc_returns} from Section \ref{dsr_cluster_estimates}, the 3 cluster SR metrics were calculated to be $\widehat{SR}_{1}={0.480554}$, $\widehat{SR}_{2}={0.488759}$ and $\widehat{SR}_{3}={-0.040758}$. \newline
+		
+		\item [2] \textbf{Annualize the Cluster Strategy Sharpe Ratios:} \newline
+		\begin{equation}
+		\widehat{aSR}_{k}=\widehat{SR}_{k}\sqrt{{Frequency_{k}}}
+		\end{equation}
+		\begin{equation}
+		\therefore \widehat{aSR}_{1}={0.480554}\sqrt{{365.25}}={9.184119}
+		\end{equation}
+		\begin{equation}
+		\therefore \widehat{aSR}_{2}={0.488759}\sqrt{{365.25}} ={9.34093}
+		\end{equation}
+		\begin{equation}
+		\therefore \widehat{aSR}_{3}={-0.040758}\sqrt{{365.25}} ={-0.778954}
+		\end{equation}
+		
+		\item [3] \textbf{Estimate the Variance of Strategy Sharpe Ratios:} \newline
+		
+		Using equation \eqref{eq_onc_nc_var}, the cluster strategy Sharpe ratios can be used to estimate the SR variance. 
+		
+		\begin{equation}
+		\mathrm{E}\left[\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]\right]=\frac{\mathrm{V}\left[\left\{\widehat{aSR}_{k}\right\}\right]}{\text {Frequency}_{k^{*}}}
+		\end{equation}
+		\begin{equation}
+		=\frac{\mathrm{V}\left[\left\{{9.184119,9.34093,-0.778954} \right\}\right]}{\text {365.25}}
+		\end{equation}
+		\begin{equation}
+		={0.061358}
+		\end{equation}
+		
+		\item [4] \textbf{Calculate the Benchmark $\mathbf{SR^*}$:} \newline
+		
+		Using the estimated variance and equation \eqref{eq_dsr}, the benchmark $SR^*$ can then be calculated (where $Z[.]$ is the CDF of the standard Normal Distribution 
+		and $\gamma$ is the Euler-Mascheroni constant).
+		
+		\begin{equation}
+		S R^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right)
+		\end{equation}
+		\begin{equation}
+		=\sqrt{{0.061358}}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{2}\right]+\gamma Z^{-1}\left[1-\frac{1}{2 e}\right]\right)
+		\end{equation}
+		\begin{equation}
+		=0.211245
+		\end{equation}
+		
+		\item [5] \textbf{Calculate DSR:} \newline
+		
+		Using the benchmark, the final DSR calculation can be done with equation \eqref{eq_psr} (where $T$ is the number of observed returns, $\hat{\gamma_3}$ is the skewness of $r_t$ and $\hat{\gamma_4}$ is the kurtosis of $r_t$).
+		
+		\begin{equation}
+		\widehat{SR}=0.642632
+		\end{equation}
+		
+		\begin{equation}
+		\widehat{P S R}\left[S R^{*}\right]=Z\left[\frac{\left(\widehat{S R}-S R^{*}\right) \sqrt{T-1}}{\sqrt{1-\hat{\gamma}_{3} \widehat{S R}+\frac{\hat{\gamma}_{4}-1}{4} \widehat{S R}^{2}}}\right]
+		\end{equation}
+		
+		\begin{equation}
+		\therefore \widehat{P S R}\left[S R^{*}\right] =Z\left[\frac{\left({0.642632}-{0.211245}\right) \sqrt{1555-1}}{\sqrt{1-{1.969946}\ast{0.642632}+\frac{{7.955865}-1}{4}{0.642632}^{2}}}\right]
+		\end{equation}
+		
+		\begin{equation}
+		=Z\left[\frac{16.906872}{0.672459}\right]
+		\end{equation}
+		
+		\begin{equation}
+		= {1.0}
+		\end{equation}
+		
+		
+	\end{itemize}
+	
+	
+	In this case, the benchmark $SR^*$ calculated was 0.211245, and the best $\widehat{SR}$ observed was 0.642632, leading to a $\widehat{PSR}[SR^*]$ of 1.0, thus indicating that the trials certainly contain a strategy which has a positive SR rate. This is a reasonable conclusion, considering the SR distributions in Figure \ref{figure-dsr_clusters}. \newline
 
 	\subsubsection{Framework Success}
 	
@@ -3264,17 +3353,17 @@
 	\newpage
 	\subsection{Summary of Actual and Synthetic Data Effects}\label{results_synth_summary}
 	
-		The usages of GBM generated synthetic data to perform conceptual testing without increasing the risk of backtest overfitting does has some benefits, though the stabler characteristics of the data lead to different results from actual data in many areas. The primary reason for the different behaviour links back to the complexity of financial time series with unstable dynamics. GBM data, conversely, has asset price fluctuations which follow a stable Log-normal distribution over time. This is seen clearly in the fluctuation distributions in Section \ref{results_synth}. \newline
-		
-		As a result of this stable characteristic, longer data horizon aggregations lead to better performance for synthetic data as they were more likely to smooth over noise and capture the constant long term means. This is seen in both in SAE reproduction and P\&L prediction in Section \ref{results_synth}. Section \ref{results_finance_data} also showed with Synthetic data that the Limited Normalization \eqref{eq_ltd_normalization} did impact P\&L, but within reasonable margins.\newline
+	We found that the use of GBM generated synthetic data to perform conceptual testing without increasing the risk of backtest overfitting did have some benefits, though the stabler characteristics of the data led to different results from actual data in many areas. The primary reason for the different behaviour links back to the complexity of financial time series with unstable dynamics. GBM data, conversely, has asset price fluctuations which follow a stable Log-normal distribution over time. This was seen clearly in the fluctuation distributions in Section \ref{results_synth}. \newline
 	
-		The other prominent difference in Synthetic data was in the SAE features learnt. Results for SAE networks trained on actual data displayed different classes of features being learnt according to the input horizons, which had fluctuating performances across time periods. Synthetic data however has less inherent features to learn, and so responded with a monotonic performance according to feature size, as seen in Figure \ref{figure-synthetic_median}. In assessing data aggregations and encoding sizes, synthetic data was not an effective indicator for results on actual data. \newline
+	As a result of this stable characteristic, longer data horizon aggregations lead to better performance for synthetic data as they were more likely to smooth over noise and capture the constant long term means. This was seen in both SAE reproduction and P\&L prediction in Section \ref{results_synth}. Section \ref{results_finance_data} also showed with synthetic data that the Limited Normalization \eqref{eq_ltd_normalization} did impact P\&L, but within reasonable margins.\newline
+
+	The other prominent difference in synthetic data was in the SAE features learnt. Results for SAE networks trained on actual data displayed different classes of features being learnt according to the input horizons, which had fluctuating performances across time periods. Synthetic data however has less inherent features to learn, and so responded with a monotonic performance according to feature size, as seen in Figure \ref{figure-synthetic_median}. In assessing data aggregations and encoding sizes, synthetic data was not an effective indicator for results on actual data. \newline
+
+	The results for weight initialization techniques, as discussed in Section \ref{results_init}, were slightly different from actual data, but did still follow theoretical expectations and lead to similar conclusions. In this area, synthetic data was a good indicator. Similarly, while synthetic results for Linear network activations would be misleading for actual data, the results for non-linear activations led to similar decisions (as discussed in Section \ref{results_network}).\newline
 	
-		The results for weight initialization techniques, as discussed in Section \ref{results_init}, were slightly different from actual data, but did still follow theoretical expectations and lead to similar conclusions. In this sense, synthetic data was a good indicator. Similarly, while synthetic results for Linear network activations would be misleading for actual data, the results for non-linear activations led to similar decisions (as discussed in Section \ref{results_network}).\newline
-		
-		More typical implementation aspects, such as learning rates and network sizes, also followed similar patterns to actual data when training. These parameters tend to be discovered through exploration on any given data set though, and so the added benefit of synthetic data results is marginal.\newline
-		
-		Ultimately, the inherent differences between synthetic and actual data led to more differences than similarities in the results. GBM generated data can be used to test process and framework implementations, but the behaviours seen in results should be considered very carefully before being applied to actual data (if at all).
+	More typical implementation aspects, such as learning rates and network sizes, also followed similar patterns to actual data when training. These parameters tend to be discovered through exploration on any given data set though, and so the added benefit of synthetic data results is marginal.\newline
+	
+	Ultimately, we found that the inherent differences between synthetic and actual data led to more differences than similarities in the results. GBM generated data can be used to test process and framework implementations, but the behaviours seen in results should be considered very carefully before being applied to actual data (if at all).
 	
 	
 	
@@ -3362,7 +3451,7 @@
 		\centering 
 		\textbf{SAE MSE by Learning Rate Epoch Cycles (Actual Data)}
 		\includegraphics[scale=0.3]{images/results/8_appendix/actual_mse_lr_epochs.png}
-		\caption[SAE MSE by Learning Rate Epoch Cycles (Actual Data)]{\textbf{MSE for SAE Networks} 
+		\caption[SAE MSE by Learning Rate Epoch Cycles (Actual Data)]{Dataset: Actual10 (\ref{dataset_actual10}); Configuration 13 (\ref{config13})
 			\newline This figure shows the MSE scores for SAE networks, with the shorter epoch cycle offering the best (and the worst) results. Synthetic data for the SAE MSE scores behaved similarly, as seen in Figure \ref{figure-synth_mse_lr_epochs}.}
 		\label{figure-actual_mse_lr_epochs}
 	\end{figure}%
@@ -3480,81 +3569,10 @@
 	
 	
 	\newpage
-	\subsection{Additional Calculations for Section \ref{results_dsr} - DSR and ONC}\label{results_dsr_appendix}
-	
-	
-	\subsubsection{DSR and PSR calculations}
-	
-	\begin{itemize}
-		\item [1] \textbf{Calculate the Aggregate Cluster Strategy Time Series Return:} \newline
-		Using the ONC results from Section \ref{results_onc}, as well as equations \eqref{eq_onc_weights} and \eqref{eq_onc_returns} from Section \ref{dsr_cluster_estimates}, the 2 cluster SR metrics were calculated to be $\widehat{SR}_{1}={0.395059}$ and 	$\widehat{SR}_{2}={0.483543}$. \newline
-		
-		\item [2] \textbf{Annualize the Cluster Strategy Sharpe Ratios:} \newline
-		\begin{equation}
-		\widehat{aSR}_{k}=\widehat{SR}_{k}\sqrt{{Frequency_{k}}}
-		\end{equation}
-		\begin{equation}
-		\therefore \widehat{aSR}_{1}={0.395059}\sqrt{{365.25}}={7.550167}
-		\end{equation}
-		\begin{equation}
-		\therefore \widehat{aSR}_{2}={0.483543}\sqrt{{365.25}} ={9.241242}
-		\end{equation}
 
-		\item [3] \textbf{Estimate the Variance of Strategy Sharpe Ratios:} \newline
+	
+	
 
-		Using equation \eqref{eq_onc_nc_var}, the cluster strategy Sharpe ratios can be used to estimate the SR variance. 
-		
-		\begin{equation}
-		\mathrm{E}\left[\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]\right]=\frac{\mathrm{V}\left[\left\{\widehat{aSR}_{k}\right\}\right]}{\text {Frequency}_{k^{*}}}
-		\end{equation}
-		\begin{equation}
-		=\frac{\mathrm{V}\left[\left\{{7.550167,9.241242} \right\}\right]}{\text {365.25}}
-		\end{equation}
-		\begin{equation}
-		={0.001957}
-		\end{equation}
-		
-		\item [4] \textbf{Calculate the Benchmark $\mathbf{SR^*}$:} \newline
-		
-		Using the estimated variance and equation \eqref{eq_dsr}, the benchmark $SR^*$ can then be calculated (where $Z[.]$ is the CDF of the standard Normal Distribution 
-		and $\gamma$ is the Euler-Mascheroni constant).
-		
-		\begin{equation}
-		S R^{*}=\sqrt{\mathrm{V}\left[\left\{\widehat{S R}_{k}\right\}\right]}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{K}\right]+\gamma Z^{-1}\left[1-\frac{1}{K e}\right]\right)
-		\end{equation}
-		\begin{equation}
-		=\sqrt{{0.001957}}\left((1-\gamma) Z^{-1}\left[1-\frac{1}{2}\right]+\gamma Z^{-1}\left[1-\frac{1}{2 e}\right]\right)
-		\end{equation}
-		\begin{equation}
-		=0.022995
-		\end{equation}
-		
-		\item [5] \textbf{Calculate DSR:} \newline
-		
-		Using the benchmark, the final DSR calculation can be done with equation \eqref{eq_psr} (where $T$ is the number of observed returns, $\hat{\gamma_3}$ is the skewness of $r_t$ and $\hat{\gamma_4}$ is the kurtosis of $r_t$).
-		
-		\begin{equation}
-		\widehat{SR}=0.641676
-		\end{equation}
-		
-		\begin{equation}
-		\widehat{P S R}\left[S R^{*}\right]=Z\left[\frac{\left(\widehat{S R}-S R^{*}\right) \sqrt{T-1}}{\sqrt{1-\hat{\gamma}_{3} \widehat{S R}+\frac{\hat{\gamma}_{4}-1}{4} \widehat{S R}^{2}}}\right]
-		\end{equation}
-		
-		\begin{equation}
-		\therefore \widehat{P S R}\left[S R^{*}\right] =Z\left[\frac{\left({0.641676}-{0.022995}\right) \sqrt{1555-1}}{\sqrt{1-{1.860821}\ast{0.641676}+\frac{{9.083369}-1}{4}{0.641676}^{2}}}\right]
-		\end{equation}
-		
-		\begin{equation}
-		=Z\left[\frac{24.388922}{0.798770}\right]
-		\end{equation}
-		
-		\begin{equation}
-		= {1.0}
-		\end{equation}
-		
-		
-	\end{itemize}
 	
 		
 	\subsection{Relational Database Schema Diagram}\label{appendix_database_schema}
