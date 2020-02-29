@@ -1,16 +1,53 @@
 module FinancialFunctions
 
+#workspace()
+#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
+
 using DatabaseOps
 using DataFrames
 using DataProcessor
+using DataJSETop40
 
-export GenerateCSCVReturnsCost, GenerateStockReturns, GenerateCSCVReturns, GenerateTotalProfit, GenerateTotalProfitOld, GenerateCSCVStockReturns, GenerateStrategyReturns, SharpeRatio, CalculateProfit, CalculateReturns, CalculateReturnsOneD
+export SharpeRatio, GenerateTradeReturnsCost, GenerateTradeReturns, GenerateTradeStockReturns, GenerateTradeStrategyReturns, GenerateTradeStrategyReturnsCost, GenerateStockReturns, GenerateStrategyReturns
 
 function SharpeRatio(returns, rfr)
     return (mean(returns) - rfr)/std(returns)
 end
 
-function GenerateCSCVReturnsCost(config_id, original_prices, results)
+function GenerateTradeReturnsCost(config_id, original_prices, results, in_sample)
+
+    configresults = RunQuery("select * from configuration_run where configuration_id = $config_id")
+    sae_id = get(configresults[1, :sae_config_id])
+    data_config = ReadSAE(sae_id)[2]
+    timestep = data_config.prediction_steps[1]
+
+    if original_prices == nothing
+        processed_data = PrepareData(data_config, original_prices)
+        original_prices = processed_data[2].original_prices
+    end
+
+    if (size(results, 1) == 0 || (maximum(results[:time_step])) == timestep)
+        return 0
+    end
+
+    num_predictions = (maximum(Array(results[:time_step])))
+
+    if in_sample
+        start_t = maximum(data_config.deltas) + 1
+        finish_t = start_t + num_predictions - 1
+    else
+        finish_t =  size(original_prices, 1) - timestep
+        start_t = 1 + size(original_prices, 1) - num_predictions - timestep
+    end
+
+    stockreturns = GenerateTradeStockReturns(results, start_t, finish_t, timestep, original_prices)
+
+    strategyreturns = GenerateTradeStrategyReturnsCost(stockreturns, timestep)
+
+    return strategyreturns[:, [:time_step, :total_profit_observed, :total_profit_rate]]
+end
+
+function GenerateTradeReturns(config_id, original_prices, results, in_sample)
 
     configresults = RunQuery("select * from configuration_run where configuration_id = $config_id")
     sae_id = get(configresults[1, :sae_config_id])
@@ -27,58 +64,31 @@ function GenerateCSCVReturnsCost(config_id, original_prices, results)
     end
 
     num_predictions = (maximum(results[:time_step]))
-    finish_t =  size(original_prices, 1) - timestep
-    start_t = maximum(data_config.deltas) + 1
+
+    if in_sample
+        start_t = maximum(data_config.deltas) + 1
+        finish_t = start_t + num_predictions - 1
+    else
+        finish_t =  size(original_prices, 1) - timestep
+        start_t = 1 + size(original_prices, 1) - num_predictions - timestep
+    end
+
     length = finish_t - start_t
 
-    stockreturns = GenerateCSCVStockReturns(results, start_t, finish_t, timestep, original_prices)
+    stockreturns = GenerateTradeStockReturns(results, start_t, finish_t, timestep, original_prices)
 
-    strategyreturns = GenerateCSCVStrategyReturnsCost(stockreturns, timestep)
+    strategyreturns = GenerateTradeStrategyReturns(stockreturns, timestep)
 
     return strategyreturns[:, [:time_step, :total_profit_observed, :total_profit_rate]]
 end
 
-function GenerateCSCVReturns(config_id, original_prices, results)
-
-    configresults = RunQuery("select * from configuration_run where configuration_id = $config_id")
-    sae_id = get(configresults[1, :sae_config_id])
-    data_config = ReadSAE(sae_id)[2]
-    timestep = data_config.prediction_steps[1]
-
-    if original_prices == nothing
-        processed_data = PrepareData(data_config, original_prices)
-        original_prices = processed_data[2].original_prices
-    end
-
-    if (size(results, 1) == 0 || (maximum(results[:time_step])) == timestep)
-        return 0
-    end
-
-    num_predictions = (maximum(results[:time_step]))
-    finish_t =  size(original_prices, 1) - timestep
-    start_t = maximum(data_config.deltas) + 1
-    length = finish_t - start_t
-
-    stockreturns = GenerateCSCVStockReturns(results, start_t, finish_t, timestep, original_prices)
-
-    strategyreturns = GenerateCSCVStrategyReturns(stockreturns, timestep)
-
-    return strategyreturns[:, [:time_step, :total_profit_observed, :total_profit_rate]]
-end
-
-function GenerateCSCVStockReturns(step_predictions, start_t, finish_t, timestep, original_prices)
+function GenerateTradeStockReturns(step_predictions, start_t, finish_t, timestep, original_prices)
 
     groups = by(step_predictions, [:stock], df -> [df[:,4:5]])
 
     for i in 1:size(groups,1)
 
         df = groups[i,2]
-        #names!(df,  [:observed_t2, :expected_t2])
-        #df[:time] = start_t:(finish_t-timestep)
-        #stock_name_step = get(groups[i,1])
-        #stock_name = split(stock_name_step, "_")[1]
-        #df[:observed_t] = Array(original_prices[start_t:(finish_t-timestep),parse(stock_name)])
-
         names!(df,  [:observed_t2, :expected_t2])
         df[:time] = start_t:(size(df,1) + start_t -1)
 
@@ -86,9 +96,7 @@ function GenerateCSCVStockReturns(step_predictions, start_t, finish_t, timestep,
 
         stock_name = split(stock_name_step, "_")[1]
 
-        #TODO changed this
         df[:observed_t] = Array(original_prices[(start_t):(finish_t),parse(stock_name)])
-        #Old: df[:observed_t] = Array(original_prices[(start_t-timestep):(finish_t-timestep),parse(stock_name)])
 
         df[:trade] = vcat(Int64.(Array(df[:expected_t2]) .> Array(df[:observed_t])))
         df[:trade_benchmark] = vcat(Int64.(Array(df[:observed_t2]) .> Array(df[:observed_t])))
@@ -96,7 +104,6 @@ function GenerateCSCVStockReturns(step_predictions, start_t, finish_t, timestep,
         df[:return_observed] = Array(df[:observed_t2]).*df[:trade]
         df[:return_expected] = Array(df[:expected_t2]).*df[:trade]
         df[:return_benchmark] =  Array(df[:observed_t2]).*df[:trade_benchmark]
-
 
         df[:cost] = df[:trade] .* df[:observed_t]
         df[:cost_benchmark] = df[:trade_benchmark] .* df[:observed_t]
@@ -111,9 +118,8 @@ function GenerateCSCVStockReturns(step_predictions, start_t, finish_t, timestep,
     return groups
 end
 
-function GenerateCSCVStrategyReturns(stockreturns, timestep)
+function GenerateTradeStrategyReturns(stockreturns, timestep)
 
-    #[:time_step, :total_profit_observed, :total_profit_rate]
 
     strat_df = DataFrame()
 
@@ -136,15 +142,14 @@ function GenerateCSCVStrategyReturns(stockreturns, timestep)
     #test = mapreduce(i -> sum(returns_observed[i, :]), vcat, 1:size(returns_observed, 1))
     #println(all(test .== total_returns_observed))
 
-
-    strat_df[:time_step] = collect(1:size(strat_df,1))
+    strat_df[:time_step] = stockreturns[1,2][:time]
     strat_df[:total_profit_observed] = (strat_df[:total_returns_observed] .- strat_df[:total_trade_costs])
     strat_df[:total_profit_rate] = (strat_df[:total_returns_observed] .- strat_df[:total_trade_costs]) ./ strat_df[:total_trade_costs]
 
     return strat_df
 end
 
-function GenerateCSCVStrategyReturnsCost(stockreturns, timestep)
+function GenerateTradeStrategyReturnsCost(stockreturns, timestep)
 
     #[:time_step, :total_profit_observed, :total_profit_rate]
 
@@ -169,8 +174,7 @@ function GenerateCSCVStrategyReturnsCost(stockreturns, timestep)
     #test = mapreduce(i -> sum(returns_observed[i, :]), vcat, 1:size(returns_observed, 1))
     #println(all(test .== total_returns_observed))
 
-
-    strat_df[:time_step] = collect(1:size(strat_df,1))
+    strat_df[:time_step] = stockreturns[1,2][:time]
     strat_df[:total_profit_observed] = (strat_df[:total_returns_observed] .- strat_df[:total_trade_costs])
     strat_df[:total_profit_rate] = (strat_df[:total_returns_observed] .- strat_df[:total_trade_costs]) ./ strat_df[:total_trade_costs]
 
@@ -256,7 +260,7 @@ function GenerateStrategyReturns(stockreturns, timestep)
     strat_df[:cumulative_expected_rate_fullcost] = cumsum(strat_df[:total_returns_expected]) ./ cumsum(strat_df[:total_full_costs])
     strat_df[:cumulative_benchmark_rate_fullcost] = cumsum(strat_df[:total_returns_benchmark]) ./ cumsum(strat_df[:total_full_costs_benchmark])
 
-    strat_df[:time_step] = collect(1:size(strat_df,1))
+    strat_df[:time_step] = stockreturns[1,2][:time]
 
     strat_df[:total_profit_observed] = (strat_df[:total_returns_observed] .- strat_df[:total_trade_costs])
     strat_df[:total_profit_observed_fullcosts] = (strat_df[:total_returns_observed] .- strat_df[:total_full_costs])

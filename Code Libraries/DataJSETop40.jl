@@ -18,16 +18,12 @@ function ReadJSETop40Data()
     end
 
     dat = CSV.read("data/JSE_top40_2003_2018.csv")
+
     cols = names(dat)
     newdf = DataFrame()
-    #newdf[cols[1]] = Array(dat[cols[1]])
-
-    #midpoint = Int64.(floor(size(dat, 1)/2))
-    #shuffled_df = vcat(dat[1:midpoint, :], dat[midpoint:end, :])
 
     for i in 2:length(cols)
         newdf[cols[i]] = cumprod(MapNulls(dat[cols[i]]))
-        #newdf[cols[i]] = cumprod(MapNulls(shuffled_df[cols[i]]))
     end
 
     return (newdf)

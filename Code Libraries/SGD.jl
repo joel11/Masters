@@ -99,12 +99,7 @@ function RunSGD(config_id, category, original_dataset::DataSet, network::NeuralN
 end
 
 function GetBestNetwork(epoch_records)
-    #println(epoch_records)
-    #println(size(epoch_records))
-    #println(map(x -> x.test_cost, epoch_records))
-    #println(findmin(map(x -> x.test_cost, epoch_records)))
     minindex = findmin(map(x -> x.test_cost, epoch_records))[2]
-    #println(string(minindex, " ", epoch_records[minindex].test_cost))
     return epoch_records[minindex].network
 end
 

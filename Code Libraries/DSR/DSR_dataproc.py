@@ -21,8 +21,8 @@ def load_obj(name ):
 def getReturnsDF(data):
     
     configs = pd.unique(data['configuration_id'])
-    time_start = min(pd.unique(data['time_step']))
-    time_end = max(pd.unique(data['time_step']))
+##    time_start = min(pd.unique(data['time_step']))
+##    time_end = max(pd.unique(data['time_step']))
     
     df = pd.DataFrame()
     
@@ -30,9 +30,9 @@ def getReturnsDF(data):
     for c in configs:
         print(c)
         vals = list(data['total_profit_rate_observed'][data['configuration_id'] == c])
-        zeropad = time_end - time_start - len(vals) + 1
-        zerovals = list(np.zeros(zeropad))
-        df[i] = vals + zerovals
+#        zeropad = time_end - time_start - len(vals) + 1
+ #       zerovals = list(np.zeros(zeropad))
+        df[i] = vals #+ zerovals
         i = i + 1
     
     df = df.fillna(0) # with 0s rather than NaNs

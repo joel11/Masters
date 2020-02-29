@@ -1,5 +1,3 @@
-workspace()
-
 using DataFrames
 using NeuralNetworks
 using ActivationFunctions, InitializationFunctions, NetworkTrainer

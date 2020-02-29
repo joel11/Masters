@@ -1,8 +1,5 @@
 module ExperimentProcess
 
-#workspace()
-#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
-
 using NeuralNetworks
 using ActivationFunctions, InitializationFunctions, NetworkTrainer
 using TrainingStructures

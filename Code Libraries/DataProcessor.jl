@@ -105,29 +105,6 @@ function ReconstructPrices(output_values, data_config, original_prices)
     prices
 end
 
-#=
-function ReconstructPricesOld(output_values, data_config, original_prices)
-
-    output_ahead = data_config.prediction_steps[1]
-    price_index = (size(original_prices,1) - size(output_values,1) - output_ahead)
-
-    prices = Array{Float64}(original_prices[price_index:price_index+output_ahead,:])
-    init_price_length = size(prices, 1)
-    prices = vcat(prices, fill(0.0, (size(output_values))))
-
-    multipliers = (e).^Array(output_values)
-
-    for i in 1:size(output_values,1)
-        for c in 1:size(prices, 2)
-            #prices[(i+init_price_length),c] = prices[(i),c] * multipliers[i,c]
-            prices[(i+init_price_length),c] = original_prices[(price_index + i),c] * multipliers[i,c]
-        end
-    end
-
-    prices
-end
-=#
-
 function LimitedStandardizeData(data, parameters)
 
     limit_point = Int64(floor(size(data,1) * parameters.process_splits[1]))
@@ -243,23 +220,7 @@ function GenerateNonRandomisedDataset(input_data, output_data, parameters::Train
                     output_data[testing_indices,:],
                     nothing, nothing, nothing, nothing)
 end
-#=
-function GenerateRandomisedDataset(input_data, output_data, parameters::TrainingParameters)
 
-    order = randperm(size(input_data, 1))
-
-    split_point = Int64(floor(length(order) * parameters.training_splits[1]))
-    training_indices = order[1:split_point]
-    testing_indices = order[(split_point + 1): end]
-
-    return DataSet(nothing,
-                    input_data[training_indices,:],
-                    input_data[testing_indices,:],
-                    output_data[training_indices,:],
-                    output_data[testing_indices,:],
-                    nothing, nothing, nothing, nothing)
-end
-=#
 function GenerateLogFluctuations(series, delta, start)
     function LogDiff(x1, x2)
         return log(e, x2) - log(e, x1)

@@ -7,12 +7,12 @@ Created on Thu Oct 17 15:18:40 2019
 """
 
 import os
+#os.chdir('/Users/joeldacosta/Masters/Code Libraries/DSR')
 import math
 import mpmath
 from scipy.stats import norm
 from scipy.stats import skew 
 from scipy.stats import kurtosis
-os.chdir('/Users/joeldacosta/Masters/Code Libraries/DSR')
 import DSR_PradoLewis as dsr_pl
 import DSR_dataproc as dsr_dataproc
 import numpy as np,pandas as pd 
@@ -131,15 +131,8 @@ def CalculateDSR(returns, clstrsNew):
     return DSR
 
 
-#returns_File = str(r'/users/joeldacosta/desktop/all_return_rates_cost.csv')
-#corrFile = str(r'/users/joeldacosta/desktop/all_return_rates_cost_correlation_matrix_rates.csv')
-#corrFile = str(r'/users/joeldacosta/desktop/actual_full_return_rates_cost_correlation_matrix_rates.csv')
-
-
-
-
 ##Cluster Run and Save
-returns_File = str(r'/users/joeldacosta/desktop/actual_full_return_rates_cost.csv')
+returns_File = str(r'/users/joeldacosta/desktop/dsr_returns.csv')
 returns_data = pd.read_csv(returns_File) 
 df_returns = dsr_dataproc.getReturnsDF(returns_data)
 df_corrMatrix = dsr_dataproc.getCoefficientMatrix(df_returns)#, corrFile)
@@ -148,11 +141,12 @@ dsr_value = CalculateDSR(df_returns, clstrsNew)
 
 
 
-sql_scripts = dsr_dataproc.generateSQLInsert(returns, clstrsNew)
+sql_scripts = dsr_dataproc.generateSQLInsert(returns_data, clstrsNew)
 
 
 len(clstrsNew[0])
 len(clstrsNew[1])
+len(clstrsNew[2])
 
 
 

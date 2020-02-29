@@ -8,7 +8,6 @@ using TrainingStructures
 using SGD, CostFunctions, FunctionsStopping, FFN, OGD
 using DataGenerator, DataProcessor
 using DataFrames
-#using CSCV
 using FinancialFunctions
 using DatabaseOps
 using ConfigGenerator

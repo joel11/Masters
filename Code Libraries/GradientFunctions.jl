@@ -106,9 +106,5 @@ function CalculateNewWeights(current_weights, weight_update, parameters, N::Int6
                                 )
 end
 
-function CalculateMomentum(momentum, parameters, weight_updates)
-    #for l in 1:length(momentum)
-        #momentum = momentum * parameters.momentum_rate
-end
 
 end

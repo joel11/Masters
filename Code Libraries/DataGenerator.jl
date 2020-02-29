@@ -31,7 +31,7 @@ function GenerateDataset(seed, steps, variation_pairs)
     return df
 end
 
-function PlotPrices()
+function PlotSyntheticPrices(file_path)
 
     #using Plots
     #plotlyjs()
@@ -44,7 +44,7 @@ function PlotPrices()
     ds = GenerateDataset(s, 5500, var_pairs)
 
     price_plot = plot(Array(ds))
-    savefig(price_plot, "/users/joeldacosta/desktop/PriceGraphs.html")
+    savefig(price_plot, file_path)
 
 end
 

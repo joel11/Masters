@@ -28,6 +28,8 @@ def clusterKMeansBase(corr0,maxNumClusters=10,n_init=10):
         print("init: " + str(init))
         
         for i in range(2,maxNumClusters+1): # find optimal num clusters 
+
+            print("i: " + str(i))
             kmeans_=KMeans(n_clusters=i,n_jobs=1,n_init=1) 
             kmeans_=kmeans_.fit(dist) 
             silh_=silhouette_samples(dist,kmeans_.labels_) 

@@ -20,7 +20,7 @@ using ColorBrewer
 using PlotlyJS
 using Combinatorics
 
-export ClusterOGDMSEPlot, ClusterDistributionPlot, PlotPBOBySplits, PlotCombinationSizes, PlotConfusion, SharpeRatiosPDF, MSE_Reg_EncodingLines, OOS_PL_OGDLR_Delta_Encoding, IS_PL_Encoding, OOS_PL_OGDLR_Deltas, PL_Scaling, PL_Heatmap_NetworkSize_DataAggregation, PL_SAE_Encoding_SizeLines, PL_Activations, PL_ScalingOutputActivation, MSE_OutputActivation_Scaling_Filters, MSE_Min_EncodingSize_Activation, MSE_Encoding_Activation, MSE_Output_Activation, MSE_Hidden_Activation, MSE_Scaling_Filters, PL_Heatmap_LearningRate_MaxEpochs, MSE_EpochCycle, MSE_LearningRate_MaxMin, MSE_LayerSizesLines, PL_NetworkSizeLines, MSE_LayerSizes3, PL_LearningRates_MaxMin, GenerateDeltaDistribution, BestStrategyVsBenchmark, AllProfitsPDF, ReadProfits, OGD_Heatmap_LayerSizes_Epochs, PL_EpochCycle, AllProfitsPDF, TransformConfigIDs, ConfigStrategyOutput, PL_MaxEpochs, PL_Denoising, ReadProfits, UpdateTotalProfits, MSE_Pretraining, OGD_ScalingOutputActivation_Profits_Bx, MSE_Activation_Scaling_Filters, FFN_LR_Sched_BxProfit, PL_SAE_Encoding_Size, PL_L1Reg, PL_NetworkSize, PL_Init, MSE_LayerSizes, SAE_EncodingSizes_MinMSE, MSE_Deltas, MSE_Init, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, PL_DataDeltas, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,MSE_Lambda1, MSE_Denoising, PL_ValidationSplit, MSE_MaxLearningRate_Activation, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, PL_OGD_LearningRate, PL_LayerActivation_OutputActivation, OGD_SAE_Selection_Profits_bx, PL_Activations_NetworkSize, SAE_ActivationsNetworkSizes_MinMSE, MSE_ActivationsEncodingSizes
+export OGD_MSE_vs_PL, ClusterOGDMSEPlot, ClusterDistributionPlot, PlotPBOBySplits, PlotCombinationSizes, PlotConfusion, SharpeRatiosPDF, MSE_Reg_EncodingLines, OOS_PL_OGDLR_Delta_Encoding, IS_PL_Encoding, OOS_PL_OGDLR_Deltas, PL_Scaling, PL_Heatmap_NetworkSize_DataAggregation, PL_SAE_Encoding_SizeLines, PL_Activations, PL_ScalingOutputActivation, MSE_OutputActivation_Scaling_Filters, MSE_Min_EncodingSize_Activation, MSE_Encoding_Activation, MSE_Output_Activation, MSE_Hidden_Activation, MSE_Scaling_Filters, PL_Heatmap_LearningRate_MaxEpochs, MSE_EpochCycle, MSE_LearningRate_MaxMin, MSE_LayerSizesLines, PL_NetworkSizeLines, MSE_LayerSizes3, PL_LearningRates_MaxMin, GenerateDeltaDistribution, BestStrategyVsBenchmark, AllProfitsPDF, ReadProfits, OGD_Heatmap_LayerSizes_Epochs, PL_EpochCycle, AllProfitsPDF, TransformConfigIDs, ConfigStrategyOutput, PL_MaxEpochs, PL_Denoising, ReadProfits, UpdateTotalProfits, MSE_Pretraining, OGD_ScalingOutputActivation_Profits_Bx, MSE_Activation_Scaling_Filters, FFN_LR_Sched_BxProfit, PL_SAE_Encoding_Size, PL_L1Reg, PL_NetworkSize, PL_Init, MSE_LayerSizes, SAE_EncodingSizes_MinMSE, MSE_Deltas, MSE_Init, SAE_LREpochs_MinTest_BxMSE, RecreateStockPricesSingle, BestStrategyGraphs, PL_DataDeltas, SAEProfitBoxPlot, OGD_DataVariances_Profits_Bx, OGD_NetworkVariances_Profits_Bx,MSE_Lambda1, MSE_Denoising, PL_ValidationSplit, MSE_MaxLearningRate_Activation, FFN_LR_BxProfit, OGD_LR_AvgTrain_BxMSE, PL_OGD_LearningRate, PL_LayerActivation_OutputActivation, OGD_SAE_Selection_Profits_bx, PL_Activations_NetworkSize, SAE_ActivationsNetworkSizes_MinMSE, MSE_ActivationsEncodingSizes
 
 function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
@@ -1985,36 +1985,53 @@ end
 function PlotConfusion()
 
     confusion_results = RunQuery("select * from config_confusion")
-    x0 = Array(confusion_results[:,:all_trades_percentage])
-    trace = histogram(;x=x0, name="Experiment Configurations", marker=Dict(:color => "mediumseagreen"))
+    #x0 = Array(confusion_results[:,:all_trades_percentage])
+    #trace = histogram(;x=x0, name="Experiment Configurations", marker=Dict(:color => "mediumseagreen"))
+
+    confusion_results[:grouping] = round.(Array(confusion_results[:all_trades_percentage]),2)
+    one_groups = by(confusion_results, [:grouping], df -> size(df, 1))
+    one_groups[:x1] = one_groups[:x1]./size(confusion_results, 1).*100
+    opacity_value = 0.8
+    br_max = maximum(one_groups[:x1]) + 0.1
+    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Strategy P\&L [n=", size(confusion_results,1),"]"),
+                        opacity=opacity_value,
+                        marker=Dict(:color => "forestgreen"),
+                        xbins=Dict(:size=>0.001))
+
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> Number of Combinations </br> </b>"))
+        , yaxis = Dict(:title => string("<b> Percentage of Configuration </br> </b>"))
         , xaxis = Dict(:title => string("<b> Percentage of Correct Trades </b>"))
         , font = Dict(:size => 18))
 
-    data = [trace]
+    data = [trace_one]
     savefig(plot(data, l), string("/users/joeldacosta/desktop/Confusion Distribution.html"))
 end
 
 function SharpeRatiosPDF()
 
-    sr_vals = RunQuery("Select configuration_id, ifnull(sharpe_ratio, 0.0) sharpe_ratio from config_oos_sharpe_ratio_cost")
+    sr_data = RunQuery("Select configuration_id, ifnull(sharpe_ratio, 0.0) sharpe_ratio from config_oos_sharpe_ratio_cost")
 
-    x0 = Array(sr_vals[:,:sharpe_ratio])
-    trace = histogram(;x=x0, name="Experiment Configurations", marker=Dict(:color => "indianred"))
+    sr_data[:grouping] = round.(Array(sr_data[:sharpe_ratio]),2)
+    one_groups = by(sr_data, [:grouping], df -> size(df, 1))
+    one_groups[:x1] = one_groups[:x1]./size(sr_data, 1).*100
+    opacity_value = 0.8
+    br_max = maximum(one_groups[:x1]) + 0.1
+    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Strategy P\&L [n=", size(sr_vals,1),"]"),
+                        opacity=opacity_value,
+                        marker=Dict(:color => "indianred"),
+                        xbins=Dict(:size=>0.001))
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> Number of Combinations </br> </b>"))
+        , yaxis = Dict(:title => string("<b> Percentage of Configurations </br> </b>"))
         , xaxis = Dict(:title => string("<b> Sharpe Ratio </b>"))
         , font = Dict(:size => 18))
 
-    data = [trace]
+    data = [trace_one]
     savefig(plot(data, l), string("/users/joeldacosta/desktop/Sharpe Ratios.html"))
 end
 
 function AllProfitsPDF(original_prices, cost = false, benchmark_yval = 1500)
-
 
     profits = cost ? TotalProfitsCost : GetProfits()
 
@@ -2043,19 +2060,27 @@ function AllProfitsPDF(original_prices, cost = false, benchmark_yval = 1500)
     var_name = cost ? parse("cumulative_profit_observed_benchmark_fullcosts") : parse("cumulative_profit_observed_benchmark")
     benchmark_profit = strategyreturns[end,var_name]
 
+
+    profits[:grouping] = round.(Array(profits[:profit]./10), 0)*10
+    one_groups = by(profits, [:grouping], df -> size(df, 1))
+    one_groups[:x1] = one_groups[:x1]./size(profits, 1).*100
+    opacity_value = 0.8
+    br_max = maximum(one_groups[:x1]) + 0.1
+    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Strategy P\&L [n=", size(profits,1),"]"), opacity=opacity_value, xbins=Dict(:size=>0.001))
+
+
     x0 = Array(profits[:,:profit])
-    trace = histogram(;x=x0, name="Experiment Configurations")
 
     xvals = [benchmark_profit,benchmark_profit]
-    yvals = [0, benchmark_yval]
+    yvals = [0, br_max]
     bm  = scatter(;x=xvals,y=yvals, name="Benchmark", marker = Dict(:color=>"orange"))
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> Number of Combinations </br> </b>"))
+        , yaxis = Dict(:title => string("<b> Percentage of Configurations</br> </b>"))
         , xaxis = Dict(:title => string("<b> P&L Observed </b>"))
         , font = Dict(:size => 18))
 
-    data = [trace, bm]
+    data = [trace_one, bm]
     savefig(plot(data, l), string("/users/joeldacosta/desktop/Profits PDF", string(cost), ".html"))
 end
 
@@ -2216,6 +2241,35 @@ function OGD_MSE_vs_PL()
     savefig(plot(fig), string("/users/joeldacosta/desktop/OGD MSE vs PL.html"))
 end
 
+function PrintClusterAnalysis()
+
+    clusterOneResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p
+                                inner join clusters_fin c on p.configuration_id = c.configuration_id and c.cluster = 0
+                                where sharpe_ratio is not null")
+    clusterTwoResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p
+                                inner join clusters_fin c on p.configuration_id = c.configuration_id and c.cluster = 1
+                                where sharpe_ratio is not null")
+
+    println(string("Cluster One Skewness: ", string(skewness(Array(clusterOneResults[:sharpe_ratio])))))
+    println(string("Cluster Two Skewness: ", string(skewness(Array(clusterTwoResults[:sharpe_ratio])))))
+
+    println(string("Cluster One Kurtosis: ", string(kurtosis(Array(clusterOneResults[:sharpe_ratio])))))
+    println(string("Cluster Two Kurtosis: ", string(kurtosis(Array(clusterTwoResults[:sharpe_ratio])))))
+
+    println(string("Cluster One Mean: ", string(mean(Array(clusterOneResults[:sharpe_ratio])))))
+    println(string("Cluster Two Mean: ", string(mean(Array(clusterTwoResults[:sharpe_ratio])))))
+
+    println(string("Cluster One Variance: ", string(var(Array(clusterOneResults[:sharpe_ratio])))))
+    println(string("Cluster Two Variance: ", string(var(Array(clusterTwoResults[:sharpe_ratio])))))
+
+    println(string("Cluster One Std Dev: ", string(std(Array(clusterOneResults[:sharpe_ratio])))))
+    println(string("Cluster Two Std Dev: ", string(std(Array(clusterTwoResults[:sharpe_ratio])))))
+
+    println(string("Cluster One Samples: ", string(size(Array(clusterOneResults[:sharpe_ratio])))))
+    println(string("Cluster Two Samples: ", string(size(Array(clusterTwoResults[:sharpe_ratio])))))
+    
+end
+
 function OGD_MSE_vs_Confusion()
 
     ogd_conf_data = RunQuery("select er.training_cost, cc.all_trades_percentage
@@ -2280,12 +2334,18 @@ end
 
 function PlotPBOBySplits()
 
+    #2 : 0.5
+    #4 : 0.16666666666666666
+    #8 : 0.07142857142857142
+    #12 : 0.024891774891774902
+    #16 : 0.017171717171717137
+
     xvals = (2, 4, 8, 12, 16)
     yvals = (50,
             16.666666666666666,
             07.142857142857142,
-            02.380952380952382,
-            01.6083916083916027)
+            02.4891774891774902,
+            01.7171717171717137)
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
         , yaxis = Dict(:title => string("<b> PBO % </br> </b>"))
@@ -2347,6 +2407,48 @@ end
 
 function ClusterDistributionPlot()
 
+    clusterOneResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1 where sharpe_ratio is not null")
+    clusterTwoResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0 where sharpe_ratio is not null")
+    clusterThreeResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 2 where sharpe_ratio is not null")
+    highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio_cost")[1,1])
+
+    clusterOneResults[:grouping] = round.(Array(clusterOneResults[:sharpe_ratio]), 2)
+    clusterTwoResults[:grouping] = round.(Array(clusterTwoResults[:sharpe_ratio]), 2)
+    clusterThreeResults[:grouping] = round.(Array(clusterThreeResults[:sharpe_ratio]), 2)
+
+    one_groups = by(clusterOneResults, [:grouping], df -> size(df, 1))
+    two_groups = by(clusterTwoResults, [:grouping], df -> size(df, 1))
+    three_groups = by(clusterThreeResults, [:grouping], df -> size(df, 1))
+
+    one_groups[:x1] = one_groups[:x1]./22248.*100#  size(clusterOneResults, 1).*100
+    two_groups[:x1] = two_groups[:x1]./22248.*100#size(clusterTwoResults, 1).*100
+    three_groups[:x1] = three_groups[:x1]./22248.*100#size(clusterThreeResults, 1).*100
+
+    opacity_value = 0.8
+
+    br_max = max(maximum(one_groups[:x1]),
+                maximum(two_groups[:x1]),
+                maximum(three_groups[:x1])) + 0.1
+
+    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Cluster One [n=", size(clusterOneResults,1),"]"), opacity=opacity_value, xbins=Dict(:size=>0.001))
+    trace_two = bar(;y=two_groups[:x1], x=two_groups[:grouping], name=string("Cluster Two [n=", size(clusterTwoResults,1),"]"), opacity=opacity_value, xbins=Dict(:size=>0.001))
+    trace_three = bar(;y=three_groups[:x1], x=three_groups[:grouping], name=string("Cluster Three [n=", size(clusterThreeResults,1),"]"), opacity=opacity_value, xbins=Dict(:size=>0.001))
+    bm  = scatter(;x=[highestSR, highestSR],y=[0, br_max], name="Highest SR", marker = Dict(:color=>"green"))
+
+    data = [trace_one, trace_two, trace_three, bm]
+
+    l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
+        , yaxis = Dict(:title => string("<b> Percentage of Trials </br> </b>"))
+        , xaxis = Dict(:title => string("<b> Sharpe Ratio </b>"))
+        , barmode="overlay"
+        , font = Dict(:size => default_fontsize))
+
+    fig = Plot(data, l)
+    savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster Distributions 1.html"))
+end
+
+function ClusterDistribution2()
+
     clusterOneResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0 where sharpe_ratio is not null")
     clusterTwoResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1 where sharpe_ratio is not null")
     highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio_cost")[1,1])
@@ -2378,20 +2480,10 @@ function ClusterDistributionPlot()
         , font = Dict(:size => default_fontsize))
 
     fig = Plot(data, l)
-    savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster Distributions.html"))
+    savefig(plot(fig), string("/users/joeldacosta/desktop/Cluster Distributions 2.html"))
 end
 
 ##General Plots#################################################################
-
-function UpdateProfits()
-    RunQuery("delete from config_oos_pl")
-
-    RunQuery("insert into config_oos_pl (configuration_id, total_pl)
-            select configuration_id, sum(total_profit_observed)
-            from cscv_returns
-            where time_step > 2333
-            group by configuration_id")
-end
 
 function ReadOOSProfits()
 

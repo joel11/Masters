@@ -5,25 +5,6 @@ using ExperimentGraphs
 using DatabaseOps
 using DataJSETop40
 
-#Iteration 1 <= 3703
-#Iteration 2
-
-function SelectConfigIDs(setnames, testDatabase = false)
-
-    category_idSet = testDatabase ? category_ids_test : category_ids
-
-    ids = []
-    for set in setnames
-        minid = get(category_idSet[Array(category_idSet[:esn]) .== set, :minid][1])
-        maxid = get(category_idSet[Array(category_idSet[:esn]) .== set, :maxid][1])
-        for i in minid:maxid
-            push!(ids, i)
-        end
-    end
-
-    return ids
-end
-
 category_query_test = "select min(configuration_id) minid,
        max(configuration_id) maxid,
        count(distinct configuration_id) total_configs,
@@ -151,108 +132,20 @@ category_query = "select min(configuration_id) minid,
 category_ids_test = RunQuery(category_query_test, true)
 category_ids = RunQuery(category_query)
 
+function SelectConfigIDs(setnames, testDatabase = false)
 
-function Results_Linearity_1()
-    setnames = ["Linear Tests 1"]
-    config_ids = SelectConfigIDs(setnames, true)
+    category_idSet = testDatabase ? category_ids_test : category_ids
 
-    MSE_Encoding_Activation(config_ids, false, 1000, false, nothing, "Scaling ", "ActualMSE", true)
-    MSE_Hidden_Activation(config_ids, false, 1000, true, nothing, "Scaling ", "ActualMSE", true)
-
-    setnames = ["Iteration2_1 Tests FFN", "Iteration2_1 Linear Tests FFN"]#, "Iteration2_1 MAPE Tests FFN"]
-    config_ids = SelectConfigIDs(setnames, true)
-    PrintConfigTable(setnames, true)
-    PL_ScalingOutputActivation(config_ids, "Linear ", "SyntheticPL", true)
-
-    setnames = ["Iteration3_2 SAE LeakyRelu vs Relu"]
-    config_ids = SelectConfigIDs(setnames, true)
-    PrintConfig(setnames, true)
-    MSE_Hidden_Activation(config_ids, false, 1000, false, nothing, "Leaky Relu v Relu ", "SyntheticMSE", true)
-end
-
-
-function ResultsNew_1_PLDeterminants()
-
-    ffn_setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests"]
-    ffn_config_ids = SelectConfigIDs(ffn_setnames) #config13
-    PL_DataDeltas(ffn_config_ids, "OOS Actual", "ActualPL", false, false)
-    PL_DataDeltas(ffn_config_ids, "IS Actual", "ActualPL", false, true)
-end
-
-
-function Results_4_NetworkStructureTraining()
-
-    ffn_setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests", "Iteration2 FFN Large Actual10 Tests"]
-    ffn_config_ids = SelectConfigIDs(ffn_setnames) #config13
-    PrintConfig(ffn_setnames, false)
-
-    synth_ffn_setnames_test = ["Iteration4_2 FFN Tests"] #config9
-    synth_ffn_ids = SelectConfigIDs(synth_ffn_setnames_test, true)
-
-    ##Network Sizes#############################################################
-    #PL_NetworkSizeLines(synth_ffn_ids, "Synth ", "SyntheticPL", true)
-    #Descending size choices make the lines hard to visualize
-
-    #Learning Rates & Schedules#################################################
-    PL_LearningRates_MaxMin(ffn_config_ids, "IS Actual", "ActualPL", false, true) #config13
-    PL_EpochCycle(synth_ffn_ids, "Synth", "SyntheticPL", true)
-
-    #Regularization#############################################################
-    MSE_Lambda1(synth_sae_ids, "Synth", "SyntheticMSE", true)
-end
-
-function Results_5_DataAggregation()
-    ##PL#######################################################################
-    #PL_Heatmap_NetworkSize_DataAggregation(ffn_config_ids, "Actual", false)
-    ##Max Epochs & Validation##################################################
-    # PL_LearningRates_MaxMin(large_ffn_config_ids)
-    # PL_EpochCycle(large_ffn_config_ids)
-    # PL_MaxEpochs(large_ffn_config_ids)
-    # PL_Heatmap_LearningRate_MaxEpochs(large_ffn_config_ids)
-end
-
-function Results_7_FinancialResults()
-    #BestStrategyVsBenchmark(dataset)
-end
-
-function PrintConfig(setnames, testDatabase)
-
-    config_ids = SelectConfigIDs(setnames, testDatabase)
-    ids = TransformConfigIDs(config_ids)
-
-    l2lambda_clause = testDatabase ? "" : "ifnull(tp.l2_lambda,0),"
-
-    query = "select  tp.category, sae_config_id,
-            steps, deltas, process_splits, training_splits, prediction_steps, scaling_function,
-            ('(' || layer_sizes || ')') layer_sizes ,
-            ('(' || layer_activations || ')') layer_activations, initialization, encoding_activation, output_activation,
-            tp.learning_rate, tp.minibatch_size, tp.max_epochs, tp.l1_lambda, $l2lambda_clause tp.min_learning_rate, tp.epoch_cycle_max, tp.is_denoising, tp.denoising_variance,
-            ifnull(tp2.learning_rate, 0.0) ogd_learning_rate
-            from configuration_run cr
-            inner join dataset_config dc on dc.configuration_id = cr.configuration_id
-            inner join network_parameters np on np.configuration_id = cr.configuration_id
-            inner join training_parameters tp on tp.configuration_id = cr.configuration_id and tp.category in ('FFN', 'SAE')
-            left join training_parameters tp2 on tp2.configuration_id = cr.configuration_id and tp2.category = 'FFN-OGD'
-            where cr.configuration_id in ($ids)"
-
-    configs = RunQuery(query, testDatabase)
-
-
-
-    config_string = "\\begin{itemize} \n"
-
-    for n in names(configs)
-
-        if string(typeof(unique(configs[:, n])[1])) != "Nullable{Any}"
-            vals = mapreduce(v -> string(v, ";"), string, unique(Array(configs[:,n])))[1:(end-1)]
-            config_string = string(config_string, "\t\\item ", replace(string(n), "_", "\\_"), ": ", ProcessLayerActivations(n, vals), '\n')
+    ids = []
+    for set in setnames
+        minid = get(category_idSet[Array(category_idSet[:esn]) .== set, :minid][1])
+        maxid = get(category_idSet[Array(category_idSet[:esn]) .== set, :maxid][1])
+        for i in minid:maxid
+            push!(ids, i)
         end
     end
 
-    config_string = string(config_string, "\\end{itemize}", '\n')
-
-    config_string = string(config_string, '\n', "Samples: ", size(configs,1), '\n')
-    println(config_string)
+    return ids
 end
 
 function PrintConfigTable(setnames, testDatabase)
@@ -314,23 +207,9 @@ function ProcessLayerActivations(val_name, vals)
     return vals
 end
 
-function LargerNetworks()
-    setnames = ["Iteration2 FFN Large Actual10 Tests"]#, "Iteration3 FFN Large Actual10 Tests"]
-    config_ids = SelectConfigIDs(setnames, false)
-    PrintConfigTable(setnames, false)
-
-    PL_MaxEpochs(config_ids, "Actual ", "ActualPL", false)
-    PL_EpochCycle(config_ids, "Actual", "ActualPL", false)
-    PL_LearningRates_MaxMin(config_ids, "Actual", "ActualPL", false) #config13
-    PL_NetworkSize(config_ids, "Actual ", "ActualPL", false) #config13
+function Results_8_1_Intro()
+    OGD_MSE_vs_PL()
 end
-
-
-
-
-
-
-
 
 function Results_8_2_PrimaryDeterminants()
 
@@ -498,7 +377,7 @@ function Results_8_7_Network()
     sae_config_ids = SelectConfigIDs(sae_setnames) #config12
     ffn_setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests", "Iteration2 FFN Large Actual10 Tests"]
     ffn_config_ids = SelectConfigIDs(ffn_setnames) #config13
-    PrintConfig(ffn_setnames, false)
+    PrintConfigTable(ffn_setnames, false)
 
     MSE_LayerSizesLines(sae_config_ids, "Actual ", "ActualMSE", false) #config12
     PL_NetworkSizeLines(ffn_config_ids, "Actual ", "ActualPL", false) #config13
@@ -539,6 +418,9 @@ function Results_8_9_PBO()
     PlotCombinationSizes()
 
     PlotPBOBySplits()
+
+    #ExperimentCSCVProcess(28880:53000, splits)
+    #ExperimentCSCVProcess(50393:53000, splits)
 end
 
 function Result_8_10_DSR()
@@ -564,6 +446,9 @@ function Appendix()
     synth_sae_setnames = ["Iteration4_1 SAE Tests"] #config 7
     synth_sae_ids = SelectConfigIDs(synth_sae_setnames, true)
     MSE_EpochCycle(synth_sae_ids, "Synth", "SyntheticMSE",true)
+
+    ffn_setnames = ["Iteration FFN Actual10 Tests", "Iteration No SAE FFN Actual10 Tests"]
+    ffn_config_ids = SelectConfigIDs(ffn_setnames) #config13
 
     synth_ffn_setnames_test = ["Iteration4_2 FFN Tests"] #config9
     synth_ffn_ids = SelectConfigIDs(synth_ffn_setnames_test, true)
@@ -592,3 +477,15 @@ function Appendix()
     PrintConfigTable(setnames, true)
     PL_Activations(config_ids, "Leaky Relu v Relu ", "SyntheticPL", true)
 end
+
+#Results_8_1_Intro()
+#Results_8_2_PrimaryDeterminants()
+#Results_8_3_HistoricalData()
+#Results_8_4_WeightInit()
+#Results_8_5_SyntheticData()
+#Results_8_6_Complexity()
+#Results_8_7_Network()
+#Results_8_8_MMS()
+#Results_8_9_PBO()
+#Result_8_10_DSR()
+#Appendix()

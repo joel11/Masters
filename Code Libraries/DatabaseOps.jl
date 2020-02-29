@@ -3,42 +3,32 @@ module DatabaseOps
 using SQLite
 using TrainingStructures
 using BSON
-#using HDF5
-#using JLD
-export CreateSRRecordsCost, CreateConfusionRecords, CreateSRRecords, CreateCSCVCostRecords, WriteFFN, CreateBacktestRecords, CreateCSCVRecords, CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
+using DataProcessor
+export CreateOOSTradeCostRecords,CreateOOSTradeRecords, CreateISTradeCostRecords, CreateISTradeRecords, CreateSRRecordsCost, CreateConfusionRecords, CreateSRRecords, CreateMMSTradeCostRecords, WriteFFN, CreateBacktestRecords, CreateMMSTradeRecords, CreateMapeRecord, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
-db = SQLite.DB("/Users/joeldacosta/Masters/Code Libraries/database_actual.db")
-db_test  = SQLite.DB("/Users/joeldacosta/Masters/Code Libraries/database_test.db")
+db = SQLite.DB("database_actual.db")
+db_test  = SQLite.DB("database_test.db")
 
 function WriteSAE(config_id, experiment_config, net)
-    file_name = string("/Users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson")
+    file_name = string("./SAERepo/SAE_", config_id, ".bson")
     values = Dict(:config_id => config_id, :data_configuration => experiment_config.data_config, :sae => net)
     bson(file_name, values)
 end
 
 function WriteFFN(config_id, experiment_config, net)
-    file_name = string("/Users/joeldacosta/Masters/Code Libraries/FFNRepo/FFN_", config_id, ".bson")
+    file_name = string("./FFNRepo/FFN_", config_id, ".bson")
     values = Dict(:config_id => config_id, :data_configuration => experiment_config.data_config, :ffn => net)
     bson(file_name, values)
 end
 
 function ReadSAE(config_id)
-    ln = BSON.load(string("/Users/joeldacosta/Masters/Code Libraries/SAERepo/SAE_", config_id, ".bson"))
+    ln = BSON.load(string("./SAERepo/SAE_", config_id, ".bson"))
     return (ln[:sae], ln[:data_configuration])
 end
 
 function ReadFFN(config_id)
-    ln = BSON.load(string("/Users/joeldacosta/Masters/Code Libraries/FFNRepo/FFN_", config_id, ".bson"))
+    ln = BSON.load(string("./FFNRepo/FFN_", config_id, ".bson"))
     return (ln[:ffn], ln[:data_configuration])
-end
-
-function CreateMapeRecord(configuration_id, mape_score)
-    cmd = "insert into mape_scores
-            (configuration_id, mape)
-            values ($(configuration_id), $mape_score)"
-
-    SQLite.execute!(db, cmd)
-
 end
 
 function CreateConfigurationRecord(seed, set_name, rbm_pretraining, sae_config_id)
@@ -67,7 +57,6 @@ function CreateNetworkRecord(config_id, parameters)
 
     SQLite.execute!(db, network_cmd)
 end
-
 
 function CreateTrainingRecord(config_id, parameters)
     cf = split(string(typeof(parameters.cost_function)), ".")[end]
@@ -119,7 +108,6 @@ function CreateDatasetConfigRecord(config_id, dataset_config)
              '$(trainingsplit_val)', '$(predictions_val)', '$(variation_vals)', '$scaling')"
 
     SQLite.execute!(db, training_cmd)
-
 end
 
 function CreatePredictionRecords(config_id, actual, predictions)
@@ -166,9 +154,7 @@ function CreateBacktestRecords(config_id, actual, predictions)
     SQLite.execute!(db, prediction_cmd)
 end
 
-
-
-function CreateCSCVRecords(cscv_returns)
+function CreateISTradeRecords(mms_returns)
 
     records = []
 
@@ -179,16 +165,16 @@ function CreateCSCVRecords(cscv_returns)
         return x
     end
 
-    for r in 1:size(cscv_returns)[1]
-        push!(records, (string("(", cscv_returns[r,1],",", cscv_returns[r,2], ",", cscv_returns[r,3], ",", NanRemover(cscv_returns[r,4]), ")")))
+    for r in 1:size(mms_returns)[1]
+        push!(records, (string("(", mms_returns[r,1],",", mms_returns[r,2], ",", mms_returns[r,3], ",", NanRemover(mms_returns[r,4]), ")")))
     end
 
-    cscv_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
-    cscv_cmd = "insert into cscv_returns (configuration_id, time_step, total_profit_observed, total_profit_rate_observed) values $(cscv_values)"
-    SQLite.execute!(db, cscv_cmd)
+    mms_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    mms_cmd = "insert into config_is_trade_returns (configuration_id, time_step, total_profit_observed, total_profit_rate_observed) values $(mms_values)"
+    SQLite.execute!(db, mms_cmd)
 end
 
-function CreateCSCVCostRecords(cscv_returns)
+function CreateISTradeCostRecords(mms_returns)
 
     records = []
 
@@ -199,13 +185,54 @@ function CreateCSCVCostRecords(cscv_returns)
         return x
     end
 
-    for r in 1:size(cscv_returns)[1]
-        push!(records, (string("(", cscv_returns[r,1],",", cscv_returns[r,2], ",", cscv_returns[r,3], ",", NanRemover(cscv_returns[r,4]), ")")))
+    for r in 1:size(mms_returns)[1]
+        push!(records, (string("(", mms_returns[r,1],",", mms_returns[r,2], ",", mms_returns[r,3], ",", NanRemover(mms_returns[r,4]), ")")))
     end
 
-    cscv_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
-    cscv_cmd = "insert into cscv_cost_returns (configuration_id, time_step, total_profit_observed, total_profit_rate_observed) values $(cscv_values)"
-    SQLite.execute!(db, cscv_cmd)
+    mms_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    mms_cmd = "insert into config_is_trade_returns_cost (configuration_id, time_step, total_profit_observed, total_profit_rate_observed) values $(mms_values)"
+    SQLite.execute!(db, mms_cmd)
+end
+
+
+function CreateOOSTradeRecords(mms_returns)
+
+    records = []
+
+    function NanRemover(x)
+        if (isnan(x) || isinf(x))
+            return "null"
+        end
+        return x
+    end
+
+    for r in 1:size(mms_returns)[1]
+        push!(records, (string("(", mms_returns[r,1],",", mms_returns[r,2], ",", mms_returns[r,3], ",", NanRemover(mms_returns[r,4]), ")")))
+    end
+
+    mms_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    mms_cmd = "insert into config_oos_trade_returns (configuration_id, time_step, total_profit_observed, total_profit_rate_observed) values $(mms_values)"
+    SQLite.execute!(db, mms_cmd)
+end
+
+function CreateOOSTradeCostRecords(mms_returns)
+
+    records = []
+
+    function NanRemover(x)
+        if (isnan(x) || isinf(x))
+            return "null"
+        end
+        return x
+    end
+
+    for r in 1:size(mms_returns)[1]
+        push!(records, (string("(", mms_returns[r,1],",", mms_returns[r,2], ",", mms_returns[r,3], ",", NanRemover(mms_returns[r,4]), ")")))
+    end
+
+    mms_values = (mapreduce(x->string(x, ","), string, records)[1:(end-1)])
+    mms_cmd = "insert into config_oos_trade_returns_cost (configuration_id, time_step, total_profit_observed, total_profit_rate_observed) values $(mms_values)"
+    SQLite.execute!(db, mms_cmd)
 end
 
 function RunQuery(query, testDB = false)
