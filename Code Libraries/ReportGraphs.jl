@@ -327,12 +327,7 @@ function Results_8_6_Complexity()
     #PrintConfig(setnames, true)
     PL_Scaling(config_ids, "Linear ", "SyntheticPL", true)
 
-    sae_setnames = ["Iteration1 SAE Actual10 Test",
-                "Iteration2 SAE Actual10 Test",
-                "Iteration3 SAE Actual10 Test",
-                "Iteration4 SAE Actual10 Test",
-                "Iteration5 SAE Actual10 Test",
-                "Iteration6 SAE Actual10 Test"]
+    sae_setnames = ["Iteration1 SAE Actual10 Test", "Iteration2 SAE Actual10 Test", "Iteration3 SAE Actual10 Test", "Iteration4 SAE Actual10 Test", "Iteration5 SAE Actual10 Test", "Iteration6 SAE Actual10 Test"]
     sae_config_ids = SelectConfigIDs(sae_setnames) #config12
     MSE_Reg_EncodingLines(sae_config_ids, "Actual", "ActualMSE", false, median)
 
@@ -353,6 +348,8 @@ function Results_8_6_Complexity()
     synth_sae_setnames = ["Iteration4_1 SAE Tests"] #config 7
     synth_sae_ids = SelectConfigIDs(synth_sae_setnames, true)
 
+    sae_setnames = ["Iteration1 SAE Actual10 Test", "Iteration2 SAE Actual10 Test", "Iteration3 SAE Actual10 Test", "Iteration4 SAE Actual10 Test", "Iteration5 SAE Actual10 Test", "Iteration6 SAE Actual10 Test"]
+    sae_config_ids = SelectConfigIDs(sae_setnames) #config12
     MSE_LearningRate_MaxMin(sae_config_ids, nothing, "Actual", "ActualMSE", false) #config12
     MSE_LearningRate_MaxMin(synth_sae_ids, nothing, "Synth", "SyntheticMSE", true) #config 7
 

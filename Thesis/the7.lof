@@ -1,50 +1,50 @@
 \select@language {english}
 \contentsline {figure}{\numberline {1}{\ignorespaces The AutoEncoder Training Steps}}{24}{figure.caption.1}
-\contentsline {figure}{\numberline {2}{\ignorespaces Feedforward Neural Network Diagram}}{40}{figure.caption.2}
-\contentsline {figure}{\numberline {3}{\ignorespaces Cyclical Learning Rate Diagram}}{47}{figure.caption.3}
-\contentsline {figure}{\numberline {4}{\ignorespaces Restricted Boltzmann Machines Diagram}}{48}{figure.caption.4}
-\contentsline {figure}{\numberline {5}{\ignorespaces Overall Process Flow Diagram}}{70}{figure.caption.5}
-\contentsline {figure}{\numberline {6}{\ignorespaces ``Actual10'' Price Relatives}}{84}{figure.caption.8}
-\contentsline {figure}{\numberline {7}{\ignorespaces ``Scaling10'' Price Relatives}}{85}{figure.caption.9}
-\contentsline {figure}{\numberline {8}{\ignorespaces ``AGL\&ACL'' Price Relatives}}{85}{figure.caption.10}
-\contentsline {figure}{\numberline {9}{\ignorespaces Synthetic6 Price Relatives}}{87}{figure.caption.13}
-\contentsline {figure}{\numberline {10}{\ignorespaces Synthetic10 Price Relatives}}{88}{figure.caption.14}
-\contentsline {figure}{\numberline {11}{\ignorespaces OGD MSE vs. OOS P\&L}}{91}{figure.caption.15}
-\contentsline {figure}{\numberline {12}{\ignorespaces SAE MSE Scores by Data Aggregations}}{93}{figure.caption.16}
-\contentsline {figure}{\numberline {13}{\ignorespaces OOS P\&L by Data Aggregations}}{94}{figure.caption.17}
-\contentsline {figure}{\numberline {14}{\ignorespaces OOS P\&L by OGD Learning Rates}}{95}{figure.caption.18}
-\contentsline {figure}{\numberline {15}{\ignorespaces OOS P\&L by OGD Learning Rates and Data Aggregations}}{95}{figure.caption.19}
-\contentsline {figure}{\numberline {16}{\ignorespaces IS Performance by Encoding Size}}{97}{figure.caption.20}
-\contentsline {figure}{\numberline {17}{\ignorespaces OOS P\&L By Feature Selection Size and OGD Learning Rate}}{98}{figure.caption.21}
-\contentsline {figure}{\numberline {18}{\ignorespaces OOS P\&L By Feature Selection Size, OGD Learning Rate and Data Horizons}}{99}{figure.caption.22}
-\contentsline {figure}{\numberline {19}{\ignorespaces OOS P\&L by IS Training Epochs}}{100}{figure.caption.23}
-\contentsline {figure}{\numberline {20}{\ignorespaces OOS P\&L by IS Training Dataset Size}}{101}{figure.caption.24}
-\contentsline {figure}{\numberline {21}{\ignorespaces Pre-training Effects on SAE MSE Scores}}{102}{figure.caption.25}
-\contentsline {figure}{\numberline {22}{\ignorespaces SAE MSE by Weight Initialization}}{103}{figure.caption.26}
-\contentsline {figure}{\numberline {23}{\ignorespaces OOS P\&L by Weight Initialization}}{104}{figure.caption.27}
-\contentsline {figure}{\numberline {24}{\ignorespaces SAE MSE Scores for Synthetic Data}}{106}{figure.caption.28}
-\contentsline {figure}{\numberline {25}{\ignorespaces OOS P\&L by Data Aggregation for Synthetic Data}}{107}{figure.caption.29}
-\contentsline {figure}{\numberline {26}{\ignorespaces OOS P\&L by Feature Selection Size and OGD Learning Rate (Synthetic Data)}}{107}{figure.caption.30}
-\contentsline {figure}{\numberline {27}{\ignorespaces SAE MSE by Scaling Function}}{108}{figure.caption.31}
-\contentsline {figure}{\numberline {28}{\ignorespaces OOS P\&L by Scaling (Synthetic Data)}}{109}{figure.caption.32}
-\contentsline {figure}{\numberline {29}{\ignorespaces SAE MSE by L1 Regularization}}{110}{figure.caption.33}
-\contentsline {figure}{\numberline {30}{\ignorespaces SAE MSE by Denoising Variance}}{111}{figure.caption.34}
-\contentsline {figure}{\numberline {31}{\ignorespaces SAE MSE by Learning Rate Schedule Ranges}}{111}{figure.caption.35}
-\contentsline {figure}{\numberline {32}{\ignorespaces Effects of Epoch Cycle Lengths on P\&L}}{112}{figure.caption.36}
-\contentsline {figure}{\numberline {33}{\ignorespaces Effects of L1 Regularization on P\&L}}{113}{figure.caption.37}
-\contentsline {figure}{\numberline {34}{\ignorespaces Effects of Dropout on P\&L}}{113}{figure.caption.38}
-\contentsline {figure}{\numberline {35}{\ignorespaces Network Performance by Size}}{116}{figure.caption.39}
-\contentsline {figure}{\numberline {36}{\ignorespaces MSE by Activations and Encoding Layer Size}}{117}{figure.caption.40}
-\contentsline {figure}{\numberline {37}{\ignorespaces MSE by Output Activations}}{118}{figure.caption.41}
-\contentsline {figure}{\numberline {38}{\ignorespaces P\&L by Hidden Layer Activations (Synthetic Data)}}{118}{figure.caption.42}
-\contentsline {figure}{\numberline {39}{\ignorespaces MMS OOS P\&L Distributions}}{120}{figure.caption.43}
-\contentsline {figure}{\numberline {40}{\ignorespaces MMS Sharpe Ratios and Correct Trades}}{120}{figure.caption.44}
-\contentsline {figure}{\numberline {41}{\ignorespaces PBO Scores by Split Values}}{123}{figure.caption.45}
-\contentsline {figure}{\numberline {42}{\ignorespaces Number of CSCV Combinations by Split Value}}{123}{figure.caption.46}
-\contentsline {figure}{\numberline {43}{\ignorespaces Logit Distribution for All Configurations}}{124}{figure.caption.47}
-\contentsline {figure}{\numberline {44}{\ignorespaces Logit Distribution for Subset of Configurations}}{125}{figure.caption.48}
-\contentsline {figure}{\numberline {45}{\ignorespaces Sharpe Ratios for ONC Clusters and Best Strategy}}{127}{figure.caption.49}
-\contentsline {figure}{\numberline {46}{\ignorespaces OGD MSE Scores for Primary ONC Clusters}}{128}{figure.caption.50}
+\contentsline {figure}{\numberline {2}{\ignorespaces Feedforward Neural Network Diagram}}{39}{figure.caption.2}
+\contentsline {figure}{\numberline {3}{\ignorespaces Cyclical Learning Rate Diagram}}{46}{figure.caption.3}
+\contentsline {figure}{\numberline {4}{\ignorespaces Restricted Boltzmann Machines Diagram}}{47}{figure.caption.4}
+\contentsline {figure}{\numberline {5}{\ignorespaces Overall Process Flow Diagram}}{69}{figure.caption.5}
+\contentsline {figure}{\numberline {6}{\ignorespaces ``Actual10'' Price Relatives}}{83}{figure.caption.8}
+\contentsline {figure}{\numberline {7}{\ignorespaces ``Scaling10'' Price Relatives}}{84}{figure.caption.9}
+\contentsline {figure}{\numberline {8}{\ignorespaces ``AGL\&ACL'' Price Relatives}}{84}{figure.caption.10}
+\contentsline {figure}{\numberline {9}{\ignorespaces Synthetic6 Price Relatives}}{86}{figure.caption.13}
+\contentsline {figure}{\numberline {10}{\ignorespaces Synthetic10 Price Relatives}}{87}{figure.caption.14}
+\contentsline {figure}{\numberline {11}{\ignorespaces OGD MSE vs. OOS P\&L}}{90}{figure.caption.15}
+\contentsline {figure}{\numberline {12}{\ignorespaces SAE MSE Scores by Data Aggregations}}{92}{figure.caption.16}
+\contentsline {figure}{\numberline {13}{\ignorespaces OOS P\&L by Data Aggregations}}{93}{figure.caption.17}
+\contentsline {figure}{\numberline {14}{\ignorespaces OOS P\&L by OGD Learning Rates}}{94}{figure.caption.18}
+\contentsline {figure}{\numberline {15}{\ignorespaces OOS P\&L by OGD Learning Rates and Data Aggregations}}{94}{figure.caption.19}
+\contentsline {figure}{\numberline {16}{\ignorespaces IS Performance by Encoding Size}}{96}{figure.caption.20}
+\contentsline {figure}{\numberline {17}{\ignorespaces OOS P\&L By Feature Selection Size and OGD Learning Rate}}{97}{figure.caption.21}
+\contentsline {figure}{\numberline {18}{\ignorespaces OOS P\&L By Feature Selection Size, OGD Learning Rate and Data Horizons}}{98}{figure.caption.22}
+\contentsline {figure}{\numberline {19}{\ignorespaces OOS P\&L by IS Training Epochs}}{99}{figure.caption.23}
+\contentsline {figure}{\numberline {20}{\ignorespaces OOS P\&L by IS Training Dataset Size}}{100}{figure.caption.24}
+\contentsline {figure}{\numberline {21}{\ignorespaces Pre-training Effects on SAE MSE Scores}}{101}{figure.caption.25}
+\contentsline {figure}{\numberline {22}{\ignorespaces SAE MSE by Weight Initialization}}{102}{figure.caption.26}
+\contentsline {figure}{\numberline {23}{\ignorespaces OOS P\&L by Weight Initialization}}{103}{figure.caption.27}
+\contentsline {figure}{\numberline {24}{\ignorespaces SAE MSE Scores for Synthetic Data}}{105}{figure.caption.28}
+\contentsline {figure}{\numberline {25}{\ignorespaces OOS P\&L by Data Aggregation for Synthetic Data}}{106}{figure.caption.29}
+\contentsline {figure}{\numberline {26}{\ignorespaces OOS P\&L by Feature Selection Size and OGD Learning Rate (Synthetic Data)}}{106}{figure.caption.30}
+\contentsline {figure}{\numberline {27}{\ignorespaces SAE MSE by Scaling Function}}{107}{figure.caption.31}
+\contentsline {figure}{\numberline {28}{\ignorespaces OOS P\&L by Scaling (Synthetic Data)}}{108}{figure.caption.32}
+\contentsline {figure}{\numberline {29}{\ignorespaces SAE MSE by L1 Regularization}}{109}{figure.caption.33}
+\contentsline {figure}{\numberline {30}{\ignorespaces SAE MSE by Denoising Variance}}{110}{figure.caption.34}
+\contentsline {figure}{\numberline {31}{\ignorespaces SAE MSE by Learning Rate Schedule Ranges}}{110}{figure.caption.35}
+\contentsline {figure}{\numberline {32}{\ignorespaces Effects of Epoch Cycle Lengths on P\&L}}{111}{figure.caption.36}
+\contentsline {figure}{\numberline {33}{\ignorespaces Effects of L1 Regularization on P\&L}}{112}{figure.caption.37}
+\contentsline {figure}{\numberline {34}{\ignorespaces Effects of Dropout on P\&L}}{112}{figure.caption.38}
+\contentsline {figure}{\numberline {35}{\ignorespaces Network Performance by Size}}{115}{figure.caption.39}
+\contentsline {figure}{\numberline {36}{\ignorespaces MSE by Activations and Encoding Layer Size}}{116}{figure.caption.40}
+\contentsline {figure}{\numberline {37}{\ignorespaces MSE by Output Activations}}{117}{figure.caption.41}
+\contentsline {figure}{\numberline {38}{\ignorespaces P\&L by Hidden Layer Activations (Synthetic Data)}}{117}{figure.caption.42}
+\contentsline {figure}{\numberline {39}{\ignorespaces MMS OOS P\&L Distributions}}{119}{figure.caption.43}
+\contentsline {figure}{\numberline {40}{\ignorespaces MMS Sharpe Ratios and Correct Trades}}{119}{figure.caption.44}
+\contentsline {figure}{\numberline {41}{\ignorespaces PBO Scores by Split Values}}{122}{figure.caption.45}
+\contentsline {figure}{\numberline {42}{\ignorespaces Number of CSCV Combinations by Split Value}}{122}{figure.caption.46}
+\contentsline {figure}{\numberline {43}{\ignorespaces Logit Distribution for All Configurations}}{123}{figure.caption.47}
+\contentsline {figure}{\numberline {44}{\ignorespaces Logit Distribution for Subset of Configurations}}{124}{figure.caption.48}
+\contentsline {figure}{\numberline {45}{\ignorespaces Sharpe Ratios for ONC Clusters and Best Strategy}}{126}{figure.caption.49}
+\contentsline {figure}{\numberline {46}{\ignorespaces OGD MSE Scores for Primary ONC Clusters}}{127}{figure.caption.50}
 \contentsline {figure}{\numberline {47}{\ignorespaces MSE By Feature Selection Size (Synthetic Data)}}{140}{figure.caption.51}
 \contentsline {figure}{\numberline {48}{\ignorespaces Prediction Accuracy by Training Epochs (MNIST Data)}}{140}{figure.caption.52}
 \contentsline {figure}{\numberline {49}{\ignorespaces SAE MSE by Initialization (Actual Data)}}{141}{figure.caption.53}
@@ -58,5 +58,5 @@
 \contentsline {figure}{\numberline {57}{\ignorespaces Predictive P\&L by OGD Learning Rate (Synthetic Data)}}{145}{figure.caption.61}
 \contentsline {figure}{\numberline {58}{\ignorespaces SAE: Leaky ReLU vs. ReLU (Synthetic Data)}}{146}{figure.caption.62}
 \contentsline {figure}{\numberline {59}{\ignorespaces P\&L by ReLU Activations (Synthetic Data)}}{146}{figure.caption.63}
-\contentsline {figure}{\numberline {60}{\ignorespaces Relational Database Schema Diagram}}{148}{figure.caption.64}
-\contentsline {figure}{\numberline {61}{\ignorespaces Snapshot of JSE Top 40 Dataset}}{149}{figure.caption.65}
+\contentsline {figure}{\numberline {60}{\ignorespaces Relational Database Schema Diagram}}{147}{figure.caption.64}
+\contentsline {figure}{\numberline {61}{\ignorespaces Snapshot of JSE Top 40 Dataset}}{148}{figure.caption.65}

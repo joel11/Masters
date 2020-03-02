@@ -540,7 +540,7 @@ function PL_NetworkSizeLines(config_ids, file_prefix = "", colourSetChoice = "",
 
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> P&L </br> </b>"))
+        , yaxis = Dict(:title => string("<b> P&L (median) </br> </b>"))
         , xaxis = Dict(:dtick => 1.0, :title => string("<b> Number of Layers </b>"))
         , font = Dict(:size => default_fontsize))
 
@@ -907,7 +907,7 @@ function MSE_LayerSizesLines(config_ids, file_prefix = "", colourSetChoice = "",
     end
 
     l = Layout(width = 900, height = 600, margin = Dict(:b => 100, :l => 100)
-        , yaxis = Dict(:title => string("<b> MSE </br> </b>"))
+        , yaxis = Dict(:title => string("<b> MSE (median) </br> </b>"))
         , xaxis = Dict(:dtick => 1.0, :title => string("<b> Number of Layers </b>"))
         , font = Dict(:size => default_fontsize))
 
@@ -2244,10 +2244,10 @@ end
 function PrintClusterAnalysis()
 
     clusterOneResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p
-                                inner join clusters_fin c on p.configuration_id = c.configuration_id and c.cluster = 0
+                                inner join clusters_fin c on p.configuration_id = c.configuration_id and c.cluster = 1
                                 where sharpe_ratio is not null")
     clusterTwoResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p
-                                inner join clusters_fin c on p.configuration_id = c.configuration_id and c.cluster = 1
+                                inner join clusters_fin c on p.configuration_id = c.configuration_id and c.cluster = 0
                                 where sharpe_ratio is not null")
 
     println(string("Cluster One Skewness: ", string(skewness(Array(clusterOneResults[:sharpe_ratio])))))
@@ -2267,7 +2267,7 @@ function PrintClusterAnalysis()
 
     println(string("Cluster One Samples: ", string(size(Array(clusterOneResults[:sharpe_ratio])))))
     println(string("Cluster Two Samples: ", string(size(Array(clusterTwoResults[:sharpe_ratio])))))
-    
+
 end
 
 function OGD_MSE_vs_Confusion()
@@ -2366,14 +2366,14 @@ function ClusterOGDMSEPlot()
 
     clusterOneResults = RunQuery("select training_cost
                                     from epoch_records p
-                                    inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0
+                                    inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1
                                     inner join config_oos_sharpe_ratio_cost s on s.configuration_id = c.configuration_id and sharpe_ratio is not null
                                     where category = 'OGD'
                                     --and training_cost is not null
                                     and training_cost < 0.05")
     clusterTwoResults = RunQuery("select training_cost
                                 from epoch_records p
-                                inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1
+                                inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0
                                 inner join config_oos_sharpe_ratio_cost s on s.configuration_id = c.configuration_id and sharpe_ratio is not null
                                 where category = 'OGD'
                                 --and training_cost is not null
@@ -2390,8 +2390,8 @@ function ClusterOGDMSEPlot()
 
     opacity_value = 0.8
 
-    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Cluster One [n=7415]"), opacity=opacity_value, xbins=Dict(:size=>0.0001))
-    trace_two = bar(;y=two_groups[:x1], x=two_groups[:grouping], name=string("Cluster Two [n=14400]"), opacity=opacity_value, xbins=Dict(:size=>0.0001))
+    trace_one = bar(;y=one_groups[:x1], x=one_groups[:grouping], name=string("Cluster One [n=14397]"), opacity=opacity_value, xbins=Dict(:size=>0.0001))
+    trace_two = bar(;y=two_groups[:x1], x=two_groups[:grouping], name=string("Cluster Two [n=7253]"), opacity=opacity_value, xbins=Dict(:size=>0.0001))
 
     data = [trace_one, trace_two]#, bm]
 
@@ -2449,8 +2449,8 @@ end
 
 function ClusterDistribution2()
 
-    clusterOneResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0 where sharpe_ratio is not null")
-    clusterTwoResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1 where sharpe_ratio is not null")
+    clusterOneResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 1 where sharpe_ratio is not null")
+    clusterTwoResults = RunQuery("select sharpe_ratio from config_oos_sharpe_ratio_cost p inner join clusters c on p.configuration_id = c.configuration_id and c.cluster = 0 where sharpe_ratio is not null")
     highestSR =get(RunQuery("select max(sharpe_ratio) from config_oos_sharpe_ratio_cost")[1,1])
 
     clusterOneResults[:grouping] = round.(Array(clusterOneResults[:sharpe_ratio]), 2)
