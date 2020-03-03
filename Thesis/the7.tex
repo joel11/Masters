@@ -2269,15 +2269,15 @@
 			\hline
 			\textbf{Code} &\textbf{Company} & \textbf{Sector} \\\hline	
 			{AGL} & {Anglo American} & {Resources}  \\\hline
-			{BIL} & {BHP Billigton} & {Resources}  \\\hline
+			{BIL} & {BHP Billiton} & {Resources}  \\\hline
 			{IMP} & {Impala Platinum Holdings} & {Resources}  \\\hline
-			{FSR} & {FirstRand Limited} & {Finance}  \\\hline
+			{FSR} & {First Rand Limited} & {Finance}  \\\hline
 			{SBK} & {Standard Bank} & {Finance}  \\\hline
 			{REM} & {Remgro Limited} & {Finance}  \\\hline
 			{INP} & {Investec} & {Finance}  \\\hline
 			{SNH} & {Steinhoff International Holdings} & {Retail}    \\\hline
 			{MTN} & {MTN} & {Communication Services}  \\\hline
-			{DDT} & {Dimension Data} & {Tech} \\\hline
+			{DDT} & {Dimension Data} & {Technology} \\\hline
 		\end{tabular}
 		\newline\newline
 		\caption{Assets in the ``Actual10'' dataset, from 2003-2018. }\label{tab_actual10}
@@ -2674,7 +2674,7 @@
 		\end{subfigure}
 		\caption[SAE MSE by Weight Initialization]
 		{Dataset: Synthetic10 (\ref{dataset_synthetic10}), AGL (\ref{dataset_agl}), Configuration 7 (\ref{config7}) \& Configuration 8 (\ref{config8})
-			\newline Training SAE networks across the Synthetic10 and AGL  datasets, we mostly saw the expected patterns emerge. He-Adj consistently outperformed He due to being better suited to the network structures, as seen in the plots above. We also saw that He-Adj clearly outperforms Xavier for AGL data, but has performance that was mostly the same (or even marginally worse) than Xavier for the synthetic dataset. Similar trends as AGL were seen when SAEs were trained for the full 10 asset dataset, which can be see in Appendix \ref{results_init_appendix}.}
+			\newline Training SAE networks across the Synthetic10 and AGL  datasets, we mostly saw the expected patterns emerge. He and He-Adj both suffered from exploding and vanishing gradients more frequently, leading to the smaller sample sizes seen when compared to Xavier. He-Adj consistently outperformed He due to being better suited to the network structures, as seen in the plots above. We also saw that He-Adj clearly outperforms Xavier for AGL data, but has performance that was mostly the same (or even marginally worse) than Xavier for the synthetic dataset. Similar trends as AGL were seen when SAEs were trained for the full 10 asset dataset, which can be see in Appendix \ref{results_init_appendix}.}
 		\label{figure-mse_init}
 	\end{figure}
 	
@@ -2789,7 +2789,7 @@
 		\includegraphics[scale=0.4]{images/results/8_6_complexity/mse_scaling.png}
 		\caption[SAE MSE by Scaling Function]
 		{Dataset: Scaling10 dataset (\ref{dataset_scaling10}), Configuration 1 (\ref{config1})
-			\newline The figure here shows SAE MSE performance according to the scaling techniques described in Section \ref{data_scaling}. As discussed in Section \ref{proc_dataprep}, the use of standardization for scaling the data does not allow for effective outlier treatment, resulting in the significantly worse performance seen. This again shows the difficulty of dealing with financial time series, which are likely to have many outliers.}
+			\newline The figure here shows SAE MSE performance according to the scaling techniques described in Section \ref{data_scaling}. As discussed in Section \ref{proc_dataprep}, the use of standardization for scaling the data does not allow for effective outlier treatment, resulting in the significantly worse performance seen. This again shows the difficulty of dealing with financial time series, which are likely to have many outliers. The Standardize function was tried with fewer configuration choices due to the already apparent decrease in performance.}
 		\label{figure-actual_mse_scaling}
 	\end{figure}
 
@@ -2808,7 +2808,7 @@
 
 	The ability of an SAE to reproduce data from a smaller encoding is directly related to the variability and complexity of the underlying data, and the extent to which it can be reduced to fundamental underlying features. The impact of data complexity and variance, as well as the different nature of encodings learnt is discussed fully in Section \ref{results_oos_pl} for actual data, and Section \ref{results_synth} for synthetic data. What we discuss here is how learning optimizations can affect the traversal of the complex solution space. \newline
 	
-	We found that L1 Regularization (implemented as per Section \ref{imp_regularization}) emphasised the different nature of features learnt at different encoding sizes, as discussed in Section \ref{results_oos_pl}. Smaller encoding sizes, which are generalizing by nature, benefit from the regularization. For larger encoding sizes, the regularization simply lowers model fidelity. These performance impacts can be seen in Figure \ref{figure-mse_reg} at both the aggregate and encoding size level. Figure \ref{figure-results_mse_denoising} shows that denoising optimizations (implemented as per Section \ref{imp_denoising}) had detrimental effects, highlighting the lack of benefits in adding noise to an already noisy feature space. Figure \ref{figure-mse_lr} shows the effects of learning rate schedules (implemented as per Section \ref{imp_learning_rate_schedule}), with increased performances shown for different configurations.
+	We found that L1 Regularization (implemented as per Section \ref{imp_regularization}) emphasised the different nature of features learnt at different encoding sizes, as discussed in Section \ref{results_oos_pl}. Smaller encoding sizes, which are generalizing by nature, benefit from the regularization. For larger encoding sizes, the regularization simply lowers model fidelity. These performance impacts can be seen in Figure \ref{figure-mse_reg} at both the aggregate and encoding size level. Figure \ref{figure-results_mse_denoising} shows that denoising optimizations (implemented as per Section \ref{imp_denoising}) had detrimental effects, highlighting the lack of benefits in adding noise to an already noisy feature space. Figure \ref{figure-mse_lr} shows the effects of learning rate schedules (implemented as per Section \ref{imp_learning_rate_schedule}).
 	
 	\begin{figure}[H]
 	\centering
@@ -2829,7 +2829,7 @@
 	\end{subfigure}
 	\caption[SAE MSE by L1 Regularization]
 	{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 12 (\ref{config12})
-		\newline Figure (a) shows the aggregate performance of SAE networks at different degrees of regularization, with performance decreasing as regularization increases (seen primarily in the 0.0 and 0.5 values, though supported by 0.1 and 1.0). Figure (b), grouping by encoding size, provides a better understanding. As per the results in Section \ref{results_oos_pl}, encodings of 5 are learning highly generalisable features, and so benefit from regularization with their best performance at $\lambda = 0.5$. Encodings of 10 have their best performance at $\lambda = 0.1$, learning less generalisable features. Higher encoding levels are operating in a different solution space, and do not benefit from the regularization.
+		\newline Figure (a) shows the aggregate performance of SAE networks at different degrees of regularization, with performance decreasing as regularization increases (seen primarily in the 0.0 and 0.5 values, though supported by the smaller 0.1 and 1.0 configuration sets). Figure (b), grouping by encoding size, provides a better understanding. As per the results in Section \ref{results_oos_pl}, encodings of 5 are learning highly generalisable features, and so benefit from regularization with their best performance at $\lambda = 0.5$. Encodings of 10 have their best performance at $\lambda = 0.1$, learning less generalisable features. Higher encoding levels are operating in a different solution space, and do not benefit from the regularization.
 	}
 	\label{figure-mse_reg}
 	\end{figure}
@@ -2870,7 +2870,7 @@
 		\end{subfigure}
 		\caption[SAE MSE by Learning Rate Schedule Ranges]
 		{Dataset: Synthetic10 (\ref{dataset_synthetic10}), Actual10 (\ref{dataset_actual10}), Configuration 7 (\ref{config7}) \& Configuration 12 (\ref{config12})
-			\newline It is interesting to note that the effects of learning rate schedules were so different for synthetic and actual data. Networks for synthetic data favoured learning rate ranges with a higher upper bound, and actual data networks trended in favour of lower upper bound ranges. The synthetic data is structurally less complex, as discussed in Sections \ref{results_gbm_data} and \ref{results_data_hist}, and so the larger learning rates allowed for quicker optimisation. Conversely, SAE networks for actual data benefit from a more careful exploration of the solution space. The different epoch lengths had a marginal effect, as seen in Appendix \ref{results_appendix_finance_data}.}
+			\newline Figure (a) and (b) show the effects of learning rate ranges on SAE performance for synthetic and actual data, respectively. In both we found that a more informed approach to configuration choices was able to reduce variance in MSE performance (as seen in the sample sizes and upper bounds). However, the lower bounds for all ranges were quite similar, showing equitable performance in the best networks in different groups. This suggests that the learning rate range by itself is not enough to make significant impacts on performance. The different epoch lengths had a marginal effect, as seen in Appendix \ref{results_appendix_finance_data}.}
 		\label{figure-mse_lr}
 	\end{figure}
 
@@ -2891,7 +2891,7 @@
 	
 	As we discussed in Section \ref{results_data_hist}, the effects of supervised training on the IS dataset with SGD had limited benefits for OOS performance, and ultimately may be approximating the equivalent of pretraining weight initialization rather than an effective structural learning. The best performing networks were those which were able to quickly adapt to new solution spaces, rather than those which had trained effectively to old ones. Naturally then, the numerous SGD optimizations employed had very little effect on the OOS performance. That said, the effects they have on IS performance do give some insights into the nature of financial data being considered, and do suggest that implementing learning optimizations in the OGD phase could be beneficial. \newline
 		
-	Figure \ref{figure-actual_pl_lr_epochs} shows the effects of learning rate schedules (implemented as per Section \ref{imp_learning_rate_schedule}), with notable impact across different epoch lengths. Figure \ref{figure-results-reg} shows the impact of L1 regularization (implemented as per Section \ref{imp_regularization}), with results showing only a minor potential improvement and highlighting the unstable dynamics of financial time series. Lastly, Figure \ref{figure-results_mse_denoising} shows that input Dropout (implemented as per Section \ref{imp_dropout}) was ineffective in prompting the network to learn interactive relations between assets.\newline
+	Figure \ref{figure-actual_pl_lr_epochs} shows the effects of learning rate schedules (implemented as per Section \ref{imp_learning_rate_schedule}), highlighting the limited benefit of IS learning on OOS performance. Figure \ref{figure-results-reg} shows the impact of L1 regularization (implemented as per Section \ref{imp_regularization}), with results showing only a minor potential improvement and highlighting the unstable dynamics of financial time series. Lastly, Figure \ref{figure-results_mse_denoising} shows that input Dropout (implemented as per Section \ref{imp_dropout}) was ineffective in prompting the network to learn interactive relations between assets.\newline
 		
 		
 	\begin{figure}[H]
@@ -2913,9 +2913,7 @@
 		\end{subfigure}
 		\caption[Effects of Epoch Cycle Lengths on P\&L]
 		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 13 (\ref{config13})
-		\newline Figure (a) shows significant differences in the P\&L compared across different learning rate epochs, with 100 offering notable improvement over  a constant learning rate. The 10 epoch cycles were used for configurations which only ran for 10 epochs, and so the performance may just be indicative of the amount of training. As expected, the performance increase IS doesn't have significant impacts on the OOS performance seen in Figure (b), but it does given an indication that a more careful exploration of the complex solution space would be beneficial where possible.
-		\newline
-		The learning rate ranges themselves were set to the best values seen for the data in the SAE training, and small variations did not result in notable changes. These can be seen in Appendix \ref{results_appendix_finance_data}.}
+		\newline In Figure (a), the IS P\&L for different learning rate epochs is shown. The different configurations (as indicated by the sample sizes) do not allow for a conclusive finding. That said, the upper and lower bounds do suggest that 100 epochs is a preferable exploration in comparison to shorter epochs or constant learning rates. What is of more significance in these figures is the pairwise comparison between IS and OOS in Figure (b). The 5\% increase in upper bound performance in the `100 Epochs' group does suggest there is value to a more careful exploration, but that there is limited carry between IS and OOS. The learning rate ranges themselves were set to the best values seen for the data in the SAE training, and small variations did not result in notable changes. These can be seen in Appendix \ref{results_appendix_finance_data}.}
 		\label{figure-actual_pl_lr_epochs}
 	\end{figure}
 	
@@ -3041,7 +3039,7 @@
 			\includegraphics[scale=0.4]{images/results/8_7_network/actual_mse_output.png}
 			\caption[MSE by Output Activations]
 			{Dataset: Scaling10 dataset (\ref{dataset_scaling10}), Configuration 1 (\ref{config1})
-				\newline This figure shows the effects of the output activation for configurations using Normalized scaling. The ReLU activations resulted in very poor performance, likely due to the loss of error signal in the output layer where it is most critical. Linear activations again had better performance for the output layer. }
+				\newline This figure shows the effects of the output activation for different configurations using Normalized scaling. The ReLU activations resulted in consistently worse performance when used as output activations, most likely due to their unbounded function range. While sigmoid and linear had more comparable performances, we found that linear typically had better results. This is likely due to reducing the loss of error signal in the output layer where it is most critical.}
 			\label{figure-actual_mse_output}
 		\end{center}
 	\end{figure}
@@ -3052,7 +3050,7 @@
 		\includegraphics[scale=0.35]{images/results/8_7_network/synth_pl_hidden.png}
 		\caption[P\&L by Hidden Layer Activations (Synthetic Data)]
 		{Dataset Synthetic6  (\ref{dataset_synthetic6})), Configuration 3 (\ref{config3}) \& Configuration 4 (\ref{config4})
-			\newline This figure shows a comparison of linear and ReLU hidden layer activations on P\&L, where the linear activations resulted in notably better P\&L. Unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per Section \ref{results_gbm_data}. We would see actual asset data benefit from a non-linear representation. Linear configurations for actual data were not run, as real stock data is not expected to follow patterns that are linear through time, thus offering little value.}
+			\newline This figure shows a comparison of linear and ReLU hidden layer activations on P\&L, where the linear activations resulted in notably better P\&L (even when more configurations were attempted with ReLU activations). Unlike the SAE networks, this persists even when the network size is decreased - this difference highlights the effects of GBM data and that it can be represented linearly, as per Section \ref{results_gbm_data}. We would see actual asset data benefit from a non-linear representation. Linear configurations for actual data were not run, as real stock data is not expected to follow patterns that are linear through time, thus offering little value.}
 		\label{figure-synth_pl_hidden}
 	\end{figure}
 	
@@ -3379,7 +3377,7 @@
 	
 	When considering the nature of techniques to use, I would also advise caution when learning about techniques which have been proven on IID datasets (which, I'd estimate, is the majority of machine learning these days). One of my more fundamental takeaways from this has been a deeper appreciation for the differences in financial time series. One would assume this should neither need to be stated not learnt at this point. However, machine learning techniques such as RBM based pre-training are so well noted and spread (with time series applications included), that one expects them to at least help in this context. The hours of `debugging' and validation could potentially be skipped in these instances. The same would apply for the usage of synthetic data, with its own inherent differences from real financial time series. \newline
 	
-	That said, enjoy!
+%	That said, enjoy!
 	
 
 	\newpage	

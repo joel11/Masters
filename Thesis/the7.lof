@@ -45,18 +45,18 @@
 \contentsline {figure}{\numberline {44}{\ignorespaces Logit Distribution for Subset of Configurations}}{124}{figure.caption.48}
 \contentsline {figure}{\numberline {45}{\ignorespaces Sharpe Ratios for ONC Clusters and Best Strategy}}{126}{figure.caption.49}
 \contentsline {figure}{\numberline {46}{\ignorespaces OGD MSE Scores for Primary ONC Clusters}}{127}{figure.caption.50}
-\contentsline {figure}{\numberline {47}{\ignorespaces MSE By Feature Selection Size (Synthetic Data)}}{140}{figure.caption.51}
-\contentsline {figure}{\numberline {48}{\ignorespaces Prediction Accuracy by Training Epochs (MNIST Data)}}{140}{figure.caption.52}
-\contentsline {figure}{\numberline {49}{\ignorespaces SAE MSE by Initialization (Actual Data)}}{141}{figure.caption.53}
-\contentsline {figure}{\numberline {50}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Actual Data)}}{141}{figure.caption.54}
-\contentsline {figure}{\numberline {51}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)}}{142}{figure.caption.55}
-\contentsline {figure}{\numberline {52}{\ignorespaces P\&L by Learning Rates}}{142}{figure.caption.56}
-\contentsline {figure}{\numberline {53}{\ignorespaces MSE By Network Sizes (Actual Data)}}{143}{figure.caption.57}
-\contentsline {figure}{\numberline {54}{\ignorespaces MSE By Network Sizes (Synthetic Data)}}{144}{figure.caption.58}
-\contentsline {figure}{\numberline {55}{\ignorespaces P\&L By Network Sizes (Actual Data)}}{144}{figure.caption.59}
-\contentsline {figure}{\numberline {56}{\ignorespaces P\&L By Network Sizes (Synthetic Data)}}{145}{figure.caption.60}
-\contentsline {figure}{\numberline {57}{\ignorespaces Predictive P\&L by OGD Learning Rate (Synthetic Data)}}{145}{figure.caption.61}
-\contentsline {figure}{\numberline {58}{\ignorespaces SAE: Leaky ReLU vs. ReLU (Synthetic Data)}}{146}{figure.caption.62}
-\contentsline {figure}{\numberline {59}{\ignorespaces P\&L by ReLU Activations (Synthetic Data)}}{146}{figure.caption.63}
-\contentsline {figure}{\numberline {60}{\ignorespaces Relational Database Schema Diagram}}{147}{figure.caption.64}
-\contentsline {figure}{\numberline {61}{\ignorespaces Snapshot of JSE Top 40 Dataset}}{148}{figure.caption.65}
+\contentsline {figure}{\numberline {47}{\ignorespaces MSE By Feature Selection Size (Synthetic Data)}}{139}{figure.caption.51}
+\contentsline {figure}{\numberline {48}{\ignorespaces Prediction Accuracy by Training Epochs (MNIST Data)}}{139}{figure.caption.52}
+\contentsline {figure}{\numberline {49}{\ignorespaces SAE MSE by Initialization (Actual Data)}}{140}{figure.caption.53}
+\contentsline {figure}{\numberline {50}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Actual Data)}}{140}{figure.caption.54}
+\contentsline {figure}{\numberline {51}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)}}{141}{figure.caption.55}
+\contentsline {figure}{\numberline {52}{\ignorespaces P\&L by Learning Rates}}{141}{figure.caption.56}
+\contentsline {figure}{\numberline {53}{\ignorespaces MSE By Network Sizes (Actual Data)}}{142}{figure.caption.57}
+\contentsline {figure}{\numberline {54}{\ignorespaces MSE By Network Sizes (Synthetic Data)}}{143}{figure.caption.58}
+\contentsline {figure}{\numberline {55}{\ignorespaces P\&L By Network Sizes (Actual Data)}}{143}{figure.caption.59}
+\contentsline {figure}{\numberline {56}{\ignorespaces P\&L By Network Sizes (Synthetic Data)}}{144}{figure.caption.60}
+\contentsline {figure}{\numberline {57}{\ignorespaces Predictive P\&L by OGD Learning Rate (Synthetic Data)}}{144}{figure.caption.61}
+\contentsline {figure}{\numberline {58}{\ignorespaces SAE: Leaky ReLU vs. ReLU (Synthetic Data)}}{145}{figure.caption.62}
+\contentsline {figure}{\numberline {59}{\ignorespaces P\&L by ReLU Activations (Synthetic Data)}}{145}{figure.caption.63}
+\contentsline {figure}{\numberline {60}{\ignorespaces Relational Database Schema Diagram}}{146}{figure.caption.64}
+\contentsline {figure}{\numberline {61}{\ignorespaces Snapshot of JSE Top 40 Dataset}}{147}{figure.caption.65}
