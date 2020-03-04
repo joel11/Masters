@@ -1,8 +1,5 @@
 module CSCV
 
-#workspace()
-#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
-
 using Combinatorics
 using StatsBase
 using FinancialFunctions
@@ -109,7 +106,6 @@ function ExperimentCSCVProcess(config_ids, splits)
     is_start = get(maximum(is_time_steps[:min_ts]))
     is_finish = get(minimum(is_time_steps[:max_ts]))
 
-    #_cost
     query = "select configuration_id, time_step, ifnull(total_profit_rate_observed, 0.0) total_profit_rate_observed
                                 from config_is_trade_returns
                                 where time_step between $is_start and $is_finish
@@ -183,7 +179,7 @@ function PlotLogitDistribution(distribution, file_name)
 
     trace = bar(;x=xvals,y=yvals, name="Logit Distribution", bargap=0.1, marker = Dict(:line => Dict(:width => 3, :color => "orange"), :color=>"orange"))
     data = [trace]
-    savefig(plot(data, l), string("/users/joeldacosta/desktop/", file_name, ".html"))
+    savefig(plot(data, l), string("./GraphOutputDir/", file_name, ".html"))
 end
 
 end

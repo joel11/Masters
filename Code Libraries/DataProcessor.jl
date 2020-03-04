@@ -59,20 +59,14 @@ end
 
 function ReconstructSGDPrices(output_values, data_config, original_prices)
 
-    price_index = maximum(data_config.deltas)# - 1
+    price_index = maximum(data_config.deltas)
 
     prices = fill(0.0, (size(output_values)))
 
     multipliers = (e).^Array(output_values)
 
-    #println("SGD")
-    #println("Output Size: ", size(output_values, 1))
-    #println("Original Prices Size: ", size(original_prices,1))
-    #println("Price Index: ", price_index)
-
     for i in 1:size(output_values,1)
         for c in 1:size(prices, 2)
-            #prices[(i+init_price_length),c] = prices[(i),c] * multipliers[i,c]
             prices[(i),c] = original_prices[(price_index + i),c] * multipliers[i,c]
         end
     end
@@ -89,15 +83,8 @@ function ReconstructPrices(output_values, data_config, original_prices)
 
     multipliers = (e).^Array(output_values)
 
-    #println("OGD")
-    #println("Output Size: ", size(output_values, 1))
-    #println("Original Prices Size: ", size(original_prices,1))
-    #println("Price Index: ", price_index)
-
-
     for i in 1:size(output_values,1)
         for c in 1:size(prices, 2)
-            #prices[(i+init_price_length),c] = prices[(i),c] * multipliers[i,c]
             prices[(i),c] = original_prices[(price_index + i),c] * multipliers[i,c]
         end
     end

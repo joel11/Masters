@@ -6,7 +6,6 @@ using TrainingStructures
 using SGD, CostFunctions, FunctionsStopping, FFN, OGD
 using DataGenerator, DataProcessor
 using DataFrames
-#using CSCV
 using FinancialFunctions
 using DatabaseOps
 using ConfigGenerator
@@ -23,7 +22,7 @@ function RunSAEConfigurationTest(ep::SAEExperimentConfig, dataset)
 
     ################################################################################
     #b. Prepare data accordingly
-    full_dataset = PrepareData(ep.data_config, dataset)
+    full_dataset = PrepareData(ep.data_config, dataset, ep.sae_sgd)
     saesgd_data = full_dataset[1]
 
     ################################################################################
@@ -47,9 +46,6 @@ function RunSAEConfigurationTest(ep::SAEExperimentConfig, dataset)
     #reconstructed_recon = ReconstructPrices(deprocessed_recon, ep.data_config, actual_data)
 
     data_pair = (deprocessed_actual, deprocessed_recon)
-
-    mape = round(CalculateMAPE(deprocessed_actual, deprocessed_recon), 2)
-    CreateMapeRecord(config_id, mape)
 
     return (config_id, ep.experiment_set_name, data_pair, sgd_records, ffdata, full_network)
 end
@@ -76,7 +72,6 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
     ## FFN-SGD Training
     #ffn_network = (ep.rbm_pretraining == true ? (TrainRBMNetwork(config_id, encoded_dataset, ep.ffn_network, ep.rbm_cd)[1])
     #                                          : NeuralNetwork(ep.ffn_network.layer_sizes, ep.ffn_network.layer_activations, ep.ffn_network.initialization))
-
     ffn_sgd_records, ffn_network = TrainInitFFN(config_id, "FFN-SGD", encoded_dataset, ep.ffn_network, ep.ffn_sgd)
 
     println("SGD Done")
@@ -85,18 +80,6 @@ function RunFFNConfigurationTest(ep::FFNExperimentConfig, dataset)
     predicted =  Feedforward(ffn_network, encoded_backtests_dataset.training_input)[end]
     sgd_reconstructed_actual, sgd_reconstructed_predicted = ReconstructSGDPredictions(ep.data_config, actual, predicted, backtest_saesgd_data, encoded_backtests_dataset)
     CreateBacktestRecords(config_id, sgd_reconstructed_actual, sgd_reconstructed_predicted)
-
-    # println(string("FFN conf: "), string(ep.ffn_sgd.training_splits))
-    # println(string("FFN conf 2: "), string(ffn_conf.training_splits))
-    # println(string("saesgd_data: ", string(size(saesgd_data.training_input))))
-    # println(string("backtest_saesgd_data: ", string(size(backtest_saesgd_data.training_input))))
-    # println(string("encoded_dataset: ", string(size(encoded_dataset.training_input))))
-    # println(string("encoded_backtests_dataset: ", string(size(encoded_backtests_dataset.training_input))))
-    # println(string("actual: ", string(size(actual))))
-    # println(string("predicted: ", string(size(predicted))))
-    # println(string("sgd_reconstructed_actual: ", string(size(sgd_reconstructed_actual))))
-    # println(string("sgd_reconstructed_predicted: ", string(size(sgd_reconstructed_predicted))))
-
 
     WriteFFN(config_id, ep, ffn_network)
 

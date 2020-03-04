@@ -109,6 +109,7 @@ end
 
 function ChangeDeltas(get_function, parameters, val)
     parameters.experiment_set_name = string(parameters.experiment_set_name , "_Deltas_" , string(val))
+    println(val)
     get_function(parameters).deltas = val
     return parameters
 end

@@ -27,7 +27,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, network_hidden_layer_
                                                             data_sgd_ogd_split,
                                                             data_horizon_predictions,
                                                             data_scaling_function,
-                                                            data_horizon_aggregations,
+                                                            horizon_aggregation,
                                                             network_initialization_functions,
                                                             network_output_activation,
                                                             network_encoding_activation,
@@ -35,7 +35,7 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, network_hidden_layer_
                                                             sgd_min_learning_rates,
                                                             sgd_learning_rate_epoch_length,
                                                             sgd_minibatch_size,
-                                                            sgd_learning_rate_max_epochs,
+                                                            sae_sgd_max_epochs,
                                                             sgd_l1_lambda,
                                                             sgd_validation_set_split,
                                                             sgd_denoising_enabled,
@@ -52,11 +52,11 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, network_hidden_layer_
         data_config = DatasetConfig(ds,
                                     dataset_name,
                                     1,  #timesteps
-                                    horizon_aggregations, #horizon aggregations
-                                    sgd_ogd_split, #process split (for SAE/SGD & OGD)
+                                    horizon_aggregation, #horizon aggregations
+                                    data_sgd_ogd_split, #process split (for SAE/SGD & OGD)
                                     [0.8, 1.0], #validation set split
-                                    horizon_predictions, #prediction step
-                                    ((0,0)), #var pairs
+                                    data_horizon_predictions, #prediction step
+                                    (1,1), #var pairs
                                     data_scaling_function) #scaling function
 
         #layers = [(length(var_pairs)*length(data_config.deltas))]
@@ -67,15 +67,15 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, network_hidden_layer_
         end
         push!(layers, encoding_layer)
 
-        activations = map(x -> primary_activation, 1:(length(layers)-1))
+        activations = map(x -> network_hidden_layer_activation, 1:(length(layers)-1))
 
         sae_net_par = NetworkParameters("SAE",
                                         layers,
                                         activations,
                                         #InitializationFunctions.DCUniformInit,
                                         InitializationFunctions.XavierGlorotUniformInit,
-                                        output_activation, #output
-                                        encoding_activation) #encoding
+                                        network_output_activation, #output
+                                        network_encoding_activation) #encoding
 
         sae_sgd_par = TrainingParameters("SAE",
                                         0.01,           #max learning rate
@@ -99,18 +99,17 @@ function RunNLayerReLUSAETest(encoding_layer, layer_sizes, network_hidden_layer_
     vps = []
 
 
-    push!(vps, (GetDataConfig, ChangeDeltas, horizon_aggregations))
-    push!(vps, (GetSAENetwork, ChangeInit, initialization_functions))
+    push!(vps, (GetSAENetwork, ChangeInit, network_initialization_functions))
     push!(vps, (GetSAETraining, ChangeMaxLearningRate, sgd_max_learning_rates))
     push!(vps, (GetSAETraining, ChangeMinLearningRate, sgd_min_learning_rates))
     push!(vps, (GetSAETraining, ChangeLearningRateCycle, sgd_learning_rate_epoch_length))
     push!(vps, (GetSAETraining, ChangeMinibatchSize, sgd_minibatch_size))
-    push!(vps, (GetSAETraining, ChangeMaxEpochs, sgd_learning_rate_max_epochs))
+    push!(vps, (GetSAETraining, ChangeMaxEpochs, sae_sgd_max_epochs))
     push!(vps, (GetSAETraining, ChangeL1Reg, sgd_l1_lambda))
     push!(vps, (GetSAETraining, ChangeIsDenoising, sgd_denoising_enabled))
     push!(vps, (GetSAETraining, ChangeDenoisingVariance, sgd_denoising_variance))
 
-    set_name = string(experiment_set_name, string(layer_sizes), "x", encoding_layer, " ", split(string(primary_activation), ".")[2])
+    set_name = string(experiment_set_name, string(layer_sizes), "x", encoding_layer, " ", split(string(network_hidden_layer_activation), ".")[2])
     combos = GenerateGridBasedParameterSets(vps, GenerateBaseSAEConfig(set_name, dataset_name))
 
     ################################################################################
@@ -143,35 +142,40 @@ function RunSAEExperiment(experiment_set_name,
                             sgd_min_learning_rates,
                             sgd_learning_rate_epoch_length,
                             sgd_minibatch_size,
-                            sgd_learning_rate_max_epochs,
+                            sae_sgd_max_epochs,
                             sgd_l1_lambda,
                             sgd_validation_set_split,
                             sgd_denoising_enabled,
                             sgd_denoising_variance)
 
+    println("A")
+
     for l in network_layer_sizes
+        println(l)
         for e in network_encoding_layers
-            RunNLayerReLUSAETest(e, l,  network_hidden_layer_activation,
-                                        experiment_set_name,
-                                        dataset_name,
-                                        dataset,
-                                        data_sgd_validation_set_split,
-                                        data_sgd_ogd_split,
-                                        data_horizon_predictions,
-                                        data_scaling_function,
-                                        data_horizon_aggregations,
-                                        network_initialization_functions,
-                                        network_output_activation,
-                                        network_encoding_activation,
-                                        sgd_max_learning_rates,
-                                        sgd_min_learning_rates,
-                                        sgd_learning_rate_epoch_length,
-                                        sgd_minibatch_size,
-                                        sgd_learning_rate_max_epochs,
-                                        sgd_l1_lambda,
-                                        sgd_validation_set_split,
-                                        sgd_denoising_enabled,
-                                        sgd_denoising_variance) ⁠
+            for d in data_horizon_aggregations
+                RunNLayerReLUSAETest(e, l,  network_hidden_layer_activation,
+                                            experiment_set_name,
+                                            dataset_name,
+                                            dataset,
+                                            data_sgd_validation_set_split,
+                                            data_sgd_ogd_split,
+                                            data_horizon_predictions,
+                                            data_scaling_function,
+                                            d,
+                                            network_initialization_functions,
+                                            network_output_activation,
+                                            network_encoding_activation,
+                                            sgd_max_learning_rates,
+                                            sgd_min_learning_rates,
+                                            sgd_learning_rate_epoch_length,
+                                            sgd_minibatch_size,
+                                            sae_sgd_max_epochs,
+                                            sgd_l1_lambda,
+                                            sgd_validation_set_split,
+                                            sgd_denoising_enabled,
+                                            sgd_denoising_variance)
+            end
         end
     end
 end

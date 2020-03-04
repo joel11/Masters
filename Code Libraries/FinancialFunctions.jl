@@ -1,8 +1,5 @@
 module FinancialFunctions
 
-#workspace()
-#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
-
 using DatabaseOps
 using DataFrames
 using DataProcessor
@@ -151,8 +148,6 @@ end
 
 function GenerateTradeStrategyReturnsCost(stockreturns, timestep)
 
-    #[:time_step, :total_profit_observed, :total_profit_rate]
-
     strat_df = DataFrame()
 
     returns_observed = mapreduce(i -> Array(stockreturns[i,2][:return_observed]), hcat, 1:size(stockreturns,1))
@@ -168,11 +163,6 @@ function GenerateTradeStrategyReturnsCost(stockreturns, timestep)
 
     strat_df[:total_returns_observed] = total_returns_observed
     strat_df[:total_trade_costs] = total_trade_costs
-
-    #strat_df[:total_returns_observed] = mapreduce(i -> sum(returns_observed[i, :]), vcat, 1:size(returns_observed, 1))
-    #strat_df[:total_trade_costs] = mapreduce(i -> sum(trade_costs[i, :]), vcat, 1:size(trade_costs, 1))
-    #test = mapreduce(i -> sum(returns_observed[i, :]), vcat, 1:size(returns_observed, 1))
-    #println(all(test .== total_returns_observed))
 
     strat_df[:time_step] = stockreturns[1,2][:time]
     strat_df[:total_profit_observed] = (strat_df[:total_returns_observed] .- strat_df[:total_trade_costs])

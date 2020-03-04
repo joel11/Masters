@@ -1,8 +1,5 @@
 module DatabaseBatchProcesses
 
-#workspace()
-#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
-
 using MLBase
 using Combinatorics
 using StatsBase
@@ -65,10 +62,7 @@ function UpdateOOSProfits(config_ids)
     start = get(maximum(time_steps[:min_ts]))
     finish = get(minimum(time_steps[:max_ts]))
 
-    #start = 2370
-    #finish = 3908
-
-	RunQuery("delete from config_oos_pl where configuration_id in ($ids)")
+    RunQuery("delete from config_oos_pl where configuration_id in ($ids)")
 
     RunQuery("insert into config_oos_pl (configuration_id, total_pl)
             select configuration_id, sum(total_profit_observed)
@@ -88,9 +82,6 @@ function UpdateOOSCostProfits(config_ids)
 
     start = get(maximum(time_steps[:min_ts]))
     finish = get(minimum(time_steps[:max_ts]))
-
-    #start = 2370
-    #finish = 3908
 
     RunQuery("delete from config_oos_pl_cost where configuration_id in ($ids)")
 
@@ -113,9 +104,6 @@ function UpdateISProfits(config_ids)
     start = get(maximum(time_steps[:min_ts]))
     finish = get(minimum(time_steps[:max_ts]))
 
-    #start = 61
-    #finish = 2353
-
     RunQuery("delete from config_is_pl where configuration_id in ($ids)")
 
     RunQuery("insert into config_is_pl (configuration_id, total_pl)
@@ -136,9 +124,6 @@ function WriteOOSSharpeRatios(config_ids)
 
     start = get(maximum(time_steps[:min_ts]))
     finish = get(minimum(time_steps[:max_ts]))
-
-    #start = 2370
-    #finish = 3908
 
     RunQuery("delete from config_oos_sharpe_ratio where configuration_id in ($ids)")
 
@@ -167,9 +152,6 @@ function WriteOOSSharpeRatiosCost(config_ids)
 
     start = get(maximum(time_steps[:min_ts]))
     finish = get(minimum(time_steps[:max_ts]))
-
-    #start = 2370
-    #finish = 3908
 
     RunQuery("delete from config_oos_sharpe_ratio_cost where configuration_id in ($ids)")
 
@@ -256,22 +238,6 @@ function WriteTradeReturnsBase(config_ids, dataset, financial_returns_function, 
             model_returns[:configuration_id] = c
             model_returns = model_returns[:,[:configuration_id, :time_step, :total_profit_observed, :total_profit_rate]]
 
-            #if size(model_returns, 1) != length
-               #difference = length - size(model_returns, 1)
-               #max_timestep = maximum(model_returns[:time_step])
-
-               #model_returns[:time_step] = model_returns[:time_step] .+ indent
-
-               #zero_df = DataFrame()
-               ##zero_df[:time_step] = (max_timestep + 1):(max_timestep + difference)
-               #zero_df[:time_step] = (1):(difference)
-               #zero_df[:configuration_id] = c
-               #zero_df[:total_profit_observed] = 0.0
-               #zero_df[:total_profit_rate] = 0.0
-               #zero_df = zero_df[:, [:configuration_id, :time_step, :total_profit_observed, :total_profit_rate]]
-               #model_returns = vcat(zero_df, model_returns)
-            #end
-
             append!(aggregated_returns, model_returns)
         catch y
             error_count = error_count + 1
@@ -314,7 +280,6 @@ function GenerateConfusionDistributions(config_ids, original_prices)
             sae_id = get(config_results[1, :sae_config_id])
             data_config = ReadSAE(sae_id)[2]
             timestep = data_config.prediction_steps[1]
-            #timestep = 5
 
             results = all_results[Array(all_results[:configuration_id]) .== config_id,:]
 

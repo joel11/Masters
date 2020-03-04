@@ -158,7 +158,7 @@ function RunFFNExperiment(experiment_set_name, sae_choices,
                                         sgd_validation_set_split,
                                         sgd_denoising_enabled,
                                         sgd_denoising_variance,
-                                        ogd_learning_rates) ⁠
+                                        ogd_learning_rates)
     end
 end
 

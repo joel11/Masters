@@ -402,9 +402,9 @@ function Results_8_8_MMS()
     dataset = jsedata[:, [:AGL,:BIL,:IMP,:FSR,:SBK,:REM,:INP,:SNH,:MTN,:DDT]]
 
 
-    AllProfitsPDF(dataset)
+    #AllProfitsPDF(dataset)
 
-    AllProfitsPDF(dataset, true)
+    #AllProfitsPDF(dataset, true)
 
     SharpeRatiosPDF()
 
@@ -475,14 +475,14 @@ function Appendix()
     PL_Activations(config_ids, "Leaky Relu v Relu ", "SyntheticPL", true)
 end
 
-#Results_8_1_Intro()
-#Results_8_2_PrimaryDeterminants()
-#Results_8_3_HistoricalData()
-#Results_8_4_WeightInit()
-#Results_8_5_SyntheticData()
-#Results_8_6_Complexity()
-#Results_8_7_Network()
-#Results_8_8_MMS()
-#Results_8_9_PBO()
-#Result_8_10_DSR()
-#Appendix()
+Results_8_1_Intro()
+Results_8_2_PrimaryDeterminants()
+Results_8_3_HistoricalData()
+Results_8_4_WeightInit()
+Results_8_5_SyntheticData()
+Results_8_6_Complexity()
+Results_8_7_Network()
+Results_8_8_MMS()
+Results_8_9_PBO()
+Result_8_10_DSR()
+Appendix()

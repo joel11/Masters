@@ -177,4 +177,4 @@ function CreateDatabase(database_name)
     SQLite.execute!(db, prediction_index)
 end
 
-#CreateDatabase("database_actual.db")
+CreateDatabase("database_new.db")

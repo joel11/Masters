@@ -933,8 +933,8 @@
 	
 	\begin{equation}\label{eq_ltd_normalization}
 	\mathbf{n_i}= 
-	\frac{\mathrm{\mathbf{p}_i - \min\limits_{\mathbf{p}}}}
-	{\mathrm{\max\limits_{\mathbf{p}} -\min\limits_{\mathbf{p}}}}
+	\frac{\mathrm{\mathbf{p}_i - \min \left( \mathbf{p} \right)   } }
+	{\mathrm{\max \left( \mathbf{p} \right) - \min \left( \mathbf{p} \right)  }}
 	\end{equation}
 	
 	~\\
@@ -950,8 +950,8 @@
 	
 	\begin{equation}\label{eq_ltd_normalize}
 	\mathbf{v_{(i, t)}}  = 
-	\mathrm{ \frac{\mathbf{p}_i - \min\limits_{\mathbf{p_1},\dots\mathbf{p_t}}} 
-		{\max\limits_{\mathbf{p_1},\dots\mathbf{p_t}} - \min\limits_{\mathbf{p_1},\dots\mathbf{p_t}}} 
+	\mathrm{ \frac{\mathbf{p}_i - \min \left(  \mathbf{p}_{1:t}\right)}
+		{\max \left( \mathbf{p}_{1:t} \right)- \min \left( \mathbf{p}_{1:t} \right) } 
 		, \forall  i \in (1, n)}
 	\end{equation}
 	
@@ -971,7 +971,7 @@
 	\paragraph{Reverse Normalization}
 	
 	\begin{equation}
-	\mathbf{n^{*}_i} = \mathrm{\mathbf{n}_i \cdot \left(\max_{\mathbf{p}} - \min_{\mathbf{p}}\right) + \min_{\mathbf{p}}}
+	\mathbf{n^{*}_i} = \mathrm{\mathbf{n}_i \cdot \left(\max \left( {\mathbf{p}} \right) - \min \left( {\mathbf{p}} \right) \right) + \min\left({\mathbf{p}}\right)}
 	\end{equation}
 	
 	\paragraph{Reverse Limited Standardization}
@@ -983,7 +983,8 @@
 	\paragraph{Reverse Limited Normalization}
 	
 	\begin{equation}
-	\mathbf{v^{*}_i} = \mathrm{\mathbf{v}_i \cdot \left(\max\limits_{\mathbf{p_1},\dots\mathbf{p_t}} - \min\limits_{\mathbf{p_1},\dots\mathbf{p_t}}\right) + \min\limits_{\mathbf{p_1},\dots\mathbf{p_t}}},  \forall  i \in (1, \mathrm{n})
+	\mathbf{v^{*}_i} = \mathrm{\mathbf{v}_i \cdot \left(\max \left( \mathbf{p}_{1:t} \right) - \min \left( \mathbf{p}_{1:t}\right) \right) 
+		+ \min \left( \mathbf{p}_{1:t}  \right)      }   ,  \forall  i \in (1, \mathrm{n})
 	\end{equation}
 	
 	
@@ -1116,14 +1117,13 @@
 	\theta(x) = \max(0, x), 
 	\end{equation}
 	
-	\begin{equation}\end{equation}\label{func_relu_prime}
 	\[
 	\theta^\prime(x)= 
 	\begin{cases}
 	1,& \text{if } x\geq 0\\
 	0,              & \text{otherwise.}
 	\end{cases}
-	\]
+	\]\begin{equation}\end{equation}\label{func_relu_prime}
 	
 	The function has the benefits of quick learning which doesn't saturate, as well as being computationally cheap. The downside is that the non-gradient for the negative range of the function can result in `dead' nodes, which stop updating with the learning process.
 	
@@ -1330,7 +1330,7 @@
 	The learning rate schedule is specified to cycle through from the minimum value to the maximum value every $T$ epochs, from $\eta_{\min}$ to $\eta_{\max}$. Thus for the current epoch $i$, the learning rate is calculated as:
 	
 	\begin{equation}\label{func_learning_rate_sched}
-	\eta_{i}={\min\limits_{\eta} }+\frac{1}{2}\left({\max\limits_{\eta} }- {\min\limits_{\eta}}\right)\left(1+\cos \left(\frac{i}{T} \pi\right)\right) .
+	\eta_{i}={\eta_{\min} }+\frac{1}{2}\left(\eta_{\max}- \eta_{\min}\right)\left(1+\cos \left(\frac{i}{T} \pi\right)\right) .
 	\end{equation}
 	
 	This is the Cyclical Learning Rates approach, though using sinusoidal form rather than linear \citep{Smith}. For a minimum learning rate of 0.1, a maximum of 1.0 and an epoch cycle of 100, it will produce learning rates as displayed in Figure \ref{figure-SGDRLearningRates} below.
@@ -1338,7 +1338,7 @@
 	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.2]{images/implementation/CyclicalLearningRates.png}
-		\caption[Cyclical Learning Rate Diagram]{Learning rates calculated over 1000 epochs with ${\min\limits_{\eta}} = 0.1$ to ${\max\limits_{\eta}} = 1.0$ and $i=100$.}
+		\caption[Cyclical Learning Rate Diagram]{Learning rates calculated over 1000 epochs with $\eta_{\min} = 0.1$ to $\eta_{\max}= 1.0$ and $i=100$.}
 		\label{figure-SGDRLearningRates}
 	\end{figure}
 	
@@ -1372,7 +1372,7 @@
 	\citet{Hinton5} shows that the joint configuration $(v,h)$ of the visible and hidden units has an energy given by :
 	
 	\begin{equation}\label{func_rbmenergy}
-	E(\mathbf{v},\mathbf{h}) = - \sum_{i \in visible} \mathbf{a}_i\mathbf{v}_i - \sum_{j \in hidden} \mathbf{b}_j\mathbf{h}_j - \sum_{i,j}\mathbf{v}_i\mathbf{h}_j\mathbf{w}_{ij} ,
+	E(\mathbf{v},\mathbf{h}) = - \sum_{i \in \mathrm{visible}} \mathbf{a}_i\mathbf{v}_i - \sum_{j \in \mathrm{hidden}} \mathbf{b}_j\mathbf{h}_j - \sum_{i,j}\mathbf{v}_i\mathbf{h}_j\mathbf{w}_{ij} ,
 	\end{equation}
 	
 	where
@@ -1385,7 +1385,7 @@
 	It can be shown, that network weights can be adjusted to change the probabilities assigned to a particular training sample . The derivations of equation \eqref{func_rbmenergy} show that performing a stochastic descent for the log probability of the data can be implemented through the following weight adjustment:
 	
 	\begin{equation}
-	\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{data} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{model}) .
+	\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{\mathrm{data}} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{\mathrm{model}}) .
 	\end{equation}
 	
 	The angular brackets here indicate expectations under the distribution specified by the following subscript. Due to the probabilistic nature of RBMs, the [0,1] ranged sigmoid activation function is typically used. Thus, for hidden nodes and a data sample $v$, it is easy to get unbiased sampling of $\langle v_ih_j \rangle_{data}$:
@@ -1404,7 +1404,7 @@
 	Getting an unbiased sample of $\langle v_i h_j \rangle$ proves more problematic, and so the model reconstructions via Gibbs sampling are used instead (this is expanded on below), resulting in the weight updates of
 	
 	\begin{equation}
-	\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{data} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{reconstruction}).
+	\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{\mathrm{data}} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{\mathrm{reconstruction}}).
 	\end{equation}
 	
 	While it is important for the hidden units to take on a binary value (and so avoid communicating real values rather than learning structure), the visible units may be chosen to take on the probability values, rather than the stochastic samples, particularly if real valued output is necessary. 
@@ -1606,14 +1606,14 @@
 	
 	\subsubsection{Input Variables}
 	
-	The MMS takes the following values as input for each time point $t$  and prediction point $D$:
+	The MMS takes the following values as input for each time point $t$  and prediction point $D$ ($D$ is typically 5 in this paper):
 	\begin{enumerate}
 		\item {$\mathbf{\tilde{p}}_t$}, the closing price at time $t$, 
 		\item $\mathbf{\tilde{p}}_{t+D}$, the closing price in $D$ days, and
 		\item $\hat{\mathbf{p}}_{t+D}$, the predicted closing price in $D$ days.
 	\end{enumerate}
-	
-	The naming conventions for the variables which are then calculated are as follows:
+
+	~\\The naming conventions for the variables calculated are as follows:
 	
 		\begin{enumerate}
 		\item $s$ represents a trading signal indicating whether a trade should occur on a given day, 
@@ -1628,140 +1628,213 @@
 	
 	\subsubsection{Calculated Asset Variables}
 	
-	Thus, for each asset at each time point, the following values are calculated:
+	For each asset at each time point, the values in Table \ref{tab_calculated_strat_variables} below are calculated. 
 	
-	\begin{enumerate}
-		\item A trading signal indicating whether a trade will take place on $t$:
-		\begin{equation}\end{equation}
-			\[\mathbf{s}_t= 
-				\begin{cases}
-				1,& \text{if } \mathbf{\hat{p}}_{t+5} > \mathbf{p}_t\\
-				0,              & \text{otherwise.}
-				\end{cases}
-				\]
+	\begin{longtable}{|p{0.25\linewidth}|p{0.375\linewidth}|p{0.375\linewidth}|}
+		\hline
+		\textbf{Variable Name} &\textbf{Description}&\textbf{Equation}  \\\hline	
+		{Trading Signal} 
+					& {A trading signal indicating whether a trade will take place on $t$.}
+					& {\[\mathbf{s}_t= 
+						\begin{cases}
+						1,& \text{if } \mathbf{\hat{p}}_{t+D} > \mathbf{p}_t\\
+						0,              & \text{otherwise.}
+						\end{cases}
+						\]\begin{equation}\end{equation}} \\\hline
 
-		\item A trading signal indicating whether a trade will take place on $t$ in the benchmark model:
-				\begin{equation}\end{equation}
-				\[\mathbf{s}^b_t= 
-				\begin{cases}
-				1,& \text{if } \mathbf{{p}}_{t+5} > \mathbf{p}_t\\
-				0,              & \text{otherwise.}
-				\end{cases}
-				\]
+		{Trading Signal, Benchmark} 
+					& {A trading signal indicating whether a trade will take place on $t$ in the benchmark model.}
+					& {\[\mathbf{s}^b_t= 
+						\begin{cases}
+						1,& \text{if } \mathbf{{p}}_{t+D} > \mathbf{p}_t\\
+						0,              & \text{otherwise.}
+						\end{cases}
+						\]\begin{equation}\end{equation}}\\\hline
+										
+		{Asset Cost}
+			&{The cost incurred in buying the asset at time $t$.}
+			&{		\begin{equation}
+				\mathbf{c}_t = \mathbf{\tilde{p}}_t \cdot \mathbf{s}_t 
+				\end{equation}}\\\hline
 		
-		\item The cost incurred in buying the asset at time $t$:
-		\begin{equation}
-			\mathbf{c}_t = \mathbf{\tilde{p}}_t \cdot \mathbf{s}_t .
-		\end{equation}
-		\item The cost incurred in the benchmark model at $t$:
-		\begin{equation}
-				\mathbf{c}^b_{t} = \mathbf{\tilde{p}}_t \cdot \mathbf{s}^b_{t} .
-		\end{equation}
-		\item The possible capital and transaction costs:
-		\begin{equation}\label{eq_capital_costs}
-			\mathbf{k}_t= \mathbf{\tilde{p}}_t \cdot (0.1 / 365 \cdot D) + \mathbf{\tilde{p}}_t \cdot (0.45 / 100) .
-		\end{equation}
-		\item The full cost of trading the asset at $t$ in the predictive model:
-		\begin{equation}
-			\mathbf{f}_t = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) \cdot \mathbf{s}_t .
-		\end{equation}	
-		\item The full cost of trading the asset at $t$ in the benchmark model:
-		\begin{equation}
-			\mathbf{f}^b_{t} = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) \cdot \mathbf{s}^b_{t} .
-		\end{equation}
+		{Asset Cost, Benchmark}
+				&{The cost incurred in buying the asset at time $t$ in the benchmark model.}
+				&{		\begin{equation}
+					\mathbf{c}^b_{t} = \mathbf{\tilde{p}}_t \cdot \mathbf{s}^b_{t} 
+					\end{equation}}\\\hline
+
+		{Transaction Capital Costs}
+				&{The capital and transaction costs of purchasing the asset.}
+				&{\begin{equation}\label{eq_capital_costs}
+					\begin{array}{l}
+					\mathbf{k}_t= \mathbf{\tilde{p}}_t \cdot (0.1 / 365 \cdot D) \\ 
+					\; \; \; + \mathbf{\tilde{p}}_t \cdot (0.45 / 100) 
+					\end{array}
+					\end{equation}
+			}\\\hline		
+
+		{Full Asset Costs}
+			&{The full cost of trading the asset at $t$.}
+			&{\begin{equation}
+				\mathbf{f}_t = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) \cdot \mathbf{s}_t 
+				\end{equation}	
+			}\\\hline				
 		
-		
-		\item The nominal observed P\&L at $t+D$:
-		\begin{equation}
-			\mathbf{\tilde{o}}_{t + D} = \left( \mathbf{\tilde{p}}_{t+D} - \mathbf{\tilde{p}}_t \right) \cdot \mathbf{s}_t .
-		\end{equation}	
-		\item The nominal expected P\&L at $t+D$:
-		\begin{equation}
-		\mathbf{\hat{o}}_{t + D} = \left( \mathbf{\hat{p}}_{t+D} - \mathbf{\hat{p}}_t \right ) \cdot \mathbf{s}_t .
-		\end{equation}
-		\item The nominal benchmark P\&L at $t+D$:
-		\begin{equation}
-			\mathbf{o}^b_{t + D} = \left( \mathbf{\tilde{p}}_{t+D} - \mathbf{\tilde{p}}_t \right) \cdot \mathbf{s}^b_{t} .
-		\end{equation}
-		
-		
-		\item The fullcost observed return rate at $t+D$:
-		\begin{equation}
-		\mathbf{\tilde{r}}_{t + D} = \frac{\left( \mathbf{\tilde{o}}_{t+D} - \mathbf{f}_t \right) }
-		{\mathbf{f}_t} .
-		\end{equation}
-		\item The fullcost expected return rate at $t+D$:
-		\begin{equation}
-		\mathbf{\hat{r}}_{t + D} = \frac{\left( \mathbf{\hat{o}}_{t+D} - \mathbf{f}_t \right) }
-		{\mathbf{f}_t} .
-		\end{equation}
-		\item The fullcost benchmark return rate at $t+D$:
-		\begin{equation}
-		\mathbf{\tilde{r}}^b_{t + D} = \frac{\left( \mathbf{\tilde{o}}^b_{t+D} - \mathbf{f}^b_t \right) }
-		{\mathbf{f}^b_t} .
-		\end{equation}	
+		{Full Asset Costs, Benchmark}
+			&{The full cost of trading the asset at $t$ in the benchmark model.}
+			&{\begin{equation}
+				\mathbf{f}^b_{t} = (\mathbf{\tilde{p}}_t + \mathbf{k}_t) \cdot \mathbf{s}^b_{t} 
+				\end{equation}
+			}\\\hline				
 		
 		
-	\end{enumerate}
+		{Nominal Observed P\&L}
+		&{The nominal observed P\&L at $t+D$.}
+		&{\begin{equation}
+			\mathbf{\tilde{o}}_{t + D} = \left( \mathbf{\tilde{p}}_{t+D} - \mathbf{\tilde{p}}_t \right) \cdot \mathbf{s}_t 
+			\end{equation}	
+		}\\\hline				
+	
+		{Nominal Observed P\&L, Benchmark}
+			&{The nominal observed P\&L at $t+D$ in the benchmark model.}
+			&{\begin{equation}
+				\mathbf{o}^b_{t + D} = \left( \mathbf{\tilde{p}}_{t+D} - \mathbf{\tilde{p}}_t \right) \cdot \mathbf{s}^b_{t} 
+				\end{equation}
+			}\\\hline				
+	
+			{Nominal Expected P\&L}
+			&{The nominal expected P\&L at $t+D$.}
+			&{\begin{equation}
+				\mathbf{\hat{o}}_{t + D} = \left( \mathbf{\hat{p}}_{t+D} - \mathbf{\hat{p}}_t \right ) \cdot \mathbf{s}_t 
+				\end{equation}
+			}\\\hline				
+		
+	
+		{Fullcost Observed Return Rate}
+		&{The fullcost observed return rate at $t+D$.}
+		&{\begin{equation}
+			\mathbf{\tilde{r}}_{t + D} = \frac{\left( \mathbf{\tilde{o}}_{t+D} - \mathbf{f}_t \right) }
+			{\mathbf{f}_t}
+			\end{equation}
+		}\\\hline				
+		
+		{Fullcost Observed Return Rate, Benchmark}
+		&{The fullcost expected return rate at $t+D$ in the benchmark model.}
+		&{		\begin{equation}
+			\mathbf{\tilde{r}}^b_{t + D} = \frac{\left( \mathbf{\tilde{o}}^b_{t+D} - \mathbf{f}^b_t \right) }
+			{\mathbf{f}^b_t} 
+			\end{equation}	
+		}\\\hline	
+		
+		
+		{Fullcost Expected Return Rate}
+		&{The fullcost expected return rate at $t+D$.}
+		&{\begin{equation}
+			\mathbf{\hat{r}}_{t + D} = \frac{\left( \mathbf{\hat{o}}_{t+D} - \mathbf{f}_t \right) }
+			{\mathbf{f}_t} 
+			\end{equation}
+		}\\\hline				
+		
+		\caption{Asset Level MMS Variable Calculations.}
+		\label{tab_calculated_strat_variables}
+	\end{longtable}
+
 	\hfill\break
 	
+	\newpage
+	\subsubsection{Calculated Strategy Variables} 
 	
-	\subsubsection{Calculated Strategy Variables} The MMS  is then implemented using these calculated values which are aggregated at each time point $t$ for all assets, $a$, as follows:
 	
-		\begin{enumerate}
-			\item The nominal expected P\&L for $t+D$ from all assets traded at $t$:
-			\begin{equation}
-				\mathbf{\hat{O}}_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{\hat{o}}_{a, {t+D}} .
+	The MMS  is then implemented using the values calculated in Table \ref{tab_calculated_strat_variables}. These values are aggregated at each time point $t$, for all assets $a$, resulting in the calculation of the strategy level variables presented below in Table \ref{tab_calculated_fullstrat_variables}.
+	
+		\begin{longtable}{|p{0.25\linewidth}|p{0.375\linewidth}|p{0.375\linewidth}|}
+		\hline
+		\textbf{Variable Name} &\textbf{Description}&\textbf{Equation}  \\\hline	
+
+		{Nominal Expected P\&L} 
+		& {The nominal expected P\&L for $t+D$ from all assets traded at $t$.}
+		& {	\begin{equation}
+			\mathbf{\hat{O}}_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{\hat{o}}_{a, {t+D}} .
 			\end{equation}
-			\item The nominal observed P\&L for $t+D$ from all assets traded at $t$:
-			\begin{equation}
-				\mathbf{\tilde{O}}_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{\tilde{o}}_{a, {t+D}}.
+		} \\\hline
+
+		{Nominal Observed P\&L} 
+		& {The nominal observed P\&L for $t+D$ from all assets traded at $t$.}
+		& {\begin{equation}
+			\mathbf{\tilde{O}}_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{\tilde{o}}_{a, {t+D}}.
 			\end{equation}
-			\item The nominal benchmark P\&L for $t+D$ from all assets traded at $t$:
-			\begin{equation}
-				\mathbf{O}^b_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{o}^b_{a, {t+D}} .
+		} \\\hline
+	
+		{Nominal Observed P\&L, Benchmark} 
+		& {The nominal benchmark P\&L for $t+D$ from all assets traded at $t$.}
+		& {	\begin{equation}
+			\mathbf{O}^b_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{o}^b_{a, {t+D}} .
 			\end{equation}
-			
-			\item The cost of all trades at $t$:
-				\begin{equation}
-				\mathbf{C}_t = \sum_{\mathrm{a \in assets}} \mathbf{c}_{a,t} .
-				\end{equation}
-			\item The cost of all trades at $t$ in the benchmark model:
-				\begin{equation}
-				\mathbf{C}^b_{t} = \sum_{\mathrm{a \in assets}} \mathbf{c}^b_{a ,t} .
-				\end{equation}
-			\item The cost of all trades at $t$ including transaction costs:
-				\begin{equation}
-				\mathbf{F}_t = \sum_{\mathrm{a \in assets}} \mathbf{f}_{a,t} .
-				\end{equation}
-			\item The cost of all trades at $t$, including transaction costs, in the benchmark model:
-				\begin{equation}
-				\mathbf{F}^b_{p,t} = \sum_{\mathrm{a \in assets}} \mathbf{f}^b_{a,t} .
-				\end{equation}	
+		} \\\hline
+	
+		{Total Trade Cost} 
+		& {The cost of all trades at $t$.}
+		& {\begin{equation}
+			\mathbf{C}_t = \sum_{\mathrm{a \in assets}} \mathbf{c}_{a,t} .
+			\end{equation}
+		} \\\hline
+	
+		{Total Trade Cost} 
+		& {The cost of all trades at $t$ in the benchmark model.}
+		& {\begin{equation}
+			\mathbf{C}^b_{t} = \sum_{\mathrm{a \in assets}} \mathbf{c}^b_{a ,t} .
+			\end{equation}
+		} \\\hline
+	
+		{Total Full Trade Cost} 
+		& {The cost of all trades at $t$ including transaction costs.}
+		& {\begin{equation}
+			\mathbf{F}_t = \sum_{\mathrm{a \in assets}} \mathbf{f}_{a,t} .
+			\end{equation}
+		} \\\hline
+	
+		{Total Full Trade Cost, Benchmark} 
+		& {The cost of all trades at $t$, including transaction costs, in the benchmark model.}
+		& {\begin{equation}
+			\mathbf{F}^b_{p,t} = \sum_{\mathrm{a \in assets}} \mathbf{f}^b_{a,t} .
+			\end{equation}
+		} \\\hline
 		
+		{Total Full Trade Cost Observed Return Rate} 
+		& {The full cost observed return rate at $t+D$.}
+		& {\begin{equation}
+			\mathbf{\tilde{R}}_{t + D} = \frac{\left( \mathbf{\tilde{O}}_{t+D} - \mathbf{F}_t \right) }
+			{\mathbf{F}_t} .
+			\end{equation}
+		} \\\hline
+	
+		{Total Full Trade Cost Return Rate, Benchmark} 
+		& {The fullcost benchmark return rate at $t+D$ in the benchmark model.}
+		& {\begin{equation}
+			\mathbf{\tilde{R}}^b_{t + D} = \frac{\left( \mathbf{\tilde{O}}^b_{t+D} - \mathbf{F}^b_t \right) }
+			{\mathbf{F}^b_t} .
+			\end{equation}	
+		} \\\hline
+	
+		{Total Full Trade Cost Expected Return Rate} 
+		& {The full cost expected return rate at $t+D$.}
+		& {\begin{equation}
+			\mathbf{\hat{R}}_{t + D} = \frac{\left( \mathbf{\hat{O}}_{t+D} - \mathbf{F}_t \right) }
+			{\mathbf{F}_t} .
+			\end{equation}
+		} \\\hline
+
+		{Sharpe Ratio} 
+		& {The calculation of the Sharpe ratio for a set of model returns \citep{Lo}.}
+		& {\begin{equation}\label{eq_sharperatio}
+			\mathbf{SR} = \frac{\mathbf{\E}(\mathbf{\tilde{R}})}{\sqrt{\Var(\mathbf{\tilde{R}})}} .
+			\end{equation}
+		} \\\hline
 		
-			\item The fullcost observed return rate at $t+D$:
-				\begin{equation}
-				\mathbf{\tilde{R}}_{t + D} = \frac{\left( \mathbf{\tilde{O}}_{t+D} - \mathbf{F}_t \right) }
-				{\mathbf{F}_t} .
-				\end{equation}	
-			\item The fullcost expected return rate at $t+D$:
-				\begin{equation}
-				\mathbf{\hat{R}}_{t + D} = \frac{\left( \mathbf{\hat{O}}_{t+D} - \mathbf{F}_t \right) }
-				{\mathbf{F}_t} .
-				\end{equation}
-			\item The fullcost benchmark return rate at $t+D$:
-				\begin{equation}
-				\mathbf{\tilde{R}}^b_{t + D} = \frac{\left( \mathbf{\tilde{O}}^b_{t+D} - \mathbf{F}^b_t \right) }
-				{\mathbf{F}^b_t} .
-				\end{equation}	
-		
-			\item The Sharpe Ratio \citep{Lo}:
-				\begin{equation}\label{eq_sharperatio}
-					\mathbf{SR} = \frac{\mathbf{\E}(\mathbf{\tilde{R}})}{\sqrt{\Var(\mathbf{\tilde{R}})}} .
-				\end{equation}
-		
-	\end{enumerate}
+		\caption{Strategy Level MMS Variable Calculations.}
+		\label{tab_calculated_fullstrat_variables}
+	\end{longtable}
+	
 	\hfill\break
 
 	\subsection{Combinatorially Symmetric Cross-Validation and Probability of Backtest Overfitting}\label{imp_cscv}

@@ -2,7 +2,18 @@ workspace()
 
 push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 using ExperimentProcessTrainSAE
-
+using ExperimentProcessTrainFFN
+using NeuralNetworks
+using ActivationFunctions, InitializationFunctions, NetworkTrainer
+using TrainingStructures
+using SGD, CostFunctions, FunctionsStopping, FFN, OGD
+using DataGenerator, DataProcessor
+using DataFrames
+using FinancialFunctions
+using DatabaseOps
+using ConfigGenerator
+using DataJSETop40
+using BSON
 
 ##Train SAE Networks############################################################
 
@@ -24,11 +35,11 @@ sae_network_encoding_activation = LinearActivation
 sae_network_layer_sizes = ((20,20,20), (20,20), (20))
 sae_network_encoding_layers = (3, 5)
 
-sae_sgd_max_learning_rates = (0.005, 0.01, 0.05, 0.1)
+sae_sgd_max_learning_rates = (0.005, 0.01)
 sae_sgd_min_learning_rates = (0.001, 0.0001)
 sae_sgd_learning_rate_epoch_length = (100, 200)
 sae_sgd_minibatch_size = (32)
-sae_sgd_learning_rate_max_epochs = (100, 1000)
+sae_sgd_max_epochs = (100, 200)
 sae_sgd_l1_lambda = (0.0)
 sae_sgd_validation_set_split = [0.8]
 sae_sgd_denoising_enabled = (false)
@@ -52,7 +63,7 @@ RunSAEExperiment(sae_experiment_set_name,
                             sae_sgd_min_learning_rates,
                             sae_sgd_learning_rate_epoch_length,
                             sae_sgd_minibatch_size,
-                            sae_sgd_learning_rate_max_epochs,
+                            sae_sgd_max_epochs,
                             sae_sgd_l1_lambda,
                             sae_sgd_validation_set_split,
                             sae_sgd_denoising_enabled,
@@ -78,7 +89,7 @@ ffn_sgd_max_learning_rates = (0.005, 0.01, 0.05, 0.1)
 ffn_sgd_min_learning_rates = (0.001, 0.0001)
 ffn_sgd_learning_rate_epoch_length = (100, 200)
 ffn_sgd_minibatch_size = (32)
-ffn_sgd_learning_rate_max_epochs = (100, 1000)
+ffn_sgd_max_epochs = (100, 1000)
 ffn_sgd_l1_lambda = (0.0)
 ffn_sgd_validation_set_split = [0.8]
 ffn_sgd_denoising_enabled = (false)
@@ -97,7 +108,7 @@ RunFFNExperiment(ffn_experiment_set_name, sae_choices,
                             ffn_sgd_min_learning_rates,
                             ffn_sgd_learning_rate_epoch_length,
                             ffn_sgd_minibatch_size,
-                            ffn_sgd_learning_rate_max_epochs,
+                            ffn_sgd_max_epochs,
                             ffn_sgd_l1_lambda,
                             ffn_sgd_validation_set_split,
                             ffn_sgd_denoising_enabled,
