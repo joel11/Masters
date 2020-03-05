@@ -15,7 +15,7 @@ function TransformConfigIDs(config_ids)
     return (mapreduce(c -> string(c, ","), (x, y) -> string(x, y), config_ids)[1:(end-1)])
 end
 
-function RunBatchTradeProcess(config_ids, is_oos_split_timestep, dataset)
+function RunBatchTradeProcess(config_ids, dataset)
 
     min = minimum(config_ids)
     max = maximum(config_ids)
@@ -32,7 +32,7 @@ function RunBatchTradeProcess(config_ids, is_oos_split_timestep, dataset)
     end
 end
 
-function RunBatchAnalyticsProcess(config_ids, is_oos_split_timestep, dataset)
+function RunBatchAnalyticsProcess(config_ids, dataset)
 
     min = minimum(config_ids)
     max = maximum(config_ids)

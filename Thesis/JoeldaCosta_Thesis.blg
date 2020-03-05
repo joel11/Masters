@@ -1,76 +1,136 @@
 This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: JoeldaCosta_Thesis.aux
-The style file: IEEEtran.bst
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
+The style file: plainnat.bst
+Illegal, another \bibstyle command---line 1225 of file JoeldaCosta_Thesis.aux
+ : \bibstyle
+ :          {IEEEtran}
+I'm skipping whatever remains of this command
 Database file #1: thesis_bibliography.bib
 Warning--entry type for "MurphyGebbie" isn't style-file defined
 --line 1089 of file thesis_bibliography.bib
--- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
--- http://www.michaelshell.org/tex/ieeetran/bibtex/
--- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
-Warning--empty journal in Murphy
-Warning--empty journal in Werbos
-Warning--empty journal in Siegelmann
-Warning--missing publisher in Minksy
-Warning--empty booktitle in LeCun2
-Warning--missing publisher in Werbos2
-Warning--empty journal in Ge
-Warning--empty booktitle in Ranzato1
+Warning--entry type for "Python" isn't style-file defined
+--line 1160 of file thesis_bibliography.bib
+Warning--entry type for "Julia" isn't style-file defined
+--line 1167 of file thesis_bibliography.bib
+Warning--entry type for "DCRoot" isn't style-file defined
+--line 1174 of file thesis_bibliography.bib
+Warning--entry type for "DCDataGenerator" isn't style-file defined
+--line 1181 of file thesis_bibliography.bib
+Warning--entry type for "DCDataProcessor" isn't style-file defined
+--line 1188 of file thesis_bibliography.bib
+Warning--entry type for "DCActivationFunctions" isn't style-file defined
+--line 1195 of file thesis_bibliography.bib
+Warning--entry type for "DCTrainingStructures" isn't style-file defined
+--line 1202 of file thesis_bibliography.bib
+Warning--entry type for "DCInitializationFunctions" isn't style-file defined
+--line 1209 of file thesis_bibliography.bib
+Warning--entry type for "DCCostFunctions" isn't style-file defined
+--line 1216 of file thesis_bibliography.bib
+Warning--entry type for "DCNetworkTrainer" isn't style-file defined
+--line 1223 of file thesis_bibliography.bib
+Warning--entry type for "DCSGD" isn't style-file defined
+--line 1230 of file thesis_bibliography.bib
+Warning--entry type for "DCOGD" isn't style-file defined
+--line 1237 of file thesis_bibliography.bib
+Warning--entry type for "DCRBM" isn't style-file defined
+--line 1244 of file thesis_bibliography.bib
+Warning--entry type for "DCGradientFunctions" isn't style-file defined
+--line 1251 of file thesis_bibliography.bib
+Warning--entry type for "DCExperimentProcess" isn't style-file defined
+--line 1258 of file thesis_bibliography.bib
+Warning--entry type for "DCExperimentGraph" isn't style-file defined
+--line 1265 of file thesis_bibliography.bib
+Warning--entry type for "DCExperimentProcessTrainFFN" isn't style-file defined
+--line 1272 of file thesis_bibliography.bib
+Warning--entry type for "DCExperimentProcessTrainSAE" isn't style-file defined
+--line 1279 of file thesis_bibliography.bib
+Warning--entry type for "DCGenerator" isn't style-file defined
+--line 1286 of file thesis_bibliography.bib
+Warning--entry type for "DCDatabaseCreator" isn't style-file defined
+--line 1293 of file thesis_bibliography.bib
+Warning--entry type for "PlotlyJS" isn't style-file defined
+--line 1301 of file thesis_bibliography.bib
+Warning--entry type for "DCDatabaseOps" isn't style-file defined
+--line 1308 of file thesis_bibliography.bib
+Warning--entry type for "DCCSCV" isn't style-file defined
+--line 1315 of file thesis_bibliography.bib
+Warning--entry type for "DCDSR_PradoLewis" isn't style-file defined
+--line 1323 of file thesis_bibliography.bib
+Warning--entry type for "DCDSR_Dataproc" isn't style-file defined
+--line 1330 of file thesis_bibliography.bib
+Warning--entry type for "DCDSR_proc" isn't style-file defined
+--line 1337 of file thesis_bibliography.bib
+Warning--entry type for "DCFFN" isn't style-file defined
+--line 1344 of file thesis_bibliography.bib
+Warning--entry type for "DCDatabaseBatchProcesses" isn't style-file defined
+--line 1351 of file thesis_bibliography.bib
+Warning--entry type for "DCReportGraphs" isn't style-file defined
+--line 1358 of file thesis_bibliography.bib
+Warning--entry type for "DCAggregatedDatabase" isn't style-file defined
+--line 1373 of file thesis_bibliography.bib
 Warning--empty journal in Bengio2
+Warning--empty journal in DCCodeBase
+Warning--empty journal in JSEData
+Warning--empty year in JSEData
+Warning--empty year in JSEData
+Warning--empty journal in Gant
+Warning--empty journal in Ge
+Warning--empty journal in Hsu
+Warning--empty booktitle in LeCun2
+Warning--empty publisher in LeCun
+Warning--empty booktitle in Loshchilov
+Warning--empty publisher in Minksy
+Warning--empty journal in Murphy
 Warning--empty journal in WaveNet
+Warning--empty booktitle in Ranzato1
+Warning--empty journal in Siegelmann
+Warning--empty booktitle in Smith
 Warning--empty booktitle in Takeuchi
 Warning--empty journal in Troiano
-Warning--empty journal in Hsu
-Warning--missing publisher in LeCun
+Warning--can't use both volume and number fields in Wang2
+Warning--empty publisher in Werbos2
+Warning--empty journal in Werbos
 Warning--empty journal in Zeiler
-Warning--empty booktitle in Smith
-Warning--empty booktitle in Loshchilov
-
-Done.
-You've used 98 entries,
-            4087 wiz_defined-function locations,
-            1423 strings with 21440 characters,
-and the built_in function-call counts, 59122 in all, are:
-= -- 4799
-> -- 1269
-< -- 396
-+ -- 697
-- -- 231
-* -- 2744
-:= -- 9426
-add.period$ -- 194
-call.type$ -- 98
-change.case$ -- 92
-chr.to.int$ -- 852
-cite$ -- 115
-duplicate$ -- 4603
-empty$ -- 4927
-format.name$ -- 292
-if$ -- 13680
-int.to.chr$ -- 0
-int.to.str$ -- 98
-missing$ -- 754
-newline$ -- 333
-num.names$ -- 100
-pop$ -- 1702
+You've used 132 entries,
+            2773 wiz_defined-function locations,
+            1404 strings with 25145 characters,
+and the built_in function-call counts, 52038 in all, are:
+= -- 4611
+> -- 2631
+< -- 106
++ -- 949
+- -- 791
+* -- 3918
+:= -- 8152
+add.period$ -- 473
+call.type$ -- 132
+change.case$ -- 651
+chr.to.int$ -- 106
+cite$ -- 287
+duplicate$ -- 2530
+empty$ -- 4520
+format.name$ -- 979
+if$ -- 10911
+int.to.chr$ -- 27
+int.to.str$ -- 1
+missing$ -- 110
+newline$ -- 744
+num.names$ -- 530
+pop$ -- 1362
 preamble$ -- 1
-purify$ -- 0
-quote$ -- 2
-skip$ -- 4572
+purify$ -- 527
+quote$ -- 0
+skip$ -- 1882
 stack$ -- 0
-substring$ -- 2087
-swap$ -- 3574
-text.length$ -- 112
+substring$ -- 1142
+swap$ -- 282
+text.length$ -- 8
 text.prefix$ -- 0
-top$ -- 5
-type$ -- 98
-warning$ -- 17
-while$ -- 232
-width$ -- 100
-write$ -- 920
-(There were 18 warnings)
+top$ -- 0
+type$ -- 1407
+warning$ -- 23
+while$ -- 447
+width$ -- 0
+write$ -- 1798
+(There was 1 error message)

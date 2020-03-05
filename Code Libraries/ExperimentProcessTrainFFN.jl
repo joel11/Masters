@@ -19,7 +19,7 @@ export RunFFNExperiment
 
 
 
-function RunNLayerReLUFFNTest(layer_sizes, sae_choices,
+function RunNLayerFFNTest(layer_sizes, sae_choices,
                             network_hidden_layer_activation,
                             experiment_set_name,
                             dataset_name,
@@ -59,7 +59,7 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_choices,
         ffn_net_par = NetworkParameters("FFN",
                                         layers, #layer_sizes
                                         activations, #layer_activations
-                                        InitializationFunctions.DCUniformInit, #Init
+                                        network_initialization_functions[1], #Init
                                         network_output_activation, #Output Activation
                                         nothing) #Encoding Activation
 
@@ -92,7 +92,7 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_choices,
 
     vps = []
 
-    push!(vps, (GetSAENetwork, ChangeInit, initialization_functions))
+    push!(vps, (GetFFNNetwork, ChangeInit, network_initialization_functions))
     push!(vps, (GetFFNTraining, ChangeMaxLearningRate, sgd_max_learning_rates))
     push!(vps, (GetFFNTraining, ChangeMinLearningRate, sgd_min_learning_rates))
     push!(vps, (GetFFNTraining, ChangeLearningRateCycle, sgd_learning_rate_epoch_length))
@@ -105,7 +105,7 @@ function RunNLayerReLUFFNTest(layer_sizes, sae_choices,
     push!(vps, (GetOGDTraining, ChangeMaxLearningRate, ogd_learning_rates))
 
     combos = []
-    for s in sae_configs
+    for s in sae_choices
         sae_setname = string(set_name, " SAE ", s)
         sae_combos = GenerateGridBasedParameterSets(vps, GenerateBaseFFNConfig(sae_setname, dataset, s))
         for c in sae_combos
@@ -141,7 +141,7 @@ function RunFFNExperiment(experiment_set_name, sae_choices,
                             ogd_learning_rates)
 
     for l in network_layer_sizes
-            RunNLayerReLUSAETest(       l,
+            RunNLayerFFNTest(       l,
                                         sae_choices,
                                         network_hidden_layer_activation,
                                         experiment_set_name,

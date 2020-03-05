@@ -14,8 +14,16 @@ using DatabaseOps
 using ConfigGenerator
 using DataJSETop40
 using BSON
+using DatabaseBatchProcesses
+#using DatabaseCreator
 
-##Train SAE Networks############################################################
+
+##1. Create Database############################################################
+
+#CreateDatabase("database_new.db")
+#The name of the database may need to be set manually in DatabaseOps.jl
+
+##2. Train SAE Networks#########################################################
 
 sae_experiment_set_name = "SAE Tutorial 1"
 dataset_name = "AGL"
@@ -37,15 +45,15 @@ sae_network_encoding_layers = (3, 5)
 
 sae_sgd_max_learning_rates = (0.005, 0.01)
 sae_sgd_min_learning_rates = (0.001, 0.0001)
-sae_sgd_learning_rate_epoch_length = (100, 200)
+sae_sgd_learning_rate_epoch_length = (200, 300)
 sae_sgd_minibatch_size = (32)
-sae_sgd_max_epochs = (100, 200)
+sae_sgd_max_epochs = (50, 100)
 sae_sgd_l1_lambda = (0.0)
 sae_sgd_validation_set_split = [0.8]
 sae_sgd_denoising_enabled = (false)
 sae_sgd_denoising_variance = (0.0)
 
-RunSAEExperiment(sae_experiment_set_name,
+#=RunSAEExperiment(sae_experiment_set_name,
                             dataset_name,
                             dataset,
                             data_sgd_validation_set_split,
@@ -68,17 +76,29 @@ RunSAEExperiment(sae_experiment_set_name,
                             sae_sgd_validation_set_split,
                             sae_sgd_denoising_enabled,
                             sae_sgd_denoising_variance)
+=#
 
+##3. Choose SAE Networks########################################################
 
-##Choose SAE Networks###########################################################
+function GetBestSAE(horizons)
+    return get(RunQuery("select er.configuration_id, min(testing_cost) min_cost
+                                from epoch_records er
+                                inner join dataset_config dc on dc.configuration_id = er.configuration_id
+                                where dc.deltas like '%$horizons%'
+                                    and er.category = 'SAE-SGD-Init'
+                                group by er.configuration_id
+                                order by min_cost")[1,1])
+end
 
+best_1520 = GetBestSAE("1,5,20")
+best_52060 = GetBestSAE("5,20,60")
+best_102060 = GetBestSAE("10,20,60")
 
+sae_choices = (best_1520, best_52060, best_102060)
 
-##Train FFN Networks############################################################
+##4. Train FFN Networks#########################################################
 
 ffn_experiment_set_name = "FFN Tutorial 1"
-
-sae_choices = (1, 2, 3, 4)
 
 ffn_network_initialization_functions = (InitializationFunctions.DCUniformInit,InitializationFunctions.XavierGlorotUniformInit)
 ffn_network_hidden_layer_activation = LeakyReluActivation
@@ -116,4 +136,22 @@ RunFFNExperiment(ffn_experiment_set_name, sae_choices,
                             ogd_learning_rates)
 
 
-##Run Diagnostics###############################################################
+##5. Run Batch Processes Diagnostics############################################
+
+configurations = Array(RunQuery("select configuration_id from configuration_run where experiment_set_name like 'FFN Tutorial 1%'")[:,1])
+
+RunBatchTradeProcess(configurations, dataset)
+RunBatchAnalyticsProcess(configurations, dataset)
+
+
+##Diagnostic Visualizations#####################################################
+
+
+
+
+##PBO###########################################################################
+
+
+
+
+##DSR Instructions##############################################################
