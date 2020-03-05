@@ -3652,7 +3652,27 @@
 			\newline The plot shows the FFN P\&L, grouped by activation, showing some improvements from the Leaky ReLU activation. The effect is most noticeable in reducing the lower bounds of performance (±10.8\%), though has a clear benefit in the upper bounds as well (3.4\%).}
 		\label{figure-synthetic_pl_leakyrelu}
 	\end{figure}
+
+	\newpage	
+	\subsection{`How To' Guide for Julia Libraries}
+
+%	The \texttt{Main\_Tutorial} module is made available to provide a step by step overview for using the provided libraries. Configurations and methods are detailed for some naive training on an AGL dataset (see Section \ref{dataset_agl}).
+
+	It should be noted that hese are not necessarily the best parameter choices possible for this exercise.
+
+	\subsubsection{Create the Database}
 	
+	The first step is to create the database which will be used. Once created, the \texttt{DatabaseOps} module should be updated so that the \texttt{db} variable references the same database by name.
+	
+	\subsubsection{Train SAE Networks}
+
+	Once the database has been created, the SAE networks can be trained. This step uses the \texttt{RunSAEExperiment} method for training SAE networks, passing through the configurations chosen and noted in \texttt{Main\_Tutorial}. The configurations specify the parameters for the SAE networks and their SGD training, as specified in Software Section \ref{Software}.
+
+	\subsubsection{Select Best SAE Networks}
+	
+	
+
+	\newpage	
 	\subsection{Relational Database Schema Diagram}\label{appendix_database_schema}
 	
 	\begin{figure}[H]

@@ -314,6 +314,8 @@ function WriteCSVFileForDSR(config_ids, filename)
     #config_ids = 28880:53000
     #filename = "/users/joeldacosta/Desktop/dsr_returns_new.csv"
 
+    config_ids = 1729:2016
+
     ids = TransformConfigIDs(config_ids)
 
     deltas = RunQuery("select distinct(deltas) from dataset_config where configuration_id in ($ids)")
@@ -323,7 +325,7 @@ function WriteCSVFileForDSR(config_ids, filename)
     maximum_deltas = map(a -> maximum(a), map(x -> map(i -> parse(Int64, i), x), map(d -> ascii.(split(d, ",")), Array(deltas[:,1]))))
 
     total_timestep_diff = maximum(maximum_deltas) - minimum(maximum_deltas)
-    oos_timestep_diff = Int64.(diff * (1 - split_percentage))
+    oos_timestep_diff = Int64.(total_timestep_diff * (1 - split_percentage))
 
     max_ts = get(RunQuery("select max(time_step) - 1 from config_oos_trade_returns_cost p
                 inner join dataset_config d on p.configuration_id = d.configuration_id and deltas not like '%$minimum_delta,%'")[1,1])

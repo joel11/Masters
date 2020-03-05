@@ -563,7 +563,6 @@ function PL_SAE_Encoding_Size(config_ids, noneSize = -1, file_prefix = "", colou
 end
 
 function PL_DataDeltas(config_ids, file_prefix = "", colourSetChoice = "", testDatabase = false, in_sample = false)
-
     ids = TransformConfigIDs(config_ids)
 
     query = "select np.configuration_id,
@@ -578,7 +577,6 @@ function PL_DataDeltas(config_ids, file_prefix = "", colourSetChoice = "", testD
     groups = by(results, [:deltas], df -> [df])
 
     ordering = groups[[1,3,2],1]
-
 
     ProfitBoxplot(query, :deltas, "", string(file_prefix, "Data Deltas Profits"), String, testDatabase, colourSetChoice, ordering, false, 18, nothing, in_sample)
 end

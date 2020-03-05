@@ -98,18 +98,18 @@ sae_choices = (best_1520, best_52060, best_102060)
 
 ##4. Train FFN Networks#########################################################
 
-ffn_experiment_set_name = "FFN Tutorial 1"
+ffn_experiment_set_name = "FFN Tutorial 2"
 
 ffn_network_initialization_functions = (InitializationFunctions.DCUniformInit,InitializationFunctions.XavierGlorotUniformInit)
 ffn_network_hidden_layer_activation = LeakyReluActivation
 ffn_network_output_activation = LinearActivation
 ffn_network_layer_sizes = ((20,20,20), (20,20), (20))
 
-ffn_sgd_max_learning_rates = (0.005, 0.01, 0.05, 0.1)
+ffn_sgd_max_learning_rates = (0.005, 0.01)
 ffn_sgd_min_learning_rates = (0.001, 0.0001)
 ffn_sgd_learning_rate_epoch_length = (100, 200)
 ffn_sgd_minibatch_size = (32)
-ffn_sgd_max_epochs = (100, 1000)
+ffn_sgd_max_epochs = (200)
 ffn_sgd_l1_lambda = (0.0)
 ffn_sgd_validation_set_split = [0.8]
 ffn_sgd_denoising_enabled = (false)
@@ -138,20 +138,34 @@ RunFFNExperiment(ffn_experiment_set_name, sae_choices,
 
 ##5. Run Batch Processes Diagnostics############################################
 
-configurations = Array(RunQuery("select configuration_id from configuration_run where experiment_set_name like 'FFN Tutorial 1%'")[:,1])
+ffn_configurations = Array(RunQuery("select configuration_id from configuration_run where experiment_set_name like 'FFN Tutorial 2%'")[:,1])
 
-RunBatchTradeProcess(configurations, dataset)
-RunBatchAnalyticsProcess(configurations, dataset)
+RunBatchTradeProcess(ffn_configurations, dataset)
+RunBatchAnalyticsProcess(ffn_configurations, dataset)
+
+##6. Diagnostic Visualizations##################################################
+
+using ExperimentGraphs
+
+sae_configurations = Array(RunQuery("select configuration_id from configuration_run where experiment_set_name like 'SAE Tutorial 1%'")[:,1])
+
+MSE_Deltas(sae_configurations, "Actual  ", "ActualMSE", false)
+MSE_LayerSizesLines(sae_configurations, "Actual ", "ActualMSE", false)
+
+PL_DataDeltas(ffn_configurations, "Actual", "ActualPL")
+PL_OGD_LearningRate(ffn_configurations, "Actual", "ActualPL")
+PL_NetworkSizeLines(ffn_configurations, "Actual ", "ActualPL")
+
+AllProfitsPDF(dataset)
+SharpeRatiosPDF()
 
 
-##Diagnostic Visualizations#####################################################
+##7. PBO Calculations###########################################################
 
+using CSCV
 
+ExperimentCSCVProcess(ffn_configurations, (16))
 
+##8. DSR Instructions###########################################################
 
-##PBO###########################################################################
-
-
-
-
-##DSR Instructions##############################################################
+WriteCSVFileForDSR(ffn_configurations, "./DSR_returns.csv")

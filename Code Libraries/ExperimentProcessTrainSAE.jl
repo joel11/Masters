@@ -15,8 +15,6 @@ using ExperimentProcess
 using DataJSETop40
 using BSON
 
-using ExperimentGraphs
-
 export  RunSAEExperiment
 
 function RunNLayerReLUSAETest(encoding_layer, layer_sizes, network_hidden_layer_activation,

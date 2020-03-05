@@ -13,8 +13,6 @@ using ExperimentProcess
 using DataJSETop40
 using BSON
 
-using ExperimentGraphs
-
 export RunFFNExperiment
 
 
