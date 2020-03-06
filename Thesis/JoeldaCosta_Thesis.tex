@@ -205,7 +205,7 @@
 	\maketitle \setlinespacing{1}
 	\abstract{
 		
-		We consider a mechanistic non-linear machine learning approach to learning signals in financial time series data. A modularised and decoupled algorithm framework is established and is proven on daily sampled closing time-series data for JSE equity markets. The input patterns are based on input data vectors of data windows pre-processed into a sequence of daily, weekly and monthly or quarterly sampled feature measurement changes (log feature fluctuations). The data processing is split into a batch processed step where features are learnt using a Stacked AutoEncoder (SAE) via unsupervised learning, and then both batch and online supervised learning are carried out on Feedforward Neural Networks (FNN) using these features. The FNN output is a point prediction of measured time-series feature fluctuations (log differenced data) in the future (ex-post). Weight initializations for these networks are implemented with restricted Boltzmann machine pre-training, and variance based initializations. The validity of the FNN backtest results are shown under a rigorous assessment of backtest overfitting using both Combinatorially Symmetrical Cross Validation and Probabilistic and Deflated Sharpe Ratios. Results are further used to develop a view on the phenomenology of financial markets and the value of complex historical data under unstable dynamics.}\\
+		We consider a mechanistic non-linear machine learning approach to learning signals in financial time series data. A modularised and decoupled algorithm framework is established and is proven on daily sampled closing time-series data for JSE equity markets. The input patterns are based on input data vectors of data windows pre-processed into a sequence of daily, weekly and monthly or quarterly sampled feature measurement changes (log feature fluctuations). The data processing is split into a batch processed step where features are learnt using a Stacked AutoEncoder (SAE) via unsupervised learning, and then both batch and online supervised learning are carried out on Feedforward Neural Networks (FNN) using these features. The FNN output is a point prediction of measured time-series feature fluctuations (log differenced data) in the future (ex-post). Weight initializations for these networks are implemented with restricted Boltzmann machine pretraining, and variance based initializations. The validity of the FNN backtest results are shown under a rigorous assessment of backtest overfitting using both Combinatorially Symmetrical Cross Validation and Probabilistic and Deflated Sharpe Ratios. Results are further used to develop a view on the phenomenology of financial markets and the value of complex historical data under unstable dynamics.}\\
 	
 	\noindent\textbf{Keywords:} online learning, feedforward neural network, restricted Boltzmann machine, variance weight initialization, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting, deflated Sharpe ratio, probabilistic Sharpe ratio.
 	
@@ -309,7 +309,7 @@
 
 	Section \ref{Data} provides the details of data processing that takes place prior to training, discussing both the scaling and fluctuation aggregation techniques used. Geometric Brownian motion has been used for the generation of synthetic data, and the section includes a discussion of its characteristics and usage in financial prediction models.\newline
 
-	Section \ref{Implementation} provides more in-depth details on the algorithms and structures used to implement the framework. The structure of feedforward neural networks is discussed, including how they are trained using the backpropagation algorithm, and how that can be applied in a stochastic descent framework (Section \ref{imp_ffn}). This section also provides details for how network weight initializations can impact performance, and how this can be affected through RBM pre-training (as per Section \ref{imp_rbm}) or through variance based techniques (Section \ref{imp_weights}). This includes the structures and training techniques used for the Stacked AutoEncoders (Section \ref{imp_SAE}). The Money Management Strategy (MMS) constitutes the implementation of trading decisions and actions based on the network model predictions and is detailed in Section \ref{imp_mms}. The CSCV techniques suggested by \citet{BailyPBO} were implemented and used to derive a PBO figure for the full training and testing processes, as detailed in Section \ref{imp_cscv}. Finally, the implementation of the Optimal Number of Clusters (ONC) and DSR calculations are covered in Section \ref{imp_dsr}.\newline
+	Section \ref{Implementation} provides more in-depth details on the algorithms and structures used to implement the framework. The structure of feedforward neural networks is discussed, including how they are trained using the backpropagation algorithm, and how that can be applied in a stochastic descent framework (Section \ref{imp_ffn}). This section also provides details for how network weight initializations can impact performance, and how this can be affected through RBM pretraining (as per Section \ref{imp_rbm}) or through variance based techniques (Section \ref{imp_weights}). This includes the structures and training techniques used for the Stacked AutoEncoders (Section \ref{imp_SAE}). The Money Management Strategy (MMS) constitutes the implementation of trading decisions and actions based on the network model predictions and is detailed in Section \ref{imp_mms}. The CSCV techniques suggested by \citet{BailyPBO} were implemented and used to derive a PBO figure for the full training and testing processes, as detailed in Section \ref{imp_cscv}. Finally, the implementation of the Optimal Number of Clusters (ONC) and DSR calculations are covered in Section \ref{imp_dsr}.\newline
 
 	Where Section \ref{Implementation} discusses the functional implementations of each module of the framework, Section \ref{imp_proc} is concerned with how these modules fit together to form an end to end system. The framework detailed considers all steps from the data preparation to the output of a PBO or DSR figure. This includes discussions of various considerations for individual aspects of the framework, as well as decisions around the combinations of these parts with their justifications and relevant advantages or disadvantages. In light of the configurable and modular system developed, potential alternatives and how they might be used are also discussed here.\newline
 
@@ -317,7 +317,7 @@
 
 	Section \ref{Datasets} provides a brief overview of the datasets used for the trials run, including both the synthetic and actual datasets. Visualisations for the individual asset prices are also included here.\newline
 
-	Finally, Section \ref{Results} discusses the full set of results we found from the experiments, and offers several key takeaways. In Section \ref{results_oos_pl}, we discuss the nature of prediction strategies learnt, and show they were influenced heavily by the data horizon choices. Further, we show that SAE based feature reduction is both possible and effective, though with results that were also subject to data horizons and recency. In Section \ref{results_data_hist}, we show that historical financial data is of limited use in financial model training, and predictions are served best by a recent cross sectional view of information. Online learning, and consequently network initializations, is shown to be of high importance, the results for which are covered in Section \ref{results_init}. The complexity of financial time series, and how it impacts both supervised and unsupervised learning, is discussed in Section \ref{results_finance_data}, with comparisons to synthetic data being made in Sections \ref{results_synth} and \ref{results_synth_summary}. The MMS returns are presented in Section \ref{results_mms}, and validated through the PBO and DSR methods in Sections \ref{results_pbo} and \ref{results_dsr}, showing that the framework was able to deliver a profitable and verifiable set of strategies.
+	Finally, Section \ref{Results} discusses the full set of results we found from the experiments, and offers several key takeaways. In Section \ref{results_oos_pl}, we discuss the nature of prediction strategies learnt, and show they were influenced heavily by the data horizon choices. Further, we show that SAE based feature selection is both possible and effective, though with results that were also subject to data horizons and recency. In Section \ref{results_data_hist}, we show that historical financial data is of limited use in financial model training, and predictions are served best by a recent cross sectional view of information. Online learning, and consequently network initialization, is shown to be of high importance, the results for which are covered in Section \ref{results_init}. The complexity of financial time series, and how it impacts both supervised and unsupervised learning, is discussed in Section \ref{results_finance_data}, with comparisons to synthetic data being made in Sections \ref{results_synth} and \ref{results_synth_summary}. The MMS returns are presented in Section \ref{results_mms}, and validated through the PBO and DSR methods in Sections \ref{results_pbo} and \ref{results_dsr}, showing that the framework was able to deliver a profitable and verifiable set of strategies.
 
 
 	
@@ -382,9 +382,9 @@
 	A neural network is a learning model which was originally inspired by the biological mechanisms of neurons 
 	in brains. The structure is essentially that of a network system, with connected nodes and edges, or `neurons' and 
 	`weights'. The neurons are based on the same idea as synapses as seen in the brain - where a build-up 
-	of input results in a ‘firing’ of output. The input here is determined by the model's input (real numbers typically), 
+	of input results in a `firing' of output. The input here is determined by the model's input (real numbers typically), 
 	and processed through the weights and activation functions of the neuron. The activation function then results in an output value 
-	either at an intermediate level, or as the model's final output. The system ‘learns’ by considering input samples 
+	either at an intermediate level, or as the model's final output. The system learns by considering input samples 
 	sequentially, and adjusting the weights between edges to result in more accurate outputs. Output types may either be 
 	classification or regression values. 
 	\hfill \break 
@@ -420,7 +420,7 @@
 	Historically, the crux of neural networks' popularity has often been based on the development of novel training 
 	methodologies, and how they have increased performance. The Backpropagation (BP) algorithm (as defined in Section \ref{imp_backprop})
 	has played a pivotal part: while neural network (or `perceptron') models were around prior, 
-	they were largely deemed ineffective  in comparison to other available models \citep{Minksy}. It was only during the 1980’s that the backpropagation algorithm was applied to neural networks, and 
+	they were largely deemed ineffective  in comparison to other available models \citep{Minksy}. It was only during the 1980's that the backpropagation algorithm was applied to neural networks, and 
 	the field started to gain in popularity again \citep{LeCun2, Werbos2}. 
 	\hfill \break 
 	
@@ -435,7 +435,7 @@
 	Early experiments with deep networks resulted in poor performance due to what is now widely known as the problem 
 	of either `vanishing' or `exploding' gradients \citep{Pascanu}. As more layers are added to the network, the backpropagation 
 	algorithm (with typical activation function neurons) results in error signals that either shrink or grow out of bounds at an 
-	exponential rate. One of the first suggested solutions to the problem is to perform pre-training on the 
+	exponential rate. One of the first suggested solutions to the problem is to perform pretraining on the 
 	network through unsupervised learning  \citep{Schmidhuber}, as discussed in Section \ref{DBN}. Variance based 
 	weight initialization techniques are another effective solution, as discussed in Section \ref{lr_weight_init}.
 	\hfill \break 
@@ -462,7 +462,7 @@
 	\hfill \break 
 	
 	Some of the most frequently used functions are the sigmoid, tanh, ReLU and softsign (the equations for which are detailed in Section \ref{imp_activation_functions}). There have 
-	been various studies showing the efficacy of the different activations under varying initialization (or pre-training) 
+	been various studies showing the efficacy of the different activations under varying initialization (or pretraining) 
 	for weights. \citet{Glorot} noted that the typical sigmoid and tanh functions performed poorly with standard 
 	minimization, and result in slower convergence and worse minima. They continue to show that softsign with a non-standard 
 	initialization resulted in quicker convergence. Further research by \citet{Glorot2} found that the 
@@ -472,13 +472,13 @@
 	
 	As noted above, most of the earlier work using neural networks relied on shallow models with few layers. 
 	However, a resurgence in interest occurred in 2006 after several papers demonstrated the efficacy of 
-	unsupervised pre-training of networks prior to supervised training. The effect was substantial enough to allow 
+	unsupervised pretraining of networks prior to supervised training. The effect was substantial enough to allow 
 	much deeper layered networks to be trained than previously possible \citep{Bengio1, Hinton1}.
 	\hfill \break 
 	
 	The essential point behind the unsupervised learning was to initialize the weights in the network to sensible 
 	values in light of the problem context. The methods used trained each layer to be able to reconstruct the model 
-	of the features in the layer below (to a varying degree of accuracy). Sequentially pre-training and combining 
+	of the features in the layer below (to a varying degree of accuracy). Sequentially pretraining and combining 
 	layers like this, the process generated a deep neural network with appropriate weights. Once done, a final output 
 	layer was added and the entire network could then be fine-tuned through backpropagation without suffering 
 	such performance degradation through vanishing or exploding gradients \citep{Hinton1, Ranzato1, Hinton2}. This is 
@@ -496,18 +496,18 @@
 	\hfill \break 
 	
 	As more research into deep networks was conducted, it became apparent that with large enough datasets, the
-	layerwise pre-training of networks was not actually necessary to achieve high performance standards 
-	\citep{ImageNet, Glorot2, Ciresan}. When training for long enough, it was reported that the pre-training offered little to no 
+	layerwise pretraining of networks was not actually necessary to achieve high performance standards 
+	\citep{ImageNet, Glorot2, Ciresan}. When training for long enough, it was reported that the pretraining offered little to no 
 	benefit, though these models were typically using datasets far larger than were attempted before (as a result of
 	hardware improvements enabling as much). While these results did require that certain attention was paid to the 
-	initialization, as well as the use of non-linear activation units, it did suggest that pre-training largely acted as a prior 
-	which may not be necessary if large enough labelled datasets are available \citep{Bengio3}. Naturally, pre-training was still 
+	initialization, as well as the use of non-linear activation units, it did suggest that pretraining largely acted as a prior 
+	which may not be necessary if large enough labelled datasets are available \citep{Bengio3}. Naturally, pretraining was still 
 	implemented to prevent overfitting in smaller datasets.
 	\hfill \break 
 	
 	\subsubsection{Weight Initialization Improvements}\label{lr_weight_init}
 	
-	One of the more critical innovations to allow effective training of deep networks without using pre-training was the development of more sophisticated techniques for weight initialization. One of the first of these was presented by \citet{Glorot} for use in sigmoid based networks, 
+	One of the more critical innovations to allow effective training of deep networks without using pretraining was the development of more sophisticated techniques for weight initialization. One of the first of these was presented by \citet{Glorot} for use in sigmoid based networks, 
 	and is commonly referred to as Xavier/Glorot initialization. The technique is layer specific and based on a linear activation
 	hypothesis. It is designed such that the initial weights will maintain the same variance for input for information that is passed backwards, as in 
 	accordance with the nature of the activation function. While the assumption of linearity is not always applicable, they point out that at the 
@@ -515,7 +515,7 @@
 	a linear effect. The outcome is a technique that increases learning efficacy and optima found \citep{Glorot}. \newline
 	
 	\citet{He} extend the same methodology for the ReLU activation, once again based on the linearity hypothesis around the 
-	relevant activation function (Parametric Rectified Linear Units in this case). ReLU activations are computationally inexpensive and do not suffer from learning slowdown. The combination of these attributes and effective weight initialization techniques removed the need for pre-training and produced a seminal FNN training framework. \citet{He} were able to 
+	relevant activation function (Parametric Rectified Linear Units in this case). ReLU activations are computationally inexpensive and do not suffer from learning slowdown. The combination of these attributes and effective weight initialization techniques removed the need for pretraining and produced a seminal FNN training framework. \citet{He} were able to 
 	achieve state of the art performance and produced the best known error rate at the time on the ImageNet dataset. The efficacy of these techniques has established 
 	them as norms in the training of deep neural networks.
 	
@@ -599,7 +599,7 @@
 	\hfill \break 
 	
 	\citet{Vincent} explore a very different approach to the problem, which was to develop an implementation of 
-	AutoEncoder which focused on partially corrupting the input, and so force the network to ‘denoise’ it. The theory 
+	AutoEncoder which focused on partially corrupting the input, and so force the network to `denoise' it. The theory 
 	here is based on two ideas - the first, is that a higher dimensional representation should be robust to partial 
 	corruption of the input data; and the second is that the denoising process will force model focus to shift to 
 	extracting useful features from the input.
@@ -614,17 +614,17 @@
 	input from layer to layer). It was shown that the SDAE model outperformed previous AE and DBN networks on 
 	numerous benchmark datasets \citep{Vincent} . 
 	
-	\subsubsection{Pre-training}
+	\subsubsection{Pretraining}\label{lr_pretraining}
 	
-	The methods described above follow a similar approach: greedy layer-wise unsupervised pre-training in order to 
+	The methods described above follow a similar approach: greedy layer-wise unsupervised pretraining in order to 
 	determine initial weights, followed by supervised fine tuning to arrive at the final model. It is shown numerous times 
 	that the pretraining process can result in significant performance gains \citep{Vincent}. However, it is not immediately apparent, 
 	given the nature of backpropagation algorithms, why this is the case. \citet{Erhan} performed 
-	extensive empirical simulations in order to suggest an explanation for the mechanism of pre-training.
+	extensive empirical simulations in order to suggest an explanation for the mechanism of pretraining.
 	\hfill \break 
 	
 	While their results were not entirely conclusive, they did lend themselves to a reasonable hypothesis: 
-	the unsupervised pre-training results in a form of regularization on the model. Variance is minimized, and the 
+	the unsupervised pretraining results in a form of regularization on the model. Variance is minimized, and the 
 	bias introduced acts as a prior to direct the model configuration towards a sample space that is effective for the unsupervised 
 	learning generalization optimisations.
 	
@@ -645,7 +645,7 @@
 	DBN network resulted in significant performance increases compared to the standard momentum strategy.
 	\hfill \break 
 	
-	\citet{Zhao} used SDAEs and combined them with the bootstrap aggregation ensemble method (‘bagging’) in a 
+	\citet{Zhao} used SDAEs and combined them with the bootstrap aggregation ensemble method (`bagging') in a 
 	study of predicting the crude oil price. They compared the proposed model to a variety of benchmarks, including 
 	standard SAE, bagged and standard feedforward networks and Support Vector Regression (SVR) models. The results indicated that the SAE models 
 	were more accurate, with the bagged SAE model performing the best, though at a significant increase in 
@@ -657,14 +657,14 @@
 	different feature reduction models for trend prediction in finance. In line with being primarily 
 	interested in the effect of feature reduction techniques, rather than the classification performance itself, only a Support 
 	Vector Machine (SVM) model was used to test results. Using various periods from historical S\&P500 data, they were able to show 
-	that AE outperformed the RBM model significantly in numerous accuracy measures, and was able to do so at a 
+	that the AutoEncoder outperformed the RBM model significantly in numerous accuracy measures, and was able to do so at a 
 	fraction of the training time.
 	\hfill \break 
 	
 	\citet{Bao} note that the research has been lacking with regards to whether SAEs should be used for 
 	financial prediction models or not. They suggest a novel model which combines Wavelet Transformation, SAEs 
 	and a LSTM network. Using data from several financial exchanges (considering a 
-	range of ‘developed’ and ‘undeveloped’ markets), they assess the model’s applicability to OHLC prediction. 
+	range of ‘developed’ and ‘undeveloped’ markets), they assess the model's applicability to OHLC prediction. 
 	Comparing the model to configurations without the SAE layers, and a RNN model as benchmark, they showed 
 	that the inclusion of SAEs resulted in less volatility and greater accuracy, which in turn offered higher profitabilities 
 	in a buy-and-hold trading strategy.
@@ -672,7 +672,7 @@
 	
 	More novel AutoEncoder applications have also been attempted, with \citet{Hsu} suggesting the use of a 
 	Recurrent AutoEncoder for multidimensional time series prediction. There is a pattern through the literature 
-	that the use of AEs and SAEs both by themselves and when used as an assisting technique result in more accurate 
+	that the use of AutoEncoders and Stacked AutoEncoders, both by themselves and when used as an assisting technique, result in more accurate 
 	prediction results and less computationally expensive training.
 	
 	\subsection{Online Learning Algorithms and Gradient Descent} \label{lr_OGD}
@@ -686,7 +686,7 @@
 	\hfill\break
 	
 	Online algorithms are designed to offset these issues by adjusting the batch training technique to 
-	repetitively draw on single samples from the data on which the model’s parameters can be adjusted. The benefit 
+	repetitively draw on single samples from the data on which the model's parameters can be adjusted. The benefit 
 	is that they are able to quickly process a large number of observations and readjust the model. The 
 	downfall is that they are not always able to optimize the cost function to the same extent as offline batch 
 	algorithms \citep{Albers}.
@@ -724,10 +724,10 @@
 	\hfill\break
 	
 	There have been several attempts to introduce effective regularization into the SGD process. \citet{Bartlett} 
-	presented Adaptive Online Gradient Descent, which implements an adaptive step size through a $\lambda$ 
+	presented Adaptive Online Gradient Descent, which implements an adaptive step size through a 
 	penalty on the learning rate, which was shown to be nearly optimal in a strong sense. Langford et al. 
 	demonstrated a variation named Truncated Gradient, which introduced an enforced weight sparsity parameter. 
-	The weight sparsity is able to achieve equitable effects to $L_1$ regularization (similar to Lasso Regression). 
+	The weight sparsity is able to achieve equitable effects to ``L1'' regularization (similar to Lasso Regression). 
 	They were able to show that implementation performed effective feature reduction, while having little effect on 
 	performance \citep{Langford}. Other approaches, such as AdaGrad, aim to improve the robustness of gradient training by 
 	adjusting the updates to parameters according to frequency - e.g. larger updates to infrequent parameters, and 
@@ -807,7 +807,7 @@
 	consideration the number of trials attempted.
 	
 	\hfill \break 	
-	One of the common approaches to avoid backtest overfitting is the ‘hold-out’ strategy, where a certain portion of 
+	One of the common approaches to avoid backtest overfitting is the `hold-out' strategy, where a certain portion of 
 	the dataset is reserved for testing true OOS performance. Numerous problems have been pointed out with this 
 	approach. The data is often used regardless, and awareness of the movements in the data may, 
 	consciously or otherwise, influence strategy and test design by the researchers \citep{Schorfheide}. For small samples, 
@@ -888,7 +888,7 @@
 	They were able to show that in lieu of any compensation effects (i.e. a series following a Gaussian random walk), 
 	there is no reason for overfitting to result in negative performance. However, where compensation effects apply 
 	(e.g. economic/investment cycles, bubble bursts, major corrections etc.), then the inclusion of memory in a strategy
-	is likely to be detrimental to OOS performance if overfitting isn’t controlled for.
+	is likely to be detrimental to OOS performance if overfitting isn't controlled for.
 	\hfill \break 
 	
 	\newpage
@@ -997,12 +997,12 @@
 	\begin{equation}\label{eq_price_recon}
 	\mathbf{p^*_i} = \mathrm{\tilde{\mathbf{p}}_{i-d} \cdot e^{\hat{p}_{i}}} ,
 	\end{equation}
-	where:
+	where
 	\begin{itemize}
-		\item [] $\mathrm{\tilde{p}}$ = original asset prices,
-		\item [] $\mathrm{\hat{p}}$ = predicted log fluctuation,
-		\item [] $\mathrm{i}$ = price timepoint, and 
-		\item [] $\mathrm{d}$ = price fluctuation prediction horizon.
+		\item [] $\mathrm{\tilde{p}}$ is the original asset price,
+		\item [] $\mathrm{\hat{p}}$ is the predicted log fluctuation,
+		\item [] $\mathrm{i}$ is the price timepoint, and 
+		\item [] $\mathrm{d}$ is the price fluctuation prediction horizon.
 		
 	\end{itemize}
 	\texttt{}\newline
@@ -1014,7 +1014,7 @@
 	
 	\subsection{Synthetic Data Generation}\label{data_synthetic}
 	
-	Synthetic data generation is implemented using Geometric Brownian Motion (GBM) as described in Algorithm \ref{algo_brownianmotion}, which allows the stocks simulations to be implemented with a drift ($\mu$) and variance ($\sigma$) for each stock. The GBM simulation has the benefit of generating prices in a random walk, such that future movements are independent of past prices and so suitable for emulating an efficient financial market. The implications of using such data are discussed more fully in Section \ref{results_synth}. Each dataset was generated with a random seed and using a Mersenne Twister pseudorandom number generator. \newline
+	Synthetic data generation is implemented using Geometric Brownian Motion (GBM) as described in Algorithm \ref{algo_brownianmotion}, which allows the asset simulations to be implemented with a drift ($\mu$) and variance ($\sigma$) for each asset. The GBM simulation has the benefit of generating prices in a random walk, such that future movements are independent of past prices and so suitable for emulating an efficient financial market. The implications of using such data are discussed more fully in Section \ref{results_synth}. Each dataset was generated with a random seed and using a Mersenne Twister pseudorandom number generator. \newline
 	
 	\RestyleAlgo{algoruled}
 	\begin{algorithm}[H]
@@ -1036,7 +1036,7 @@
 	
 	\subsubsection{GBM Data Distributions}
 	
-	An important aspect of GBM generated data is that the price changes follow a Log-Normal distribution. If this data is then processed as per the steps above in Section \ref{data_processing}, then after taking the log differenced values using equation \eqref{eq_logdiff}, the values will follow a Normal distribution. Once scaled using standardization or normalization, these values will become centred and possibly be following a standard normal distribution. However, due to the effect of the limited scaling techniques used, only the Training dataset will be consistent in following this distribution, with the Prediction dataset having an increasing number of outliers as the timepoint moves further away from the Training set demarcations. These issues have notable impacts throughout the results, and are discussed more in Section \ref{Results}.
+	An important aspect of GBM generated data is that the price changes follow a Log-Normal distribution. If this data is then processed as per the steps above in Section \ref{data_processing}, then after taking the log differenced values using equation \eqref{eq_logdiff}, the values will follow a Normal distribution. Once scaled using standardization or normalization, these values will become centred and possibly be following a standard normal distribution. However, due to the effect of the limited scaling techniques used, only the Training dataset will be consistent in following this distribution, with the Prediction dataset having an increasing number of outliers as the timepoint moves further away from the Training set demarcations. These issues have notable impacts throughout the results, and are discussed more in Section \ref{results_synth}.
 	
 	\subsection{Price Considerations}\label{data_prices}
 	
@@ -1047,11 +1047,11 @@
 	\subsection{Process Overview}\label{ProcessOverview}\label{imp_overview}
 	
 	
-	The implementation focuses on bringing together several ideas: data reduction, deep learning with pre-training/weight initialization, online learning and backtest overfitting validation for the purposes of stock price prediction. The process implementation is discussed fully in Section \ref{imp_fullproc}, but can be summarised as per the steps below.
+	The implementation focuses on bringing together several ideas: data reduction, deep learning with pretraining/weight initialization, online learning and backtest overfitting validation for the purposes of stock price prediction. The process implementation is discussed fully in Section \ref{imp_fullproc}, but can be summarised as per the steps below.
 	
 	\begin{enumerate}
 		\item The dataset is split into 2 subsets: the Training portion, and the Prediction portion.
-		\item The Training set is used to train the SAE and predictive FFN using the SGD algorithm. These networks are constructed with pre-training or weight initialization techniques.
+		\item The Training set is used to train the SAE and predictive FFN using the SGD algorithm. These networks are constructed with pretraining or weight initialization techniques.
 		\item Once the SGD training is complete for the predictive network, the same Training dataset is used to generate the IS predictions to be used for the CSCV process.
 		\item The Prediction set of data is used to continue training the network in an online manner using OGD.
 		\item The predictions made during steps 3 and 4 go through reverse scaling, and prices are reconstructed.
@@ -1059,7 +1059,7 @@
 		\item The returns and P\&L calculated by the MMS are used by the CSCV process, to estimate the PBO or DSR figures.
 	\end{enumerate}
 	~\\
-	The rest of this section will detail the algorithms used to train the relevant FFN, RBM and SAE networks, as well as the trading strategy and CSCV \& PBO testing procedures.
+	The rest of this section will detail the algorithms used to train the relevant FFN, RBM and SAE networks. It will also cover the algorithmic implementations of the MMS, and the CSCV, PBO and DSR methods.
 	
 	\subsection{Feedforward Neural Networks}\label{imp_ffn}
 	~\\
@@ -1092,7 +1092,7 @@
 		\end{equation}
 	\end{enumerate}
 	~\\
-	These definitions allow an input into the network to be propagated through it, having the original values processed through the weights and activations functions, and have an output in the form of the network's last layer.
+	These definitions allow an input into the network to be propagated through it, having the original values processed through the weights and activation functions, and have an output in the form of the network's last layer.
 	
 	\subsubsection{Activation Functions}\label{imp_activation_functions}
 	~\\
@@ -1131,7 +1131,7 @@
 	
 	\paragraph{Leaky ReLU}
 	
-	The Leaky ReLU resolves the dying ReLU problem by adding a small gradient to the negative range of the function. This results in a slow learning being applied to `dead' ReLU's, which may in turn result in them being used again if necessary. The choice of 0.01 as the negative range gradient in equations \eqref{func_leaky_relu} and \eqref{func_leaky_relu_prime} has been shown to be generally effective \citep{Maas}, though further work might investigate different parameter values for this. The Leaky ReLU activation function is defined as:
+	The Leaky ReLU resolves the dying ReLU problem by adding a small gradient to the negative range of the function. This results in a slow learning being applied to `dead' ReLUs, which may in turn result in them being used again if necessary. The choice of 0.01 as the negative range gradient in equations \eqref{func_leaky_relu} and \eqref{func_leaky_relu_prime} has been shown to be generally effective \citep{Maas}, though further work might investigate different parameter values for this. The Leaky ReLU activation function is defined as:
 	
 
 	\[
@@ -1179,7 +1179,7 @@
 	\begin{enumerate}
 		\item \textbf{Forward Pass}: The samples are propagated through the network, in order to generate the output $\mathbf{a}^L$. \newline 
 		
-		Vectorization is typically used to calculate the results for multiple samples at once, though conceptually each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input.\newline 
+		Vectorization is typically used to calculate the results for multiple samples at once. Conceptually though, each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input.\newline 
 		
 		Equation \ref{eq_weighted_input} is used to calculate the weighted output and the equations defined in Section \ref{imp_activation_functions} are used for the activation functions.
 		\newline
@@ -1207,14 +1207,14 @@
 		\begin{enumerate}
 			\item \textbf{Calculate Errors For Previous Layers:} The activation values are propagated back through the network to calculate the delta values at each layer. \newline
 			
-			This uses the same rationale as equation \eqref{eq_lambda1}, but rather uses $(\mathbf{w}^{\ell+1})^T$ by the next layers error in order to get an indication of the error rate and how it moves backwards through the network:
+			This uses the same rationale as equation \eqref{eq_lambda1}, but rather uses $(\mathbf{w}^{\ell+1})^T$ by the next layer's error in order to get an indication of the error rate and how it moves backwards through the network:
 			\begin{equation}\label{eq_lambda4}
 			\mathbf{\delta}^\ell = ((\mathbf{w}^{\ell+1})^T\mathbf{\delta}^{\ell+1})  \otimes \theta^{\prime}(\mathbf{z}^\ell) .
 			\end{equation}
 			
 			\item \textbf{Adjust Network Weights:} Network weights are adjusted in proportion to the error observed and chosen learning rate.\newline
 			
-			Each weights output error and input activation are multiplied to find the weight’s gradient, which is then reduced by a factor of the ‘learning rate’ $\eta$. This adjustment value is subtracted from the current network weights:
+			Each weight's output error and input activation are multiplied to find the weight's gradient, which is then reduced by a factor of the ‘learning rate’ $\eta$. This adjustment value is subtracted from the current network weights:
 			\begin{equation}\label{eq_bp_weightupdate}
 			\mathbf{w}^\ell \rightarrow \mathbf{w}^\ell - {\eta}\mathbf{\delta}^{\ell} (\mathbf{a}^{\ell - 1})^T ,
 			\end{equation}
@@ -1390,7 +1390,7 @@
 	\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{\mathrm{data}} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{\mathrm{model}}) .
 	\end{equation}
 	
-	The angular brackets here indicate expectations under the distribution specified by the following subscript. Due to the probabilistic nature of RBMs, the [0,1] ranged sigmoid activation function is typically used. Thus, for hidden nodes and a data sample $v$, it is easy to get unbiased sampling of $\langle v_ih_j \rangle_{data}$:
+	The angular brackets here indicate expectations under the distribution specified by the following subscript. Due to the probabilistic nature of RBMs, the [0,1] ranged sigmoid activation function is typically used. Thus, for hidden nodes and a data sample $v$, it is easy to get unbiased sampling of $\langle v_ih_j \rangle_{\mathrm{data}}$:
 	
 	\begin{equation}
 	\mathrm{P}(\mathbf{h}_j=1) = \sigma(\mathbf{w}_{0j} +  \sum_{i=1}\mathbf{v}_i\mathbf{w}_{ij}).
@@ -1446,7 +1446,7 @@
 			~\\
 
 			\tcp{Calculate Change in Weights Using Reconstructed Distribution}
-			\tcp{$\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{data} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{reconstruction})$}
+			\tcp{$\Delta \mathbf{w}_{ij} = \eta (\langle \mathbf{v}_i\mathbf{h}_j\rangle_{\mathrm{data}} - \langle \mathbf{v}_i\mathbf{h}_j\rangle_{\mathrm{reconstruction}})$}
 			$\Delta \mathbf{w} = \eta ([{\mathbf{V}^D}{\mathbf{H}^{DT}}] - [\mathbf{V}\mathbf{H}^T])$
 
 			\texttt{}\newline
@@ -1546,7 +1546,7 @@
 	
 	\subsection{Variance Based Weight Initializations}\label{imp_weights}
 	
-	Research by \citet{He} has shown that weights can be initialized to maintain expected variance between the input and output layers. These methodologies have the immediate advantages of simpler implementation, as well as faster computation (as no pre-training is required). They also allow for effective weight initialization of non-probabilistic activation functions, such as ReLU. Whether they result in better reconstructions or predictions is less clear (especially as the linearity assumption could prove faulty), and so the methods are tested here as well. 
+	Research by \citet{He} has shown that weights can be initialized to maintain expected variance between the input and output layers. These methodologies have the immediate advantages of simpler implementation, as well as faster computation (as no pretraining is required). They also allow for effective weight initialization of non-probabilistic activation functions, such as ReLU. Whether they result in better reconstructions or predictions is less clear (especially as the linearity assumption could prove faulty), and so the methods are tested here as well. 
 	\newline\newline
 	A common initialization heuristic is to use a uniform, but not layer agnostic, initialization such as equation \eqref{func_uniform_init} below. While simple enough, it has been shown that this does not always lead to the best training results, and can be outperformed by variance based initializations \citep{Glorot}.
 	
@@ -1758,49 +1758,49 @@
 		{Nominal Expected P\&L} 
 		& {The nominal expected P\&L for $t+D$ from all assets traded at $t$.}
 		& {	\begin{equation}
-			\mathbf{\hat{O}}_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{\hat{o}}_{a, {t+D}} .
+			\mathbf{\hat{O}}_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{\hat{o}}_{a, {t+D}} 
 			\end{equation}
 		} \\\hline
 
 		{Nominal Observed P\&L} 
 		& {The nominal observed P\&L for $t+D$ from all assets traded at $t$.}
 		& {\begin{equation}
-			\mathbf{\tilde{O}}_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{\tilde{o}}_{a, {t+D}}.
+			\mathbf{\tilde{O}}_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{\tilde{o}}_{a, {t+D}}
 			\end{equation}
 		} \\\hline
 	
 		{Nominal Observed P\&L, Benchmark} 
 		& {The nominal benchmark P\&L for $t+D$ from all assets traded at $t$.}
 		& {	\begin{equation}
-			\mathbf{O}^b_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{o}^b_{a, {t+D}} .
+			\mathbf{O}^b_{t+D} = \sum_{\mathrm{a \in assets}} \mathbf{o}^b_{a, {t+D}} 
 			\end{equation}
 		} \\\hline
 	
 		{Total Trade Cost} 
 		& {The cost of all trades at $t$.}
 		& {\begin{equation}
-			\mathbf{C}_t = \sum_{\mathrm{a \in assets}} \mathbf{c}_{a,t} .
+			\mathbf{C}_t = \sum_{\mathrm{a \in assets}} \mathbf{c}_{a,t} 
 			\end{equation}
 		} \\\hline
 	
 		{Total Trade Cost} 
 		& {The cost of all trades at $t$ in the benchmark model.}
 		& {\begin{equation}
-			\mathbf{C}^b_{t} = \sum_{\mathrm{a \in assets}} \mathbf{c}^b_{a ,t} .
+			\mathbf{C}^b_{t} = \sum_{\mathrm{a \in assets}} \mathbf{c}^b_{a ,t} 
 			\end{equation}
 		} \\\hline
 	
 		{Total Full Trade Cost} 
 		& {The cost of all trades at $t$ including transaction costs.}
 		& {\begin{equation}
-			\mathbf{F}_t = \sum_{\mathrm{a \in assets}} \mathbf{f}_{a,t} .
+			\mathbf{F}_t = \sum_{\mathrm{a \in assets}} \mathbf{f}_{a,t} 
 			\end{equation}
 		} \\\hline
 	
 		{Total Full Trade Cost, Benchmark} 
 		& {The cost of all trades at $t$, including transaction costs, in the benchmark model.}
 		& {\begin{equation}
-			\mathbf{F}^b_{p,t} = \sum_{\mathrm{a \in assets}} \mathbf{f}^b_{a,t} .
+			\mathbf{F}^b_{p,t} = \sum_{\mathrm{a \in assets}} \mathbf{f}^b_{a,t} 
 			\end{equation}
 		} \\\hline
 		
@@ -1808,7 +1808,7 @@
 		& {The full cost observed return rate at $t+D$.}
 		& {\begin{equation}
 			\mathbf{\tilde{R}}_{t + D} = \frac{\left( \mathbf{\tilde{O}}_{t+D} - \mathbf{F}_t \right) }
-			{\mathbf{F}_t} .
+			{\mathbf{F}_t} 
 			\end{equation}
 		} \\\hline
 	
@@ -1816,7 +1816,7 @@
 		& {The fullcost benchmark return rate at $t+D$ in the benchmark model.}
 		& {\begin{equation}
 			\mathbf{\tilde{R}}^b_{t + D} = \frac{\left( \mathbf{\tilde{O}}^b_{t+D} - \mathbf{F}^b_t \right) }
-			{\mathbf{F}^b_t} .
+			{\mathbf{F}^b_t} 
 			\end{equation}	
 		} \\\hline
 	
@@ -1824,14 +1824,14 @@
 		& {The full cost expected return rate at $t+D$.}
 		& {\begin{equation}
 			\mathbf{\hat{R}}_{t + D} = \frac{\left( \mathbf{\hat{O}}_{t+D} - \mathbf{F}_t \right) }
-			{\mathbf{F}_t} .
+			{\mathbf{F}_t} 
 			\end{equation}
 		} \\\hline
 
 		{Sharpe Ratio} 
 		& {The calculation of the Sharpe ratio for a set of model returns \citep{Lo}.}
 		& {\begin{equation}\label{eq_sharperatio}
-			\mathbf{SR} = \frac{\mathbf{\E}(\mathbf{\tilde{R}})}{\sqrt{\Var(\mathbf{\tilde{R}})}} .
+			\mathbf{SR} = \frac{\mathbf{\E}(\mathbf{\tilde{R}})}{\sqrt{\Var(\mathbf{\tilde{R}})}} 
 			\end{equation}
 		} \\\hline
 		
@@ -1861,7 +1861,7 @@
 	\end{equation}
 	
 	Notably, the above definitions consider IS as the data made available to the strategy selection, rather than the 
-	models calibration (e.g. the full IS dataset, rather than, by way of example, the number of days used in a moving average). 
+	model's calibration (e.g. the full IS dataset, rather than, by way of example, the number of days used in a moving average). 
 	This allows the model-free and non-parametric nature of the definition. 
 	\hfill \break 
 	
@@ -1878,9 +1878,9 @@
 			\item \textbf{Define P\&L Submatrix Combinations:} Generate the combinations $C_S$ of $M_S$, in groups of size $\frac{S}{2}$, for total $\binom{S}{S/2}$ of combinations.
 			\item \textbf{Process Combinations:} For each combination in $c \in C_S$:
 			\begin{enumerate}
-				\item \textbf{Define IS Set:} Form a training set $J$ by joined $\frac{S}{2}$ $M_S$ submatrices, in their original order. $J$ is a matrix of order $\left(\frac{T}{S}\right)\left(\frac{S}{2}\right) N$.
+				\item \textbf{Define IS Set:} Form a training set $J$ by joining $\frac{S}{2}$ $M_S$ submatrices, in their original order. $J$ is a matrix of order $\left(\frac{T}{S}\right)\left(\frac{S}{2}\right) N$.
 				\item \textbf{Define OOS Set:}  Form the test set $\bar{J}$ as the complement of $J$ in $M$, once again in the original order.
-				\item \textbf{IS Performance Stats:} Form a vector of $R^c$ of performance statistics of order $N$, where the $N$th component $R_n^c$ of $R^c$ reports the performance associated with the $n^{th}$ column of $J$.
+				\item \textbf{IS Performance Stats:} Form a vector of $R^c$ of performance statistics of order $N$, where the $N^{th}$ component $R_n^c$ of $R^c$ reports the performance associated with the $n^{th}$ column of $J$.
 				\item \textbf{OOS Performance Stats:}  Repeat [c] for $\bar{J}$ to derive $\bar{R}^c$ and $\bar{r}^c$.
 				\item \textbf{Find Best IS Strategy:} Determine the element $n^*$ such that $R^c_n \in \Omega^*_n$ - i.e. $n^*$ is the best performing strategy IS.
 				\item \textbf{Calculate Relative Rank of OOS Strategy:} Define the relative rank of $\bar{r}^c_{n^*}$ by $\bar{\omega}_c := \frac{\bar{r}^c_{n^*}}{N +1} \in (0,1)$. This is the relative rank of the OOS performance associated with the strategy chosen IS, which should systematically outperform OOS if no backtest overfitting has taken place.
@@ -2062,7 +2062,7 @@
 	
 	\subsection{Full Framework Process}\label{imp_fullproc}
 	
-	Having covered the technical implementations in Sections \ref{Data} and \ref{Implementation}, a full overview of the end to end experimental process can be detailed and discussed. The process here rests on two key principles: implementing a generalised version of a system which could offer exploration of more complex techniques, and ensuring an effective modularisation of steps such that the process can be reconfigured accordingly while maintaining its integrity. In doing so, a separable system is created which brings together data reduction, deep learning with pre-training/weight initialization, online learning and backtest overfitting validation.\newline 
+	Having covered the technical implementations in Sections \ref{Data} and \ref{Implementation}, a full overview of the end to end experimental process can be detailed and discussed. The process here rests on two key principles: implementing a generalised version of a system which could offer exploration of more complex techniques, and ensuring an effective modularisation of steps such that the process can be reconfigured accordingly while maintaining its integrity. In doing so, a separable system is created which brings together data reduction, deep learning with pretraining/weight initialization, online learning and backtest overfitting validation.\newline 
 
 	The steps below detail the conceptual stages for the full end to end process. These are also shown visually in Figure \ref{figure-proc_diagram}, with the diagram numbers corresponding to stages or items produced by each of the steps below.
 	
@@ -2071,7 +2071,7 @@
 		\item \textbf{Split Data:}  $\mathbf{L}$ is split to form the Training and Prediction datasets, $\mathbf{L}^\mathrm{I}$ and $\mathbf{L}^\mathrm{O}$.
 		\item \textbf{Train SAE Networks:} 
 		\begin{enumerate}
-			\item Either RBM pre-training or variance based techniques are used to initialize the network weights (see Sections \ref{imp_rbm} and \ref{imp_weights}, respectively).
+			\item Either RBM pretraining or variance based techniques are used to initialize the network weights (see Sections \ref{imp_rbm} and \ref{imp_weights}, respectively).
 			\item $\mathbf{L}^\mathrm{I}$ is split into two datasets: $\mathbf{S}^\mathrm{T}$ and $\mathbf{S}^\mathrm{V}$, used to train and validate the SAE networks, respectively.
 			\item The networks are trained using SGD (see Section \ref{imp_backprop}) and $\mathbf{S}^\mathrm{T}$, and validated using the MSE score on $\mathbf{S}^\mathrm{V}$.
 		\end{enumerate}
@@ -2080,7 +2080,7 @@
 		\item \textbf{Train Predictive Network on IS Data:} The predictive network is initialized using variance based techniques, and trained using SGD on $\mathbf{E}^\mathrm{I}$. After training, $\mathbf{E}^\mathrm{I}$ is used to generate and record the IS predictions, $\mathbf{\hat{L}}^\mathrm{I}$.
 		\item \textbf{Train Predictive Network on OOS Data:} The predictive network is trained on $\mathbf{E}^\mathrm{O}$ using OGD (see section \ref{imp_sgd}). The predicted outputs from the training, denoted $\mathbf{\hat{L}}^\mathrm{O}$, are also recorded.
 		\item \textbf{Reconstruct Price Predictions:} Price prediction sets $\mathbf{\hat{L}}^\mathrm{I}$ and $\mathbf{\hat{L}}^\mathrm{O}$ are processed to reconstruct actual timepoint prices using the steps in Section \ref{data_price_recon}, denoted $\mathbf{\hat{P}}^\mathrm{I}$ and $\mathbf{\hat{P}}^\mathrm{O}$, respectively.
-		\item \textbf{Calculate MMS Variables:} $\mathbf{\hat{P}}^\mathrm{I}$ and $\mathbf{\hat{P}}^\mathrm{O}$ are used by the MMS to calculate variables at each time point, as per Section \ref{imp_mms}. One of the primary calculations is the daily return rates, which can be used to calculate the Sharpe ratio.
+		\item \textbf{Calculate MMS Variables:} $\mathbf{\hat{P}}^\mathrm{I}$ and $\mathbf{\hat{P}}^\mathrm{O}$ are used by the MMS to calculate variables at each time point, as per Section \ref{imp_mms}. One of the primary calculations is the trade return rates, which can be used to calculate the Sharpe ratio.
 		\item \textbf{Calculate CSCV and PBO:} The CSCV algorithm is run using both the $\mathbf{\hat{P}}^\mathrm{I}$ and $\mathbf{\hat{P}}^\mathrm{O}$ MMS return rates in order to calculate a PBO score, as detailed in Section \ref{imp_cscv}.
 		\item \textbf{Calculate DSR:} The CSCV algorithm is run using $\mathbf{\hat{P}}^\mathrm{O}$ MMS return rates to calculate a DSR score, as detailed in Section \ref{imp_dsr}.
 	\end{enumerate}
@@ -2217,7 +2217,7 @@
 	
 	\subsection{Programming Languages}
 	
-	The libraries developed were primarily written in Julia, a relatively new scientific computing language (initially developed in 2009) \citep{DCRoot, Julia}. The main motivation, both for Julia as a language as well as choosing it for this task, is its efficiency and speed. Julia was created with high performance tasks in mind, and with its use of a Just-In-Time (JIT) compiler, can approach similar benchmarks to C \citep{Perkel}. This stands in stark contrast to some of the more popular analytical languages used, such as R or Python, which often suffer from performance issues. In the context of a project which required extensive processing power, it was natural to prioritize this computational efficiency. \newline
+	The libraries developed were primarily written in Julia, a relatively new scientific computing language (initially developed in 2009) \citep{DCCodeBase, Julia}. The main motivation, both for Julia as a language as well as choosing it for this task, is its efficiency and speed. Julia was created with high performance tasks in mind, and with its use of a Just-In-Time (JIT) compiler, can approach similar benchmarks to C \citep{Perkel}. This stands in stark contrast to some of the more popular analytical languages used, such as R or Python, which often suffer from performance issues. In the context of a project which required extensive processing power, it was natural to prioritize this computational efficiency. \newline
 	
 	Julia's focus on technical computing is emphasised with its built in support for mathematical and statistical work, composable functional base and dynamic and optional typing schemes. Its ability to fulfil general purpose programming, familiar syntax (which also works effectively for mathematical commands) and its interactive (REPL) command line also make it a practical choice for the task at hand \citep{Perkel}.\newline
 	
@@ -2248,7 +2248,7 @@
 	\begin{enumerate}
 		\item Train a Feedforward Neural Network, using variance based weight initializations.
 		\item Train an SAE, using variance based weight initializations.
-		\item Train an SAE, using RBM based pre-training for weight initialization.
+		\item Train an SAE, using RBM based pretraining for weight initialization.
 	\end{enumerate}
 	
 	These functions are supported by the following learning algorithm modules: \texttt{SGD} \citep{DCSGD}, \texttt{RBM} \citep{DCRBM}, \texttt{OGD} \citep{DCOGD} and  \texttt{GradientFunctions} \citep{DCGradientFunctions}.
@@ -2485,7 +2485,7 @@
 	
 	In this section we discuss the results seen at all stages of the framework. We provide takeaways in terms of technical training, as well developing a perspective on the phenomenology of financial markets, and how these both influence mechanistic learning approaches to pattern prediction. \newline
 	
-	\textbf{OOS P\&L:} Section \ref{results_oos_pl} discusses the primary determinants of OOS P\&L seen in actual data results, covering data horizon aggregations, SAE feature reduction and the OGD learning phase. We found that data horizon aggregations formed the primary determinant of the prediction strategies learnt, and that SAE networks learnt different classes of features according to the encoding size (which may differ in suitability for different prediction strategies). These are both considered in the context of the online OOS learning, which proved to be critical in effective learning. This is expanded on in Section \ref{results_data_hist}, which shows the negligible impact that extensive training had on historical data, noting that reducing training epochs and datasets had limited effect, and that the online learning phase was most impactful for OOS P\&L. \newline
+	\textbf{OOS P\&L:} Section \ref{results_oos_pl} discusses the primary determinants of OOS P\&L seen in actual data results, covering data horizon aggregations, SAE feature selection and the OGD learning phase. We found that data horizon aggregations formed the primary determinant of the prediction strategies learnt, and that SAE networks learnt different classes of features according to the encoding size (which may differ in suitability for different prediction strategies). These are both considered in the context of the online OOS learning, which proved to be critical in effective learning. This is expanded on in Section \ref{results_data_hist}, which shows the negligible impact that extensive training had on historical data, noting that reducing training epochs and datasets had limited effect, and that the online learning phase was most impactful for OOS P\&L. \newline
 	
 	\textbf{Network Initializations:} Section \ref{results_init} discusses network weight initialization techniques, noting their importance in context of financial time series where the value of extensive batch training was found to be of limited value (or even detrimental to performance).\newline
 	
@@ -2522,7 +2522,7 @@
 	\newpage
 	\subsection{Primary Determinants of OOS P\&L}\label{results_oos_pl}
 	
-	Our initial expectations were that the IS batch training using SGD for the predictive network would improve OOS P\&L performance. Theoretically, the training on historical data might prime the network for predicting future data. However, we found that the effects of IS training had limited benefit. This limited effect highlights the complexity and dynamic nature of financial time series, where past relations and behaviours are not necessarily indicative of present state. These issues are discussed extensively in Section \ref{results_data_hist}, however the follow through is that the primary determinants of OOS P\&L are those which are present in the OGD (OOS) learning phase: the OGD learning rate, the data horizon aggregations and the SAE feature reduction.\newline
+	Our initial expectations were that the IS batch training using SGD for the predictive network would improve OOS P\&L performance. Theoretically, the training on historical data might prime the network for predicting future data. However, we found that the effects of IS training had limited benefit. This limited effect highlights the complexity and dynamic nature of financial time series, where past relations and behaviours are not necessarily indicative of present state. These issues are discussed extensively in Section \ref{results_data_hist}, however the follow through is that the primary determinants of OOS P\&L are those which are present in the OGD (OOS) learning phase: the OGD learning rate, the data horizon aggregations and the SAE feature selection.\newline
 	
 	\subsubsection{Effects of Data Horizon Aggregations}
 	
@@ -2605,13 +2605,13 @@
 	
 	\subsubsection{Feature Selection}
 	
-	We found that feature selection through SAE dimensional reduction proves to be both possible and effective, though with complex behaviours and analyses. An important aspect to note is that the SAE networks were only trained on the first portion of IS data, and not updated afterwards. In light of changing dynamics in financial markets then, an effective SAE feature reduction in this process is an optimization that may be limited to a certain time period. However, this optimisation may not generalise well in a different context (i.e. OOS). \newline
+	We found that feature selection through SAE dimensional reduction proves to be both possible and effective, though with complex behaviours and analyses. An important aspect to note is that the SAE networks were only trained on the first portion of IS data, and not updated afterwards. In light of changing dynamics in financial markets then, an effective SAE feature selection in this process is an optimization that may be limited to a certain time period. However, this optimisation may not generalise well in a different context (i.e. OOS). \newline
 	
 	Inspection of the nature of features learnt is difficult, though results show that the features can be categorised into 2 groups: larger encodings (25, 20, 15) which performed the equivalent of denoising or smoothing, and smaller encodings (10, 5) which performed more robust feature selection of legitimate properties\footnote{Input data was 10 assets with 3 horizon aggregations each, resulting in an input size of 30 at each timestep.}.\newline
 
 	While the OOS performance of the larger encoding sizes mostly behaved as expected, the SAEs with encoding sizes of 5 and 10 were more inconsistent. In line with the view of changing dynamics within financial markets over time, we saw that SAEs with encoding of 10 overfit to particular features. These performed well for strategies focusing on long term trends, but were pathological for the strategies focusing on short term fluctuations. The SAEs with encoding size of 5 had more dependable performance, possibly because the small encoding layer acts as a form of regularization. The regularization would force the SAE to learn more consistently generalisable features. These dynamics are explored more in Figures \ref{figure-encoding_pl_median} and \ref{figure_ogdlr_delta_encoding_groups} below.  \newline
 	
-	The most noteworthy results we saw were SAE networks with encoding size of 5, which learnt generalisable features for 10 assets with 3 data aggregations each. Their performances were often on par or better than the higher encoding sizes, or no encoding at all, as seen in Figure \ref{figure_OOS_Encoding_PL_Box} below. One of the 2 primary goals of this paper was to determine if feature reduction is possible and beneficial, which we are able to answer here. The performance of the 5-encoding networks, with an 83\% reduction in input data, is clear evidence of the efficacy and potential of feature selection in financial times series.  \newline
+	The most noteworthy results we saw were SAE networks with encoding size of 5, which learnt generalisable features for 10 assets with 3 data aggregations each. Their performances were often on par or better than the higher encoding sizes, or no encoding at all, as seen in Figure \ref{figure_OOS_Encoding_PL_Box} below. One of the 2 primary goals of this paper was to determine if feature selection is possible and beneficial, which we are able to answer here. The performance of the 5-encoding networks, with an 83\% reduction in input data, is clear evidence of the efficacy and potential of feature selection in financial times series.  \newline
 	
 	\begin{figure}[H]
 		\centering
@@ -2631,7 +2631,7 @@
 	\caption[IS Performance by Encoding Size]
 	{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configurations 11 and 12 (\ref{config11}, \ref{config12})
 		\newline Figure (a) shows the MSE scores at different encoding sizes. While feature selection and reduction is possible through the SAE networks, the ability to reproduce input precisely does decrease monotonically with the encoding layer size. 
-		\newline Figure (b) shows the IS P\&L for the same groups. This provides a different assessment, showing a clear increase in P\&L at the 5 and 10 encoding sizes (``0'' indicates no feature reduction was done). This is indicative of the 2 different types of features learnt: sizes 15, 20 and 25 were smoothing or denoising the data and so reproductive MSE was correlated to P\&L performance; conversely, at sizes 5 and 10 the SAE began learning more fundamental features of the data and so the relative reproductive MSE score is not a clear indicator for P\&L performance.}
+		\newline Figure (b) shows the IS P\&L for the same groups. This provides a different assessment, showing a clear increase in P\&L at the 5 and 10 encoding sizes (``0'' indicates no feature selection was done). This is indicative of the 2 different types of features learnt: sizes 15, 20 and 25 were smoothing or denoising the data and so reproductive MSE was correlated to P\&L performance; conversely, at sizes 5 and 10 the SAE began learning more fundamental features of the data and so the relative reproductive MSE score is not a clear indicator for P\&L performance.}
 	\end{figure}
 	
 	\begin{figure}[H]
@@ -2648,7 +2648,7 @@
 		\end{subfigure}	
 		\caption[OOS P\&L By Feature Selection Size and OGD Learning Rate]
 		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 11 (\ref{config11})		
-		\newline Figure (a) shows the OOS P\&L performance for all encoding sizes, with an encoding of 0 indicating no feature reduction. It is interesting to note that at their best, almost all encodings were able to offer equitable performance. There was however a general variance reduction from 25 to 15, with 10 and 5 behaving differently. Figure (b) gives us far more insight into the dynamics causing the changing P\&L. The lower learning rates (0.005, 0.01) performed best with strategies using long term trend pricing (as seen in Figure \ref{figure-actual_ogd_lr_data}). The 10 feature encoding appeared to optimise specifically for this perspective. The optimisation caused outperformance at the lower learning rates and detrimental performance at higher learning rates (which perform best with short term fluctuation strategies). The 15 to 25 encodings showed a better association to the short term strategies, where higher encodings and higher learning rates offer the best performance. Notably, the 5 feature encoding offered the most consistent performance across learning rates, further emphasising the learning of generalisable features. These dynamics are explored further in Figure \ref{figure_ogdlr_delta_encoding_groups}.}
+		\newline Figure (a) shows the OOS P\&L performance for all encoding sizes, with an encoding of 0 indicating no feature selection. It is interesting to note that at their best, almost all encodings were able to offer equitable performance. There was however a general variance reduction from 25 to 15, with 10 and 5 behaving differently. Figure (b) gives us far more insight into the dynamics causing the changing P\&L. The lower learning rates (0.005, 0.01) performed best with strategies using long term trend pricing (as seen in Figure \ref{figure-actual_ogd_lr_data}). The 10 feature encoding appeared to optimise specifically for this perspective. The optimisation caused outperformance at the lower learning rates and detrimental performance at higher learning rates (which perform best with short term fluctuation strategies). The 15 to 25 encodings showed a better association to the short term strategies, where higher encodings and higher learning rates offer the best performance. Notably, the 5 feature encoding offered the most consistent performance across learning rates, further emphasising the learning of generalisable features. These dynamics are explored further in Figure \ref{figure_ogdlr_delta_encoding_groups}.}
 	\label{figure-encoding_pl_median}
 	\end{figure}
 		
@@ -2675,7 +2675,7 @@
 			\end{subfigure}
 		\caption[OOS P\&L By Feature Selection Size, OGD Learning Rate and Data Horizons]
 		{Dataset: Actual10 dataset (\ref{dataset_actual10}), Configuration 11 (\ref{config11})		
-			\newline The 4 plots above offer a cohesive view of all 3 primary determinants of OOS P\&L. At encoding sizes of 25 and 20, which were largely smoothing the input, the feature reduction had less material impact and so the relation between data horizons and learning rates is more prominent. Longer horizons deliver higher P\&L with lower learning rates (and so smaller adjustments), while short term horizons outperform with large learning rates (and so an ability to adapt quickly). The SAEs with encoding size 10 showed the most inconsistent behaviour, clearly having overfit to the long term features. This resulted in high performance with the low learning rates and longer horizons, and extremely poor performance with higher learning rates and longer horizons. The encoding size 5 learnt a more robust feature selection, resulting in the best of longer horizons at low learning rates, and the best of shorter horizons at larger learning rates. }
+			\newline The 4 plots above offer a cohesive view of all 3 primary determinants of OOS P\&L. At encoding sizes of 25 and 20, which were largely smoothing the input, the feature selection had less material impact and so the relation between data horizons and learning rates is more prominent. Longer horizons deliver higher P\&L with lower learning rates (and so smaller adjustments), while short term horizons outperform with large learning rates (and so an ability to adapt quickly). The SAEs with encoding size 10 showed the most inconsistent behaviour, clearly having overfit to the long term features. This resulted in high performance with the low learning rates and longer horizons, and extremely poor performance with higher learning rates and longer horizons. The encoding size 5 learnt a more robust feature selection, resulting in the best of longer horizons at low learning rates, and the best of shorter horizons at larger learning rates. }
 			\label{figure_ogdlr_delta_encoding_groups}
 		\end{figure}
 		
@@ -2686,7 +2686,7 @@
 
 	\subsection{Value of Historical Signal}\label{results_data_hist}
 		
-	We ran experimental trials to test the hypothesis that the amount of historical IS data available is of limited use, and that the real value is in broader current and cross sectional data. This idea is in line with the understanding that financial markets are inherently complex, adaptive and dynamic, as discussed more broadly in Section \ref{lr_TechnicalAnalysis}. With this in mind, and especially so in light of a fundamentally changing macroeconomic landscape, there is limited reason to believe that the functions and relations that may have governed the asset prices 10-15 years ago would still be dominant today. We found the P\&L results validate this idea, as seen in Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset}. We saw that extensive training on past data may be akin to pre-training network weights at best, and counterproductive in overfitting to dynamics that no longer exist at worst.
+	We ran experimental trials to test the hypothesis that the amount of historical IS data available is of limited use, and that the real value is in broader current and cross sectional data. This idea is in line with the understanding that financial markets are inherently complex, adaptive and dynamic, as discussed more broadly in Section \ref{lr_TechnicalAnalysis}. With this in mind, and especially so in light of a fundamentally changing macroeconomic landscape, there is limited reason to believe that the functions and relations that may have governed the asset prices 10-15 years ago would still be dominant today. We found the P\&L results validate this idea, as seen in Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset}. We saw that extensive training on past data may be akin to pretraining network weights at best, and counterproductive in overfitting to dynamics that no longer exist at worst.
 	
 	\begin{figure}[H]
 		\centering 
@@ -2716,11 +2716,11 @@
 	
 	\subsection{Weight Initializaton Techniques}\label{results_init}
 	
-	Neural network weight initialization has been one of the primary barriers to effective deep learning, with incorrect initializations leading to poor learning performance in deep networks. New techniques for initializing weights were one of the main reasons for the progress in the field \citep{Hinton2}. In Sections \ref{results_oos_pl} and \ref{results_data_hist}, we show that historical data and training are of limited value. The most profitable models learn quickly from recent data, and have had less training on historical data. The issue of weight initialization then is even more prominent when in the context of financial time series. The two most popular methods, RBM pre-training and variance based initialization, have both been tested and detailed below.
+	Neural network weight initialization has been one of the primary barriers to effective deep learning, with incorrect initializations leading to poor learning performance in deep networks. New techniques for initializing weights were one of the main reasons for the progress in the field \citep{Hinton2}. In Sections \ref{results_oos_pl} and \ref{results_data_hist}, we show that historical data and training are of limited value. The most profitable models learn quickly from recent data, and have had less training on historical data. The issue of weight initialization then is even more prominent when in the context of financial time series. The two most popular methods, RBM pretraining and variance based initialization, have both been tested and detailed below.
 	
 	\subsubsection{RBM Pretraining for Sigmoid Networks}
 	
-	While previously considered the best approach for training deep neural networks, we found that the methodology of greedy layerwise RBM pre-training for sigmoid SAE networks (as described by \citet{Hinton2}) had detrimental effects on network performance, as seen in Figure \ref{figure-results-pretraining-effect}. \newline
+	While previously considered the best approach for training deep neural networks, we found that the methodology of greedy layerwise RBM pretraining for sigmoid SAE networks (as described by \citet{Hinton2}) had detrimental effects on network performance, as seen in Figure \ref{figure-results-pretraining-effect}. \newline
 	
 	\begin{figure}[H]
 		\centering
@@ -2728,11 +2728,11 @@
 		\includegraphics[scale=0.45]{images/results/8_4_weight_init/actual_sigmoid_pt.png}
 		\caption[Pre-training Effects on SAE MSE Scores]
 		{Dataset AGL\&ACL (\ref{dataset_aglacl}); Configuration 6 (\ref{config6})
-			\newline \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pre-training epochs. There was an evident benefit to having no pre-training in this scenario as there was a clear decrease in performance as the number of epochs increased (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs).}
+			\newline \newline The boxplots here show the summary of configuration performances, by minimum MSE achieved, grouped according to the number of pretraining epochs. There was an evident benefit to having no pretraining in this scenario as there was a clear decrease in performance as the number of epochs increased (the low value outliers that can be seen for the 1 epoch configuration were with learning rates which were low enough to approximate no epochs).}
 		\label{figure-results-pretraining-effect}
 	\end{figure}		
 	
-	The RBM pre-training technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts\footnote{The RBM greedy layerwise training implementation was effectively tested and validated on known datasets such as MNIST, example results for which can bee seen in Section \ref{results_init_appendix} of the Appendix.}, we saw it had a counterproductive exploration of the weight space for this non-IID dataset, and that ultimately the financial time series data is pathological for RBM pre-training. It may also again emphasise the value of more recent data over historical data.\newline 
+	The RBM pretraining technique does assume that data is Independent and Identically Distributed (IID), and does ultimately traverse a different solution space and loss function. While it may be effective in some contexts\footnote{The RBM greedy layerwise training implementation was effectively tested and validated on known datasets such as MNIST, example results for which can bee seen in Section \ref{results_init_appendix} of the Appendix.}, we saw it had a counterproductive exploration of the weight space for this non-IID dataset, and that ultimately the financial time series data is pathological for RBM pretraining. It may also again emphasise the value of more recent data over historical data. \newline 
 	
 	\subsubsection{Variance Based Weight Initialization Techniques}
 	
@@ -3047,7 +3047,7 @@
 	
 	We found that increasing network layers or layer sizes usually led to better performance in both SAE and FFN networks. The exception was for some of the networks with smaller sized layers (i.e. 120 nodes for SAE networks), which struggled with training. The effects can be seen for both SAE MSE and FFN P\&L in Figure \ref{figure-network_size} below. The trends for both actual and synthetic data were largely the same, and so only actual data has been considered here. \newline
 	
-	It was interesting to see that the typically accepted SAE network structure, where layers decrease in size between the input layer and the encoding layer, resulted in worse performance (as compared to the same number of layers with a constant number of nodes). As detailed in Section \ref{results_init}, the RBM based greedy layerwise pre-training proved to be ineffective, and so variance based weight initialization with SGD training on the entire network was used instead. It was seen that for SGD training, larger layers at all stages improved performance. It is possible that a greedy layerwise training using variance based weight initialization may have shown increased performance in the decreasing layer size structure. The box plots showing these trends can be seen for actual and synthetic data in Appendix \ref{results_network_appendix}.
+	It was interesting to see that the typically accepted SAE network structure, where layers decrease in size between the input layer and the encoding layer, resulted in worse performance (as compared to the same number of layers with a constant number of nodes). As detailed in Section \ref{results_init}, the RBM based greedy layerwise pretraining proved to be ineffective, and so variance based weight initialization with SGD training on the entire network was used instead. It was seen that for SGD training, larger layers at all stages improved performance. It is possible that a greedy layerwise training using variance based weight initialization may have shown increased performance in the decreasing layer size structure. The box plots showing these trends can be seen for actual and synthetic data in Appendix \ref{results_network_appendix}.
 	
 	\subsubsection{Effects of Activation Functions}\label{results_activations_scaling}
 	
@@ -3426,11 +3426,11 @@
 	\newpage
 	\subsection{Personal Thoughts on Mechanistic Machine Learning Approaches}
 	
-	The results chapter thus far has focused on verifiable results and findings. The process of implementing and assessing the presented framework did however provide me with more learnings, and the development of some personal perspectives. The interested reader, or an individual considering a similar endeavour, may still find value in some of my less quantifiable thoughts. 
+	The chapter thus far has focused on verifiable results and findings. The process of implementing and assessing the presented framework did however provide me with more learnings, and the development of some personal perspectives. The interested reader, or an individual considering a similar endeavour, may still find value in some of my less quantifiable thoughts. 
 	
 	\subsubsection{On Backtest Overfitting and Validation}
 	
-	There was a seemingly innocent aspect of this process which had far more impact than I could have expected: the combinatorial generation of configuration parameters (as discussed in \ref{proc_parameters}). As noted in \ref{results_pbo}, ``...any configuration which performs well IS will have all possible OOS parameters tested in combination with it. While some of these combinations may result in poor performance, there will always be a combination of the best IS and best OOS parameter choices. This makes it unlikely that the best configurations will be past the median point for the logit calculation...''. This dynamic allowed for many thousands of neural networks to be trained, while incurring a PBO of 0\%. \newline
+	There was a seemingly trivial aspect of this process which had far more impact than I could have expected: the combinatorial generation of configuration parameters (as discussed in \ref{proc_parameters}). As noted while discussing the PBO calculation in Section \ref{results_pbo}, ``...any configuration which performs well IS will have all possible OOS parameters tested in combination with it. While some of these combinations may result in poor performance, there will always be a combination of the best IS and best OOS parameter choices. This makes it unlikely that the best configurations will be past the median point for the logit calculation...''. This dynamic allowed for many thousands of neural networks to be trained, while incurring a PBO of 0\%. \newline
 	
 	Unnecessary efforts spent trying to `debug' the issue aside, it makes me question the validity of the technique. It would have been quite possible to continue training networks the same way, and I do expect that the PBO would have continued to be 0\%. It was only when a more directed approach to configuration choices was taken, that the percentage increased. However, this directed approach is neither required nor necessarily advisable, and a grid search approach to parameters is hardly novel or unusual. \newline
 	
@@ -3454,29 +3454,28 @@
 	
 	\subsubsection{On the Development of Machine Learning Frameworks}
 
-	While I thoroughly enjoyed working on this project, it did undoubtedly take on a Sisyphean quality at times. For all of the framework's modularity as a final product, the intermediate development is a far more integrated process. Also, though stating the obvious, machine learning models tend to take a \textit{long} time to train. Developing the framework from scratch, I all too often found myself encountering the most painful realisation of something akin to an off-by-one error while analysing results or refactoring code. A couple of minutes to fix the error, and a couple of months to rerun the models.\newline
+	While I thoroughly enjoyed working on this project, it surely took on a Sisyphean quality at times. For all of the framework's modularity as a final product, the intermediate development was far more integrated process. Also, though stating the obvious, machine learning models tend to take a \textit{long} time to train. Developing the framework from scratch, I all too often found myself encountering the most painful realisation of something akin to an off-by-one error while analysing results or refactoring code. A couple of minutes to fix the error, and a couple of months to rerun the models.\newline
 	
 	Sadly, there are no magic solutions to this problem. I wrote unit tests, I double checked my work and I ran proof of concepts. Unfortunately though, when dealing with newly learnt, inherently complex and difficult to diagnose techniques (in a new programming language), these things are bound to occur. My advice, for anyone who might be considering such a task, would be to assume it will happen, and make sure you are easily able to respond to it. Capture as much data as possible at all stages, and ensure tasks are easily rerunnable. Also, consider how much rigour you should have in checking for correctness at the start of the project. Then, triple it.\newline
 	
-	When considering the nature of techniques to use, I would also advise caution when learning about techniques which have been proven on IID datasets (which, I'd estimate, is the majority of machine learning these days). One of my more fundamental takeaways from this has been a deeper appreciation for the differences in financial time series. One would assume this should neither need to be stated not learnt at this point. However, machine learning techniques such as RBM based pre-training are so well noted and spread (with time series applications included), that one expects them to at least help in this context. The hours of `debugging' and validation could potentially be skipped in these instances. The same would apply for the usage of synthetic data, with its own inherent differences from real financial time series. \newline
+	When considering the nature of techniques to use, I would also advise caution when learning about techniques which have been proven on IID datasets (which, I'd estimate, is the majority of machine learning these days). One of my more fundamental takeaways from this has been a deeper appreciation for the differences in financial time series. One would assume this should neither need to be stated not learnt at this point. However, machine learning techniques such as RBM based pretraining are so well noted and spread (with time series applications included), that one expects them to at least help in this context. The hours of `debugging' and validation could potentially be skipped in these instances. The same would apply for the usage of synthetic data, with its own inherent differences from real financial time series. \newline
 	
 %	That said, enjoy!
 	
 
-	\newpage	
 	\section{Conclusion}\label{Conclusion}
 	
-	The work we present here builds on mechanistic and predictive machine learning approaches to financial market data. In doing so, we provide a novel framework which was shown to be effective through sophisticated financial strategy validations. The primary goals of the paper were met: the framework experiment results proved the efficacy of such an approach through Profit and Loss (P\&L) returns and validations, and financial feature reduction was shown as both possible and effective. This was done whilst also developing a refined perspective on how these techniques behave under the complex and dynamic behaviour of financial markets. The availability of recent cross-sectional data, and the ability to process it effectively, is highlighted throughout the results as a core consideration for these models. \newline
+	The work we present here builds on mechanistic and predictive machine learning approaches to financial market data. In doing so, we provide a novel framework which was shown to be effective through sophisticated financial strategy validations. The primary goals of the paper were met: the framework experiment results proved the efficacy of such an approach through Profit and Loss (P\&L) returns and validations, and financial feature selection was shown as both possible and effective. This was done whilst also developing a refined perspective on how these techniques behave under the complex and dynamic behaviour of financial markets. The availability of recent cross-sectional data, and the ability to process it effectively, is highlighted throughout the results as a core consideration for these models. \newline
 	
 	The framework we constructed embodies a configurable approach, based on decoupled modules throughout the process. To meet the goals set out, it incorporates several key techniques: deep learning neural networks for stock price fluctuation prediction; Stacked AutoEncoders for feature selection; Combinatorially Symmetric Cross-Validation (CSCV) \& Probability of Backtest Overfitting (PBO) in order to assess the returns from the Money Management Strategy (MMS), and the likelihood that backtest overfitting has taken place; and Deflated Sharpe Ratio (DSR) in order to assess the likelihood of a positive Sharpe ratio having been observed. This was implemented with a scientific approach in mind, such that all results are reproducible using the libraries and configurations made available (see Sections \ref{Software} and \ref{appendix_configs}, respectively). \newline 
 	
 	The nature of neural networks as non-linear universal approximators combined with the brute force approach to learning market dynamics allowed us to establish market characteristics, and how they relate to models which, conceptually, could not be made more complex. The most pervasive observation in this sense, was the highly dynamic and complex nature of financial time series. The unstable behaviour of asset relationships over time was highlighted as one of the more challenging barriers to learning. While machine learning models are expected to excel in big data environments, in financial markets there is in fact a lack of relevant data with information and signal (especially if one considers the need of validation datasets). \newline
 	
-	To this point, we found in Section \ref{results_data_hist} that the IS training on historical data had a limited benefit, and could become detrimental if trained on extensively. This was confirmed by showing the negligible impact of increasing training time as well as the surprisingly small impact of large reductions in the training data (see Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset}). It was made clear that the increased performance for In Sample (IS) data was not necessarily linked to Out of Sample (OOS) performance. This gives weight to the importance of online learning methods for financial applications, which in turn makes network initialization a significant configuration choice. Methodologies for effective initialization were explored in Section \ref{results_init}. We found positive results in the He-adj initialization presented in Section \ref{imp_weights} (see Figures \ref{figure-mse_init} and \ref{figure-pl_init}), as well as poor performance in Restricted Boltzmann Machine (RBM) based pre-training (see Figure \ref{figure-results-pretraining-effect}).  \newline
+	To this point, we found in Section \ref{results_data_hist} that the IS training on historical data had a limited benefit, and could become detrimental if trained on extensively. This was confirmed by showing the negligible impact of increasing training time as well as the surprisingly small impact of large reductions in the training data (see Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset}). It was made clear that the increased performance for In Sample (IS) data was not necessarily linked to Out of Sample (OOS) performance. This gives weight to the importance of online learning methods for financial applications, which in turn makes network initialization a significant configuration choice. Methodologies for effective initialization were explored in Section \ref{results_init}. We found positive results in the He-adj initialization presented in Section \ref{imp_weights} (see Figures \ref{figure-mse_init} and \ref{figure-pl_init}), as well as poor performance in Restricted Boltzmann Machine (RBM) based pretraining (see Figure \ref{figure-results-pretraining-effect}).  \newline
 	
 	Naturally then, the primary determinants of OOS P\&L were found to be those which affected the online learning data and the model's ability to adapt to it. The horizon length of input data aggregations was shown to be the primary distinguishing property of trade correlations in Section \ref{results_dsr} (see Figure \ref{figure-dsr_clusters}). In Section \ref{results_oos_pl}, the differences between these groups were explored. We found that networks provided with one day fluctuations adapted to short term price prediction strategies, and so excelled in configurations which allowed them to adapt quickly to new information. Conversely, networks provided with longer horizons, such as sixty day fluctuations, adapted to following long term trends and performed best under configurations which had more careful adaptations (see Figures \ref{figure-encoding_pl_median} and \ref{figure_ogdlr_delta_encoding_groups}). The short term strategies had the highest OOS P\&L returns, but also the highest variance and a lower mean in these returns (see Figure \ref{figure-actual_aggregation_pl}). This highlighted both the increased value in recent information in financial markets, as well as the difficulty in using it due to the amount of noise present.\newline 
 	
-	Reducing the noise through the usage of SAE based feature reduction provided interesting results, as also noted in Section \ref{results_oos_pl}. We found that the SAE networks learnt fundamentally different features according to the encoding sizes made available. These different features then had a non-linear effect on OOS P\&L. Larger encodings (15, 20, 25) had a smoothing effect on the input data, and performance was generally better at higher encodings when used in strategies focusing on short term fluctuations. Smaller encodings (5, 10) were shown to learn more inherent features, resulting in higher performance in many circumstances. These features were not necessarily stable through time though, which was shown through the inconsistent performance of features learnt for an encoding size of 10. This issue was not present in the networks which were limited to 5 features, which learnt more robust and generalisable features. These smaller networks had competitive performance when compared to networks learning larger feature sets. This showed that feature reduction in financial time series is both possible and beneficial, despite the complexity present (see Figures \ref{figure-encoding_pl_median} and \ref{figure_ogdlr_delta_encoding_groups}). \newline	
+	Reducing the noise through the usage of SAE based feature selection provided interesting results, as also noted in Section \ref{results_oos_pl}. We found that the SAE networks learnt fundamentally different features according to the encoding sizes made available. These different features then had a non-linear effect on OOS P\&L. Larger encodings (15, 20, 25) had a smoothing effect on the input data, and performance was generally better at higher encodings when used in strategies focusing on short term fluctuations. Smaller encodings (5, 10) were shown to learn more inherent features, resulting in higher performance in many circumstances. These features were not necessarily stable through time though, which was shown through the inconsistent performance of features learnt for an encoding size of 10. This issue was not present in the networks which were limited to 5 features, which learnt more robust and generalisable features. These smaller networks had competitive performance when compared to networks learning larger feature sets. This showed that feature selection in financial time series is both possible and beneficial, despite the complexity present (see Figures \ref{figure-encoding_pl_median} and \ref{figure_ogdlr_delta_encoding_groups}). \newline	
 	
 	We also explored the complexity of financial time series through the results of data processing and learning optimizations in Section \ref{results_finance_data}. The effects of outliers was seen to be significant when comparing scaling techniques, with substantial differences between standardization and normalization (see Figure \ref{figure-actual_mse_scaling}). A strong relation was shown between regularization benefits and the smaller SAE encodings, in line with the extent of generalisable features being learnt (see Figure \ref{figure-mse_reg}). Learning optimizations for IS batch training, such as regularization and learning rate schedules, were shown to have benefits for IS P\&L results, but little carry through to OOS performance (see Figures \ref{figure-actual_pl_lr_epochs} and \ref{figure-results-reg}). This once again indicated the complex but unstable nature of financial solution spaces.\newline	
 	
@@ -3484,9 +3483,9 @@
 	
 	The full set of performance metrics was explored in Section \ref{results_mms}, with the distributions of OOS P\&L and Sharpe ratios being considered relative to the benchmark (a model with 100\% prediction accuracy). We found that the framework presented is able to generate effective models, with return distributions showing significant negative skewness, and achieving performance in the region of 20\%-30\% from the upper bound benchmark (see Figure \ref{results_pl_pdf_cost}). That said, the benchmark itself only had a return rate of 2.4\%. So, while the strategies were objectively profitable, they are being considered in a region that would not be competitive in the market. This speaks to a more foundational issue in financial markets, in that the MMS put into place is a critical component of profitability. The predictability of trading signal in and of itself is not enough to generate competitive gains.\newline
 	
-	The most challenging aspect of such a mechanistic approach to learning is ensuring that the model has not resulted in backtest overfitting, as discussed extensively in Section \ref{lr_backtesting}. Probing and validation of the generalisation error in this case was done through the use of Bailey's Probability of Backtest Overfitting methodology \citep{BailyPBO}, as well as the use of Prado's Deflated Sharpe Ratio \citep{PradoDSR}. We found through the PBO figure that there was a low likelihood of backtest overfitting having occurred. We also found through the us of the DSR figure, that there was a certain likelihood of a positive Sharpe ratio. These results are discussed in Sections \ref{results_pbo} and \ref{results_dsr}, respectively. These verifications give weight to the validity and efficacy of the full framework presented, showing that the solution space for financial asset price fluctuation prediction can be explored in a brute force fashion without necessarily overfitting.\newline
+	The most challenging aspect of such a mechanistic approach to learning is ensuring that the model has not resulted in backtest overfitting, as discussed extensively in Section \ref{lr_backtesting}. Probing and validation of the generalisation error in this case was done through the use of Bailey's Probability of Backtest Overfitting methodology \citep{BailyPBO}, as well as the use of Prado's Deflated Sharpe Ratio \citep{PradoDSR}. We found through the PBO figure that there was a low likelihood of backtest overfitting having occurred. We also found through the use of the DSR figure, that there was a certain likelihood of a positive Sharpe ratio. These results are discussed in Sections \ref{results_pbo} and \ref{results_dsr}, respectively. These verifications give weight to the validity and efficacy of the full framework presented, showing that the solution space for financial asset price fluctuation prediction can be explored in a brute force fashion without necessarily overfitting.\newline
 
-	The system we presented then, was successful in achieving the aims set out for it. Further, in the results we provide a cohesive view of how components interact and might be changed in a future implementation. The structures, initializations and training of Stacked AutoEncoders and Feedforward networks were explored, and found to be effective for feature reduction and price fluctuation prediction in financial time series. An extensive comparison of synthetic and actual data was made, such that it might guide further usage in similar systems. The Combinatorially Symmetric Cross-Validation and Probability of Backtest Overfitting methodologies were implemented, considered, and shown that they are able to work for a novel implementation of backtest overfitting in machine learning models. Their results were further validated through the usage of the Optimal Number of Clusters and Deflated Sharpe Ratio algorithms to detect positive Sharpe ratios. A view on the phenomenology of financial markets was also presented, based on the experiment results. The value of recent cross sectional data over historical data is shown through limited in-sample training of the networks (both by length of training and dataset size), the effects of Stacked AutoEncoder feature reduction developed in-sample, as well as out-of-sample learning configurations. In full, a framework was presented and found to be able to deliver legitimate profit and loss rates for out-of-sample data through mechanistic machine learning, and was done while incurring a low probability of backtest overfitting or spurious results otherwise.
+	The system we presented then, was successful in achieving the aims set out for it. Further, in the results we provide a cohesive view of how components interact and might be changed in a future implementation. The structures, initializations and training of Stacked AutoEncoders and Feedforward networks were explored, and found to be effective for feature selection and price fluctuation prediction in financial time series. An extensive comparison of synthetic and actual data was made, such that it might guide further usage in similar systems. The Combinatorially Symmetric Cross-Validation and Probability of Backtest Overfitting methodologies were implemented, considered, and shown that they are able to work for a novel implementation of backtest overfitting in machine learning models. Their results were further validated through the usage of the Optimal Number of Clusters and Deflated Sharpe Ratio algorithms to detect positive Sharpe ratios. A view on the phenomenology of financial markets was also presented, based on the experiment results. The value of recent cross sectional data over historical data is shown through limited in-sample training of the networks (both by length of training and dataset size), the effects of Stacked AutoEncoder feature selection developed in-sample, as well as out-of-sample learning configurations. In full, a framework was presented and found to be able to deliver legitimate profit and loss rates for out-of-sample data through mechanistic machine learning, and was done while incurring a low probability of backtest overfitting or spurious results otherwise.
 	
 	\newpage
 	\section{Future Work}
@@ -3496,7 +3495,7 @@
 		\item The incorporation of Open, High, Low and Volume data into the feature set would likely offer significantly beneficial signal gains for the predictive networks.
 		\item In light of the historical data redundancy seen, an improved and optimized online learning phase would be worth considering.
 		\item The updating of SAE models is the another likely area of beneficial development, possibly based on rolling time windows in order to fully take advantage of recent data benefits, or using a bootstrapped dataset in order to add time based weights to observations.
-		\item While RBM pre-training was shown to be ineffective, it is possible that a greedy layerwise approach using variance based weight initialization could still be used in order to train more efficient SAE networks.
+		\item While RBM pretraining was shown to be ineffective, it is possible that a greedy layerwise approach using variance based weight initialization could still be used in order to train more efficient SAE networks.
 		\item Data processing methods such as the Error Function could be implemented in order to better deal with outliers, which are shown to be prominent in financial data.
 		\item Further exploration of using input Dropout for price fluctuation prediction is warranted, in order to try and enforce correlation and relationship recognition within the FNN.
 	\end{enumerate}
@@ -3523,7 +3522,7 @@
 		\centering 
 		\textbf{Prediction Accuracy by Training Epochs (MNIST Data)} 
 		\includegraphics[scale=0.2]{images/results/8_appendix/rbm_pretraining.png}
-		\caption[Prediction Accuracy by Training Epochs (MNIST Data)]{The plot above shows the prediction accuracy achieved on the MNIST dataset according to the number of pre-training epochs using the RBM greedy layerwise methodology as per Section \ref{imp_rbm}. There is a clear indication that pre-training allows the network to achieve much higher accuracy much quicker.}
+		\caption[Prediction Accuracy by Training Epochs (MNIST Data)]{The plot above shows the prediction accuracy achieved on the MNIST dataset according to the number of pretraining epochs using the RBM greedy layerwise methodology as per Section \ref{imp_rbm}. There is a clear indication that pretraining allows the network to achieve much higher accuracy much quicker.}
 		\label{figure-rbm_pretraining}
 	\end{figure}
 	
@@ -3656,7 +3655,7 @@
 	\newpage	
 	\subsection{`How To' Guide for Julia Libraries}\label{appendix_tutorial}
 
-	The \texttt{Main\_Tutorial} module is made available to provide a step by step walkthrough for using the provided libraries. Configurations and methods are detailed for some naive training on an AGL dataset (see Section \ref{dataset_agl}). It should be noted that these are not necessarily the optimal parameter choices possible for this exercise.
+	The \texttt{Main\_Tutorial} module is made available to provide a step by step walk-through for using the provided libraries. Configurations and methods are detailed for some naive training on an AGL dataset (see Section \ref{dataset_agl}). It should be noted that these are not necessarily the optimal parameter choices possible for this exercise.
 
 	\subsubsection{Create the Database}
 	
@@ -3680,7 +3679,7 @@
 	
 	\subsubsection{Run Batch Process Diagnostics}
 	
-	The FFN training will includ the recording of IS and OOS predictions for the specified data. This allows the running of the \texttt{RunBatchTradeProcess} and \texttt{RunBatchAnalyticsProcess} functions from the \texttt{DatabaseBatchProcesses} module \citep{DCDatabaseBatchProcesses}. These processes record the per trade returns, as well as the aggregated performance metrics such as Sharpe ratios or strategy P\&L.
+	The FFN training will include the recording of IS and OOS predictions for the specified data. This allows the running of the \texttt{RunBatchTradeProcess} and \texttt{RunBatchAnalyticsProcess} functions from the \texttt{DatabaseBatchProcesses} module \citep{DCDatabaseBatchProcesses}. These processes record the per trade returns, as well as the aggregated performance metrics such as Sharpe ratios or strategy P\&L.
 	
 	\subsubsection{Diagnostic Visualizations}
 
@@ -3688,7 +3687,7 @@
 
 	\subsubsection{CSCV \& PBO}
 
-	Subsequently, the CSCV analysis can be run using \texttt{ExperimentCSCVProcess} \citep{DCCSCV}. The set of \texttt{configuration\_id}'s for the FFN networks are specified, with the split values to be run. The method will save the logit distribution graph in the \texttt{GraphOutputDir} directory and return the PBO score.
+	Subsequently, the CSCV analysis can be run using \texttt{ExperimentCSCVProcess} \citep{DCCSCV}. The set of \texttt{configuration\_id}s for the FFN networks is specified, with the split values to be run. The method will save the logit distribution graph in the \texttt{GraphOutputDir} directory and return the PBO score.
 	
 	\subsubsection{DSR}
 	

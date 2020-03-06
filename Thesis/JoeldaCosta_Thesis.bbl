@@ -1,4 +1,4 @@
-\begin{thebibliography}{132}
+\begin{thebibliography}{131}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -151,7 +151,7 @@ Joel da~Costa.
 Joel da~Costa.
 \newblock Dissertation github - aggregated database, 2019{\natexlab{b}}.
 \newblock URL
-  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/database_actual_agg.dbl}.
+  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/database_actual_agg.db}.
 
 \bibitem[da~Costa(2019{\natexlab{c}})]{DCCSCV}
 Joel da~Costa.
@@ -239,9 +239,9 @@ Joel da~Costa.
 
 \bibitem[da~Costa(2019{\natexlab{q}})]{DCGenerator}
 Joel da~Costa.
-\newblock Dissertation github - generator, 2019{\natexlab{q}}.
+\newblock Dissertation github - config generator, 2019{\natexlab{q}}.
 \newblock URL
-  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/Generator.jl}.
+  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ConfigGenerator.jl}.
 
 \bibitem[da~Costa(2019{\natexlab{r}})]{DCGradientFunctions}
 Joel da~Costa.
@@ -279,21 +279,15 @@ Joel da~Costa.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/ReportGraphs.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{x}})]{DCRoot}
+\bibitem[da~Costa(2019{\natexlab{x}})]{DCSGD}
 Joel da~Costa.
-\newblock Dissertation github root, 2019{\natexlab{x}}.
-\newblock URL
-  \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries}.
-
-\bibitem[da~Costa(2019{\natexlab{y}})]{DCSGD}
-Joel da~Costa.
-\newblock Dissertation github - sgd, 2019{\natexlab{y}}.
+\newblock Dissertation github - sgd, 2019{\natexlab{x}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/SGD.jl}.
 
-\bibitem[da~Costa(2019{\natexlab{z}})]{DCTrainingStructures}
+\bibitem[da~Costa(2019{\natexlab{y}})]{DCTrainingStructures}
 Joel da~Costa.
-\newblock Dissertation github - trainingstructures, 2019{\natexlab{z}}.
+\newblock Dissertation github - trainingstructures, 2019{\natexlab{y}}.
 \newblock URL
   \url{https://github.com/joel11/Masters/blob/master/Code\%20Libraries/TrainingStructures.jl}.
 
