@@ -22,6 +22,12 @@ under unstable dynamics.
 
 Main document: https://github.com/joel11/Masters/blob/master/Thesis/JoeldaCosta_Thesis.pdf
 
+## Data
+
+The dataset used can be found at: https://zivahub.uct.ac.za/account/articles/11897628
+
+DOI: 10.25375/uct.11897628
+
 ## Code Libraries Tutorial 
 
 All libraries can be found in the following directory: https://github.com/joel11/Masters/tree/master/Code%20Libraries
