@@ -1,6 +1,6 @@
-workspace()
+#workspace()
+#push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 
-push!(LOAD_PATH, "/Users/joeldacosta/Masters/Code Libraries/")
 using ExperimentProcessTrainSAE
 using ExperimentProcessTrainFFN
 using NeuralNetworks
@@ -15,7 +15,7 @@ using ConfigGenerator
 using DataJSETop40
 using BSON
 using DatabaseBatchProcesses
-#using DatabaseCreator
+using DatabaseCreator
 
 
 ##1. Create Database############################################################
@@ -23,7 +23,7 @@ using DatabaseBatchProcesses
 #CreateDatabase("database_new.db")
 #The name of the database may need to be set manually in DatabaseOps.jl
 
-##2. Train SAE Networks#########################################################
+##2. Data Set Up ###### #########################################################
 
 sae_experiment_set_name = "SAE Tutorial 1"
 dataset_name = "AGL"
@@ -35,6 +35,8 @@ data_sgd_ogd_split = [0.6]
 data_horizon_predictions = [5]
 data_scaling_function = LimitedNormalizeData
 data_horizon_aggregations = ([1,5,20], [5,20,60], [10,20,60])
+
+##3. Train SAE Networks#########################################################
 
 sae_network_initialization_functions = (InitializationFunctions.DCUniformInit,InitializationFunctions.XavierGlorotUniformInit)
 sae_network_hidden_layer_activation = LeakyReluActivation
@@ -53,7 +55,7 @@ sae_sgd_validation_set_split = [0.8]
 sae_sgd_denoising_enabled = (false)
 sae_sgd_denoising_variance = (0.0)
 
-#=RunSAEExperiment(sae_experiment_set_name,
+RunSAEExperiment(sae_experiment_set_name,
                             dataset_name,
                             dataset,
                             data_sgd_validation_set_split,
@@ -76,9 +78,9 @@ sae_sgd_denoising_variance = (0.0)
                             sae_sgd_validation_set_split,
                             sae_sgd_denoising_enabled,
                             sae_sgd_denoising_variance)
-=#
 
-##3. Choose SAE Networks########################################################
+
+##4. Choose SAE Networks########################################################
 
 function GetBestSAE(horizons)
     return get(RunQuery("select er.configuration_id, min(testing_cost) min_cost
@@ -96,9 +98,9 @@ best_102060 = GetBestSAE("10,20,60")
 
 sae_choices = (best_1520, best_52060, best_102060)
 
-##4. Train FFN Networks#########################################################
+##5. Train FFN Networks#########################################################
 
-ffn_experiment_set_name = "FFN Tutorial 2"
+ffn_experiment_set_name = "FFN Tutorial 1"
 
 ffn_network_initialization_functions = (InitializationFunctions.DCUniformInit,InitializationFunctions.XavierGlorotUniformInit)
 ffn_network_hidden_layer_activation = LeakyReluActivation
@@ -136,14 +138,14 @@ RunFFNExperiment(ffn_experiment_set_name, sae_choices,
                             ogd_learning_rates)
 
 
-##5. Run Batch Processes Diagnostics############################################
+##6. Run Batch Processes Diagnostics############################################
 
-ffn_configurations = Array(RunQuery("select configuration_id from configuration_run where experiment_set_name like 'FFN Tutorial 2%'")[:,1])
+ffn_configurations = Array(RunQuery("select configuration_id from configuration_run where experiment_set_name like 'FFN Tutorial 1%'")[:,1])
 
 RunBatchTradeProcess(ffn_configurations, dataset)
 RunBatchAnalyticsProcess(ffn_configurations, dataset)
 
-##6. Diagnostic Visualizations##################################################
+##7. Diagnostic Visualizations##################################################
 
 using ExperimentGraphs
 
@@ -160,12 +162,12 @@ AllProfitsPDF(dataset)
 SharpeRatiosPDF()
 
 
-##7. PBO Calculations###########################################################
+##8. PBO Calculations###########################################################
 
 using CSCV
 
 ExperimentCSCVProcess(ffn_configurations, (16))
 
-##8. DSR Instructions###########################################################
+##9. DSR Instructions###########################################################
 
 WriteCSVFileForDSR(ffn_configurations, "./DSR_returns.csv")

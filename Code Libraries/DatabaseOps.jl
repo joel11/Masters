@@ -7,8 +7,8 @@ using DataProcessor
 export CreateOOSTradeCostRecords,CreateOOSTradeRecords, CreateISTradeCostRecords, CreateISTradeRecords, CreateSRRecordsCost, CreateConfusionRecords, CreateSRRecords, CreateMMSTradeCostRecords, WriteFFN, CreateBacktestRecords, CreateMMSTradeRecords, WriteSAE, ReadSAE, RecordSAEExperimentConfig, RecordFFNExperimentConfig, CreateEpochRecord, CreatePredictionRecords, RunQuery
 
 #db = SQLite.DB("database_actual.db")
-#db = SQLite.DB("database_actual_agg.db")
-    db = SQLite.DB("database_new.db")
+db = SQLite.DB("database_actual_agg.db")
+#db = SQLite.DB("database_new.db")
 #db_test  = SQLite.DB("database_test.db")
 
 function WriteSAE(config_id, experiment_config, net)

@@ -2208,7 +2208,7 @@
 		\newpage
 	\section{Software Libraries and Development}\label{Software}
 	
-	A significant aspect of this dissertation was the implementation of software libraries that fulfilled the criteria of generalised training of neural networks, an implementation of the full process as described in Section \ref{ProcessOverview}, the creation and management of database records for analysis and an extensive set of diagnostic tools in order to assess performance. This section details the implementation choices as well as the final libraries which were produced.
+	A significant aspect of this dissertation was the implementation of software libraries that fulfilled the criteria of generalised training of neural networks, an implementation of the full process as described in Section \ref{ProcessOverview}, the creation and management of database records for analysis and an extensive set of diagnostic tools in order to assess performance. This section details the implementation choices as well as the final libraries which were produced. A tutorial for using the provided libraries is included in the \texttt{Main\_Tutorial} module, and discussed in Appendix \ref{appendix_tutorial}.
 	
 	\subsection{Online Availability}\label{software_online}
 	
@@ -3654,23 +3654,45 @@
 	\end{figure}
 
 	\newpage	
-	\subsection{`How To' Guide for Julia Libraries}
+	\subsection{`How To' Guide for Julia Libraries}\label{appendix_tutorial}
 
-%	The \texttt{Main\_Tutorial} module is made available to provide a step by step overview for using the provided libraries. Configurations and methods are detailed for some naive training on an AGL dataset (see Section \ref{dataset_agl}).
-
-	It should be noted that hese are not necessarily the best parameter choices possible for this exercise.
+	The \texttt{Main\_Tutorial} module is made available to provide a step by step walkthrough for using the provided libraries. Configurations and methods are detailed for some naive training on an AGL dataset (see Section \ref{dataset_agl}). It should be noted that these are not necessarily the optimal parameter choices possible for this exercise.
 
 	\subsubsection{Create the Database}
 	
-	The first step is to create the database which will be used. Once created, the \texttt{DatabaseOps} module should be updated so that the \texttt{db} variable references the same database by name.
+	The first step is to create the database which will be used with the \texttt{CreateDatabase} function \citep{DCDatabaseCreator}. Once created, the \texttt{DatabaseOps} module should be updated so that the \texttt{db} variable references the same database by name \citep{DCDatabaseOps}.
+	
+	\subsubsection{Data Specifications}
+	
+	The JSE dataset can be read into memory using \texttt{ReadJSETop40Data}, and particular assets can then be filtered on (as is done for AGL). The data specifications such as horizons, prediction points and segregation points are also set in this step.
 	
 	\subsubsection{Train SAE Networks}
 
-	Once the database has been created, the SAE networks can be trained. This step uses the \texttt{RunSAEExperiment} method for training SAE networks, passing through the configurations chosen and noted in \texttt{Main\_Tutorial}. The configurations specify the parameters for the SAE networks and their SGD training, as specified in Software Section \ref{Software}.
+	Once the database has been created, the SAE networks can be trained. This step uses the \texttt{RunSAEExperiment} method for training SAE networks, passing through the configurations chosen and noted in \texttt{Main\_Tutorial} \citep{DCExperimentProcessTrainSAE}. The configurations specify the parameters for the SAE networks and their SGD training, as detailed in Software Section \ref{Software}.
 
 	\subsubsection{Select Best SAE Networks}
 	
+	The selection of SAE networks is done semi-manually, and is dependent on the task at hand. In this case, the provided \texttt{GetBestSAE} function filters according to data horizons specified. This may differ according to what is  being investigated. As the case may be, the  selection of all `best' SAE networks should be specified by \texttt{configuration\_id} in the \texttt{sae\_choices} vector.
 	
+	\subsubsection{Train FFN Networks}
+	
+	Much like the SAE networks, the FFN networks can be trained in a combinatorial manner using the noted configuration choices and the \texttt{RunFFNExperiment} function \citep{DCExperimentProcessTrainFFN}. These are available as specified in Section \ref{Software}.
+	
+	\subsubsection{Run Batch Process Diagnostics}
+	
+	The FFN training will includ the recording of IS and OOS predictions for the specified data. This allows the running of the \texttt{RunBatchTradeProcess} and \texttt{RunBatchAnalyticsProcess} functions from the \texttt{DatabaseBatchProcesses} module \citep{DCDatabaseBatchProcesses}. These processes record the per trade returns, as well as the aggregated performance metrics such as Sharpe ratios or strategy P\&L.
+	
+	\subsubsection{Diagnostic Visualizations}
+
+	Once the aggregated performance metrics have been calculated and recorded, they can be used for diagnostic visualizations \citep{DCExperimentGraph}. A set of example visualizations have been included in the \texttt{Main\_Tutorial} module, though any from the full set can be used, which are specified in Appendix \ref{appendix_diagnostics}.
+
+	\subsubsection{CSCV \& PBO}
+
+	Subsequently, the CSCV analysis can be run using \texttt{ExperimentCSCVProcess} \citep{DCCSCV}. The set of \texttt{configuration\_id}'s for the FFN networks are specified, with the split values to be run. The method will save the logit distribution graph in the \texttt{GraphOutputDir} directory and return the PBO score.
+	
+	\subsubsection{DSR}
+	
+	The DSR implementation is split across the Julia and Python code base. In Julia, the \texttt{WriteCSVFileForDSR} method will write out the required return data for the specified FFN configurations. Using the Python module \texttt{DSR\_proc}, the same CSV file can be specified and used to run the DSR analysis \citep{DCDSR_Dataproc}.
 
 	\newpage	
 	\subsection{Relational Database Schema Diagram}\label{appendix_database_schema}

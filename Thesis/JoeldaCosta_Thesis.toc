@@ -168,27 +168,33 @@
 \contentsline {subsubsection}{\numberline {11.1.4}Additional Results for Section \ref {results_network} - Network Structure and Training }{143}{subsubsection.11.1.4}
 \contentsline {subsection}{\numberline {11.2}`How To' Guide for Julia Libraries}{147}{subsection.11.2}
 \contentsline {subsubsection}{\numberline {11.2.1}Create the Database}{147}{subsubsection.11.2.1}
-\contentsline {subsubsection}{\numberline {11.2.2}Train SAE Networks}{147}{subsubsection.11.2.2}
-\contentsline {subsubsection}{\numberline {11.2.3}Select Best SAE Networks}{147}{subsubsection.11.2.3}
-\contentsline {subsection}{\numberline {11.3}Relational Database Schema Diagram}{149}{subsection.11.3}
-\contentsline {subsection}{\numberline {11.4}Dataset Information}{150}{subsection.11.4}
-\contentsline {subsection}{\numberline {11.5}Configuration Sets Used}{151}{subsection.11.5}
-\contentsline {subsubsection}{\numberline {11.5.1}Configuration 1}{151}{subsubsection.11.5.1}
-\contentsline {subsubsection}{\numberline {11.5.2}Configuration 2}{153}{subsubsection.11.5.2}
-\contentsline {subsubsection}{\numberline {11.5.3}Configuration 3}{155}{subsubsection.11.5.3}
-\contentsline {subsubsection}{\numberline {11.5.4}Configuration 4}{157}{subsubsection.11.5.4}
-\contentsline {subsubsection}{\numberline {11.5.5}Configuration 5}{159}{subsubsection.11.5.5}
-\contentsline {subsubsection}{\numberline {11.5.6}Configuration 6}{161}{subsubsection.11.5.6}
-\contentsline {subsubsection}{\numberline {11.5.7}Configuration 7}{162}{subsubsection.11.5.7}
-\contentsline {subsubsection}{\numberline {11.5.8}Configuration 8}{164}{subsubsection.11.5.8}
-\contentsline {subsubsection}{\numberline {11.5.9}Configuration 9}{166}{subsubsection.11.5.9}
-\contentsline {subsubsection}{\numberline {11.5.10}Configuration 10}{168}{subsubsection.11.5.10}
-\contentsline {subsubsection}{\numberline {11.5.11}Configuration 11}{170}{subsubsection.11.5.11}
-\contentsline {subsubsection}{\numberline {11.5.12}Configuration 12}{172}{subsubsection.11.5.12}
-\contentsline {subsubsection}{\numberline {11.5.13}Configuration 13}{174}{subsubsection.11.5.13}
-\contentsline {subsubsection}{\numberline {11.5.14}Configuration 14}{176}{subsubsection.11.5.14}
-\contentsline {subsubsection}{\numberline {11.5.15}Configuration 15}{178}{subsubsection.11.5.15}
-\contentsline {subsubsection}{\numberline {11.5.16}Configuration 16}{180}{subsubsection.11.5.16}
-\contentsline {subsubsection}{\numberline {11.5.17}Configuration 17}{182}{subsubsection.11.5.17}
-\contentsline {subsection}{\numberline {11.6}Diagnostic Charts}{184}{subsection.11.6}
-\contentsline {section}{\numberline {12}References}{189}{section.12}
+\contentsline {subsubsection}{\numberline {11.2.2}Data Specifications}{147}{subsubsection.11.2.2}
+\contentsline {subsubsection}{\numberline {11.2.3}Train SAE Networks}{147}{subsubsection.11.2.3}
+\contentsline {subsubsection}{\numberline {11.2.4}Select Best SAE Networks}{147}{subsubsection.11.2.4}
+\contentsline {subsubsection}{\numberline {11.2.5}Train FFN Networks}{147}{subsubsection.11.2.5}
+\contentsline {subsubsection}{\numberline {11.2.6}Run Batch Process Diagnostics}{147}{subsubsection.11.2.6}
+\contentsline {subsubsection}{\numberline {11.2.7}Diagnostic Visualizations}{148}{subsubsection.11.2.7}
+\contentsline {subsubsection}{\numberline {11.2.8}CSCV \& PBO}{148}{subsubsection.11.2.8}
+\contentsline {subsubsection}{\numberline {11.2.9}DSR}{148}{subsubsection.11.2.9}
+\contentsline {subsection}{\numberline {11.3}Relational Database Schema Diagram}{150}{subsection.11.3}
+\contentsline {subsection}{\numberline {11.4}Dataset Information}{151}{subsection.11.4}
+\contentsline {subsection}{\numberline {11.5}Configuration Sets Used}{152}{subsection.11.5}
+\contentsline {subsubsection}{\numberline {11.5.1}Configuration 1}{152}{subsubsection.11.5.1}
+\contentsline {subsubsection}{\numberline {11.5.2}Configuration 2}{154}{subsubsection.11.5.2}
+\contentsline {subsubsection}{\numberline {11.5.3}Configuration 3}{156}{subsubsection.11.5.3}
+\contentsline {subsubsection}{\numberline {11.5.4}Configuration 4}{158}{subsubsection.11.5.4}
+\contentsline {subsubsection}{\numberline {11.5.5}Configuration 5}{160}{subsubsection.11.5.5}
+\contentsline {subsubsection}{\numberline {11.5.6}Configuration 6}{162}{subsubsection.11.5.6}
+\contentsline {subsubsection}{\numberline {11.5.7}Configuration 7}{163}{subsubsection.11.5.7}
+\contentsline {subsubsection}{\numberline {11.5.8}Configuration 8}{165}{subsubsection.11.5.8}
+\contentsline {subsubsection}{\numberline {11.5.9}Configuration 9}{167}{subsubsection.11.5.9}
+\contentsline {subsubsection}{\numberline {11.5.10}Configuration 10}{169}{subsubsection.11.5.10}
+\contentsline {subsubsection}{\numberline {11.5.11}Configuration 11}{171}{subsubsection.11.5.11}
+\contentsline {subsubsection}{\numberline {11.5.12}Configuration 12}{173}{subsubsection.11.5.12}
+\contentsline {subsubsection}{\numberline {11.5.13}Configuration 13}{175}{subsubsection.11.5.13}
+\contentsline {subsubsection}{\numberline {11.5.14}Configuration 14}{177}{subsubsection.11.5.14}
+\contentsline {subsubsection}{\numberline {11.5.15}Configuration 15}{179}{subsubsection.11.5.15}
+\contentsline {subsubsection}{\numberline {11.5.16}Configuration 16}{181}{subsubsection.11.5.16}
+\contentsline {subsubsection}{\numberline {11.5.17}Configuration 17}{183}{subsubsection.11.5.17}
+\contentsline {subsection}{\numberline {11.6}Diagnostic Charts}{185}{subsection.11.6}
+\contentsline {section}{\numberline {12}References}{190}{section.12}

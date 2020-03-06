@@ -166,27 +166,33 @@
 \BOOKMARK [3][-]{subsubsection.11.1.4}{Additional Results for Section 8.7 - Network Structure and Training }{subsection.11.1}% 166
 \BOOKMARK [2][-]{subsection.11.2}{`How To' Guide for Julia Libraries}{section.11}% 167
 \BOOKMARK [3][-]{subsubsection.11.2.1}{Create the Database}{subsection.11.2}% 168
-\BOOKMARK [3][-]{subsubsection.11.2.2}{Train SAE Networks}{subsection.11.2}% 169
-\BOOKMARK [3][-]{subsubsection.11.2.3}{Select Best SAE Networks}{subsection.11.2}% 170
-\BOOKMARK [2][-]{subsection.11.3}{Relational Database Schema Diagram}{section.11}% 171
-\BOOKMARK [2][-]{subsection.11.4}{Dataset Information}{section.11}% 172
-\BOOKMARK [2][-]{subsection.11.5}{Configuration Sets Used}{section.11}% 173
-\BOOKMARK [3][-]{subsubsection.11.5.1}{Configuration 1}{subsection.11.5}% 174
-\BOOKMARK [3][-]{subsubsection.11.5.2}{Configuration 2}{subsection.11.5}% 175
-\BOOKMARK [3][-]{subsubsection.11.5.3}{Configuration 3}{subsection.11.5}% 176
-\BOOKMARK [3][-]{subsubsection.11.5.4}{Configuration 4}{subsection.11.5}% 177
-\BOOKMARK [3][-]{subsubsection.11.5.5}{Configuration 5}{subsection.11.5}% 178
-\BOOKMARK [3][-]{subsubsection.11.5.6}{Configuration 6}{subsection.11.5}% 179
-\BOOKMARK [3][-]{subsubsection.11.5.7}{Configuration 7}{subsection.11.5}% 180
-\BOOKMARK [3][-]{subsubsection.11.5.8}{Configuration 8}{subsection.11.5}% 181
-\BOOKMARK [3][-]{subsubsection.11.5.9}{Configuration 9}{subsection.11.5}% 182
-\BOOKMARK [3][-]{subsubsection.11.5.10}{Configuration 10}{subsection.11.5}% 183
-\BOOKMARK [3][-]{subsubsection.11.5.11}{Configuration 11}{subsection.11.5}% 184
-\BOOKMARK [3][-]{subsubsection.11.5.12}{Configuration 12}{subsection.11.5}% 185
-\BOOKMARK [3][-]{subsubsection.11.5.13}{Configuration 13}{subsection.11.5}% 186
-\BOOKMARK [3][-]{subsubsection.11.5.14}{Configuration 14}{subsection.11.5}% 187
-\BOOKMARK [3][-]{subsubsection.11.5.15}{Configuration 15}{subsection.11.5}% 188
-\BOOKMARK [3][-]{subsubsection.11.5.16}{Configuration 16}{subsection.11.5}% 189
-\BOOKMARK [3][-]{subsubsection.11.5.17}{Configuration 17}{subsection.11.5}% 190
-\BOOKMARK [2][-]{subsection.11.6}{Diagnostic Charts}{section.11}% 191
-\BOOKMARK [1][-]{section.12}{References}{}% 192
+\BOOKMARK [3][-]{subsubsection.11.2.2}{Data Specifications}{subsection.11.2}% 169
+\BOOKMARK [3][-]{subsubsection.11.2.3}{Train SAE Networks}{subsection.11.2}% 170
+\BOOKMARK [3][-]{subsubsection.11.2.4}{Select Best SAE Networks}{subsection.11.2}% 171
+\BOOKMARK [3][-]{subsubsection.11.2.5}{Train FFN Networks}{subsection.11.2}% 172
+\BOOKMARK [3][-]{subsubsection.11.2.6}{Run Batch Process Diagnostics}{subsection.11.2}% 173
+\BOOKMARK [3][-]{subsubsection.11.2.7}{Diagnostic Visualizations}{subsection.11.2}% 174
+\BOOKMARK [3][-]{subsubsection.11.2.8}{CSCV \046 PBO}{subsection.11.2}% 175
+\BOOKMARK [3][-]{subsubsection.11.2.9}{DSR}{subsection.11.2}% 176
+\BOOKMARK [2][-]{subsection.11.3}{Relational Database Schema Diagram}{section.11}% 177
+\BOOKMARK [2][-]{subsection.11.4}{Dataset Information}{section.11}% 178
+\BOOKMARK [2][-]{subsection.11.5}{Configuration Sets Used}{section.11}% 179
+\BOOKMARK [3][-]{subsubsection.11.5.1}{Configuration 1}{subsection.11.5}% 180
+\BOOKMARK [3][-]{subsubsection.11.5.2}{Configuration 2}{subsection.11.5}% 181
+\BOOKMARK [3][-]{subsubsection.11.5.3}{Configuration 3}{subsection.11.5}% 182
+\BOOKMARK [3][-]{subsubsection.11.5.4}{Configuration 4}{subsection.11.5}% 183
+\BOOKMARK [3][-]{subsubsection.11.5.5}{Configuration 5}{subsection.11.5}% 184
+\BOOKMARK [3][-]{subsubsection.11.5.6}{Configuration 6}{subsection.11.5}% 185
+\BOOKMARK [3][-]{subsubsection.11.5.7}{Configuration 7}{subsection.11.5}% 186
+\BOOKMARK [3][-]{subsubsection.11.5.8}{Configuration 8}{subsection.11.5}% 187
+\BOOKMARK [3][-]{subsubsection.11.5.9}{Configuration 9}{subsection.11.5}% 188
+\BOOKMARK [3][-]{subsubsection.11.5.10}{Configuration 10}{subsection.11.5}% 189
+\BOOKMARK [3][-]{subsubsection.11.5.11}{Configuration 11}{subsection.11.5}% 190
+\BOOKMARK [3][-]{subsubsection.11.5.12}{Configuration 12}{subsection.11.5}% 191
+\BOOKMARK [3][-]{subsubsection.11.5.13}{Configuration 13}{subsection.11.5}% 192
+\BOOKMARK [3][-]{subsubsection.11.5.14}{Configuration 14}{subsection.11.5}% 193
+\BOOKMARK [3][-]{subsubsection.11.5.15}{Configuration 15}{subsection.11.5}% 194
+\BOOKMARK [3][-]{subsubsection.11.5.16}{Configuration 16}{subsection.11.5}% 195
+\BOOKMARK [3][-]{subsubsection.11.5.17}{Configuration 17}{subsection.11.5}% 196
+\BOOKMARK [2][-]{subsection.11.6}{Diagnostic Charts}{section.11}% 197
+\BOOKMARK [1][-]{section.12}{References}{}% 198
