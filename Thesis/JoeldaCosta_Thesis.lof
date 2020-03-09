@@ -19,8 +19,8 @@
 \contentsline {figure}{\numberline {18}{\ignorespaces OOS P\&L By Feature Selection Size, OGD Learning Rate and Data Horizons}}{99}{figure.caption.22}
 \contentsline {figure}{\numberline {19}{\ignorespaces OOS P\&L by IS Training Epochs}}{100}{figure.caption.23}
 \contentsline {figure}{\numberline {20}{\ignorespaces OOS P\&L by IS Training Dataset Size}}{101}{figure.caption.24}
-\contentsline {figure}{\numberline {21}{\ignorespaces Pre-training Effects on SAE MSE Scores}}{102}{figure.caption.25}
-\contentsline {figure}{\numberline {22}{\ignorespaces SAE MSE by Weight Initialization}}{103}{figure.caption.26}
+\contentsline {figure}{\numberline {21}{\ignorespaces Pretraining Effects on SAE MSE Scores}}{102}{figure.caption.25}
+\contentsline {figure}{\numberline {22}{\ignorespaces SAE MSE by Weight Initialization}}{104}{figure.caption.26}
 \contentsline {figure}{\numberline {23}{\ignorespaces OOS P\&L by Weight Initialization}}{104}{figure.caption.27}
 \contentsline {figure}{\numberline {24}{\ignorespaces SAE MSE Scores for Synthetic Data}}{106}{figure.caption.28}
 \contentsline {figure}{\numberline {25}{\ignorespaces OOS P\&L by Data Aggregation for Synthetic Data}}{107}{figure.caption.29}
@@ -38,25 +38,25 @@
 \contentsline {figure}{\numberline {37}{\ignorespaces MSE by Output Activations}}{118}{figure.caption.41}
 \contentsline {figure}{\numberline {38}{\ignorespaces P\&L by Hidden Layer Activations (Synthetic Data)}}{118}{figure.caption.42}
 \contentsline {figure}{\numberline {39}{\ignorespaces MMS OOS P\&L Distributions}}{120}{figure.caption.43}
-\contentsline {figure}{\numberline {40}{\ignorespaces MMS Sharpe Ratios and Correct Trades}}{120}{figure.caption.44}
+\contentsline {figure}{\numberline {40}{\ignorespaces MMS Sharpe Ratios}}{120}{figure.caption.44}
 \contentsline {figure}{\numberline {41}{\ignorespaces PBO Scores by Split Values}}{123}{figure.caption.45}
 \contentsline {figure}{\numberline {42}{\ignorespaces Number of CSCV Combinations by Split Value}}{123}{figure.caption.46}
 \contentsline {figure}{\numberline {43}{\ignorespaces Logit Distribution for All Configurations}}{124}{figure.caption.47}
 \contentsline {figure}{\numberline {44}{\ignorespaces Logit Distribution for Subset of Configurations}}{125}{figure.caption.48}
 \contentsline {figure}{\numberline {45}{\ignorespaces Sharpe Ratios for ONC Clusters and Best Strategy}}{127}{figure.caption.49}
 \contentsline {figure}{\numberline {46}{\ignorespaces OGD MSE Scores for Primary ONC Clusters}}{128}{figure.caption.50}
-\contentsline {figure}{\numberline {47}{\ignorespaces MSE By Feature Selection Size (Synthetic Data)}}{140}{figure.caption.51}
-\contentsline {figure}{\numberline {48}{\ignorespaces Prediction Accuracy by Training Epochs (MNIST Data)}}{140}{figure.caption.52}
-\contentsline {figure}{\numberline {49}{\ignorespaces SAE MSE by Initialization (Actual Data)}}{141}{figure.caption.53}
-\contentsline {figure}{\numberline {50}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Actual Data)}}{141}{figure.caption.54}
-\contentsline {figure}{\numberline {51}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)}}{142}{figure.caption.55}
-\contentsline {figure}{\numberline {52}{\ignorespaces P\&L by Learning Rates}}{142}{figure.caption.56}
-\contentsline {figure}{\numberline {53}{\ignorespaces MSE By Network Sizes (Actual Data)}}{143}{figure.caption.57}
-\contentsline {figure}{\numberline {54}{\ignorespaces MSE By Network Sizes (Synthetic Data)}}{144}{figure.caption.58}
-\contentsline {figure}{\numberline {55}{\ignorespaces P\&L By Network Sizes (Actual Data)}}{144}{figure.caption.59}
-\contentsline {figure}{\numberline {56}{\ignorespaces P\&L By Network Sizes (Synthetic Data)}}{145}{figure.caption.60}
-\contentsline {figure}{\numberline {57}{\ignorespaces Predictive P\&L by OGD Learning Rate (Synthetic Data)}}{145}{figure.caption.61}
-\contentsline {figure}{\numberline {58}{\ignorespaces SAE: Leaky ReLU vs. ReLU (Synthetic Data)}}{146}{figure.caption.62}
-\contentsline {figure}{\numberline {59}{\ignorespaces P\&L by ReLU Activations (Synthetic Data)}}{146}{figure.caption.63}
-\contentsline {figure}{\numberline {60}{\ignorespaces Relational Database Schema Diagram}}{150}{figure.caption.64}
-\contentsline {figure}{\numberline {61}{\ignorespaces Snapshot of JSE Top 40 Dataset}}{151}{figure.caption.65}
+\contentsline {figure}{\numberline {47}{\ignorespaces MSE By Feature Selection Size (Synthetic Data)}}{141}{figure.caption.51}
+\contentsline {figure}{\numberline {48}{\ignorespaces Prediction Accuracy by Training Epochs (MNIST Data)}}{141}{figure.caption.52}
+\contentsline {figure}{\numberline {49}{\ignorespaces SAE MSE by Initialization (Actual Data)}}{142}{figure.caption.53}
+\contentsline {figure}{\numberline {50}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Actual Data)}}{142}{figure.caption.54}
+\contentsline {figure}{\numberline {51}{\ignorespaces SAE MSE by Learning Rate Epoch Cycles (Synthetic Data)}}{143}{figure.caption.55}
+\contentsline {figure}{\numberline {52}{\ignorespaces P\&L by Learning Rates}}{143}{figure.caption.56}
+\contentsline {figure}{\numberline {53}{\ignorespaces MSE By Network Sizes (Actual Data)}}{144}{figure.caption.57}
+\contentsline {figure}{\numberline {54}{\ignorespaces MSE By Network Sizes (Synthetic Data)}}{145}{figure.caption.58}
+\contentsline {figure}{\numberline {55}{\ignorespaces P\&L By Network Sizes (Actual Data)}}{146}{figure.caption.59}
+\contentsline {figure}{\numberline {56}{\ignorespaces P\&L By Network Sizes (Synthetic Data)}}{147}{figure.caption.60}
+\contentsline {figure}{\numberline {57}{\ignorespaces Predictive P\&L by OGD Learning Rate (Synthetic Data)}}{147}{figure.caption.61}
+\contentsline {figure}{\numberline {58}{\ignorespaces SAE: Leaky ReLU vs. ReLU (Synthetic Data)}}{148}{figure.caption.62}
+\contentsline {figure}{\numberline {59}{\ignorespaces P\&L by ReLU Activations (Synthetic Data)}}{148}{figure.caption.63}
+\contentsline {figure}{\numberline {60}{\ignorespaces Relational Database Schema Diagram}}{152}{figure.caption.64}
+\contentsline {figure}{\numberline {61}{\ignorespaces Snapshot of JSE Top 40 Dataset}}{153}{figure.caption.65}
