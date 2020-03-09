@@ -1,13 +1,13 @@
 \select@language {english}
-\contentsline {table}{\numberline {1}{\ignorespaces Asset Level MMS Variable Calculations.\relax }}{57}{equation.4.60}
-\contentsline {table}{\numberline {2}{\ignorespaces Strategy Level MMS Variable Calculations.\relax }}{59}{equation.4.71}
-\contentsline {table}{\numberline {3}{\ignorespaces Database schema descriptions, as discussed in \ref {software_database}.\relax }}{82}{table.caption.6}
-\contentsline {table}{\numberline {4}{\ignorespaces Assets in the ``Actual10'' dataset, from 2003-2018. \relax }}{83}{table.caption.7}
-\contentsline {table}{\numberline {5}{\ignorespaces Assets in the ``Synthetic6'' dataset, as detailed in Section \ref {dataset_synthetic6}.\relax }}{86}{table.caption.11}
-\contentsline {table}{\numberline {6}{\ignorespaces Assets in the ``Synthetic10'' dataset, as detailed in Section \ref {dataset_synthetic10}.\relax }}{87}{table.caption.12}
-\contentsline {table}{\numberline {24}{\ignorespaces P\&L Diagnostic EDA Functions.\relax }}{188}{table.24}
-\contentsline {table}{\numberline {25}{\ignorespaces MSE Diagnostic EDA Functions.\relax }}{190}{table.25}
-\contentsline {table}{\numberline {26}{\ignorespaces Price Plot Functions.\relax }}{190}{table.26}
-\contentsline {table}{\numberline {27}{\ignorespaces MMS Diagnostic Functions.\relax }}{191}{table.27}
-\contentsline {table}{\numberline {28}{\ignorespaces CSCV Diagnostic Functions.\relax }}{191}{table.28}
-\contentsline {table}{\numberline {29}{\ignorespaces ONC Diagnostic Functions.\relax }}{191}{table.29}
+\contentsline {table}{\numberline {1}{\ignorespaces Asset Level MMS Variable Calculations.\relax }}{58}{equation.4.60}
+\contentsline {table}{\numberline {2}{\ignorespaces Strategy Level MMS Variable Calculations.\relax }}{60}{equation.4.71}
+\contentsline {table}{\numberline {3}{\ignorespaces Database schema descriptions, as discussed in \ref {software_database}.\relax }}{83}{table.caption.6}
+\contentsline {table}{\numberline {4}{\ignorespaces Assets in the ``Actual10'' dataset, from 2003-2018. \relax }}{84}{table.caption.7}
+\contentsline {table}{\numberline {5}{\ignorespaces Assets in the ``Synthetic6'' dataset, as detailed in Section \ref {dataset_synthetic6}.\relax }}{87}{table.caption.11}
+\contentsline {table}{\numberline {6}{\ignorespaces Assets in the ``Synthetic10'' dataset, as detailed in Section \ref {dataset_synthetic10}.\relax }}{88}{table.caption.12}
+\contentsline {table}{\numberline {24}{\ignorespaces P\&L Diagnostic EDA Functions.\relax }}{189}{table.24}
+\contentsline {table}{\numberline {25}{\ignorespaces MSE Diagnostic EDA Functions.\relax }}{191}{table.25}
+\contentsline {table}{\numberline {26}{\ignorespaces Price Plot Functions.\relax }}{191}{table.26}
+\contentsline {table}{\numberline {27}{\ignorespaces MMS Diagnostic Functions.\relax }}{192}{table.27}
+\contentsline {table}{\numberline {28}{\ignorespaces CSCV Diagnostic Functions.\relax }}{192}{table.28}
+\contentsline {table}{\numberline {29}{\ignorespaces ONC Diagnostic Functions.\relax }}{192}{table.29}
