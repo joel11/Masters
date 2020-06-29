@@ -205,7 +205,7 @@
 	\maketitle \setlinespacing{1}
 	\abstract{
 		
-		We consider a mechanistic non-linear machine learning approach to learning signals in financial time series data. A modularised and decoupled algorithm framework is established and is proven on daily sampled closing time-series data for JSE equity markets. The input patterns are based on input data vectors of data windows pre-processed into a sequence of daily, weekly and monthly or quarterly sampled feature measurement changes (log feature fluctuations). The data processing is split into a batch processed step where features are learnt using a Stacked AutoEncoder (SAE) via unsupervised learning, and then both batch and online supervised learning are carried out on Feedforward Neural Networks (FNN) using these features. The FNN output is a point prediction of measured time-series feature fluctuations (log differenced data) in the future (ex-post). Weight initializations for these networks are implemented with restricted Boltzmann machine pretraining, and variance based initializations. The validity of the FNN backtest results are shown under a rigorous assessment of backtest overfitting using both Combinatorially Symmetrical Cross Validation and Probabilistic and Deflated Sharpe Ratios. Results are further used to develop a view on the phenomenology of financial markets and the value of complex historical data under unstable dynamics.}\\
+		We consider a mechanistic non-linear machine learning approach to learning signals in financial time series data. A modularised and decoupled algorithm framework is established and is proven on daily sampled closing time-series data for JSE equity markets. The input patterns are based on input data vectors of data windows pre-processed into a sequence of daily, weekly and monthly or quarterly sampled feature measurement changes (log feature fluctuations). The data processing is split into a batch processed step where features are learnt using a Stacked AutoEncoder (SAE) via unsupervised learning, and then both batch and online supervised learning are carried out on Feedforward Neural Networks (FNNs) using these features. The FNN output is a point prediction of measured time-series feature fluctuations (log differenced data) in the future (ex-post). Weight initializations for these networks are implemented with restricted Boltzmann machine pretraining, and variance based initializations. The validity of the FNN backtest results are shown under a rigorous assessment of backtest overfitting using both Combinatorially Symmetrical Cross Validation and Probabilistic and Deflated Sharpe Ratios. Results are further used to develop a view on the phenomenology of financial markets and the value of complex historical data under unstable dynamics.}\\
 	
 	\noindent\textbf{Keywords:} online learning, feedforward neural network, restricted Boltzmann machine, variance weight initialization, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting, deflated Sharpe ratio, probabilistic Sharpe ratio.
 	
@@ -309,7 +309,7 @@
 	\section{Introduction}\label{Introduction}
 	
 	
-	In this paper, we present a novel framework with a non-linear and mechanistic approach to asset price fluctuation prediction in financial markets. We set out to test two primary hypotheses: whether such an approach can be profitable while incurring a low chance of backtest overfitting, and whether feature selection on financial time series is possible and effective. In doing so, we also explore the complexity and unstable dynamics of financial time series.\newline
+	In this dissertation, we present a novel framework with a non-linear and mechanistic approach to asset price fluctuation prediction in financial markets. We set out to test two primary hypotheses: whether such an approach can be profitable while incurring a low chance of backtest overfitting, and whether feature selection on financial time series is possible and effective. In doing so, we also explore the complexity and unstable dynamics of financial time series.\newline
 	
 	We found compelling results for both our hypotheses. A large set of neural networks were trained, and had profitable results verified through the use of sophisticated financial strategy assessments. We also found  that feature selection was effective, despite the dynamic nature of financial data. Further, we saw the results from numerous experiments emphasise that while historical financial data has value, the real benefit to predictive modelling lies in recent cross sectional data.\newline
 
@@ -341,7 +341,7 @@
 	Technical analysis is a financial analytical practice that makes use of past price data in order to identify market 
 	structures, as well as forecast future price movements. The techniques are typically objective methodologies 
 	which rely solely on past market data (price and volume). They stand in contrast to fundamental analysis, where 
-	experts will consider a companies operations, management and future prospects in order to arrive at an evaluation. 
+	experts will consider a company's operations, management and future prospects in order to arrive at an evaluation. 
 	The basis of much technical analysis, originally developed through Dow Theory, is the belief that stock market 
 	prices will move directionally (upwards, downwards or sideways), and that past movements can be used to 
 	determine these trends \citep{Murphy}.
@@ -414,7 +414,7 @@
 	computational system than the standard FNN, which was shown to be effective quite early on 
 	\citep{Siegelmann}. The Long Short-Term Memory (LSTM) network was 
 	another that used recurrent dynamics, though at a neuron level, in that the neuron is responsible for remembering 
-	values for an arbitrary time period \citep{Hochreiter}. Convolutional Neural Networks (CNN) have a non-recurrent structure, 
+	values for an arbitrary time period \citep{Hochreiter}. Convolutional Neural Networks (CNNs) have a non-recurrent structure, 
 	but implement separate pooling layers of neurons which consider the adjacent input values for each feature 
 	(e.g. pixels next to each other). These have been shown to be incredibly effective at tasks such as image 
 	recognition.
@@ -589,7 +589,7 @@
 	
 	The primary challenge presented here was the initial weighting of the networks - with large initial weights the 
 	AutoEncoder will often find a poor local minima, and with small initial weights the gradients are too small to 
-	effectively train deep layered networks. The critical suggestion by \citet{Hinton3} was to used layered restricted 
+	effectively train deep layered networks. The critical suggestion by \citet{Hinton3} was to use layered restricted 
 	Boltzmann machines (RBM) in order to initialise the weights. For each layer of the desired AutoEncoder, a RBM is 
 	formed and trained with the previous layer (or RBM). Once all the layers have been 
 	trained in this way, they are mirrored to form the decoder network. This then forms the initial weights to be fine 
@@ -598,7 +598,7 @@
 	
 	\begin{figure}
 		\centering \includegraphics[scale=0.5]{images/DBN-RBM-process.png}
-		\caption[The AutoEncoder Training Steps]{The AutoEncoder training steps \citep{Hinton2}}
+		\caption[The AutoEncoder Training Steps]{The AutoEncoder training steps \citep{Hinton2}.}
 		\label{figure-DBN-RBM}
 	\end{figure}
 	
@@ -917,13 +917,13 @@
 	\end{enumerate}
 		
 	\subsubsection{Log Difference Transformation and Aggregation}\label{ldata_og_difference}
-	All datasets are transformed into log feature fluctuation values, and are then aggregated to include fluctuations over rolling window periods. The log feature fluctuation for measured prices $\tilde{p}$ at timepoint $t$ is calculated as:
+	All datasets are transformed into log feature fluctuation values, and are then aggregated to include fluctuations over rolling window periods. The log feature fluctuation for measured prices $\tilde{p}$ at timepoint $i$ is calculated as:
 	\begin{equation}\label{eq_logdiff}
 	\Delta\mathbf{p}_i = \mathrm{ln(\tilde{p}_i) - \mathrm{ln}(\tilde{p}_{i-1})} .
 	\end{equation}
 	This log feature fluctuation is processed for each asset's closing price and for each time point $i$ (from the previous time point). The log fluctuations have the benefit of taking compound effects into account in a systematic way and are symmetric in terms of gains and losses. Further, the log transformation provides an ergodic time series which is indicative what will happen to $\mathbf{\tilde{p}}$ over time, and has been shown to be the correct optimization choice \citep{Peters}.
 	\newline\newline
-	The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. A typical example would be past data aggregation windows of 1, 5 and 20, and a future prediction point of 5. These are calculated as summations of the log differences, such that for $d$ days:
+	The datasets are then expanded with the rolling window summations both in the past, for input, and in the future, for predicted output. A typical example would be past data aggregation windows of 1, 5 and 20, and a future prediction point of 5. These are calculated as summations of the log differences, such that for $d$ days, at timepoint $t$:
 	
 	\begin{equation}\label{eq_price_agg_past}
 	 \mathbf{p^{-}_{(d,t)}} = \sum_{i = t-d}^{t} \Delta\mathbf{p}_i , 
@@ -936,14 +936,21 @@
 	Only data points with a full set of features are used for training and prediction.
 	
 	\subsubsection{Data Scaling}\label{data_scaling}
-	Once the log differenced data has been aggregated using equations \eqref{eq_price_agg_past} and \eqref{eq_price_agg_future}, the datasets are either standardized or normalized to allow for better learning. Typical implementations of these methods are detailed below:
+	Once the log differenced data has been aggregated using equations \eqref{eq_price_agg_past} and \eqref{eq_price_agg_future}, the datasets are either standardized or normalized to allow for better learning. Typical implementations of these methods are detailed below, using the following notation:
 	
-	\paragraph{Standardization}
+	\begin{enumerate}
+		\item $\mathbf{p}$ denotes a vector of log differenced price summations, as per equations \eqref{eq_price_agg_past} and \eqref{eq_price_agg_future},
+		\item $\mathbf{\bar{p}}$ denotes the mean of any $\mathbf{p}$ vector,
+		\item $\sigma_p$ denotes the standard deviation of any $\mathbf{p}$ vector, and
+		\item $\mathbf{p}_{1:t}$ or $\sigma_{p_{1:t}}$ denote a subset of vector $\mathbf{p}$ from indices $1$ to $t$ and the standard deviation thereof, respectively.\newline
+	\end{enumerate}
+	
+	\textbf{Standardization}
 	\begin{equation}
 	\mathbf{z_i}= \mathrm{\frac{(\mathbf{p}_i - \mathbf{\bar{p}}) }{\sigma_p}}
 	\end{equation}
 	
-	\paragraph{Normalization}
+	\textbf{Normalization}
 	
 	\begin{equation}\label{eq_ltd_normalization}
 	\mathbf{n_i}= 
@@ -952,49 +959,49 @@
 	\end{equation}
 	
 	~\\
-	The framework presented here only uses the suggested variations, dubbed ``Limited Standardization'' and ``Limited Normalization'', which are used when the data is split up into the Training and Prediction sets. In this case all the data needs to be scaled, but the variance or range should not be travelling from the Prediction set to the Training set through the use of aggregated measures such as $\bar{\mathbf{p}}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:
+	The framework presented here only uses the suggested variations, dubbed ``Limited Standardization'' and ``Limited Normalization'', which are used when the data is split up into the Training and Prediction sets. In this case all the data needs to be scaled, but the variance or range should not be travelling from the Prediction set to the Training set through the use of aggregated measures such as $\bar{\mathbf{p}}$. Thus, if the data is split at point $t$ out of $n$ data points, the scaling would be implemented as follows:\newline
 	
-	\paragraph{Limited Standardization}
+	\textbf{Limited Standardization}
 	
 	\begin{equation}
 	\mathbf{q_{(i, t)}} =\mathrm{ \frac{(\mathbf{p}_i - \bar{\mathbf{p}}_{1:t}) }{\sigma_{p_{1:t}}} , \forall  i \in (1, n)}
 	\end{equation}
 	
-	\paragraph{Limited Normalization}
+	\textbf{Limited Normalization}
 	
 	\begin{equation}\label{eq_ltd_normalize}
 	\mathbf{v_{(i, t)}}  = 
 	\mathrm{ \frac{\mathbf{p}_i - \min \left(  \mathbf{p}_{1:t}\right)}
 		{\max \left( \mathbf{p}_{1:t} \right)- \min \left( \mathbf{p}_{1:t} \right) } 
 		, \forall  i \in (1, n)}
-	\end{equation}
+	\end{equation}\newline
 	
 	
-	This log-differenced, aggregated and scaled data is then used as the input for the neural network models.
+	This log-differenced, aggregated and scaled data is then used as the input for the neural network models.\newline
 	
 	\subsubsection{Reverse Data Scaling}\label{data_reverse_scaling}
 	
-	The predicted data points are transformed back into actual prices for returns analysis. The first step is to reverse the scaling that is done in Section \ref{data_scaling} in order to retrieve the log difference fluctuations. The reverse scaling equations are for a dataset of $n$ observations, which has been split at point $t$.
+	The predicted data points are transformed back into actual prices for returns analysis. The first step is to reverse the scaling that is done in Section \ref{data_scaling} in order to retrieve the log difference fluctuations. The reverse scaling equations are for a dataset of $n$ observations, which has been split at point $t$.\newline
 	
-	\paragraph{Reverse Standardization}
+	\textbf{Reverse Standardization}
 	
 	\begin{equation}
 	\mathbf{z^{*}_i} = \mathrm{{\mathbf{z}_i} \cdot \sigma_p + \mathbf{\bar{p}}}
 	\end{equation}
 	
-	\paragraph{Reverse Normalization}
+	\textbf{Reverse Normalization}
 	
 	\begin{equation}
 	\mathbf{n^{*}_i} = \mathrm{\mathbf{n}_i \cdot \left(\max \left( {\mathbf{p}} \right) - \min \left( {\mathbf{p}} \right) \right) + \min\left({\mathbf{p}}\right)}
 	\end{equation}
 	
-	\paragraph{Reverse Limited Standardization}
+	\textbf{Reverse Limited Standardization}
 	
 	\begin{equation}
 	\mathbf{q^{*}_i} = \mathrm{{\mathbf{q}_i} \cdot \sigma_{p_{1:t}} + \bar{\mathbf{p}}_{1:t}},  \forall  i \in (1, \mathrm{n})
 	\end{equation}
 	
-	\paragraph{Reverse Limited Normalization}
+	\textbf{Reverse Limited Normalization}
 	
 	\begin{equation}
 	\mathbf{v^{*}_i} = \mathrm{\mathbf{v}_i \cdot \left(\max \left( \mathbf{p}_{1:t} \right) - \min \left( \mathbf{p}_{1:t}\right) \right) 
@@ -1038,7 +1045,7 @@
 		\ForEach{i in 1:n}
 		{
 			z = random()  $\sim \mathcal{N}(0,1)$\;
-			$\tilde{p}^s_i = \tilde{p}^s_{i-1} \cdot e^{(\mu - \frac {\sigma^2}{2})t + \sigma  \sqrt{t}  z)}$\;
+			$\tilde{p}^s_i = \tilde{p}^s_{i-1} \cdot e^{((\mu - \frac {\sigma^2}{2})t + \sigma  \sqrt{t}  z)}$\;
 			$\mathbf{\tilde{p^s}}$ = [$\mathbf{\tilde{p^s}}$, $\tilde{p}^s_i$]\;
 		}
 		\KwResult{$\mathbf{\tilde{p^s}}$}
@@ -1090,8 +1097,8 @@
 	For the purposes of this section, the following notation will be used:
 	
 	\begin{enumerate}
-		\item A network $N$ will be constructed with $L$ layers, each with $e$ nodes,
-		\item The weights from the $j^{th}$ node in the $\ell^{th}$ layer to the $k^{th}$ node in the $(\ell-1)^{th}$ layer are represented by $\mathbf{w}^\ell_{jk}$,
+		\item A network $N$ will be constructed with $L$ layers, each with $e^l$ nodes,
+		\item The weights from the $j^{th}$ node in the $(\ell-1)^{th}$ layer to the $k^{th}$ node in the $\ell^{th}$ layer are represented by $\mathbf{w}^\ell_{jk}$,
 		\item The bias for the $j^{th}$ node in layer $\ell$ is represented by $\mathbf{w}^\ell_{0j}$,
 		\item The output for the $j^{th}$ node in layer $\ell$ is 
 		\begin{equation}\label{eq_activation_output}
@@ -1100,7 +1107,7 @@
 		for an activation function $\theta$ (with inverse $\mathrm{\theta^{\prime}}$) and weighted input $\mathbf{z}$, and
 		\item The weighted input for the $j^{th}$ neuron in layer $\ell$ is 
 		\begin{equation}\label{eq_weighted_input}
-		\mathbf{z^\ell_j}=\sum_{i=1}^{e^{\ell-1}}{\mathbf{a}^{\ell-1}_i\mathbf{w}_{ij}} + \mathbf{w}_{0j} .
+		\mathbf{z^\ell_j}=\sum_{i=1}^{e^{\ell-1}}{\mathbf{a}^{\ell-1}_i\mathbf{w}^{l}_{ij}} + \mathbf{w}^{l}_{0j} .
 		\end{equation}
 	\end{enumerate}
 	~\\
@@ -1114,11 +1121,11 @@
 	
 	The sigmoid, or logistic, function is one of the most widely used activation functions historically, and is defined as:
 	\begin{equation}\label{func_sigmoid}
-	\theta(x) = \frac{1}{1 + e^{-x}}, 
+	\theta(z) = \frac{1}{1 + e^{-z}}, 
 	\end{equation}
 	
 	\begin{equation}\label{func_sigmoidprime}
-	\theta^\prime(x) = \theta(x)(1-\theta(x)).
+	\theta^\prime(z) = \theta(z)(1-\theta(z)).
 	\end{equation}
 	
 	The sigmoid function is in the range [0,1], making it a suitable choice for problems requiring a probabilistic output. The slope of the function curve is both a boon and a drawback: it allows for fast learning initially, but results in learning slowdown later (often causing what is referred to as node ``saturation''). The exponent calculation is also computationally expensive, relatively speaking.
@@ -1128,13 +1135,13 @@
 	The Rectified Linear Unit (ReLU) is a newer activation function which has been shown to be effective in deep learning networks. It is defined as:
 	
 	\begin{equation}\label{func_relu}
-	\theta(x) = \max(0, x), 
+	\theta(z) = \max(0, z), 
 	\end{equation}
 	
 	\[
-	\theta^\prime(x)= 
+	\theta^\prime(z)= 
 	\begin{cases}
-	1,& \text{if } x\geq 0\\
+	1,& \text{if } z\geq 0\\
 	0,              & \text{otherwise.}
 	\end{cases}
 	\]\begin{equation}\end{equation}\label{func_relu_prime}
@@ -1147,19 +1154,19 @@
 	
 
 	\[
-	\theta(x)= 
+	\theta(z)= 
 	\begin{cases}
-	x,& \text{if } x\geq 0\\
-	0.01x,              & \text{otherwise, }
+	z,& \text{if } z\geq 0\\
+	0.01z,              & \text{otherwise, }
 	\end{cases}
 	\]
 	\begin{equation}\label{func_leaky_relu}
 	\end{equation}
 	
 	\[
-	\theta^\prime(x)= 
+	\theta^\prime(z)= 
 	\begin{cases}
-	1,& \text{if } x\geq 0\\
+	1,& \text{if } z\geq 0\\
 	0.01,              & \text{otherwise.}
 	\end{cases}
 	\]
@@ -1171,11 +1178,11 @@
 	Linear activations don't transform the input, and have a constant gradient, which can be useful for key layers where no loss in error signal is desired, such as the output or encoding layers. The linear activation function is defined as:
 	
 	\begin{equation}\label{func_linear}
-	\theta(x) = x, 
+	\theta(z) = z, 
 	\end{equation}
 	
 	\begin{equation}\label{func_linear_prime}
-	\theta^\prime(x) = 1.
+	\theta^\prime(z) = 1.
 	\end{equation}
 	
 	\subsubsection{Backpropagation}\label{imp_backprop}
@@ -1193,7 +1200,7 @@
 		
 		Vectorization is typically used to calculate the results for multiple samples at once. Conceptually though, each sample is used as input for the first layer, and subsequent layers use the weighted output from the previous layer passed through the activation function as input.\newline 
 		
-		Equation \ref{eq_weighted_input} is used to calculate the weighted output and the equations defined in Section \ref{imp_activation_functions} are used for the activation functions.
+		Equation \eqref{eq_weighted_input} is used to calculate the weighted output and the equations defined in Section \ref{imp_activation_functions} are used for the activation functions.
 		\newline
 		
 		\item \textbf{Calculate Cost}: The cost between the training output $\mathbf{y}$ and the model output $\mathbf{a}^L$ is calculated. \newline
@@ -1316,7 +1323,8 @@
 	where
 	\begin{enumerate}
 		\item $n$ is the dataset sample size,
-		\item $y$ is the input data,
+		\item $x$ is the dataset inputs,
+		\item $y$ is the dataset outputs,
 		\item $a$ is the output of the activation function in the $L^{th}$ layer (calculated using equation \eqref{eq_activation_output}),
 		\item $\lambda$ is the configured regularization rate, and
 		\item $w$ is a layer's weights.
@@ -1679,7 +1687,7 @@
 					\end{equation}}\\\hline
 
 		{Transaction Capital Costs}
-				&{The capital and transaction costs of purchasing the asset.}
+				&{The capital and transaction costs of buying the asset.}
 				&{\begin{equation}\label{eq_capital_costs}
 					\begin{array}{l}
 					\mathbf{k}_t= \mathbf{\tilde{p}}_t \cdot (0.1 / 365 \cdot D) \\ 
@@ -1795,7 +1803,7 @@
 			\end{equation}
 		} \\\hline
 	
-		{Total Trade Cost} 
+		{Total Trade Cost, Benchmark} 
 		& {The cost of all trades at $t$ in the benchmark model.}
 		& {\begin{equation}
 			\mathbf{C}^b_{t} = \sum_{\mathrm{a \in assets}} \mathbf{c}^b_{a ,t} 
@@ -3164,7 +3172,7 @@
 	
 	Figure \ref{results_pl_pdf_cost} shows the distributions of OOS P\&L with and without trading costs being accounted for. There were a significant number of configurations within the 20\%-30\% range of the benchmark. While the costs do have a notable impact on the overall P\&L distribution, it does not indicate that the strategy would suffer from implementation limitations due to trading costs. The trials with 0 P\&L are networks which suffered from either exploding or vanishing gradients, and were not able to make sufficient predictions.\newline 
 	
-	The distribution of Sharpe ratios are shown in Figure \ref{figure-sharpe_ratios}, and followed an expectedly similar pattern to the P\&L distributions. The Sharpe ratios are not exceedingly high, though this is as representative of the basic trading strategy and selection of stocks used as any performance assessment of the underlying networks, as further emphasised by the distribution of correct trade percentages in Figure \ref{figure-confusion_dist}. \newline 
+	The distribution of Sharpe ratios are shown in Figure \ref{figure-sharpe_ratios}, and followed an expectedly similar pattern to the P\&L distributions. The Sharpe ratios are not exceedingly high, though this is as representative of the basic trading strategy and selection of stocks used as any performance assessment of the underlying networks. \newline 
 	
 	As noted earlier, the P\&L reported on here is a relative unit measurement, rather than a particular currency (as discussed in Section \ref{data_prices}). Additionally, the MMS, as described in Section \ref{imp_mms}, only trades 1 stock unit at a time and so any P\&L figures are relative indications rather than absolute limits.
 	
@@ -3476,13 +3484,13 @@
 	\newpage
 	\section{Conclusion}\label{Conclusion}
 	
-	The work we present here builds on mechanistic and predictive machine learning approaches to financial market data. In doing so, we provide a novel framework which was shown to be effective through sophisticated financial strategy validations. The primary goals of the paper were met: the framework experiment results proved the efficacy of such an approach through Profit and Loss (P\&L) returns and validations, and financial feature selection was shown as both possible and effective. This was done whilst also developing a refined perspective on how these techniques behave under the complex and dynamic behaviour of financial markets. The availability of recent cross-sectional data, and the ability to process it effectively, is highlighted throughout the results as a core consideration for these models. \newline
+	The work we present here builds on mechanistic and predictive machine learning approaches to financial market data. In doing so, we provide a novel framework which was shown to be effective through sophisticated financial strategy validations. The primary goals of the research were met: the framework experiment results proved the efficacy of such an approach through Profit and Loss (P\&L) returns and validations, and financial feature selection was shown as both possible and effective. This was done whilst also developing a refined perspective on how these techniques behave under the complex and dynamic behaviour of financial markets. The availability of recent cross-sectional data, and the ability to process it effectively, is highlighted throughout the results as a core consideration for these models. \newline
 	
-	The framework we constructed embodies a configurable approach, based on decoupled modules throughout the process. To meet the goals set out, it incorporates several key techniques: deep learning neural networks for stock price fluctuation prediction; Stacked AutoEncoders for feature selection; Combinatorially Symmetric Cross-Validation (CSCV) \& Probability of Backtest Overfitting (PBO) in order to assess the returns from the Money Management Strategy (MMS), and the likelihood that backtest overfitting has taken place; and Deflated Sharpe Ratio (DSR) in order to assess the likelihood of a positive Sharpe ratio having been observed. This was implemented with a scientific approach in mind, such that all results are reproducible using the libraries and configurations made available (see Sections \ref{Software} and \ref{appendix_configs}, respectively). \newline 
+	The framework we constructed embodies a configurable approach, based on decoupled modules throughout the process. To meet the goals set out, it incorporates several key techniques: deep learning neural networks for stock price fluctuation prediction; Stacked AutoEncoders (SAEs) for feature selection; Combinatorially Symmetric Cross-Validation (CSCV) \& Probability of Backtest Overfitting (PBO) in order to assess the returns from the Money Management Strategy (MMS), and the likelihood that backtest overfitting has taken place; and Deflated Sharpe Ratio (DSR) in order to assess the likelihood of a positive Sharpe ratio having been observed. This was implemented with a scientific approach in mind, such that all results are reproducible using the libraries and configurations made available (see Sections \ref{Software} and \ref{appendix_configs}, respectively). \newline 
 	
 	The nature of neural networks as non-linear universal approximators combined with the brute force approach to learning market dynamics allowed us to establish market characteristics, and how they relate to models which, conceptually, could not be made more complex. The most pervasive observation in this sense, was the highly dynamic and complex nature of financial time series. The unstable behaviour of asset relationships over time was highlighted as one of the more challenging barriers to learning. While machine learning models are expected to excel in big data environments, in financial markets there is in fact a lack of relevant data with information and signal (especially if one considers the need of validation datasets). \newline
 	
-	To this point, we found in Section \ref{results_data_hist} that the IS training on historical data had a limited benefit, and could become detrimental if trained on extensively. This was confirmed by showing the negligible impact of increasing training time as well as the surprisingly small impact of large reductions in the training data (see Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset}). It was made clear that the increased performance for In Sample (IS) data was not necessarily linked to Out of Sample (OOS) performance. This gives weight to the importance of online learning methods for financial applications, which in turn makes network initialization a significant configuration choice. Methodologies for effective initialization were explored in Section \ref{results_init}. We found positive results in the He-adj initialization presented in Section \ref{imp_weights} (see Figures \ref{figure-mse_init} and \ref{figure-pl_init}), as well as poor performance in Restricted Boltzmann Machine (RBM) based pretraining (see Figure \ref{figure-results-pretraining-effect}).  \newline
+	To this point, we found in Section \ref{results_data_hist} that the In Sample (IS) training on historical data had a limited benefit, and could become detrimental if trained on extensively. This was confirmed by showing the negligible impact of increasing training time as well as the surprisingly small impact of large reductions in the training data (see Figures \ref{figure-results_pl_max_epochs} and \ref{figure-results_it3_validationset}). It was made clear that the increased performance for IS data was not necessarily linked to Out of Sample (OOS) performance. This gives weight to the importance of online learning methods for financial applications, which in turn makes network initialization a significant configuration choice. Methodologies for effective initialization were explored in Section \ref{results_init}. We found positive results in the He-adj initialization presented in Section \ref{imp_weights} (see Figures \ref{figure-mse_init} and \ref{figure-pl_init}), as well as poor performance in Restricted Boltzmann Machine (RBM) based pretraining (see Figure \ref{figure-results-pretraining-effect}).  \newline
 	
 	Naturally then, the primary determinants of OOS P\&L were found to be those which affected the online learning data and the model's ability to adapt to it. The horizon length of input data aggregations was shown to be the primary distinguishing property of trade correlations in Section \ref{results_dsr} (see Figure \ref{figure-dsr_clusters}). In Section \ref{results_oos_pl}, the differences between these groups were explored. We found that networks provided with one day fluctuations adapted to short term price prediction strategies, and so excelled in configurations which allowed them to adapt quickly to new information. Conversely, networks provided with longer horizons, such as sixty day fluctuations, adapted to following long term trends and performed best under configurations which had more careful adaptations (see Figures \ref{figure-encoding_pl_median} and \ref{figure_ogdlr_delta_encoding_groups}). The short term strategies had the highest OOS P\&L returns, but also the highest variance and a lower mean in these returns (see Figure \ref{figure-actual_aggregation_pl}). This highlighted both the increased value in recent information in financial markets, as well as the difficulty in using it due to the amount of noise present.\newline 
 	

@@ -1,0 +1,217 @@
+\documentclass[a4paper,11pt,oneside]{article}
+
+\usepackage[greek,english]{babel}
+\usepackage{textgreek}
+\usepackage[textwidth=3cm,margin=1.2cm,columnsep=1cm,bottom=2cm, top=1.8cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{color}
+\usepackage[linktocpage,colorlinks=true,linkcolor= {red!50!black}, urlcolor=black, citecolor=blue!90, pdfborder={2 1 0}]{hyperref}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{refcount}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{colortbl} 
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage[numbib,nottoc]{tocbibind}
+\usepackage{fancyhdr}
+\usepackage{placeins}
+\usepackage{algorithm2e}
+
+\usepackage{natbib}
+%\bibliographystyle{apalike}
+\bibpunct{[}{]}{,}{n}{}{;}
+\bibliographystyle{plainnat}
+
+
+
+%TIMS ----------------------------------------------
+\usepackage[bottom]{footmisc}
+\usepackage{rotating}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{fancyhdr}
+\usepackage{longtable}
+\usepackage{pdfpages}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{colortbl} 
+\usepackage{tcolorbox}
+\usepackage{etoolbox}
+\patchcmd{\thebibliography}{*}{}{}{}
+\usepackage{multicol}
+%\usepackage{algorithm}
+\usepackage{makecell}
+\usepackage{algpseudocode}
+%\usepackage{program} 
+\usepackage[titletoc,title]{appendix}
+\usepackage{color}
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{titlesec}
+%\usepackage[linktocpage,colorlinks=true,linkcolor= {red!50!black}, urlcolor=grey, citecolor=blue!90, pdfborder={2 1 0}]{hyperref}
+\usepackage[capitalize]{cleveref} 
+
+\usepackage{svg}
+
+
+%MINE ----------------------------------------------
+
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\newcommand{\myol}[2][3]{{}\mkern#1mu\overline{\mkern-#1mu#2}}
+\newenvironment{technicaldoc}
+
+%TIMS ----------------------------------------------
+
+
+
+\tcbset{tab2/.style={fonttitle=\bfseries,fontupper=\normalsize\sffamily}}
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
+
+
+
+% GRAPHICS HANDLING ----------------------------------------------
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
+\titleformat*{\section}{\LARGE\bfseries}
+\titleformat*{\subsection}{\Large\bfseries}
+\titleformat*{\subsubsection}{\large\bfseries}
+\titleformat*{\paragraph}{\large\bfseries}
+\titleformat*{\subparagraph}{\large\bfseries}
+
+
+\colorlet{linkequation}{blue!90!}%
+\makeatletter
+\creflabelformat{equation}{%
+	\textup{%
+		\hypersetup{
+			linkcolor=linkequation,
+			linkbordercolor=linkequation,
+		}%
+		(#2#1#3)%
+	}%
+}
+
+
+% OTHER SET-UP ---------------------------------------------------
+
+\definecolor{beaublue}{rgb}{0.74, 0.83, 0.9}
+
+\pagestyle{fancy}
+\lhead{\rightmark}
+\chead{}
+\rhead{\thepage}
+\cfoot{}
+
+\setlength{\topmargin}{0.1cm}
+\setlength{\headsep}{1cm}
+\setlength{\textwidth}{15.0cm}
+\setlength{\headwidth}{15.0cm}
+\setlength{\headheight}{14pt}
+\setlength{\textheight}{22cm}
+\setlength{\oddsidemargin}{0.55cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\parindent}{0pt}
+\setlength{\extrarowheight}{10pt}
+
+\newcommand{\setlinespacing}[1]
+{\renewcommand{\baselinestretch}{#1}\small\normalsize}
+
+\allowdisplaybreaks[1]
+
+
+\newcommand{\Var}{\mathbf{Var}}
+\DeclareMathOperator*{\E}{\mathbb{E}}
+
+
+
+
+% THEOREM STYLES -------------------------------------------------
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}%[chapter]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{con}[thm]{Conjecture}
+\newtheorem{lem}[thm]{Lemma}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{ass}[thm]{Assumption}
+\newtheorem{exam}[thm]{Example}
+\usepackage[font=small,labelfont=bf]{caption}
+\DeclareCaptionFont{tiny}{\tiny}
+\usepackage{caption}
+\captionsetup{font=footnotesize}
+%\renewcommand{\thesection}{\Roman{section}} 
+%\renewcommand{\thesubsection}{\Roman{section}. \Roman{subsection}}
+\usepackage{listings}
+\usepackage{blindtext}
+\lstset{basicstyle=\small\ttfamily,
+	columns=flexible,
+	breaklines=true}
+\usepackage{acronym}
+
+
+% MACRO DEFINITIONS ----------------------------------------------
+\setcounter{tocdepth}{4}
+% Place your personal macro definitions here.
+
+%\usepackage{hyperref}
+
+%\usepackage[landscape]{geometry}
+
+
+% PREAMBLE -------------------------------------------------------
+\title{ \textbf{Online Non-linear Prediction of Financial Time Series Patterns \\[0.6cm]}
+	\includegraphics[scale=1]{UCT-logo.pdf}}
+\author{\textbf{Joel da Costa}\\[0.18cm] Supervisor: A/Prof. T. Gebbie \\[0.3cm]
+	A dissertation submitted in partial fulfilment of the requirement\\
+	for the Master of Science degree in Advanced Analytics,\\
+	School of Statistical Sciences,\\
+	University of Cape Town}%\\[0.25cm]
+%\\} %width=2.7cm
+\date{2019}
+
+
+
+\begin{document} 
+
+	\vspace{-7cm}
+	\maketitle \setlinespacing{1}
+		\newpage
+	\abstract{
+		
+		We consider a mechanistic non-linear machine learning approach to learning signals in financial time series data. A modularised and decoupled algorithm framework is established and is proven on daily sampled closing time-series data for JSE equity markets. The input patterns are based on input data vectors of data windows pre-processed into a sequence of daily, weekly and monthly or quarterly sampled feature measurement changes (log feature fluctuations). The data processing is split into a batch processed step where features are learnt using a Stacked AutoEncoder (SAE) via unsupervised learning, and then both batch and online supervised learning are carried out on Feedforward Neural Networks (FNN) using these features. The FNN output is a point prediction of measured time-series feature fluctuations (log differenced data) in the future (ex-post). Weight initializations for these networks are implemented with restricted Boltzmann machine pretraining, and variance based initializations. The validity of the FNN backtest results are shown under a rigorous assessment of backtest overfitting using both Combinatorially Symmetrical Cross Validation and Probabilistic and Deflated Sharpe Ratios. Results are further used to develop a view on the phenomenology of financial markets and the value of complex historical data under unstable dynamics.}\\
+	
+	\noindent\textbf{Keywords:} online learning, feedforward neural network, restricted Boltzmann machine, variance weight initialization, stacked autoencoder, pattern prediction, JSE, non-linear, financial time series, combinatorially symmetrical cross validation, backtest overfitting, deflated Sharpe ratio, probabilistic Sharpe ratio.
+	
+\end{document}
+
